@@ -22,7 +22,8 @@ resistance/conductance of his office plant deviated in response to his mere inte
 that correctly.  The plant was obviously aware of Mr. Backster's very intentions to do something to the plant that would 
 substantively affect its well-being.  At the time, there was no known scientific basis for such a phenomenon as plant 
 awareness to ANY extent, much less to the extent of being super-humanly aware of a person's very thoughts as Mr. 
-Backster observed.
+Backster observed.  Today, quantum physics may offer a scientific explanation for what is happening...and then again, it 
+may not.
 
 Fast-forward to 2006 when Mythbusters television program decided they would investigate the validity of Mr. Backster's 
 observations (Title: Deadly Straw, Season number: 4, Episode number: 22, Air date: September 6, 2006).  When Mythbusters
