@@ -11,25 +11,22 @@ Jesus cursed the fig tree, it withered away, and He said we would do the same
 When we read this passage, we too often overlook the phrase "...ye shall not only do this  which is done to the fig 
 tree...".  But that oft-overlooked phrase contains just as profound a truth as the phrase following it about casting 
 mountains!  Jesus did not condemn us if we should curse a plant, yet we must not forget John 14:12:
-
 # Verily, verily, I say unto you, He that believeth on me, the works that I do shall he do also; and greater works 
 # than these shall he do; because I go unto my Father.
 #  
 Ask yourself what a greater work might be than cursing a plant to kill it.  How about blessing a plant to cause its 
 health to be better than normal?  Mark 16:15:
-
 # And he said unto them, Go ye into all the world, and preach the gospel to every creature.
 #  
+I draw your attention on the word "creature".  That includes plants!  And note that the definition of "gospel" is "good 
+news"
 
-I draw your attention on the word "creature".  That includes plants!
-
-I believe it is now time to demonstrate the truthfulness of the Bible in the context that can be done by measuring the
-resistance of plant tissue as it responds in vivo to sentiments of good news to it from human beings that plants 
-recognize as royalty of creation.  To understate my point - it would be of great benefit for us to recognize that we are 
-royalty, just as the plants recognize who we are.
+I am convinced that it is NOW time to demonstrate the truthfulness of the Bible in this context!  That is by 
+monitoring the electrical resistance of plant tissue in vivo as it responds to sentiments of good news to it from human 
+beings that plants recognize as royalty of creation.  To understate my point - it would be of great benefit for us to 
+recognize that we are royalty, just as the plants recognize that we are royalty in all creation.
 
 Galatians 4:1-7:
-
 # 1 Now I say, That the heir, as long as he is a child, differeth nothing from a servant, though he be lord of all;
 # 2 But is under tutors and governors until the time appointed of the father.
 # 3 Even so we, when we were children, were in bondage under the elements of the world:
