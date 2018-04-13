@@ -62,7 +62,7 @@ electrode to any point on circuit board ground that connects to a component othe
 to the ADC.  Ideally, the value of resistance of this component will be as equal as practical to the resistance of the 
 plant tissue under test.  The resistance of the plant tissue between the electrodes can be decreased or increased by 
 adjustment of the surface area in contact with the electrode pouches - more contact are gives less resistance as well as 
-a better signal-to-noise ratio.
+a better signal-to-noise ratio but also probably produces greater undesirable measurement effect.
 
 Note: According to Mr. Backster, the plant under test must have already become "acclimated" to the person performing the
 primary perception procedures.  Take this to mean what you will.  I believe it means you'll need to spend some time 
