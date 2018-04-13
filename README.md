@@ -58,4 +58,12 @@ and the analog input pin.  That resistor is located locally to the board so does
 The electrode wire not going to the analog input pin goes to signal ground and will be referred to as the reference 
 electrode.  Signal ground is determined by you as a ground pin of the active device that contains the ADC, preferably a 
 pin provided for the precise purpose of being  signal ground.  For best practice, avoid attaching the reference 
-electrode to any point on circuit board ground that connects to a component other than the ADC device before connecting to the ADC.
+electrode to any point on circuit board ground that connects to a component other than the ADC device before connecting 
+to the ADC.  Ideally, the value of resistance of this component will be as equal as practical to the resistance of the 
+plant tissue under test.  The resistance of the plant tissue between the electrodes can be decreased or increased by 
+adjustment of the surface area in contact with the electrode pouches - the more area of contact gives less resistance.
+
+Note: According to Mr. Backster, the plant under test must have already become "acclimated" to the person performing the
+primary perception procedures.  Take this to mean what you will.  I believe it means you'll need to spend some time 
+initially watering the plant or otherwise giving it some care before you can expect significant results monitoring 
+changes in its resistance.
