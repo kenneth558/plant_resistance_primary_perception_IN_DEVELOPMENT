@@ -7,25 +7,26 @@ Jesus cursed the fig tree, it withered away, and He said we would do the same
 # 21 Jesus answered and said unto them, Verily I say unto you, If ye have faith, and doubt not, ye shall not only do          
 #     this which is done to the fig tree, but also if ye shall say unto this mountain, Be thou removed, and be thou cast  
 #     into the sea; it shall be done.
-    
+#      
 When we read this passage, we too often overlook the phrase "...ye shall not only do this  which is done to the fig 
 tree...".  But that oft-overlooked phrase contains just as profound a truth as the phrase following it about casting 
-mountains!  Jesus did not condemn us if we should curse a plant, but we also must not forget John 14:12:
+mountains!  Jesus did not condemn us if we should curse a plant, yet we must not forget John 14:12:
 
 # 12 Verily, verily, I say unto you, He that believeth on me, the works that I do shall he do also; and greater works 
 # than these shall he do; because I go unto my Father.
-
+#  
 Ask yourself what a greater work might be than cursing a plant to kill it.  How about blessing a plant to cause its 
 health to be better than normal?  Mark 16:15:
 
 # 15 And he said unto them, Go ye into all the world, and preach the gospel to every creature.
+#  
 
 I draw your attention on the word "creature".  That includes plants!
 
 I believe it is now time to demonstrate the truthfulness of the Bible in the context that can be done by measuring the
 resistance of plant tissue as it responds in vivo to sentiments of good news to it from human beings that plants 
-recognize as royalty of creation.  It would be of great benifit for us to recognize that we are royalty, just as the 
-plants recognize who we are.
+recognize as royalty of creation.  To understate my point - it would be of great benefit for us to recognize that we are 
+royalty, just as the plants recognize who we are.
 
 Galatians 4:1-7:
 
