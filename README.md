@@ -72,3 +72,5 @@ Note: According to Mr. Backster, the plant under test must have already become "
 primary perception procedures for the phenomenon to be observable.  Take this to mean what you will.  I believe it means 
 you'll need to spend some time initially watering the plant or otherwise caring for it before you can expect significant 
 results from this project.
+
+For you Bible-believers, you may be interested to read some of the Biblical justification for this project.  See the document entitled per that subject listed among the documents of this project.
