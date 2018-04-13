@@ -28,7 +28,7 @@ may not.
 Fast-forward to 2006 when Mythbusters television program decided they would investigate the validity of Mr. Backster's 
 observations (Title: Deadly Straw, Season number: 4, Episode number: 22, Air date: September 6, 2006).  When Mythbusters
 used a polygraph machine as Mr. Backster had, their results confirmed the phenomenon, albeit against their will and 
-against their desire to document its existence.  In order to find a halfway-plausible excuse to keep Episode 22 from 
+against their desire to document its existence.  So in order to find a halfway-plausible excuse to keep Episode 22 from 
 disrupting their entertainment-business-as-usual, they switched from using a polygraph machine to using an EEG machine, 
 which measures voltage signals produced by neuron bundles instead of measuring the property of resistance; a property
 of the plant tissue rather than a signal produced by the plant.  Plants have no neurons, silly Mythbusters - they don't
