@@ -12,7 +12,7 @@ Why would you want to do this?  Here's the story:
 In the 1960's, a polygraph expert named Cleve Backster, in a moment of feeling impulsively experimental, attached 
 polygraph electrodes to a plant in his office.  Note that polygraph electrodes are used to measure electrical 
 conductance of what they are attached to.  Note also that electrical conductance is mathematically inversely related to 
-electrical resistance, so resistance and conductance are two ways of referring to the exact same elecrical property and 
+electrical resistance, so resistance and conductance are two ways of referring to the exact same electrical property and 
 quantifying a resultant electrical current that an applied voltage produces.  This is in stark contrast to using 
 electrodes to measure or determine if a voltage (signal) [is] produced by a something-under-test, which would require 
 voltmeter or EEG instrumentation.
