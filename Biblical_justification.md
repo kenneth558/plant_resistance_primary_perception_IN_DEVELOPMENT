@@ -18,7 +18,7 @@ news"
 I am convinced that it is NOW time to demonstrate the truthfulness of the Bible in this context!  That is by 
 monitoring the electrical resistance of plant tissue in vivo as it responds to sentiments of good news to it from human 
 beings that plants recognize as royalty of creation.  To understate my point - it would be of great benefit for us to 
-recognize that we are royalty, just as the plants recognize that we are royalty in all creation.
+recognize that we are royalty, just as the plants recognize that humans are royalty in the creation.
 
 Galatians 4:1-7:
 # 1 Now I say, That the heir, as long as he is a child, differeth nothing from a servant, though he be lord of all;
