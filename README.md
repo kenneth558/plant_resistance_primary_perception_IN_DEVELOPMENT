@@ -65,6 +65,6 @@ adjustment of the surface area in contact with the electrode pouches - more cont
 a better signal-to-noise ratio but also probably produces greater undesirable measurement effect.
 
 Note: According to Mr. Backster, the plant under test must have already become "acclimated" to the person performing the
-primary perception procedures.  Take this to mean what you will.  I believe it means you'll need to spend some time 
-initially watering the plant or otherwise giving it some care before you can expect significant results monitoring 
-changes in its resistance.
+primary perception procedures for the phenomenon to be observable.  Take this to mean what you will.  I believe it means 
+you'll need to spend some time initially watering the plant or otherwise giving it some care before you can expect 
+significant results monitoring changes in its resistance.
