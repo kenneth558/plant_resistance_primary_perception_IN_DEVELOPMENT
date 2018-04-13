@@ -12,13 +12,13 @@ When we read this passage, we too often overlook the phrase "...ye shall not onl
 tree...".  But that oft-overlooked phrase contains just as profound a truth as the phrase following it about casting 
 mountains!  Jesus did not condemn us if we should curse a plant, yet we must not forget John 14:12:
 
-# 12 Verily, verily, I say unto you, He that believeth on me, the works that I do shall he do also; and greater works 
+# Verily, verily, I say unto you, He that believeth on me, the works that I do shall he do also; and greater works 
 # than these shall he do; because I go unto my Father.
 #  
 Ask yourself what a greater work might be than cursing a plant to kill it.  How about blessing a plant to cause its 
 health to be better than normal?  Mark 16:15:
 
-# 15 And he said unto them, Go ye into all the world, and preach the gospel to every creature.
+# And he said unto them, Go ye into all the world, and preach the gospel to every creature.
 #  
 
 I draw your attention on the word "creature".  That includes plants!
