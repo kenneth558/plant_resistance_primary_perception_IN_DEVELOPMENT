@@ -54,8 +54,8 @@ by understanding the electrical circuit being formed by your electrode placement
 electrodes of each polarity are acceptable.
 
 Note that the electrode circuit must also consist of a resistive component attached by you between the power supply rail 
-and the analog input pin.  That resistor is located locally to the board so does not require a third length of wire.  
-The electrode wire not going to the analog input pin goes to signal ground and will be referred to as the reference 
+and the analog input pin.  That resistor is located locally to the board so does not require a third length of wire. The 
+electrode wire not going to the analog input pin goes to signal ground and will be referred to as the reference 
 electrode.  Signal ground is determined by you as a ground pin of the active device that contains the ADC, preferably a 
 pin provided for the precise purpose of being  signal ground.  For best practice, avoid attaching the reference 
 electrode to any point on circuit board ground that connects to a component other than the ADC device before connecting 
