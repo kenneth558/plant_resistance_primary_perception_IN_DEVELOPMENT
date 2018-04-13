@@ -2,9 +2,10 @@
 
 To measure electrical resistance of plant tissue such as a leaf.  Wemos XI/TTGO XI for cheapest 12-bit resolution in 
 Linux with good bootloader and hardware serial.  Avoiding STM32F103C8T6 due to bootloader issues in Linux with common 
-USB-serial adapters, avoiding ATTINY85 due to no hardware serial.  Avoiding boards whose analog resolution is less than 
-12 bits.  Mac and Windows are assumed to work as well as Linux.  Be sure you buy a board with a USB port or otherwise 
-are able to fashion serial communications.  Periodic improvements are to be expected to this project.
+USB-serial adapters, avoiding ATTINY85 due to no hardware serial, and avoiding boards whose analog resolution is less 
+than 12 bits.  Mac and Windows are assumed to work as well as Linux.  Other boards having at least one analog input can 
+be used with little modification.  Be sure you buy a board with a USB port or otherwise are able to fashion serial 
+communications.  Periodic improvements are to be expected to this project.
 
 Why would you want to do this?  Here's the story:
 
