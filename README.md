@@ -71,7 +71,7 @@ resistance as well as a better signal-to-noise ratio but also probably produces 
 At this stage, end-users are on their own to learn about how to avoid electrical current leakage paths.  As far as avoiding radiated electrical noise, maintain adequate distance from flourscent and neon lighting and any other source of noise you discover.
 
 Note: According to Mr. Backster, the plant under test must have already become "acclimated" to the person performing the
-primary perception procedures for the phenomenon to be observable.  Take this to mean what you will.  I believe it means 
+primary perception procedures for the phenomenon to be observable.  Take that to mean what you will.  I believe it means 
 you'll need to spend some time initially watering the plant or otherwise caring for it before you can expect significant 
 results from this project.  Until I'm shown wrong, I'm fairly certain that hostile or hurtful sentiments toward the plant are counter-productive to sustained acclimation, Mythbusters!
 
