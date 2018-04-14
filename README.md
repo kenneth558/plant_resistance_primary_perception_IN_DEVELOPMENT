@@ -30,12 +30,12 @@ observations (Title: Deadly Straw, Season number: 4, Episode number: 22, Air dat
 used a polygraph machine as Mr. Backster had, their results confirmed the phenomenon, albeit against their will and 
 against their desire to document its existence.  So in order to find a halfway-plausible excuse to keep Episode 22 from 
 disrupting their entertainment-business-as-usual, they switched from using a polygraph machine to using an EEG machine, 
-which measures voltage signals produced by neuron bundles instead of measuring the property of resistance; a property
-of the plant tissue rather than a signal produced by the plant.  Plants have no neurons, silly Mythbusters - they don't
-produce voltage signals.  Mythbusters ignored their observations obtained from the polygraph machine but thankfully did 
-broadcast the recorded video of their efforts while presenting a deceptive narrative to try to distract viewers from 
-noticing that they had just proven the existance of "primary perception", as Mr. Backster thought to call his newly-
-discovered phenomenon.
+which measures voltage signals produced by neuron bundles instead of measuring the property of resistance; remember that 
+elevctrical conductance is a property of the plant tissue, NOT a signal produced by the plant.  Plants have no neurons, 
+silly Mythbusters - they don't produce voltage signals.  Mythbusters ignored their observations obtained from the 
+polygraph machine but thankfully did broadcast the recorded video of their efforts while presenting a deceptive 
+narrative to try to distract viewers from noticing that they had just proven the existance of "primary perception", as 
+Mr. Backster thought to call his newly-discovered phenomenon.
 
 With the rudimentary sketch I publish here for you, you can observe for yourself that plants actually can know your 
 intentions relative to affecting their well-being.  You'll also need to fashion the electrode system and attach it.  I 
