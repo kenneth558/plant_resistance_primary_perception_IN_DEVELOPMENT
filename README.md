@@ -52,11 +52,10 @@ electric motor brushes (made from near biologically inert and oxidatively stable
 wires and insert the the brush into the pouch. I prefer using mud instead of salt as an electrolyte for my confidence 
 achieving maximum biocompatibility.  I ensure the mud is adequately liquified and the brush is fully inserted into the 
 mud and the muddied pouch is in intimate and stable contact with the leaf or other plant tissue.  You'll have to rig 
-some sort of pouch-holding device of your own design.
-Unless your plant has large leaves, you may find it difficult to place opposite electrodes on a single leaf without one 
-pouch shorting across to the opposing pouch, so I suggest trying to put each electrode-pouch on its own leaf.  Note that 
-you'll be best served by understanding the electrical circuit being formed by your electrode placements.  As long as you 
-do so, multiple electrodes of each polarity are acceptable.
+some sort of pouch-holding device of your own design.  Unless your plant has large leaves, you may find it difficult to 
+place opposite electrodes on a single leaf without one pouch shorting across to the opposing pouch, so I suggest trying 
+to put each electrode-pouch on its own leaf.  Note that you'll be best served by understanding the electrical circuit 
+being formed by your electrode placements.  As long as you do so, multiple electrodes of each polarity are acceptable.
 
 Note that the electrode circuit must also consist of a resistive component attached by you between the power supply rail 
 and the analog input pin of the signal electrode.  That resistor is located locally to the board so does not require 
@@ -66,9 +65,11 @@ the ADC, preferably a pin provided for the precise purpose of being  signal grou
 the reference electrode to any point on circuit board ground that connects to a component other than the ADC device 
 before connecting to the ADC.  Ideally, the value of resistance of this component will be as equal as practical to the 
 resistance of the plant tissue under test.  The resistance of the plant tissue between the electrodes can be decreased 
-or increased by adjustment of the surface area in contact with the electrode pouches - more contact are gives less 
-resistance as well as a better signal-to-noise ratio but also probably produces greater undesirable measurement effect.  
-At this stage, end-users are on their own to learn about how to avoid electrical current leakage paths.  As far as avoiding radiated electrical noise, maintain adequate distance from flourscent and neon lighting and any other source of noise you discover.
+or increased by adjustment of the surface area in contact with the electrode pouches - more contact area gives less 
+resistance as well as a better signal-to-noise ratio but also probably produces greater undesirable measurement effect. 
+At this stage, end-users are on their own to learn about how to avoid electrical current leakage paths.  As far as 
+avoiding radiated electrical noise, maintain adequate distance from flourscent and neon lighting and any other source of 
+noise you discover.
 
 Note: According to Mr. Backster, the plant under test must have already become "acclimated" to the person performing the
 primary perception procedures for the phenomenon to be observable.  Take that to mean what you will.  I believe it means 
