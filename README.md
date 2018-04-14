@@ -67,11 +67,12 @@ the reference electrode to any point on circuit board ground that connects to a 
 before connecting to the ADC.  Ideally, the value of resistance of this component will be as equal as practical to the 
 resistance of the plant tissue under test.  The resistance of the plant tissue between the electrodes can be decreased 
 or increased by adjustment of the surface area in contact with the electrode pouches - more contact are gives less 
-resistance as well as a better signal-to-noise ratio but also probably produces greater undesirable measurement effect.
+resistance as well as a better signal-to-noise ratio but also probably produces greater undesirable measurement effect.  
+At this stage, end-users are on their own to learn about how to avoid electrical current leakage paths.  As far as avoiding radiated electrical noise, maintain adequate distance from flourscent and neon lighting and any other source of noise you discover.
 
 Note: According to Mr. Backster, the plant under test must have already become "acclimated" to the person performing the
 primary perception procedures for the phenomenon to be observable.  Take this to mean what you will.  I believe it means 
 you'll need to spend some time initially watering the plant or otherwise caring for it before you can expect significant 
-results from this project.
+results from this project.  Until I'm shown wrong, I'm fairly certain that hostile or hurtful sentiments toward the plant are counter-productive to sustained acclimation, Mythbusters!
 
 For you Bible-believers, you may be interested to read some of the Biblical justification for this project.  See the document entitled per that subject listed among the documents of this project.
