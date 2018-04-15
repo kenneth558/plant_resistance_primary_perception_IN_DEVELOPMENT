@@ -83,3 +83,5 @@ document entitled as per that subject listed among the documents of this project
 
 For those who give any regard to NDEs, you would be interested to research Howard Storm's NDE relative to world 
 lifestyle of the future.
+
+Submit an "Issue" (tab above) to have me add your Youtube video to the official playlist for this project.
