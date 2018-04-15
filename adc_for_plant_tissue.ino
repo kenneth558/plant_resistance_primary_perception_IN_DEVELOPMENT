@@ -5,7 +5,7 @@
 #include <math.h>
 long int value;//TheWeMos has 12-bit ADC resolution 
 const uint8_t ADC_RES_BIT = 12;
-const uint8_t SAMPLE_TIMES = 5q;
+const uint8_t SAMPLE_TIMES = 5;
 #define PIN_A0 14
 #define PIN_A1 15
 #define PIN_A2 16
