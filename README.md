@@ -5,8 +5,9 @@ resolution in Linux with good bootloader and hardware serial.  Mac and Windows a
 Avoiding STM32F103C8T6 due to bootloader issues in Linux with common USB-serial adapters, avoiding ATTINY85 due to no 
 hardware serial, and avoiding boards whose analog resolution is less than 12 bits.  Future project plans include ADS1115 
 integration to reduce the minimum Arduino requirements to merely hardware serial.  Other boards having at least one 
-analog input can be used with little modification.  Be sure you buy a board, make sure it has a USB port or that you are 
-otherwise are able to fashion serial communications.  Periodic improvements are to be expected to this project.
+analog input can be used with little modification.  When selecting a board you'll use for this project, make sure it has 
+a USB port or that you are otherwise are able to fashion serial communications.  Periodic improvements are to be 
+expected to this project.
 
 Why would you want to do this?  Here's the story:
 
