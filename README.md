@@ -75,8 +75,11 @@ noise you discover.
 Note: According to Mr. Backster, the plant under test must have already become "acclimated" to the person performing the
 primary perception procedures for the phenomenon to be observable.  Take that to mean what you will.  I believe it means 
 you'll need to spend some time initially watering the plant or otherwise caring for it before you can expect significant 
-results from this project.  Until I'm shown wrong, I'm fairly certain that hostile or hurtful sentiments toward the plant are counter-productive to sustained acclimation, Mythbusters!
+results from this project.  Until I'm shown wrong, I'm fairly certain that hostile or hurtful sentiments toward the 
+plant are counter-productive to sustained acclimation, Mythbusters!
 
-For you Bible-believers, you may be interested to read some of the Biblical justification for this project.  See the document entitled as per that subject listed among the documents of this project.
+For you Bible-believers, you may be interested to read some of the Biblical justification for this project.  See the 
+document entitled as per that subject listed among the documents of this project.
 
-For those who give any regard to NDEs, you would be interested to research Howard Storm's NDE relative to lifestyles of the future.
+For those who give any regard to NDEs, you would be interested to research Howard Storm's NDE relative to world 
+lifestyle of the future.
