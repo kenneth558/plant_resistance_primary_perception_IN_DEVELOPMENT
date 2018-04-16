@@ -48,6 +48,7 @@ replicated.  With that caveat and because of it, I suggest a very primitive elec
 salt-impregnated agar-on-cotton gauze-on-stainless steel system that Mr. Backster thought he had to use for scientific 
 credibility.  I would suggest the more bio-compatible elements of mud inside a pure, coarse-knit linen, cotton, or hemp 
 pouch (these materials and their combinations should be very biocompatible, since they are made from plant tissues).  
+
 Poke the electrode wires into the pouches, but keep the metal of the wires from direct contact with any plant tissue, 
 since metals are foreign to living organism tissues and so may produce an unaccounted for reaction.  To ensure an 
 acceptable quality contact between the mud and electrode wires, I attach electric motor brushes (made from near 
@@ -55,10 +56,11 @@ biologically inert and oxidatively stable graphite) to the ends of the electrode
 pouch. I prefer using mud instead of salt as an electrolyte for my confidence achieving maximum biocompatibility.  I 
 ensure the mud is adequately liquified and the brush is fully inserted into the mud and the muddied pouch is in intimate 
 and stable contact with the leaf or other plant tissue.  You'll have to rig some sort of pouch-holding device of your 
-own design.  Unless your plant has large leaves, you may find it difficult to place opposite electrodes on a single leaf 
-without one pouch shorting across to the opposing pouch, so I suggest trying to put each electrode-pouch on its own 
-leaf.  Note that you'll be best served by understanding the electrical circuit being formed by your electrode 
-placements.  As long as you do so, multiple electrodes of each polarity are acceptable.
+own design.  Maybe a large non-conductive (plastic/wooden) easel could be used to support the pouch/electrode holders. 
+Unless your plant has large leaves, you may find it difficult to place opposite electrodes on a single leaf without one 
+pouch shorting across to the opposing pouch, so I suggest trying to put each electrode-pouch on its own leaf.  Note that 
+you'll be best served by understanding the electrical circuit being formed by your electrode placements.  As long as you 
+do so, multiple electrodes of each polarity are acceptable.
 
 Note that the electrode circuit must also consist of a resistive component attached by you between the power supply rail 
 and the analog input pin of the signal electrode.  That resistor is located locally to the board so does not require 
