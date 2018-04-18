@@ -1,7 +1,7 @@
 # Monitor Plant Tissue Electrical Resistance/Conductance
 
-To monitor electrical resistance changes of plant tissue, such as a leaf, in vivo.  Wemos XI/TTGO XI for cheapest 12-bit 
-resolution in Linux with good bootloader and hardware serial.  Mac and Windows are assumed to work as well as Linux.  
+To monitor electrical conductance changes of plant tissue, such as a leaf, in vivo.  Wemos XI/TTGO XI for cheapest 12-
+bit resolution in Linux with good bootloader and hardware serial.  Mac and Windows are assumed to work as well as Linux.  
 Avoiding STM32F103C8T6 due to bootloader issues in Linux with common USB-serial adapters, avoiding ATTINY85 due to no 
 hardware serial, and avoiding boards whose analog resolution is less than 12 bits.  Future project plans include ADS1115 
 integration to reduce the minimum Arduino requirements to merely hardware serial.  Other boards having at least one 
@@ -12,12 +12,17 @@ expected to this project.
 Why would you want to do this?  Here's the story:
 
 In the 1960's, a polygraph expert named Cleve Backster, in a moment of feeling impulsively experimental, attached 
-polygraph electrodes to a plant in his office.  Note that polygraph electrodes are used to measure electrical 
-conductance of what they are attached to.  Note also that electrical conductance is mathematically inversely related to 
-electrical resistance, so resistance and conductance are two ways of referring to the exact same electrical property and 
-quantifying a resultant electrical current that an applied voltage produces.  This is in stark contrast to using 
-electrodes to measure or determine if a voltage (signal) [is] produced by a something-under-test, which would require 
-voltmeter or EEG instrumentation.
+polygraph electrodes to a plant in his office to see what polygraph results would come from watering the plant  Note 
+that polygraph electrodes are used to measure electrical conductance of what they are attached to.  Note also that 
+electrical conductance is mathematically inversely related to electrical resistance, so resistance and conductance are 
+two ways of referring to the exact same electrical property and quantifying a resultant electrical current that an 
+applied voltage produces.  This is in stark contrast to using electrodes to measure or determine if a voltage (signal) 
+[is] produced by a something-under-test, which would require voltmeter or EEG instrumentation.  To understand how 
+Mythbusters erred in their experiment, you need to realize that measuring a property of something requires the person 
+performing the measurement to produce their own signal and measure the results from applying that signal to the device-
+under-test.  That is what a polygraph machine does.  An EEG machine, on the other hand, produces no signal of its own - 
+it measures a device-produced signal and is specifically designed to measure that specific type of signal produced by a 
+central nervous system neuron bundle in a higher organism.
 
 Mr. Backster hooks up his electrodes and eventually notices that the polygraph machine indicated the electrical
 resistance/conductance of his office plant deviated in response to his mere intention of harming the plant.  You read 
