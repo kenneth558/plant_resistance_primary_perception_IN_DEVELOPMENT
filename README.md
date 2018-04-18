@@ -30,10 +30,10 @@ may not.
 Fast-forward to 2006 when Mythbusters television program decided they would investigate the validity of Mr. Backster's 
 observations (Title: Deadly Straw, Season number: 4, Episode number: 22, Air date: September 6, 2006).  When Mythbusters
 used a polygraph machine as Mr. Backster had, their results confirmed the phenomenon, albeit against their will and 
-against their desire to document its existence.  So in order to find a halfway-plausible excuse to keep Episode 22 from 
-disrupting their entertainment-business-as-usual, they switched from using a polygraph machine to using an EEG machine, 
-which measures voltage signals produced by neuron bundles instead of measuring the property of resistance.    To 
-understand how Mythbusters erred in their experiment, you need to realize that measuring a property of something 
+against their willingness to document its existence.  So in order to find a halfway-plausible excuse to keep Episode 22 
+from disrupting their entertainment-business-as-usual, they switched from using a polygraph machine to using an EEG 
+machine, which measures voltage signals produced by neuron bundles instead of measuring the property of resistance.    
+To understand how Mythbusters erred in their experiment, you need to realize that measuring a property of something 
 requires the person performing the measurement to produce their own signal and measure the results from applying that 
 signal to the device-under-test.  That is what a polygraph machine does.  An EEG machine, on the other hand, produces no 
 signal of its own - it measures a device-produced signal and is specifically designed to measure the specific type of 
