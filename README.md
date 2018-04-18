@@ -17,7 +17,7 @@ that polygraph electrodes are used to measure electrical conductance of what the
 electrical conductance is mathematically inversely related to electrical resistance, so resistance and conductance are 
 two ways of referring to the exact same electrical property and quantifying a resultant electrical current that an 
 applied voltage produces.  This is in stark contrast to using electrodes to measure or determine if a voltage (signal) 
-[is] produced by a something-under-test, which would require voltmeter or EEG instrumentation.
+[is] produced by a something-under-test or device-under-test ("DUT"; the plant, in this case), which would require voltmeter or EEG instrumentation.
 
 Mr. Backster hooks up his electrodes and eventually notices that the polygraph machine indicated the electrical
 resistance/conductance of his office plant deviated in response to his mere intention of harming the plant.  You read 
