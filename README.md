@@ -51,8 +51,8 @@ someone's intent to substantively affect its well-being.  The point is NOT that 
 replicated.  With that caveat and because of it, I suggest a very primitive electrode system that does not involve the 
 salt-impregnated agar-on-cotton gauze-on-stainless steel system that Mr. Backster thought he had to use for scientific 
 credibility.  Until I am satisfied with successful proof-of-concept of this project, I would suggest using the more bio-
-compatible elements of mud inside a coarse-knit pouch made of plant-derived fabric like burlap, linen, cotton, and/or 
-hemp.
+compatible elements of mud inside a coarse-knit pouch made of non-dyed, non-bleached plant-derived fabric like burlap, 
+linen, cotton, and/or hemp.
 
 Poke the electrode wires into the pouches (or maybe one into a pouch and one into the soil?), but keep the metal of the 
 wires from direct contact with any plant tissue, since metals are foreign to living organism tissues and so may produce 
