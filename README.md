@@ -61,7 +61,7 @@ sort of pouch-holding device of your own design.  Maybe a large non-conductive (
 support the pouch/electrode holders. Unless your plant has large leaves, you may find it difficult to place opposite 
 electrodes on a single leaf without one pouch shorting across to the opposing pouch, so I suggest trying to put each 
 electrode-pouch on its own leaf.  Note that you'll be best served by understanding the electrical circuit being formed 
-by your electrode placements.  As long as you do so, multiple electrodes of each polarity are acceptable.
+by your electrode placements.  As long as you do so, multiple electrodes of each polarity might be of benefit.
 
 Note that the electrode circuit must also consist of a resistive component attached by you between the power supply rail 
 and the analog input pin of the signal electrode.  That resistor is located locally to the board so does not require 
