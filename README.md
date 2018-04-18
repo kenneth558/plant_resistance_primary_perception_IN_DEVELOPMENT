@@ -83,8 +83,8 @@ you'll need to spend some time initially watering the plant or otherwise caring 
 results from this project.  Until I'm shown wrong, I'm fairly certain that hostile or hurtful sentiments toward the 
 plant are counter-productive to sustained acclimation, Mythbusters!
 
-You may be interested to read some of the Biblical justification for this project.  See the document entitled as per 
-that subject listed among the documents of this project.
+You may be interested to read some of the Biblical justification for this project.  See the document entitled on that 
+subject listed among the documents of this project.
 
 For those who have any regard to NDEs, you would be interested to research Howard Storm's NDE relative to world 
 lifestyle of the future.
