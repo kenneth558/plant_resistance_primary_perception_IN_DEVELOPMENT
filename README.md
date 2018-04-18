@@ -17,12 +17,7 @@ that polygraph electrodes are used to measure electrical conductance of what the
 electrical conductance is mathematically inversely related to electrical resistance, so resistance and conductance are 
 two ways of referring to the exact same electrical property and quantifying a resultant electrical current that an 
 applied voltage produces.  This is in stark contrast to using electrodes to measure or determine if a voltage (signal) 
-[is] produced by a something-under-test, which would require voltmeter or EEG instrumentation.  To understand how 
-Mythbusters erred in their experiment, you need to realize that measuring a property of something requires the person 
-performing the measurement to produce their own signal and measure the results from applying that signal to the device-
-under-test.  That is what a polygraph machine does.  An EEG machine, on the other hand, produces no signal of its own - 
-it measures a device-produced signal and is specifically designed to measure the specific type of signal that is 
-produced by a central nervous system neuron bundle not found in plants but found in higher organisms.
+[is] produced by a something-under-test, which would require voltmeter or EEG instrumentation.
 
 Mr. Backster hooks up his electrodes and eventually notices that the polygraph machine indicated the electrical
 resistance/conductance of his office plant deviated in response to his mere intention of harming the plant.  You read 
@@ -37,12 +32,16 @@ observations (Title: Deadly Straw, Season number: 4, Episode number: 22, Air dat
 used a polygraph machine as Mr. Backster had, their results confirmed the phenomenon, albeit against their will and 
 against their desire to document its existence.  So in order to find a halfway-plausible excuse to keep Episode 22 from 
 disrupting their entertainment-business-as-usual, they switched from using a polygraph machine to using an EEG machine, 
-which measures voltage signals produced by neuron bundles instead of measuring the property of resistance; remember that 
-elevctrical conductance is a property of the plant tissue, NOT a signal produced by the plant.  Plants have no neurons, 
-silly Mythbusters - they don't produce voltage signals.  Mythbusters ignored their observations obtained from the 
-polygraph machine but thankfully did broadcast the recorded video of their efforts while presenting a deceptive 
-narrative to try to distract viewers from noticing that they had just proven the existance of "primary perception", as 
-Mr. Backster thought to call his newly-discovered phenomenon.
+which measures voltage signals produced by neuron bundles instead of measuring the property of resistance.    To 
+understand how Mythbusters erred in their experiment, you need to realize that measuring a property of something 
+requires the person performing the measurement to produce their own signal and measure the results from applying that 
+signal to the device-under-test.  That is what a polygraph machine does.  An EEG machine, on the other hand, produces no 
+signal of its own - it measures a device-produced signal and is specifically designed to measure the specific type of 
+signal that is produced by a central nervous system neuron bundle not found in plants but found in higher organisms.  
+Plants have no neurons, silly Mythbusters - they don't produce voltage signals.  Mythbusters ignored their observations 
+obtained from the polygraph machine but thankfully did broadcast the recorded video of their efforts while presenting a 
+deceptive narrative about the positive results so as to try to distract viewers from noticing that they had just proven 
+the existance of "primary perception", as Mr. Backster thought to call his newly-discovered phenomenon.
 
 With the rudimentary (periodic improvements are to be expected to this project) sketch I publish here for you, you can 
 observe for yourself that plants actually can know your intentions relative to affecting their well-being.  You'll also 
