@@ -21,8 +21,8 @@ applied voltage produces.  This is in stark contrast to using electrodes to meas
 Mythbusters erred in their experiment, you need to realize that measuring a property of something requires the person 
 performing the measurement to produce their own signal and measure the results from applying that signal to the device-
 under-test.  That is what a polygraph machine does.  An EEG machine, on the other hand, produces no signal of its own - 
-it measures a device-produced signal and is specifically designed to measure that specific type of signal produced by a 
-central nervous system neuron bundle in a higher organism.
+it measures a device-produced signal and is specifically designed to measure the specific type of signal that is 
+produced by a central nervous system neuron bundle not found in plants but found in higher organisms.
 
 Mr. Backster hooks up his electrodes and eventually notices that the polygraph machine indicated the electrical
 resistance/conductance of his office plant deviated in response to his mere intention of harming the plant.  You read 
