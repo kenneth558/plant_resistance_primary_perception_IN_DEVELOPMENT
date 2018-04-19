@@ -41,7 +41,7 @@ void setup()
     
     Serial.begin( 19200 );
 //#ifndef ARDUINO_AVR_DIGISPARKPRO
-//    analogReadResolution( ADC_RES_BIT );
+//   analogReadResolution( ADC_RES_BIT );
 //#endif
     A_PIN_ARRAY = (uint8_t *)malloc( NUM_ANALOG_INPUTS );
 
