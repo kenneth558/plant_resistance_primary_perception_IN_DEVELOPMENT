@@ -30,7 +30,7 @@ extent of being super-humanly aware of a person's very thoughts as Mr. Backster 
 offer a scientific explanation for what is happening...and then again, it may not.
 
 Fast-forward to 2006 when Mythbusters television program decided they would investigate the validity of Mr. Backster's 
-observations (Title: Deadly Straw, Season number: 4, Episode number: 22, Air date: September 6, 2006).  When Mythbusters
+observations (Title: Deadly Straw; Season number: 4; Episode number: 22; Air date: September 6, 2006).  When Mythbusters
 used a polygraph machine as Mr. Backster had, their results confirmed the phenomenon, albeit against their will and 
 against their willingness to document its existence.  So in order to find a halfway-plausible excuse to keep Episode 22 
 from disrupting their entertainment-business-as-usual, they switched from using a polygraph machine to using an EEG 
@@ -39,22 +39,23 @@ To understand how Mythbusters erred in their experiment, you need to realize tha
 requires the person performing the measurement to produce their own signal and measure the results from applying that 
 signal to the device-under-test.  That is what a polygraph machine does.  An EEG machine, on the other hand, produces no 
 signal of its own - it measures a device-produced signal and is specifically designed to measure the specific type of 
-signal that is produced by a central nervous system neuron bundle not found in plants but found in higher organisms.  
-Plants have no neurons, silly Mythbusters - they don't produce voltage signals.  Mythbusters ignored their observations 
-obtained from the polygraph machine but thankfully did broadcast the recorded video of their efforts while presenting a 
-deceptive narrative about the positive results so as to try to distract viewers from noticing that they had just proven 
-the existance of "primary perception", as Mr. Backster thought to call his newly-discovered phenomenon.
+signal that is produced by a central nervous system neuron bundle that is not found in plants but found in higher 
+organisms.  Plants have no neurons, silly Mythbusters - they don't produce voltage signals.  Mythbusters ignored their 
+observations obtained from the polygraph machine but thankfully did broadcast the recorded video of their efforts while 
+presenting a deceptive narrative about the positive results so as to try to distract viewers from noticing that they had 
+just proven the existance of "primary perception", as Mr. Backster thought to call his newly-discovered phenomenon.
 
 With the rudimentary (periodic improvements are to be expected to this project) sketch I publish here for you, you can 
-observe for yourself that plants actually can know your intentions relative to affecting their well-being.  You'll also 
-need to fashion the electrode system and attach it.  I suggest you not get so wrapped up in being scientifically 
+observe for yourself that plants actually can know your sentiments as they relate to the plant's well-being.  You'll 
+also need to fashion the electrode system and attach it.  I suggest you not get so wrapped up in being scientifically 
 credible that you miss the point of all this.  The point is that the electrical resistance of a plant can respond to 
 someone's intent to substantively affect its well-being.  The point is NOT that any particular readings can be precisely 
 replicated.  With that caveat and because of it, I suggest a very primitive electrode system that does not involve the 
-salt-impregnated agar-on-cotton gauze-on-stainless steel system that Mr. Backster thought he had to use for scientific 
-credibility.  Until I am satisfied with successful proof-of-concept of this project, I would suggest using the more bio-
+salinated agar-on-cotton gauze-on-stainless steel system that Mr. Backster thought he had to use for scientific 
+credibility.  Until I am satisfied with successful proof-of-concept of this project, I am suggesting using the more bio-
 compatible elements of mud inside a coarse-knit pouch made of non-dyed, non-bleached plant-derived fabric like burlap, 
-linen, cotton, and/or hemp.
+linen, cotton, and/or hemp.  What bothers me about stainless electrodes is that metals produce galvanic voltage from 
+their very contact with dissimilar materials.  The significant chromium content of stainless is another concern I have.
 
 Poke the electrode wires into the pouches (or maybe one into a pouch and one into the soil?), but keep the metal of the 
 wires from direct contact with any plant tissue, since metals are foreign to living organism tissues and so may produce 
