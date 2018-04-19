@@ -7,7 +7,7 @@ hardware serial, and avoiding boards whose analog resolution is less than 12 bit
 integration to reduce the minimum Arduino requirements to merely hardware serial.  Other boards having at least one 
 analog input can be used with little modification.  When selecting a board you'll use for this project, make sure it has 
 a USB port or that you are otherwise are able to fashion serial communications.  The output from the Arduino is 
-formatted for input into the Adruino IDE serial plotter rather than the serial monitor.  
+formatted for input into the Arduino IDE serial plotter rather than the serial monitor.  
 
 Periodic improvements are to be expected to this project.
 
