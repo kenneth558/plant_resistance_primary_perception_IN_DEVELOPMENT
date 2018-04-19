@@ -2,6 +2,7 @@
 // ADC demo for Larduino w/ LGT8F328D
 // Using new added internal 2.56V reference
 //============================================
+// Use serial plotter in IDE, not serial monitor
 
 #define NUM_ANALOG_INPUTS_TO_PLOT 1 //The number of consecutive analog pins to plot, beginning with PIN_A0
 
