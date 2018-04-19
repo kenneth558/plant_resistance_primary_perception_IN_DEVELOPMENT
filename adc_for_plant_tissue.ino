@@ -2,14 +2,19 @@
 // ADC demo for Larduino w/ LGT8F328D
 // Using new added internal 2.56V reference
 //============================================
-// Use serial plotter in IDE, not serial monitor
 
-#define NUM_ANALOG_INPUTS_TO_PLOT 1 //The number of consecutive analog pins to plot, beginning with PIN_A0
+#define NUM_ANALOG_INPUTS_TO_PLOT 0 //The number of consecutive analog pins to plot, beginning with PIN_A0
+#define NUM_ADS1115_INPUTS_TO_PLOT 4
+
+#define UpperLimitAnalogInput 4095
+#define LowerLimitAnalogInput 0
+#define UpperLimitADS1115Input 65535
+#define LowerLimitADS1115Input 0
 
 #include <math.h>
 #include <Adafruit_ADS1015.h>//for systems using ADS1115/ADS1015
+Adafruit_ADS1115 ads;
 
-long int value;//TheWeMos has 12-bit ADC resolution 
 const uint8_t ADC_RES_BIT = 12;
 const uint8_t SAMPLE_TIMES = 5;
 
@@ -35,7 +40,9 @@ void setup()
     analogReference( DEFAULT );
     
     Serial.begin( 19200 );
-    analogReadResolution( ADC_RES_BIT );
+//#ifndef ARDUINO_AVR_DIGISPARKPRO
+//    analogReadResolution( ADC_RES_BIT );
+//#endif
     A_PIN_ARRAY = (uint8_t *)malloc( NUM_ANALOG_INPUTS );
 
 //Herafter is the pattern.  If you have more analog pins, add them according to the pattern.
@@ -138,10 +145,15 @@ void setup()
 #else
     #define NUM_ANALOG_INPUTS 255
 #endif
+ads.begin();
 }
 
 void loop() 
 {
+  int16_t adc0, adc1, adc2, adc3;
+  unsigned long value;
+
+
     if( NUM_ANALOG_INPUTS == 255 )
     {
         bool beenhere = false;
@@ -153,6 +165,12 @@ void loop()
     }
     else
     {
+/*
+        Serial.print( UpperLimitAnalogInput ); //constant max X
+        Serial.print(" ");
+        Serial.print( LowerLimitAnalogInput );// constant min X
+        Serial.print(" ");
+*/
         for( uint8_t i = 0; i < NUM_ANALOG_INPUTS_TO_PLOT; i++ )
         {
             value = analogRead( *( A_PIN_ARRAY + i ) );
@@ -170,7 +188,29 @@ void loop()
         //    Serial.print( ADC_RES_BIT );
         //    Serial.println( " bits" );
         }
-        Serial.println();
-        delay( 100 );
     }
+/*
+    adc0 = ads.readADC_SingleEnded(0);
+    adc1 = ads.readADC_SingleEnded(1);
+    adc2 = ads.readADC_SingleEnded(2);
+    adc3 = ads.readADC_SingleEnded(3);
+*/
+    for( uint8_t i = 0; i < NUM_ADS1115_INPUTS_TO_PLOT; i++ )
+    {
+        value = ads.readADC_SingleEnded( i );
+        for( uint8_t sampletimes = 1; sampletimes < SAMPLE_TIMES; sampletimes++ )
+        {
+          value += ads.readADC_SingleEnded( i );
+        }
+        value = value / SAMPLE_TIMES;
+/* */
+        Serial.print( UpperLimitADS1115Input ); //constant max X
+        Serial.print(" ");
+        Serial.print( LowerLimitADS1115Input );// constant min X
+        Serial.print(" ");
+/* */
+        Serial.print( value );
+    }
+    Serial.println();
+    delay( 100 );
 }
