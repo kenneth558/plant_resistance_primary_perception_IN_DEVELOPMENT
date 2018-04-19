@@ -4,7 +4,7 @@
 //============================================
 
 #define NUM_ANALOG_INPUTS_TO_PLOT 0 //The number of consecutive analog pins to plot, beginning with PIN_A0
-#define NUM_ADS1115_INPUTS_TO_PLOT 4
+#define NUM_ADS1115_INPUTS_TO_PLOT 1
 
 #define UpperLimitAnalogInput 4095
 #define LowerLimitAnalogInput 0
@@ -41,7 +41,7 @@ void setup()
     
     Serial.begin( 19200 );
 //#ifndef ARDUINO_AVR_DIGISPARKPRO
-//   analogReadResolution( ADC_RES_BIT );
+//    analogReadResolution( ADC_RES_BIT );
 //#endif
     A_PIN_ARRAY = (uint8_t *)malloc( NUM_ANALOG_INPUTS );
 
@@ -165,12 +165,6 @@ void loop()
     }
     else
     {
-/*
-        Serial.print( UpperLimitAnalogInput ); //constant max X
-        Serial.print(" ");
-        Serial.print( LowerLimitAnalogInput );// constant min X
-        Serial.print(" ");
-*/
         for( uint8_t i = 0; i < NUM_ANALOG_INPUTS_TO_PLOT; i++ )
         {
             value = analogRead( *( A_PIN_ARRAY + i ) );
@@ -178,15 +172,17 @@ void loop()
             {
               value += analogRead( *( A_PIN_ARRAY + i ) );
             }
-            value = value / SAMPLE_TIMES;
+            value = (uint16_t)( value / SAMPLE_TIMES );
+/* */
+        Serial.print( UpperLimitAnalogInput ); //constant max X
+        Serial.print(" ");
+/* */
             Serial.print( value );
-        //    if( value < 1000 ) Serial.print( " " );
-        //    if( value < 100 ) Serial.print( " " );
-        //    if( value < 10 ) 
             Serial.print( " " );
-        //    Serial.print( " at " );
-        //    Serial.print( ADC_RES_BIT );
-        //    Serial.println( " bits" );
+/* */
+        Serial.print( LowerLimitAnalogInput );// constant min X
+        Serial.print(" ");
+/* */
         }
     }
 /*
@@ -202,14 +198,17 @@ void loop()
         {
           value += ads.readADC_SingleEnded( i );
         }
-        value = value / SAMPLE_TIMES;
+        value = (uint16_t)( value / SAMPLE_TIMES );
 /* */
-        Serial.print( UpperLimitADS1115Input ); //constant max X
-        Serial.print(" ");
-        Serial.print( LowerLimitADS1115Input );// constant min X
+        Serial.print( UpperLimitADS1115Input / 2 ); //constant max X
         Serial.print(" ");
 /* */
         Serial.print( value );
+        Serial.print(" ");
+/* */
+        Serial.print( LowerLimitADS1115Input );// constant min X
+        Serial.print(" ");
+/* */
     }
     Serial.println();
     delay( 100 );
