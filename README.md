@@ -6,8 +6,10 @@ Avoiding STM32F103C8T6 due to bootloader issues in Linux with common USB-serial 
 hardware serial, and avoiding boards whose analog resolution is less than 12 bits.  Future project plans include ADS1115 
 integration to reduce the minimum Arduino requirements to merely hardware serial.  Other boards having at least one 
 analog input can be used with little modification.  When selecting a board you'll use for this project, make sure it has 
-a USB port or that you are otherwise are able to fashion serial communications.  Periodic improvements are to be 
-expected to this project.
+a USB port or that you are otherwise are able to fashion serial communications.  The output from the Arduino is 
+formatted for input into the Adruino IDE serial plotter rather than the serial monitor.  
+
+Periodic improvements are to be expected to this project.
 
 Why would you want to do this?  Here's the story:
 
