@@ -145,6 +145,7 @@ void setup()
 #else
     #define NUM_ANALOG_INPUTS 255
 #endif
+ads.setGain(GAIN_ONE);
 ads.begin();
 }
 
