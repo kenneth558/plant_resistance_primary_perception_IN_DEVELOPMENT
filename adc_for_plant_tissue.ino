@@ -9,9 +9,10 @@
 * Description        : 
 * Boards tested on   : Uno using ADS1115
 * Known limitations  : No ability to accept user input from keyboard during run time
-*                    : Only tested with a single plant hooked up
+*                    : Only tested with a single plant hooked up, hence a single analog input pin in use - and it must be the first available analog input pin
 *                    : No ability to control exactly where the times 10 line is plotted
 *                    : Re-compile is needed for any changes to configuration
+*                    : Analog input pins being used MUST be the first available analog inputs
 *                    
 ********************************************************************************
 * THE PRESENT PRODUCT WHICH IS ONLY FOR USE BY SOFTWARE- AND HARDWARE-COMPETENT USERS
@@ -44,6 +45,8 @@ If you only have the Arduino without an ADS1X15, then define NUM_ANALOG_INPUTS_T
     #endif
 #endif
 
+#define MULTIPLICATION_FACTOR 15 //To aid in viewing
+
 //#define DEBUG
 #include <math.h>
 #include <Adafruit_ADS1015.h>//for systems using ADS1115/ADS1015
@@ -56,7 +59,7 @@ Adafruit_ADS1115 ads;  //For when ADS1115 is being used
 #define UpperLimitADS1X15Input 32767 //This value for ADS1115
 // #define UpperLimitADS1X15Input 2047 //This value for ADS1015
 
-const uint8_t SAMPLE_TIMES = 17; //To better average out artifacts we over-sample and average.  This value can be tweaked by you to ensure neutralization of power line noise or harmonics of power supplies, etc.....
+const uint8_t SAMPLE_TIMES = 30; //To better average out artifacts we over-sample and average.  This value can be tweaked by you to ensure neutralization of power line noise or harmonics of power supplies, etc.....
 
 /*
  * 
@@ -197,17 +200,12 @@ void setup()
 #endif
 }
 
-  unsigned long value, valueTemp;
-    unsigned long magnify_adjustment = 0;
+unsigned long value, valueTemp;
+unsigned long magnify_adjustment = 0;
 void loop() 
 {
-//  uint16_t adc0, adc1, adc2, adc3;
-
     if( NUM_ANALOG_INPUTS_TO_PLOT > 0 )
     {
-#ifdef DEBUG
-        Serial.println( F( " line181" ) );
-#endif
         Serial.print( UpperLimitAnalogInput ); //This is color one and forms a time-marker
         Serial.print(" ");
         Serial.print( value ); //This is color two
@@ -216,16 +214,13 @@ void loop()
     }
     if( NUM_ADS1X15_INPUTS_TO_PLOT > 0 )
     {
-#ifdef DEBUG
-        Serial.println( F( " line192" ) );
-#endif
         Serial.print( UpperLimitADS1X15Input ); //This is color one and forms a time-marker
         Serial.print(" ");
         Serial.print( value ); //This is color two
         Serial.print(" ");
         Serial.println( 0 ); //This is color three
     }
-    for( uint16_t plotter_loops = 0; plotter_loops < 500/3; plotter_loops++ ) //Purpose of this is to keep plot-marks discrete - to keep them from becoming a line on top
+    for( uint16_t plotter_loops = 0; plotter_loops < 500/3; plotter_loops++ ) //Purpose of this is to keep plot-marks discrete in appearance - to keep them from becoming a line on top
     {
         for( uint8_t i = 0; i < NUM_ANALOG_INPUTS_TO_PLOT; i++ )
         {
@@ -242,25 +237,34 @@ void loop()
             Serial.print( 0 ); //This is color three
             Serial.print(" ");
 
-//Next if construct plots a magnified version.            
+            //Next "if" construct plots a magnified version.            
             if( NUM_ADS1X15_INPUTS_TO_PLOT > 0 )
             {
-                while( !( ( value * 10 ) - magnify_adjustment >= 0 ) ) magnify_adjustment += ( UpperLimitADS1X15Input / 100 );
-                while( !( ( value * 10 ) - magnify_adjustment <= UpperLimitADS1X15Input ) ) magnify_adjustment -= ( UpperLimitADS1X15Input / 100 );
-                Serial.print( ( value * 10 ) - magnify_adjustment ); //This is color four
-                Serial.print( " " );
+                //Next lines plot a magnified version.  First, magnify_adjustment is determined
+                //If ( signed long )( ( value * MULTIPLICATION_FACTOR ) - magnify_adjustment ) is too high, bring it down by increasing magnify_adjustment
+                while( !( ( signed long )( ( value * MULTIPLICATION_FACTOR ) - magnify_adjustment ) <= UpperLimitADS1X15Input / 2 ) ) magnify_adjustment += ( UpperLimitADS1X15Input / 100 );
+
+                //Ensure ( value * MULTIPLICATION_FACTOR ) - magnify_adjustment is greater than 0
+                while( !( ( signed long )( ( value * MULTIPLICATION_FACTOR ) - magnify_adjustment ) >= 0 ) ) magnify_adjustment -= ( UpperLimitADS1X15Input / 100 );
+
+                //Plot it now
+                Serial.print( ( signed long )( ( value * MULTIPLICATION_FACTOR ) - magnify_adjustment ) ); //This is color four
             }
             else
             {
-                while( !( ( value * 10 ) - magnify_adjustment >= 0 ) ) magnify_adjustment += ( UpperLimitAnalogInput / 100 );
-                while( !( ( value * 10 ) - magnify_adjustment <= UpperLimitAnalogInput ) ) magnify_adjustment -= ( UpperLimitAnalogInput / 100 );
-                Serial.print( ( value * 10 ) - magnify_adjustment ); //This is color four
-                Serial.print( " " );
+                //Next lines plot a magnified version.  First, magnify_adjustment is determined
+                //If ( signed long )( ( value * MULTIPLICATION_FACTOR ) - magnify_adjustment ) is too high, bring it down by increasing magnify_adjustment
+                while( !( ( signed long )( ( value * MULTIPLICATION_FACTOR ) - magnify_adjustment ) <= UpperLimitAnalogInput / 2 ) ) magnify_adjustment += ( UpperLimitAnalogInput / 100 );
+
+                //Ensure ( value * MULTIPLICATION_FACTOR ) - magnify_adjustment is greater than 0
+                while( !( ( signed long )( ( value * MULTIPLICATION_FACTOR ) - magnify_adjustment ) >= 0 ) ) magnify_adjustment -= ( UpperLimitAnalogInput / 100 );
+
+                //Plot it now
+                Serial.print( ( signed long )( ( value * MULTIPLICATION_FACTOR ) - magnify_adjustment ) ); //This is color four
             }
+            Serial.print( " " );
         }
-#ifdef DEBUG
-        Serial.println( F( " line234" ) ); //We don't want to separate the number b/c it would plot a new line then
-#endif
+
         for( uint8_t i = 0; i < NUM_ADS1X15_INPUTS_TO_PLOT; i++ )
         {
             value = ads.readADC_SingleEnded( i );
@@ -278,45 +282,19 @@ void loop()
             Serial.print(" ");
             Serial.print( 0 ); //This is color three
 
-//Next four lines plot a magnified version.            
+            //Next lines plot a magnified version.  First, magnify_adjustment is determined
             Serial.print(" ");
-#ifdef DEBUG
-            Serial.println();
-            Serial.println( F( " line256" ) ); //We don't want to separate the number b/c it would plot a new line then
-            Serial.print( F( " ( value *10 ) - magnify_adjustment=" ) ); //We don't want to separate the number b/c it would plot a new line then
-            Serial.print( ( signed long )( value * 10 ) - magnify_adjustment ); //This is color two
-            Serial.print( F( " UpperLimitADS1X15Input=" ) ); //We don't want to separate the number b/c it would plot a new line then
-            Serial.println( UpperLimitADS1X15Input ); //This is color two
-#endif
-//If ( signed long )( ( value * 10 ) - magnify_adjustment ) is too high, bring it down by increasing magnify_adjustment
-            while( !( ( signed long )( ( value * 10 ) - magnify_adjustment ) <= UpperLimitADS1X15Input / 2 ) ) 
-            {
-                magnify_adjustment += ( UpperLimitADS1X15Input / 100 );
-#ifdef DEBUG
-            Serial.print( F( " ( value *10 ) - magnify_adjustment=" ) ); //We don't want to separate the number b/c it would plot a new line then
-            Serial.println( ( signed long )( value * 10 ) - magnify_adjustment ); //This is color two
-            Serial.print( F( " UpperLimitADS1X15Input=" ) ); //We don't want to separate the number b/c it would plot a new line then
-            Serial.println( UpperLimitADS1X15Input ); //This is color two
-#endif
-            }
-#ifdef DEBUG
-            Serial.println( F( " line274" ) ); //We don't want to separate the number b/c it would plot a new line then
-#endif
-//Ensure ( value * 10 ) - magnify_adjustment is greater than 0
-            while( !( ( signed long )( ( value * 10 ) - magnify_adjustment ) >= 0 ) ) magnify_adjustment -= ( UpperLimitADS1X15Input / 100 );
-#ifdef DEBUG
-            Serial.println( F( " line279" ) ); //We don't want to separate the number b/c it would plot a new line then
-            Serial.print( F( " ( value *10 ) - magnify_adjustment=" ) ); //We don't want to separate the number b/c it would plot a new line then
-            Serial.println( ( signed long )( value * 10 ) - magnify_adjustment ); //This is color two
-            Serial.print( F( " UpperLimitADS1X15Input=" ) ); //We don't want to separate the number b/c it would plot a new line then
-            Serial.println( UpperLimitADS1X15Input ); //This is color two
-#endif
-            Serial.print( ( signed long )( ( value * 10 ) - magnify_adjustment ) ); //This is color four
+
+            //If ( signed long )( ( value * MULTIPLICATION_FACTOR ) - magnify_adjustment ) is too high, bring it down by increasing magnify_adjustment
+            while( !( ( signed long )( ( value * MULTIPLICATION_FACTOR ) - magnify_adjustment ) <= UpperLimitADS1X15Input / 2 ) ) magnify_adjustment += ( UpperLimitADS1X15Input / 100 );
+
+            //Ensure ( value * MULTIPLICATION_FACTOR ) - magnify_adjustment is greater than 0
+            while( !( ( signed long )( ( value * MULTIPLICATION_FACTOR ) - magnify_adjustment ) >= 0 ) ) magnify_adjustment -= ( UpperLimitADS1X15Input / 100 );
+
+            //Plot it now
+            Serial.print( ( signed long )( ( value * MULTIPLICATION_FACTOR ) - magnify_adjustment ) ); //This is color four
         }
         Serial.println();
-#ifdef DEBUG
-        Serial.println( F( " line288" ) );
-#endif
         delay( 100 );
     }
 }
