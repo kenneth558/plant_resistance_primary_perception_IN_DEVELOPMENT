@@ -1,22 +1,62 @@
-//============================================
-// ADC demo for Larduino w/ LGT8F328D
-// Using new added internal 2.56V reference
-//============================================
-
+/*******************(C)  COPYRIGHT 2018 KENNETH L ANDERSON *********************
+* 
+*      ARDUINO ELECTRICAL RESISTANCE/CONDUCTANCE MONITORING SKETCH 
+*      
+* File Name          : adc_for_plant_tissue.ino
+* Author             : KENNETH L ANDERSON
+* Version            : v.0.01
+* Date               : 21-April-2018
+* Description        : 
+* Boards tested on   : Uno using ADS1115
+* Known limitations  : No ability to accept user input from keyboard during run time
+*                    : Only tested with a single plant hooked up
+*                    : No ability to control exactly where the times 10 line is plotted
+*                    : Re-compile is needed for any changes to configuration
+*                    
+********************************************************************************
+* THE PRESENT PRODUCT WHICH IS ONLY FOR USE BY SOFTWARE- AND HARDWARE-COMPETENT USERS
+* IS INTENDED TO OFFER VARIOUS CAPABILITIES.  BECAUSE ABSOLUTELY NO CONSIDERATION 
+* IS EXPECTED IN RETURN, NO CONTRACT, WHETHER OFFERING SUITABILITY, RELIABILITY, 
+* FUNCTIONALITY, SAFETY, OR OTHER, EXISTS.  BY USING THIS PRODUCT YOU EXPRESSLY AND
+* TOTALLY ACCEPT FULL LIABILITY FOR ANY DIRECT, INDIRECT OR CONSEQUENTIAL DAMAGES 
+* WITH RESPECT TO ANY CLAIMS ARISING FROM SOFTWARE AND/OR HARDWARE DERIVATIONS OF PRODUCT.
+* I MAKE ABSOLUTELY NO CLAIM OF MY OWN COMPETENCE, LICENSURE, CERTIFICATION, EXPERIENCE,
+* OR PROFESSIONAL STANDING OTHER THAN BEING AN ELECTRONICS TECHNICIAN BY FORMAL 
+* DEGREE AND UNITED STATES FCC RADIOTELEPHONE OPERATORS LICENSE, AND 
+* A SOFTWARE DEVELOPER BY LIMITED PRACTICAL EXPERIENCE
+********************************************************************************
+*
+* TODO:  Arrange for adjustments of various kinds during run time based on keyboard inputs
+*        Place other variables ( loop delay, ...) up in the defines area of source code
+* 
+*********************************************************************************************************************/
+#define VERSION "0.01"
 #define NUM_ANALOG_INPUTS_TO_PLOT 0 //The number of consecutive analog pins to plot, beginning with PIN_A0
-#define NUM_ADS1115_INPUTS_TO_PLOT 1
+#define NUM_ADS1X15_INPUTS_TO_PLOT 1 //The number of consecutive ADS1X15 pins to plot, beginning with A0
+#if ( NUM_ANALOG_INPUTS_TO_PLOT > 0 )
+    #ifndef NUM_ANALOG_INPUTS
+Sorry, but you will have to manually define the variable NUM_ANALOG_INPUTS somewhere above this line and re-compile...
+    #endif
+#else
+    #if ( NUM_ADS1X15_INPUTS_TO_PLOT == 0 )
+You'll need to manually define at least one of the variables NUM_ANALOG_INPUTS_TO_PLOT or NUM_ADS1X15_INPUTS_TO_PLOT where they appear in the lines above and re-compile...
+If you only have the Arduino without an ADS1X15, then define NUM_ANALOG_INPUTS_TO_PLOT.  Otherwise, define NUM_ADS1X15_INPUTS_TO_PLOT and/or both of them.
+    #endif
+#endif
 
-#define UpperLimitAnalogInput 4095
-#define LowerLimitAnalogInput 0
-#define UpperLimitADS1115Input 65535
-#define LowerLimitADS1115Input 0
-
+//#define DEBUG
 #include <math.h>
 #include <Adafruit_ADS1015.h>//for systems using ADS1115/ADS1015
-Adafruit_ADS1115 ads;
+Adafruit_ADS1115 ads;  //For when ADS1115 is being used
+//Adafruit_ADS1015 ads;  //For when ADS1015 is being used
 
-const uint8_t ADC_RES_BIT = 12;
-const uint8_t SAMPLE_TIMES = 5;
+#define UpperLimitAnalogInput 4095 //This value for Arduinos that have 12-bit analog inputs
+//#define UpperLimitAnalogInput 1023 //This value for Arduinos that have 10-bit analog inputs
+
+#define UpperLimitADS1X15Input 32767 //This value for ADS1115
+// #define UpperLimitADS1X15Input 2047 //This value for ADS1015
+
+const uint8_t SAMPLE_TIMES = 17; //To better average out artifacts we over-sample and average.  This value can be tweaked by you to ensure neutralization of power line noise or harmonics of power supplies, etc.....
 
 /*
  * 
@@ -145,26 +185,47 @@ void setup()
 #else
     #define NUM_ANALOG_INPUTS 255
 #endif
-ads.setGain(GAIN_ONE);
-ads.begin();
+//   ads.setGain(GAIN_TWOTHIRDS);  // 2/3x gain +/- 6.144V  1 bit = 3mV      0.1875mV (default)
+   ads.setGain(GAIN_ONE);        // 1x gain   +/- 4.096V  1 bit = 2mV      0.125mV  //This allows a simple power rail excitation supply to voltage divider
+//   ads.setGain(GAIN_TWO);        // 2x gain   +/- 2.048V  1 bit = 1mV      0.0625mV
+//   ads.setGain(GAIN_FOUR);       // 4x gain   +/- 1.024V  1 bit = 0.5mV    0.03125mV
+//   ads.setGain(GAIN_EIGHT);      // 8x gain   +/- 0.512V  1 bit = 0.25mV   0.015625mV
+//   ads.setGain(GAIN_SIXTEEN);    // 16x gain  +/- 0.256V  1 bit = 0.125mV  0.0078125mV
+    ads.begin();
+#ifdef DEBUG
+        Serial.println( F( " end of setup" ) );
+#endif
 }
 
+  unsigned long value, valueTemp;
+    unsigned long magnify_adjustment = 0;
 void loop() 
 {
-  int16_t adc0, adc1, adc2, adc3;
-  unsigned long value;
+//  uint16_t adc0, adc1, adc2, adc3;
 
-
-    if( NUM_ANALOG_INPUTS == 255 )
+    if( NUM_ANALOG_INPUTS_TO_PLOT > 0 )
     {
-        bool beenhere = false;
-        if( !beenhere ) 
-        {
-            beenhere = true;
-            Serial.println( F( "Sorry, but you will have to manually define the variable NUM_ANALOG_INPUTS and re-compile..." ) );
-        }
+#ifdef DEBUG
+        Serial.println( F( " line181" ) );
+#endif
+        Serial.print( UpperLimitAnalogInput ); //This is color one and forms a time-marker
+        Serial.print(" ");
+        Serial.print( value ); //This is color two
+        Serial.print( " " );
+        Serial.println( 0 ); //This is color three
     }
-    else
+    if( NUM_ADS1X15_INPUTS_TO_PLOT > 0 )
+    {
+#ifdef DEBUG
+        Serial.println( F( " line192" ) );
+#endif
+        Serial.print( UpperLimitADS1X15Input ); //This is color one and forms a time-marker
+        Serial.print(" ");
+        Serial.print( value ); //This is color two
+        Serial.print(" ");
+        Serial.println( 0 ); //This is color three
+    }
+    for( uint16_t plotter_loops = 0; plotter_loops < 500/3; plotter_loops++ ) //Purpose of this is to keep plot-marks discrete - to keep them from becoming a line on top
     {
         for( uint8_t i = 0; i < NUM_ANALOG_INPUTS_TO_PLOT; i++ )
         {
@@ -174,43 +235,88 @@ void loop()
               value += analogRead( *( A_PIN_ARRAY + i ) );
             }
             value = (uint16_t)( value / SAMPLE_TIMES );
-/* */
-        Serial.print( UpperLimitAnalogInput ); //constant max X
-        Serial.print(" ");
-/* */
-            Serial.print( value );
+            Serial.print( 0 ); //This is color one
+            Serial.print(" ");
+            Serial.print( value ); //This is color two
             Serial.print( " " );
-/* */
-        Serial.print( LowerLimitAnalogInput );// constant min X
-        Serial.print(" ");
-/* */
+            Serial.print( 0 ); //This is color three
+            Serial.print(" ");
+
+//Next if construct plots a magnified version.            
+            if( NUM_ADS1X15_INPUTS_TO_PLOT > 0 )
+            {
+                while( !( ( value * 10 ) - magnify_adjustment >= 0 ) ) magnify_adjustment += ( UpperLimitADS1X15Input / 100 );
+                while( !( ( value * 10 ) - magnify_adjustment <= UpperLimitADS1X15Input ) ) magnify_adjustment -= ( UpperLimitADS1X15Input / 100 );
+                Serial.print( ( value * 10 ) - magnify_adjustment ); //This is color four
+                Serial.print( " " );
+            }
+            else
+            {
+                while( !( ( value * 10 ) - magnify_adjustment >= 0 ) ) magnify_adjustment += ( UpperLimitAnalogInput / 100 );
+                while( !( ( value * 10 ) - magnify_adjustment <= UpperLimitAnalogInput ) ) magnify_adjustment -= ( UpperLimitAnalogInput / 100 );
+                Serial.print( ( value * 10 ) - magnify_adjustment ); //This is color four
+                Serial.print( " " );
+            }
         }
-    }
-/*
-    adc0 = ads.readADC_SingleEnded(0);
-    adc1 = ads.readADC_SingleEnded(1);
-    adc2 = ads.readADC_SingleEnded(2);
-    adc3 = ads.readADC_SingleEnded(3);
-*/
-    for( uint8_t i = 0; i < NUM_ADS1115_INPUTS_TO_PLOT; i++ )
-    {
-        value = ads.readADC_SingleEnded( i );
-        for( uint8_t sampletimes = 1; sampletimes < SAMPLE_TIMES; sampletimes++ )
+#ifdef DEBUG
+        Serial.println( F( " line234" ) ); //We don't want to separate the number b/c it would plot a new line then
+#endif
+        for( uint8_t i = 0; i < NUM_ADS1X15_INPUTS_TO_PLOT; i++ )
         {
-          value += ads.readADC_SingleEnded( i );
+            value = ads.readADC_SingleEnded( i );
+            while( value > UpperLimitADS1X15Input ) value = ads.readADC_SingleEnded( i );
+            for( uint8_t sampletimes = 1; sampletimes < SAMPLE_TIMES; sampletimes++ )
+            {
+                valueTemp = ads.readADC_SingleEnded( i );
+                while( valueTemp > UpperLimitADS1X15Input ) valueTemp = ads.readADC_SingleEnded( i );
+                value += valueTemp;
+            }
+            value = (uint16_t)( value / SAMPLE_TIMES );
+            Serial.print( 0 ); //This is color one
+            Serial.print(" ");
+            Serial.print( value ); //This is color two
+            Serial.print(" ");
+            Serial.print( 0 ); //This is color three
+
+//Next four lines plot a magnified version.            
+            Serial.print(" ");
+#ifdef DEBUG
+            Serial.println();
+            Serial.println( F( " line256" ) ); //We don't want to separate the number b/c it would plot a new line then
+            Serial.print( F( " ( value *10 ) - magnify_adjustment=" ) ); //We don't want to separate the number b/c it would plot a new line then
+            Serial.print( ( signed long )( value * 10 ) - magnify_adjustment ); //This is color two
+            Serial.print( F( " UpperLimitADS1X15Input=" ) ); //We don't want to separate the number b/c it would plot a new line then
+            Serial.println( UpperLimitADS1X15Input ); //This is color two
+#endif
+//If ( signed long )( ( value * 10 ) - magnify_adjustment ) is too high, bring it down by increasing magnify_adjustment
+            while( !( ( signed long )( ( value * 10 ) - magnify_adjustment ) <= UpperLimitADS1X15Input / 2 ) ) 
+            {
+                magnify_adjustment += ( UpperLimitADS1X15Input / 100 );
+#ifdef DEBUG
+            Serial.print( F( " ( value *10 ) - magnify_adjustment=" ) ); //We don't want to separate the number b/c it would plot a new line then
+            Serial.println( ( signed long )( value * 10 ) - magnify_adjustment ); //This is color two
+            Serial.print( F( " UpperLimitADS1X15Input=" ) ); //We don't want to separate the number b/c it would plot a new line then
+            Serial.println( UpperLimitADS1X15Input ); //This is color two
+#endif
+            }
+#ifdef DEBUG
+            Serial.println( F( " line274" ) ); //We don't want to separate the number b/c it would plot a new line then
+#endif
+//Ensure ( value * 10 ) - magnify_adjustment is greater than 0
+            while( !( ( signed long )( ( value * 10 ) - magnify_adjustment ) >= 0 ) ) magnify_adjustment -= ( UpperLimitADS1X15Input / 100 );
+#ifdef DEBUG
+            Serial.println( F( " line279" ) ); //We don't want to separate the number b/c it would plot a new line then
+            Serial.print( F( " ( value *10 ) - magnify_adjustment=" ) ); //We don't want to separate the number b/c it would plot a new line then
+            Serial.println( ( signed long )( value * 10 ) - magnify_adjustment ); //This is color two
+            Serial.print( F( " UpperLimitADS1X15Input=" ) ); //We don't want to separate the number b/c it would plot a new line then
+            Serial.println( UpperLimitADS1X15Input ); //This is color two
+#endif
+            Serial.print( ( signed long )( ( value * 10 ) - magnify_adjustment ) ); //This is color four
         }
-        value = (uint16_t)( value / SAMPLE_TIMES );
-/* */
-        Serial.print( UpperLimitADS1115Input / 2 ); //constant max X
-        Serial.print(" ");
-/* */
-        Serial.print( value );
-        Serial.print(" ");
-/* */
-        Serial.print( LowerLimitADS1115Input );// constant min X
-        Serial.print(" ");
-/* */
+        Serial.println();
+#ifdef DEBUG
+        Serial.println( F( " line288" ) );
+#endif
+        delay( 100 );
     }
-    Serial.println();
-    delay( 100 );
 }
