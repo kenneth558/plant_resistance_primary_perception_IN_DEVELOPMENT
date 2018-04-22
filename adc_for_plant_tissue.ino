@@ -33,7 +33,7 @@
 *        Use an LM334 to prevent power supply noise from plotting (i.e., convert from resistance to conductance)
 *        Use digital potentiometer (x9c104 or x9c503) for more automated balancing of the two serial resistances
 * 
-*  These planned enhancements will be reserved for not-for-free sketch versions in the future
+*  These planned enhancements will be reserved for NOT-FOR-FREE sketch versions in the future
 * 
 *********************************************************************************************************************/
 #define VERSION "Free"
