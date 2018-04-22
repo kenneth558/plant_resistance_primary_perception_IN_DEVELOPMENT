@@ -4,15 +4,16 @@
 *      
 * File Name          : adc_for_plant_tissue.ino
 * Author             : KENNETH L ANDERSON
-* Version            : v.0.01
+* Version            : Free
 * Date               : 21-April-2018
 * Description        : 
-* Boards tested on   : Uno using ADS1115
+* Boards tested on   : Uno using ADS1115, but many other configurations should work fine
 * Known limitations  : No ability to accept user input from keyboard during run time
 *                    : Only tested with a single plant hooked up, hence a single analog input pin in use - and it must be the first available analog input pin
 *                    : No ability to control exactly where the times 10 line is plotted
 *                    : Re-compile is needed for any changes to configuration
 *                    : Analog input pins being used MUST be the first available analog inputs
+*                    : These limitations will be addressed in future not-for-free versions
 *                    
 ********************************************************************************
 * THE PRESENT PRODUCT WHICH IS ONLY FOR USE BY SOFTWARE- AND HARDWARE-COMPETENT USERS
@@ -32,8 +33,10 @@
 *        Use an LM334 to prevent power supply noise from plotting (i.e., convert from resistance to conductance)
 *        Use digital potentiometer (x9c104 or x9c503) for more automated balancing of the two serial resistances
 * 
+*  These planned enhancements will be reserved for not-for-free sketch versions in the future
+* 
 *********************************************************************************************************************/
-#define VERSION "0.01"
+#define VERSION "Free"
 #define NUM_ANALOG_INPUTS_TO_PLOT 0 //The number of consecutive analog pins to plot, beginning with PIN_A0
 #define NUM_ADS1X15_INPUTS_TO_PLOT 1 //The number of consecutive ADS1X15 pins to plot, beginning with A0
 #if ( NUM_ANALOG_INPUTS_TO_PLOT > 0 )
