@@ -29,7 +29,7 @@
 *
 * TODO:  Arrange for adjustments of various kinds during run time based on keyboard inputs
 *        Place other variables ( loop delay, ...) up in the defines area of source code
-*        Use an LM334 to prevent power supply noise from plotting
+*        Use an LM334 to prevent power supply noise from plotting (i.e., convert from resistance to conductance)
 *        Use digital potentiometer (x9c104 or x9c503) for more automated balancing of the two serial resistances
 * 
 *********************************************************************************************************************/
