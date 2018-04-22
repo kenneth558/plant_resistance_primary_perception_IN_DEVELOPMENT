@@ -5,7 +5,7 @@
 * File Name          : adc_for_plant_tissue.ino
 * Author             : KENNETH L ANDERSON
 * Version            : Free
-* Date               : 21-April-2018
+* Date               : 22-April-2018
 * Description        : 
 * Boards tested on   : Uno using ADS1115, but many other configurations should work fine
 * Known limitations  : No ability to accept user input from keyboard during run time
@@ -29,7 +29,6 @@
 ********************************************************************************
 *
 * TODO:  Arrange for adjustments of various kinds during run time based on keyboard inputs
-*        Place other variables ( loop delay, ...) up in the defines area of source code
 *        Use an LM334 to prevent power supply noise from plotting (i.e., convert from resistance to conductance)
 *        Use digital potentiometer (x9c104 or x9c503) for more automated balancing of the two serial resistances
 * 
