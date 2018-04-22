@@ -3,11 +3,10 @@
 To monitor electrical conductance changes of plant tissue, such as a leaf, in vivo.  Wemos XI/TTGO XI for cheapest 12-
 bit resolution in Linux with good bootloader and hardware serial.  Mac and Windows are assumed to work as well as Linux.  
 Avoiding STM32F103C8T6 due to bootloader issues in Linux with common USB-serial adapters, avoiding ATTINY85 due to no 
-hardware serial, and avoiding boards whose analog resolution is less than 12 bits.  Future project plans include ADS1115 
-integration to reduce the minimum Arduino requirements to merely hardware serial.  Other boards having at least one 
-analog input can be used with little modification.  When selecting a board you'll use for this project, make sure it has 
-a USB port or that you are otherwise are able to fashion serial communications.  The output from the Arduino is 
-formatted for input into the Arduino IDE serial plotter rather than the serial monitor.  
+hardware serial, and avoiding boards whose analog resolution is less than 12 bits.  Other boards having at least one analog 
+input can be used with little modification.  When selecting a board you'll use for this project, make sure it has a USB port or 
+that you are otherwise are able to fashion serial communications.  The output from the Arduino is formatted for input into the 
+Arduino IDE serial plotter rather than the serial monitor.  
 
 Periodic improvements are to be expected to this project.
 
@@ -63,10 +62,13 @@ an unaccounted for reaction.  To ensure an acceptable quality contact between th
 electric motor brushes (made from near biologically inert and oxidatively stable graphite) to the ends of the electrode 
 wires and insert the the brush into the pouch. I prefer using mud instead of salt as an electrolyte for my confidence 
 achieving maximum biocompatibility. Ensure the mud is adequately liquified and the brush is fully inserted into the mud 
-and the muddied pouch is in intimate and stable contact with the leaf or other plant tissue.  You'll have to rig some 
-sort of pouch-holding device of your own design.  Maybe a large non-conductive (plastic/wooden) easel could be used to 
-support the pouch/electrode holders. Unless your plant has large leaves, you may find it difficult to place opposite 
-electrodes on a single leaf without one pouch shorting across to the opposing pouch, so I suggest trying to put each 
+and the muddied pouch is in intimate and stable contact with the leaf or other plant tissue.  You also may want to learn the 
+difference between hypostomatous and hyperstomatous leaves relative to the plant you use if you care to avoid blocking the gas-
+exchange stomata.  
+
+You'll have to rig some sort of pouch-holding device of your own design.  Maybe a large non-conductive (plastic/wooden) easel 
+could be used to support the pouch/electrode holders. Unless your plant has large leaves, you may find it difficult to place 
+opposite electrodes on a single leaf without one pouch shorting across to the opposing pouch, so I suggest trying to put each 
 electrode-pouch on its own leaf.  Note that you'll be best served by understanding the electrical circuit being formed 
 by your electrode placements.  As long as you do so, multiple electrodes of each polarity might be of benefit.
 
@@ -103,6 +105,6 @@ This sketch version is FREE so that anyone can enjoy it.  For those of you who c
 
 --  Arrange for adjustments of various kinds during run time based on keyboard inputs
 -- Place other variables ( loop delay, ...) up in the defines area of source code
--- Use an LM334 to prevent power supply noise from plotting (i.e., convert from resistance to conductance monitoring which means 
-       that power supply noise is eliminated!)
+-- Use an LM334 to prevent power supply noise from plotting (i.e., convert from monitoring resistance to monitoring conductance      
+     which means that power supply noise is eliminated!)
 -- Use digital potentiometer (x9c104 or x9c503) for more automated balancing of the two serial resistances
