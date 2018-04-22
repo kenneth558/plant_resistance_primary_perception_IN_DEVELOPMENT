@@ -244,7 +244,7 @@ void loop()
                 //If ( signed long )( ( value * MULTIPLICATION_FACTOR ) - magnify_adjustment ) is too high, bring it down by increasing magnify_adjustment
                 while( !( ( signed long )( ( value * MULTIPLICATION_FACTOR ) - magnify_adjustment ) <= UpperLimitADS1X15Input / 2 ) ) magnify_adjustment += ( UpperLimitADS1X15Input / 100 );
 
-                //Ensure ( value * MULTIPLICATION_FACTOR ) - magnify_adjustment is greater than 0
+                //Ensure ( value * MULTIPLICATION_FACTOR ) - magnify_adjustment is greater than 0. 0 was decided on b/c the plotter graph upper limit will be greater than the analog input upper limit making the activity appear in the lower part
                 while( !( ( signed long )( ( value * MULTIPLICATION_FACTOR ) - magnify_adjustment ) >= 0 ) ) magnify_adjustment -= ( UpperLimitADS1X15Input / 100 );
 
                 //Plot it now
@@ -256,7 +256,7 @@ void loop()
                 //If ( signed long )( ( value * MULTIPLICATION_FACTOR ) - magnify_adjustment ) is too high, bring it down by increasing magnify_adjustment
                 while( !( ( signed long )( ( value * MULTIPLICATION_FACTOR ) - magnify_adjustment ) <= UpperLimitAnalogInput / 2 ) ) magnify_adjustment += ( UpperLimitAnalogInput / 100 );
 
-                //Ensure ( value * MULTIPLICATION_FACTOR ) - magnify_adjustment is greater than 0
+                //Ensure ( value * MULTIPLICATION_FACTOR ) - magnify_adjustment is greater than 0. 0 was decided on b/c the plotter graph upper limit will be greater than the analog input upper limit making the activity appear in the lower part
                 while( !( ( signed long )( ( value * MULTIPLICATION_FACTOR ) - magnify_adjustment ) >= 0 ) ) magnify_adjustment -= ( UpperLimitAnalogInput / 100 );
 
                 //Plot it now
@@ -288,7 +288,7 @@ void loop()
             //If ( signed long )( ( value * MULTIPLICATION_FACTOR ) - magnify_adjustment ) is too high, bring it down by increasing magnify_adjustment
             while( !( ( signed long )( ( value * MULTIPLICATION_FACTOR ) - magnify_adjustment ) <= UpperLimitADS1X15Input / 2 ) ) magnify_adjustment += ( UpperLimitADS1X15Input / 100 );
 
-            //Ensure ( value * MULTIPLICATION_FACTOR ) - magnify_adjustment is greater than 0
+            //Ensure ( value * MULTIPLICATION_FACTOR ) - magnify_adjustment is greater than 0. 0 was decided on b/c the plotter graph upper limit will be greater than the analog input upper limit making the activity appear in the lower part
             while( !( ( signed long )( ( value * MULTIPLICATION_FACTOR ) - magnify_adjustment ) >= 0 ) ) magnify_adjustment -= ( UpperLimitADS1X15Input / 100 );
 
             //Plot it now
