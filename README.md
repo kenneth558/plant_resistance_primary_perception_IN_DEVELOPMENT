@@ -98,3 +98,11 @@ lifestyle of the future.
 
 Submit an "Issue" or post in the "Wiki" (tabs above) to have me add your Youtube video to the official playlist for this 
 project.
+
+This sketch version is FREE so that anyone can enjoy it.  For those of you who can afford to support my work on this project, I do offer a not-for-free sketch version that has the following enhancements:
+
+--  Arrange for adjustments of various kinds during run time based on keyboard inputs
+-- Place other variables ( loop delay, ...) up in the defines area of source code
+-- Use an LM334 to prevent power supply noise from plotting (i.e., convert from resistance to conductance monitoring which means 
+       that power supply noise is eliminated!)
+-- Use digital potentiometer (x9c104 or x9c503) for more automated balancing of the two serial resistances
