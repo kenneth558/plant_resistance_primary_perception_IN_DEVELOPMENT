@@ -28,7 +28,7 @@
 * A SOFTWARE DEVELOPER BY LIMITED PRACTICAL EXPERIENCE
 ********************************************************************************
 *
-* TODO:  Arrange for adjustments of various kinds during run time based on keyboard inputs
+* TODO:  Arrange for run-time keyboard input to eliminate need to re-compile when changes are made or plotting adjustments are desired
 *        Use an LM334 to prevent power supply noise from plotting (i.e., convert from resistance to conductance)
 *        Use digital potentiometer (x9c104 or x9c503) for more automated balancing of the two serial resistances
 * 
