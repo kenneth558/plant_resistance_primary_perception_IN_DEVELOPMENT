@@ -4,8 +4,8 @@
 *      
 * File Name          : adc_for_plant_tissue.ino
 * Author             : KENNETH L ANDERSON
-* Version            : Free
-* Date               : 22-April-2018
+* Version            : v.Free
+* Date               : 23-April-2018
 * Description        : 
 * Boards tested on   : Uno using ADS1115, but many other configurations should work fine
 * Known limitations  : No ability to accept user input from keyboard during run time
@@ -35,9 +35,9 @@
 *  These planned enhancements will be reserved for NOT-FOR-FREE sketch versions in the future
 * 
 *********************************************************************************************************************/
-#define VERSION "Free"
-#define NUM_ANALOG_INPUTS_TO_PLOT 0 //The number of consecutive analog pins to plot, beginning with PIN_A0
-#define NUM_ADS1X15_INPUTS_TO_PLOT 1 //The number of consecutive ADS1X15 pins to plot, beginning with A0
+#define VERSION "v.Free"
+#define NUM_ANALOG_INPUTS_TO_PLOT 1 //The number of consecutive analog pins to plot, beginning with PIN_A0
+#define NUM_ADS1X15_INPUTS_TO_PLOT 0 //The number of consecutive ADS1X15 pins to plot, beginning with A0
 #if ( NUM_ANALOG_INPUTS_TO_PLOT > 0 )
     #ifndef NUM_ANALOG_INPUTS
 Sorry, but you will have to manually define the variable NUM_ANALOG_INPUTS somewhere above this line and re-compile...
@@ -53,15 +53,18 @@ If you only have the Arduino without an ADS1X15, then define NUM_ANALOG_INPUTS_T
 
 //#define DEBUG
 #include <math.h>
-#include <Adafruit_ADS1015.h>//for systems using ADS1115/ADS1015
-Adafruit_ADS1115 ads;  //For when ADS1115 is being used
-//Adafruit_ADS1015 ads;  //For when ADS1015 is being used
+
+#if ( NUM_ADS1X15_INPUTS_TO_PLOT > 0 )
+    #include <Adafruit_ADS1015.h>//for systems using ADS1115/ADS1015
+    Adafruit_ADS1115 ads;  //For when ADS1115 is being used
+    //Adafruit_ADS1015 ads;  //For when ADS1015 is being used
+    
+    #define UpperLimitADS1X15Input 32767 //This value for ADS1115
+    // #define UpperLimitADS1X15Input 2047 //This value for ADS1015
+#endif
 
 #define UpperLimitAnalogInput 4095 //This value for Arduinos that have 12-bit analog inputs
 //#define UpperLimitAnalogInput 1023 //This value for Arduinos that have 10-bit analog inputs
-
-#define UpperLimitADS1X15Input 32767 //This value for ADS1115
-// #define UpperLimitADS1X15Input 2047 //This value for ADS1015
 
 const uint8_t SAMPLE_TIMES = 30; //To better average out artifacts we over-sample and average.  This value can be tweaked by you to ensure neutralization of power line noise or harmonics of power supplies, etc.....
 
@@ -71,25 +74,29 @@ const uint8_t SAMPLE_TIMES = 30; //To better average out artifacts we over-sampl
  * Change per your board layout
  * 
  */
-#ifndef PIN_A0
-    #define PIN_A0 14
-    #define PIN_A1 15
-    #define PIN_A2 16
-    #define PIN_A3 17
-    #define PIN_A4 18
-    #define PIN_A5 19
+#ifdef __LGT8FX8E__
+    #ifndef PIN_A0
+        #define PIN_A0 14
+        #define PIN_A1 15
+        #define PIN_A2 16
+        #define PIN_A3 17
+        #define PIN_A4 18
+        #define PIN_A5 19
+    #endif
 #endif
 
 uint8_t *A_PIN_ARRAY;
 
 void setup() 
 {
+#if ( NUM_ADS1X15_INPUTS_TO_PLOT > 0 )
     analogReference( DEFAULT );
-    
+#endif    
     Serial.begin( 19200 );
 //#ifndef ARDUINO_AVR_DIGISPARKPRO
 //    analogReadResolution( ADC_RES_BIT );
 //#endif
+#if ( NUM_ANALOG_INPUTS_TO_PLOT > 0 )
     A_PIN_ARRAY = (uint8_t *)malloc( NUM_ANALOG_INPUTS );
 
 //Herafter is the pattern.  If you have more analog pins, add them according to the pattern.
@@ -192,58 +199,66 @@ void setup()
 #else
     #define NUM_ANALOG_INPUTS 255
 #endif
+#endif
+#if ( NUM_ADS1X15_INPUTS_TO_PLOT > 0 )
 //   ads.setGain(GAIN_TWOTHIRDS);  // 2/3x gain +/- 6.144V  1 bit = 3mV      0.1875mV (default)
    ads.setGain(GAIN_ONE);        // 1x gain   +/- 4.096V  1 bit = 2mV      0.125mV  //This allows a simple power rail excitation supply to voltage divider
 //   ads.setGain(GAIN_TWO);        // 2x gain   +/- 2.048V  1 bit = 1mV      0.0625mV
 //   ads.setGain(GAIN_FOUR);       // 4x gain   +/- 1.024V  1 bit = 0.5mV    0.03125mV
 //   ads.setGain(GAIN_EIGHT);      // 8x gain   +/- 0.512V  1 bit = 0.25mV   0.015625mV
 //   ads.setGain(GAIN_SIXTEEN);    // 16x gain  +/- 0.256V  1 bit = 0.125mV  0.0078125mV
+
     ads.begin();
+#endif
 #ifdef DEBUG
         Serial.println( F( " end of setup" ) );
 #endif
+
+#ifdef __LGT8FX8E__
+        analogReadResolution( 12 );
+        delay( 8000 );//This board needs this delay for serial to work right
+#endif
+    for( uint8_t i = 0; i < NUM_ANALOG_INPUTS_TO_PLOT; i++ )
+        digitalWrite( *( A_PIN_ARRAY + i ), LOW );//Remove any pullup left over from searching for a DHT device
 }
 
 unsigned long value, valueTemp;
 unsigned long magnify_adjustment = 0;
 void loop() 
 {
-    if( NUM_ANALOG_INPUTS_TO_PLOT > 0 )
-    {
+
+#if ( NUM_ANALOG_INPUTS_TO_PLOT > 0 )
         Serial.print( UpperLimitAnalogInput ); //This is color one and forms a time-marker
-        Serial.print(" ");
-        Serial.print( value ); //This is color two
-        Serial.print( " " );
-        Serial.println( 0 ); //This is color three
-    }
-    if( NUM_ADS1X15_INPUTS_TO_PLOT > 0 )
-    {
+#endif
+    
+#if ( NUM_ADS1X15_INPUTS_TO_PLOT > 0 )
         Serial.print( UpperLimitADS1X15Input ); //This is color one and forms a time-marker
-        Serial.print(" ");
-        Serial.print( value ); //This is color two
-        Serial.print(" ");
-        Serial.println( 0 ); //This is color three
-    }
+#endif
+    Serial.print(" ");
+    Serial.println( 0 ); //This is color two
     for( uint16_t plotter_loops = 0; plotter_loops < 500/3; plotter_loops++ ) //Purpose of this is to keep plot-marks discrete in appearance - to keep them from becoming a line on top
     {
+#if ( NUM_ANALOG_INPUTS_TO_PLOT > 0 )
         for( uint8_t i = 0; i < NUM_ANALOG_INPUTS_TO_PLOT; i++ )
         {
             value = analogRead( *( A_PIN_ARRAY + i ) );
             for( uint8_t sampletimes = 1; sampletimes < SAMPLE_TIMES; sampletimes++ )
+                  value += analogRead( *( A_PIN_ARRAY + i ) );
+
+            if( i == 0 )
             {
-              value += analogRead( *( A_PIN_ARRAY + i ) );
+                Serial.print( 0 ); //This is color one
+                Serial.print(" ");
+                Serial.print( 0 ); //This is color two
+                Serial.print(" ");
             }
+
             value = (uint16_t)( value / SAMPLE_TIMES );
-            Serial.print( 0 ); //This is color one
-            Serial.print(" ");
-            Serial.print( value ); //This is color two
+            Serial.print( value ); //This is color three
             Serial.print( " " );
-            Serial.print( 0 ); //This is color three
-            Serial.print(" ");
 
             //Next "if" construct plots a magnified version.            
-            if( NUM_ADS1X15_INPUTS_TO_PLOT > 0 )
-            {
+#if ( NUM_ADS1X15_INPUTS_TO_PLOT > 0 )
                 //Next lines plot a magnified version.  First, magnify_adjustment is determined
                 //If ( signed long )( ( value * MULTIPLICATION_FACTOR ) - magnify_adjustment ) is too high, bring it down by increasing magnify_adjustment
                 while( !( ( signed long )( ( value * MULTIPLICATION_FACTOR ) - magnify_adjustment ) <= UpperLimitADS1X15Input / 2 ) ) magnify_adjustment += ( UpperLimitADS1X15Input / 100 );
@@ -253,9 +268,7 @@ void loop()
 
                 //Plot it now
                 Serial.print( ( signed long )( ( value * MULTIPLICATION_FACTOR ) - magnify_adjustment ) ); //This is color four
-            }
-            else
-            {
+#endif
                 //Next lines plot a magnified version.  First, magnify_adjustment is determined
                 //If ( signed long )( ( value * MULTIPLICATION_FACTOR ) - magnify_adjustment ) is too high, bring it down by increasing magnify_adjustment
                 while( !( ( signed long )( ( value * MULTIPLICATION_FACTOR ) - magnify_adjustment ) <= UpperLimitAnalogInput / 2 ) ) magnify_adjustment += ( UpperLimitAnalogInput / 100 );
@@ -264,11 +277,12 @@ void loop()
                 while( !( ( signed long )( ( value * MULTIPLICATION_FACTOR ) - magnify_adjustment ) >= 0 ) ) magnify_adjustment -= ( UpperLimitAnalogInput / 100 );
 
                 //Plot it now
-                Serial.print( ( signed long )( ( value * MULTIPLICATION_FACTOR ) - magnify_adjustment ) ); //This is color four
-            }
+                Serial.print( ( signed long )( ( value * MULTIPLICATION_FACTOR ) - magnify_adjustment ) ); //This is color four or five
             Serial.print( " " );
         }
+#endif
 
+#if ( NUM_ADS1X15_INPUTS_TO_PLOT > 0 )
         for( uint8_t i = 0; i < NUM_ADS1X15_INPUTS_TO_PLOT; i++ )
         {
             value = ads.readADC_SingleEnded( i );
@@ -280,11 +294,17 @@ void loop()
                 value += valueTemp;
             }
             value = (uint16_t)( value / SAMPLE_TIMES );
-            Serial.print( 0 ); //This is color one
-            Serial.print(" ");
-            Serial.print( value ); //This is color two
-            Serial.print(" ");
-            Serial.print( 0 ); //This is color three
+
+#if ( NUM_ANALOG_INPUTS_TO_PLOT == 0 )
+            if( i == 0 )
+            {
+                Serial.print( 0 ); //This is color one
+                Serial.print(" ");
+                Serial.print( 0 ); //This is color two
+                Serial.print(" ");
+            }
+#endif
+            Serial.print( value ); //This is color three and odds above
 
             //Next lines plot a magnified version.  First, magnify_adjustment is determined
             Serial.print(" ");
@@ -298,6 +318,7 @@ void loop()
             //Plot it now
             Serial.print( ( signed long )( ( value * MULTIPLICATION_FACTOR ) - magnify_adjustment ) ); //This is color four
         }
+#endif
         Serial.println();
         delay( 100 );
     }
