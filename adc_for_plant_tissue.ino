@@ -9,7 +9,7 @@
 * Description        : 
 * Boards tested on   : Uno using ADS1115, but many other configurations should work fine
 * Known limitations  : No ability to accept user input from keyboard during run time
-*                    : Only tested with a single plant hooked up, hence a single analog input pin in use - and it must be the first available analog input pin
+*                    : Only tested ADS1115 with a single plant hooked up, hence a single analog input pin in use - and it must be the first available analog input pin
 *                    : No ability to control exactly where the times 10 line is plotted
 *                    : Re-compile is needed for any changes to configuration
 *                    : Analog input pins being used MUST be the first available analog inputs
