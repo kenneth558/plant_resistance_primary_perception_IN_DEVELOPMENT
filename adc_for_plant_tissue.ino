@@ -7,9 +7,9 @@
 * Version            : v.Free
 * Date               : 23-April-2018
 * Description        : 
-* Boards tested on   : Uno using ADS1115, but many other configurations should work fine
+* Boards tested on   : Uno using ADS1115, but many other configurations should work fine.  Not TTGO XI: has analog input pullup.  Not ATTINY85: has no hardware serial
 * Known limitations  : No ability to accept user input from keyboard during run time
-*                    : Only tested ADS1115 with a single plant hooked up, hence a single analog input pin in use - and it must be the first available analog input pin
+*                    : Only tested with a single plant hooked up, hence a single analog input pin in use - and it must be the first available analog input pin
 *                    : No ability to control exactly where the times 10 line is plotted
 *                    : Re-compile is needed for any changes to configuration
 *                    : Analog input pins being used MUST be the first available analog inputs
@@ -36,8 +36,8 @@
 * 
 *********************************************************************************************************************/
 #define VERSION "v.Free"
-#define NUM_ANALOG_INPUTS_TO_PLOT 1 //The number of consecutive analog pins to plot, beginning with PIN_A0
-#define NUM_ADS1X15_INPUTS_TO_PLOT 0 //The number of consecutive ADS1X15 pins to plot, beginning with A0
+#define NUM_ANALOG_INPUTS_TO_PLOT 0 //The number of consecutive analog pins to plot, beginning with PIN_A0
+#define NUM_ADS1X15_INPUTS_TO_PLOT 1 //The number of consecutive ADS1X15 pins to plot, beginning with A0
 #if ( NUM_ANALOG_INPUTS_TO_PLOT > 0 )
     #ifndef NUM_ANALOG_INPUTS
 Sorry, but you will have to manually define the variable NUM_ANALOG_INPUTS somewhere above this line and re-compile...
@@ -55,6 +55,7 @@ If you only have the Arduino without an ADS1X15, then define NUM_ANALOG_INPUTS_T
 #include <math.h>
 
 #if ( NUM_ADS1X15_INPUTS_TO_PLOT > 0 )
+    #include "SPI.h"
     #include <Adafruit_ADS1015.h>//for systems using ADS1115/ADS1015
     Adafruit_ADS1115 ads;  //For when ADS1115 is being used
     //Adafruit_ADS1015 ads;  //For when ADS1015 is being used
@@ -63,8 +64,8 @@ If you only have the Arduino without an ADS1X15, then define NUM_ANALOG_INPUTS_T
     // #define UpperLimitADS1X15Input 2047 //This value for ADS1015
 #endif
 
-#define UpperLimitAnalogInput 4095 //This value for Arduinos that have 12-bit analog inputs
-//#define UpperLimitAnalogInput 1023 //This value for Arduinos that have 10-bit analog inputs
+//#define UpperLimitAnalogInput 4095 //This value for Arduinos that have 12-bit analog inputs
+#define UpperLimitAnalogInput 1023 //This value for Arduinos that have 10-bit analog inputs
 
 const uint8_t SAMPLE_TIMES = 30; //To better average out artifacts we over-sample and average.  This value can be tweaked by you to ensure neutralization of power line noise or harmonics of power supplies, etc.....
 
@@ -74,16 +75,6 @@ const uint8_t SAMPLE_TIMES = 30; //To better average out artifacts we over-sampl
  * Change per your board layout
  * 
  */
-#ifdef __LGT8FX8E__
-    #ifndef PIN_A0
-        #define PIN_A0 14
-        #define PIN_A1 15
-        #define PIN_A2 16
-        #define PIN_A3 17
-        #define PIN_A4 18
-        #define PIN_A5 19
-    #endif
-#endif
 
 uint8_t *A_PIN_ARRAY;
 
@@ -210,16 +201,6 @@ void setup()
 
     ads.begin();
 #endif
-#ifdef DEBUG
-        Serial.println( F( " end of setup" ) );
-#endif
-
-#ifdef __LGT8FX8E__
-        analogReadResolution( 12 );
-        delay( 8000 );//This board needs this delay for serial to work right
-#endif
-    for( uint8_t i = 0; i < NUM_ANALOG_INPUTS_TO_PLOT; i++ )
-        digitalWrite( *( A_PIN_ARRAY + i ), LOW );//Remove any pullup left over from searching for a DHT device
 }
 
 unsigned long value, valueTemp;
