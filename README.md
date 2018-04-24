@@ -1,12 +1,11 @@
 # Monitor the Electrical Resistance/Conductance of Plant Tissue 
 
-To monitor electrical conductance changes of plant tissue, such as a leaf, in vivo.  Wemos XI/TTGO XI for cheapest 12-
-bit resolution in Linux with good bootloader and hardware serial.  Mac and Windows are assumed to work as well as Linux.  
-Avoiding STM32F103C8T6 due to bootloader issues in Linux with common USB-serial adapters, avoiding ATTINY85 due to no 
-hardware serial, and avoiding boards whose analog resolution is less than 12 bits.  Other boards having at least one analog 
-input can be used with little modification.  When selecting a board you'll use for this project, make sure it has a USB port or 
-that you are otherwise are able to fashion serial communications.  The output from the Arduino is formatted for input into the 
-Arduino IDE serial plotter rather than the serial monitor.  
+To monitor electrical conductance changes of plant tissue, such as a leaf, in vivo.  Tested with Uno and Wemos XI/TTGO XI.  Mac 
+and Windows are assumed to work as well as Linux.  Avoiding STM32F103C8T6 due to bootloader issues in Linux with common USB-
+serial adapters, avoiding ATTINY85 due to no hardware serial.  Other boards having at least one analog input can be used, or add 
+the very inexpensive ADS1115 for best resolution.  When selecting a board you'll use for this project, make sure it has a USB 
+port or that you are otherwise are able to fashion serial communications.  The output from the Arduino is formatted for input 
+into the Arduino IDE serial plotter rather than the serial monitor.  
 
 Periodic improvements are to be expected to this project.
 
