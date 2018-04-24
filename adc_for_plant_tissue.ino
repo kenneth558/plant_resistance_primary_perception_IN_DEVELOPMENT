@@ -6,8 +6,13 @@
 * Author             : KENNETH L ANDERSON
 * Version            : v.Free
 * Date               : 23-April-2018
-* Description        : 
-* Boards tested on   : Uno using ADS1115, but many other configurations should work fine.  Not TTGO XI: has analog input pullup.  Not ATTINY85: has no hardware serial
+* Description        : To replicate Cleve Backster's findings that he named "Primary Perception".  Basically, this sketch turns an Arduino MCU and optional (recommended) ADS1115 into a nicely functional poor man's polygraph.
+* Boards tested on   : Uno using both ADS1115 and inboard analog inputs.  
+*                    : TTGO XI using ADS1115.  
+*                    : Sadly, TTGO XI 12-bit analog inputs are unsuitable due to their irremoveable pullup conductance.  
+*                    : Many other configurations should work fine.  
+*                    : The ATTINY85 is not suitable at all due to not having hardware serial
+* 
 * Known limitations  : No ability to accept user input from keyboard during run time
 *                    : Only tested with a single plant hooked up, hence a single analog input pin in use - and it must be the first available analog input pin
 *                    : No ability to control exactly where the times 10 line is plotted
@@ -25,7 +30,8 @@
 * I MAKE ABSOLUTELY NO CLAIM OF MY OWN COMPETENCE, LICENSURE, CERTIFICATION, EXPERIENCE,
 * OR PROFESSIONAL STANDING OTHER THAN BEING AN ELECTRONICS TECHNICIAN BY FORMAL 
 * DEGREE AND UNITED STATES FCC RADIOTELEPHONE OPERATORS LICENSE, AND 
-* A SOFTWARE DEVELOPER BY LIMITED PRACTICAL EXPERIENCE
+* A SOFTWARE DEVELOPER BY LIMITED PRACTICAL EXPERIENCE, AND BEING FORMALLY
+* DEGREED WITH BACHELOR OF GENERAL STUDIES MAJORED IN GENERAL SCIENCES
 ********************************************************************************
 *
 * TODO:  Arrange for run-time keyboard input to eliminate need to re-compile when changes are made or plotting adjustments are desired
@@ -55,7 +61,11 @@ If you only have the Arduino without an ADS1X15, then define NUM_ANALOG_INPUTS_T
 #include <math.h>
 
 #if ( NUM_ADS1X15_INPUTS_TO_PLOT > 0 )
-    #include "SPI.h"
+        #include "SPI.h"
+/*
+*
+*  SDA, SCL Wemos XI/TTGO XI are terribly mislabeled in slkscreen on the board!  Use A4 for SDA, A5 is SCL.
+*/
     #include <Adafruit_ADS1015.h>//for systems using ADS1115/ADS1015
     Adafruit_ADS1115 ads;  //For when ADS1115 is being used
     //Adafruit_ADS1015 ads;  //For when ADS1015 is being used
@@ -83,7 +93,11 @@ void setup()
 #if ( NUM_ADS1X15_INPUTS_TO_PLOT > 0 )
     analogReference( DEFAULT );
 #endif    
-    Serial.begin( 19200 );
+//#ifdef __LGT8FX8E__
+    Serial.begin( 19200 );//This speed is what works best with WeMos XI/TTGO XI board.
+//#else
+//    Serial.begin( 57600 );//Is there any reason for this higher speed?  I don't think so, but feel free to put this code back into action if you want to.
+//#endif
 //#ifndef ARDUINO_AVR_DIGISPARKPRO
 //    analogReadResolution( ADC_RES_BIT );
 //#endif
@@ -198,8 +212,13 @@ void setup()
 //   ads.setGain(GAIN_FOUR);       // 4x gain   +/- 1.024V  1 bit = 0.5mV    0.03125mV
 //   ads.setGain(GAIN_EIGHT);      // 8x gain   +/- 0.512V  1 bit = 0.25mV   0.015625mV
 //   ads.setGain(GAIN_SIXTEEN);    // 16x gain  +/- 0.256V  1 bit = 0.125mV  0.0078125mV
-
     ads.begin();
+#endif
+#ifdef __LGT8FX8E__
+    delay( 8000 );  // Needed by this board for serial to work
+#endif
+#ifdef DEBUG
+        Serial.println( F( " end of setup" ) );
 #endif
 }
 
@@ -250,15 +269,15 @@ void loop()
                 //Plot it now
                 Serial.print( ( signed long )( ( value * MULTIPLICATION_FACTOR ) - magnify_adjustment ) ); //This is color four
 #endif
-                //Next lines plot a magnified version.  First, magnify_adjustment is determined
-                //If ( signed long )( ( value * MULTIPLICATION_FACTOR ) - magnify_adjustment ) is too high, bring it down by increasing magnify_adjustment
-                while( !( ( signed long )( ( value * MULTIPLICATION_FACTOR ) - magnify_adjustment ) <= UpperLimitAnalogInput / 2 ) ) magnify_adjustment += ( UpperLimitAnalogInput / 100 );
+            //Next lines plot a magnified version.  First, magnify_adjustment is determined
+            //If ( signed long )( ( value * MULTIPLICATION_FACTOR ) - magnify_adjustment ) is too high, bring it down by increasing magnify_adjustment
+            while( !( ( signed long )( ( value * MULTIPLICATION_FACTOR ) - magnify_adjustment ) <= UpperLimitAnalogInput / 2 ) ) magnify_adjustment += ( UpperLimitAnalogInput / 100 );
 
-                //Ensure ( value * MULTIPLICATION_FACTOR ) - magnify_adjustment is greater than 0. 0 was decided on b/c the plotter graph upper limit will be greater than the analog input upper limit making the activity appear in the lower part
-                while( !( ( signed long )( ( value * MULTIPLICATION_FACTOR ) - magnify_adjustment ) >= 0 ) ) magnify_adjustment -= ( UpperLimitAnalogInput / 100 );
+            //Ensure ( value * MULTIPLICATION_FACTOR ) - magnify_adjustment is greater than 0. 0 was decided on b/c the plotter graph upper limit will be greater than the analog input upper limit making the activity appear in the lower part
+            while( !( ( signed long )( ( value * MULTIPLICATION_FACTOR ) - magnify_adjustment ) >= 0 ) ) magnify_adjustment -= ( UpperLimitAnalogInput / 100 );
 
-                //Plot it now
-                Serial.print( ( signed long )( ( value * MULTIPLICATION_FACTOR ) - magnify_adjustment ) ); //This is color four or five
+            //Plot it now
+            Serial.print( ( signed long )( ( value * MULTIPLICATION_FACTOR ) - magnify_adjustment ) ); //This is color four or five
             Serial.print( " " );
         }
 #endif
@@ -266,15 +285,30 @@ void loop()
 #if ( NUM_ADS1X15_INPUTS_TO_PLOT > 0 )
         for( uint8_t i = 0; i < NUM_ADS1X15_INPUTS_TO_PLOT; i++ )
         {
+#ifdef DEBUG
+        Serial.println( F( "Line286" ) );
+#endif
             value = ads.readADC_SingleEnded( i );
+#ifdef DEBUG
+        /*Serial.print( F( "Line290, value = " ) );Serial.print( value );Serial.print( F( " SDA = " ) );Serial.print( SDA );Serial.print( F( ", SCL = " ) );Serial.println( SCL );*/for(uint8_t pin = 4; pin < 50 ;pin++ ){pinMode( pin, OUTPUT );digitalWrite( pin, LOW );Serial.println( digitalRead( 3 ) );}
+#endif
             while( value > UpperLimitADS1X15Input ) value = ads.readADC_SingleEnded( i );
+#ifdef DEBUG
+        Serial.println( F( "Line295" ) );
+#endif
             for( uint8_t sampletimes = 1; sampletimes < SAMPLE_TIMES; sampletimes++ )
             {
                 valueTemp = ads.readADC_SingleEnded( i );
                 while( valueTemp > UpperLimitADS1X15Input ) valueTemp = ads.readADC_SingleEnded( i );
                 value += valueTemp;
             }
+#ifdef DEBUG
+        Serial.println( F( "Line304" ) );
+#endif
             value = (uint16_t)( value / SAMPLE_TIMES );
+#ifdef DEBUG
+        Serial.println( F( "Line308" ) );
+#endif
 
 #if ( NUM_ANALOG_INPUTS_TO_PLOT == 0 )
             if( i == 0 )
@@ -298,6 +332,7 @@ void loop()
 
             //Plot it now
             Serial.print( ( signed long )( ( value * MULTIPLICATION_FACTOR ) - magnify_adjustment ) ); //This is color four
+            Serial.print(" ");
         }
 #endif
         Serial.println();
