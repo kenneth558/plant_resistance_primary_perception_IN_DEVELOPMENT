@@ -5,7 +5,7 @@
 * File Name          : adc_for_plant_tissue.ino
 * Author             : KENNETH L ANDERSON
 * Version            : v.Free
-* Date               : 23-April-2018
+* Date               : 24-April-2018
 * Description        : To replicate Cleve Backster's findings that he named "Primary Perception".  Basically, this sketch turns an Arduino MCU and optional (recommended) ADS1115 into a nicely functional poor man's polygraph.
 * Boards tested on   : Uno using both ADS1115 and inboard analog inputs.  
 *                    : TTGO XI using ADS1115.  
@@ -41,7 +41,7 @@
 *  These planned enhancements will be reserved for NOT-FOR-FREE sketch versions in the future
 * 
 *********************************************************************************************************************/
-#define VERSION "v.Free"
+#define VERSION "v.0.2"
 #define NUM_ANALOG_INPUTS_TO_PLOT 0 //The number of consecutive analog pins to plot, beginning with PIN_A0
 #define NUM_ADS1X15_INPUTS_TO_PLOT 1 //The number of consecutive ADS1X15 pins to plot, beginning with A0
 #if ( NUM_ANALOG_INPUTS_TO_PLOT > 0 )
@@ -64,7 +64,7 @@ If you only have the Arduino without an ADS1X15, then define NUM_ANALOG_INPUTS_T
         #include "SPI.h"
 /*
 *
-*  SDA, SCL Wemos XI/TTGO XI are terribly mislabeled in slkscreen on the board!  Use A4 for SDA, A5 is SCL.
+*  SDA, SCL Wemos XI/TTGO XI are terribly mislabeled in slkscreen on the board!  Use A4 for SDA, and A5 is SCL.
 */
     #include <Adafruit_ADS1015.h>//for systems using ADS1115/ADS1015
     Adafruit_ADS1115 ads;  //For when ADS1115 is being used
@@ -87,6 +87,7 @@ const uint8_t SAMPLE_TIMES = 30; //To better average out artifacts we over-sampl
  */
 
 uint8_t *A_PIN_ARRAY;
+unsigned long magnify_adjustment[ NUM_ADS1X15_INPUTS_TO_PLOT + NUM_ANALOG_INPUTS_TO_PLOT ];
 
 void setup() 
 {
@@ -217,26 +218,21 @@ void setup()
 #ifdef __LGT8FX8E__
     delay( 8000 );  // Needed by this board for serial to work
 #endif
+    for( uint8_t i = 0; i < NUM_ADS1X15_INPUTS_TO_PLOT + NUM_ANALOG_INPUTS_TO_PLOT; i++ )
+        magnify_adjustment[ i ] = 0;
 #ifdef DEBUG
         Serial.println( F( " end of setup" ) );
 #endif
 }
 
 unsigned long value, valueTemp;
-unsigned long magnify_adjustment = 0;
-void loop() 
-{
 
-#if ( NUM_ANALOG_INPUTS_TO_PLOT > 0 )
-        Serial.print( UpperLimitAnalogInput ); //This is color one and forms a time-marker
-#endif
-    
-#if ( NUM_ADS1X15_INPUTS_TO_PLOT > 0 )
-        Serial.print( UpperLimitADS1X15Input ); //This is color one and forms a time-marker
-#endif
+void loop() 
+{    
+    Serial.print( ( ( unsigned long )UpperLimitADS1X15Input * ( unsigned long )NUM_ADS1X15_INPUTS_TO_PLOT ) + ( ( unsigned long )UpperLimitAnalogInput * ( unsigned long )NUM_ANALOG_INPUTS_TO_PLOT ) );
     Serial.print(" ");
     Serial.println( 0 ); //This is color two
-    for( uint16_t plotter_loops = 0; plotter_loops < 500/3; plotter_loops++ ) //Purpose of this is to keep plot-marks discrete in appearance - to keep them from becoming a line on top
+    for( uint16_t plotter_loops = 0; plotter_loops < 500 / 3; plotter_loops++ ) 
     {
 #if ( NUM_ANALOG_INPUTS_TO_PLOT > 0 )
         for( uint8_t i = 0; i < NUM_ANALOG_INPUTS_TO_PLOT; i++ )
@@ -253,31 +249,19 @@ void loop()
                 Serial.print(" ");
             }
 
-            value = (uint16_t)( value / SAMPLE_TIMES );
-            Serial.print( value ); //This is color three
+            value = ( uint16_t )( value / SAMPLE_TIMES );
+            Serial.print( value + ( ( unsigned long )UpperLimitAnalogInput * ( unsigned long )( NUM_ANALOG_INPUTS_TO_PLOT - ( i + 1 ) ) ) + ( ( unsigned long )UpperLimitADS1X15Input * ( unsigned long )NUM_ADS1X15_INPUTS_TO_PLOT ) ); //This is color three
             Serial.print( " " );
 
-            //Next "if" construct plots a magnified version.            
-#if ( NUM_ADS1X15_INPUTS_TO_PLOT > 0 )
-                //Next lines plot a magnified version.  First, magnify_adjustment is determined
-                //If ( signed long )( ( value * MULTIPLICATION_FACTOR ) - magnify_adjustment ) is too high, bring it down by increasing magnify_adjustment
-                while( !( ( signed long )( ( value * MULTIPLICATION_FACTOR ) - magnify_adjustment ) <= UpperLimitADS1X15Input / 2 ) ) magnify_adjustment += ( UpperLimitADS1X15Input / 100 );
-
-                //Ensure ( value * MULTIPLICATION_FACTOR ) - magnify_adjustment is greater than 0. 0 was decided on b/c the plotter graph upper limit will be greater than the analog input upper limit making the activity appear in the lower part
-                while( !( ( signed long )( ( value * MULTIPLICATION_FACTOR ) - magnify_adjustment ) >= 0 ) ) magnify_adjustment -= ( UpperLimitADS1X15Input / 100 );
-
-                //Plot it now
-                Serial.print( ( signed long )( ( value * MULTIPLICATION_FACTOR ) - magnify_adjustment ) ); //This is color four
-#endif
             //Next lines plot a magnified version.  First, magnify_adjustment is determined
-            //If ( signed long )( ( value * MULTIPLICATION_FACTOR ) - magnify_adjustment ) is too high, bring it down by increasing magnify_adjustment
-            while( !( ( signed long )( ( value * MULTIPLICATION_FACTOR ) - magnify_adjustment ) <= UpperLimitAnalogInput / 2 ) ) magnify_adjustment += ( UpperLimitAnalogInput / 100 );
-
             //Ensure ( value * MULTIPLICATION_FACTOR ) - magnify_adjustment is greater than 0. 0 was decided on b/c the plotter graph upper limit will be greater than the analog input upper limit making the activity appear in the lower part
-            while( !( ( signed long )( ( value * MULTIPLICATION_FACTOR ) - magnify_adjustment ) >= 0 ) ) magnify_adjustment -= ( UpperLimitAnalogInput / 100 );
+            while( !( ( signed long )( ( value * MULTIPLICATION_FACTOR ) - magnify_adjustment[ i ] ) >= 0 ) ) magnify_adjustment[ i ] -= ( UpperLimitAnalogInput / 100 );
+
+            //If ( signed long )( ( value * MULTIPLICATION_FACTOR ) - magnify_adjustment ) is too high, bring it down by increasing magnify_adjustment
+            while( !( ( unsigned long )( ( value * MULTIPLICATION_FACTOR ) - magnify_adjustment[ i ] ) <= UpperLimitAnalogInput / 2 ) ) magnify_adjustment[ i ] += ( UpperLimitAnalogInput / 100 );
 
             //Plot it now
-            Serial.print( ( signed long )( ( value * MULTIPLICATION_FACTOR ) - magnify_adjustment ) ); //This is color four or five
+            Serial.print( ( unsigned long )( ( value * MULTIPLICATION_FACTOR ) - magnify_adjustment[ i ] ) + ( ( unsigned long )UpperLimitAnalogInput * ( unsigned long )( NUM_ANALOG_INPUTS_TO_PLOT - i ) ) + ( ( unsigned long )UpperLimitADS1X15Input * ( unsigned long )NUM_ADS1X15_INPUTS_TO_PLOT ) ); //This is color four or five
             Serial.print( " " );
         }
 #endif
@@ -289,9 +273,6 @@ void loop()
         Serial.println( F( "Line286" ) );
 #endif
             value = ads.readADC_SingleEnded( i );
-#ifdef DEBUG
-        /*Serial.print( F( "Line290, value = " ) );Serial.print( value );Serial.print( F( " SDA = " ) );Serial.print( SDA );Serial.print( F( ", SCL = " ) );Serial.println( SCL );*/for(uint8_t pin = 4; pin < 50 ;pin++ ){pinMode( pin, OUTPUT );digitalWrite( pin, LOW );Serial.println( digitalRead( 3 ) );}
-#endif
             while( value > UpperLimitADS1X15Input ) value = ads.readADC_SingleEnded( i );
 #ifdef DEBUG
         Serial.println( F( "Line295" ) );
@@ -319,19 +300,19 @@ void loop()
                 Serial.print(" ");
             }
 #endif
-            Serial.print( value ); //This is color three and odds above
+            Serial.print( value + ( ( unsigned long )UpperLimitADS1X15Input * ( unsigned long )( NUM_ADS1X15_INPUTS_TO_PLOT - ( i + 1 ) ) ) ); //This is color three and odds above
 
             //Next lines plot a magnified version.  First, magnify_adjustment is determined
             Serial.print(" ");
 
             //If ( signed long )( ( value * MULTIPLICATION_FACTOR ) - magnify_adjustment ) is too high, bring it down by increasing magnify_adjustment
-            while( !( ( signed long )( ( value * MULTIPLICATION_FACTOR ) - magnify_adjustment ) <= UpperLimitADS1X15Input / 2 ) ) magnify_adjustment += ( UpperLimitADS1X15Input / 100 );
+            while( !( ( signed long )( ( value * MULTIPLICATION_FACTOR ) - magnify_adjustment[ i + NUM_ANALOG_INPUTS_TO_PLOT ] ) <= UpperLimitADS1X15Input / 2 ) ) magnify_adjustment[ i + NUM_ANALOG_INPUTS_TO_PLOT ] += ( UpperLimitADS1X15Input / 100 );
 
             //Ensure ( value * MULTIPLICATION_FACTOR ) - magnify_adjustment is greater than 0. 0 was decided on b/c the plotter graph upper limit will be greater than the analog input upper limit making the activity appear in the lower part
-            while( !( ( signed long )( ( value * MULTIPLICATION_FACTOR ) - magnify_adjustment ) >= 0 ) ) magnify_adjustment -= ( UpperLimitADS1X15Input / 100 );
+            while( !( ( signed long )( ( value * MULTIPLICATION_FACTOR ) - magnify_adjustment[ i + NUM_ANALOG_INPUTS_TO_PLOT ] ) >= 0 ) ) magnify_adjustment[ i + NUM_ANALOG_INPUTS_TO_PLOT ] -= ( UpperLimitADS1X15Input / 100 );
 
             //Plot it now
-            Serial.print( ( signed long )( ( value * MULTIPLICATION_FACTOR ) - magnify_adjustment ) ); //This is color four
+            Serial.print( ( signed long )( ( value * MULTIPLICATION_FACTOR ) - magnify_adjustment[ i + NUM_ANALOG_INPUTS_TO_PLOT ] ) + ( ( unsigned long )UpperLimitADS1X15Input * ( unsigned long )( NUM_ADS1X15_INPUTS_TO_PLOT - ( i + 1 ) ) ) ); //This is color four
             Serial.print(" ");
         }
 #endif
