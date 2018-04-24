@@ -41,7 +41,7 @@
 *  These planned enhancements will be reserved for NOT-FOR-FREE sketch versions in the future
 * 
 *********************************************************************************************************************/
-#define VERSION "v.0.2"
+#define VERSION "v.Free"
 #define NUM_ANALOG_INPUTS_TO_PLOT 0 //The number of consecutive analog pins to plot, beginning with PIN_A0
 #define NUM_ADS1X15_INPUTS_TO_PLOT 1 //The number of consecutive ADS1X15 pins to plot, beginning with A0
 #if ( NUM_ANALOG_INPUTS_TO_PLOT > 0 )
