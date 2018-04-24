@@ -1,4 +1,4 @@
-# Monitor Plant Tissue Electrical Resistance/Conductance
+# Monitor the Electrical Resistance/Conductance of Plant Tissue 
 
 To monitor electrical conductance changes of plant tissue, such as a leaf, in vivo.  Wemos XI/TTGO XI for cheapest 12-
 bit resolution in Linux with good bootloader and hardware serial.  Mac and Windows are assumed to work as well as Linux.  
