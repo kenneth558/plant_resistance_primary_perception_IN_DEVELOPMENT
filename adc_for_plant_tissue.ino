@@ -317,6 +317,6 @@ void loop()
         }
 #endif
         Serial.println();
-        delay( 100 );
+        if( 12 * ( NUM_ANALOG_INPUTS_TO_PLOT + NUM_ADS1X15_INPUTS_TO_PLOT ) < 110 ) delay( 110 - ( 12 * ( NUM_ANALOG_INPUTS_TO_PLOT + NUM_ADS1X15_INPUTS_TO_PLOT ) ) );
     }
 }
