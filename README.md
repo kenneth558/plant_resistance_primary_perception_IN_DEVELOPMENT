@@ -94,6 +94,18 @@ you'll need to spend some time initially watering the plant or otherwise caring 
 results from this project.  Until I'm shown wrong, I'm fairly certain that hostile or hurtful sentiments toward the 
 plant are counter-productive to sustained acclimation, Mythbusters!
 
+For those who have to ask the cost of the electronics parts (I happen to be in that category myself) you will be interested to 
+know that I bought the TTGO XI (WeMos XI) for about $1.65 US and the ADS1115 for about $1.73 US (HINT: I actually ordered the 
+lower-resolution ADS1015 b/c it sells for less, but instead received the ADS1115 that is marked with both part numbers.  Look at 
+the photograph of the part being offered.)  I realize you have to do some soldering or spring loading the contacts that way, but 
+it saved me over $15 US not having to buy an Arduino Due to obtain better resolution than 10 bits.  The added benefit is that I 
+now have 16 bit resolution...well, 15 bit in reality, because of the difference between advertized resolution vs. real 
+resolution.  Note that I bought the parts through AliExpress and had to wait 30 days of shipping b/c I was not willing to pay 
+extra for expedited shipping.  Don't forget the USB cable, interconnect wires, and perfboard/breadboard you'll need.  Note that 
+the on-board integrated 12-bit ADC of the TTGO XI/WeMos XI is worthless unless you want to accept the hassle of analog 
+buffering.  This is b/c that board's analog inputs inexplicitely pathetically contain engineered-in unremoveable pull-up 
+conductance.
+
 You may be interested to read some of the Biblical justification for this project.  See the document entitled on that 
 subject listed among the documents of this project.
 
@@ -103,7 +115,8 @@ lifestyle of the future.
 Submit an "Issue" or post in the "Wiki" (tabs above) to have me add your Youtube video to the official playlist for this 
 project.
 
-This sketch version is FREE so that anyone can enjoy it.  For those of you who can afford to support my work on this project, I do offer a not-for-free sketch version that has the following enhancements:
+This sketch version is FREE so that anyone can enjoy it.  For those of you who can afford to support my work on this project, I 
+do offer a not-for-free sketch version that has the following enhancements:
 
 --  Arrange for adjustments of various kinds during run time based on keyboard inputs
 
