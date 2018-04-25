@@ -21,12 +21,12 @@ applied voltage produces.  This is in stark contrast to using electrodes to meas
 EEG instrumentation.
 
 Mr. Backster hooks up his electrodes and eventually notices that the polygraph machine indicated the electrical
-resistance/conductance of his office plant deviated in response to his mere intention of harming the plant.  You read 
-that correctly.  The plant was obviously aware of Mr. Backster's very intentions to do something to the plant that would 
-substantively affect its well-being because it responded BEFORE Backster's intended action was ever performed!  At the 
-time, there was no known scientific basis for such a phenomenon as plant awareness to ANY extent, much less to the 
-extent of being super-humanly aware of a person's very thoughts as Mr. Backster observed.  Today, quantum physics may 
-offer a scientific explanation for what is happening...and then again, it may not.
+conductance of his office plant deviated in response to his mere intention of harming the plant.  You read that correctly.  The 
+plant was obviously aware of Mr. Backster's very intentions to do something to the plant that would substantively affect its 
+well-being because it responded BEFORE Backster's intended action was ever performed!  At the time, there was no known 
+scientific basis for such a phenomenon as plant awareness to ANY extent, much less to the extent of being super-humanly aware of 
+a person's very thoughts as Mr. Backster observed.  Today, quantum physics may offer a scientific explanation for what is 
+happening...and then again, it may not.
 
 Fast-forward to 2006 when Mythbusters television program decided they would investigate the validity of Mr. Backster's 
 observations (Title: Deadly Straw; Season number: 4; Episode number: 22; Air date: September 6, 2006).  When Mythbusters
@@ -65,7 +65,8 @@ wires and insert the the brush into the pouch. I prefer using mud instead of sal
 achieving maximum biocompatibility. Ensure the mud is adequately liquified and the brush is fully inserted into the mud 
 and the muddied pouch is in intimate and stable contact with the leaf or other plant tissue.  You also may want to learn the 
 difference between hypostomatous and hyperstomatous leaves relative to the plant you use if you care to avoid blocking the gas-
-exchange stomata.  
+exchange stomata.  Blocking the stoma with the electrode apparatus may generate yet another source of stress for the plant, thus 
+I recommend stoma-blocking be minimized in terms of time and surface area.
 
 You'll have to rig some sort of pouch-holding device of your own design.  Maybe a large non-conductive (plastic/wooden) easel 
 could be used to support the pouch/electrode holders. Unless your plant has large leaves, you may find it difficult to place 
