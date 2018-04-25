@@ -102,9 +102,9 @@ it saved me over $15 US not having to buy an Arduino Due to obtain better resolu
 now have 16 bit resolution...well, 15 bit in reality, because of the difference between advertized resolution vs. real 
 resolution.  Note that I bought the parts through AliExpress and had to wait 30 days of shipping b/c I was not willing to pay 
 extra for expedited shipping.  Don't forget the USB cable, interconnect wires, and perfboard/breadboard you'll need.  Note that 
-the on-board integrated 12-bit ADC of the TTGO XI/WeMos XI is worthless unless you want to accept the hassle of analog 
-buffering.  This is b/c that board's analog inputs inexplicitely pathetically contain engineered-in unremoveable pull-up 
-conductance.
+the on-board integrated 12-bit ADC of the TTGO XI/WeMos XI is worthless unless you want to accept the hassle of designing and 
+constructing your own analog buffering.  This is b/c that board's analog inputs inexplicitely pathetically contain engineered-in 
+unremoveable pull-up conductance.
 
 You may be interested to read some of the Biblical justification for this project.  See the document entitled on that 
 subject listed among the documents of this project.
