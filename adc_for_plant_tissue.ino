@@ -5,7 +5,7 @@
 * File Name          : adc_for_plant_tissue.ino
 * Author             : KENNETH L ANDERSON
 * Version            : v.Free
-* Date               : 24-April-2018
+* Date               : 26-April-2018
 * Description        : To replicate Cleve Backster's findings that he named "Primary Perception".  Basically, this sketch turns an Arduino MCU and optional (recommended) ADS1115 into a nicely functional poor man's polygraph.
 * Boards tested on   : Uno using both ADS1115 and inboard analog inputs.  
 *                    : TTGO XI using ADS1115.  
@@ -42,8 +42,8 @@
 * 
 *********************************************************************************************************************/
 #define VERSION "v.Free"
-#define NUM_ANALOG_INPUTS_TO_PLOT 0 //The number of consecutive analog pins to plot, beginning with PIN_A0
-#define NUM_ADS1X15_INPUTS_TO_PLOT 1 //The number of consecutive ADS1X15 pins to plot, beginning with A0
+#define NUM_ANALOG_INPUTS_TO_PLOT 1 //The number of consecutive analog pins to plot, beginning with PIN_A0
+#define NUM_ADS1X15_INPUTS_TO_PLOT 0 //The number of consecutive ADS1X15 pins to plot, beginning with A0
 #if ( NUM_ANALOG_INPUTS_TO_PLOT > 0 )
     #ifndef NUM_ANALOG_INPUTS
 Sorry, but you will have to manually define the variable NUM_ANALOG_INPUTS somewhere above this line and re-compile...
@@ -69,10 +69,9 @@ If you only have the Arduino without an ADS1X15, then define NUM_ANALOG_INPUTS_T
     #include <Adafruit_ADS1015.h>//for systems using ADS1115/ADS1015
     Adafruit_ADS1115 ads;  //For when ADS1115 is being used
     //Adafruit_ADS1015 ads;  //For when ADS1015 is being used
-    
-    #define UpperLimitADS1X15Input 32767 //This value for ADS1115
-    // #define UpperLimitADS1X15Input 2047 //This value for ADS1015
 #endif
+#define UpperLimitADS1X15Input 32767 //This value for ADS1115
+// #define UpperLimitADS1X15Input 2047 //This value for ADS1015
 
 //#define UpperLimitAnalogInput 4095 //This value for Arduinos that have 12-bit analog inputs
 #define UpperLimitAnalogInput 1023 //This value for Arduinos that have 10-bit analog inputs
