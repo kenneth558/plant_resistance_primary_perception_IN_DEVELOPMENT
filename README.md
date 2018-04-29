@@ -56,8 +56,8 @@ compatible elements of mud inside a coarse-knit pouch made of non-dyed, non-blea
 linen, cotton, and/or hemp.  What bothers me about stainless electrodes is that metals produce galvanic voltage from 
 their very contact with dissimilar materials.  The significant chromium content of stainless is another concern I have.
 
-In the sketch source code, you'll find some self-explanatorily-named variables and constants near the top that you'll need to 
-set for your preferences and configuration.  Find and adjust these:
+In the sketch source code, you'll find some self-explanatorily-named constants near the top that you'll need to set for your 
+preferences and configuration.  Find and adjust these:
 
 -  NUM_ANALOG_INPUTS_TO_PLOT
 -  NUM_ADS1X15_INPUTS_TO_PLOT
