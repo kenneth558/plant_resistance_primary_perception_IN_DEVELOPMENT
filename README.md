@@ -81,8 +81,12 @@ and/or heavy electric loads may produce unwanted artifacting, so they are best k
 You'll have to rig some sort of pouch-holding device of your own design.  Maybe a large non-conductive (plastic/wooden) easel 
 could be used to support the pouch/electrode holders. Unless your plant has large leaves, you may find it difficult to place 
 opposite electrodes on a single leaf without one pouch shorting across to the opposing pouch, so I suggest trying to put each 
-electrode-pouch on its own leaf.  Note that you'll be best served by understanding the electrical circuit being formed 
-by your electrode placements.  As long as you do so, multiple electrodes of each polarity might be of benefit.
+electrode-pouch on its own leaf.  I am currently using a hammock-type of support running underneath the leaf with the mud-filled 
+pouch-electrode combo resting full-weight on the top side of the leaf.
+
+Note that you'll be best served by understanding the electrical circuit being formed by your electrode placements.  As long as 
+you do so, multiple electrodes of each polarity might be of benefit, but I really think you're better off avoiding any circuit 
+more complex than you understand.
 
 Note that the electrode circuit must also consist of a resistive component attached by you between the power supply rail 
 and the analog input pin of the signal electrode.  That resistor is located locally to the board so does not require 
