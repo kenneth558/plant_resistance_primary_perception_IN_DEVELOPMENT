@@ -4,9 +4,11 @@ To monitor electrical conductance changes of plant tissue, such as a leaf, in vi
 TTGO/WeMos board will require and ADS device.  Mac and Windows are assumed to work as well as Linux.  Avoiding STM32F103C8T6 due 
 to bootloader issues in Linux with common USB-serial adapters, avoiding ATTINY85 due to no hardware serial.  Other boards having 
 at least one analog input can be used, or add the very inexpensive ADS1115 for best resolution.  IMPORTANT: When selecting a 
-board you'll use for this project, make sure it has a USB port or that you are otherwise able to fashion serial communications. The output from the Arduino is formatted for input into the Arduino IDE serial plotter rather than the serial monitor.  
+board you'll use for this project, make sure it has a USB port or that you are otherwise able to fashion serial communications. 
+The output from the Arduino is formatted for input into the Arduino IDE serial plotter rather than the serial monitor.  
 
-Periodic improvements are to be expected to this project.
+Periodic improvements are to be expected to this project.  .INO FILE VERSIONS DATED PRIOR TO 30 APRIL 2018 ARE DEFICIENT IN 
+VARIOUS CAPACITIES.
 
 Why would you want to do this?  Here's the story:
 
