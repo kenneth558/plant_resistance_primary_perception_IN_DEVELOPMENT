@@ -19,16 +19,14 @@
 * Description        : To replicate Cleve Backster's findings that he named "Primary Perception".  Basically, this sketch turns an Arduino MCU and optional (recommended) ADS1115 into a nicely functional poor man's polygraph.
 * Boards tested on   : Uno using both ADS1115 and inboard analog inputs.  
 *                    : TTGO XI using ADS1115.  
-*                    : Sadly, TTGO XI 12-bit analog inputs are unsuitable due to their irremoveable pullup conductance.  
 *                    : Many other configurations should work fine.  
+*                    : Sadly, TTGO XI 12-bit analog inputs are unsuitable due to their irremoveable pullup conductance.  
 *                    : The ATTINY85 is not suitable at all due to not having hardware serial
 * 
 * Known limitations  : No ability to accept user input from keyboard during run time
-*                    : Only tested with a single plant hooked up, hence a single analog input pin in use - and it must be the first available analog input pin
-*                    : No ability to control exactly where the times 10 line is plotted
 *                    : Re-compile is needed for any changes to configuration
 *                    : Analog input pins being used MUST be the first available analog inputs
-*                    : These limitations will be addressed in future not-for-free versions
+*                    : Some of these limitations will be addressed in future not-for-free versions
 *                    
 ********************************************************************************
 * THE PRESENT PRODUCT WHICH IS ONLY FOR USE BY SOFTWARE- AND HARDWARE-COMPETENT USERS
