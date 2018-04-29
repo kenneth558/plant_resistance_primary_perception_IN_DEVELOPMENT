@@ -4,7 +4,7 @@
 #define MULTIPLICATION_FACTOR 15 //To aid in viewing
 #define HighestBitResFromADS 15 //This is ADS1115 single-ended, advertised res of 16 bit only applies to double-ended.  all ADC values will get scaled to this, change to 11 for ADS1015
 #define AnalogInputBitsOfBoard 10 //Most Arduino boards are 10-bit resolution 
-#define SAMPLE_TIMES = 30 //To better average out artifacts we over-sample and average.  This value can be tweaked by you to ensure neutralization of power line noise or harmonics of power supplies, etc.....
+#define SAMPLE_TIMES 30 //To better average out artifacts we over-sample and average.  This value can be tweaked by you to ensure neutralization of power line noise or harmonics of power supplies, etc.....
 
 /*******************(C)  COPYRIGHT 2018 KENNETH L ANDERSON *********************
 * 
@@ -270,7 +270,7 @@ void setup()
 void plot_the_normal_and_magnified_signals( uint8_t i)
 {
 #ifdef DEBUG
-    Serial.print( F( "Line270 i=" ) );
+    Serial.print( F( "Line273 i=" ) );
     Serial.print( i );
     Serial.print( F( ", high_limit_of_this_plotline=" ) );
     Serial.print( screen_offsets[ i ].high_limit_of_this_plotline );
@@ -286,7 +286,7 @@ void plot_the_normal_and_magnified_signals( uint8_t i)
     value *= MULTIPLICATION_FACTOR;
     
 #ifdef DEBUG
-    Serial.println( F( "Line286" ) );
+    Serial.println( F( "Line289" ) );
 #endif
     //if screen offset is so great that value will plot lower than plotline zero, raise it by amount such that when subtracted from value the result is ( high_limit_of_this_plotline - zero_of_this_plotline ) * .75
     if( screen_offsets[ i ].magnify_adjustment + screen_offsets[ i ].zero_of_this_plotline > value )
@@ -299,7 +299,7 @@ void plot_the_normal_and_magnified_signals( uint8_t i)
     Serial.print( F( "value - screen_offsets[ i ].magnify_adjustment=" ) );Serial.println( value - screen_offsets[ i ].magnify_adjustment );
 #endif
 #ifdef DEBUG
-    Serial.println( F( "Line299" ) );
+    Serial.println( F( "Line302" ) );
 #endif
     //Plot it now
     Serial.print( value - screen_offsets[ i ].magnify_adjustment ); //This is color two or four
@@ -309,7 +309,7 @@ void plot_the_normal_and_magnified_signals( uint8_t i)
 void loop() 
 {    
 #ifdef DEBUG
-        Serial.print( F( "Line309" ) );
+        Serial.print( F( "Line312" ) );
 #endif
     for( uint16_t plotter_loops = 0; plotter_loops < 500 / 3; plotter_loops++ ) 
     {
@@ -322,11 +322,11 @@ void loop()
                   value += ( analogRead( *( A_PIN_ARRAY + i ) ) << BitsToShiftInboardADCValues );
 
 #ifdef DEBUG
-        Serial.println( F( "Line322" ) );
+        Serial.println( F( "Line325" ) );
 #endif
             plot_the_normal_and_magnified_signals( i );
 #ifdef DEBUG
-        Serial.println( F( "Line326" ) );
+        Serial.println( F( "Line329" ) );
 #endif
         }
 #endif
@@ -335,19 +335,19 @@ void loop()
         for( uint8_t i = 0; i < NUM_ADS1X15_INPUTS_TO_PLOT; i++ )
         {
 #ifdef DEBUG
-        Serial.print( F( "Line335 i=" ) );
+        Serial.print( F( "Line338 i=" ) );
         Serial.println( i );
 #endif
             value = ads.readADC_SingleEnded( i );
 #ifdef DEBUG
-        Serial.print( F( "Line340 value=" ) );
+        Serial.print( F( "Line343 value=" ) );
         Serial.println( value );
 #endif
             while( value > pow( 2, HighestBitResFromADS ) )
             {
                 value = ads.readADC_SingleEnded( i );
 #ifdef DEBUG
-        Serial.print( F( "Line347 value=" ) );
+        Serial.print( F( "Line350 value=" ) );
         Serial.println( value );
 #endif
             }
@@ -358,15 +358,15 @@ void loop()
                 value += valueTemp;
             }
 #ifdef DEBUG
-        Serial.println( F( "Line358" ) );
+        Serial.println( F( "Line361" ) );
 #endif
 
 #ifdef DEBUG
-        Serial.println( F( "Line362" ) );
+        Serial.println( F( "Line365" ) );
 #endif
             plot_the_normal_and_magnified_signals( i + NUM_ANALOG_INPUTS_TO_PLOT );
 #ifdef DEBUG
-        Serial.println( F( "Line366" ) );
+        Serial.println( F( "Line369" ) );
 #endif
         }
 #endif
