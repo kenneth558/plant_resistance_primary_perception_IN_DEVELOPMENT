@@ -1,4 +1,4 @@
-# Monitor the Electrical Resistance/Conductance of Plant Tissue NOT YET READY FOR PRESENTATION
+# Monitor the Electrical Resistance/Conductance of Plant Tissue
 
 To monitor electrical conductance changes of plant tissue, such as a leaf, in vivo.  Tested with Uno and Wemos XI/TTGO XI.  The 
 TTGO/WeMos board will require and ADS device.  Mac and Windows are assumed to work as well as Linux.  Avoiding STM32F103C8T6 due 
