@@ -1,3 +1,11 @@
+// Before using this sketch, you must set the following appropriately for your configuration and preferences !!!
+#define NUM_ANALOG_INPUTS_TO_PLOT 1 //The number of consecutive analog pins to plot, beginning with PIN_A0
+#define NUM_ADS1X15_INPUTS_TO_PLOT 0 //The number of consecutive ADS1X15 pins to plot, beginning with A0
+#define MULTIPLICATION_FACTOR 15 //To aid in viewing
+#define HighestBitResFromADS 15 //This is ADS1115 single-ended, advertised res of 16 bit only applies to double-ended.  all ADC values will get scaled to this, change to 11 for ADS1015
+#define AnalogInputBitsOfBoard 10 //Most Arduino boards are 10-bit resolution 
+#define SAMPLE_TIMES = 30 //To better average out artifacts we over-sample and average.  This value can be tweaked by you to ensure neutralization of power line noise or harmonics of power supplies, etc.....
+
 /*******************(C)  COPYRIGHT 2018 KENNETH L ANDERSON *********************
 * 
 *      ARDUINO ELECTRICAL RESISTANCE/CONDUCTANCE MONITORING SKETCH 
@@ -41,12 +49,6 @@
 *  These planned enhancements will be reserved for NOT-FOR-FREE sketch versions in the future
 * 
 *********************************************************************************************************************/
-#define NUM_ANALOG_INPUTS_TO_PLOT 1 //The number of consecutive analog pins to plot, beginning with PIN_A0
-#define NUM_ADS1X15_INPUTS_TO_PLOT 0 //The number of consecutive ADS1X15 pins to plot, beginning with A0
-#define MULTIPLICATION_FACTOR 15 //To aid in viewing
-#define HighestBitResFromADS 15 //This is ADS1115 single-ended, advertised res of 16 bit only applies to double-ended.  all ADC values will get scaled to this, change to 11 for ADS1015
-#define AnalogInputBitsOfBoard 10 //Most Arduino boards are 10-bit resolution 
-#define SAMPLE_TIMES = 30 //To better average out artifacts we over-sample and average.  This value can be tweaked by you to ensure neutralization of power line noise or harmonics of power supplies, etc.....
 
 #define VERSION "v.Free"
 #if ( NUM_ANALOG_INPUTS_TO_PLOT > 0 )
