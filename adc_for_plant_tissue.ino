@@ -41,9 +41,14 @@
 *  These planned enhancements will be reserved for NOT-FOR-FREE sketch versions in the future
 * 
 *********************************************************************************************************************/
-#define VERSION "v.Free"
 #define NUM_ANALOG_INPUTS_TO_PLOT 1 //The number of consecutive analog pins to plot, beginning with PIN_A0
 #define NUM_ADS1X15_INPUTS_TO_PLOT 0 //The number of consecutive ADS1X15 pins to plot, beginning with A0
+#define MULTIPLICATION_FACTOR 15 //To aid in viewing
+#define HighestBitResFromADS 15 //This is ADS1115 single-ended, advertised res of 16 bit only applies to double-ended.  all ADC values will get scaled to this, change to 11 for ADS1015
+#define AnalogInputBitsOfBoard 10 //Most Arduino boards are 10-bit resolution 
+#define SAMPLE_TIMES = 30 //To better average out artifacts we over-sample and average.  This value can be tweaked by you to ensure neutralization of power line noise or harmonics of power supplies, etc.....
+
+#define VERSION "v.Free"
 #if ( NUM_ANALOG_INPUTS_TO_PLOT > 0 )
     #ifndef NUM_ANALOG_INPUTS
 Sorry, but you will have to manually define the variable NUM_ANALOG_INPUTS somewhere above this line and re-compile...
@@ -55,16 +60,13 @@ If you only have the Arduino without an ADS1X15, then define NUM_ANALOG_INPUTS_T
     #endif
 #endif
 
-#define MULTIPLICATION_FACTOR 15 //To aid in viewing
 
 //#define DEBUG //Don't forget that DEBUG is not formatted for Serial plotter so plotter can't work
 #include <math.h>
 
-#define HighestBitResFromADS 15 //This is ADS1115 single-ended, advertised res of 16 bit only applies to double-ended.  all ADC values will get scaled to this, change to 11 for ADS1015
-#define AnalogInputBitsOfBoard 10
 
 #if ( NUM_ADS1X15_INPUTS_TO_PLOT > 0 )
-        #include "SPI.h"
+    #include "SPI.h"
 /*
 *
 *  SDA, SCL Wemos XI/TTGO XI are terribly mislabeled in slkscreen on the board!  Use A4 for SDA, and A5 is SCL.
@@ -82,7 +84,6 @@ This ADS resolution is not supported in this sketch version.
 #endif
 
 
-const uint8_t SAMPLE_TIMES = 30; //To better average out artifacts we over-sample and average.  This value can be tweaked by you to ensure neutralization of power line noise or harmonics of power supplies, etc.....
 
 /*
  * 
