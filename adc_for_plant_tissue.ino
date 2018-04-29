@@ -5,7 +5,7 @@
 * File Name          : adc_for_plant_tissue.ino
 * Author             : KENNETH L ANDERSON
 * Version            : v.Free
-* Date               : 26-April-2018
+* Date               : 29-April-2018
 * Description        : To replicate Cleve Backster's findings that he named "Primary Perception".  Basically, this sketch turns an Arduino MCU and optional (recommended) ADS1115 into a nicely functional poor man's polygraph.
 * Boards tested on   : Uno using both ADS1115 and inboard analog inputs.  
 *                    : TTGO XI using ADS1115.  
@@ -43,7 +43,7 @@
 *********************************************************************************************************************/
 #define VERSION "v.Free"
 #define NUM_ANALOG_INPUTS_TO_PLOT 1 //The number of consecutive analog pins to plot, beginning with PIN_A0
-#define NUM_ADS1X15_INPUTS_TO_PLOT 0 //The number of consecutive ADS1X15 pins to plot, beginning with A0
+#define NUM_ADS1X15_INPUTS_TO_PLOT 1 //The number of consecutive ADS1X15 pins to plot, beginning with A0
 #if ( NUM_ANALOG_INPUTS_TO_PLOT > 0 )
     #ifndef NUM_ANALOG_INPUTS
 Sorry, but you will have to manually define the variable NUM_ANALOG_INPUTS somewhere above this line and re-compile...
@@ -57,8 +57,11 @@ If you only have the Arduino without an ADS1X15, then define NUM_ANALOG_INPUTS_T
 
 #define MULTIPLICATION_FACTOR 15 //To aid in viewing
 
-//#define DEBUG
+//#define DEBUG //Don't forget that DEBUG is not formatted for Serial plotter so plotter can't work
 #include <math.h>
+
+#define HighestBitResFromADS 15 //This is ADS1115 single-ended, advertised res of 16 bit only applies to double-ended.  all ADC values will get scaled to this, change to 11 for ADS1015
+#define AnalogInputBitsOfBoard 10
 
 #if ( NUM_ADS1X15_INPUTS_TO_PLOT > 0 )
         #include "SPI.h"
@@ -67,14 +70,17 @@ If you only have the Arduino without an ADS1X15, then define NUM_ANALOG_INPUTS_T
 *  SDA, SCL Wemos XI/TTGO XI are terribly mislabeled in slkscreen on the board!  Use A4 for SDA, and A5 is SCL.
 */
     #include <Adafruit_ADS1015.h>//for systems using ADS1115/ADS1015
-    Adafruit_ADS1115 ads;  //For when ADS1115 is being used
-    //Adafruit_ADS1015 ads;  //For when ADS1015 is being used
+    #if ( HighestBitResFromADS == 15 )
+        Adafruit_ADS1115 ads;  //For when ADS1115 is being used
+    #else
+        #if ( HighestBitResFromADS == 11 )
+            Adafruit_ADS1015 ads;  //For when ADS1015 is being used
+        #else
+This ADS resolution is not supported in this sketch version.
+        #endif
+    #endif
 #endif
-#define UpperLimitADS1X15Input 32767 //This value for ADS1115
-// #define UpperLimitADS1X15Input 2047 //This value for ADS1015
 
-//#define UpperLimitAnalogInput 4095 //This value for Arduinos that have 12-bit analog inputs
-#define UpperLimitAnalogInput 1023 //This value for Arduinos that have 10-bit analog inputs
 
 const uint8_t SAMPLE_TIMES = 30; //To better average out artifacts we over-sample and average.  This value can be tweaked by you to ensure neutralization of power line noise or harmonics of power supplies, etc.....
 
@@ -86,7 +92,19 @@ const uint8_t SAMPLE_TIMES = 30; //To better average out artifacts we over-sampl
  */
 
 uint8_t *A_PIN_ARRAY;
-unsigned long magnify_adjustment[ NUM_ADS1X15_INPUTS_TO_PLOT + NUM_ANALOG_INPUTS_TO_PLOT ];
+struct magnify_adjustment_and_display_zero
+{
+    unsigned long magnify_adjustment;
+    unsigned long zero_of_this_plotline;
+    unsigned long high_limit_of_this_plotline;
+} typedef magnify_adjustment_and_display_zero;
+
+magnify_adjustment_and_display_zero screen_offsets[ NUM_ADS1X15_INPUTS_TO_PLOT + NUM_ANALOG_INPUTS_TO_PLOT ];
+bool graphline = false;
+unsigned long value, valueTemp;
+#define PlotterMaxScale ( ( ( unsigned long )pow( 2, HighestBitResFromADS ) ) * ( unsigned long )( NUM_ADS1X15_INPUTS_TO_PLOT + NUM_ANALOG_INPUTS_TO_PLOT ) )
+#define HundredthPlotterMaxScale ( PlotterMaxScale / 100 );
+
 
 void setup() 
 {
@@ -216,52 +234,97 @@ void setup()
 #endif
 #ifdef __LGT8FX8E__
     delay( 8000 );  // Needed by this board for serial to work
+    analogReadResolution( 12 );
+    #ifdef AnalogInputBitsOfBoard
+        #undef AnalogInputBitsOfBoard
+    #endif
+    #define AnalogInputBitsOfBoard 12
 #endif
+
+#define BitsToShiftInboardADCValues ( HighestBitResFromADS - AnalogInputBitsOfBoard )
+
     for( uint8_t i = 0; i < NUM_ADS1X15_INPUTS_TO_PLOT + NUM_ANALOG_INPUTS_TO_PLOT; i++ )
-        magnify_adjustment[ i ] = 0;
+    {
+        screen_offsets[ i ].magnify_adjustment = 0;
+//where i > NUM_ANALOG_INPUTS_TO_PLOT results in 
+        screen_offsets[ i ].high_limit_of_this_plotline = ( unsigned long )pow( 2, HighestBitResFromADS ) * ( i > NUM_ANALOG_INPUTS_TO_PLOT ? ( ( unsigned long )( NUM_ADS1X15_INPUTS_TO_PLOT - i ) ) : ( ( unsigned long )( NUM_ANALOG_INPUTS_TO_PLOT - i ) + ( unsigned long )NUM_ADS1X15_INPUTS_TO_PLOT ) );
+        screen_offsets[ i ].zero_of_this_plotline = ( unsigned long )pow( 2, HighestBitResFromADS ) * ( i > NUM_ANALOG_INPUTS_TO_PLOT ? ( ( unsigned long )( NUM_ADS1X15_INPUTS_TO_PLOT - ( i + 1 ) ) ) : ( unsigned long )( NUM_ANALOG_INPUTS_TO_PLOT - ( i + 1 ) ) + ( unsigned long )NUM_ADS1X15_INPUTS_TO_PLOT );
+    }
+    while ( !Serial ); // wait for serial port to connect. Needed for Leonardo's native USB
+    for( uint8_t i = 0; i < NUM_ANALOG_INPUTS_TO_PLOT + NUM_ADS1X15_INPUTS_TO_PLOT; i++ )
+    {
+        Serial.print( 0 );
+        Serial.print( F( " " ) );
+        Serial.print( 0 );
+        Serial.print( F( " " ) );
+    }
+    Serial.println( PlotterMaxScale );
 #ifdef DEBUG
         Serial.println( F( " end of setup" ) );
 #endif
 }
 
-unsigned long value, valueTemp;
+void plot_the_normal_and_magnified_signals( uint8_t i)
+{
+#ifdef DEBUG
+    Serial.print( F( "Line270 i=" ) );
+    Serial.print( i );
+    Serial.print( F( ", high_limit_of_this_plotline=" ) );
+    Serial.print( screen_offsets[ i ].high_limit_of_this_plotline );
+    Serial.print( F( ", zero_of_this_plotline=" ) );
+    Serial.println( screen_offsets[ i ].zero_of_this_plotline );
+#endif
+    value = ( uint16_t )( value / SAMPLE_TIMES );
+    Serial.print( value + screen_offsets[ i ].zero_of_this_plotline ); //This is color one
+    
+    //Next lines plot a magnified version.  First, magnify_adjustment is determined
+    Serial.print( F( " " ) );
+    
+    value *= MULTIPLICATION_FACTOR;
+    
+#ifdef DEBUG
+    Serial.println( F( "Line286" ) );
+#endif
+    //if screen offset is so great that value will plot lower than plotline zero, raise it by amount such that when subtracted from value the result is ( high_limit_of_this_plotline - zero_of_this_plotline ) * .75
+    if( screen_offsets[ i ].magnify_adjustment + screen_offsets[ i ].zero_of_this_plotline > value )
+        screen_offsets[ i ].magnify_adjustment = value - screen_offsets[ i ].zero_of_this_plotline;
+#ifdef DEBUG
+    Serial.print( F( "value - screen_offsets[ i ].magnify_adjustment=" ) );Serial.println( value - screen_offsets[ i ].magnify_adjustment );
+#endif
+    while( value - screen_offsets[ i ].magnify_adjustment > screen_offsets[ i ].high_limit_of_this_plotline - ( unsigned long )( ( screen_offsets[ i ].high_limit_of_this_plotline - screen_offsets[ i ].zero_of_this_plotline ) * ( unsigned long ).5 ) ) screen_offsets[ i ].magnify_adjustment += HundredthPlotterMaxScale; // lower too-high plot lines
+#ifdef DEBUG
+    Serial.print( F( "value - screen_offsets[ i ].magnify_adjustment=" ) );Serial.println( value - screen_offsets[ i ].magnify_adjustment );
+#endif
+#ifdef DEBUG
+    Serial.println( F( "Line299" ) );
+#endif
+    //Plot it now
+    Serial.print( value - screen_offsets[ i ].magnify_adjustment ); //This is color two or four
+    Serial.print( F( " " ) );
+}
 
 void loop() 
 {    
-    Serial.print( ( ( unsigned long )UpperLimitADS1X15Input * ( unsigned long )NUM_ADS1X15_INPUTS_TO_PLOT ) + ( ( unsigned long )UpperLimitAnalogInput * ( unsigned long )NUM_ANALOG_INPUTS_TO_PLOT ) );
-    Serial.print(" ");
-    Serial.println( 0 ); //This is color two
+#ifdef DEBUG
+        Serial.print( F( "Line309" ) );
+#endif
     for( uint16_t plotter_loops = 0; plotter_loops < 500 / 3; plotter_loops++ ) 
     {
-#if ( NUM_ANALOG_INPUTS_TO_PLOT > 0 )
+#if ( NUM_ANALOG_INPUTS_TO_PLOT > 0 ) //plot the inboard analogs first and above
         for( uint8_t i = 0; i < NUM_ANALOG_INPUTS_TO_PLOT; i++ )
-        {
-            value = analogRead( *( A_PIN_ARRAY + i ) );
+        {            
+            value = analogRead( *( A_PIN_ARRAY + i ) ) << BitsToShiftInboardADCValues;
+
             for( uint8_t sampletimes = 1; sampletimes < SAMPLE_TIMES; sampletimes++ )
-                  value += analogRead( *( A_PIN_ARRAY + i ) );
+                  value += ( analogRead( *( A_PIN_ARRAY + i ) ) << BitsToShiftInboardADCValues );
 
-            if( i == 0 )
-            {
-                Serial.print( 0 ); //This is color one
-                Serial.print(" ");
-                Serial.print( 0 ); //This is color two
-                Serial.print(" ");
-            }
-
-            value = ( uint16_t )( value / SAMPLE_TIMES );
-            Serial.print( value + ( ( unsigned long )UpperLimitAnalogInput * ( unsigned long )( NUM_ANALOG_INPUTS_TO_PLOT - ( i + 1 ) ) ) + ( ( unsigned long )UpperLimitADS1X15Input * ( unsigned long )NUM_ADS1X15_INPUTS_TO_PLOT ) ); //This is color three
-            Serial.print( " " );
-
-            //Next lines plot a magnified version.  First, magnify_adjustment is determined
-            //Ensure ( value * MULTIPLICATION_FACTOR ) - magnify_adjustment is greater than 0. 0 was decided on b/c the plotter graph upper limit will be greater than the analog input upper limit making the activity appear in the lower part
-            while( !( ( signed long )( ( value * MULTIPLICATION_FACTOR ) - magnify_adjustment[ i ] ) >= 0 ) ) magnify_adjustment[ i ] -= ( UpperLimitAnalogInput / 100 );
-
-            //If ( signed long )( ( value * MULTIPLICATION_FACTOR ) - magnify_adjustment ) is too high, bring it down by increasing magnify_adjustment
-            while( !( ( unsigned long )( ( value * MULTIPLICATION_FACTOR ) - magnify_adjustment[ i ] ) <= UpperLimitAnalogInput / 2 ) ) magnify_adjustment[ i ] += ( UpperLimitAnalogInput / 100 );
-
-            //Plot it now
-            Serial.print( ( unsigned long )( ( value * MULTIPLICATION_FACTOR ) - magnify_adjustment[ i ] ) + ( ( unsigned long )UpperLimitAnalogInput * ( unsigned long )( NUM_ANALOG_INPUTS_TO_PLOT - i ) ) + ( ( unsigned long )UpperLimitADS1X15Input * ( unsigned long )NUM_ADS1X15_INPUTS_TO_PLOT ) ); //This is color four or five
-            Serial.print( " " );
+#ifdef DEBUG
+        Serial.println( F( "Line322" ) );
+#endif
+            plot_the_normal_and_magnified_signals( i );
+#ifdef DEBUG
+        Serial.println( F( "Line326" ) );
+#endif
         }
 #endif
 
@@ -269,56 +332,48 @@ void loop()
         for( uint8_t i = 0; i < NUM_ADS1X15_INPUTS_TO_PLOT; i++ )
         {
 #ifdef DEBUG
-        Serial.println( F( "Line286" ) );
+        Serial.print( F( "Line335 i=" ) );
+        Serial.println( i );
 #endif
             value = ads.readADC_SingleEnded( i );
-            while( value > UpperLimitADS1X15Input ) value = ads.readADC_SingleEnded( i );
 #ifdef DEBUG
-        Serial.println( F( "Line295" ) );
+        Serial.print( F( "Line340 value=" ) );
+        Serial.println( value );
 #endif
+            while( value > pow( 2, HighestBitResFromADS ) )
+            {
+                value = ads.readADC_SingleEnded( i );
+#ifdef DEBUG
+        Serial.print( F( "Line347 value=" ) );
+        Serial.println( value );
+#endif
+            }
             for( uint8_t sampletimes = 1; sampletimes < SAMPLE_TIMES; sampletimes++ )
             {
                 valueTemp = ads.readADC_SingleEnded( i );
-                while( valueTemp > UpperLimitADS1X15Input ) valueTemp = ads.readADC_SingleEnded( i );
+                while( valueTemp > pow( 2, HighestBitResFromADS ) ) valueTemp = ads.readADC_SingleEnded( i );
                 value += valueTemp;
             }
 #ifdef DEBUG
-        Serial.println( F( "Line304" ) );
+        Serial.println( F( "Line358" ) );
 #endif
-            value = (uint16_t)( value / SAMPLE_TIMES );
+
 #ifdef DEBUG
-        Serial.println( F( "Line308" ) );
+        Serial.println( F( "Line362" ) );
 #endif
-
-#if ( NUM_ANALOG_INPUTS_TO_PLOT == 0 )
-            if( i == 0 )
-            {
-                Serial.print( 0 ); //This is color one
-                Serial.print(" ");
-                Serial.print( 0 ); //This is color two
-                Serial.print(" ");
-            }
+            plot_the_normal_and_magnified_signals( i + NUM_ANALOG_INPUTS_TO_PLOT );
+#ifdef DEBUG
+        Serial.println( F( "Line366" ) );
 #endif
-            Serial.print( value + ( ( unsigned long )UpperLimitADS1X15Input * ( unsigned long )( NUM_ADS1X15_INPUTS_TO_PLOT - ( i + 1 ) ) ) ); //This is color three and odds above
-
-            //Next lines plot a magnified version.  First, magnify_adjustment is determined
-            Serial.print(" ");
-
-            //If ( signed long )( ( value * MULTIPLICATION_FACTOR ) - magnify_adjustment ) is too high, bring it down by increasing magnify_adjustment
-            while( !( ( signed long )( ( value * MULTIPLICATION_FACTOR ) - magnify_adjustment[ i + NUM_ANALOG_INPUTS_TO_PLOT ] ) <= UpperLimitADS1X15Input / 2 ) ) magnify_adjustment[ i + NUM_ANALOG_INPUTS_TO_PLOT ] += ( UpperLimitADS1X15Input / 100 );
-
-            //Ensure ( value * MULTIPLICATION_FACTOR ) - magnify_adjustment is greater than 0. 0 was decided on b/c the plotter graph upper limit will be greater than the analog input upper limit making the activity appear in the lower part
-            while( !( ( signed long )( ( value * MULTIPLICATION_FACTOR ) - magnify_adjustment[ i + NUM_ANALOG_INPUTS_TO_PLOT ] ) >= 0 ) ) magnify_adjustment[ i + NUM_ANALOG_INPUTS_TO_PLOT ] -= ( UpperLimitADS1X15Input / 100 );
-
-            //Plot it now
-            Serial.print( ( signed long )( ( value * MULTIPLICATION_FACTOR ) - magnify_adjustment[ i + NUM_ANALOG_INPUTS_TO_PLOT ] ) + ( ( unsigned long )UpperLimitADS1X15Input * ( unsigned long )( NUM_ADS1X15_INPUTS_TO_PLOT - ( i + 1 ) ) ) ); //This is color four
-            Serial.print(" ");
         }
 #endif
-        Serial.println();
+        if( graphline ) valueTemp = 0;
+        else valueTemp = PlotterMaxScale;
+        Serial.println( valueTemp );
 #if ( 12 * ( NUM_ANALOG_INPUTS_TO_PLOT + NUM_ADS1X15_INPUTS_TO_PLOT ) < 110  )
     #define DELAY_TIME ( 110 - ( 12 * ( NUM_ANALOG_INPUTS_TO_PLOT + NUM_ADS1X15_INPUTS_TO_PLOT ) ) )
         delay( DELAY_TIME );
 #endif
     }
+    graphline = !graphline;
 }
