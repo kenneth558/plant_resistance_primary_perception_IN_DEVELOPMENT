@@ -12,7 +12,7 @@ Fast-forward to 2006 when Mythbusters television program decided they would inve
 
 To understand how Mythbusters erred in their experiment, you need to realize that measuring a property of something requires the person performing the measurement to produce their own signal and measure the results from applying that signal to the device-under-test.  That is what a polygraph machine does.  An EEG machine, on the other hand, produces no signal of its own - it measures a device-produced signal and is specifically designed to measure the specific type of signal that is produced by a central nervous system neuron bundle that is not found in plants but found in higher organisms.  Plants have no neurons, silly Mythbusters - they don't produce voltage signals.  Mythbusters ignored their observations obtained from the polygraph machine but thankfully did broadcast the recorded video of their efforts while presenting a deceptive narrative about the positive results so as to try to distract viewers from noticing that they had just proven the existance of "primary perception", as Mr. Backster thought to call his newly-discovered phenomenon.
 
-In the sketch source code, you'll find some self-explanatorily-named constants near the top that you'll need to set for your preferences and configuration.  Find and adjust these:
+In the sketch source code of this project, you'll find some self-explanatorily-named constants near the top that you'll need to set for your preferences and configuration.  Find and adjust these:
 
 -  NUM_ANALOG_INPUTS_TO_PLOT
 -  NUM_ADS1X15_INPUTS_TO_PLOT
