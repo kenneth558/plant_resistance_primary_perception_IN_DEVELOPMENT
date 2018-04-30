@@ -6,6 +6,7 @@
 #define AnalogInputBitsOfBoard 10 //Most Arduino boards are 10-bit resolution 
 #define SAMPLE_TIMES 30 //To better average out artifacts we over-sample and average.  This value can be tweaked by you to ensure neutralization of power line noise or harmonics of power supplies, etc.....
 #define FIRST_ANALOG_PIN_DIGITAL_NUMBER_FOR_BOARDS_NOT_HAVING_ANALOG_PINS_DEFINED_BY_PIN_A0_TYPE_DEFINES 14 //Some boards don't have good definitions and constants for the analog pins :-(
+#define REPOSITION_RATIO_OF_MAGNIFIED_VIEW_WHEN_LIMITS_GET_EXCEEDED (.1)
 //#define DEBUG //Don't forget that DEBUG is not formatted for Serial plotter so plotter can't work when you put the compiler in DEBUG
 
 /*******************(C)  COPYRIGHT 2018 KENNETH L ANDERSON *********************
@@ -282,10 +283,10 @@ void plot_the_normal_and_magnified_signals( uint8_t i )
     value *= MULTIPLICATION_FACTOR;
 
     if( screen_offsets[ i ].magnify_adjustment + screen_offsets[ i ].zero_of_this_plotline > value )
-        screen_offsets[ i ].magnify_adjustment = value - screen_offsets[ i ].zero_of_this_plotline - ( ( screen_offsets[ i ].high_limit_of_this_plotline - screen_offsets[ i ].zero_of_this_plotline ) *.1 ) ;
+        screen_offsets[ i ].magnify_adjustment = value - screen_offsets[ i ].zero_of_this_plotline - ( ( screen_offsets[ i ].high_limit_of_this_plotline - screen_offsets[ i ].zero_of_this_plotline ) * REPOSITION_RATIO_OF_MAGNIFIED_VIEW_WHEN_LIMITS_GET_EXCEEDED ) ;
 
     if( screen_offsets[ i ].magnify_adjustment + screen_offsets[ i ].high_limit_of_this_plotline < value )
-        screen_offsets[ i ].magnify_adjustment = value - screen_offsets[ i ].high_limit_of_this_plotline + ( ( screen_offsets[ i ].high_limit_of_this_plotline - screen_offsets[ i ].zero_of_this_plotline ) *.1 ) ;
+        screen_offsets[ i ].magnify_adjustment = value - screen_offsets[ i ].high_limit_of_this_plotline + ( ( screen_offsets[ i ].high_limit_of_this_plotline - screen_offsets[ i ].zero_of_this_plotline ) * REPOSITION_RATIO_OF_MAGNIFIED_VIEW_WHEN_LIMITS_GET_EXCEEDED ) ;
         
         //Plot it now
     Serial.print( value - screen_offsets[ i ].magnify_adjustment ); //This is color two or four
