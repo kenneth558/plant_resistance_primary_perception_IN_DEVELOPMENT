@@ -55,7 +55,10 @@ TTGO/WeMos board will require and ADS device.  Mac and Windows are assumed to wo
 to bootloader issues in Linux with common USB-serial adapters, avoiding ATTINY85 due to no hardware serial.  Other boards having 
 at least one analog input can be used, or add the very inexpensive ADS1115 for best resolution.  IMPORTANT: When selecting a 
 board you'll use for this project, make sure it has a USB port or that you are otherwise able to fashion serial communications. 
-The output from the Arduino is formatted for input into the Arduino IDE serial plotter rather than the serial monitor.  Also, I am well aware of the possibility that the property being monitored may not precisely be conductance but rather the appearance of conductance due to dynamic polarization of plant tissues.  This may be an important factor in deciding electrode placement.
+The output from the Arduino is formatted for input into the Arduino IDE serial plotter rather than the serial monitor.  Also, I 
+am well aware of the possibility that the property being monitored may not precisely be conductance but rather the appearance of 
+conductance due to dynamic polarization of plant tissues.  This may be an important factor in electrode "placement-ology", if 
+you will.
 
 With the rudimentary (periodic improvements are to be expected to this project) sketch I publish here for you, you can observe 
 for yourself that plants actually can know your sentiments as they relate to the plant's well-being.  You'll also need to 
