@@ -105,12 +105,6 @@ produces greater undesirable measurement effect. At this stage, end-users are on
 electrical current leakage paths.  As far as avoiding radiated electrical noise, maintain adequate distance from flourscent and 
 neon lighting and any other source of noise you discover.
 
-Note: According to Mr. Backster, the plant under test must have already become "acclimated" to the person performing the primary 
-perception procedures for the phenomenon to be observable.  Take that to mean what you will.  I believe it means you'll need to 
-spend some time initially watering the plant or otherwise caring for it before you can expect significant results from this 
-project.  Until I'm shown wrong, I'm fairly certain that hostile or hurtful sentiments toward the plant are counter-productive 
-to sustained acclimation, Mythbusters!
-
 For those who have to ask the cost of the electronics parts (I happen to be in that category myself) you will be interested to 
 know that I bought the TTGO XI (WeMos XI) for about $1.65 US and the ADS1115 for about $1.73 US (HINT: I actually ordered the 
 lower-resolution ADS1015 b/c it sells for less, but instead received the ADS1115 that is marked with both part numbers.  Look at 
@@ -120,8 +114,14 @@ now have 16 bit resolution...well, 15 bit in reality, because of the difference 
 resolution.  Note that I bought the parts through AliExpress and had to wait 30 days of shipping b/c I was not willing to pay 
 extra for expedited shipping.  Don't forget the USB cable, interconnect wires, and perfboard/breadboard you'll need.  Note that 
 the on-board integrated 12-bit ADC of the TTGO XI/WeMos XI is worthless unless you want to accept the hassle of designing and 
-constructing your own analog buffering.  This is b/c that board's analog inputs inexplicitely pathetically contain engineered-in 
-unremoveable pull-up conductance.
+constructing your own analog buffering (perhaps with an LM328-based circuit).  This is b/c that board's analog inputs 
+inexplicitely pathetically contain engineered-in unremoveable pull-up conductance.
+
+Note: According to Mr. Backster, the plant under test must have already become "acclimated" to the person performing the primary 
+perception procedures for the phenomenon to be observable.  Take that to mean what you will.  I believe it means you'll need to 
+spend some time initially watering the plant or otherwise caring for it before you can expect significant results from this 
+project.  Until I'm shown wrong, I'm fairly certain that hostile or hurtful sentiments toward the plant are counter-productive 
+to sustained acclimation, Mythbusters!
 
 You may be interested to read some of the Biblical justification for this project.  See the document entitled on that subject 
 listed among the documents of this project.
