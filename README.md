@@ -86,7 +86,7 @@ You'll have to rig some sort of pouch-holding device of your own design.  Maybe 
 could be used to support the fabric sling.  Unless your plant has large leaves, you may find it difficult to place opposite 
 electrodes on a single leaf without one pouch shorting across to the opposing pouch, so I suggest trying to put each electrode-
 pouch on its own leaf.  The weight of the mud-filled pouch on the top side of the leaf will be enough force to maintain a solid 
-electrical contact.  This configuration is for hyperstomatous, the most common type leaves you'll be using.
+electrical contact.  This configuration is for hypostomatous, the most common type leaves you'll be using.
 
 Note that you'll be best served by understanding the electrical circuit being formed by your electrode placements.  As long as 
 you do so, multiple electrodes of each polarity might be of benefit, but I really think you're better off avoiding any circuit 
