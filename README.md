@@ -4,7 +4,7 @@ Periodic improvements are to be expected to this project.  .INO FILE VERSIONS DA
 VARIOUS CAPACITIES.  Consideration is being given to adapting a fork of this project to the Raspberry Pi-ish single board 
 computers.
 
-Why would you want to do this?  Here's the story:
+So why in the world would you want to observe a plant's electrical conductivity?  Here's the fascinating story:
 
 In the 1960's, a polygraph expert named Cleve Backster, in a moment of feeling impulsively experimental, attached 
 polygraph electrodes to a plant in his office to see what polygraph results would come from watering the plant  Note 
