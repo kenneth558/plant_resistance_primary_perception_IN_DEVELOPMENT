@@ -1,12 +1,5 @@
 # Monitor the Electrical Resistance/Conductance of Plant Tissue
 
-To monitor electrical conductance changes of plant tissue, such as a leaf, in vivo.  Tested with Uno and Wemos XI/TTGO XI.  The 
-TTGO/WeMos board will require and ADS device.  Mac and Windows are assumed to work as well as Linux.  Avoiding STM32F103C8T6 due 
-to bootloader issues in Linux with common USB-serial adapters, avoiding ATTINY85 due to no hardware serial.  Other boards having 
-at least one analog input can be used, or add the very inexpensive ADS1115 for best resolution.  IMPORTANT: When selecting a 
-board you'll use for this project, make sure it has a USB port or that you are otherwise able to fashion serial communications. 
-The output from the Arduino is formatted for input into the Arduino IDE serial plotter rather than the serial monitor.  
-
 Periodic improvements are to be expected to this project.  .INO FILE VERSIONS DATED PRIOR TO 30 APRIL 2018 ARE DEFICIENT IN 
 VARIOUS CAPACITIES.  Consideration is being given to adapting a fork of this project to the Raspberry Pi-ish single board 
 computers.
@@ -56,6 +49,13 @@ preferences and configuration.  Find and adjust these:
 -  HighestBitResFromADS
 -  AnalogInputBitsOfBoard
 -  SAMPLE_TIMES
+
+To monitor electrical conductance changes of plant tissue, such as a leaf, in vivo.  Tested with Uno and Wemos XI/TTGO XI.  The 
+TTGO/WeMos board will require and ADS device.  Mac and Windows are assumed to work as well as Linux.  Avoiding STM32F103C8T6 due 
+to bootloader issues in Linux with common USB-serial adapters, avoiding ATTINY85 due to no hardware serial.  Other boards having 
+at least one analog input can be used, or add the very inexpensive ADS1115 for best resolution.  IMPORTANT: When selecting a 
+board you'll use for this project, make sure it has a USB port or that you are otherwise able to fashion serial communications. 
+The output from the Arduino is formatted for input into the Arduino IDE serial plotter rather than the serial monitor.  Also, I am well aware of the possibility that the property being monitored may not precisely be conductance but rather the appearance of conductance due to dynamic polarization of plant tissues.  This may be an important factor in deciding electrode placement.
 
 With the rudimentary (periodic improvements are to be expected to this project) sketch I publish here for you, you can observe 
 for yourself that plants actually can know your sentiments as they relate to the plant's well-being.  You'll also need to 
