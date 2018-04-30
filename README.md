@@ -47,18 +47,6 @@ observations obtained from the polygraph machine but thankfully did broadcast th
 presenting a deceptive narrative about the positive results so as to try to distract viewers from noticing that they had 
 just proven the existance of "primary perception", as Mr. Backster thought to call his newly-discovered phenomenon.
 
-With the rudimentary (periodic improvements are to be expected to this project) sketch I publish here for you, you can 
-observe for yourself that plants actually can know your sentiments as they relate to the plant's well-being.  You'll 
-also need to fashion the electrode system and attach it.  I suggest you not get so wrapped up in being scientifically 
-credible that you miss the point of all this.  The point is that the electrical resistance of a plant can respond to 
-someone's intent to substantively affect its well-being.  The point is NOT that any particular readings can be precisely 
-replicated.  With that caveat and because of it, I suggest a very primitive electrode system that does not involve the 
-salinated agar-on-cotton gauze-on-stainless steel system that Mr. Backster thought he had to use for scientific 
-credibility.  Until I am satisfied with successful proof-of-concept of this project, I am suggesting using the more bio-
-compatible elements of mud inside a coarse-knit pouch made of non-dyed, non-bleached plant-derived fabric like burlap, 
-linen, cotton, and/or hemp.  What bothers me about stainless electrodes is that metals produce galvanic voltage from 
-their very contact with dissimilar materials.  The significant chromium content of stainless is another concern I have.
-
 In the sketch source code, you'll find some self-explanatorily-named constants near the top that you'll need to set for your 
 preferences and configuration.  Find and adjust these:
 
@@ -69,47 +57,59 @@ preferences and configuration.  Find and adjust these:
 -  AnalogInputBitsOfBoard
 -  SAMPLE_TIMES
 
-Poke the electrode wires into the pouches (or maybe one into a pouch and one into the soil?), but keep the metal of the 
-wires from direct contact with any plant tissue, since metals are foreign to living organism tissues and so may produce 
-an unaccounted for reaction.  To ensure an acceptable quality contact between the mud and electrode wires, I attach 
-electric motor brushes (made from near biologically inert and oxidatively stable graphite) to the ends of the electrode 
-wires and insert the the brush into the pouch. I prefer using mud instead of salt as an electrolyte for my confidence 
-achieving maximum biocompatibility. Ensure the mud is adequately liquified and the brush is fully inserted into the mud 
-and the muddied pouch is in intimate and stable contact with the leaf or other plant tissue.  You also may want to learn the 
-difference between hypostomatous and hyperstomatous leaves relative to the plant you use if you care to avoid blocking the gas-
-exchange stomata.  Blocking the stoma with the electrode apparatus may generate yet another source of stress for the plant, thus 
-I recommend stoma-blocking be minimized in terms of time and surface area.  Nearby flourescent lighting and other high-harmonic 
-and/or heavy electric loads may produce unwanted artifacting, so they are best kept away from.
+With the rudimentary (periodic improvements are to be expected to this project) sketch I publish here for you, you can observe 
+for yourself that plants actually can know your sentiments as they relate to the plant's well-being.  You'll also need to 
+fashion the electrode system and attach it.  I suggest you not get so wrapped up in being scientifically credible that you miss 
+the point of all this.  The point is that the electrical conductance of a plant does respond to someone's intent to 
+substantively affect its well-being.  The point is NOT that any particular readings can be precisely replicated.  With that 
+caveat and because of it, I suggest a very primitive electrode system that does not involve the salinated agar-on-cotton gauze-
+on-stainless steel system that Mr. Backster thought he had to use for scientific credibility.  Until I am satisfied with 
+successful proof-of-concept of this project, I am suggesting using the more bio-compatible elements of mud inside a coarse-knit 
+pouch made of non-dyed, non-bleached plant-derived fabric like burlap, linen, cotton, and/or hemp.  I suggest for each 
+pouch/electrode used that you fashion a sling to bear the weight of the pouch using a matching strip of fabric.  What bothers me 
+about stainless electrodes is that metals produce galvanic voltage from their very contact with dissimilar materials.  The 
+significant chromium content of stainless is another concern I have.
+
+Poke the electrode wires into the pouches (or maybe one into a pouch and one into the soil?), but keep the metal of the wires 
+from direct contact with any plant tissue, since metals are foreign to living organism tissues and so may produce an unaccounted 
+for reaction.  To ensure an acceptable quality contact between the mud and electrode wires, I attach electric motor brushes 
+(made from near biologically inert and oxidatively stable graphite) to the ends of the electrode wires and insert the the brush 
+into the pouch. I prefer using mud instead of salt as an electrolyte for my confidence achieving maximum biocompatibility. 
+Ensure the mud is adequately liquified and the brush is fully inserted into the mud and the muddied pouch is in intimate and 
+stable contact with the leaf or other plant tissue.  You also may want to learn the difference between hypostomatous and 
+hyperstomatous leaves relative to the plant you use if you care to avoid blocking the gas-exchange stomata.  Blocking the stoma 
+with the electrode apparatus may generate yet another source of stress for the plant, thus I recommend stoma-blocking be 
+minimized in terms of time and surface area.  Nearby flourescent lighting and other high-harmonic and/or heavy electric loads 
+may produce unwanted artifacting, so they are best kept away from.
 
 You'll have to rig some sort of pouch-holding device of your own design.  Maybe a large non-conductive (plastic/wooden) easel 
-could be used to support the pouch/electrode holders. Unless your plant has large leaves, you may find it difficult to place 
-opposite electrodes on a single leaf without one pouch shorting across to the opposing pouch, so I suggest trying to put each 
-electrode-pouch on its own leaf.  I am currently using a hammock-type of support running underneath the leaf with the mud-filled 
-pouch-electrode combo resting full-weight on the top side of the leaf.
+could be used to support the fabric sling.  Unless your plant has large leaves, you may find it difficult to place opposite 
+electrodes on a single leaf without one pouch shorting across to the opposing pouch, so I suggest trying to put each electrode-
+pouch on its own leaf.  The weight of the mud-filled pouch on the top side of the leaf will be enough force to maintain a solid 
+electrical contact.  This configuration is for hyperstomatous, the most common type leaves you'll be using.
 
 Note that you'll be best served by understanding the electrical circuit being formed by your electrode placements.  As long as 
 you do so, multiple electrodes of each polarity might be of benefit, but I really think you're better off avoiding any circuit 
 more complex than you understand.
 
-Note that the electrode circuit must also consist of a resistive component attached by you between the power supply rail 
-and the analog input pin of the signal electrode.  That resistor is located locally to the board so does not require 
-a third length of wire. The electrode wire not going to the analog input pin goes to signal ground and will be referred 
-to as the reference electrode.  Signal ground is determined by you as a ground pin of the active device that contains 
-the ADC, preferably a pin provided for the precise purpose of being  signal ground.  For best practice, avoid attaching 
-the reference electrode to any point on circuit board ground that connects to a component other than the ADC device 
-before connecting to the ADC.  Ideally, the value of resistance of this component will be as equal as practical to the 
-resistance of the plant tissue under test.  The resistance of the plant tissue between the electrodes can be decreased 
-or increased by adjustment of the surface area in contact with the electrode pouches - more contact area gives less 
-resistance as well as a better signal-to-noise ratio but also probably produces greater undesirable measurement effect. 
-At this stage, end-users are on their own to learn about how to avoid electrical current leakage paths.  As far as 
-avoiding radiated electrical noise, maintain adequate distance from flourscent and neon lighting and any other source of 
-noise you discover.
+Note that the electrode circuit must also consist of a resistive component attached by you between the power supply rail and the 
+analog input pin of the signal electrode.  That resistor is located locally to the board so does not require a third length of 
+wire. The electrode wire not going to the analog input pin goes to signal ground and will be referred to as the reference 
+electrode.  Signal ground is determined by you as a ground pin of the active device that contains the ADC, preferably a pin 
+provided for the precise purpose of being  signal ground.  For best practice, avoid attaching the reference electrode to any 
+point on circuit board ground that connects to a component other than the ADC device before connecting to the ADC.  Ideally, the 
+value of resistance of this component will be as equal as practical to the resistance of the plant tissue under test.  The 
+resistance of the plant tissue between the electrodes can be decreased or increased by adjustment of the surface area in contact 
+with the electrode pouches - more contact area gives less resistance as well as a better signal-to-noise ratio but also probably 
+produces greater undesirable measurement effect. At this stage, end-users are on their own to learn about how to avoid 
+electrical current leakage paths.  As far as avoiding radiated electrical noise, maintain adequate distance from flourscent and 
+neon lighting and any other source of noise you discover.
 
-Note: According to Mr. Backster, the plant under test must have already become "acclimated" to the person performing the
-primary perception procedures for the phenomenon to be observable.  Take that to mean what you will.  I believe it means 
-you'll need to spend some time initially watering the plant or otherwise caring for it before you can expect significant 
-results from this project.  Until I'm shown wrong, I'm fairly certain that hostile or hurtful sentiments toward the 
-plant are counter-productive to sustained acclimation, Mythbusters!
+Note: According to Mr. Backster, the plant under test must have already become "acclimated" to the person performing the primary 
+perception procedures for the phenomenon to be observable.  Take that to mean what you will.  I believe it means you'll need to 
+spend some time initially watering the plant or otherwise caring for it before you can expect significant results from this 
+project.  Until I'm shown wrong, I'm fairly certain that hostile or hurtful sentiments toward the plant are counter-productive 
+to sustained acclimation, Mythbusters!
 
 For those who have to ask the cost of the electronics parts (I happen to be in that category myself) you will be interested to 
 know that I bought the TTGO XI (WeMos XI) for about $1.65 US and the ADS1115 for about $1.73 US (HINT: I actually ordered the 
@@ -123,11 +123,11 @@ the on-board integrated 12-bit ADC of the TTGO XI/WeMos XI is worthless unless y
 constructing your own analog buffering.  This is b/c that board's analog inputs inexplicitely pathetically contain engineered-in 
 unremoveable pull-up conductance.
 
-You may be interested to read some of the Biblical justification for this project.  See the document entitled on that 
-subject listed among the documents of this project.
+You may be interested to read some of the Biblical justification for this project.  See the document entitled on that subject 
+listed among the documents of this project.
 
-For those who have any regard to NDEs, you would be interested to research Howard Storm's NDE relative to world 
-lifestyle of the future.
+For those who have any regard to NDEs, you would be interested to research Howard Storm's NDE relative to world lifestyle of the 
+future.
 
 Submit an "Issue" or post in the "Wiki" (tabs above) to have me add your Youtube video to the official playlist for this 
 project.
