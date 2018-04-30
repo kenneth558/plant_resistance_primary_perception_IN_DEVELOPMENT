@@ -8,7 +8,7 @@ board you'll use for this project, make sure it has a USB port or that you are o
 The output from the Arduino is formatted for input into the Arduino IDE serial plotter rather than the serial monitor.  
 
 Periodic improvements are to be expected to this project.  .INO FILE VERSIONS DATED PRIOR TO 30 APRIL 2018 ARE DEFICIENT IN 
-VARIOUS CAPACITIES.  Consideration is being given to adapting this project to the Raspberry Pi-ish micro-computer boards.
+VARIOUS CAPACITIES.  Consideration is being given to adapting a fork of this project to the Raspberry Pi-ish micro-computer boards.
 
 Why would you want to do this?  Here's the story:
 
