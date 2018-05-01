@@ -18,6 +18,7 @@
 * Version            : v.Free
 * Date               : 30-April-2018.  Versions dated prior to 30 April should be replaced with the file dated 30 April 2018
 * Description        : To replicate Cleve Backster's findings that he named "Primary Perception".  Basically, this sketch turns an Arduino MCU and optional (recommended) ADS1115 into a nicely functional poor man's polygraph.
+* Libraries needed   : Adafruit_ADS1015
 * Boards tested on   : Uno using both ADS1115 and inboard analog inputs.  
 *                    : TTGO XI using ADS1115.  
 *                    : Many other configurations should work fine.  
