@@ -1,5 +1,5 @@
 Jesus cursed the fig tree, it withered away, and He said we would do the same
-(Matt 21:19-21 https://www.biblegateway.com/passage/?search=Matt+21%3A19-21&version=KJV):
+[Matt 21:19-21](https://www.biblegateway.com/passage/?search=Matt+21%3A19-21&version=KJV):
 
 ###### 19 And when he saw a fig tree in the way, he came to it, and found nothing thereon, but leaves only, and said unto it, Let no fruit grow on thee henceforward for ever. And presently the fig tree withered away.
 ###### 20 And when the disciples saw it, they marvelled, saying, How soon is the fig tree withered away!
