@@ -1,6 +1,6 @@
 # Monitor the Electrical Resistance/Conductance of Plant Tissue
 
-Be sure to install the supporting library Adafruit_ADS1015 since this sketch depends on it.
+If you are using the ADS1015 or ADS1115, be sure to install the supporting library Adafruit_ADS1015 since this sketch depends on it.
 
 Periodic improvements are to be expected to this project.  .INO FILE VERSIONS DATED PRIOR TO 30 APRIL 2018 ARE DEFICIENT IN VARIOUS CAPACITIES.  Replace them with this newer version.  Consideration is being given to adapting a fork of this project to the Raspberry Pi-ish single board computers.
 
