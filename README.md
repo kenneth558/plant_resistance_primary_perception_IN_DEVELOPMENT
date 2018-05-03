@@ -1,4 +1,12 @@
-If you are using the ADS1015 or ADS1115, be sure to install the supporting library Adafruit_ADS1015 since this sketch depends on it.  Periodic improvements are to be expected to this project.  .INO FILE VERSIONS DATED PRIOR TO 30 APRIL 2018 ARE DEFICIENT IN VARIOUS CAPACITIES.  Replace them with this newer version.  Consideration is being given to adapting a fork of this project to the Raspberry Pi-ish single board computers.
+.INO FILE VERSIONS DATED PRIOR TO 30 APRIL 2018 ARE DEFICIENT IN VARIOUS CAPACITIES.  Replace them with this newer version.  If you are using the ADS1015 or ADS1115, be sure to install the supporting library Adafruit_ADS1015 since this sketch depends on it.  Periodic improvements are to be expected to this project.  Consideration is being given to adapting a fork of this project to the Raspberry Pi-ish single board computers.  This sketch *version* is FREE so that anyone can enjoy it.  For those of you who can afford to support my work on this project, I will offer a not-for-free sketch version when the parts arrive that has the following enhancements:
+
+--  Arrange for adjustments of various kinds during run time based on keyboard inputs
+
+--  Use an LM334 to prevent power supply noise from plotting (i.e., convert from monitoring resistance to monitoring 
+        conductance, which means that power supply noise is eliminated!)
+
+--  Use digital potentiometer (x9c104 or x9c503) for more automated balancing of the two serial resistances
+
 
 ## So why in the world would you want to observe a plant's electrical conductivity?  Here's the fascinating story:
 
@@ -41,12 +49,3 @@ For those who have any regard to NDEs, you would be interested to research Howar
 
 Submit an "Issue" or post in the "Wiki" (tabs above) to have me add your Youtube video to the official playlist for this 
 project.
-
-This sketch version is FREE so that anyone can enjoy it.  For those of you who can afford to support my work on this project, I do offer a not-for-free sketch version that has the following enhancements:
-
---  Arrange for adjustments of various kinds during run time based on keyboard inputs
-
---  Use an LM334 to prevent power supply noise from plotting (i.e., convert from monitoring resistance to monitoring 
-        conductance, which means that power supply noise is eliminated!)
-
---  Use digital potentiometer (x9c104 or x9c503) for more automated balancing of the two serial resistances
