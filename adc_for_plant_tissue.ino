@@ -49,6 +49,9 @@
 *        Use digital potentiometer (x9c104 or x9c503) for more automated balancing of the two serial resistances
 * 
 *  These planned enhancements will be reserved for NOT-FOR-FREE sketch versions in the future
+*  
+*  Changelog:  30 April 2018 :  Final inboard 10 bit operation and ADS1X15 operation has been achieved.  Future work on free version will be for 12 bit boards only
+*              04 May   2018 :  Some 12 bit tweaking so that TTGO/WeMos XI, SAM and SAMD architectures compile with inboard analog inputs to computed at 12 bit even though AnalogInputBitsOfBoard is set at default.
 * 
 *********************************************************************************************************************/
 #define VERSION "v.Free"
