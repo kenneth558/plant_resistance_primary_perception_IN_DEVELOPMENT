@@ -45,7 +45,7 @@
 ********************************************************************************
 *
 * TODO:  Arrange for run-time keyboard input to eliminate need to re-compile when changes are made or plotting adjustments are desired
-*        Use an LM334 to prevent power supply noise from plotting (i.e., convert from resistance to conductance)
+*        Use an LM334 to prevent power supply noise from plotting (i.e., convert from resistance to conductance)  5 VOLT DEVICES ONLY
 *        Use digital potentiometer (x9c104 or x9c503) for more automated balancing of the two serial resistances
 * 
 *  These planned enhancements will be reserved for NOT-FOR-FREE sketch versions in the future
