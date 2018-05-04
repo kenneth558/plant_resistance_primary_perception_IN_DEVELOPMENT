@@ -3,11 +3,12 @@
 #define NUM_ADS1X15_INPUTS_TO_PLOT 1 //The number of consecutive ADS1X15 pins to plot, beginning with A0
 #define MULTIPLICATION_FACTOR 15 //To aid in viewing
 #define HighestBitResFromADS 15 //This is ADS1115 single-ended, advertised res of 16 bit only applies to double-ended.  all ADC values will get scaled to this, change to 11 for ADS1015
-#define AnalogInputBitsOfBoard 10 //Most Arduino boards are 10-bit resolution 
-#define SAMPLE_TIMES 30 //To better average out artifacts we over-sample and average.  This value can be tweaked by you to ensure neutralization of power line noise or harmonics of power supplies, etc.....
+#define SAMPLE_TIMES 9 //To better average out artifacts we over-sample and average.  This value can be tweaked by you to ensure neutralization of power line noise or harmonics of power supplies, etc.....
 #define FIRST_ANALOG_PIN_DIGITAL_NUMBER_FOR_BOARDS_NOT_HAVING_ANALOG_PINS_DEFINED_BY_PIN_A0_TYPE_DEFINES 14 //Some boards don't have good definitions and constants for the analog pins :-(
-#define REPOSITION_RATIO_OF_MAGNIFIED_VIEW_WHEN_LIMITS_GET_EXCEEDED (.1) //BETWEEN 0 AND 1 indicating how much of the display region to skip when magnified view has to get repositioned
+#define REPOSITION_RATIO_OF_MAGNIFIED_VIEW_WHEN_LIMITS_GET_EXCEEDED (.1) //BETWEEN 0 AND 1 indicating how much of the display region to skip when magnified view trace has to get repositioned because trace would be outside region bounds
+
 //#define DEBUG //Don't forget that DEBUG is not formatted for Serial plotter so plotter can't work when you put the compiler in DEBUG
+#define AnalogInputBitsOfBoard 10 //Most Arduino boards are 10-bit resolution, but some can be 12 bits.  For known 12 bit boards (SAM, SAMD and TTGO XI architectures), this gets re-defined below, so generally this can be left as 10 even for those boards
 
 /*******************(C)  COPYRIGHT 2018 KENNETH L ANDERSON *********************
 * 
@@ -18,7 +19,6 @@
 * Version            : v.Free
 * Date               : 30-April-2018.  Versions dated prior to 30 April should be replaced with the file dated 30 April 2018
 * Description        : To replicate Cleve Backster's findings that he named "Primary Perception".  Basically, this sketch turns an Arduino MCU and optional (recommended) ADS1115 into a nicely functional poor man's polygraph.
-* Libraries needed   : Adafruit_ADS1015
 * Boards tested on   : Uno using both ADS1115 and inboard analog inputs.  
 *                    : TTGO XI using ADS1115.  
 *                    : Many other configurations should work fine.  
@@ -106,8 +106,12 @@ unsigned long value, valueTemp;
 
 void setup() 
 {
-#if ( NUM_ADS1X15_INPUTS_TO_PLOT > 0 )
-    analogReference( DEFAULT );
+#if ( NUM_ADS1X15_INPUTS_TO_PLOT > 0 ) 
+    #if !( ARDUINO_ARCH_SAM || ARDUINO_ARCH_SAMD )
+        analogReference( DEFAULT ); //This is the voltage level of max bit value on analog input
+    #else
+        analogReference( AR_DEFAULT ); //
+    #endif
 #endif    
 //#ifdef __LGT8FX8E__
     Serial.begin( 19200 );//This speed is what works best with WeMos XI/TTGO XI board.
@@ -126,13 +130,16 @@ void setup()
 //   ads.setGain(GAIN_SIXTEEN);    // 16x gain  +/- 0.256V  1 bit = 0.125mV  0.0078125mV
     ads.begin();
 #endif
+
 #ifdef __LGT8FX8E__
     delay( 8000 );  // Needed by this board for serial to work
-    analogReadResolution( 12 );
+//    analogReadResolution( 12 );  //not necessary
+#endif
+#if ( ARDUINO_ARCH_XI || ARDUINO_ARCH_SAM || ARDUINO_ARCH_SAMD ) //These are the boards known to have 12 bit analog inputs
     #ifdef AnalogInputBitsOfBoard
         #undef AnalogInputBitsOfBoard
     #endif
-    #define AnalogInputBitsOfBoard 12
+    #define AnalogInputBitsOfBoard 12  //These boards have 12 bit
 #endif
 
 #define BitsToShiftInboardADCValues ( HighestBitResFromADS - AnalogInputBitsOfBoard )
