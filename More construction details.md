@@ -8,4 +8,4 @@
 >Either float unused analog inputs, or tie the unused analog inputs to midsupply or VDD. Connecting unused analog inputs to GND is possible, but may yield higher leakage currents than the previous options.
 
 
-Many other application tips are in the datasheet.  I don't mean to discourage you with technical reading, but those tips _are_ useful and some diagrams are in there that could help hold your attention.
+Many other application tips are in the datasheet.  I don't mean to discourage you with technical reading, but those tips _are_ useful and some diagrams are in there that could help hold your attention.  I won't include any links here b/c they so often go dead.
