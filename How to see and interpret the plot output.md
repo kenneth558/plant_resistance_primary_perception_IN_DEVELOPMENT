@@ -1,6 +1,6 @@
 Below is a screen shot of a trace from an ADS1115 (that's 15 bits of resolution).  The sketch was compiled for no analog pin connections and one ADS1X15 connection.  That ends up being two traces because one is unity scaled (blue) and the other is magnified (red).  The third line that appears at full-scale half the time and at the bottom the other half the time is simply the time and scale marker.  The color legend in the upper right corner of the image shows the three line colors in the order that the sketch sends to readings to the plotter monitor.  No other color control nor labeling is allowed by the IDE.
 
-You will notice that the blue unity scale line appears almost perfectly halfway in the range for that pin.  That just happened to work out with the 1 Mohm resistor.  Frankly, I was surprised that it worked out like that!
+You will notice that the blue unity scale line appears almost perfectly halfway in the range for that pin.  That just happened to work out with the 1 Mohm resistor.  Frankly, I was surprised that it worked out like that since that was the first resistor value I tried!
 
 Why all the noise?  I haven't investigated that, yet.
 
