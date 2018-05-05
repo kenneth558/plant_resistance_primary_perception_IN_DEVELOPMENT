@@ -1,11 +1,11 @@
 1.  A decoupling capacitor is required at the ADS1X15 device VDD to GND.  From the datasheet:
 >Good power-supply decoupling is important to achieve optimum performance. VDD must be decoupled with at least a 0.1-μF capacitor, as shown in Figure 47. The 0.1-μF bypass capacitor supplies the momentary bursts of extra current required from the supply when the device is converting. Place the bypass capacitor as close to the power-supply pin of the device as possible using low-impedance connections. Use multilayer ceramic chip capacitors (MLCCs) that offer low equivalent series resistance (ESR) and inductance (ESL) characteristics for power-supply decoupling purposes. For very sensitive systems, or for systems in harsh noise environments, avoid the use of vias for connecting the capacitors to the device pins for better noise immunity. The use of multiple vias in parallel lowers the overall inductance, and is beneficial for connections to ground planes.
 
-2.  Unused analog input pins of the ADS1X15 should not be connected to GND or more power cupply current will be drawn than is necessary.  From the datasheet:
->Either float unused analog inputs, or tie the unused analog inputs to midsupply or VDD. Connecting unused analog inputs to GND is possible, but may yield higher leakage currents than the previous options.
-
-3.  An RC filter to each used ADS1X15 analog input is advised by the manufacturer.  From the datasheet:
+2.  An RC filter to each used ADS1X15 analog input is advised by the manufacturer.  From the datasheet:
 >...any noise pick-up along the sensor wiring or the application circuitry can potentially alias into the pass-band. Power line-cycle frequency and harmonics are one common noise source. External noise can also be generated from electromagnetic interference (EMI) or radio frequency interference (RFI) sources, such as nearby motors and cellular phones. Another noise source typically exists on the printed-circuit-board (PCB) itself in the form of clocks and other digital signals. Analog input filtering helps remove unwanted signals from affecting the measurement result...
+
+3.  Unused analog input pins of the ADS1X15 should not be connected to GND or more power cupply current will be drawn than is necessary.  From the datasheet:
+>Either float unused analog inputs, or tie the unused analog inputs to midsupply or VDD. Connecting unused analog inputs to GND is possible, but may yield higher leakage currents than the previous options.
 
 
 Many other application tips are in the datasheet.  I don't mean to discourage you with technical reading, but those tips _are_ useful...hint, hint.
