@@ -4,7 +4,7 @@ The setup uses a 1 Mohm resistor and a red bell pepper plant almost fresh from t
 
 You will notice that the blue unity scale line appears almost perfectly halfway in the range for that pin.  That just happened to work out with the 1 Mohm resistor.  Frankly, I was surprised that it worked out like that since that was the first resistor value I tried!
 
-Why all the noise?  I haven't investigated that, yet.  I have an LM334 on order to remove power supply noise, and I'm thinking I'll just wait until that part arrives to worry about it.
+Why all the noise?  I haven't investigated that, yet.  I have an LM334 on order to remove power supply noise, and I'm thinking I'll just wait until that part arrives to worry any more about it.
 
 The vertical positioning of the magnified line has no meaning...it is just at the height that the calculations decided it would get displayed within the max and min scale for that pin.  When the readings from the electrodes would cause the magnified line to print outside the bounds for that pin, the height of the magnified line will get adjusted so it will continue to appear in bounds.  Yes, we all do wish that the time-past part of the line could get height-adjusted right along with the time-future part of the line, but alas, the IDE provides no way to do that.
 ![Image of plot line from my setup using a 1 Mohm resistor and a red bell pepper plant almost fresh from the store with the reference electrode poked into the very wet soil](https://github.com/kenneth558/plant_resistance_primary_perception/blob/Free/adc%20primary%20perception%20screen%20of%20plotter.png)
