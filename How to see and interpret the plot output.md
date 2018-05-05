@@ -1,5 +1,7 @@
 Below is a screen shot of a trace from an ADS1115 (that's 15 bits of resolution).  The sketch was compiled for no analog pin connections and one ADS1X15 connection.  That ends up being two traces because one is unity scaled (blue) and the other is magnified (red).  The third line that appears at full-scale half the time and at the bottom the other half the time is simply the time and scale marker.  The color legend in the upper right corner of the image shows the three line colors in the order that the sketch sends to readings to the plotter monitor.  No other color control nor labeling is allowed by the IDE.
 
+The setup uses a 1 Mohm resistor and a red bell pepper plant almost fresh from the store with the reference electrode poked into the very wet soil.  I tried for only a moment to convince the plant to show a response, but I'm not at all confident that one electrode in the soil is the best way of connecting the electrodes.  I'll try to determine the best way with more experimentation .
+
 You will notice that the blue unity scale line appears almost perfectly halfway in the range for that pin.  That just happened to work out with the 1 Mohm resistor.  Frankly, I was surprised that it worked out like that since that was the first resistor value I tried!
 
 Why all the noise?  I haven't investigated that, yet.
