@@ -27,6 +27,8 @@ In the sketch source code of this project, you'll find some self-explanatorily-n
 -  HighestBitResFromADS
 -  AnalogInputBitsOfBoard
 -  SAMPLE_TIMES
+-  DELAY_TIME_BETWEEN_SAMPLES_MS
+-  DELAY_TIME_BETWEEN_SAMPLES_US
 
 To monitor electrical conductance changes of plant tissue, such as a leaf, in vivo.  Tested with Uno and Wemos XI/TTGO XI.  The TTGO/WeMos board will require either an ADS device or a unity gain buffer to use the TTGO's ADC.  Mac and Windows are assumed to work as well as Linux.  Avoiding STM32F103C8T6 due to bootloader issues in Linux with common USB-serial adapters, avoiding ATTINY85 due to no hardware serial.  Other boards having at least one analog input can be used, or add the very inexpensive ADS1115 for best resolution.  IMPORTANT: When selecting a board you'll use for this project, make sure it has a USB port or that you are otherwise able to fashion serial communications. The output from the Arduino is formatted for input into the Arduino IDE serial plotter rather than the serial monitor.  Also, I am well aware of the possibility that the property being monitored may not precisely be conductance but rather the appearance of conductance due to something akin to dynamic polarization, electrically speaking, of plant tissues.  This could be a vitally important factor to consider in electrode "placement-ology", if you will.
 
