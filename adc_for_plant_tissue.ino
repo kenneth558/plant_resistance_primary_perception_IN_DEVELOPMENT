@@ -1,15 +1,24 @@
 // Before using this sketch, you must set the following appropriately for your configuration and preferences !!!
-#define NUM_ANALOG_INPUTS_TO_PLOT 1 //The number of consecutive analog pins to plot, beginning with PIN_A0
+#define NUM_ANALOG_INPUTS_TO_PLOT 0 //The number of consecutive analog pins to plot, beginning with PIN_A0
 #define NUM_ADS1X15_INPUTS_TO_PLOT 1 //The number of consecutive ADS1X15 pins to plot, beginning with A0
 #define MULTIPLICATION_FACTOR 15 //To aid in viewing
 #define HighestBitResFromADS 15 //This is ADS1115 single-ended, advertised res of 16 bit only applies to double-ended.  all ADC values will get scaled to this, change to 11 for ADS1015
 #define SAMPLE_TIMES 9 //To better average out artifacts we over-sample and average.  This value can be tweaked by you to ensure neutralization of power line noise or harmonics of power supplies, etc.....
+
+/*
+* 18 May 2018 Anti-aliasing update:  This update has four parts - two definitions here and three small code patches in the sampling area of this sketch which you can locate by searching this sketch for this date
+*                                    This update allows you to control the over-sampling periods.  Intent is to spread over samples out evenly for averaging over one period of the fundamental noise wavelength that you choose.
+*/
+                                                                                           // 18 May 2018 Anti-aliasing update: Definition next line, update is the next two lines only
+#define DELAY_TIME_BETWEEN_SAMPLES_MS 0 //COARSE ADJUST  60Hz = 16.667 mS, so if you want oversample averaging to be across a 60 Hz fundamental this definition would be 16 and the next would be 667 less whatever overhead time the code takes on your board
+#define DELAY_TIME_BETWEEN_SAMPLES_US 0 //FINE ADJUST.  THIS GETS ADDED TO COARSE ADJUST   // End of this part of code update
+
 #define FIRST_ANALOG_PIN_DIGITAL_NUMBER_FOR_BOARDS_NOT_HAVING_ANALOG_PINS_DEFINED_BY_PIN_A0_TYPE_DEFINES 14 //Some boards don't have good definitions and constants for the analog pins :-(
 #define REPOSITION_RATIO_OF_MAGNIFIED_VIEW_WHEN_LIMITS_GET_EXCEEDED (.6) //BETWEEN 0 AND 1 indicating how much of the display region to skip when magnified view trace has to get repositioned because trace would be outside region bounds
 
 //#define DEBUG //Don't forget that DEBUG is not formatted for Serial plotter so plotter can't work when you put the compiler in DEBUG
 #define AnalogInputBitsOfBoard 10 //Most Arduino boards are 10-bit resolution, but some can be 12 bits.  For known 12 bit boards (SAM, SAMD and TTGO XI architectures), this gets re-defined below, so generally this can be left as 10 even for those boards
-
+#define SECONDS_THAT_A_LGT8FX8E_HARDWARE_SERIAL_NEEDS_TO_COME_UP_WORKING 9 //8 works only usually
 /*******************(C)  COPYRIGHT 2018 KENNETH L ANDERSON *********************
 * 
 *      ARDUINO ELECTRICAL RESISTANCE/CONDUCTANCE MONITORING SKETCH 
@@ -17,7 +26,7 @@
 * File Name          : adc_for_plant_tissue.ino
 * Author             : KENNETH L ANDERSON
 * Version            : v.Free
-* Date               : 04-May-2018.  Versions you may have downloaded dated prior to 30 April should be replaced with 30 April 2018 or one more recent.  Revisions more recent than 30 April 2018 do not affect you if your 30 April sketch compiles and plots any inboard analog input pins.  No changes have been made to ADS1X15 operation nor 10-bit operation since 30 April 2018
+* Date               : 18-May-2018.  Versions you may have downloaded dated prior to 30 April should be replaced with 30 April 2018 or one more recent.  Revisions more recent than 30 April 2018 do not affect you if your 30 April sketch compiles and plots any inboard analog input pins.  No changes have been made to ADS1X15 operation nor 10-bit operation since 30 April 2018
 * Description        : To replicate Cleve Backster's findings that he named "Primary Perception".  Basically, this sketch turns an Arduino MCU and optional (recommended) ADS1115 into a nicely functional poor man's polygraph.
 * Boards tested on   : Uno using both ADS1115 and inboard analog inputs.  
 *                    : TTGO XI using ADS1115.  
@@ -52,9 +61,10 @@
 *  
 *  Changelog:  30 April 2018 :  Final inboard 10 bit operation and ADS1X15 operation has been achieved.  Future work on free version will be for 12 bit boards only
 *              04 May   2018 :  Some 12 bit tweaking so that TTGO/WeMos XI, SAM and SAMD architectures compile with inboard analog inputs to computed at 12 bit even though AnalogInputBitsOfBoard is set at default.
+*              08 May   2018 :  Made able to use X9C with LM334
 * 
 *********************************************************************************************************************/
-#define VERSION "v.Free"
+#define VERSION "v.NOT_Free"
 
 #include <math.h>
 #if ( NUM_ADS1X15_INPUTS_TO_PLOT > 0 )
@@ -135,7 +145,7 @@ void setup()
 #endif
 
 #ifdef __LGT8FX8E__
-    delay( 8000 );  // Needed by this board for serial to work
+    delay( SECONDS_THAT_A_LGT8FX8E_HARDWARE_SERIAL_NEEDS_TO_COME_UP_WORKING * 1000 );  // Needed by this board for serial to work
 //    analogReadResolution( 12 );  //not necessary
 #endif
 #if ( ARDUINO_ARCH_XI || ARDUINO_ARCH_SAM || ARDUINO_ARCH_SAMD ) //These are the boards known to have 12 bit analog inputs
@@ -329,12 +339,32 @@ void loop()
             {
                 value = ads.readADC_SingleEnded( i );
             }
+/*
+* 18 May 2018 Anti-aliasing update:  This update has four parts - one code line below, two code parts shorlty below that, and the two definitions in the definitions area of this sketch which you can locate by searching this sketch for this date
+*/
+                                                                                           // 18 May 2018 Anti-aliasing update: Code update next one line
+#if ( defined SAMPLE_TIMES ) && ( SAMPLE_TIMES > 0 )                                       //End of this part of code update
             for( uint8_t sampletimes = 1; sampletimes < SAMPLE_TIMES; sampletimes++ )
             {
+/*
+* 18 May 2018 Anti-aliasing update:  This update has four parts - one code part nearby above this, these code lines here, one code part nearby below that, and the two definitions in the definitions area of this sketch which you can locate by searching this sketch for this date
+*/
+                                                                                           // 18 May 2018 Anti-aliasing update: Code update next six lines
+#if ( defined DELAY_TIME_BETWEEN_SAMPLES_MS ) && ( DELAY_TIME_BETWEEN_SAMPLES_MS > 0 )
+                delay( DELAY_TIME_BETWEEN_SAMPLES_MS );
+#endif
+#if ( defined DELAY_TIME_BETWEEN_SAMPLES_US ) && ( DELAY_TIME_BETWEEN_SAMPLES_US > 0 )
+                delayMicroseconds( DELAY_TIME_BETWEEN_SAMPLES_US );
+#endif                                                                                     //End of this part of code update
                 valueTemp = ads.readADC_SingleEnded( i );
                 while( valueTemp > pow( 2, HighestBitResFromADS ) ) valueTemp = ads.readADC_SingleEnded( i );
                 value += valueTemp;
             }
+/*
+* 18 May 2018 Anti-aliasing update:  This update has four parts - two code parts nearby above this, one code line here and the two definitions in the definitions area of this sketch which you can locate by searching this sketch for this date
+*/
+                                                                                           // 18 May 2018 Anti-aliasing update: Code update next one line
+#endif                                                                                     //End of this part of code update
             plot_the_normal_and_magnified_signals( i + NUM_ANALOG_INPUTS_TO_PLOT );
         }
 #endif
