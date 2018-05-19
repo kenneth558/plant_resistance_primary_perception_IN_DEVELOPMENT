@@ -10,7 +10,7 @@
 *                                    This update allows you to control the over-sampling periods.  Intent is to spread over samples out evenly for averaging over one period of the fundamental noise wavelength that you choose.
 */
                                                                                            // 18 May 2018 Anti-aliasing update: Definition next line, update is the next two lines only
-#define DELAY_TIME_BETWEEN_SAMPLES_MS 0 //COARSE ADJUST  60Hz = 16.667 mS, so if you want oversample averaging to be across a 60 Hz fundamental this definition would be 16 and the next would be 667 less whatever overhead time the code takes on your board
+#define DELAY_TIME_BETWEEN_SAMPLES_MS 0 //COARSE ADJUST
 #define DELAY_TIME_BETWEEN_SAMPLES_US 0 //FINE ADJUST.  THIS GETS ADDED TO COARSE ADJUST   // End of this part of code update
 
 #define FIRST_ANALOG_PIN_DIGITAL_NUMBER_FOR_BOARDS_NOT_HAVING_ANALOG_PINS_DEFINED_BY_PIN_A0_TYPE_DEFINES 14 //Some boards don't have good definitions and constants for the analog pins :-(
@@ -64,7 +64,7 @@
 *              08 May   2018 :  Made able to use X9C with LM334
 * 
 *********************************************************************************************************************/
-#define VERSION "v.NOT_Free"
+#define VERSION "v.Free"
 
 #include <math.h>
 #if ( NUM_ADS1X15_INPUTS_TO_PLOT > 0 )
