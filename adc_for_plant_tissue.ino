@@ -10,8 +10,8 @@
 *                                    This update allows you to control the over-sampling periods.  Intent is to spread over samples out evenly for averaging over one period of the fundamental noise wavelength that you choose.
 */
                                                                                            // 18 May 2018 Anti-aliasing update: Definition next line, update is the next two lines only
-#define DELAY_TIME_BETWEEN_SAMPLES_MS 0 //COARSE ADJUST
-#define DELAY_TIME_BETWEEN_SAMPLES_US 0 //FINE ADJUST.  THIS GETS ADDED TO COARSE ADJUST   // End of this part of code update
+#define DELAY_TIME_BETWEEN_SAMPLES_MS ( 1000 / 60 / SAMPLE_TIMES ) //COARSE ADJUST  period of 60Hz
+#define DELAY_TIME_BETWEEN_SAMPLES_US ( ( ( 1000000 / 60 ) - ( DELAY_TIME_BETWEEN_SAMPLES_MS * SAMPLE_TIMES * 1000 ) ) / SAMPLE_TIMES ) //FINE ADJUST.  THIS GETS ADDED TO COARSE ADJUST, PRECISION = TRUNCATED PRAGMATICALLY TO uSec TO ACKNOWLEDGE SOME OVERHEAD FOR LOOPING SUPPORT CODE   // End of this part of code update
 
 #define FIRST_ANALOG_PIN_DIGITAL_NUMBER_FOR_BOARDS_NOT_HAVING_ANALOG_PINS_DEFINED_BY_PIN_A0_TYPE_DEFINES 14 //Some boards don't have good definitions and constants for the analog pins :-(
 #define REPOSITION_RATIO_OF_MAGNIFIED_VIEW_WHEN_LIMITS_GET_EXCEEDED (.6) //BETWEEN 0 AND 1 indicating how much of the display region to skip when magnified view trace has to get repositioned because trace would be outside region bounds
