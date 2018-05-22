@@ -5,4 +5,4 @@ When I was testing with the LM334, which alternately is a temperature sensor, th
 
 I am unable to find programmable pots of sufficient resistance to directly utilize the zero tempco circuit as presented in application notes, so I will have to try variations on that theme.  Add more days/weeks to the tempco effort with an as yet unpredictable outcome.
 
-When I've finished these tasks, I hope to offer a good estimate of how much better the LM334 is than just using a resistor to supply the current to the plant.  I expect to find that the use of an LM334, two programmable potentiometers, and a diode will actually be indispensible to use in place of a simple series resistor to the signal electrode.
+When I've finished these tasks, I hope to offer a good estimate of how much better the LM334 is than just using a resistor to supply the current to the plant.  I expect to find that the use of an LM334, two programmable potentiometers, and a diode or so will actually be indispensible to use in place of a simple series resistor to the signal electrode.
