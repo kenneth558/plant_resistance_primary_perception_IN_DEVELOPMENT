@@ -3,8 +3,8 @@ As of 30 April 2018, this sketch is functional, only requiring low-noise constru
 --  Arrange for adjustments of various kinds during run time based on keyboard inputs
 
 --  Use an LM334 to prevent power supply noise from plotting (i.e., convert from monitoring resistance to monitoring 
-        conductance, which means that power supply noise is eliminated!).  A toroid-based noise suppression coil 
-        might be needed.
+        conductance, which means that power supply noise is eliminated!).  A toroid-based noise suppression coil in series 
+        might be needed as one of the supporting components.
 
 --  Use digital potentiometer (MCP41XXX or MCP42XXX) for more automated balancing of the two serial resistances.
 
