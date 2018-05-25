@@ -25,7 +25,7 @@ In the sketch source code of this project, you'll find some self-explanatorily-n
 -  NUM_ANALOG_INPUTS_TO_PLOT
 -  NUM_ADS1X15_INPUTS_TO_PLOT
 -  MULTIPLICATION_FACTOR
--  HighestBitResFromADS
+-  HighestBitResFromAD
 -  AnalogInputBitsOfBoard
 -  SAMPLE_TIMES
 -  DELAY_TIME_BETWEEN_SAMPLES_MS
