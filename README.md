@@ -1,5 +1,5 @@
 # Telempathic Horticulture - Promoting a Reviving Civility
-###                                   plans and Arduino sketch for the training aid
+                        ### plans and Arduino sketch for the training aid
 -------------
 As of 30 April 2018, this sketch is functional, only requiring low-noise construction techniques of the connections and circuitry.  .INO FILE VERSIONS DATED PRIOR TO 30 APRIL 2018 ARE DEFICIENT IN VARIOUS CAPACITIES DISPLAYING THE TRACES.  Replace them with this newer version.  If you are using the ADS1015 or ADS1115, be sure to install the supporting library Adafruit_ADS1015 since this sketch depends on it.  Periodic improvements are to be expected to this project.  Consideration is being given to adapting a fork of this project to the Raspberry Pi-ish single board computers.  This sketch *version* is FREE so that anyone can enjoy it.  For those of you who can afford to support my work on this project, I will offer a "not-free" sketch version when the parts arrive that has the following enhancements:
 
