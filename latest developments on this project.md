@@ -1,4 +1,4 @@
-<dl><dt>29 May 2018</dt></dl>Decided I will need to support the ADS1231 as well.
+<dl><dt>29 May 2018</dt></dl>Decided I will need to support the ADS1231 as well.  The mention of diodes WRT tempco is obsolete with an additional LM334 (as mentioned in prior post) for tempco.  The HX711 will be difficult due to max scale occuring at 0.08 volts or less, and I feel that will be wishful thinking at best to insist on that close of a match between A0 and A1 legs in the lay person world besides dealing with the noise from all sources and junction contacts at that amplification.
 
 <dl><dt>28 May 2018</dt></dl>I realized the advantage of reading differential when using the LM334s.  When I get differential reads working it will allow use of 24-bit load cell-type ADCs.  I have two 24-bit HX711 on hand, so the project will eventually additionally use HX711.  I expect first or second  week of June will see this project working with differential while still keeping the capability for single-ended.  I have secured domain names for "reviving civility" and "telempathic horticulture" which point here where they will remain pointed until I get a better page built.
 
