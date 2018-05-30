@@ -1,4 +1,4 @@
-<dl><dt>29 May 2018</dt></dl>Considering supporting AD7780.  Looks like the best value 24-bit ADC for full-scale differential input...
+<dl><dt>29 May 2018</dt></dl>Considering supporting AD7780.  Looks like a good value 24-bit ADC for full-scale differential input...  ADS1242 as well.
 
 <dl><dt>29 May 2018</dt></dl>Decided I will need to support the ADS1231 as well.  The mention of diodes WRT tempco is obsolete with an additional LM334 (as mentioned in prior post) for tempco.  The HX711 will be difficult due to max scale occuring at 0.08 volts or less, and I feel that will be wishful thinking at best to insist on that close of a match between A0 and A1 legs in the lay person world besides dealing with the noise from all sources and junction contacts at that amplification.  Considering LTC2400, AD779x and MAX112x0.
 
