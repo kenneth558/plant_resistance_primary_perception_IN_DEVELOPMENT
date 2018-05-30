@@ -2,6 +2,7 @@
 #define NUM_ANALOG_INPUTS_TO_PLOT 0 //The number of consecutive analog pins to plot, beginning with PIN_A0
 #define NUM_ADDON_ADC_INPUTS_TO_PLOT 1 //The number of consecutive ADS1X15 pins to plot, beginning with A0 and, if double-ended, A1
 // TODO: If both the above are zeroes, use of HX711 is assumed.....?  Or would a separate definition work better or be more usefully flexible
+#define 24BIT_ADDON_ADC_TYPE "ADS3"  // Proposing that this covers ADS1231; could make this "ADS4" (ADS1242), "AD9" (AD779x), "AD8" (AD7780) or "MAX" (MAX112x0...) or "LTC" (LTC2400) but code not included in v.FREE
 #define MULTIPLICATION_FACTOR 20 //To aid in viewing
 #define HighestBitResFromAddonADC 11 // all ADC values will get scaled to the single-ended aspect of this,  15 is ADS1115 single-ended, 16 for double-ended when two LM334s are used.  change to 11 for ADS1015 single-ended or 12 with two LM334s, (future: change to 24 for HX711--NO b/c there is the ADS1231 at 24 bits)
 // Note to myself that Adafruit ADS1015 library uses two's complement representation of negative values
