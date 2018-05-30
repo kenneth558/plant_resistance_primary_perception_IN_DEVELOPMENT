@@ -2,7 +2,7 @@
 #define NUM_ANALOG_INPUTS_TO_PLOT 0 //The number of consecutive analog pins to plot, beginning with PIN_A0
 #define NUM_ADDON_ADC_INPUTS_TO_PLOT 1 //The number of consecutive ADS1X15 pins to plot, beginning with A0 and, if double-ended, A1
 // TODO: If both the above are zeroes, use of HX711 is assumed.....?  Or would a separate definition work better or be more usefully flexible
-#define 24BIT_ADDON_ADC_TYPE "ADS3"  // Proposing that this covers ADS1231; could make this "ADS4" (ADS1242), "AD9" (AD779x), "AD8" (AD7780) or "MAX" (MAX112x0...) or "LTC" (LTC2400) but code not included in v.FREE
+#define TWENTYFOUR_BIT_ADDON_ADC_TYPE "HX711"  // Proposing that "ADS1231" covers ADS1231; could make this "ADS1232" (ADS1232), "ADS1242" (ADS1242), "AD779x" (AD779x), "AD7780" (AD7780), "HX711" (HX711), "MAX112x0" (MAX112x0...) or "LTC2400" (LTC2400) but code not included in v.FREE
 #define MULTIPLICATION_FACTOR 20 //To aid in viewing
 #define HighestBitResFromAddonADC 11 // all ADC values will get scaled to the single-ended aspect of this,  15 is ADS1115 single-ended, 16 for double-ended when two LM334s are used.  change to 11 for ADS1015 single-ended or 12 with two LM334s, (future: change to 24 for HX711--NO b/c there is the ADS1231 at 24 bits)
 // Note to myself that Adafruit ADS1015 library uses two's complement representation of negative values
@@ -63,7 +63,8 @@
 *              04 May   2018 :  Some 12 bit tweaking so that TTGO/WeMos XI, SAM and SAMD architectures compile with inboard analog inputs to computed at 12 bit even though AnalogInputBitsOfBoard is set at default.
 *              18 May   2018 :  Anti-aliasing code
 *              29 May   2018 :  Differential use of ADS1x15 to allow LM334 temperature comp to negative inputs so LM334 can be used on positive inputs
-*              NEXT          :  Accommodate HX711 and ADS1231
+*              32 May   2018 :  Added skeleton preprocessor defines for user to compatibly code their own support for a few 24-bit ADCs
+*              NEXT          :  Accommodate HX711 and ADS1232
 *              NEXT          :  Made able to use MCP41XXX or MCP42XXX with LM334
 *              NEXT          :  Software temperature compensation using a 2nd LM334 tightly theramlly coupled to 1ts LM334 feeding a fixed resistor circuit in parallel with the plant circuit and connected to a 2nd analog input.  Table of offsets from midpoint or one end of pot settings.
 *               
@@ -81,14 +82,42 @@
     #if ( ( HALFHighestBitResFromAddonADC * 2 ) == HighestBitResFromAddonADC )
         #define DIFFERENTIAL 
     #endif
-    #include <Adafruit_ADS1015.h>//for systems using ADS1115/ADS1015
-    #if ( HighestBitResFromAddonADC == 15 ) || ( HighestBitResFromAddonADC == 16 )
-        Adafruit_ADS1115 ads;  //For when ADS1115 is being used
-    #else
-        #if ( HighestBitResFromAddonADC == 11 ) || ( HighestBitResFromAddonADC == 12 )
-            Adafruit_ADS1015 ads;  //For when ADS1015 is being used
+    #if ( HighestBitResFromAddonADC < 17 ) && ( NUM_ADDON_ADC_INPUTS_TO_PLOT > 0 )
+        #include <Adafruit_ADS1015.h>//for systems using ADS1115/ADS1015
+        #if ( HighestBitResFromAddonADC == 15 ) || ( HighestBitResFromAddonADC == 16 )
+            Adafruit_ADS1115 ads;  //For when ADS1115 is being used
         #else
-            #error “This add-on ADC resolution is not supported in this sketch version."
+            #if ( HighestBitResFromAddonADC == 11 ) || ( HighestBitResFromAddonADC == 12 )
+                Adafruit_ADS1015 ads;  //For when ADS1015 is being used
+            #else
+                #error “This add-on ADC resolution is not supported in this sketch version."
+            #endif
+        #endif
+    #else
+        #if ( TWENTYFOUR_BIT_ADDON_ADC_TYPE == "HX711" ) && ( HighestBitResFromAddonADC == 24 ) //Which 24-bit ADC is single-ended?  It is 23 bits hopefully
+        #else
+            #if ( TWENTYFOUR_BIT_ADDON_ADC_TYPE == "ADS1232" ) && ( HighestBitResFromAddonADC == 24 )
+            #else
+                #if ( TWENTYFOUR_BIT_ADDON_ADC_TYPE == "ADS1242" ) && ( HighestBitResFromAddonADC == 24 )
+                #else
+                    #if ( TWENTYFOUR_BIT_ADDON_ADC_TYPE == "AD7780" ) && ( HighestBitResFromAddonADC == 24 )
+                    #else
+                        #if ( TWENTYFOUR_BIT_ADDON_ADC_TYPE == "AD779x" ) && ( HighestBitResFromAddonADC == 24 )
+                        #else
+                            #if ( TWENTYFOUR_BIT_ADDON_ADC_TYPE == "MAX112x0" ) && ( HighestBitResFromAddonADC == 24 )
+                            #else
+                                #if ( TWENTYFOUR_BIT_ADDON_ADC_TYPE == "LTC2400" ) && ( HighestBitResFromAddonADC == 24 )
+                                #else
+                                    #if ( TWENTYFOUR_BIT_ADDON_ADC_TYPE == "ADS1231" ) && ( HighestBitResFromAddonADC == 24 )
+                                    #else
+                                        #error “This add-on ADC resolution is not supported in this sketch version."
+                                    #endif
+                                #endif
+                            #endif
+                        #endif
+                    #endif
+                #endif
+            #endif
         #endif
     #endif
 #endif
@@ -147,13 +176,40 @@ void setup()
     //    analogReadResolution( ADC_RES_BIT );
     //#endif
     #if ( NUM_ADDON_ADC_INPUTS_TO_PLOT > 0 )
-    //   ads.setGain( GAIN_TWOTHIRDS );  // 2/3x gain +/- 6.144V  1 bit = 3mV      0.1875mV (default)
-       ads.setGain( GAIN_ONE );        // 1x gain   +/- 4.096V  1 bit = 2mV      0.125mV  //This allows a simple power rail excitation supply to voltage divider
-    //   ads.setGain( GAIN_TWO );        // 2x gain   +/- 2.048V  1 bit = 1mV      0.0625mV
-    //   ads.setGain( GAIN_FOUR );       // 4x gain   +/- 1.024V  1 bit = 0.5mV    0.03125mV
-    //   ads.setGain( GAIN_EIGHT );      // 8x gain   +/- 0.512V  1 bit = 0.25mV   0.015625mV
-    //   ads.setGain( GAIN_SIXTEEN );    // 16x gain  +/- 0.256V  1 bit = 0.125mV  0.0078125mV
-        ads.begin();
+        #if ( HighestBitResFromAddonADC < 17 )
+        //   ads.setGain( GAIN_TWOTHIRDS );  // 2/3x gain +/- 6.144V  1 bit = 3mV      0.1875mV (default)
+           ads.setGain( GAIN_ONE );        // 1x gain   +/- 4.096V  1 bit = 2mV      0.125mV  //This allows a simple power rail excitation supply to voltage divider
+        //   ads.setGain( GAIN_TWO );        // 2x gain   +/- 2.048V  1 bit = 1mV      0.0625mV
+        //   ads.setGain( GAIN_FOUR );       // 4x gain   +/- 1.024V  1 bit = 0.5mV    0.03125mV
+        //   ads.setGain( GAIN_EIGHT );      // 8x gain   +/- 0.512V  1 bit = 0.25mV   0.015625mV
+        //   ads.setGain( GAIN_SIXTEEN );    // 16x gain  +/- 0.256V  1 bit = 0.125mV  0.0078125mV
+            ads.begin();
+        #else
+            #if ( TWENTYFOUR_BIT_ADDON_ADC_TYPE == "HX711" )
+            #else
+                #if ( TWENTYFOUR_BIT_ADDON_ADC_TYPE == "ADS1232" )
+                #else
+                    #if ( TWENTYFOUR_BIT_ADDON_ADC_TYPE == "ADS1242" )
+                    #else
+                        #if ( TWENTYFOUR_BIT_ADDON_ADC_TYPE == "AD7780" )
+                        #else
+                            #if ( TWENTYFOUR_BIT_ADDON_ADC_TYPE == "AD779x" )
+                            #else
+                                #if ( TWENTYFOUR_BIT_ADDON_ADC_TYPE == "MAX112x0" )
+                                #else
+                                    #if ( TWENTYFOUR_BIT_ADDON_ADC_TYPE == "LTC2400" )
+                                    #else
+                                        #if ( TWENTYFOUR_BIT_ADDON_ADC_TYPE == "ADS1231" )
+                                        #else
+                                        #endif
+                                    #endif
+                                #endif
+                            #endif
+                        #endif
+                    #endif
+                #endif
+            #endif
+        #endif
     #endif
     
     #ifdef __LGT8FX8E__
@@ -374,7 +430,34 @@ void loop()
                     }
                 #else
                     #ifdef DIFFERENTIAL
-                        value = ( ( ( i == 1 ) ? ( ads.readADC_Differential_2_3() ) : ( ads.readADC_Differential_0_1() ) ) + pow( 2, HighestBitResFromAddonADC - 1 ) );
+                        #if ( HighestBitResFromAddonADC < 17 )
+                            value = ( ( ( i == 1 ) ? ( ads.readADC_Differential_2_3() ) : ( ads.readADC_Differential_0_1() ) ) + pow( 2, HighestBitResFromAddonADC - 1 ) );
+                        #else
+                            #if ( TWENTYFOUR_BIT_ADDON_ADC_TYPE == "HX711" )
+                            #else
+                                #if ( TWENTYFOUR_BIT_ADDON_ADC_TYPE == "ADS1232" )
+                                #else
+                                    #if ( TWENTYFOUR_BIT_ADDON_ADC_TYPE == "ADS1242" )
+                                    #else
+                                        #if ( TWENTYFOUR_BIT_ADDON_ADC_TYPE == "AD7780" )
+                                        #else
+                                            #if ( TWENTYFOUR_BIT_ADDON_ADC_TYPE == "AD779x" )
+                                            #else
+                                                #if ( TWENTYFOUR_BIT_ADDON_ADC_TYPE == "MAX112x0" )
+                                                #else
+                                                    #if ( TWENTYFOUR_BIT_ADDON_ADC_TYPE == "LTC2400" )
+                                                    #else
+                                                        #if ( TWENTYFOUR_BIT_ADDON_ADC_TYPE == "ADS1231" )
+                                                        #else
+                                                        #endif
+                                                    #endif
+                                                #endif
+                                            #endif
+                                        #endif
+                                    #endif
+                                #endif
+                            #endif
+                        #endif
                         #ifdef DEBUG
                             Serial.print( F( "Read direct differential value " ) );
                             Serial.println( ads.readADC_Differential_0_1() );
@@ -397,7 +480,34 @@ void loop()
                             while( valueTemp > pow( 2, HighestBitResFromAddonADC ) ) valueTemp = ads.readADC_SingleEnded( i );
                         #else
                             #ifdef DIFFERENTIAL
-                                valueTemp = ( ( ( i == 1 ) ? ( ads.readADC_Differential_2_3() ) : ( ads.readADC_Differential_0_1() ) ) + pow( 2, HighestBitResFromAddonADC - 1 ) );
+                                #if ( HighestBitResFromAddonADC < 17 )
+                                    valueTemp = ( ( ( i == 1 ) ? ( ads.readADC_Differential_2_3() ) : ( ads.readADC_Differential_0_1() ) ) + pow( 2, HighestBitResFromAddonADC - 1 ) );
+                                #else
+                                    #if ( TWENTYFOUR_BIT_ADDON_ADC_TYPE == "HX711" )
+                                    #else
+                                        #if ( TWENTYFOUR_BIT_ADDON_ADC_TYPE == "ADS1232" )
+                                        #else
+                                            #if ( TWENTYFOUR_BIT_ADDON_ADC_TYPE == "ADS1242" )
+                                            #else
+                                                #if ( TWENTYFOUR_BIT_ADDON_ADC_TYPE == "AD7780" )
+                                                #else
+                                                    #if ( TWENTYFOUR_BIT_ADDON_ADC_TYPE == "AD779x" )
+                                                    #else
+                                                        #if ( TWENTYFOUR_BIT_ADDON_ADC_TYPE == "MAX211x0" )
+                                                        #else
+                                                            #if ( TWENTYFOUR_BIT_ADDON_ADC_TYPE == "LTC2400" )
+                                                            #else
+                                                                #if ( TWENTYFOUR_BIT_ADDON_ADC_TYPE == "ADS1231" )
+                                                                #else
+                                                                #endif
+                                                            #endif
+                                                        #endif
+                                                    #endif
+                                                #endif
+                                            #endif
+                                        #endif
+                                    #endif
+                                #endif
                                 #ifdef DEBUG
                                     Serial.print( F( "Read adjusted differential valueTemp " ) );
                                     Serial.println( valueTemp );
