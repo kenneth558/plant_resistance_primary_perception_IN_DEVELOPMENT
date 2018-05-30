@@ -1,5 +1,5 @@
-## Telempathic Horticulture - Promoting a Reviving Civility
-### What does this project's title mean, anyway?
+##  <p align="center">Telempathic Horticulture - Promoting a Reviving Civility
+###  <p align="center">What does this project's title mean, anyway?
 
 The goal of the Telempathic Horticulture Arduino training aid is to magnify the effect on a plant of civil sentiments towards it so a person can see that effect much more readily.  I think of it as being like watching the minute hand move on a clock face - the longer the minute hand or the more magnification we view it through, the easier it is to see it moving in real time.  My selection of the term "telempathic" is to emphasize the fact that you'll need to exert empathetic type effort towards the plant to obtain successful results.  My selection of the term "horticulture" promotes the beneficial use instead of the easier and more popular destructive use of our telempathic effects on plants.  The destructive aspect of telempathy towards plants was demonstrated on the Mythbuster's television program episode "Deadly Straw".  Just for clarity, their title of that episode was not at all related to telempathy but to a different aspect of that same episode which investigated tornadic force impalement by a stalk of straw.
 
