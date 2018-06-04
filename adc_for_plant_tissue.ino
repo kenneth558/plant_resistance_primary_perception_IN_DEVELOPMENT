@@ -2,9 +2,9 @@
 #define NUM_ANALOG_INPUTS_TO_PLOT 0 //The number of consecutive analog pins to plot, beginning with PIN_A0
 #define NUM_ADDON_ADC_INPUTS_TO_PLOT 1 //The number of consecutive ADS1X15 pins to plot, beginning with A0 and, if double-ended, A1
 // TODO: If both the above are zeroes, use of HX711 is assumed.....?  Or would a separate definition work better or be more usefully flexible
-#define TWENTYFOUR_BIT_ADDON_ADC_TYPE "HX711"  // Proposing that "ADS1231" covers ADS1231; could make this "ADS1232" (ADS1232), "ADS1242" (ADS1242), "AD779x" (AD779x), "AD7780" (AD7780), "HX711" (HX711), "MAX112x0" (MAX112x0...) or "LTC2400" (LTC2400) but code not included in v.FREE
-#define MULTIPLICATION_FACTOR 20 //To aid in viewing
-#define HighestBitResFromAddonADC 11 // all ADC values will get scaled to the single-ended aspect of this,  15 is ADS1115 single-ended, 16 for double-ended when two LM334s are used.  change to 11 for ADS1015 single-ended or 12 with two LM334s, (future: change to 24 for HX711--NO b/c there is the ADS1231 at 24 bits)
+#define TWENTYFOUR_BIT_ADDON_ADC_TYPE HX711  // Proposing that "ADS1231" covers ADS1231; could make this "ADS1232" (ADS1232), "ADS1242" (ADS1242), "AD779x" (AD779x), "AD7780" (AD7780), "HX711" (HX711), "MAX112x0" (MAX112x0...) or "LTC2400" (LTC2400) but code not included in v.FREE
+#define MULTIPLICATION_FACTOR 400 //To aid in viewing
+#define HighestBitResFromAddonADC 24 // all ADC values will get scaled to the single-ended aspect of this,  15 is ADS1115 single-ended, 16 for double-ended when two LM334s are used.  change to 11 for ADS1015 single-ended or 12 with two LM334s, (future: change to 24 for HX711--NO b/c there is the ADS1231 at 24 bits)
 // Note to myself that Adafruit ADS1015 library uses two's complement representation of negative values
 #define SAMPLE_TIMES 9 //To better average out artifacts we over-sample and average.  This value can be tweaked by you to ensure neutralization of power line noise or harmonics of power supplies, etc.....
 #define MOST_PROBLEMATIC_INTERFERENCE_FREQ 60 // This is here just in case you think that you might have some interference on a known frequency.
@@ -12,11 +12,12 @@
 #define DELAY_TIME_BETWEEN_SAMPLES_US ( ( ( 1000000 / MOST_PROBLEMATIC_INTERFERENCE_FREQ ) - ( DELAY_TIME_BETWEEN_SAMPLES_MS * SAMPLE_TIMES * 1000 ) ) / SAMPLE_TIMES ) //FINE ADJUST.  THIS GETS ADDED TO COARSE ADJUST, PRECISION = TRUNCATED PRAGMATICALLY TO uSec TO ACKNOWLEDGE SOME OVERHEAD FOR LOOPING SUPPORT CODE   // End of this part of code update
 
 #define FIRST_ANALOG_PIN_DIGITAL_NUMBER_FOR_BOARDS_NOT_HAVING_ANALOG_PINS_DEFINED_BY_PIN_A0_TYPE_DEFINES 14 //Some boards don't have good definitions and constants for the analog pins :-(
-#define REPOSITION_RATIO_OF_MAGNIFIED_VIEW_WHEN_LIMITS_GET_EXCEEDED (.6) //BETWEEN 0 AND 1 indicating how much of the display region to skip when magnified view trace has to get repositioned because trace would be outside region bounds
+#define REPOSITION_RATIO_OF_MAGNIFIED_VIEW_WHEN_LIMITS_GET_EXCEEDED (.1) //BETWEEN 0 AND 1 indicating how much of the display region to skip when magnified view trace has to get repositioned because trace would be outside region bounds
 
 //#define DEBUG true //Don't forget that DEBUG is not formatted for Serial plotter, but might work anyway if you'd never print numbers only any DEBUG print line
 #define AnalogInputBitsOfBoard 10 //Most Arduino boards are 10-bit resolution, but some can be 12 bits.  For known 12 bit boards (SAM, SAMD and TTGO XI architectures), this gets re-defined below, so generally this can be left as 10 even for those boards
 #define SECONDS_THAT_A_LGT8FX8E_HARDWARE_SERIAL_NEEDS_TO_COME_UP_WORKING 9 //8 works only usually
+#define TWENTYFOUR_BIT_PGA_GAIN //Available to you for your own use PGA=Programmable Gain Amplifier: many ADCs will correlate a gain of one with full-scale being rail-to-rail, while a gain of anything higher correlates to full-scale being in the mV range (most sensitive and most noise-susceptible).
 /*******************(C)  COPYRIGHT 2018 KENNETH L ANDERSON *********************
 * 
 *      ARDUINO ELECTRICAL RESISTANCE/CONDUCTANCE MONITORING SKETCH 
@@ -24,7 +25,7 @@
 * File Name          : adc_for_plant_tissue.ino
 * Author             : KENNETH L ANDERSON
 * Version            : v.Free
-* Date               : 30-May-2018.  Versions you may have downloaded dated prior to 30 April should be replaced with 30 April 2018 or one more recent.  Revisions more recent than 30 April 2018 do not affect you if your 30 April sketch compiles and plots any inboard analog input pins.  No changes have been made to ADS1X15 operation nor 10-bit operation since 30 April 2018
+* Date               : 04-June-2018.  Versions you may have downloaded dated prior to 30 April should be replaced with 30 April 2018 or one more recent.  Revisions more recent than 30 April 2018 do not affect you if your 30 April sketch compiles and plots any inboard analog input pins.  No changes have been made to ADS1X15 operation nor 10-bit operation since 30 April 2018
 * Description        : To replicate Cleve Backster's findings that he named "Primary Perception".  Basically, this sketch turns an Arduino MCU and optional (recommended) ADS1115 into a nicely functional poor man's polygraph in order to learn/demonstrate telempathic horticulture.
 * Boards tested on   : Uno using both ADS1115 and inboard analog inputs.  
 *                    : TTGO XI using ADS1115.  
@@ -94,21 +95,22 @@
             #endif
         #endif
     #else
-        #if ( TWENTYFOUR_BIT_ADDON_ADC_TYPE == "HX711" ) && ( HighestBitResFromAddonADC == 24 ) //Which 24-bit ADC is single-ended?  It is 23 bits hopefully
+        #if ( TWENTYFOUR_BIT_ADDON_ADC_TYPE == HX711 ) && ( HighestBitResFromAddonADC == 24 ) //Which 24-bit ADC is single-ended?  ADS1242 It is 23 bits hopefully
+            #include <HX711_ADC.h> //From https://github.com/olkal/HX711_ADC/tree/master/src
         #else
-            #if ( TWENTYFOUR_BIT_ADDON_ADC_TYPE == "ADS1232" ) && ( HighestBitResFromAddonADC == 24 )
+            #if ( TWENTYFOUR_BIT_ADDON_ADC_TYPE == ADS1232 ) && ( HighestBitResFromAddonADC == 24 )
             #else
-                #if ( TWENTYFOUR_BIT_ADDON_ADC_TYPE == "ADS1242" ) && ( HighestBitResFromAddonADC == 24 )
+                #if ( TWENTYFOUR_BIT_ADDON_ADC_TYPE == ADS1242 ) && ( HighestBitResFromAddonADC == 24 )
                 #else
-                    #if ( TWENTYFOUR_BIT_ADDON_ADC_TYPE == "AD7780" ) && ( HighestBitResFromAddonADC == 24 )
+                    #if ( TWENTYFOUR_BIT_ADDON_ADC_TYPE == AD7780 ) && ( HighestBitResFromAddonADC == 24 )
                     #else
-                        #if ( TWENTYFOUR_BIT_ADDON_ADC_TYPE == "AD779x" ) && ( HighestBitResFromAddonADC == 24 )
+                        #if ( TWENTYFOUR_BIT_ADDON_ADC_TYPE == AD779x ) && ( HighestBitResFromAddonADC == 24 )
                         #else
-                            #if ( TWENTYFOUR_BIT_ADDON_ADC_TYPE == "MAX112x0" ) && ( HighestBitResFromAddonADC == 24 )
+                            #if ( TWENTYFOUR_BIT_ADDON_ADC_TYPE == MAX112x0 ) && ( HighestBitResFromAddonADC == 24 )
                             #else
-                                #if ( TWENTYFOUR_BIT_ADDON_ADC_TYPE == "LTC2400" ) && ( HighestBitResFromAddonADC == 24 )
+                                #if ( TWENTYFOUR_BIT_ADDON_ADC_TYPE == LTC2400 ) && ( HighestBitResFromAddonADC == 24 )
                                 #else
-                                    #if ( TWENTYFOUR_BIT_ADDON_ADC_TYPE == "ADS1231" ) && ( HighestBitResFromAddonADC == 24 )
+                                    #if ( TWENTYFOUR_BIT_ADDON_ADC_TYPE == ADS1231 ) && ( HighestBitResFromAddonADC == 24 )
                                     #else
                                         #error “This add-on ADC resolution is not supported in this sketch version."
                                     #endif
@@ -185,21 +187,21 @@ void setup()
         //   ads.setGain( GAIN_SIXTEEN );    // 16x gain  +/- 0.256V  1 bit = 0.125mV  0.0078125mV
             ads.begin();
         #else
-            #if ( TWENTYFOUR_BIT_ADDON_ADC_TYPE == "HX711" )
+            #if ( TWENTYFOUR_BIT_ADDON_ADC_TYPE == HX711 )
             #else
-                #if ( TWENTYFOUR_BIT_ADDON_ADC_TYPE == "ADS1232" )
+                #if ( TWENTYFOUR_BIT_ADDON_ADC_TYPE == ADS1232 )
                 #else
-                    #if ( TWENTYFOUR_BIT_ADDON_ADC_TYPE == "ADS1242" )
+                    #if ( TWENTYFOUR_BIT_ADDON_ADC_TYPE == ADS1242 )
                     #else
-                        #if ( TWENTYFOUR_BIT_ADDON_ADC_TYPE == "AD7780" )
+                        #if ( TWENTYFOUR_BIT_ADDON_ADC_TYPE == AD7780 )
                         #else
-                            #if ( TWENTYFOUR_BIT_ADDON_ADC_TYPE == "AD779x" )
+                            #if ( TWENTYFOUR_BIT_ADDON_ADC_TYPE == AD779x )
                             #else
-                                #if ( TWENTYFOUR_BIT_ADDON_ADC_TYPE == "MAX112x0" )
+                                #if ( TWENTYFOUR_BIT_ADDON_ADC_TYPE == MAX112x0 )
                                 #else
-                                    #if ( TWENTYFOUR_BIT_ADDON_ADC_TYPE == "LTC2400" )
+                                    #if ( TWENTYFOUR_BIT_ADDON_ADC_TYPE == LTC2400 )
                                     #else
-                                        #if ( TWENTYFOUR_BIT_ADDON_ADC_TYPE == "ADS1231" )
+                                        #if ( TWENTYFOUR_BIT_ADDON_ADC_TYPE == ADS1231 )
                                         #else
                                         #endif
                                     #endif
@@ -433,21 +435,21 @@ void loop()
                         #if ( HighestBitResFromAddonADC < 17 )
                             value = ( ( ( i == 1 ) ? ( ads.readADC_Differential_2_3() ) : ( ads.readADC_Differential_0_1() ) ) + pow( 2, HighestBitResFromAddonADC - 1 ) );
                         #else
-                            #if ( TWENTYFOUR_BIT_ADDON_ADC_TYPE == "HX711" )
+                            #if ( TWENTYFOUR_BIT_ADDON_ADC_TYPE == HX711 )
                             #else
-                                #if ( TWENTYFOUR_BIT_ADDON_ADC_TYPE == "ADS1232" )
+                                #if ( TWENTYFOUR_BIT_ADDON_ADC_TYPE == ADS1232 )
                                 #else
-                                    #if ( TWENTYFOUR_BIT_ADDON_ADC_TYPE == "ADS1242" )
+                                    #if ( TWENTYFOUR_BIT_ADDON_ADC_TYPE == ADS1242 )
                                     #else
-                                        #if ( TWENTYFOUR_BIT_ADDON_ADC_TYPE == "AD7780" )
+                                        #if ( TWENTYFOUR_BIT_ADDON_ADC_TYPE == AD7780 )
                                         #else
-                                            #if ( TWENTYFOUR_BIT_ADDON_ADC_TYPE == "AD779x" )
+                                            #if ( TWENTYFOUR_BIT_ADDON_ADC_TYPE == AD779x )
                                             #else
-                                                #if ( TWENTYFOUR_BIT_ADDON_ADC_TYPE == "MAX112x0" )
+                                                #if ( TWENTYFOUR_BIT_ADDON_ADC_TYPE == MAX112x0 )
                                                 #else
-                                                    #if ( TWENTYFOUR_BIT_ADDON_ADC_TYPE == "LTC2400" )
+                                                    #if ( TWENTYFOUR_BIT_ADDON_ADC_TYPE == LTC2400 )
                                                     #else
-                                                        #if ( TWENTYFOUR_BIT_ADDON_ADC_TYPE == "ADS1231" )
+                                                        #if ( TWENTYFOUR_BIT_ADDON_ADC_TYPE == ADS1231 )
                                                         #else
                                                         #endif
                                                     #endif
@@ -483,21 +485,21 @@ void loop()
                                 #if ( HighestBitResFromAddonADC < 17 )
                                     valueTemp = ( ( ( i == 1 ) ? ( ads.readADC_Differential_2_3() ) : ( ads.readADC_Differential_0_1() ) ) + pow( 2, HighestBitResFromAddonADC - 1 ) );
                                 #else
-                                    #if ( TWENTYFOUR_BIT_ADDON_ADC_TYPE == "HX711" )
+                                    #if ( TWENTYFOUR_BIT_ADDON_ADC_TYPE == HX711 )
                                     #else
-                                        #if ( TWENTYFOUR_BIT_ADDON_ADC_TYPE == "ADS1232" )
+                                        #if ( TWENTYFOUR_BIT_ADDON_ADC_TYPE == ADS1232 )
                                         #else
-                                            #if ( TWENTYFOUR_BIT_ADDON_ADC_TYPE == "ADS1242" )
+                                            #if ( TWENTYFOUR_BIT_ADDON_ADC_TYPE == ADS1242 )
                                             #else
-                                                #if ( TWENTYFOUR_BIT_ADDON_ADC_TYPE == "AD7780" )
+                                                #if ( TWENTYFOUR_BIT_ADDON_ADC_TYPE == AD7780 )
                                                 #else
-                                                    #if ( TWENTYFOUR_BIT_ADDON_ADC_TYPE == "AD779x" )
+                                                    #if ( TWENTYFOUR_BIT_ADDON_ADC_TYPE == AD779x )
                                                     #else
-                                                        #if ( TWENTYFOUR_BIT_ADDON_ADC_TYPE == "MAX211x0" )
+                                                        #if ( TWENTYFOUR_BIT_ADDON_ADC_TYPE == MAX211x0 )
                                                         #else
-                                                            #if ( TWENTYFOUR_BIT_ADDON_ADC_TYPE == "LTC2400" )
+                                                            #if ( TWENTYFOUR_BIT_ADDON_ADC_TYPE == LTC2400 )
                                                             #else
-                                                                #if ( TWENTYFOUR_BIT_ADDON_ADC_TYPE == "ADS1231" )
+                                                                #if ( TWENTYFOUR_BIT_ADDON_ADC_TYPE == ADS1231 )
                                                                 #else
                                                                 #endif
                                                             #endif
