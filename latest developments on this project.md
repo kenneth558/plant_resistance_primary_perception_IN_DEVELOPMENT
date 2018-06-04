@@ -1,3 +1,5 @@
+<dl><dt>04 June 2018</dt></dl>Home maintenance issues are taking much of my time away from this project.  I am trying to develop a method of holding the electrode assembly against the leaf and keeping a good seal.  In a shopping trip to Menards-type and Walmart-type stores, I put together a few items to try various methods...
+
 <dl><dt>29 May 2018</dt></dl>Considering supporting AD7780.  Looks like a good value 24-bit ADC for full-scale differential input...  ADS1242 as well.
 
 <dl><dt>29 May 2018</dt></dl>Decided I will need to support the ADS1231 as well. The HX711 will be difficult due to max scale occuring at 0.08 volts or less, and I feel that will be wishful thinking at best to insist on that close of a match between A0 and A1 legs in the lay person world besides dealing with the noise from all sources and junction contacts at that amplification.  Considering LTC2400, AD779x and MAX112x0.
