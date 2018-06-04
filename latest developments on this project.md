@@ -1,4 +1,6 @@
-<dl><dt>04 June 2018</dt></dl>Home maintenance issues are taking much of my time away from this project.  I am trying to develop a method of holding the electrode assembly against the leaf and keeping a good seal.  In a shopping trip to Menards-type and Walmart-type stores, I put together a few items to try various methods...
+<dl><dt>04 June 2018</dt></dl>Home maintenance issues are taking much of my time away from this project.  I am trying to develop a method of holding the electrode assembly against the leaf and keeping a good seal.  In a shopping trip to Menards-type and Walmart-type stores, I put together a few items to try various methods.
+
+My programmable potentiometers haven't come in as of yesterday.  They are important for getting the HX711 going.  Otherwise, the only differential input devices I can support are those that have a full-scale range of near-rail-to-rail.
 
 <dl><dt>29 May 2018</dt></dl>Considering supporting AD7780.  Looks like a good value 24-bit ADC for full-scale differential input...  ADS1242 as well.
 
