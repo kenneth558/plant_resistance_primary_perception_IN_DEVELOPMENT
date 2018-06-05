@@ -1,4 +1,4 @@
-<dl><dt>05 June 2018</dt></dl>HX711 now supported.  Use a SAMPLE_TIMES of one.  I only tested with PGA A at default gain of 128.
+<dl><dt>05 June 2018</dt></dl>HX711 now supported...you'll have to balance the bridge yourself, though since my programmable pots haven't arrived.  Use a SAMPLE_TIMES of one.  I only tested with PGA A at default gain of 128.
 
 <dl><dt>04 June 2018</dt></dl>Home maintenance issues are taking much of my time away from this project.  I am trying to develop a method of holding the electrode assembly against the leaf and keeping a good seal.  In a shopping trip to Menards-type and Walmart-type stores, I put together a few items to try various methods.
 
