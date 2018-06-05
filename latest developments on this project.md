@@ -1,3 +1,5 @@
+<dl><dt>05 June 2018</dt></dl>HX711 now supported.  Use a SAMPLE_TIMES of one.  I only tested with PGA A at default gain of 128.
+
 <dl><dt>04 June 2018</dt></dl>Home maintenance issues are taking much of my time away from this project.  I am trying to develop a method of holding the electrode assembly against the leaf and keeping a good seal.  In a shopping trip to Menards-type and Walmart-type stores, I put together a few items to try various methods.
 
 My programmable potentiometers haven't come in as of yesterday.  They are important for getting the HX711 going.  Otherwise, the only differential input devices I can support are those that have a full-scale range of near-rail-to-rail.
