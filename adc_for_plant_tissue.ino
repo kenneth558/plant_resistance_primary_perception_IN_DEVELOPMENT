@@ -3,21 +3,21 @@
 #define NUM_ADDON_ADC_INPUTS_TO_PLOT 1 //The number of consecutive ADS1X15 pins to plot, beginning with A0 and, if double-ended, A1
 // TODO: If both the above are zeroes, use of HX711 is assumed.....?  Or would a separate definition work better or be more usefully flexible
 #define TWENTYFOUR_BIT_ADDON_ADC_TYPE HX711  // Proposing that "ADS1231" covers ADS1231; could make this "ADS1232" (ADS1232), "ADS1242" (ADS1242), "AD779x" (AD779x), "AD7780" (AD7780), "HX711" (HX711), "MAX112x0" (MAX112x0...) or "LTC2400" (LTC2400) but code not included in v.FREE
-#define MULTIPLICATION_FACTOR 400 //To aid in viewing
+#define MULTIPLICATION_FACTOR 200 //To aid in viewing
 #define HighestBitResFromAddonADC 24 // all ADC values will get scaled to the single-ended aspect of this,  15 is ADS1115 single-ended, 16 for double-ended when two LM334s are used.  change to 11 for ADS1015 single-ended or 12 with two LM334s, (future: change to 24 for HX711--NO b/c there is the ADS1231 at 24 bits)
 // Note to myself that Adafruit ADS1015 library uses two's complement representation of negative values
-#define SAMPLE_TIMES 9 //To better average out artifacts we over-sample and average.  This value can be tweaked by you to ensure neutralization of power line noise or harmonics of power supplies, etc.....
+#define SAMPLE_TIMES 1 //4 //To better average out artifacts we over-sample and average.  This value can be tweaked by you to ensure neutralization of power line noise or harmonics of power supplies, etc.....
 #define MOST_PROBLEMATIC_INTERFERENCE_FREQ 60 // This is here just in case you think that you might have some interference on a known frequency.
 #define DELAY_TIME_BETWEEN_SAMPLES_MS ( 1000 / MOST_PROBLEMATIC_INTERFERENCE_FREQ / SAMPLE_TIMES ) //COARSE ADJUST
 #define DELAY_TIME_BETWEEN_SAMPLES_US ( ( ( 1000000 / MOST_PROBLEMATIC_INTERFERENCE_FREQ ) - ( DELAY_TIME_BETWEEN_SAMPLES_MS * SAMPLE_TIMES * 1000 ) ) / SAMPLE_TIMES ) //FINE ADJUST.  THIS GETS ADDED TO COARSE ADJUST, PRECISION = TRUNCATED PRAGMATICALLY TO uSec TO ACKNOWLEDGE SOME OVERHEAD FOR LOOPING SUPPORT CODE   // End of this part of code update
-
 #define FIRST_ANALOG_PIN_DIGITAL_NUMBER_FOR_BOARDS_NOT_HAVING_ANALOG_PINS_DEFINED_BY_PIN_A0_TYPE_DEFINES 14 //Some boards don't have good definitions and constants for the analog pins :-(
 #define REPOSITION_RATIO_OF_MAGNIFIED_VIEW_WHEN_LIMITS_GET_EXCEEDED (.1) //BETWEEN 0 AND 1 indicating how much of the display region to skip when magnified view trace has to get repositioned because trace would be outside region bounds
-
-//#define DEBUG true //Don't forget that DEBUG is not formatted for Serial plotter, but might work anyway if you'd never print numbers only any DEBUG print line
 #define AnalogInputBitsOfBoard 10 //Most Arduino boards are 10-bit resolution, but some can be 12 bits.  For known 12 bit boards (SAM, SAMD and TTGO XI architectures), this gets re-defined below, so generally this can be left as 10 even for those boards
 #define SECONDS_THAT_A_LGT8FX8E_HARDWARE_SERIAL_NEEDS_TO_COME_UP_WORKING 9 //8 works only usually
 #define TWENTYFOUR_BIT_PGA_GAIN //Available to you for your own use PGA=Programmable Gain Amplifier: many ADCs will correlate a gain of one with full-scale being rail-to-rail, while a gain of anything higher correlates to full-scale being in the mV range (most sensitive and most noise-susceptible).
+#define MIN_WAIT_TIME_BETWEEN_PLOT_POINTS_MS 200  //Sets maximum speed, but actual speed may be further limited by other factors
+//#define DEBUG true //Don't forget that DEBUG is not formatted for Serial plotter, but might work anyway if you'd never print numbers only any DEBUG print line
+
 /*******************(C)  COPYRIGHT 2018 KENNETH L ANDERSON *********************
 * 
 *      ARDUINO ELECTRICAL RESISTANCE/CONDUCTANCE MONITORING SKETCH 
@@ -25,7 +25,7 @@
 * File Name          : adc_for_plant_tissue.ino
 * Author             : KENNETH L ANDERSON
 * Version            : v.Free
-* Date               : 04-June-2018.  Versions you may have downloaded dated prior to 30 April should be replaced with 30 April 2018 or one more recent.  Revisions more recent than 30 April 2018 do not affect you if your 30 April sketch compiles and plots any inboard analog input pins.  No changes have been made to ADS1X15 operation nor 10-bit operation since 30 April 2018
+* Date               : 05-June-2018.  Versions you may have downloaded dated prior to 30 April should be replaced with 30 April 2018 or one more recent.  Revisions more recent than 30 April 2018 do not affect you if your 30 April sketch compiles and plots any inboard analog input pins.  No changes have been made to ADS1X15 operation nor 10-bit operation since 30 April 2018
 * Description        : To replicate Cleve Backster's findings that he named "Primary Perception".  Basically, this sketch turns an Arduino MCU and optional (recommended) ADS1115 into a nicely functional poor man's polygraph in order to learn/demonstrate telempathic horticulture.
 * Boards tested on   : Uno using both ADS1115 and inboard analog inputs.  
 *                    : TTGO XI using ADS1115.  
@@ -65,7 +65,8 @@
 *              18 May   2018 :  Anti-aliasing code
 *              29 May   2018 :  Differential use of ADS1x15 to allow LM334 temperature comp to negative inputs so LM334 can be used on positive inputs
 *              32 May   2018 :  Added skeleton preprocessor defines for user to compatibly code their own support for a few 24-bit ADCs
-*              NEXT          :  Accommodate HX711 and ADS1232
+*              05 June  2018 :  HX711 accommodated, you'll just have to balance the bridge manually
+*              NEXT          :  Accommodate ADS1232
 *              NEXT          :  Made able to use MCP41XXX or MCP42XXX with LM334
 *              NEXT          :  Software temperature compensation using a 2nd LM334 tightly theramlly coupled to 1ts LM334 feeding a fixed resistor circuit in parallel with the plant circuit and connected to a 2nd analog input.  Table of offsets from midpoint or one end of pot settings.
 *               
@@ -73,18 +74,17 @@
 #define VERSION "v.Free"  // Since this never gets used anywhere, it doesn't compile in so no memory is wasted
 
 #include <math.h>
-#if ( NUM_ADDON_ADC_INPUTS_TO_PLOT > 0 )
-    #include "SPI.h"
-/*
-*
-*  SDA, SCL Wemos XI/TTGO XI are terribly mislabeled in slkscreen on the board!  Use A4 for SDA, and A5 is SCL.
-*/
+#if ( NUM_ADDON_ADC_INPUTS_TO_PLOT > 0 ) //Since so many of the ADC libraries already use OO classes, we'll set that as a pattern - instantiate prior to executing any code
     #define HALFHighestBitResFromAddonADC ( HighestBitResFromAddonADC / 2 )
     #if ( ( HALFHighestBitResFromAddonADC * 2 ) == HighestBitResFromAddonADC )
         #define DIFFERENTIAL 
     #endif
     #if ( HighestBitResFromAddonADC < 17 ) && ( NUM_ADDON_ADC_INPUTS_TO_PLOT > 0 )
         #include <Adafruit_ADS1015.h>//for systems using ADS1115/ADS1015
+/*
+*
+*  With Adafruit_ADS1015.h, SDA, SCL Wemos XI/TTGO XI use A4 for SDA, and A5 is SCL.
+*/
         #if ( HighestBitResFromAddonADC == 15 ) || ( HighestBitResFromAddonADC == 16 )
             Adafruit_ADS1115 ads;  //For when ADS1115 is being used
         #else
@@ -95,12 +95,15 @@
             #endif
         #endif
     #else
-        #if ( TWENTYFOUR_BIT_ADDON_ADC_TYPE == HX711 ) && ( HighestBitResFromAddonADC == 24 ) //Which 24-bit ADC is single-ended?  ADS1242 It is 23 bits hopefully
-            #include <HX711_ADC.h> //From https://github.com/olkal/HX711_ADC/tree/master/src
+        #define PIN_FOR_DATA_TOFROM_ADC 2 
+        #define PIN_FOR_CLK_TO_ADC 3
+        #if ( TWENTYFOUR_BIT_ADDON_ADC_TYPE == HX711 ) && ( HighestBitResFromAddonADC == 24 )  //The HX711 does not communicate over I2C so pick your own pins for comming with it.  The digital interface to the HX711 is a proprietary SPI-like interface so it also would make sense to use SPI pins PD_SCK and either MOSI or MISO if it is coherency that you seek.  Me?  I'm bee-bopping between other ADCs that are I2C, so I'm electing for SDA and SCL to keep my comm wires plugged in the same for all ADCs.
+            #include <HX711.h>  //From https://github.com/bogde/HX711
+            HX711 hx711;
         #else
             #if ( TWENTYFOUR_BIT_ADDON_ADC_TYPE == ADS1232 ) && ( HighestBitResFromAddonADC == 24 )
             #else
-                #if ( TWENTYFOUR_BIT_ADDON_ADC_TYPE == ADS1242 ) && ( HighestBitResFromAddonADC == 24 )
+                #if ( TWENTYFOUR_BIT_ADDON_ADC_TYPE == ADS1242 ) && ( HighestBitResFromAddonADC == 24 ) //Which 24-bit ADC is single-ended?  ADS1242 It is 23 bits hopefully
                 #else
                     #if ( TWENTYFOUR_BIT_ADDON_ADC_TYPE == AD7780 ) && ( HighestBitResFromAddonADC == 24 )
                     #else
@@ -137,7 +140,7 @@ If you only have the Arduino without an ADS1X15, then define NUM_ANALOG_INPUTS_T
 /*
  * 
  * The following pin defines are for the WeMos XI/TTGO XI board only
- * Change per your board layout
+ * Change per your board layout if you need some non-standard Arduino 10-bit analog inputs.  Uno et. al. should work just fine without needing your attention
  * 
  */
 
@@ -152,13 +155,13 @@ struct magnify_adjustment_and_display_zero
 magnify_adjustment_and_display_zero screen_offsets[ NUM_ADDON_ADC_INPUTS_TO_PLOT + NUM_ANALOG_INPUTS_TO_PLOT ];
 bool graphline = false;
 uint32_t value, valueTemp;
-//#ifdef DIFFERENTIAL
-//    #define PlotterMaxScale ( ( ( uint32_t )pow( 2, HighestBitResFromAddonADC - 1 ) ) * ( uint32_t )( NUM_ADDON_ADC_INPUTS_TO_PLOT + NUM_ANALOG_INPUTS_TO_PLOT ) )
-//#else
-    #define PlotterMaxScale ( ( ( uint32_t )pow( 2, HighestBitResFromAddonADC ) ) * ( uint32_t )( NUM_ADDON_ADC_INPUTS_TO_PLOT + NUM_ANALOG_INPUTS_TO_PLOT ) )
-//#endif
+long millis_start;
+#define PlotterMaxScale ( ( ( uint32_t )pow( 2, HighestBitResFromAddonADC ) ) * ( uint32_t )( NUM_ADDON_ADC_INPUTS_TO_PLOT + NUM_ANALOG_INPUTS_TO_PLOT ) )
 #define HundredthPlotterMaxScale ( PlotterMaxScale / 100 );
-
+#if ( SAMPLE_TIMES < 1 )
+    #undef SAMPLE_TIMES
+    #define SAMPLE_TIMES 1
+#endif
 
 void setup() 
 {
@@ -171,6 +174,20 @@ void setup()
     #endif    
     //#ifdef __LGT8FX8E__
         Serial.begin( 19200 );//This speed is what works best with WeMos XI/TTGO XI board.
+    #ifdef DEBUG
+        millis_start = millis();
+        while ( !Serial && ( millis() - millis_start < 8000 ) );
+        Serial.print( F( "Starting setup with SDA & SCL & SCK & A4 & A5 = " ) );
+        Serial.print( SDA );
+        Serial.print( F( " & " ) );
+        Serial.print( SCL );
+        Serial.print( F( " & " ) );
+        Serial.print( SCK );
+        Serial.print( F( " & " ) );
+        Serial.print( A4 );
+        Serial.print( F( " & " ) );
+        Serial.println( A5 );
+    #endif
     //#else
     //    Serial.begin( 57600 );//Is there any reason for this higher speed?  I don't think so, but feel free to put this code back into action if you want to.
     //#endif
@@ -179,7 +196,7 @@ void setup()
     //#endif
     #if ( NUM_ADDON_ADC_INPUTS_TO_PLOT > 0 )
         #if ( HighestBitResFromAddonADC < 17 )
-        //   ads.setGain( GAIN_TWOTHIRDS );  // 2/3x gain +/- 6.144V  1 bit = 3mV      0.1875mV (default)
+        //   ads.setGain( GAIN_TWOTHIRDS );  // 2/3x gain +/- 6.144V  1 bit = 3mV      0.1875mV (default)  //The extra ones are here for reference 
            ads.setGain( GAIN_ONE );        // 1x gain   +/- 4.096V  1 bit = 2mV      0.125mV  //This allows a simple power rail excitation supply to voltage divider
         //   ads.setGain( GAIN_TWO );        // 2x gain   +/- 2.048V  1 bit = 1mV      0.0625mV
         //   ads.setGain( GAIN_FOUR );       // 4x gain   +/- 1.024V  1 bit = 0.5mV    0.03125mV
@@ -188,6 +205,17 @@ void setup()
             ads.begin();
         #else
             #if ( TWENTYFOUR_BIT_ADDON_ADC_TYPE == HX711 )
+                #ifdef DEBUG
+                    millis_start = millis();
+                    while ( !Serial && ( millis() - millis_start < 8000 ) );
+                    Serial.print( F( "Initializing HX711..." ) );
+                #endif
+                hx711.begin( PIN_FOR_DATA_TOFROM_ADC, PIN_FOR_CLK_TO_ADC );  // parameter "gain" is ommited; the default value 128 is used by the library
+                #ifdef DEBUG
+                    millis_start = millis();
+                    while ( !Serial && ( millis() - millis_start < 8000 ) ); //We limit the time to wait for serial ready
+                    Serial.println( F( "done initializing HX711." ) );
+                #endif
             #else
                 #if ( TWENTYFOUR_BIT_ADDON_ADC_TYPE == ADS1232 )
                 #else
@@ -234,7 +262,7 @@ void setup()
         screen_offsets[ i ].high_limit_of_this_plotline = ( uint32_t )pow( 2, HighestBitResFromAddonADC ) * ( i > NUM_ANALOG_INPUTS_TO_PLOT ? ( ( uint32_t )( NUM_ADDON_ADC_INPUTS_TO_PLOT - i ) ) : ( ( uint32_t )( NUM_ANALOG_INPUTS_TO_PLOT - i ) + ( uint32_t )NUM_ADDON_ADC_INPUTS_TO_PLOT ) );
         screen_offsets[ i ].zero_of_this_plotline = ( uint32_t )pow( 2, HighestBitResFromAddonADC ) * ( i > NUM_ANALOG_INPUTS_TO_PLOT ? ( ( uint32_t )( NUM_ADDON_ADC_INPUTS_TO_PLOT - ( i + 1 ) ) ) : ( uint32_t )( NUM_ANALOG_INPUTS_TO_PLOT - ( i + 1 ) ) + ( uint32_t )NUM_ADDON_ADC_INPUTS_TO_PLOT );
     }
-    while ( !Serial ); // wait for serial port to connect. Needed for Leonardo's native USB
+    while ( !Serial );
     for( uint8_t i = 0; i < NUM_ANALOG_INPUTS_TO_PLOT + NUM_ADDON_ADC_INPUTS_TO_PLOT; i++ )
     {
         Serial.print( 0 );
@@ -242,7 +270,6 @@ void setup()
         Serial.print( 0 );
         Serial.print( F( " " ) );
     }
-//    Serial.println( F( "0" ) );
     Serial.println( PlotterMaxScale );
     #if ( NUM_ANALOG_INPUTS_TO_PLOT > 0 )
         uint8_t *A_PIN_ARRAY = (uint8_t *)malloc( NUM_ANALOG_INPUTS );
@@ -373,7 +400,10 @@ void setup()
 void plot_the_normal_and_magnified_signals( uint8_t channel )
 {
     value = value / SAMPLE_TIMES;
-    Serial.print( value + screen_offsets[ channel ].zero_of_this_plotline ); //This is color one
+    if( value + screen_offsets[ channel ].zero_of_this_plotline <= screen_offsets[ channel ].high_limit_of_this_plotline )
+        Serial.print( value + screen_offsets[ channel ].zero_of_this_plotline ); //This is color one
+    else
+        Serial.print( screen_offsets[ channel ].high_limit_of_this_plotline );
     
     //Next lines plot a magnified version.  First, magnify_adjustment is determined
     Serial.print( F( " " ) );
@@ -400,6 +430,7 @@ void loop()
 {    
     for( uint16_t plotter_loops = 0; plotter_loops < 500 / 3; plotter_loops++ ) 
     {
+            millis_start = millis();
         #if ( NUM_ANALOG_INPUTS_TO_PLOT > 0 ) //plot the inboard analogs first and above
             for( uint8_t i = 0; i < NUM_ANALOG_INPUTS_TO_PLOT; i++ )
             {
@@ -436,6 +467,11 @@ void loop()
                             value = ( ( ( i == 1 ) ? ( ads.readADC_Differential_2_3() ) : ( ads.readADC_Differential_0_1() ) ) + pow( 2, HighestBitResFromAddonADC - 1 ) );
                         #else
                             #if ( TWENTYFOUR_BIT_ADDON_ADC_TYPE == HX711 )
+//                                hx711.power_up();
+                                value = hx711.read() + pow( 2, HighestBitResFromAddonADC - 1 );
+//                                value = hx711.read_average( 9 );
+                                
+//                                hx711.power_down();
                             #else
                                 #if ( TWENTYFOUR_BIT_ADDON_ADC_TYPE == ADS1232 )
                                 #else
@@ -460,12 +496,7 @@ void loop()
                                 #endif
                             #endif
                         #endif
-                        #ifdef DEBUG
-                            Serial.print( F( "Read direct differential value " ) );
-                            Serial.println( ads.readADC_Differential_0_1() );
-                            Serial.print( F( "Read adjusted differential value " ) );
-                            Serial.println( value );
-                        #endif
+                    #else //then figure it is Single-ended
                     #endif
                 #endif
                 #if ( defined SAMPLE_TIMES ) && ( SAMPLE_TIMES > 0 )
@@ -486,6 +517,14 @@ void loop()
                                     valueTemp = ( ( ( i == 1 ) ? ( ads.readADC_Differential_2_3() ) : ( ads.readADC_Differential_0_1() ) ) + pow( 2, HighestBitResFromAddonADC - 1 ) );
                                 #else
                                     #if ( TWENTYFOUR_BIT_ADDON_ADC_TYPE == HX711 )
+                                        #ifdef DEBUG
+                                            Serial.println( F( "Reading differential valueTemp" ) );
+                                        #endif
+//                                            hx711.power_up();
+                                            valueTemp = hx711.read() + pow( 2, HighestBitResFromAddonADC - 1 );
+//                                            valueTemp = hx711.read_average( 9 );
+                                            
+//                                            hx711.power_down();
                                     #else
                                         #if ( TWENTYFOUR_BIT_ADDON_ADC_TYPE == ADS1232 )
                                         #else
@@ -525,10 +564,7 @@ void loop()
         if( graphline ) valueTemp = 0;
         else valueTemp = PlotterMaxScale;
         Serial.println( valueTemp );
-        #if ( 12 * ( NUM_ANALOG_INPUTS_TO_PLOT + NUM_ADDON_ADC_INPUTS_TO_PLOT ) < 110  )
-            #define DELAY_TIME ( 110 - ( 12 * ( NUM_ANALOG_INPUTS_TO_PLOT + NUM_ADDON_ADC_INPUTS_TO_PLOT ) ) )
-            delay( DELAY_TIME );
-        #endif
+        while( millis() - millis_start < MIN_WAIT_TIME_BETWEEN_PLOT_POINTS_MS );
     }
     graphline = !graphline;
 }
