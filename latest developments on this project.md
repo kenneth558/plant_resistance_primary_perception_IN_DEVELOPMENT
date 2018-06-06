@@ -1,4 +1,4 @@
-<dl><dt>05 June 2018</dt></dl>HX711 now supported...you'll have to balance the bridge yourself, though since my programmable pots haven't arrived.  Use a SAMPLE_TIMES of one.  I only tested with PGA A at default gain of 128.  This is a sensitivity breakthrough, since this little ADC converts a swing of a mere few millvolts into 24 bits.  WOW!  The library to use with HX711 is https://github.com/bogde/HX711
+<dl><dt>05 June 2018</dt></dl>HX711 now supported...you'll have to balance the bridge yourself, though since my programmable potentiometers haven't arrived.  Use a SAMPLE_TIMES of one.  I only tested with PGA A at default gain of 128.  This is a sensitivity breakthrough, since this little ADC converts a swing of a mere few millvolts into 24 bits.  WOW!  The library to use with HX711 is https://github.com/bogde/HX711
 
 <dl><dt>04 June 2018</dt></dl>Home maintenance issues are taking much of my time away from this project.  I am trying to develop a method of holding the electrode assembly against the leaf and keeping a good seal.  In a shopping trip to Menards-type and Walmart-type stores, I put together a few items to try various methods.
 
