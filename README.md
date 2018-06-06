@@ -24,7 +24,7 @@ To understand how Mythbusters erred in their experiment, you need to realize tha
 In the sketch source code of this project, you'll find some self-explanatorily-named constants near the top that you'll need to set for your preferences and configuration.  Find and adjust these:
 
 -  NUM_ANALOG_INPUTS_TO_PLOT
--  NUM_ADS1X15_INPUTS_TO_PLOT
+-  NUM_ADDON_ADC_INPUTS_TO_PLOT
 -  MULTIPLICATION_FACTOR
 -  HighestBitResFromAD
 -  AnalogInputBitsOfBoard
