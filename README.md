@@ -1,4 +1,4 @@
-# <p align="center">Telempathic Horticulture - Promoting a Reviving Civility # (TM)
+# <p align="center">Telempathic Horticulture - Promoting a Reviving Civility (TM)
 [Click here to see what this title means](https://github.com/kenneth558/plant_resistance_primary_perception/blob/Free/what%20the%20title%20means.md)
 ### <p align="center">plans and Arduino sketch for the training aid
 -------------
