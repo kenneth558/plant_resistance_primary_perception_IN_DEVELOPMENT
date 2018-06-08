@@ -1,6 +1,6 @@
 // Before using this sketch, you must set the following appropriately for your configuration and preferences !!!
 #define NUM_ANALOG_INPUTS_TO_PLOT 2 //The number of consecutive analog pins to plot, beginning with PIN_A0
-#define NUM_ADDON_ADC_INPUTS_TO_PLOT 0 //1 //The number of consecutive ADS1X15 pins to plot, beginning with A0 and, if double-ended, A1
+#define NUM_ADDON_ADC_INPUTS_TO_PLOT 1 //1 //The number of consecutive ADS1X15 pins to plot, beginning with A0 and, if double-ended, A1
 #define TWENTYFOUR_BIT_ADDON_ADC_TYPE HX711  // Proposing that "ADS1231" covers ADS1231; could make this "ADS1232" (ADS1232), "ADS1242" (ADS1242), "AD779x" (AD779x), "AD7780" (AD7780), "HX711" (HX711), "MAX112x0" (MAX112x0...) or "LTC2400" (LTC2400) but code not included in v.FREE
 #define MULTIPLICATION_FACTOR 2 //To aid in viewing
 #define HighestBitResFromAddonADC 24 // all ADC values will get scaled to the single-ended aspect of this,  15 is ADS1115 single-ended, 16 for double-ended when two LM334s are used.  change to 11 for ADS1015 single-ended or 12 with two LM334s, (future: change to 24 for HX711--NO b/c there is the ADS1231 at 24 bits)
