@@ -434,7 +434,7 @@ void loop()
         #if ( NUM_ANALOG_INPUTS_TO_PLOT > 0 ) //plot the inboard analogs first and above
             for( uint8_t i = 0; i < NUM_ANALOG_INPUTS_TO_PLOT; i++ )
             {
-                value = analogRead( 14 ) << BitsToShiftInboardADCValues;
+                value = analogRead( *( A_PIN_ARRAY + i ) ) << BitsToShiftInboardADCValues;
 //                value = analogRead( *( A_PIN_ARRAY + i ) ) << BitsToShiftInboardADCValues;
     
                 for( uint8_t sampletimes = 1; sampletimes < SAMPLE_TIMES; sampletimes++ )
@@ -445,7 +445,7 @@ void loop()
                     #if ( defined DELAY_TIME_BETWEEN_SAMPLES_US ) && ( DELAY_TIME_BETWEEN_SAMPLES_US > 0 )
                                     delayMicroseconds( DELAY_TIME_BETWEEN_SAMPLES_US );
                     #endif
-                    value += ( analogRead( 14 ) << BitsToShiftInboardADCValues );
+                    value += ( analogRead( *( A_PIN_ARRAY + i ) ) << BitsToShiftInboardADCValues );
 //                    value += ( analogRead( *( A_PIN_ARRAY + i ) ) << BitsToShiftInboardADCValues );
                 }
                 plot_the_normal_and_magnified_signals( i );
