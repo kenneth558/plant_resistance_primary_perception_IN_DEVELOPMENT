@@ -1,11 +1,9 @@
 // Before using this sketch, you must set the following appropriately for your configuration and preferences !!!
-#define NUM_ANALOG_INPUTS_TO_PLOT 0 //The number of consecutive analog pins to plot, beginning with PIN_A0 FUTURE - DOESN'T SEEM TO WORK RIGHT NOW
-#define NUM_ADDON_ADC_INPUTS_TO_PLOT 1 //The number of consecutive ADS1X15 pins to plot, beginning with A0 and, if double-ended, A1
-// TODO: If both the above are zeroes, use of HX711 is assumed.....?  Or would a separate definition work better or be more usefully flexible
+#define NUM_ANALOG_INPUTS_TO_PLOT 2 //The number of consecutive analog pins to plot, beginning with PIN_A0
+#define NUM_ADDON_ADC_INPUTS_TO_PLOT 0 //1 //The number of consecutive ADS1X15 pins to plot, beginning with A0 and, if double-ended, A1
 #define TWENTYFOUR_BIT_ADDON_ADC_TYPE HX711  // Proposing that "ADS1231" covers ADS1231; could make this "ADS1232" (ADS1232), "ADS1242" (ADS1242), "AD779x" (AD779x), "AD7780" (AD7780), "HX711" (HX711), "MAX112x0" (MAX112x0...) or "LTC2400" (LTC2400) but code not included in v.FREE
-#define MULTIPLICATION_FACTOR 200 //To aid in viewing
+#define MULTIPLICATION_FACTOR 2 //To aid in viewing
 #define HighestBitResFromAddonADC 24 // all ADC values will get scaled to the single-ended aspect of this,  15 is ADS1115 single-ended, 16 for double-ended when two LM334s are used.  change to 11 for ADS1015 single-ended or 12 with two LM334s, (future: change to 24 for HX711--NO b/c there is the ADS1231 at 24 bits)
-// Note to myself that Adafruit ADS1015 library uses two's complement representation of negative values
 #define SAMPLE_TIMES 1 //4 //To better average out artifacts we over-sample and average.  This value can be tweaked by you to ensure neutralization of power line noise or harmonics of power supplies, etc.....
 #define MOST_PROBLEMATIC_INTERFERENCE_FREQ 60 // This is here just in case you think that you might have some interference on a known frequency.
 #define DELAY_TIME_BETWEEN_SAMPLES_MS ( 1000 / MOST_PROBLEMATIC_INTERFERENCE_FREQ / SAMPLE_TIMES ) //COARSE ADJUST
@@ -16,7 +14,7 @@
 #define SECONDS_THAT_A_LGT8FX8E_HARDWARE_SERIAL_NEEDS_TO_COME_UP_WORKING 9 //8 works only usually
 #define TWENTYFOUR_BIT_PGA_GAIN //Available to you for your own use PGA=Programmable Gain Amplifier: many ADCs will correlate a gain of one with full-scale being rail-to-rail, while a gain of anything higher correlates to full-scale being in the mV range (most sensitive and most noise-susceptible).
 #define MIN_WAIT_TIME_BETWEEN_PLOT_POINTS_MS 200  //Sets maximum speed, but actual speed may be further limited by other factors
-//#define DEBUG true //Don't forget that DEBUG is not formatted for Serial plotter, but might work anyway if you'd never print numbers only any DEBUG print line
+#define DEBUG true //Don't forget that DEBUG is not formatted for Serial plotter, but might work anyway if you'd never print numbers only any DEBUG print line
 
 /*******************(C)  COPYRIGHT 2018 KENNETH L ANDERSON *********************
 * 
@@ -25,7 +23,7 @@
 * File Name          : adc_for_plant_tissue.ino
 * Author             : KENNETH L ANDERSON
 * Version            : v.Free
-* Date               : 05-June-2018.  Versions you may have downloaded dated prior to 30 April should be replaced with 30 April 2018 or one more recent.  Revisions more recent than 30 April 2018 do not affect you if your 30 April sketch compiles and plots any inboard analog input pins.  No changes have been made to ADS1X15 operation nor 10-bit operation since 30 April 2018
+* Date               : 08-June-2018.  Versions you may have downloaded dated prior to 30 April should be replaced with 30 April 2018 or one more recent.  Revisions more recent than 30 April 2018 do not affect you if your 30 April sketch compiles and plots any inboard analog input pins.  No changes have been made to ADS1X15 operation nor 10-bit operation since 30 April 2018
 * Description        : To replicate Cleve Backster's findings that he named "Primary Perception".  Basically, this sketch turns an Arduino MCU and optional (recommended) ADS1115 into a nicely functional poor man's polygraph in order to learn/demonstrate telempathic horticulture.
 * Boards tested on   : Uno using both ADS1115 and inboard analog inputs.  
 *                    : TTGO XI using ADS1115.  
@@ -66,14 +64,18 @@
 *              29 May   2018 :  Differential use of ADS1x15 to allow LM334 temperature comp to negative inputs so LM334 can be used on positive inputs
 *              32 May   2018 :  Added skeleton preprocessor defines for user to compatibly code their own support for a few 24-bit ADCs
 *              05 June  2018 :  HX711 accommodated, you'll just have to balance the bridge manually
-*              08 June  2018 :  Bugfix for inboard analog inputs above the first
+*              08 June  2018 :  Bugfix for inboard analog inputs above the first one - they didn't print before this fix
 *              NEXT          :  Accommodate ADS1232
 *              NEXT          :  Made able to use MCP41XXX or MCP42XXX with LM334
 *              NEXT          :  Software temperature compensation using a 2nd LM334 tightly theramlly coupled to 1ts LM334 feeding a fixed resistor circuit in parallel with the plant circuit and connected to a 2nd analog input.  Table of offsets from midpoint or one end of pot settings.
 *               
 *********************************************************************************************************************/
 #define VERSION "v.Free"  // Since this never gets used anywhere, it doesn't compile in so no memory is wasted
-
+#ifdef __LGT8FX8E__
+    #if ( NUM_ANALOG_INPUTS_TO_PLOT > 0 )
+//HINT ONLY: NOT ENFORCED  #error "We are sorry, but the Wemos board's analog inputs have unremoveable pull-up conductance, so this sketch is not designed to compile for the analog inputs to be used with this board.  Set NUM_ANALOG_INPUTS_TO_PLOT to zero and try with an outboard ADC."
+    #endif
+#endif
 #include <math.h>
 #if ( NUM_ADDON_ADC_INPUTS_TO_PLOT > 0 ) //Since so many of the ADC libraries already use OO classes, we'll set that as a pattern - instantiate prior to executing any code
     #define HALFHighestBitResFromAddonADC ( HighestBitResFromAddonADC / 2 )
@@ -273,7 +275,7 @@ void setup()
     }
     Serial.println( PlotterMaxScale );
     #if ( NUM_ANALOG_INPUTS_TO_PLOT > 0 )
-        uint8_t *A_PIN_ARRAY = (uint8_t *)malloc( NUM_ANALOG_INPUTS );
+        uint8_t* A_PIN_ARRAY = (uint8_t *)malloc( NUM_ANALOG_INPUTS_TO_PLOT );
     
         //Herafter is the pattern.  If you have more analog pins, add them according to the pattern.
         #ifdef NUM_ANALOG_INPUTS
@@ -281,76 +283,73 @@ void setup()
             for( uint8_t i = 0; i < NUM_ANALOG_INPUTS_TO_PLOT; i++ )
             {
                 if( i == 0 )
-                    A_PIN_ARRAY[ i ] = PIN_A0;
-                #ifdef DEBUG  //This is to demonstrate the purpose of DEBUG
-                    Serial.println( A_PIN_ARRAY[ i ] );
-                #endif
+                    *(A_PIN_ARRAY + i) = PIN_A0;
                 #ifdef PIN_A1
                     else if( i == 1 )
-                        A_PIN_ARRAY[ i ] = PIN_A1;
+                        *(A_PIN_ARRAY + i) = PIN_A1;
                     #ifdef PIN_A2
                     else if( i == 2 )
-                        A_PIN_ARRAY[ i ] = PIN_A2;
+                        *(A_PIN_ARRAY + i) = PIN_A2;
                         #ifdef PIN_A3
                     else if( i == 3 )
-                        A_PIN_ARRAY[ i ] = PIN_3;
+                        *(A_PIN_ARRAY + i) = PIN_A3;
                             #ifdef PIN_A4
                     else if( i == 4 )
-                        A_PIN_ARRAY[ i ] = PIN_A4;
+                        *(A_PIN_ARRAY + i) = PIN_A4;
                                 #ifdef PIN_A5
                     else if( i == 5 )
-                        A_PIN_ARRAY[ i ] = PIN_A5;
+                        *(A_PIN_ARRAY + i) = PIN_A5;
                                     #ifdef PIN_A6
                     else if( i == 6 )
-                        A_PIN_ARRAY[ i ] = PIN_A6;
+                        *(A_PIN_ARRAY + i) = PIN_A6;
                                         #ifdef PIN_A7
                     else if( i == 7 )
-                        A_PIN_ARRAY[ i ] = PIN_A7;
+                        *(A_PIN_ARRAY + i) = PIN_A7;
                                             #ifdef PIN_A8
                     else if( i == 8 )
-                        A_PIN_ARRAY[ i ] = PIN_A8;
+                        *(A_PIN_ARRAY + i) = PIN_A8;
                                                 #ifdef PIN_A9
                     else if( i == 9 )
-                        A_PIN_ARRAY[ i ] = PIN_A9;
+                        *(A_PIN_ARRAY + i) = PIN_A9;
                                                     #ifdef PIN_A10
                     else if( i == 10 )
-                        A_PIN_ARRAY[ i ] = PIN_A10;
+                        *(A_PIN_ARRAY + i) = PIN_A10;
                                                         #ifdef PIN_A11
                     else if( i == 11 )
-                        A_PIN_ARRAY[ i ] = PIN_A11;
+                        *(A_PIN_ARRAY + i) = PIN_A11;
                                                             #ifdef PIN_A12
                     else if( i == 12 )
-                        A_PIN_ARRAY[ i ] = PIN_A12;
+                        *(A_PIN_ARRAY + i) = PIN_A12;
                                                                 #ifdef PIN_A13
                     else if( i == 13 )
-                        A_PIN_ARRAY[ i ] = PIN_A13;
+                        *(A_PIN_ARRAY + i) = PIN_A13;
                                                                     #ifdef PIN_A14
                     else if( i == 14 )
-                        A_PIN_ARRAY[ i ] = PIN_A14;
+                        *(A_PIN_ARRAY + i) = PIN_A14;
                                                                         #ifdef PIN_A15
                     else if( i == 15 )
-                        A_PIN_ARRAY[ i ] = PIN_A15;
+                        *(A_PIN_ARRAY + i) = PIN_A15;
                                                                             #ifdef PIN_A16
                     else if( i == 16 )
-                        A_PIN_ARRAY[ i ] = PIN_A16;
+                        *(A_PIN_ARRAY + i) = PIN_A16;
                                                                                 #ifdef PIN_A17
                     else if( i == 17 )
-                        A_PIN_ARRAY[ i ] = PIN_A17;
+                        *(A_PIN_ARRAY + i) = PIN_A17;
                                                                                     #ifdef PIN_A18
                     else if( i == 18 )
-                        A_PIN_ARRAY[ i ] = PIN_A18;
+                        *(A_PIN_ARRAY + i) = PIN_A18;
                                                                                         #ifdef PIN_A19
                     else if( i == 19 )
-                        A_PIN_ARRAY[ i ] = PIN_A19;
+                        *(A_PIN_ARRAY + i) = PIN_A19;
                                                                                             #ifdef PIN_A20
                     else if( i == 20 )
-                        A_PIN_ARRAY[ i ] = PIN_A20;
+                        *(A_PIN_ARRAY + i) = PIN_A20;
                                                                                                 #ifdef PIN_A21
                     else if( i == 21 )
-                        A_PIN_ARRAY[ i ] = PIN_A21;
+                        *(A_PIN_ARRAY + i) = PIN_A21;
                                                                                                     #ifdef PIN_A22
                     else if( i == 22 )
-                        A_PIN_ARRAY[ i ] = PIN_A22;
+                        *(A_PIN_ARRAY + i) = PIN_A22;
                                                                                                     #endif //end of PIN_A22 check
                                                                                                 #endif //end of PIN_A21 check
                                                                                             #endif //end of PIN_A20 check
@@ -375,20 +374,20 @@ void setup()
                 #endif //end of PIN_A1 check
                 }
             #else
-            //Some boards don't have good definitions and constants for the analog pins :-(
+            //Some boards don't have good definitions and constants for the analog pins, TTGO XI, for example :-(
                 #ifdef DEBUG
                         Serial.println( F( "Creating analog pin definitions" ) );
                 #endif
                 for( uint8_t i = 0; i < NUM_ANALOG_INPUTS_TO_PLOT; i++ )
-                    A_PIN_ARRAY[ i ] = i + FIRST_ANALOG_PIN_DIGITAL_NUMBER_FOR_BOARDS_NOT_HAVING_ANALOG_PINS_DEFINED_BY_PIN_A0_TYPE_DEFINES;
+                    *(A_PIN_ARRAY + i) = i + FIRST_ANALOG_PIN_DIGITAL_NUMBER_FOR_BOARDS_NOT_HAVING_ANALOG_PINS_DEFINED_BY_PIN_A0_TYPE_DEFINES;
             #endif //end of PIN_A0 check
         #endif
     #endif
     #ifdef DEBUG
             for( uint8_t i = 0; i < NUM_ANALOG_INPUTS_TO_PLOT; i++ )
-                Serial.println( A_PIN_ARRAY[ i ] );
-                Serial.print( F( "PlotterMaxScale = " ) );
-                Serial.println( PlotterMaxScale );
+                Serial.println( *(A_PIN_ARRAY + i) );
+            Serial.print( F( "PlotterMaxScale = " ) );
+            Serial.println( PlotterMaxScale );
         #ifdef DIFFERENTIAL
             Serial.print( F( "( uint32_t )pow( 2, HighestBitResFromAddonADC - 1 ) = " ) );Serial.println( ( uint32_t )pow( 2, HighestBitResFromAddonADC - 1 ) );
         #else
@@ -436,7 +435,6 @@ void loop()
             for( uint8_t i = 0; i < NUM_ANALOG_INPUTS_TO_PLOT; i++ )
             {
                 value = analogRead( *( A_PIN_ARRAY + i ) ) << BitsToShiftInboardADCValues;
-//                value = analogRead( *( A_PIN_ARRAY + i ) ) << BitsToShiftInboardADCValues;
     
                 for( uint8_t sampletimes = 1; sampletimes < SAMPLE_TIMES; sampletimes++ )
                 {
@@ -447,7 +445,6 @@ void loop()
                                     delayMicroseconds( DELAY_TIME_BETWEEN_SAMPLES_US );
                     #endif
                     value += ( analogRead( *( A_PIN_ARRAY + i ) ) << BitsToShiftInboardADCValues );
-//                    value += ( analogRead( *( A_PIN_ARRAY + i ) ) << BitsToShiftInboardADCValues );
                 }
                 plot_the_normal_and_magnified_signals( i );
             }
