@@ -1,5 +1,5 @@
 // Before using this sketch, you must set the following appropriately for your configuration and preferences !!!
-#define NUM_ANALOG_INPUTS_TO_PLOT 0 //The number of consecutive analog pins to plot, beginning with PIN_A0
+#define NUM_ANALOG_INPUTS_TO_PLOT 0 //The number of consecutive analog pins to plot, beginning with PIN_A0 FUTURE - DOESN'T SEEM TO WORK RIGHT NOW
 #define NUM_ADDON_ADC_INPUTS_TO_PLOT 1 //The number of consecutive ADS1X15 pins to plot, beginning with A0 and, if double-ended, A1
 // TODO: If both the above are zeroes, use of HX711 is assumed.....?  Or would a separate definition work better or be more usefully flexible
 #define TWENTYFOUR_BIT_ADDON_ADC_TYPE HX711  // Proposing that "ADS1231" covers ADS1231; could make this "ADS1232" (ADS1232), "ADS1242" (ADS1242), "AD779x" (AD779x), "AD7780" (AD7780), "HX711" (HX711), "MAX112x0" (MAX112x0...) or "LTC2400" (LTC2400) but code not included in v.FREE
