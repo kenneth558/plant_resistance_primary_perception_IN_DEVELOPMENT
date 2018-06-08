@@ -284,10 +284,10 @@ void setup()
                 #ifdef DEBUG  //This is to demonstrate the purpose of DEBUG
                     Serial.println( A_PIN_ARRAY[ i ] );
                 #endif
-                #ifdef A1
+                #ifdef PIN_A1
                     else if( i == 1 )
                         A_PIN_ARRAY[ i ] = PIN_A1;
-                    #ifdef A2
+                    #ifdef PIN_A2
                     else if( i == 2 )
                         A_PIN_ARRAY[ i ] = PIN_A2;
                         #ifdef PIN_A3
