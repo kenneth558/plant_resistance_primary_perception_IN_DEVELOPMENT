@@ -2,6 +2,8 @@
 
 In my datasheet research, I am finding that inexpensive ADCs like the ADS1x15 in general undesireably make the source (the plant in this case) charge a S/H capacitor.  I'll investigate the ramifications of that after I get the digital potentiometers working to track and autobalance.
 
+I continue to be encouraged as I learn that most people I talk with pseudo-randomly accept the premise on which this project is based.  I really didn't use to think the acceptance level for telempathic horticulture was that high.  I'd say the time is finally right for this!
+
 <dl><dt>15 June 2018</dt></dl>Received four MCP4162-103E/P instead of four MCP4162-104E/P...I've made the same mistake again!!!  Ordering again.
 
 Using the MCP4162-103E/P that I had, I learned how to address two of them in case I need a second one in circuit for finer adjustment.
