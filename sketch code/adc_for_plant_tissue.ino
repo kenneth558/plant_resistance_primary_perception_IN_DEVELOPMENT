@@ -1,10 +1,10 @@
 // Before using this sketch, you must set the following appropriately for your configuration and preferences !!!
-#define NUM_ANALOG_INPUTS_TO_PLOT 2 //The number of consecutive analog pins to plot, beginning with PIN_A0
-#define NUM_ADDON_HIGHEST_SENSI_ADC_INPUTS_TO_PLOT 0 //1 //The number of consecutive ADS1X15 pins to plot, beginning with A0 and, if double-ended, A1
+#define NUM_INPUTS_TO_PLOT_OF_INBOARD_ANALOG 1 //The number of consecutive analog pins to plot, beginning with PIN_A0
+#define NUM_INPUTS_TO_PLOT_OF_ADDON_HIGHEST_SENSI_ADC 0 //The number of consecutive "highest-sensitivity ADC" pins to plot, beginning with A0 and, if double-ended, A1.  ADDON ADC ONLY - DOES _NOT_ INCLUDE INBOARD ANALOG INPUT PINS
 #define HIGHEST_SENSI_ADDON_ADC_TYPE HX711  // Proposing that "ADS1231" covers ADS1231; could make this "ADS1232" (ADS1232), "ADS1242" (ADS1242), "AD779x" (AD779x), "AD7780" (AD7780), "HX711" (HX711), "MAX112x0" (MAX112x0...) or "LTC2400" (LTC2400) but code not included in v.FREE
-#define MULTIPLICATION_FACTOR 2 //To aid in viewing
+#define MULTIPLICATION_FACTOR 12 //To aid in viewing
 #define HighestBitResFromHighestSensiAddonADC 24 // all ADC values will get scaled to the single-ended aspect of this,  15 is ADS1115 single-ended, 16 for double-ended when two LM334s are used.  change to 11 for ADS1015 single-ended or 12 with two LM334s, (future: change to 24 for HX711--NO b/c there is the ADS1231 at 24 bits)
-#define SAMPLE_TIMES 1 //4 //To better average out artifacts we over-sample and average.  This value can be tweaked by you to ensure neutralization of power line noise or harmonics of power supplies, etc.....
+#define SAMPLE_TIMES 4 //To better average out artifacts we over-sample and average.  This value can be tweaked by you to ensure neutralization of power line noise or harmonics of power supplies, etc.....
 #define MOST_PROBLEMATIC_INTERFERENCE_FREQ 60 // This is here just in case you think that you might have some interference on a known frequency.
 #define DELAY_TIME_BETWEEN_SAMPLES_MS ( 1000 / MOST_PROBLEMATIC_INTERFERENCE_FREQ / SAMPLE_TIMES ) //COARSE ADJUST
 #define DELAY_TIME_BETWEEN_SAMPLES_US ( ( ( 1000000 / MOST_PROBLEMATIC_INTERFERENCE_FREQ ) - ( DELAY_TIME_BETWEEN_SAMPLES_MS * SAMPLE_TIMES * 1000 ) ) / SAMPLE_TIMES ) //FINE ADJUST.  THIS GETS ADDED TO COARSE ADJUST, PRECISION = TRUNCATED PRAGMATICALLY TO uSec TO ACKNOWLEDGE SOME OVERHEAD FOR LOOPING SUPPORT CODE   // End of this part of code update
@@ -15,7 +15,7 @@
 #define HIGHEST_SENSI_PGA_GAIN //Available to you for your own use PGA=Programmable Gain Amplifier: many ADCs will correlate a gain of one with full-scale being rail-to-rail, while a gain of anything higher correlates to full-scale being in the mV range (most sensitive and most noise-susceptible).
 #define MIN_WAIT_TIME_BETWEEN_PLOT_POINTS_MS 200  //Sets maximum speed, but actual speed may be further limited by other factors
 //#define DEBUG true //Don't forget that DEBUG is not formatted for Serial plotter, but might work anyway if you'd never print numbers only any DEBUG print line
-//OTHER DEFINES OR RE-DEFINES ELSEWHERE: VERSION, NUM_ANALOG_INPUTS_TO_PLOT, NUM_ADDON_HIGHEST_SENSI_ADC_INPUTS_TO_PLOT, HALFHighestBitResFromHighestSensiAddonADC, DIFFERENTIAL, PIN_FOR_DATA_TOFROM_HIGHEST_SENSI_ADC, PIN_FOR_CLK_TO_HIGHEST_SENSI_ADC, PlotterMaxScale, HundredthPlotterMaxScale, SAMPLE_TIMES, AnalogInputBitsOfBoard, BitsToShiftInboardADCValues
+//OTHER DEFINES OR RE-DEFINES ELSEWHERE: VERSION, NUM_INPUTS_TO_PLOT_OF_INBOARD_ANALOG, NUM_INPUTS_TO_PLOT_OF_ADDON_HIGHEST_SENSI_ADC, HALFHighestBitResFromHighestSensiAddonADC, DIFFERENTIAL, PIN_FOR_DATA_TOFROM_HIGHEST_SENSI_ADC, PIN_FOR_CLK_TO_HIGHEST_SENSI_ADC, PlotterMaxScale, HundredthPlotterMaxScale, SAMPLE_TIMES, AnalogInputBitsOfBoard, BitsToShiftInboardADCValues
 
 
 //FUTURE #define DEBUG_BRIDGE_BALANCING true //This will cause both the probe signal and the opposing bridge leg reference point to be displayed in full-scale, non-magnified views.  Useful with boards having low-Z or no Analog Input pins.
@@ -77,36 +77,44 @@
 *********************************************************************************************************************/
 #define VERSION "v.Free"  // Since this never gets used anywhere, it doesn't compile in so no memory is wasted
 #ifdef __LGT8FX8E__
-    #if ( NUM_ANALOG_INPUTS_TO_PLOT > 0 )
-//HINT ONLY: NOT ENFORCED  #error "We are sorry, but the Wemos board's analog inputs have unremoveable pull-up conductance, so this sketch is not designed to compile for the analog inputs to be used with this board.  Set NUM_ANALOG_INPUTS_TO_PLOT to zero and try with an outboard ADC."
+    #if ( NUM_INPUTS_TO_PLOT_OF_INBOARD_ANALOG > 0 )
+//HINT ONLY: NOT ENFORCED  #error "We are sorry, but the Wemos board's analog inputs have unremoveable pull-up conductance, so this sketch is not designed to compile for the analog inputs to be used with this board.  Set NUM_INPUTS_TO_PLOT_OF_INBOARD_ANALOG to zero and try with an outboard ADC."
     #endif
 #endif
 #include <math.h>
-#if ( NUM_ADDON_HIGHEST_SENSI_ADC_INPUTS_TO_PLOT > 0 ) //Since so many of the ADC libraries already use OO classes, we'll set that as a pattern - instantiate prior to executing any code
+#if ( NUM_INPUTS_TO_PLOT_OF_ADDON_HIGHEST_SENSI_ADC > 0 ) //Since so many of the ADC libraries already use OO classes, we'll set that as a pattern - instantiate prior to executing any code
     #define HALFHighestBitResFromHighestSensiAddonADC ( HighestBitResFromHighestSensiAddonADC / 2 )
     #if ( ( HALFHighestBitResFromHighestSensiAddonADC * 2 ) == HighestBitResFromHighestSensiAddonADC )
         #define DIFFERENTIAL 
     #endif
-    #if ( HighestBitResFromHighestSensiAddonADC < 17 ) && ( NUM_ADDON_HIGHEST_SENSI_ADC_INPUTS_TO_PLOT > 0 )
-        #include <Adafruit_ADS1015.h>//for systems using ADS1115/ADS1015
-/*
+    #if ( HighestBitResFromHighestSensiAddonADC < 17 ) && ( NUM_INPUTS_TO_PLOT_OF_ADDON_HIGHEST_SENSI_ADC > 0 )
+        #include <Adafruit_ADS1015.h>//for systems using ADS1115/ADS1015  Data addressable I2C, shares bidirectional, open-collector data and clk only with other I2C slaves on same bus, must use the core-defined SDA/SCL pins except ESP8266 and ATtiny85 or see https://www.arduino.cc/en/reference/wire or see the Adafruit_ADS1X15-master README.md
+/*  
 *
 *  With Adafruit_ADS1015.h, SDA, SCL Wemos XI/TTGO XI use A4 for SDA, and A5 is SCL.
 */
         #if ( HighestBitResFromHighestSensiAddonADC == 15 ) || ( HighestBitResFromHighestSensiAddonADC == 16 )
-            Adafruit_ADS1115 ads;  //For when ADS1115 is being used
+            Adafruit_ADS1115 ads;  //For when ADS1115 is being used Data addressable I2C and shares bidirectional, open-collector data and clk only with other I2C slaves on same bus, must use the core-defined SDA/SCL pins except ESP8266 and ATtiny85 or see https://www.arduino.cc/en/reference/wire or see the Adafruit_ADS1X15-master README.md
         #else
             #if ( HighestBitResFromHighestSensiAddonADC == 11 ) || ( HighestBitResFromHighestSensiAddonADC == 12 )
-                Adafruit_ADS1015 ads;  //For when ADS1015 is being used
+                Adafruit_ADS1015 ads;  //For when ADS1015 is being used Data addressable I2C and bidirectional, open-collector data and clk only with other I2C slaves on same bus, must use the core-defined SDA/SCL pins except ESP8266 and ATtiny85 or see https://www.arduino.cc/en/reference/wire or see the Adafruit_ADS1X15-master README.md
             #else
                 #error “This add-on ADC resolution is not supported in this sketch version."
             #endif
         #endif
     #else
-        #define PIN_FOR_DATA_TOFROM_HIGHEST_SENSI_ADC 2 
-        #define PIN_FOR_CLK_TO_HIGHEST_SENSI_ADC 3
-        #if ( HIGHEST_SENSI_ADDON_ADC_TYPE == HX711 ) && ( HighestBitResFromHighestSensiAddonADC == 24 )  //The HX711 does not communicate over I2C so pick your own pins for comming with it.  The digital interface to the HX711 is a proprietary SPI-like interface so it also would make sense to use SPI pins PD_SCK and either MOSI or MISO if it is coherency that you seek.  Me?  I'm bee-bopping between other ADCs that are I2C, so I'm electing for SDA and SCL to keep my comm wires plugged in the same for all ADCs.
-            #include <HX711.h>  //From https://github.com/bogde/HX711
+        #define PIN_FOR_DATA_TOFROM_HIGHEST_SENSI_ADC 2 //Must be dedicated in cases where it doesn't go hi-Z (as in HX711).  This won't work if an ADS1x15 or any other I2C device is also used
+        #define PIN_FOR_CLK_TO_HIGHEST_SENSI_ADC 3 //Must always be dedicated
+/*
+ * If ever would use an ADS1x15 along with this ADC, then see error msg below
+        #ifdef ARDUINO_AVR_LEONARDO
+            #if ( PIN_FOR_DATA_TOFROM_HIGHEST_SENSI_ADC == 2 ) || ( PIN_FOR_CLK_TO_HIGHEST_SENSI_ADC == 3 ) || ( PIN_FOR_CLK_TO_HIGHEST_SENSI_ADC == 2 ) || ( PIN_FOR_DATA_TOFROM_HIGHEST_SENSI_ADC == 3 )
+                #error "The pins being used for clock and data of the ADC conflict with the I2C pins used by ADS1x15.  See https://www.arduino.cc/en/reference/wire and the Adafruit_ADS1X15-master README.md.  Remove this warning once you are satisfied one way or another"
+            #endif
+        #endif
+*/
+        #if ( HIGHEST_SENSI_ADDON_ADC_TYPE == HX711 ) && ( HighestBitResFromHighestSensiAddonADC == 24 )  //The HX711 does NOT communicate over open-collector I2C; pick your own pins for comming with it other than SS, CLK, MOSI, and MISO of SPI.  The digital interface to the HX711 is a proprietary SPI-like interface using CLK to select and Data is always lo-z (can't share either)
+            #include <HX711.h>  //From https://github.com/bogde/HX711  This ADC has no CS pin so the library must use software SPI with dedicated CLK pin.  Not data selectable as would be in I2C, nor CS selectable - must be on dedicated CLK & Data lines
             HX711 hx711;
         #else
             #if ( HIGHEST_SENSI_ADDON_ADC_TYPE == ADS1232 ) && ( HighestBitResFromHighestSensiAddonADC == 24 )
@@ -133,15 +141,18 @@
             #endif
         #endif
     #endif
+#else
+    #undef HighestBitResFromHighestSensiAddonADC
+    #define HighestBitResFromHighestSensiAddonADC 10
 #endif
-#if ( NUM_ANALOG_INPUTS_TO_PLOT > 0 )
+#if ( NUM_INPUTS_TO_PLOT_OF_INBOARD_ANALOG > 0 )
     #ifndef NUM_ANALOG_INPUTS
 Sorry, but you will have to manually define the define variable NUM_ANALOG_INPUTS somewhere above this line and re-compile...
     #endif
 #else
-    #if ( NUM_ADDON_HIGHEST_SENSI_ADC_INPUTS_TO_PLOT == 0 )
-You'll need to manually define at least one of the variables NUM_ANALOG_INPUTS_TO_PLOT or NUM_ADDON_HIGHEST_SENSI_ADC_INPUTS_TO_PLOT where they appear in the lines above and re-compile...
-If you only have the Arduino without an ADS1X15, then define NUM_ANALOG_INPUTS_TO_PLOT.  Otherwise, define NUM_ADDON_HIGHEST_SENSI_ADC_INPUTS_TO_PLOT and/or both of them.
+    #if ( NUM_INPUTS_TO_PLOT_OF_ADDON_HIGHEST_SENSI_ADC == 0 )
+You'll need to manually define at least one of the variables NUM_INPUTS_TO_PLOT_OF_INBOARD_ANALOG or NUM_INPUTS_TO_PLOT_OF_ADDON_HIGHEST_SENSI_ADC where they appear in the lines above and re-compile...
+If you only have the Arduino without an ADS1X15, then define NUM_INPUTS_TO_PLOT_OF_INBOARD_ANALOG.  Otherwise, define NUM_INPUTS_TO_PLOT_OF_ADDON_HIGHEST_SENSI_ADC and/or both of them.
     #endif
 #endif
 
@@ -160,18 +171,18 @@ struct magnify_adjustment_and_display_zero
     uint32_t high_limit_of_this_plotline;
 } typedef magnify_adjustment_and_display_zero;
 
-#ifndef NUM_ADDON_HIGHEST_SENSI_ADC_INPUTS_TO_PLOT
-    #define NUM_ADDON_HIGHEST_SENSI_ADC_INPUTS_TO_PLOT 0
+#ifndef NUM_INPUTS_TO_PLOT_OF_ADDON_HIGHEST_SENSI_ADC
+    #define NUM_INPUTS_TO_PLOT_OF_ADDON_HIGHEST_SENSI_ADC 0
 #endif
-#ifndef NUM_ANALOG_INPUTS_TO_PLOT
-    #define NUM_ANALOG_INPUTS_TO_PLOT 0
+#ifndef NUM_INPUTS_TO_PLOT_OF_INBOARD_ANALOG
+    #define NUM_INPUTS_TO_PLOT_OF_INBOARD_ANALOG 0
 #endif
 
-magnify_adjustment_and_display_zero screen_offsets[ NUM_ADDON_HIGHEST_SENSI_ADC_INPUTS_TO_PLOT + NUM_ANALOG_INPUTS_TO_PLOT ];
+magnify_adjustment_and_display_zero screen_offsets[ NUM_INPUTS_TO_PLOT_OF_ADDON_HIGHEST_SENSI_ADC + NUM_INPUTS_TO_PLOT_OF_INBOARD_ANALOG ];
 bool graphline = false;
 uint32_t value, valueTemp;
 long millis_start;
-#define PlotterMaxScale ( ( ( uint32_t )pow( 2, HighestBitResFromHighestSensiAddonADC ) ) * ( uint32_t )( NUM_ADDON_HIGHEST_SENSI_ADC_INPUTS_TO_PLOT + NUM_ANALOG_INPUTS_TO_PLOT ) )
+#define PlotterMaxScale ( ( ( uint32_t )pow( 2, HighestBitResFromHighestSensiAddonADC ) ) * ( uint32_t )( NUM_INPUTS_TO_PLOT_OF_ADDON_HIGHEST_SENSI_ADC + NUM_INPUTS_TO_PLOT_OF_INBOARD_ANALOG ) )
 #define HundredthPlotterMaxScale ( PlotterMaxScale / 100 );
 #if ( SAMPLE_TIMES < 1 )
     #undef SAMPLE_TIMES
@@ -180,7 +191,7 @@ long millis_start;
 
 void setup() 
 {
-    #if ( NUM_ADDON_HIGHEST_SENSI_ADC_INPUTS_TO_PLOT > 0 ) 
+    #if ( NUM_INPUTS_TO_PLOT_OF_ADDON_HIGHEST_SENSI_ADC > 0 ) 
         #if !( ARDUINO_ARCH_SAM || ARDUINO_ARCH_SAMD )
             analogReference( DEFAULT ); //This is the voltage level of max bit value on analog input
         #else
@@ -209,7 +220,7 @@ void setup()
     //#ifndef ARDUINO_AVR_DIGISPARKPRO
     //    analogReadResolution( ADC_RES_BIT );
     //#endif
-    #if ( NUM_ADDON_HIGHEST_SENSI_ADC_INPUTS_TO_PLOT > 0 )
+    #if ( NUM_INPUTS_TO_PLOT_OF_ADDON_HIGHEST_SENSI_ADC > 0 )
         #if ( HighestBitResFromHighestSensiAddonADC < 17 )
         //   ads.setGain( GAIN_TWOTHIRDS );  // 2/3x gain +/- 6.144V  1 bit = 3mV      0.1875mV (default)  //The extra ones are here for reference 
            ads.setGain( GAIN_ONE );        // 1x gain   +/- 4.096V  1 bit = 2mV      0.125mV  //This allows a simple power rail excitation supply to voltage divider
@@ -267,18 +278,22 @@ void setup()
         #endif
         #define AnalogInputBitsOfBoard 12  //These boards have 12 bit
     #endif
+
+    #if ( NUM_INPUTS_TO_PLOT_OF_ADDON_HIGHEST_SENSI_ADC > 0 )
+        #define BitsToShiftInboardADCValues ( HighestBitResFromHighestSensiAddonADC - AnalogInputBitsOfBoard )
+    #else
+        #define BitsToShiftInboardADCValues 0
+    #endif
     
-    #define BitsToShiftInboardADCValues ( HighestBitResFromHighestSensiAddonADC - AnalogInputBitsOfBoard )
-    
-    for( uint8_t i = 0; i < NUM_ADDON_HIGHEST_SENSI_ADC_INPUTS_TO_PLOT + NUM_ANALOG_INPUTS_TO_PLOT; i++ )
+    for( uint8_t i = 0; i < NUM_INPUTS_TO_PLOT_OF_ADDON_HIGHEST_SENSI_ADC + NUM_INPUTS_TO_PLOT_OF_INBOARD_ANALOG; i++ )
     {
         screen_offsets[ i ].magnify_adjustment = 0;
-//where i > NUM_ANALOG_INPUTS_TO_PLOT results in 
-        screen_offsets[ i ].high_limit_of_this_plotline = ( uint32_t )pow( 2, HighestBitResFromHighestSensiAddonADC ) * ( i > NUM_ANALOG_INPUTS_TO_PLOT ? ( ( uint32_t )( NUM_ADDON_HIGHEST_SENSI_ADC_INPUTS_TO_PLOT - i ) ) : ( ( uint32_t )( NUM_ANALOG_INPUTS_TO_PLOT - i ) + ( uint32_t )NUM_ADDON_HIGHEST_SENSI_ADC_INPUTS_TO_PLOT ) );
-        screen_offsets[ i ].zero_of_this_plotline = ( uint32_t )pow( 2, HighestBitResFromHighestSensiAddonADC ) * ( i > NUM_ANALOG_INPUTS_TO_PLOT ? ( ( uint32_t )( NUM_ADDON_HIGHEST_SENSI_ADC_INPUTS_TO_PLOT - ( i + 1 ) ) ) : ( uint32_t )( NUM_ANALOG_INPUTS_TO_PLOT - ( i + 1 ) ) + ( uint32_t )NUM_ADDON_HIGHEST_SENSI_ADC_INPUTS_TO_PLOT );
+//where i > NUM_INPUTS_TO_PLOT_OF_INBOARD_ANALOG results in 
+        screen_offsets[ i ].high_limit_of_this_plotline = ( uint32_t )pow( 2, HighestBitResFromHighestSensiAddonADC ) * ( i > NUM_INPUTS_TO_PLOT_OF_INBOARD_ANALOG ? ( ( uint32_t )( NUM_INPUTS_TO_PLOT_OF_ADDON_HIGHEST_SENSI_ADC - i ) ) : ( ( uint32_t )( NUM_INPUTS_TO_PLOT_OF_INBOARD_ANALOG - i ) + ( uint32_t )NUM_INPUTS_TO_PLOT_OF_ADDON_HIGHEST_SENSI_ADC ) );
+        screen_offsets[ i ].zero_of_this_plotline = ( uint32_t )pow( 2, HighestBitResFromHighestSensiAddonADC ) * ( i > NUM_INPUTS_TO_PLOT_OF_INBOARD_ANALOG ? ( ( uint32_t )( NUM_INPUTS_TO_PLOT_OF_ADDON_HIGHEST_SENSI_ADC - ( i + 1 ) ) ) : ( uint32_t )( NUM_INPUTS_TO_PLOT_OF_INBOARD_ANALOG - ( i + 1 ) ) + ( uint32_t )NUM_INPUTS_TO_PLOT_OF_ADDON_HIGHEST_SENSI_ADC );
     }
     while ( !Serial ); // wait for serial port to connect. Needed for Leonardo's native USB
-    for( uint8_t i = 0; i < NUM_ANALOG_INPUTS_TO_PLOT + NUM_ADDON_HIGHEST_SENSI_ADC_INPUTS_TO_PLOT; i++ )
+    for( uint8_t i = 0; i < NUM_INPUTS_TO_PLOT_OF_INBOARD_ANALOG + NUM_INPUTS_TO_PLOT_OF_ADDON_HIGHEST_SENSI_ADC; i++ )
     {
         Serial.print( 0 );
         Serial.print( F( " " ) );
@@ -286,13 +301,13 @@ void setup()
         Serial.print( F( " " ) );
     }
     Serial.println( PlotterMaxScale );
-    #if ( NUM_ANALOG_INPUTS_TO_PLOT > 0 )
-        A_PIN_ARRAY = (uint8_t *)malloc( NUM_ANALOG_INPUTS_TO_PLOT );
+    #if ( NUM_INPUTS_TO_PLOT_OF_INBOARD_ANALOG > 0 )
+        A_PIN_ARRAY = (uint8_t *)malloc( NUM_INPUTS_TO_PLOT_OF_INBOARD_ANALOG );
     
         //Herafter is the pattern.  If you have more analog pins, add them according to the pattern.
         #ifdef NUM_ANALOG_INPUTS
         #ifdef PIN_A0
-            for( uint8_t i = 0; i < NUM_ANALOG_INPUTS_TO_PLOT; i++ )
+            for( uint8_t i = 0; i < NUM_INPUTS_TO_PLOT_OF_INBOARD_ANALOG; i++ )
             {
                 if( i == 0 )
                     *(A_PIN_ARRAY + i) = PIN_A0;
@@ -391,7 +406,7 @@ void setup()
                     while ( !Serial ); // wait for serial port to connect. Needed for Leonardo's native USB
                     Serial.println( F( "Creating analog pin definitions" ) );
                 #endif
-                for( uint8_t i = 0; i < NUM_ANALOG_INPUTS_TO_PLOT; i++ )
+                for( uint8_t i = 0; i < NUM_INPUTS_TO_PLOT_OF_INBOARD_ANALOG; i++ )
                     *(A_PIN_ARRAY + i) = i + FIRST_ANALOG_PIN_DIGITAL_NUMBER_FOR_BOARDS_NOT_HAVING_ANALOG_PINS_DEFINED_BY_PIN_A0_TYPE_DEFINES;
             #endif //end of PIN_A0 check
         #endif
@@ -406,10 +421,15 @@ void setup()
         Serial.println( F( "Some running parameters:" ) );
         Serial.print( F( "A_PIN_ARRAY = " ) );
         Serial.println( (unsigned long)A_PIN_ARRAY );
-        for( uint8_t i = 0; i < NUM_ANALOG_INPUTS_TO_PLOT; i++ )
+        for( uint8_t i = 0; i < NUM_INPUTS_TO_PLOT_OF_INBOARD_ANALOG; i++ )
             Serial.println( *( A_PIN_ARRAY + i ) );
         Serial.print( F( "PlotterMaxScale = " ) );
-        Serial.println( PlotterMaxScale );
+        Serial.print( PlotterMaxScale );
+        Serial.print( F( " derived from ( uint32_t )pow( 2, HighestBitResFromHighestSensiAddonADC ) = " ) );
+        Serial.print( ( uint32_t )pow( 2, HighestBitResFromHighestSensiAddonADC ) );
+        Serial.print( F( " and ( uint32_t )( NUM_INPUTS_TO_PLOT_OF_ADDON_HIGHEST_SENSI_ADC + NUM_INPUTS_TO_PLOT_OF_INBOARD_ANALOG ) = " ) );
+        Serial.println( ( uint32_t )( NUM_INPUTS_TO_PLOT_OF_ADDON_HIGHEST_SENSI_ADC + NUM_INPUTS_TO_PLOT_OF_INBOARD_ANALOG ) );
+        
         #ifdef DIFFERENTIAL
             Serial.print( F( "( uint32_t )pow( 2, HighestBitResFromHighestSensiAddonADC - 1 ) = " ) );Serial.println( ( uint32_t )pow( 2, HighestBitResFromHighestSensiAddonADC - 1 ) );
         #else
@@ -456,18 +476,26 @@ void loop()
     for( uint16_t plotter_loops = 0; plotter_loops < 500 / 3; plotter_loops++ ) 
     {
             millis_start = millis();
-        #if ( NUM_ANALOG_INPUTS_TO_PLOT > 0 ) //plot the inboard analogs first and above
-            for( uint8_t i = 0; i < NUM_ANALOG_INPUTS_TO_PLOT; i++ )
+        #if ( NUM_INPUTS_TO_PLOT_OF_INBOARD_ANALOG > 0 ) //plot the inboard analogs first and above
+            for( uint8_t i = 0; i < NUM_INPUTS_TO_PLOT_OF_INBOARD_ANALOG; i++ )
             {
                 #ifdef DEBUG
                     while ( !Serial ); // wait for serial port to connect. Needed for Leonardo's native USB
                     Serial.print( F( "A_PIN_ARRAY = " ) );
-                    Serial.println( (unsigned long)A_PIN_ARRAY );
-                    Serial.print( F( "Reading pin " ) );
-                    Serial.println( *( A_PIN_ARRAY + i ) );
-                    Serial.println( *( A_PIN_ARRAY + i ) );
+                    Serial.print( (unsigned long)A_PIN_ARRAY );
+                    Serial.print( F( ", reading pin " ) );
+                    Serial.print( *( A_PIN_ARRAY + i ) );
+                    Serial.print( F( ", level appearing as " ) );
+                    Serial.print( analogRead( *( A_PIN_ARRAY + i ) ) );
+                    Serial.print( F( ", BitsToShiftInboardADCValues " ) );
+                    Serial.println( BitsToShiftInboardADCValues );
                 #endif
-                value = analogRead( *( A_PIN_ARRAY + i ) ) << BitsToShiftInboardADCValues;
+                value = analogRead( *( A_PIN_ARRAY + i ) );
+                #ifdef DEBUG
+                    while ( !Serial ); // wait for serial port to connect. Needed for Leonardo's native USB
+                    Serial.print( F( "Value was " ) );
+                    Serial.println( value );;
+                #endif
     
                 for( uint8_t sampletimes = 1; sampletimes < SAMPLE_TIMES; sampletimes++ )
                 {
@@ -477,19 +505,26 @@ void loop()
                     #if ( defined DELAY_TIME_BETWEEN_SAMPLES_US ) && ( DELAY_TIME_BETWEEN_SAMPLES_US > 0 )
                                     delayMicroseconds( DELAY_TIME_BETWEEN_SAMPLES_US );
                     #endif
-                    value += ( analogRead( *( A_PIN_ARRAY + i ) ) << BitsToShiftInboardADCValues );
+                    value += analogRead( *( A_PIN_ARRAY + i ) );
                 }
+                /*value = */ value <<= BitsToShiftInboardADCValues;
                 #ifdef DEBUG
                     while ( !Serial ); // wait for serial port to connect. Needed for Leonardo's native USB
                     Serial.print( F( "Done reading pin " ) );
-                    Serial.println( *( A_PIN_ARRAY + i ) );
+                    Serial.print( *( A_PIN_ARRAY + i ) );
+                    Serial.print( F( ", " ) );
+                    Serial.print( SAMPLE_TIMES );
+                    Serial.print( F( " times, total value now " ) );
+                    Serial.print( value );
+                    Serial.print( F( " which should average to " ) );
+                    Serial.println( value / SAMPLE_TIMES );
                 #endif
                 plot_the_normal_and_magnified_signals( i );
             }
         #endif
 
-        #if ( NUM_ADDON_HIGHEST_SENSI_ADC_INPUTS_TO_PLOT > 0 )
-            for( uint8_t i = 0; i < NUM_ADDON_HIGHEST_SENSI_ADC_INPUTS_TO_PLOT; i++ )
+        #if ( NUM_INPUTS_TO_PLOT_OF_ADDON_HIGHEST_SENSI_ADC > 0 )
+            for( uint8_t i = 0; i < NUM_INPUTS_TO_PLOT_OF_ADDON_HIGHEST_SENSI_ADC; i++ )
             {
                 #if ( HighestBitResFromHighestSensiAddonADC == 11 ) || ( HighestBitResFromHighestSensiAddonADC == 15 )
                     value = ads.readADC_SingleEnded( i );
@@ -596,7 +631,7 @@ void loop()
                         value += valueTemp;
                     }
                 #endif
-                plot_the_normal_and_magnified_signals( i + NUM_ANALOG_INPUTS_TO_PLOT );
+                plot_the_normal_and_magnified_signals( i + NUM_INPUTS_TO_PLOT_OF_INBOARD_ANALOG );
             }
         #endif
         if( graphline ) valueTemp = 0;
