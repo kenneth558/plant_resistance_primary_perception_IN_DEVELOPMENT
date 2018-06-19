@@ -1,8 +1,8 @@
 // Before using this sketch, you must set the following appropriately for your configuration and preferences !!!
 #define NUM_INPUTS_TO_PLOT_OF_INBOARD_ANALOG 1 //The number of consecutive analog pins to plot, beginning with PIN_A0
-#define NUM_INPUTS_TO_PLOT_OF_ADDON_HIGHEST_SENSI_ADC 0 //The number of consecutive "highest-sensitivity ADC" pins to plot, beginning with A0 and, if double-ended, A1.  ADDON ADC ONLY - DOES _NOT_ INCLUDE INBOARD ANALOG INPUT PINS
+#define NUM_INPUTS_TO_PLOT_OF_ADDON_HIGHEST_SENSI_ADC 1 //The number of consecutive "highest-sensitivity ADC" pins to plot, beginning with A0 and, if double-ended, A1.  ADDON ADC ONLY - DOES _NOT_ INCLUDE INBOARD ANALOG INPUT PINS
 #define HIGHEST_SENSI_ADDON_ADC_TYPE HX711  // Proposing that "ADS1231" covers ADS1231; could make this "ADS1232" (ADS1232), "ADS1242" (ADS1242), "AD779x" (AD779x), "AD7780" (AD7780), "HX711" (HX711), "MAX112x0" (MAX112x0...) or "LTC2400" (LTC2400) but code not included in v.FREE
-#define MULTIPLICATION_FACTOR 25 //To aid in viewing
+#define MULTIPLICATION_FACTOR 12 //To aid in viewing
 #define HighestBitResFromHighestSensiAddonADC 24 // all ADC values will get scaled to the single-ended aspect of this,  15 is ADS1115 single-ended, 16 for double-ended when two LM334s are used.  change to 11 for ADS1015 single-ended or 12 with two LM334s, (future: change to 24 for HX711--NO b/c there is the ADS1231 at 24 bits)
 #define SAMPLE_TIMES 4 //To better average out artifacts we over-sample and average.  This value can be tweaked by you to ensure neutralization of power line noise or harmonics of power supplies, etc.....
 #define MOST_PROBLEMATIC_INTERFERENCE_FREQ 60 // This is here just in case you think that you might have some interference on a known frequency.
@@ -12,7 +12,7 @@
 #define REPOSITION_RATIO_OF_MAGNIFIED_VIEW_WHEN_LIMITS_GET_EXCEEDED (.1) //BETWEEN 0 AND 1 indicating how much of the display region to skip when magnified view trace has to get repositioned because trace would be outside region bounds
 #define AnalogInputBitsOfBoard 10 //Most Arduino boards are 10-bit resolution, but some can be 12 bits.  For known 12 bit boards (SAM, SAMD and TTGO XI architectures), this gets re-defined below, so generally this can be left as 10 even for those boards
 #define SECONDS_THAT_A_LGT8FX8E_HARDWARE_SERIAL_NEEDS_TO_COME_UP_WORKING 9 //8 works only usually
-#define HIGHEST_SENSI_PGA_GAIN_FACTOR 1 //For HX711 a 1 means gain of 128. Available to you for your own use PGA=Programmable Gain Amplifier: many ADCs will correlate a gain of one with full-scale being rail-to-rail, while a gain of anything higher correlates to full-scale being in the mV range (most sensitive and most noise-susceptible).
+#define HIGHEST_SENSI_PGA_GAIN_FACTOR 128 //For HX711 a gain of 128 gets applied to channel A. Available to you for your own use PGA=Programmable Gain Amplifier: many ADCs will correlate a gain of one with full-scale being rail-to-rail, while a gain of anything higher correlates to full-scale being in the mV range (most sensitive and most noise-susceptible).
 #define MIN_WAIT_TIME_BETWEEN_PLOT_POINTS_MS 200  //Sets maximum speed, but actual speed may be further limited by other factors
 //#define DEBUG true //Don't forget that DEBUG is not formatted for Serial plotter, but might work anyway if you'd never print numbers only any DEBUG print line
 //OTHER DEFINES OR RE-DEFINES ELSEWHERE: VERSION, NUM_INPUTS_TO_PLOT_OF_INBOARD_ANALOG, NUM_INPUTS_TO_PLOT_OF_ADDON_HIGHEST_SENSI_ADC, HALFHighestBitResFromHighestSensiAddonADC, DIFFERENTIAL, PIN_FOR_DATA_TOFROM_HIGHEST_SENSI_ADC, PIN_FOR_CLK_TO_HIGHEST_SENSI_ADC, PlotterMaxScale, HundredthPlotterMaxScale, SAMPLE_TIMES, AnalogInputBitsOfBoard, SCALE_FACTOR_TO_PROMOTE_LOW_RES_ADC_TO_SAME_SCALE
@@ -104,8 +104,8 @@
             #endif
         #endif
     #else
-        #define PIN_FOR_DATA_TOFROM_HIGHEST_SENSI_ADC 2 //Must be dedicated in cases where it doesn't go hi-Z (as in HX711).  This won't work if an ADS1x15 or any other I2C device is also used
-        #define PIN_FOR_CLK_TO_HIGHEST_SENSI_ADC 3 //Must always be dedicated
+        #define PIN_FOR_DATA_TOFROM_HIGHEST_SENSI_ADC 2 //Must be dedicated in cases where it doesn't go hi-Z (as in HX711).  This won't work if an ADS1x15 or any other I2C device is also used on this pin
+        #define PIN_FOR_CLK_TO_HIGHEST_SENSI_ADC 3 //Must always be dedicated in cases where it doesn't go hi-Z (as in HX711).  This won't work if an ADS1x15 or any other I2C device is also used on this pin
 /*
  * If ever would use an ADS1x15 along with this ADC, then see error msg below
         #ifdef ARDUINO_AVR_LEONARDO
@@ -116,7 +116,7 @@
 */
         #if ( HIGHEST_SENSI_ADDON_ADC_TYPE == HX711 ) && ( HighestBitResFromHighestSensiAddonADC == 24 )  //The HX711 does NOT communicate over open-collector I2C; pick your own pins for comming with it other than SS, CLK, MOSI, and MISO of SPI.  The digital interface to the HX711 is a proprietary SPI-like interface using CLK to select and Data is always lo-z (can't share either)
             #include <HX711.h>  //From https://github.com/bogde/HX711  This ADC has no CS pin so the library must use software SPI with dedicated CLK pin.  Not data selectable as would be in I2C, nor CS selectable - must be on dedicated CLK & Data lines
-            HX711 hx711;
+            HX711 hx711( PIN_FOR_DATA_TOFROM_HIGHEST_SENSI_ADC, PIN_FOR_CLK_TO_HIGHEST_SENSI_ADC ); // This library allows us to set the pins and gain here or later in a .begin().   
         #else
             #if ( HIGHEST_SENSI_ADDON_ADC_TYPE == ADS1232 ) && ( HighestBitResFromHighestSensiAddonADC == 24 )
             #else
@@ -237,7 +237,10 @@ void setup()
                     while ( !Serial && ( millis() - millis_start < 8000 ) );
                     Serial.print( F( "Initializing HX711..." ) );
                 #endif
-                hx711.begin( PIN_FOR_DATA_TOFROM_HIGHEST_SENSI_ADC, PIN_FOR_CLK_TO_HIGHEST_SENSI_ADC, HIGHEST_SENSI_PGA_GAIN_FACTOR );  // parameter "gain" is ommited; the default value 128 is used by the library
+/*
+ * With the library being used, the .begin() method is not needed if the HX711 was declared earlier prior to setup().  The reason I'm doing it superfluously here is simply to suggest some measure of future consistency across all ADCs since other ADC libraries may not allow one or the other...
+ */
+                hx711.begin( PIN_FOR_DATA_TOFROM_HIGHEST_SENSI_ADC, PIN_FOR_CLK_TO_HIGHEST_SENSI_ADC, HIGHEST_SENSI_PGA_GAIN_FACTOR );  // if the third parameter is ommited the default gain value 128 & channel A is used by the library
                 #ifdef DEBUG
                     millis_start = millis();
                     while ( !Serial && ( millis() - millis_start < 8000 ) ); //We limit the time to wait for serial ready
