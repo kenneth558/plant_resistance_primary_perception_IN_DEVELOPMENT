@@ -1,4 +1,4 @@
-<dl><dt>28 June 2018</dt></dl>My efforts have been sidetracked by the urgencies of property maintenance and repair.
+<dl><dt>28 June 2018</dt></dl>My efforts have been sidetracked for some days by the urgencies of property maintenance and repair.
 
 <dl><dt>20 June 2018</dt></dl>I had assumed the excitation voltage from the HX711 across the bridge circuit would be higher than it is in reality.  I though it would be high enough to include headroom for LM334s to operate in the upper halves of the bridge.  Not so.  The positive excitation voltage is less than 2.5 vdc using the high impedance scenario with the plant.  Not only that, but the negative bridge power is abaout a diode drop above ground.  I will have to supply the bridge from +5 and GND and see what that does to the noise floor.  Datasheet for HX711 says to supply less than within .1 vdc of Vdd, so I am risking a $1 part here...
 
