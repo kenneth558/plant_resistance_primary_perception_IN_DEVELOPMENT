@@ -7,4 +7,4 @@ Did you ever watch a theatrical performance or movie and be so caught up in it t
 
 If you'll consider just the last two terms "reviving civility" standing alone, they would denote both the effect of civility if thought of as adjective-noun and, if thought of as verb-object, a goal of this project.
 
-Until hard results give me a more solid basis than all the conjecture, I'm limited in further purposing, but I'll say this anyway - I'm hoping to incorporate into this project the term "domestic tranquility" given the insane prevelancy of incivility in the U.S. these days.
+(Until hard results transform my motivational conjecture into substantive proof, I'm limited in further purposing, but I'll say this anyway - I'm hoping to incorporate into this project the term "domestic tranquility", given the insane prevelancy of incivility in the U.S. these days.)
