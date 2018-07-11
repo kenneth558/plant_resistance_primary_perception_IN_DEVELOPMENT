@@ -1,25 +1,31 @@
-// Before compiling this sketch, you must set or confirm the following appropriately for your configuration and preferences !!!
-#define NUM_INPUTS_TO_PLOT_OF_INBOARD_ANALOG 0 //The number of consecutive analog pins to plot, beginning with PIN_A0
-#define NUM_INPUTS_TO_PLOT_OF_ADDON_HIGHEST_SENSI_ADC 1 //The number of consecutive "highest-sensitivity ADC" pins to plot, beginning with A0 and, if double-ended, A1.  ADDON ADC ONLY - DOES _NOT_ INCLUDE INBOARD ANALOG INPUT PINS
-#define HIGHEST_SENSI_ADDON_ADC_TYPE HX711  // Proposing that "ADS1231" covers ADS1231; could make this "ADS1232" (ADS1232), "ADS1242" (ADS1242), "AD779x" (AD779x), "AD7780" (AD7780), "HX711" (HX711), "MAX112x0" (MAX112x0...) or "LTC2400" (LTC2400) but code not included in v.FREE
-#define MAGNIFICATION_FACTOR 100 //To aid in viewing
-#define HighestBitResFromHighestSensiAddonADC 24 // all ADC values will get scaled to the single-ended aspect of this,  15 is ADS1115 single-ended, 16 for double-ended when two LM334s are used.  change to 11 for ADS1015 single-ended or 12 with two LM334s, (future: change to 24 for HX711--NO b/c there is the ADS1231 at 24 bits)
-#define SAMPLE_TIMES 4 //To better average out artifacts we over-sample and average.  This value can be tweaked by you to ensure neutralization of power line noise or harmonics of power supplies, etc.....
-#define MOST_PROBLEMATIC_INTERFERENCE_FREQ 60 // This is here just in case you think that you might have some interference on a known frequency.
+/*
+
+Got this far and noticed the voltage on LM334 pin 2 were only like .45 VDC - both units.  Need to think about that....
+
+
+*/
+//        Before compiling this sketch, you must set or confirm the following appropriately for your configuration and preferences !!!
+#define NUM_INPUTS_TO_PLOT_OF_INBOARD_ANALOG 0                                                     //The number of consecutive analog pins to plot, beginning with PIN_A0
+#define NUM_INPUTS_TO_PLOT_OF_ADDON_HIGHEST_SENSI_ADC 1                                            //The number of consecutive "highest-sensitivity ADC" pins to plot, beginning with A0 and, if double-ended, A1.  ADDON ADC ONLY - DOES _NOT_ INCLUDE INBOARD ANALOG INPUT PINS
+#define HIGHEST_SENSI_ADDON_ADC_TYPE HX711                                                         //Proposing that "ADS1231" covers ADS1231; could make this "ADS1232" (ADS1232), "ADS1242" (ADS1242), "AD779x" (AD779x), "AD7780" (AD7780), "HX711" (HX711), "MAX112x0" (MAX112x0...) or "LTC2400" (LTC2400) but code not included in v.FREE
+#define MAGNIFICATION_FACTOR 100                                                                   //To aid in viewing
+#define HighestBitResFromHighestSensiAddonADC 24                                                   //All ADC values will get scaled to the single-ended aspect of this,  15 is ADS1115 single-ended, 16 for double-ended when two LM334s are used.  change to 11 for ADS1015 single-ended or 12 with two LM334s, (future: change to 24 for HX711--NO b/c there is the ADS1231 at 24 bits)
+#define SAMPLE_TIMES 4                                                                             //To better average out artifacts we over-sample and average.  This value can be tweaked by you to ensure neutralization of power line noise or harmonics of power supplies, etc.....
+#define MOST_PROBLEMATIC_INTERFERENCE_FREQ 60                                                      //This is here just in case you think that you might have some interference on a known frequency.
 #define DELAY_TIME_BETWEEN_SAMPLES_MS ( 1000 / MOST_PROBLEMATIC_INTERFERENCE_FREQ / SAMPLE_TIMES ) //COARSE ADJUST
 #define DELAY_TIME_BETWEEN_SAMPLES_US ( ( ( 1000000 / MOST_PROBLEMATIC_INTERFERENCE_FREQ ) - ( DELAY_TIME_BETWEEN_SAMPLES_MS * SAMPLE_TIMES * 1000 ) ) / SAMPLE_TIMES ) //FINE ADJUST.  THIS GETS ADDED TO COARSE ADJUST, PRECISION = TRUNCATED PRAGMATICALLY TO uSec TO ACKNOWLEDGE SOME OVERHEAD FOR LOOPING SUPPORT CODE   // End of this part of code update
 #define FIRST_ANALOG_PIN_DIGITAL_NUMBER_FOR_BOARDS_NOT_HAVING_ANALOG_PINS_DEFINED_BY_PIN_A0_TYPE_DEFINES 14 //Some boards don't have good definitions and constants for the analog pins :-(
-#define REPOSITION_RATIO_OF_MAGNIFIED_VIEW_WHEN_LIMITS_GET_EXCEEDED (.1) //BETWEEN 0 AND 1 indicating how much of the display region to skip when magnified view trace has to get repositioned because trace would be outside region bounds
-#define AnalogInputBitsOfBoard 10 //Most Arduino boards are 10-bit resolution, but some can be 12 bits.  For known 12 bit boards (SAM, SAMD and TTGO XI architectures), this gets re-defined below, so generally this can be left as 10 even for those boards
-#define SECONDS_THAT_A_LGT8FX8E_HARDWARE_SERIAL_NEEDS_TO_COME_UP_WORKING 9 //8 works only usually
-#define HIGHEST_SENSI_PGA_GAIN_FACTOR 128 //For HX711 a gain of 128 gets applied to channel A. Available to you for your own use PGA=Programmable Gain Amplifier: many ADCs will correlate a gain of one with full-scale being rail-to-rail, while a gain of anything higher correlates to full-scale being in the mV range (most sensitive and most noise-susceptible).
-#define MIN_WAIT_TIME_BETWEEN_PLOT_POINTS_MS 200  //Sets maximum speed, but actual speed may be further limited by other factors
-#define USING_LM334_WITH_MCP4162_POTS // Remove if using standard wheatstone bridge with only standard resistors.  make true if using bridge with upper resistive elements being LM334s controllable with the MCP4162-104 pots
-//#define DEBUG true //Don't forget that DEBUG is not formatted for Serial plotter, but might work anyway if you'd never print numbers only any DEBUG print line
+#define REPOSITION_RATIO_OF_MAGNIFIED_VIEW_WHEN_LIMITS_GET_EXCEEDED (.1)                           //BETWEEN 0 AND 1 indicating how much of the display region to skip when magnified view trace has to get repositioned because trace would be outside region bounds
+#define AnalogInputBitsOfBoard 10                                                                  //Most Arduino boards are 10-bit resolution, but some can be 12 bits.  For known 12 bit boards (SAM, SAMD and TTGO XI architectures), this gets re-defined below, so generally this can be left as 10 even for those boards
+#define SECONDS_THAT_A_LGT8FX8E_HARDWARE_SERIAL_NEEDS_TO_COME_UP_WORKING 9                         //8 works only usually
+#define HIGHEST_SENSI_PGA_GAIN_FACTOR 128                                                          //For HX711 a gain of 128 gets applied to channel A. Available to you for your own use PGA=Programmable Gain Amplifier: many ADCs will correlate a gain of one with full-scale being rail-to-rail, while a gain of anything higher correlates to full-scale being in the mV range (most sensitive and most noise-susceptible).
+#define MIN_WAIT_TIME_BETWEEN_PLOT_POINTS_MS 200                                                   //Sets maximum speed, but actual speed may be further limited by other factors
+#define USING_LM334_WITH_MCP4162_POTS                                                              //Remove if using standard wheatstone bridge with only standard resistors.  make true if using bridge with upper resistive elements being LM334s controllable with the MCP4162-104 pots
+//#define DEBUG true                                                                               //Don't forget that DEBUG is not formatted for Serial plotter, but might work anyway if you'd never print numbers only any DEBUG print line
 //OTHER DEFINES OR RE-DEFINES ELSEWHERE: VERSION, NUM_INPUTS_TO_PLOT_OF_INBOARD_ANALOG, NUM_INPUTS_TO_PLOT_OF_ADDON_HIGHEST_SENSI_ADC, HALFHighestBitResFromHighestSensiAddonADC, DIFFERENTIAL, PIN_FOR_DATA_TOFROM_HIGHEST_SENSI_ADC, PIN_FOR_CLK_TO_HIGHEST_SENSI_ADC, PlotterMaxScale, HundredthPlotterMaxScale, SAMPLE_TIMES, AnalogInputBitsOfBoard, SCALE_FACTOR_TO_PROMOTE_LOW_RES_ADC_TO_SAME_SCALE
 
 
-//FUTURE #define DEBUG_BRIDGE_BALANCING true //This will cause both the probe signal and the opposing bridge leg reference point to be displayed in full-scale, non-magnified views.  Useful with boards having low-Z or no Analog Input pins.
+//FUTURE #define DEBUG_BRIDGE_BALANCING true //This will cause both the probe signal and the opposing bridge leg reference point to be displayed in full-scale, non-magnified views.  Useful with boards having low-Z Analog Input pins or none at all.
 //FUTURE #define FULL_SCALE_ADDON_ADC_TYPE ADS1X15  // Proposing that "ADS1231" covers ADS1231; could make this "ADS1232" (ADS1232), "ADS1242" (ADS1242), "AD779x" (AD779x), "AD7780" (AD7780), "HX711" (HX711), "MAX112x0" (MAX112x0...) or "LTC2400" (LTC2400) but code not included in v.FREE
 /*******************(C)  COPYRIGHT 2018 KENNETH L ANDERSON *********************
 * 
@@ -28,7 +34,7 @@
 * File Name          : adc_for_plant_tissue.ino
 * Author             : KENNETH L ANDERSON
 * Version            : v.Free
-* Date               : 30-June-2018
+* Date               : 10-July-2018
 * Description        : To replicate Cleve Backster's findings that he named "Primary Perception".  Basically, this sketch turns an Arduino MCU and optional (recommended) ADS1115 into a nicely functional poor man's polygraph in order to learn/demonstrate telempathic gardening.
 * Boards tested on   : Uno using both ADS1115 and inboard analog inputs.  
 *                    : TTGO XI using ADS1115.  
@@ -80,7 +86,7 @@
 #define VERSION "v.Free"  // Since this never gets used anywhere, it doesn't compile in so no memory is wasted
 #ifdef __LGT8FX8E__
     #if ( NUM_INPUTS_TO_PLOT_OF_INBOARD_ANALOG > 0 )
-//HINT ONLY: NOT ENFORCED  #error "We are sorry, but the Wemos board's analog inputs have unremoveable pull-up conductance, so this sketch is not designed to compile for the analog inputs to be used with this board.  Set NUM_INPUTS_TO_PLOT_OF_INBOARD_ANALOG to zero and try with an outboard ADC."
+//HINT ONLY, NOT ENFORCED:  #error "We are sorry, but the Wemos board's analog inputs have unremoveable pull-up conductance, so this sketch is not designed to compile for the analog inputs to be used with this board.  Set NUM_INPUTS_TO_PLOT_OF_INBOARD_ANALOG to zero and try with an outboard ADC."
     #endif
 #endif
 #include <math.h>
@@ -105,7 +111,7 @@
             #endif
         #endif
     #else
-        #define PIN_FOR_DATA_TOFROM_HIGHEST_SENSI_ADC 2 //Must be dedicated in cases where it doesn't go hi-Z (as in HX711).  This won't work if an ADS1x15 or any other I2C device is also used on this pin
+        #define PIN_FOR_DATA_TOFROM_HIGHEST_SENSI_ADC 2 //Must always be dedicated in cases where it doesn't go hi-Z (as in HX711).  This won't work if an ADS1x15 or any other I2C device is also used on this pin
         #define PIN_FOR_CLK_TO_HIGHEST_SENSI_ADC 3 //Must always be dedicated in cases where it doesn't go hi-Z (as in HX711).  This won't work if an ADS1x15 or any other I2C device is also used on this pin
 /*
  * If ever would use an ADS1x15 along with this ADC, then see error msg below
@@ -163,9 +169,9 @@ If you only have the Arduino without an ADS1X15, then define NUM_INPUTS_TO_PLOT_
     [http://bit.ly/iwDmnd]
     http://tronixstuff.com/tutorials > chapter 34 | CC by-sa-nc | John Boxall
 
-    SS – digital 10 to CS of a single digital pot, not used inside library call, so can be any pin as determined within main function unidirectional NOT PIN 10 ON LEONARDO - IS FOUND ON LED_BUILTIN_RX (PIN 17) ONLY
-    MOSI – digital 11 to inputs of all digital pots unidirectional NOT PIN 11 ON LEONARDO - IS FOUND ON 1CSP ONLY
-    MISO – digital 12 to outputs of all digital pots unidirectional NOT PIN 12 ON EXCEPT LEONARDO - IS FOUND ON 1CSP ONLY
+    SS – digital 10 to CS of a single digital pot, not abstracted by library call, so can be any pin as determined within main function unidirectional NOT PIN 10 ON LEONARDO - IS FOUND ON LED_BUILTIN_RX (PIN 17) ONLY
+    MOSI – digital 11 to inputs of all digital pots unidirectional NOT PIN 11 ON LEONARDO - IS FOUND ON 1CSP ONLY.  REQ'D IN ALL CASES.
+    MISO – digital 12 to outputs of all digital pots unidirectional NOT PIN 12 ON EXCEPT LEONARDO - IS FOUND ON 1CSP ONLY.  OPTIONAL IN SOME CASES.
     SCK – digital 13 to CLK of all digital pots unidirectional NOT PIN 13 ON LEONARDO - IS FOUND ON 1CSP ONLY
 
 */
@@ -686,8 +692,7 @@ void plot_the_normal_and_magnified_signals( uint8_t channel )
 }
 
 void loop() 
-{    
-
+{
     for( uint16_t plotter_loops = 0; plotter_loops < 500 / 3; plotter_loops++ ) 
     {
             millis_start = millis();
@@ -820,7 +825,7 @@ Start_of_addon_ADC_acquisition:
                                     #if ( HIGHEST_SENSI_ADDON_ADC_TYPE == HX711 )
                                         #ifdef DEBUG
                                             while ( !Serial ); // wait for serial port to connect. Needed for Leonardo's native USB
-                                            Serial.println( F( "Reading differential valueTemp" ) );
+//                                            Serial.println( F( "Reading differential valueTemp" ) );
                                         #endif
 //                                            hx711.power_up();
                                             valueTemp = hx711.read() + pow( 2, HighestBitResFromHighestSensiAddonADC - 1 );
@@ -853,8 +858,8 @@ Start_of_addon_ADC_acquisition:
                                 #endif
                                 #ifdef DEBUG
                                     while ( !Serial ); // wait for serial port to connect. Needed for Leonardo's native USB
-                                    Serial.print( F( "Read adjusted differential valueTemp " ) );
-                                    Serial.println( valueTemp );
+//                                    Serial.print( F( "Read adjusted differential valueTemp " ) );
+//                                    Serial.println( valueTemp );
                                 #endif
                             #endif
                         #endif
@@ -865,10 +870,29 @@ Start_of_addon_ADC_acquisition:
                         else if( ( valueTemp >= pow( 2, HighestBitResFromHighestSensiAddonADC ) ) && !overscale_is_unfixable )
                             { if( adjust_whole_bridge_negative( i ) ) goto Start_of_addon_ADC_acquisition; }
                         #endif
+/* ?Something is out of whack about this part?.  looped wrong? (like end-scoped wrong?)  So I have commented out to prevent compiling....Start with line 793 troubleshooting */
                         value += valueTemp;
-                sampletimes = 1;
+//                sampletimes = 1;
                 }
                 #endif
+/*
+        #ifdef USING_LM334_WITH_MCP4162_POTS && #ifdef DEBUG
+            while ( !Serial ); // wait for serial port to connect. Needed for Leonardo's native USB
+            Serial.print( F( "digipot_1_value = " ) );
+            Serial.print( digipot_1_value );
+            Serial.print( F( ", digipot_2_value = " ) );
+            Serial.print( digipot_2_value );
+            Serial.print( F( ", digipot_3_value = " ) );
+            Serial.print( digipot_3_value );
+            while ( !Serial ); // wait for serial port to connect. Needed for Leonardo's native USB
+            Serial.print( F( ", digipot_4_value = " ) );
+            Serial.print( digipot_4_value );
+            Serial.print( F( ", digipot_5_value = " ) );
+            Serial.print( digipot_5_value );
+            Serial.print( F( ", digipot_6_value = " ) );
+            Serial.println( digipot_6_value );
+        #endif
+*/
                 plot_the_normal_and_magnified_signals( i + NUM_INPUTS_TO_PLOT_OF_INBOARD_ANALOG );
             }
         #endif
@@ -897,63 +921,116 @@ Start_of_addon_ADC_acquisition:
             }
         }
 //        digitalWrite( LED_BUILTIN, LOW );                  // These lines for blinking the LED are here if you want the LED to blink when data is rec'd
-        if( !( szFull[ 0 ] == 0 || nextChar != 0  ) )        //The way this and while loop is set up allows reception of lines with no endings but at a timing cost of one loop()
+        if( !( szFull[ 0 ] == 0 || nextChar != 0 ) )        //The way this and while loop is set up allows reception of lines with no endings but at a timing cost of one loop()
         {
             #ifdef DEBUG
                 while ( !Serial ); // wait for serial port to connect. Needed for Leonardo's native USB
-                Serial.println( szFull );
+                Serial.print( F( "Received " ) );
+                Serial.print( szFull );
             #endif
     #ifdef USING_LM334_WITH_MCP4162_POTS 
             if( strstr( szFull, "1u" ) || strstr( szFull, "1+" ) )
             {
+                #ifdef DEBUG
+                    while ( !Serial ); // wait for serial port to connect. Needed for Leonardo's native USB
+                    Serial.print( F( ", command to increase value_1 by one, " ) );
+                #endif
                 offsetPotValue( DIGITAL_POT_1, 1 );
             }
-            else if(  strstr( szFull, "1d" ) || strstr( szFull, "1-" ) )
+            else if( strstr( szFull, "1d" ) || strstr( szFull, "1-" ) )
             {
+                #ifdef DEBUG
+                    while ( !Serial ); // wait for serial port to connect. Needed for Leonardo's native USB
+                    Serial.print( F( ", command to decrease value_1 by one, " ) );
+                #endif
                 offsetPotValue( DIGITAL_POT_1, -1 );
             }
-            else if(  strstr( szFull, "2d" ) || strstr( szFull, "2-" ) )
+            else if( strstr( szFull, "2d" ) || strstr( szFull, "2-" ) )
             {
+                #ifdef DEBUG
+                    while ( !Serial ); // wait for serial port to connect. Needed for Leonardo's native USB
+                    Serial.print( F( ", command to decrease value_2 by one, " ) );
+                #endif
                 offsetPotValue( DIGITAL_POT_2, -1 );
             }
-            else if(  strstr( szFull, "2u" ) || strstr( szFull, "2+" ) )
+            else if( strstr( szFull, "2u" ) || strstr( szFull, "2+" ) )
             {
+                #ifdef DEBUG
+                    while ( !Serial ); // wait for serial port to connect. Needed for Leonardo's native USB
+                    Serial.print( F( ", command to increase value_2 by one, " ) );
+                #endif
                 offsetPotValue( DIGITAL_POT_2, 1 );
             }
-            else if(  strstr( szFull, "3d" ) || strstr( szFull, "3-" ) )
+            else if( strstr( szFull, "3d" ) || strstr( szFull, "3-" ) )
             {
+                #ifdef DEBUG
+                    while ( !Serial ); // wait for serial port to connect. Needed for Leonardo's native USB
+                    Serial.print( F( ", command to decrease value_3 by one, " ) );
+                #endif
                 offsetPotValue( DIGITAL_POT_3, -1 );
             }
-            else if(  strstr( szFull, "3u" ) || strstr( szFull, "3+" ) )
+            else if( strstr( szFull, "3u" ) || strstr( szFull, "3+" ) )
             {
+                #ifdef DEBUG
+                    while ( !Serial ); // wait for serial port to connect. Needed for Leonardo's native USB
+                    Serial.print( F( ", command to increase value_3 by one, " ) );
+                #endif
                 offsetPotValue( DIGITAL_POT_3, 1 );
             }
-            else if(  strstr( szFull, "4d" ) || strstr( szFull, "4-" ) )
+            else if( strstr( szFull, "4d" ) || strstr( szFull, "4-" ) )
             {
+                #ifdef DEBUG
+                    while ( !Serial ); // wait for serial port to connect. Needed for Leonardo's native USB
+                    Serial.print( F( ", command to decrease value_4 by one, " ) );
+                #endif
                 offsetPotValue( DIGITAL_POT_4, -1 );
             }
-            else if(  strstr( szFull, "4u" ) || strstr( szFull, "4+" ) )
+            else if( strstr( szFull, "4u" ) || strstr( szFull, "4+" ) )
             {
+                #ifdef DEBUG
+                    while ( !Serial ); // wait for serial port to connect. Needed for Leonardo's native USB
+                    Serial.print( F( ", command to increase value_4 by one, " ) );
+                #endif
                 offsetPotValue( DIGITAL_POT_4, 1 );
             }
-            else if(  strstr( szFull, "5d" ) || strstr( szFull, "5-" ) )
+            else if( strstr( szFull, "5d" ) || strstr( szFull, "5-" ) )
             {
+                #ifdef DEBUG
+                    while ( !Serial ); // wait for serial port to connect. Needed for Leonardo's native USB
+                    Serial.print( F( ", command to decrease value_5 by one, " ) );
+                #endif
                 offsetPotValue( DIGITAL_POT_5, -1 );
             }
-            else if(  strstr( szFull, "5u" ) || strstr( szFull, "5+" ) )
+            else if( strstr( szFull, "5u" ) || strstr( szFull, "5+" ) )
             {
+                #ifdef DEBUG
+                    while ( !Serial ); // wait for serial port to connect. Needed for Leonardo's native USB
+                    Serial.print( F( ", command to increase value_5 by one, " ) );
+                #endif
                 offsetPotValue( DIGITAL_POT_5, 1 );
             }
-            else if(  strstr( szFull, "6d" ) || strstr( szFull, "6-" ) )
+            else if( strstr( szFull, "6d" ) || strstr( szFull, "6-" ) )
             {
+                #ifdef DEBUG
+                    while ( !Serial ); // wait for serial port to connect. Needed for Leonardo's native USB
+                    Serial.print( F( ", command to decrease value_6 by one, " ) );
+                #endif
                 offsetPotValue( DIGITAL_POT_6, -1 );
             }
-            else if(  strstr( szFull, "6u" ) || strstr( szFull, "6+" ) )
+            else if( strstr( szFull, "6u" ) || strstr( szFull, "6+" ) )
             {
+                #ifdef DEBUG
+                    while ( !Serial ); // wait for serial port to connect. Needed for Leonardo's native USB
+                    Serial.print( F( ", command to increase value_6 by one, " ) );
+                #endif
                 offsetPotValue( DIGITAL_POT_6, 1 );
             }
     #endif
             szFull[ 0 ] = 0;
+            #ifdef DEBUG
+                while ( !Serial ); // wait for serial port to connect. Needed for Leonardo's native USB
+                Serial.println( );
+            #endif
         }
     }
     graphline = !graphline;
