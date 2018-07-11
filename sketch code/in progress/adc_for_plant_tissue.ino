@@ -1,9 +1,3 @@
-/*
-
-Got this far and noticed the voltage on LM334 pin 2 were only like .45 VDC - both units.  Need to think about that....
-
-
-*/
 //        Before compiling this sketch, you must set or confirm the following appropriately for your configuration and preferences !!!
 #define NUM_INPUTS_TO_PLOT_OF_INBOARD_ANALOG 0                                                     //The number of consecutive analog pins to plot, beginning with PIN_A0
 #define NUM_INPUTS_TO_PLOT_OF_ADDON_HIGHEST_SENSI_ADC 1                                            //The number of consecutive "highest-sensitivity ADC" pins to plot, beginning with A0 and, if double-ended, A1.  ADDON ADC ONLY - DOES _NOT_ INCLUDE INBOARD ANALOG INPUT PINS
@@ -21,7 +15,7 @@ Got this far and noticed the voltage on LM334 pin 2 were only like .45 VDC - bot
 #define HIGHEST_SENSI_PGA_GAIN_FACTOR 128                                                          //For HX711 a gain of 128 gets applied to channel A. Available to you for your own use PGA=Programmable Gain Amplifier: many ADCs will correlate a gain of one with full-scale being rail-to-rail, while a gain of anything higher correlates to full-scale being in the mV range (most sensitive and most noise-susceptible).
 #define MIN_WAIT_TIME_BETWEEN_PLOT_POINTS_MS 200                                                   //Sets maximum speed, but actual speed may be further limited by other factors
 #define USING_LM334_WITH_MCP4162_POTS                                                              //Remove if using standard wheatstone bridge with only standard resistors.  make true if using bridge with upper resistive elements being LM334s controllable with the MCP4162-104 pots
-//#define DEBUG true                                                                               //Don't forget that DEBUG is not formatted for Serial plotter, but might work anyway if you'd never print numbers only any DEBUG print line
+#define DEBUG true                                                                               //Don't forget that DEBUG is not formatted for Serial plotter, but might work anyway if you'd never print numbers only any DEBUG print line
 //OTHER DEFINES OR RE-DEFINES ELSEWHERE: VERSION, NUM_INPUTS_TO_PLOT_OF_INBOARD_ANALOG, NUM_INPUTS_TO_PLOT_OF_ADDON_HIGHEST_SENSI_ADC, HALFHighestBitResFromHighestSensiAddonADC, DIFFERENTIAL, PIN_FOR_DATA_TOFROM_HIGHEST_SENSI_ADC, PIN_FOR_CLK_TO_HIGHEST_SENSI_ADC, PlotterMaxScale, HundredthPlotterMaxScale, SAMPLE_TIMES, AnalogInputBitsOfBoard, SCALE_FACTOR_TO_PROMOTE_LOW_RES_ADC_TO_SAME_SCALE
 
 
@@ -257,12 +251,12 @@ char szFull[ ] = {0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
     #endif
         switch( digital_pot_pin )
         {
-            case DIGITAL_POT_1: digipot_1_value += offsetvalue; offsetvalue = digipot_1_value; break;
-            case DIGITAL_POT_2: digipot_2_value += offsetvalue; offsetvalue = digipot_2_value; break;
-            case DIGITAL_POT_3: digipot_3_value += offsetvalue; offsetvalue = digipot_3_value; break;
-            case DIGITAL_POT_4: digipot_4_value += offsetvalue; offsetvalue = digipot_4_value; break;
-            case DIGITAL_POT_5: digipot_5_value += offsetvalue; offsetvalue = digipot_5_value; break;
-            case DIGITAL_POT_6: digipot_6_value += offsetvalue; offsetvalue = digipot_6_value; break;
+            case DIGITAL_POT_1: if( offsetvalue < 0 ) offsetvalue = max( offsetvalue, 0 - digipot_1_value ); else if( offsetvalue > 0 ) offsetvalue = min( offsetvalue, 257 - digipot_1_value ); digipot_1_value += offsetvalue; offsetvalue = digipot_1_value; break;
+            case DIGITAL_POT_2: if( offsetvalue < 0 ) offsetvalue = max( offsetvalue, 0 - digipot_2_value ); else if( offsetvalue > 0 ) offsetvalue = min( offsetvalue, 257 - digipot_2_value ); digipot_2_value += offsetvalue; offsetvalue = digipot_2_value; break;
+            case DIGITAL_POT_3: if( offsetvalue < 0 ) offsetvalue = max( offsetvalue, 0 - digipot_3_value ); else if( offsetvalue > 0 ) offsetvalue = min( offsetvalue, 257 - digipot_3_value ); digipot_3_value += offsetvalue; offsetvalue = digipot_3_value; break;
+            case DIGITAL_POT_4: if( offsetvalue < 0 ) offsetvalue = max( offsetvalue, 0 - digipot_4_value ); else if( offsetvalue > 0 ) offsetvalue = min( offsetvalue, 257 - digipot_4_value ); digipot_4_value += offsetvalue; offsetvalue = digipot_4_value; break;
+            case DIGITAL_POT_5: if( offsetvalue < 0 ) offsetvalue = max( offsetvalue, 0 - digipot_5_value ); else if( offsetvalue > 0 ) offsetvalue = min( offsetvalue, 257 - digipot_5_value ); digipot_5_value += offsetvalue; offsetvalue = digipot_5_value; break;
+            case DIGITAL_POT_6: if( offsetvalue < 0 ) offsetvalue = max( offsetvalue, 0 - digipot_6_value ); else if( offsetvalue > 0 ) offsetvalue = min( offsetvalue, 257 - digipot_6_value ); digipot_6_value += offsetvalue; offsetvalue = digipot_6_value; break;
         }
         #if DEBUG
             while ( !Serial );
@@ -928,22 +922,29 @@ Start_of_addon_ADC_acquisition:
                 Serial.print( F( "Received " ) );
                 Serial.print( szFull );
             #endif
-    #ifdef USING_LM334_WITH_MCP4162_POTS 
-            if( strstr( szFull, "1u" ) || strstr( szFull, "1+" ) )
+    #ifdef USING_LM334_WITH_MCP4162_POTS
+            uint8_t DIGITAL_POT_;
+            int offset_integer;
+            if( strstr( szFull, "1d" ) || strstr( szFull, "1-" ) )
+            {
+                #ifdef DEBUG
+                    while ( !Serial ); // wait for serial port to connect. Needed for Leonardo's native USB
+                    Serial.print( F( ", command to decrease value_1 by " ) );
+                    if( szFull[ 2 ] == 0 )
+                        Serial.print( 1 );
+                    else
+                        Serial.print( atoi( &szFull[ 2 ] ) );
+                    Serial.print( F( ", " ) );
+                #endif
+                DIGITAL_POT_ = DIGITAL_POT_1;
+            }
+            else if( strstr( szFull, "1u" ) || strstr( szFull, "1+" ) )
             {
                 #ifdef DEBUG
                     while ( !Serial ); // wait for serial port to connect. Needed for Leonardo's native USB
                     Serial.print( F( ", command to increase value_1 by one, " ) );
                 #endif
-                offsetPotValue( DIGITAL_POT_1, 1 );
-            }
-            else if( strstr( szFull, "1d" ) || strstr( szFull, "1-" ) )
-            {
-                #ifdef DEBUG
-                    while ( !Serial ); // wait for serial port to connect. Needed for Leonardo's native USB
-                    Serial.print( F( ", command to decrease value_1 by one, " ) );
-                #endif
-                offsetPotValue( DIGITAL_POT_1, -1 );
+                DIGITAL_POT_ = DIGITAL_POT_1;
             }
             else if( strstr( szFull, "2d" ) || strstr( szFull, "2-" ) )
             {
@@ -951,7 +952,7 @@ Start_of_addon_ADC_acquisition:
                     while ( !Serial ); // wait for serial port to connect. Needed for Leonardo's native USB
                     Serial.print( F( ", command to decrease value_2 by one, " ) );
                 #endif
-                offsetPotValue( DIGITAL_POT_2, -1 );
+                DIGITAL_POT_ = DIGITAL_POT_2;
             }
             else if( strstr( szFull, "2u" ) || strstr( szFull, "2+" ) )
             {
@@ -959,7 +960,7 @@ Start_of_addon_ADC_acquisition:
                     while ( !Serial ); // wait for serial port to connect. Needed for Leonardo's native USB
                     Serial.print( F( ", command to increase value_2 by one, " ) );
                 #endif
-                offsetPotValue( DIGITAL_POT_2, 1 );
+                DIGITAL_POT_ = DIGITAL_POT_2;
             }
             else if( strstr( szFull, "3d" ) || strstr( szFull, "3-" ) )
             {
@@ -967,7 +968,7 @@ Start_of_addon_ADC_acquisition:
                     while ( !Serial ); // wait for serial port to connect. Needed for Leonardo's native USB
                     Serial.print( F( ", command to decrease value_3 by one, " ) );
                 #endif
-                offsetPotValue( DIGITAL_POT_3, -1 );
+                DIGITAL_POT_ = DIGITAL_POT_3;
             }
             else if( strstr( szFull, "3u" ) || strstr( szFull, "3+" ) )
             {
@@ -975,7 +976,7 @@ Start_of_addon_ADC_acquisition:
                     while ( !Serial ); // wait for serial port to connect. Needed for Leonardo's native USB
                     Serial.print( F( ", command to increase value_3 by one, " ) );
                 #endif
-                offsetPotValue( DIGITAL_POT_3, 1 );
+                DIGITAL_POT_ = DIGITAL_POT_3;
             }
             else if( strstr( szFull, "4d" ) || strstr( szFull, "4-" ) )
             {
@@ -983,7 +984,7 @@ Start_of_addon_ADC_acquisition:
                     while ( !Serial ); // wait for serial port to connect. Needed for Leonardo's native USB
                     Serial.print( F( ", command to decrease value_4 by one, " ) );
                 #endif
-                offsetPotValue( DIGITAL_POT_4, -1 );
+                DIGITAL_POT_ = DIGITAL_POT_4;
             }
             else if( strstr( szFull, "4u" ) || strstr( szFull, "4+" ) )
             {
@@ -991,7 +992,7 @@ Start_of_addon_ADC_acquisition:
                     while ( !Serial ); // wait for serial port to connect. Needed for Leonardo's native USB
                     Serial.print( F( ", command to increase value_4 by one, " ) );
                 #endif
-                offsetPotValue( DIGITAL_POT_4, 1 );
+                DIGITAL_POT_ = DIGITAL_POT_4;
             }
             else if( strstr( szFull, "5d" ) || strstr( szFull, "5-" ) )
             {
@@ -999,7 +1000,7 @@ Start_of_addon_ADC_acquisition:
                     while ( !Serial ); // wait for serial port to connect. Needed for Leonardo's native USB
                     Serial.print( F( ", command to decrease value_5 by one, " ) );
                 #endif
-                offsetPotValue( DIGITAL_POT_5, -1 );
+                DIGITAL_POT_ = DIGITAL_POT_5;
             }
             else if( strstr( szFull, "5u" ) || strstr( szFull, "5+" ) )
             {
@@ -1007,7 +1008,7 @@ Start_of_addon_ADC_acquisition:
                     while ( !Serial ); // wait for serial port to connect. Needed for Leonardo's native USB
                     Serial.print( F( ", command to increase value_5 by one, " ) );
                 #endif
-                offsetPotValue( DIGITAL_POT_5, 1 );
+                DIGITAL_POT_ = DIGITAL_POT_5;
             }
             else if( strstr( szFull, "6d" ) || strstr( szFull, "6-" ) )
             {
@@ -1015,7 +1016,7 @@ Start_of_addon_ADC_acquisition:
                     while ( !Serial ); // wait for serial port to connect. Needed for Leonardo's native USB
                     Serial.print( F( ", command to decrease value_6 by one, " ) );
                 #endif
-                offsetPotValue( DIGITAL_POT_6, -1 );
+                DIGITAL_POT_ = DIGITAL_POT_6;
             }
             else if( strstr( szFull, "6u" ) || strstr( szFull, "6+" ) )
             {
@@ -1023,8 +1024,21 @@ Start_of_addon_ADC_acquisition:
                     while ( !Serial ); // wait for serial port to connect. Needed for Leonardo's native USB
                     Serial.print( F( ", command to increase value_6 by one, " ) );
                 #endif
-                offsetPotValue( DIGITAL_POT_6, 1 );
+                DIGITAL_POT_ = DIGITAL_POT_6;
             }
+            else goto NoPotChange;
+            if( ( szFull[ 1 ] == 'd' ) || ( szFull[ 1 ] == '-' ) )
+                if( szFull[ 2 ] == 0 )
+                    offset_integer = -1;
+                else
+                    offset_integer = 0 - atoi( &szFull[ 2 ] );
+            else
+                if( szFull[ 2 ] == 0 )
+                    offset_integer = 1;
+                else
+                    offset_integer = atoi( &szFull[ 2 ] );
+            offsetPotValue( DIGITAL_POT_, offset_integer );
+NoPotChange:
     #endif
             szFull[ 0 ] = 0;
             #ifdef DEBUG
