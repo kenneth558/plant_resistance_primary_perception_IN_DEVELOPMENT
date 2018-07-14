@@ -16,6 +16,7 @@
 #define MIN_WAIT_TIME_BETWEEN_PLOT_POINTS_MS 200                                                   //Sets maximum speed, but actual speed may be further limited by other factors
 #define USING_LM334_WITH_MCP4162_POTS                                                              //Remove if using standard wheatstone bridge with only standard resistors.  make true if using bridge with upper resistive elements being LM334s controllable with the MCP4162-104 pots
 //#define DEBUG true                                                                               //Don't forget that DEBUG is not formatted for Serial plotter, but might work anyway if you'd never print numbers only any DEBUG print line
+//#define LEAVEPOTVALUESALONEDURINGSETUP                                                           //First run should leave this undefined to load digi pots with some values
 //OTHER DEFINES OR RE-DEFINES ELSEWHERE: VERSION, NUM_INPUTS_TO_PLOT_OF_INBOARD_ANALOG, NUM_INPUTS_TO_PLOT_OF_ADDON_HIGHEST_SENSI_ADC, HALFHighestBitResFromHighestSensiAddonADC, DIFFERENTIAL, PIN_FOR_DATA_TOFROM_HIGHEST_SENSI_ADC, PIN_FOR_CLK_TO_HIGHEST_SENSI_ADC, PlotterMaxScale, HundredthPlotterMaxScale, SAMPLE_TIMES, AnalogInputBitsOfBoard, SCALE_FACTOR_TO_PROMOTE_LOW_RES_ADC_TO_SAME_SCALE
 
 
@@ -29,17 +30,18 @@
 * Author             : KENNETH L ANDERSON
 * Version            : v.Free
 * Date               : 13-July-2018
-* Description        : To replicate Cleve Backster's findings that he named "Primary Perception".  Basically, this sketch turns an Arduino MCU and optional (recommended) ADS1115 into a nicely functional poor man's polygraph in order to learn/demonstrate telempathic gardening.
+* Description        : To replicate Cleve Backster's findings that he attributed to a phenomenon he called "Primary Perception".  Basically, this sketch turns an Arduino MCU and optional (recommended) ADS1115 into a nicely functional poor man's polygraph in order to learn/demonstrate telempathic gardening.
 * Boards tested on   : Uno using both ADS1115 and inboard analog inputs.  
 *                    : TTGO XI using ADS1115.  
 *                    : Many other configurations should work fine.  
 *                    : Sadly, TTGO XI 12-bit analog inputs are unsuitable due to their irremoveable pullup conductance.  
 *                    : The ATTINY85 is not suitable at all due to not having hardware serial
 * 
-* Known limitations  : No ability to accept user input from keyboard during run time
+* Known limitations  : No ability to accept user input from keyboard during run time due to Arduino plottter limitation
 *                    : Re-compile is needed for any changes to configuration
 *                    : Analog input pins being used MUST be the first available analog inputs
-*                    : Only a single add-on ADS ADC device and only 1 or 2 differential channels on it is accommodated 
+*                    : Only a single add-on ADS ADC device and only 1 or 2 differential channels on it is accommodated
+*                    : Conventional add-on high-sensitivity ADCs limit their common mode differential input range to a few millivolts with active or passive clamping
 *                    : Some of these limitations will be addressed in future not-for-free versions
 *                    
 ********************************************************************************
@@ -407,12 +409,14 @@ void setup()
     digitalWrite( DIGITAL_POT_6, HIGH );
     SPI.begin();
     SPI.setBitOrder( MSBFIRST );
+#ifndef LEAVEPOTVALUESALONEDURINGSETUP
     setPotValue( DIGITAL_POT_1, digipot_1_value );
     setPotValue( DIGITAL_POT_2, digipot_2_value );
     setPotValue( DIGITAL_POT_3, digipot_3_value );
     setPotValue( DIGITAL_POT_4, digipot_4_value );
     setPotValue( DIGITAL_POT_5, digipot_5_value );
     setPotValue( DIGITAL_POT_6, digipot_6_value );
+#endif
     #if DEBUG
         while ( !Serial && ( millis() - millis_start < 8000 ) );
         Serial.println( F( "Digi pots set up" ) );
@@ -969,7 +973,7 @@ Start_of_addon_ADC_acquisition:
             #ifdef DEBUG
                 while ( !Serial ); // wait for serial port to connect. Needed for Leonardo's native USB
                 Serial.print( F( "Received " ) );
-                Serial.print( szFull );
+                Serial.println( szFull );
             #endif
     #ifdef USING_LM334_WITH_MCP4162_POTS
             uint8_t DIGITAL_POT_;
