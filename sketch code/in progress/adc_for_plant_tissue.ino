@@ -74,7 +74,7 @@
 *              08 June  2018 :  Bugfix for inboard analog inputs above the first one - they didn't print before this fix
 *              17 June  2018 :  Corrected pointer reinitialize of A_PIN_ARRAY that disabled internal Analog Input pins.  Added "while ( !Serial );" for Leonardo's native USB; starting to add framework for programmable potentiometers, changed defines to allow for a separate full-scale, lower res ADC and a high res ADC for normal viewing, etc,
 *              18 June  2018 :  Bug fixes relative to displaying multiple traces while one or more are from inboard analog pins
-*              13 July  2018 :  Modified plotter timing trace to notch at range min and max for signal traces.  Incorporated digi pot adjustings in debug mode
+*              13 July  2018 :  Modified plotter timing trace to notch at range min and max for signal traces.  Incorporated digi pot adjustings in debug mode. Enabled bypass of digi pot set in setup()
 *              NEXT          :  Accommodate ADS1232
 *              NEXT          :  Made able to use MCP41XXX or MCP42XXX with LM334
 *              NEXT          :  Software temperature compensation using a 2nd LM334 tightly thermally coupled to 1st LM334 feeding a fixed resistor circuit in parallel with the plant circuit and connected to a 2nd analog input.  Table of offsets from midpoint or one end of pot settings.
