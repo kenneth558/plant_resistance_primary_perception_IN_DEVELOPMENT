@@ -392,6 +392,11 @@ void printvaluesforalltraces( bool actuals = false )                  //If we do
 
 void setup() 
 {
+//#ifdef __LGT8FX8E__
+    Serial.begin( 19200 );//This speed is what works best with WeMos XI/TTGO XI board.
+//#else
+//    Serial.begin( 57600 );//Is there any reason for this higher speed?  I don't think so, but feel free to put this code back into action if you want to.
+//#endif
 #ifdef USING_LM334_WITH_MCP4162_POTS   //This is important to put this first so LM334 get some resistance
     pinMode( SS, OUTPUT );
     digitalWrite( SS, HIGH ); //Not needed by slave devices but rather by this board to make it configure itself to be master
@@ -430,8 +435,6 @@ void setup()
             analogReference( AR_DEFAULT ); //
         #endif
     #endif    
-    //#ifdef __LGT8FX8E__
-        Serial.begin( 19200 );//This speed is what works best with WeMos XI/TTGO XI board.
     #ifdef DEBUG
         millis_start = millis();
         while ( !Serial && ( millis() - millis_start < 8000 ) );
@@ -446,9 +449,6 @@ void setup()
         Serial.print( F( " & " ) );
         Serial.println( A5 );
     #endif
-    //#else
-    //    Serial.begin( 57600 );//Is there any reason for this higher speed?  I don't think so, but feel free to put this code back into action if you want to.
-    //#endif
     //#ifndef ARDUINO_AVR_DIGISPARKPRO
     //    analogReadResolution( ADC_RES_BIT );
     //#endif
