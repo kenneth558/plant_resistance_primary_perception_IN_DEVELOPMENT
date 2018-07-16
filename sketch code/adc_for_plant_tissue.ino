@@ -34,7 +34,6 @@
 * Boards tested on   : Uno using both ADS1115 and inboard analog inputs.  
 *                    : TTGO XI using ADS1115.  
 *                    : Many other configurations should work fine.  
-*                    : Sadly, TTGO XI 12-bit analog inputs are unsuitable due to their irremoveable pullup conductance.  
 *                    : The ATTINY85 is not suitable at all due to not having hardware serial
 * 
 * Known limitations  : No ability to accept user input from keyboard during run time due to Arduino plottter limitation
@@ -77,17 +76,13 @@
 *              13 July  2018 :  Modified plotter timing trace to notch at range min and max for signal traces.  Incorporated digi pot adjustings in debug mode. Enabled bypass of digi pot set in setup()
 *              14 July  2018 :  Improved timing trace notching - made it shorter and consistent between levels
 *              15 July  2018 :  Allow unique digipot intializing value for each pot.  Discovered HX711 input Z is way too low for use without buffers.  Regrouping....
+*              16 July  2018 :  Removed disparaging comments toward TTGO XI/Wemo XI because we will make the plunge to employ the AD8244 buffer as standard, resulting in those boards being eligible as any other board
 *              NEXT          :  Accommodate ADS1232
 *              NEXT          :  Made able to use MCP41XXX or MCP42XXX with LM334
 *              NEXT          :  Software temperature compensation using a 2nd LM334 tightly thermally coupled to 1st LM334 feeding a fixed resistor circuit in parallel with the plant circuit and connected to a 2nd analog input.  Table of offsets from midpoint or one end of pot settings.
 *               
 *********************************************************************************************************************/
 #define VERSION "v.Free"  // Since this never gets used anywhere, it doesn't compile in so no memory is wasted
-#ifdef __LGT8FX8E__
-    #if ( NUM_INPUTS_TO_PLOT_OF_INBOARD_ANALOG > 0 )
-//HINT ONLY, NOT ENFORCED:  #error "We are sorry, but the Wemos board's analog inputs have unremoveable pull-up conductance, so this sketch is not designed to compile for the analog inputs to be used with this board.  Set NUM_INPUTS_TO_PLOT_OF_INBOARD_ANALOG to zero and try with an outboard ADC."
-    #endif
-#endif
 #include <math.h>
 #if ( NUM_INPUTS_TO_PLOT_OF_ADDON_HIGHEST_SENSI_ADC > 0 ) //Since so many of the ADC libraries already use OO classes, we'll set that as a pattern - instantiate prior to executing any code
     #define HALFHighestBitResFromHighestSensiAddonADC ( HighestBitResFromHighestSensiAddonADC / 2 )
@@ -200,19 +195,6 @@ If you only have the Arduino without an ADS1X15, then define NUM_INPUTS_TO_PLOT_
     uint16_t digipot_6_value = STARTVALUE6;
     #define MAXPOTVALUE 257
 #endif
-/* DEVELOPMENT NOTES: (with .1 uF cap across the negative LM334 load)
-*  I set the LM334 outputs both to 2.40 with DVM connected, and either one will stay when connected to either HX711 input.
-*  When DVM not connected to them they read a little higher.
-*   but when both get connected to both HX711 inputs, or when just the two LM334s get shorted together both LM334 output volts go to 2.51   ???????????
-*   When N.C. the HX711 inputs are .379 - .394 with DVM connected
-* This indicates #1 - the the load presented by the DVM is significant compared to the 1Mohm LM334 ckts
-*                #2 - the HX711 inputs are also a significant differential input load, well more so than the DVM, R seems to be too likely below 10 Kohm.  It is not mentioned in any way in the datasheet.
-*                #3 - Conclusion: using the HX711 will require a Hi-Z, low noise buffer for each of it's inputs
-* 
-* 
-*/
-
-
 /*
  * 
  * The following pin defines are for the WeMos XI/TTGO XI board only
