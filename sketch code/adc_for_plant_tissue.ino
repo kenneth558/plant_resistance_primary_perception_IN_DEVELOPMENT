@@ -206,7 +206,7 @@ If you only have the Arduino without an ADS1X15, then define NUM_INPUTS_TO_PLOT_
 *   but when both get connected to both HX711 inputs, or when just the two LM334s get shorted together both LM334 output volts go to 2.51   ???????????
 *   When N.C. the HX711 inputs are .379 - .394 with DVM connected
 * This indicates #1 - the the load presented by the DVM is significant compared to the 1Mohm LM334 ckts
-*                #2 - the HX711 inputs are also a significant common mode load, even more so than the DVM, R seems to be too likely below 10 Kohm.  It is not mentioned in any way in the datasheet.
+*                #2 - the HX711 inputs are also a significant differential input load, well more so than the DVM, R seems to be too likely below 10 Kohm.  It is not mentioned in any way in the datasheet.
 *                #3 - Conclusion: using the HX711 will require a Hi-Z, low noise buffer for each of it's inputs
 * 
 * 
