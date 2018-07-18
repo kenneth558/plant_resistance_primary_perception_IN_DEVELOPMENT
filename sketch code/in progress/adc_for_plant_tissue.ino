@@ -1,6 +1,6 @@
 //        Before compiling this sketch, you must set or confirm the following appropriately for your configuration and preferences !!!
 #define NUM_INPUTS_TO_PLOT_OF_INBOARD_ANALOG 2                                                     //The number of consecutive analog pins to plot, beginning with PIN_A0
-#define NUM_INPUTS_TO_PLOT_OF_ADDON_HIGHEST_SENSI_ADC 0                                            //The number of consecutive "highest-sensitivity ADC" pins to plot, beginning with A0 and, if double-ended, A1.  ADDON ADC ONLY - DOES _NOT_ INCLUDE INBOARD ANALOG INPUT PINS
+#define NUM_INPUTS_TO_PLOT_OF_ADDON_HIGHEST_SENSI_ADC 1                                            //The number of consecutive "highest-sensitivity ADC" pins to plot, beginning with A0 and, if double-ended, A1.  ADDON ADC ONLY - DOES _NOT_ INCLUDE INBOARD ANALOG INPUT PINS
 #define HIGHEST_SENSI_ADDON_ADC_TYPE HX711                                                         //Proposing that "ADS1231" covers ADS1231; could make this "ADS1232" (ADS1232), "ADS1242" (ADS1242), "AD779x" (AD779x), "AD7780" (AD7780), "HX711" (HX711), "MAX112x0" (MAX112x0...) or "LTC2400" (LTC2400) but code not included in v.FREE
 #define MAGNIFICATION_FACTOR 100                                                                   //To aid in viewing
 #define HighestBitResFromHighestSensiAddonADC 24                                                   //All ADC values will get scaled to the single-ended aspect of this,  15 is ADS1115 single-ended, 16 for double-ended when two LM334s are used.  change to 11 for ADS1015 single-ended or 12 with two LM334s, (future: change to 24 for HX711--NO b/c there is the ADS1231 at 24 bits)
@@ -15,8 +15,11 @@
 #define HIGHEST_SENSI_PGA_GAIN_FACTOR 128                                                          //For HX711 a gain of 128 gets applied to channel A. Available to you for your own use PGA=Programmable Gain Amplifier: many ADCs will correlate a gain of one with full-scale being rail-to-rail, while a gain of anything higher correlates to full-scale being in the mV range (most sensitive and most noise-susceptible).
 #define MIN_WAIT_TIME_BETWEEN_PLOT_POINTS_MS 200                                                   //Sets maximum speed, but actual speed may be further limited by other factors
 #define USING_LM334_WITH_MCP4162_POTS                                                              //Remove if using standard wheatstone bridge with only standard resistors.  make true if using bridge with upper resistive elements being LM334s controllable with the MCP4162-104 pots
-//#define DEBUG true                                                                               //Don't forget that DEBUG is not formatted for Serial plotter, but might work anyway if you'd never print numbers only any DEBUG print line
-//#define LEAVEPOTVALUESALONEDURINGSETUP                                                           //First run should leave this undefined to load digi pots with some values
+//#define INBOARDINPARALLELWITHHIGHESTSENSI true                                                     //Allows rail-to-rail inboard Analog Inputs to be used to adjust digipots
+//#define DEBUG true                                                                                 //Don't forget that DEBUG is not formatted for Serial plotter, but might work anyway if you'd never print numbers only any DEBUG print line
+//#define LEAVEPOTVALUESALONEDURINGSETUP                                                             //First run should leave this undefined to load digi pots with some values
+//define POTTESTWOBBLEPOSITIVE true                                                                 //Auto-adjusts the positive line digipots to cause a wobble in the signals
+//#define POTTESTWOBBLENEGATIVE true                                                                 //Auto-adjusts the negative line digipots to cause a wobble in the signals
 //OTHER DEFINES OR RE-DEFINES ELSEWHERE: VERSION, NUM_INPUTS_TO_PLOT_OF_INBOARD_ANALOG, NUM_INPUTS_TO_PLOT_OF_ADDON_HIGHEST_SENSI_ADC, STARTVALUE1 - STARTVALUE6, HALFHighestBitResFromHighestSensiAddonADC, DIFFERENTIAL, PIN_FOR_DATA_TOFROM_HIGHEST_SENSI_ADC, PIN_FOR_CLK_TO_HIGHEST_SENSI_ADC, PlotterMaxScale, HundredthPlotterMaxScale, SAMPLE_TIMES, AnalogInputBitsOfBoard, SCALE_FACTOR_TO_PROMOTE_LOW_RES_ADC_TO_SAME_SCALE
 
 
@@ -29,7 +32,7 @@
 * File Name          : adc_for_plant_tissue.ino
 * Author             : KENNETH L ANDERSON
 * Version            : v.Free
-* Date               : 15-July-2018
+* Date               : 17-July-2018
 * Description        : To replicate Cleve Backster's findings that he attributed to a phenomenon he called "Primary Perception".  Basically, this sketch turns an Arduino MCU and optional (recommended) ADS1115 into a nicely functional poor man's polygraph in order to learn/demonstrate telempathic gardening.
 * Boards tested on   : Uno using both ADS1115 and inboard analog inputs.  
 *                    : TTGO XI using ADS1115.  
@@ -77,6 +80,7 @@
 *              14 July  2018 :  Improved timing trace notching - made it shorter and consistent between levels
 *              15 July  2018 :  Allow unique digipot intializing value for each pot.  Discovered HX711 input Z is way too low for use without buffers.  Regrouping....
 *              16 July  2018 :  Removed disparaging comments toward TTGO XI/Wemo XI because we will make the plunge to employ the AD8244 buffer as standard, resulting in those boards being eligible as any other board
+*              17 July  2018 :  Received AD8244 buffer.  This rev is just some troubleshooting code trying to get the AD8244 up to speed.  Not there yet, though.
 *              NEXT          :  Accommodate ADS1232
 *              NEXT          :  Made able to use MCP41XXX or MCP42XXX with LM334
 *              NEXT          :  Software temperature compensation using a 2nd LM334 tightly thermally coupled to 1st LM334 feeding a fixed resistor circuit in parallel with the plant circuit and connected to a 2nd analog input.  Table of offsets from midpoint or one end of pot settings.
@@ -181,11 +185,11 @@ If you only have the Arduino without an ADS1X15, then define NUM_INPUTS_TO_PLOT_
             #error "The pins being used for clock and data of the ADC conflict with the I2C pins used by ADS1x15.  See https://www.arduino.cc/en/reference/wire and the Adafruit_ADS1X15-master README.md.  Remove this warning once you are satisfied one way or another"
         #endif
     #endif
-    #define STARTVALUE1 31  //this value in digipots and with 1 MOhm resistors for the LM334 loads put the LM334 output voltage at closest to Vdd/2 - .1V (reads ~493 raw on the 10-bit Analog input)
-    #define STARTVALUE2 31  //this value in digipots and with 1 MOhm resistors for the LM334 loads put the LM334 output voltage at closest to Vdd/2 - .1V (reads ~493 raw on the 10-bit Analog input)
+    #define STARTVALUE1 35  //this value in digipots and with 1 MOhm resistors for the LM334 loads put the LM334 output voltage at closest to Vdd/2 - .1V (reads ~493 raw on the 10-bit Analog input)
+    #define STARTVALUE2 36  //this value in digipots and with 1 MOhm resistors for the LM334 loads put the LM334 output voltage at closest to Vdd/2 - .1V (reads ~493 raw on the 10-bit Analog input)
     #define STARTVALUE3 33  //this value in digipots and with 1 MOhm resistors for the LM334 loads put the LM334 output voltage at closest to Vdd/2 - .1V (reads ~493 raw on the 10-bit Analog input)
-    #define STARTVALUE4 31  //this value in digipots and with 1 MOhm resistors for the LM334 loads put the LM334 output voltage at closest to Vdd/2 - .1V (reads ~493 raw on the 10-bit Analog input)
-    #define STARTVALUE5 31  //this value in digipots and with 1 MOhm resistors for the LM334 loads put the LM334 output voltage at closest to Vdd/2 - .1V (reads ~493 raw on the 10-bit Analog input)
+    #define STARTVALUE4 36  //this value in digipots and with 1 MOhm resistors for the LM334 loads put the LM334 output voltage at closest to Vdd/2 - .1V (reads ~493 raw on the 10-bit Analog input)
+    #define STARTVALUE5 36  //this value in digipots and with 1 MOhm resistors for the LM334 loads put the LM334 output voltage at closest to Vdd/2 - .1V (reads ~493 raw on the 10-bit Analog input)
     #define STARTVALUE6 22  //this value in digipots and with 1 MOhm resistors for the LM334 loads put the LM334 output voltage at closest to Vdd/2 - .1V (reads ~493 raw on the 10-bit Analog input)
     uint16_t digipot_1_value = STARTVALUE1;  // Storing a copy of the digi pot values in sketch makes it possible to eliminate the MISO pin connection to the data out pins of all digi pots, besides the digi pots data out may not conform strictly to SPI since the MCP41X1 version has one bidirectional data pin
     uint16_t digipot_2_value = STARTVALUE2;
@@ -423,6 +427,10 @@ void setup()
     setPotValue( DIGITAL_POT_4, digipot_4_value );
     setPotValue( DIGITAL_POT_5, digipot_5_value );
     setPotValue( DIGITAL_POT_6, digipot_6_value );
+#endif
+#ifdef INBOARDINPARALLELWITHHIGHESTSENSI
+/* Here is where to use the inboard Analog Inputs to set the balanced highest sensi negative input to optimal level with digipot manipulation, adjusting the positive input as needed*/
+//Check if we 
 #endif
     #if DEBUG
         while ( !Serial && ( millis() - millis_start < 8000 ) );
@@ -726,6 +734,10 @@ void plot_the_normal_and_magnified_signals( uint8_t channel )
 
 void loop() 
 {
+#if defined ( POTTESTWOBBLEPOSITIVE ) || defined ( POTTESTWOBBLENEGATIVE )
+    bool potwobbledirection = true;
+    uint8_t wobbleloops = 0;
+#endif
     for( uint16_t plotter_loops = 0; plotter_loops < 500 / 3; plotter_loops++ ) 
     {
         millis_start = millis();
@@ -1015,6 +1027,23 @@ NoPotChange:
                 Serial.println();
             #endif
         }
+#if defined ( POTTESTWOBBLEPOSITIVE ) || defined ( POTTESTWOBBLENEGATIVE )
+    wobbleloops = ( wobbleloops + 1 ) % 4;
+    if( wobbleloops == 0 )
+    {
+#ifdef POTTESTWOBBLEPOSITIVE
+        offsetPotValue( DIGITAL_POT_1, potwobbledirection ? 1 : -1 );
+        offsetPotValue( DIGITAL_POT_2, potwobbledirection ? 1 : -1 );
+        offsetPotValue( DIGITAL_POT_3, potwobbledirection ? 1 : -1 );
+#endif
+#ifdef POTTESTWOBBLENEGATIVE
+        offsetPotValue( DIGITAL_POT_4, potwobbledirection ? -1 : 1 );
+        offsetPotValue( DIGITAL_POT_5, potwobbledirection ? -1 : 1 );
+        offsetPotValue( DIGITAL_POT_6, potwobbledirection ? -1 : 1 );
+#endif
+        potwobbledirection = !potwobbledirection;
+    }    
+#endif
     }
     while ( !Serial ); // wait for serial port to connect. Needed for Leonardo's native USB
     for( uint8_t i = 0; i < NUM_INPUTS_TO_PLOT_OF_INBOARD_ANALOG + NUM_INPUTS_TO_PLOT_OF_ADDON_HIGHEST_SENSI_ADC; i++ )
