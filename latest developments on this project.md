@@ -1,4 +1,4 @@
-<dl><dt>18 July 2018</dt></dl>My two HX711s read differently from each other, so I'll have to order two more.  PROJECT ON HOLD UNTIL THEY ARRIVE.
+<dl><dt>18 July 2018</dt></dl>My two HX711s read differently from each other, so I'll have to order two more.  PROJECT ON HOLD UNTIL THEY ARRIVE.  Expect them no earlier than 30 July, costing me $3.03 dued to added shipping cost to get them that early.
 <dl><dt>17 July 2018</dt></dl>AD8244 arrived at 09:07.  Nice!  However, it's MSOP pin spacing is well less than SSOP.  I had to spread the pins a little bit to solder it onto the SSOP adapter board I had on hand.  Initial power up indicates I have a wire misplaced, but this is too late at night to continue today.  Tomorrow I would do well to focus on the garage roof instead of this project.
 <dl><dt>16 July 2018</dt></dl>Since I conclude that buffers like AD8244 will be needed in any case, the Wemo XI Analog Inputs and ADS1x15 become just as viable as any other ADCs.  I will change comments in source code to that effect.
 
