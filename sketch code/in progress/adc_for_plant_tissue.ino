@@ -1,7 +1,8 @@
+/* IN PROCESS AT LINE 548*/
 //        Before compiling this sketch, you must set or confirm the following appropriately for your configuration and preferences !!!
 #define NUM_INPUTS_TO_PLOT_OF_INBOARD_ANALOG 2                                                     //The number of consecutive analog pins to plot, beginning with PIN_A0
-#define NUM_INPUTS_TO_PLOT_OF_ADDON_HIGHEST_SENSI_ADC 0                                            //The number of consecutive "highest-sensitivity ADC" pins to plot, beginning with A0 and, if double-ended, A1.  ADDON ADC ONLY - DOES _NOT_ INCLUDE INBOARD ANALOG INPUT PINS
-#define HIGHEST_SENSI_ADDON_ADC_TYPE HX711                                                         //Proposing that "ADS1231" covers ADS1231; could make this "ADS1232" (ADS1232), "ADS1242" (ADS1242), "AD779x" (AD779x), "AD7780" (AD7780), "HX711" (HX711), "MAX112x0" (MAX112x0...) or "LTC2400" (LTC2400) but code not included in v.FREE
+#define NUM_INPUTS_TO_PLOT_OF_ADDON_HIGHEST_SENSI_ADC 1                                            //The number of consecutive "highest-sensitivity ADC" pins to plot, beginning with A0 and, if double-ended, A1.  ADDON ADC ONLY - DOES _NOT_ INCLUDE INBOARD ANALOG INPUT PINS
+#define HIGHEST_SENSI_ADDON_ADC_TYPE HX711                                                         //Proposing that "ADS1231" covers ADS1231; could make this "ADS1232" (ADS1232), "ADS1242" (ADS1242), "ADS1256" (ADS1256), "AD779x" (AD779x), "AD7780" (AD7780), "MPC3914" (MPC3914), "HX711" (HX711), "MAX112x0" (MAX112x0...) or "LTC2400" (LTC2400) but code not included in v.FREE
 #define MAGNIFICATION_FACTOR 100                                                                   //To aid in viewing
 #define HighestBitResFromHighestSensiAddonADC 24                                                   //All ADC values will get scaled to the single-ended aspect of this,  15 is ADS1115 single-ended, 16 for double-ended when two LM334s are used.  change to 11 for ADS1015 single-ended or 12 with two LM334s, (future: change to 24 for HX711--NO b/c there is the ADS1231 at 24 bits)
 #define SAMPLE_TIMES 4                                                                             //To better average out artifacts we over-sample and average.  This value can be tweaked by you to ensure neutralization of power line noise or harmonics of power supplies, etc.....
@@ -15,13 +16,15 @@
 #define HIGHEST_SENSI_PGA_GAIN_FACTOR 128                                                          //For HX711 a gain of 128 gets applied to channel A. Available to you for your own use PGA=Programmable Gain Amplifier: many ADCs will correlate a gain of one with full-scale being rail-to-rail, while a gain of anything higher correlates to full-scale being in the mV range (most sensitive and most noise-susceptible).
 #define MIN_WAIT_TIME_BETWEEN_PLOT_POINTS_MS 200                                                   //Sets maximum speed, but actual speed may be further limited by other factors
 #define USING_LM334_WITH_MCP4162_POTS                                                              //Remove if using standard wheatstone bridge with only standard resistors.  make true if using bridge with upper resistive elements being LM334s controllable with the MCP4162-104 pots
-//#define INBOARDINPARALLELWITHHIGHESTSENSI true                                                     //Allows rail-to-rail inboard Analog Inputs to be used to adjust digipots
+#define INBOARDINPARALLELWITHHIGHESTSENSI                                                        //Allows rail-to-rail inboard Analog Inputs to be used to adjust digipots, also causes first two inboard Analog Inputs to be superimposed into same plot-line space
 //#define DEBUG true                                                                                 //Don't forget that DEBUG is not formatted for Serial plotter, but might work anyway if you'd never print numbers only any DEBUG print line
 //#define LEAVEPOTVALUESALONEDURINGSETUP                                                             //First run should leave this undefined to load digi pots with some values
-//define POTTESTWOBBLEPOSITIVE true                                                                 //Auto-adjusts the positive line digipots to cause a wobble in the signals
+//#define POTTESTWOBBLEPOSITIVE true                                                                 //Auto-adjusts the positive line digipots to cause a wobble in the signals
 //#define POTTESTWOBBLENEGATIVE true                                                                 //Auto-adjusts the negative line digipots to cause a wobble in the signals
+//#define POTTESTSTEPUPDOWN true                                                                         // Not used yet
 //OTHER DEFINES OR RE-DEFINES ELSEWHERE: VERSION, NUM_INPUTS_TO_PLOT_OF_INBOARD_ANALOG, NUM_INPUTS_TO_PLOT_OF_ADDON_HIGHEST_SENSI_ADC, STARTVALUE1 - STARTVALUE6, HALFHighestBitResFromHighestSensiAddonADC, DIFFERENTIAL, PIN_FOR_DATA_TOFROM_HIGHEST_SENSI_ADC, PIN_FOR_CLK_TO_HIGHEST_SENSI_ADC, PlotterMaxScale, HundredthPlotterMaxScale, SAMPLE_TIMES, AnalogInputBitsOfBoard, SCALE_FACTOR_TO_PROMOTE_LOW_RES_ADC_TO_SAME_SCALE
 
+//TODO: debug adjust_values_for_this_leg() as it sets the pot values out of range
 
 //FUTURE #define DEBUG_BRIDGE_BALANCING true //This will cause both the probe signal and the opposing bridge leg reference point to be displayed in full-scale, non-magnified views.  Useful with boards having low-Z Analog Input pins or none at all.
 //FUTURE #define FULL_SCALE_ADDON_ADC_TYPE ADS1X15  // Proposing that "ADS1231" covers ADS1231; could make this "ADS1232" (ADS1232), "ADS1242" (ADS1242), "AD779x" (AD779x), "AD7780" (AD7780), "HX711" (HX711), "MAX112x0" (MAX112x0...) or "LTC2400" (LTC2400) but code not included in v.FREE
@@ -32,7 +35,7 @@
 * File Name          : adc_for_plant_tissue.ino
 * Author             : KENNETH L ANDERSON
 * Version            : v.Free
-* Date               : 17-July-2018
+* Date               : 20-July-2018
 * Description        : To replicate Cleve Backster's findings that he attributed to a phenomenon he called "Primary Perception".  Basically, this sketch turns an Arduino MCU and optional (recommended) ADS1115 into a nicely functional poor man's polygraph in order to learn/demonstrate telempathic gardening.
 * Boards tested on   : Uno using both ADS1115 and inboard analog inputs.  
 *                    : TTGO XI using ADS1115.  
@@ -81,6 +84,7 @@
 *              15 July  2018 :  Allow unique digipot intializing value for each pot.  Discovered HX711 input Z is way too low for use without buffers.  Regrouping....
 *              16 July  2018 :  Removed disparaging comments toward TTGO XI/Wemo XI because we will make the plunge to employ the AD8244 buffer as standard, resulting in those boards being eligible as any other board
 *              17 July  2018 :  Received AD8244 buffer.  This rev is just some troubleshooting code trying to get the AD8244 up to speed.  Not there yet, though.
+*              20 July  2018 :  Improved plotting with INBOARDINPARALLELWITHHIGHESTSENSI and improved 24-bit plot values
 *              NEXT          :  Accommodate ADS1232
 *              NEXT          :  Made able to use MCP41XXX or MCP42XXX with LM334
 *              NEXT          :  Software temperature compensation using a 2nd LM334 tightly thermally coupled to 1st LM334 feeding a fixed resistor circuit in parallel with the plant circuit and connected to a 2nd analog input.  Table of offsets from midpoint or one end of pot settings.
@@ -228,7 +232,11 @@ uint32_t lasttracepoints[ ( NUM_INPUTS_TO_PLOT_OF_ADDON_HIGHEST_SENSI_ADC + NUM_
 long millis_start;
 char szFull[ ] = {0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0, \
                    0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0};
-#define PlotterMaxScale ( ( ( uint32_t )pow( 2, HighestBitResFromHighestSensiAddonADC ) ) * ( uint32_t )( NUM_INPUTS_TO_PLOT_OF_ADDON_HIGHEST_SENSI_ADC + NUM_INPUTS_TO_PLOT_OF_INBOARD_ANALOG ) )
+#ifndef INBOARDINPARALLELWITHHIGHESTSENSI && ( NUM_INPUTS_TO_PLOT_OF_ADDON_HIGHEST_SENSI_ADC > 0 ) && ( NUM_INPUTS_TO_PLOT_OF_INBOARD_ANALOG > 1 )
+    #define PlotterMaxScale ( uint32_t )pow( 2, HighestBitResFromHighestSensiAddonADC ) * ( ( uint32_t )( NUM_INPUTS_TO_PLOT_OF_ADDON_HIGHEST_SENSI_ADC + NUM_INPUTS_TO_PLOT_OF_INBOARD_ANALOG ) )
+#else
+    #define PlotterMaxScale ( uint32_t )pow( 2, HighestBitResFromHighestSensiAddonADC ) * ( ( uint32_t )( NUM_INPUTS_TO_PLOT_OF_ADDON_HIGHEST_SENSI_ADC + NUM_INPUTS_TO_PLOT_OF_INBOARD_ANALOG - 1 ) )
+#endif
 #define HundredthPlotterMaxScale ( PlotterMaxScale / 100 );
 #if ( SAMPLE_TIMES < 1 )
     #undef SAMPLE_TIMES
@@ -358,7 +366,7 @@ char szFull[ ] = {0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
         if( ( digipot_1_value /*When channel becomes relevent: ( channel == 0 ) ? digipot_1_value : digipot_7_value*/ + digipot_2_value + digipot_3_value >= ( 514 + MAXPOTVALUE ) ) && \
             ( digipot_4_value + digipot_5_value + digipot_6_value == 0 ) ) return false;
 //Target leg to adjust is the one that brings the negative leg closet to its midpoint: determine how far away from midpoint the negative leg is:
-        if( ( ( ( digipot_4_value + digipot_5_value ) * MAXPOTVALUE ) + ( digipot_6_value ) ) > 66177 /*This is half of total resistance in terms of digi pot units*/ )
+        if( ( ( ( digipot_4_value + digipot_5_value ) * 10 /*These 2 pots are ten times resistance per step as the fine*/ ) + ( digipot_6_value ) ) > MAXPOTVALUE * 10.5 /*This is half of total resistance in terms of digi pot units*/ )
         {
             if( adjust_values_for_this_leg( DIGITAL_POT_4, digipot_4_value, DIGITAL_POT_5, digipot_5_value, DIGITAL_POT_6, digipot_6_value, false ) ) return true;
             else return adjust_values_for_this_leg( DIGITAL_POT_1, digipot_1_value, DIGITAL_POT_2, digipot_2_value, DIGITAL_POT_3, digipot_3_value );
@@ -372,17 +380,17 @@ char szFull[ ] = {0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
         if( ( digipot_1_value + digipot_2_value + digipot_3_value == 0 ) && \
             ( digipot_4_value + digipot_5_value >= MAXPOTVALUE * 2 ) && ( digipot_6_value > 256 ) ) return false;
 //Target leg to adjust is the one that brings the negative leg closet to its midpoint: determine how far away from midpoint the negative leg is:
-        if( ( ( ( digipot_4_value + digipot_5_value ) * MAXPOTVALUE ) + ( digipot_6_value ) ) < 66177 /*This is half of total resistance in terms of digi pot units*/ )
+        if( ( ( ( digipot_4_value + digipot_5_value ) * 10 /*These 2 pots are ten times resistance per step as the fine*/ ) + ( digipot_6_value ) ) < MAXPOTVALUE * 10.5 /*This is half of total resistance in terms of digi pot units*/ )
         {
-            if( adjust_values_for_this_leg( DIGITAL_POT_4, digipot_4_value, DIGITAL_POT_5, digipot_5_value, DIGITAL_POT_6, digipot_6_value ) ) return true;
+            if( adjust_values_for_this_leg( DIGITAL_POT_4, digipot_4_value, DIGITAL_POT_5, digipot_5_value, DIGITAL_POT_6, digipot_6_value ) ) return true; //no need to specify second arg for adjust_values_for_this_leg() when it is true default
             else return adjust_values_for_this_leg( DIGITAL_POT_1, digipot_1_value, DIGITAL_POT_2, digipot_2_value, DIGITAL_POT_3, digipot_3_value, false );
         }
-        else if( adjust_values_for_this_leg( DIGITAL_POT_1, digipot_1_value, DIGITAL_POT_2, digipot_2_value, DIGITAL_POT_3, digipot_3_value ) ) return true;
+        else if( adjust_values_for_this_leg( DIGITAL_POT_1, digipot_1_value, DIGITAL_POT_2, digipot_2_value, DIGITAL_POT_3, digipot_3_value ) ) return true; //no need to specify second arg for adjust_values_for_this_leg() when it is true default
         return adjust_values_for_this_leg( DIGITAL_POT_4, digipot_4_value, DIGITAL_POT_5, digipot_5_value, DIGITAL_POT_6, digipot_6_value, false );
     }
 #endif
 
-void printvaluesforalltraces( bool actuals = false )                  //If we don't execute the following construct, the signal traces will lag behind the graphline
+void plotvaluesforalltraces( bool actuals = false )                  //If we don't execute the following construct, the signal traces will lag behind the graphline
 {
     Serial.print( F( " " ) );
     for( uint8_t i = 0; i < NUM_INPUTS_TO_PLOT_OF_INBOARD_ANALOG + NUM_INPUTS_TO_PLOT_OF_ADDON_HIGHEST_SENSI_ADC; i++ )
@@ -428,13 +436,20 @@ void setup()
     setPotValue( DIGITAL_POT_5, digipot_5_value );
     setPotValue( DIGITAL_POT_6, digipot_6_value );
 #endif
-#ifdef INBOARDINPARALLELWITHHIGHESTSENSI
-/* Here is where to use the inboard Analog Inputs to set the balanced highest sensi negative input to optimal level with digipot manipulation, adjusting the positive input as needed*/
-//Check if we 
+#ifdef INBOARDINPARALLELWITHHIGHESTSENSI && ( NUM_INPUTS_TO_PLOT_OF_ADDON_HIGHEST_SENSI_ADC > 0 ) && ( NUM_INPUTS_TO_PLOT_OF_INBOARD_ANALOG > 1 )
+/* Here is where to use the inboard Analog Inputs to set the balanced highest sensi negative input to optimal level with digipot manipulation, adjusting the positive input as needed
+IF value IS OVER-SCALE ONE WAY OR THE OTHER, ADJUST DIGI POTS AND START THE ACQUISITION OVER UNTIL OPPOSING POTS ARE MAXED OUT
+HX711 note from datasheet:
+When input differential signal goes out of 
+the  24  bit  range,  the  output  data  will  be  saturated  
+at  800000h  (MIN)  or  7FFFFFh  (MAX),  until  the  
+input signal comes back to the input range.
+*/
 #endif
     #if DEBUG
         while ( !Serial && ( millis() - millis_start < 8000 ) );
-        Serial.println( F( "Digi pots set up" ) );
+        Serial.print( F( "Digi pots set up and the HX711 reads " ) );
+        Serial.println();
     #endif
 #endif
     #if ( NUM_INPUTS_TO_PLOT_OF_ADDON_HIGHEST_SENSI_ADC > 0 ) 
@@ -530,33 +545,45 @@ void setup()
     #endif
     
     for( uint8_t i = 0; i < NUM_INPUTS_TO_PLOT_OF_ADDON_HIGHEST_SENSI_ADC + NUM_INPUTS_TO_PLOT_OF_INBOARD_ANALOG; i++ )
-    {
+    {//Initialize plot line upper and lower limits
         screen_offsets[ i ].magnify_adjustment = 0;
 //where i > NUM_INPUTS_TO_PLOT_OF_INBOARD_ANALOG results in 
-        screen_offsets[ i ].high_limit_of_this_plotline = ( uint32_t )pow( 2, HighestBitResFromHighestSensiAddonADC ) * ( i > NUM_INPUTS_TO_PLOT_OF_INBOARD_ANALOG ? ( ( uint32_t )( NUM_INPUTS_TO_PLOT_OF_ADDON_HIGHEST_SENSI_ADC - i ) ) : ( ( uint32_t )( NUM_INPUTS_TO_PLOT_OF_INBOARD_ANALOG - i ) + ( uint32_t )NUM_INPUTS_TO_PLOT_OF_ADDON_HIGHEST_SENSI_ADC ) );
-        screen_offsets[ i ].zero_of_this_plotline = ( uint32_t )pow( 2, HighestBitResFromHighestSensiAddonADC ) * ( i > NUM_INPUTS_TO_PLOT_OF_INBOARD_ANALOG ? ( ( uint32_t )( NUM_INPUTS_TO_PLOT_OF_ADDON_HIGHEST_SENSI_ADC - ( i + 1 ) ) ) : ( uint32_t )( NUM_INPUTS_TO_PLOT_OF_INBOARD_ANALOG - ( i + 1 ) ) + ( uint32_t )NUM_INPUTS_TO_PLOT_OF_ADDON_HIGHEST_SENSI_ADC );
+        screen_offsets[ i ].high_limit_of_this_plotline = \
+            ( uint32_t )pow( 2, HighestBitResFromHighestSensiAddonADC ) * \
+            ( i > NUM_INPUTS_TO_PLOT_OF_INBOARD_ANALOG ? \
+            ( ( uint32_t )( NUM_INPUTS_TO_PLOT_OF_ADDON_HIGHEST_SENSI_ADC - i ) ) : \
+            ( ( uint32_t )( NUM_INPUTS_TO_PLOT_OF_INBOARD_ANALOG - i ) + ( uint32_t )NUM_INPUTS_TO_PLOT_OF_ADDON_HIGHEST_SENSI_ADC ) );
+        screen_offsets[ i ].zero_of_this_plotline = \
+            ( uint32_t )pow( 2, HighestBitResFromHighestSensiAddonADC ) * \
+            ( i > NUM_INPUTS_TO_PLOT_OF_INBOARD_ANALOG ? \
+            ( ( uint32_t )( NUM_INPUTS_TO_PLOT_OF_ADDON_HIGHEST_SENSI_ADC - ( i + 1 ) ) ) : \
+            ( uint32_t )( NUM_INPUTS_TO_PLOT_OF_INBOARD_ANALOG - ( i + 1 ) ) + ( uint32_t )NUM_INPUTS_TO_PLOT_OF_ADDON_HIGHEST_SENSI_ADC );
     }
+#ifdef INBOARDINPARALLELWITHHIGHESTSENSI && ( NUM_INPUTS_TO_PLOT_OF_ADDON_HIGHEST_SENSI_ADC > 0 ) && ( NUM_INPUTS_TO_PLOT_OF_INBOARD_ANALOG > 1 )
+        screen_offsets[ 0 ].high_limit_of_this_plotline = screen_offsets[ 1 ].high_limit_of_this_plotline;
+        screen_offsets[ 0 ].zero_of_this_plotline = screen_offsets[ 1 ].zero_of_this_plotline;
+#endif
 
     while ( !Serial ); // wait for serial port to connect. Needed for Leonardo's native USB
     for( uint8_t i = 1; i < NUM_INPUTS_TO_PLOT_OF_INBOARD_ANALOG + NUM_INPUTS_TO_PLOT_OF_ADDON_HIGHEST_SENSI_ADC; i++ )
     {
         Serial.print( screen_offsets[ NUM_INPUTS_TO_PLOT_OF_INBOARD_ANALOG + NUM_INPUTS_TO_PLOT_OF_ADDON_HIGHEST_SENSI_ADC - i ].zero_of_this_plotline );
-        printvaluesforalltraces();
+        plotvaluesforalltraces();
         Serial.print( screen_offsets[ NUM_INPUTS_TO_PLOT_OF_INBOARD_ANALOG + NUM_INPUTS_TO_PLOT_OF_ADDON_HIGHEST_SENSI_ADC - i ].high_limit_of_this_plotline );
-        printvaluesforalltraces();
+        plotvaluesforalltraces();
         if( i == NUM_INPUTS_TO_PLOT_OF_INBOARD_ANALOG + NUM_INPUTS_TO_PLOT_OF_ADDON_HIGHEST_SENSI_ADC - 1 )
         {
             Serial.print( screen_offsets[ NUM_INPUTS_TO_PLOT_OF_INBOARD_ANALOG + NUM_INPUTS_TO_PLOT_OF_ADDON_HIGHEST_SENSI_ADC - i ].high_limit_of_this_plotline );
-            printvaluesforalltraces( true );
+            plotvaluesforalltraces( true );
         }
     }
     Serial.println( PlotterMaxScale ); // graphline
-//    printvaluesforalltraces();  //Commenting this out looks better graphing, but also causes a very tiny (one sample distance) lag in the signal traces during the first screenful
+//    plotvaluesforalltraces();  //Commenting this out looks better graphing, but also causes a very tiny (one sample distance) lag in the signal traces during the first screenful
 
     #if ( NUM_INPUTS_TO_PLOT_OF_INBOARD_ANALOG > 0 )
         A_PIN_ARRAY = (uint8_t *)malloc( NUM_INPUTS_TO_PLOT_OF_INBOARD_ANALOG );
     
-        //Herafter is the pattern.  If you have more analog pins, add them according to the pattern.
+        //Hereafter is the pattern.  If you have more analog pins, add them according to the pattern.
         #ifdef NUM_ANALOG_INPUTS
         #ifdef PIN_A0
             for( uint8_t i = 0; i < NUM_INPUTS_TO_PLOT_OF_INBOARD_ANALOG; i++ )
@@ -689,8 +716,46 @@ void setup()
         #endif
         //add other prints here to your liking
         
-        Serial.println( F( "End of setup" ) );
+        Serial.println( F( "End of setup after the next line" ) );
     #endif
+#ifdef INBOARDINPARALLELWITHHIGHESTSENSI && ( NUM_INPUTS_TO_PLOT_OF_ADDON_HIGHEST_SENSI_ADC > 0 ) && ( NUM_INPUTS_TO_PLOT_OF_INBOARD_ANALOG > 1 )
+/* Here is where to use the inboard Analog Inputs to set the balanced highest sensi negative input to optimal level with digipot manipulation, adjusting the positive input as needed
+IF value IS OVER-SCALE ONE WAY OR THE OTHER, ADJUST DIGI POTS AND START THE ACQUISITION OVER UNTIL OPPOSING POTS ARE MAXED OUT
+HX711 note from datasheet:
+When input differential signal goes out of 
+the  24  bit  range,  the  output  data  will  be  saturated  
+at  800000h  (MIN)  or  7FFFFFh  (MAX),  until  the  
+input signal comes back to the input range.
+*/
+    #if DEBUG
+        while ( !Serial && ( millis() - millis_start < 8000 ) );
+        Serial.print( F( "Digi pots set up" ) );
+        #if ( NUM_INPUTS_TO_PLOT_OF_ADDON_HIGHEST_SENSI_ADC > 0 )
+            Serial.print( F( " and the HIGHEST_SENSI_ADDON_ADC_TYPE reads " ) );
+            #if ( HIGHEST_SENSI_ADDON_ADC_TYPE == HX711 ) //then HighestBitResFromHighestSensiAddonADC also equals 24
+                value = hx711.read();// + pow( 2, HighestBitResFromHighestSensiAddonADC - 1 );
+            #endif
+            valueTemp = value;
+            #if ( HighestBitResFromHighestSensiAddonADC == 24 )  // or maybe no check is even needed
+                if( valueTemp > ( (uint32_t)-1 ) / 2 ) 
+                {
+                    valueTemp = ~valueTemp + 1;
+                    Serial.print( F( "-" ) );
+                    value = 0 - valueTemp; //This step prevents a need to keep track of number of bits read from the ADC
+                }
+            #endif
+            Serial.print( F( "raw = " ) );
+            Serial.print( value );// -1 displays 4294967295 decimal, FFFFFFFF hexadecimal, so .5 times that is 2147483647 or 7FFFFFFF the highest a positive number can be 
+            value += ( uint32_t )pow( 2, HighestBitResFromHighestSensiAddonADC - 1 );
+            Serial.print( F( ", adjustment factor: " ) );
+            Serial.print( ( uint32_t )pow( 2, HighestBitResFromHighestSensiAddonADC - 1 ) );
+            Serial.print( F( ", adjusted value = " ) );
+            Serial.print( value );// -1 displays 4294967295 decimal, FFFFFFFF hexadecimal, so .5 times that is 2147483647 or 7FFFFFFF the highest a positive number can be 
+        #endif
+        Serial.println();
+        Serial.println(); //blank line for easier locating visually
+    #endif
+#endif
 }
 
 
@@ -709,9 +774,13 @@ void plot_the_normal_and_magnified_signals( uint8_t channel )
         lasttracepoints[ channel * 2 ] = screen_offsets[ channel ].high_limit_of_this_plotline;
     }
     
-    //Next lines plot a magnified version.  First, magnify_adjustment is determined
     Serial.print( F( " " ) );
 
+#ifdef INBOARDINPARALLELWITHHIGHESTSENSI && ( NUM_INPUTS_TO_PLOT_OF_ADDON_HIGHEST_SENSI_ADC > 0 ) && ( NUM_INPUTS_TO_PLOT_OF_INBOARD_ANALOG > 1 )
+    if( channel > 1 )
+    {
+#endif
+//Next lines plot a magnified version.  First, magnify_adjustment is determined
 //The following preprocessor directive is NOT TESTED 29 May 2018:  Submit a better formula if you determine it.
     #if ( ( HighestBitResFromHighestSensiAddonADC > 23 ) && ( MAGNIFICATION_FACTOR > 255 ) ) || ( ( HighestBitResFromHighestSensiAddonADC > 14 ) && ( MAGNIFICATION_FACTOR > 1000 ) ) || ( ( HighestBitResFromHighestSensiAddonADC > 10 ) && ( MAGNIFICATION_FACTOR > 2000 ) ) || ( ( HighestBitResFromHighestSensiAddonADC < 11 ) && ( MAGNIFICATION_FACTOR > 5000 ) )
         Serial.print( 0 ); //This is color two or four when magnification is too large 4294967296 is max
@@ -729,6 +798,14 @@ void plot_the_normal_and_magnified_signals( uint8_t channel )
         Serial.print( value - screen_offsets[ channel ].magnify_adjustment ); //This is color two or four
         lasttracepoints[ ( channel * 2 ) + 1 ] = value - screen_offsets[ channel ].magnify_adjustment;
     #endif
+#ifdef INBOARDINPARALLELWITHHIGHESTSENSI && ( NUM_INPUTS_TO_PLOT_OF_ADDON_HIGHEST_SENSI_ADC > 0 ) && ( NUM_INPUTS_TO_PLOT_OF_INBOARD_ANALOG > 1 )
+    }
+    else
+    {
+        Serial.print( 0 ); //This is color two or four when magnification trace is not wanted due to INBOARDINPARALLELWITHHIGHESTSENSI condition
+        lasttracepoints[ ( channel * 2 ) + 1 ] = 0;
+    }
+#endif
     Serial.print( F( " " ) );
 }
 
@@ -737,6 +814,8 @@ void loop()
 #if defined ( POTTESTWOBBLEPOSITIVE ) || defined ( POTTESTWOBBLENEGATIVE )
     bool potwobbledirection = true;
     uint8_t wobbleloops = 0;
+#elif defined ( POTTESTSTEPUPDOWN )
+    bool potstepdirection = true;
 #endif
     for( uint16_t plotter_loops = 0; plotter_loops < 500 / 3; plotter_loops++ ) 
     {
@@ -803,13 +882,13 @@ void loop()
             }
         #endif
 
-        #if ( NUM_INPUTS_TO_PLOT_OF_ADDON_HIGHEST_SENSI_ADC > 0 )
+        #if ( NUM_INPUTS_TO_PLOT_OF_ADDON_HIGHEST_SENSI_ADC > 0 )                                   //Plot the outboard ADC readings
             for( uint8_t i = 0; i < NUM_INPUTS_TO_PLOT_OF_ADDON_HIGHEST_SENSI_ADC; i++ )
             {
                 #ifdef USING_LM334_WITH_MCP4162_POTS 
 Start_of_addon_ADC_acquisition:
                     bool overscale_is_unfixable = false;
-                    while( true ) //comes back to here if value overscales
+                    while( true )                                                                   //comes back to here if value overscales
                     {
                 #endif
                 #if ( HighestBitResFromHighestSensiAddonADC == 11 ) || ( HighestBitResFromHighestSensiAddonADC == 15 )
@@ -818,14 +897,20 @@ Start_of_addon_ADC_acquisition:
                     {
                         value = ads.readADC_SingleEnded( i );
                     }
+                    #ifdef DEBUG
+                        while ( !Serial ); // wait for serial port to connect. Needed for Leonardo's native USB
+                        Serial.println();
+                        Serial.print( F( "Single-ended outboard ADC reading: " ) );
+                        Serial.println( value );
+                    #endif
                 #else
                     #ifdef DIFFERENTIAL
                         #if ( HighestBitResFromHighestSensiAddonADC < 17 )
-                            value = ( ( ( i == 1 ) ? ( ads.readADC_Differential_2_3() ) : ( ads.readADC_Differential_0_1() ) ) + pow( 2, HighestBitResFromHighestSensiAddonADC - 1 ) );
+                            value = ( ( ( i == 1 ) ? ( ads.readADC_Differential_2_3() ) : ( ads.readADC_Differential_0_1() ) ) + ( uint16_t )pow( 2, HighestBitResFromHighestSensiAddonADC - 1 ) );
                         #else
                             #if ( HIGHEST_SENSI_ADDON_ADC_TYPE == HX711 )
 //                                hx711.power_up();
-                                value = hx711.read() + pow( 2, HighestBitResFromHighestSensiAddonADC - 1 );
+                                value = hx711.read() + ( uint32_t )pow( 2, HighestBitResFromHighestSensiAddonADC - 1 );// This yields the saturated value when it should yield a max or min scale value.  TODO:FIX
 //                                value = hx711.read_average( 9 );
                                 
 //                                hx711.power_down();
@@ -856,6 +941,12 @@ Start_of_addon_ADC_acquisition:
                     #else //then figure it is Single-ended
                     #endif
                 #endif
+                #ifdef DEBUG
+                    while ( !Serial ); // wait for serial port to connect. Needed for Leonardo's native USB
+                    Serial.println();
+                    Serial.print( F( "Differential outboard ADC reading: " ) );
+                    Serial.println( value );
+                #endif
                 #ifdef USING_LM334_WITH_MCP4162_POTS 
                         if( ( value > 0 ) && ( value < pow( 2, HighestBitResFromHighestSensiAddonADC ) ) ) break;
                         if( value == 0 ) 
@@ -864,7 +955,6 @@ Start_of_addon_ADC_acquisition:
                             if( !adjust_whole_bridge_negative( i ) ) { overscale_is_unfixable = true; break; }
                     }
                 #endif
-//FUTURE: IF value IS OVER-SCALE ONE WAY OR THE OTHER, ADJUST DIGI POTS AND START THE ACQUISITION OVER UNTIL OPPOSING POTS ARE MAXED OUT
                 #if ( defined SAMPLE_TIMES ) && ( SAMPLE_TIMES > 0 )
                     for( uint8_t sampletimes = 1; sampletimes < SAMPLE_TIMES; sampletimes++ )
                     {
@@ -880,7 +970,7 @@ Start_of_addon_ADC_acquisition:
                         #else
                             #ifdef DIFFERENTIAL
                                 #if ( HighestBitResFromHighestSensiAddonADC < 17 )
-                                    valueTemp = ( ( ( i == 1 ) ? ( ads.readADC_Differential_2_3() ) : ( ads.readADC_Differential_0_1() ) ) + pow( 2, HighestBitResFromHighestSensiAddonADC - 1 ) );
+                                    valueTemp = ( ( ( i == 1 ) ? ( ads.readADC_Differential_2_3() ) : ( ads.readADC_Differential_0_1() ) ) + ( uint16_t )pow( 2, HighestBitResFromHighestSensiAddonADC - 1 ) );
                                 #else
                                     #if ( HIGHEST_SENSI_ADDON_ADC_TYPE == HX711 )
                                         #ifdef DEBUG
@@ -888,7 +978,7 @@ Start_of_addon_ADC_acquisition:
 //                                            Serial.println( F( "Reading differential valueTemp" ) );
                                         #endif
 //                                            hx711.power_up();
-                                            valueTemp = hx711.read() + pow( 2, HighestBitResFromHighestSensiAddonADC - 1 );
+                                            valueTemp = hx711.read() + ( uint32_t )pow( 2, HighestBitResFromHighestSensiAddonADC - 1 );
 //                                            valueTemp = hx711.read_average( 9 );
                                             
 //                                            hx711.power_down();
@@ -1043,6 +1133,42 @@ NoPotChange:
 #endif
         potwobbledirection = !potwobbledirection;
     }    
+#elif defined ( POTTESTSTEPUPDOWN )
+//adjust_whole_bridge_positive until maxed, then 
+//adjust_whole_bridge_negative until maxed
+    #ifdef DEBUG
+        while ( !Serial ); // wait for serial port to connect. Needed for Leonardo's native USB
+        Serial.print( F( "DIGITAL_POT_1 = " ) );
+        Serial.print( digipot_1_value );
+        Serial.print( F( ", DIGITAL_POT_2 = " ) );
+        Serial.print( digipot_2_value );
+        Serial.print( F( ", DIGITAL_POT_3 = " ) );
+        Serial.print( digipot_3_value );
+        Serial.print( F( ", DIGITAL_POT_4 = " ) );
+        Serial.print( digipot_4_value );
+        Serial.print( F( ", DIGITAL_POT_5 = " ) );
+        Serial.print( digipot_5_value );
+        Serial.print( F( ", DIGITAL_POT_6 = " ) );
+        Serial.println( digipot_6_value );
+    #else
+    //Find some other way to record the digipot settings, like being one last harrah to the plot output line
+    #endif
+    if( potstepdirection )
+    {//adjust_whole_bridge_positive until maxed
+        if( !adjust_whole_bridge_positive( 0 ) )
+        {
+            potstepdirection = false;
+            adjust_whole_bridge_negative( 0 );
+        }
+    }
+    else
+    {
+        if( !adjust_whole_bridge_negative( 0 ) )
+        {
+            potstepdirection = true;
+            adjust_whole_bridge_positive( 0 );
+        }
+    }
 #endif
     }
     while ( !Serial ); // wait for serial port to connect. Needed for Leonardo's native USB
@@ -1051,20 +1177,20 @@ NoPotChange:
         if( !graphline )
         {
             Serial.print( screen_offsets[ i ].high_limit_of_this_plotline );
-            printvaluesforalltraces( true );
+            plotvaluesforalltraces( true );
             Serial.print( screen_offsets[ i ].zero_of_this_plotline );
-            printvaluesforalltraces( true );
+            plotvaluesforalltraces( true );
         }
         else
         {
             Serial.print( screen_offsets[ NUM_INPUTS_TO_PLOT_OF_INBOARD_ANALOG + NUM_INPUTS_TO_PLOT_OF_ADDON_HIGHEST_SENSI_ADC - i ].zero_of_this_plotline );
-            printvaluesforalltraces( true );
+            plotvaluesforalltraces( true );
             Serial.print( screen_offsets[ NUM_INPUTS_TO_PLOT_OF_INBOARD_ANALOG + NUM_INPUTS_TO_PLOT_OF_ADDON_HIGHEST_SENSI_ADC - i ].high_limit_of_this_plotline );
-            printvaluesforalltraces( true );
+            plotvaluesforalltraces( true );
             if( i == NUM_INPUTS_TO_PLOT_OF_INBOARD_ANALOG + NUM_INPUTS_TO_PLOT_OF_ADDON_HIGHEST_SENSI_ADC - 1 )
             {
                 Serial.print( screen_offsets[ NUM_INPUTS_TO_PLOT_OF_INBOARD_ANALOG + NUM_INPUTS_TO_PLOT_OF_ADDON_HIGHEST_SENSI_ADC - i ].high_limit_of_this_plotline );
-                printvaluesforalltraces( true );
+                plotvaluesforalltraces( true );
             }
         }
     }
