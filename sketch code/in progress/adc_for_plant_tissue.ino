@@ -226,7 +226,7 @@ struct magnify_adjustment_and_display_zero
 
 magnify_adjustment_and_display_zero screen_offsets[ NUM_INPUTS_TO_PLOT_OF_ADDON_HIGHEST_SENSI_ADC + NUM_INPUTS_TO_PLOT_OF_INBOARD_ANALOG ];
 bool graphline = false;
-uint32_t value, valueTemp;
+uint32_t value, value1, valueTemp;
 uint32_t lasttracepoints[ ( NUM_INPUTS_TO_PLOT_OF_ADDON_HIGHEST_SENSI_ADC + NUM_INPUTS_TO_PLOT_OF_INBOARD_ANALOG ) * 2 ];
 long millis_start;
 char szFull[ ] = {0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0, \
@@ -577,7 +577,7 @@ input signal comes back to the input range.
         }
     }
     Serial.println( PlotterMaxScale ); // graphline
-//    plotvaluesforalltraces();  //Commenting this out looks better graphing, but also causes a very tiny (one sample distance) lag in the signal traces during the first screenful
+//    plotvaluesforalltraces();  //Commenting this out looks better plotted, but also causes a very tiny (one sample distance) lag in the signal traces during the first screenful
 
     #if ( NUM_INPUTS_TO_PLOT_OF_INBOARD_ANALOG > 0 )
         A_PIN_ARRAY = (uint8_t *)malloc( NUM_INPUTS_TO_PLOT_OF_INBOARD_ANALOG );
@@ -909,23 +909,8 @@ Start_of_addon_ADC_acquisition:
                         #else
                             #if ( HIGHEST_SENSI_ADDON_ADC_TYPE == HX711 )
 //                                hx711.power_up();
-                                value = hx711.read() + ( uint32_t )pow( 2, HighestBitResFromHighestSensiAddonADC - 1 );// This yields the saturated value when it should yield a max or min scale value.  TODO:FIX
+                                value = hx711.read();
 //                                value = hx711.read_average( 9 );
-/*                                
-            valueTemp = value;
-            #if ( HighestBitResFromHighestSensiAddonADC == 24 )  // or maybe no check is even needed
-                if( valueTemp > ( (uint32_t)-1 ) / 2 ) 
-                {
-                    valueTemp = ~valueTemp + 1;
-                    Serial.print( F( "-" ) );
-                    value = 0 - valueTemp; //This step prevents a need to keep track of number of bits read from the ADC
-                }
-            #endif
-            Serial.print( F( "raw = " ) );
-            Serial.print( value );// -1 displays 4294967295 decimal, FFFFFFFF hexadecimal, so .5 times that is 2147483647 or 7FFFFFFF the highest a positive number can be 
-            value += ( uint32_t )pow( 2, HighestBitResFromHighestSensiAddonADC - 1 );
-
-*/
 //                                hx711.power_down();
                             #else
                                 #if ( HIGHEST_SENSI_ADDON_ADC_TYPE == ADS1232 )
@@ -950,6 +935,15 @@ Start_of_addon_ADC_acquisition:
                                     #endif
                                 #endif
                             #endif
+                            valueTemp = -1;
+                            valueTemp = valueTemp / 2;
+                            if( value > valueTemp ) 
+                            {
+                                valueTemp = ~value + 1;
+                                Serial.print( F( "-" ) );
+                                value = 0 - valueTemp; //This step prevents a need to keep track of number of bits read from the ADC
+                            }
+                            value += ( uint32_t )pow( 2, HighestBitResFromHighestSensiAddonADC - 1 );
                         #endif
                     #else //then figure it is Single-ended
                     #endif
@@ -978,12 +972,12 @@ Start_of_addon_ADC_acquisition:
                             delayMicroseconds( DELAY_TIME_BETWEEN_SAMPLES_US );
                         #endif
                         #if ( HighestBitResFromHighestSensiAddonADC == 11 ) || ( HighestBitResFromHighestSensiAddonADC == 15 )
-                            valueTemp = ads.readADC_SingleEnded( i );
-                            while( valueTemp > pow( 2, HighestBitResFromHighestSensiAddonADC ) ) valueTemp = ads.readADC_SingleEnded( i );
+                            value1 = ads.readADC_SingleEnded( i );
+                            while( value1 > pow( 2, HighestBitResFromHighestSensiAddonADC ) ) value1 = ads.readADC_SingleEnded( i );
                         #else
                             #ifdef DIFFERENTIAL
                                 #if ( HighestBitResFromHighestSensiAddonADC < 17 )
-                                    valueTemp = ( ( ( i == 1 ) ? ( ads.readADC_Differential_2_3() ) : ( ads.readADC_Differential_0_1() ) ) + ( uint16_t )pow( 2, HighestBitResFromHighestSensiAddonADC - 1 ) );
+                                    value1 = ( ( ( i == 1 ) ? ( ads.readADC_Differential_2_3() ) : ( ads.readADC_Differential_0_1() ) ) + ( uint16_t )pow( 2, HighestBitResFromHighestSensiAddonADC - 1 ) );
                                 #else
                                     #if ( HIGHEST_SENSI_ADDON_ADC_TYPE == HX711 )
                                         #ifdef DEBUG
@@ -991,7 +985,7 @@ Start_of_addon_ADC_acquisition:
 //                                            Serial.println( F( "Reading differential valueTemp" ) );
                                         #endif
 //                                            hx711.power_up();
-                                            valueTemp = hx711.read() + ( uint32_t )pow( 2, HighestBitResFromHighestSensiAddonADC - 1 );
+                                            value1 = hx711.read();
 //                                            valueTemp = hx711.read_average( 9 );
                                             
 //                                            hx711.power_down();
@@ -1017,6 +1011,15 @@ Start_of_addon_ADC_acquisition:
                                                 #endif
                                             #endif
                                         #endif
+                                        valueTemp = -1;
+                                        valueTemp = valueTemp / 2;
+                                        if( value1 > valueTemp ) 
+                                        {
+                                            valueTemp = ~value1 + 1;
+                                            Serial.print( F( "-" ) );
+                                            value1 = 0 - valueTemp; //This step prevents a need to keep track of number of bits read from the ADC
+                                        }
+                                        value1 += ( uint32_t )pow( 2, HighestBitResFromHighestSensiAddonADC - 1 );
                                     #endif
                                 #endif
                                 #ifdef DEBUG
@@ -1028,12 +1031,12 @@ Start_of_addon_ADC_acquisition:
                         #endif
                         #ifdef USING_LM334_WITH_MCP4162_POTS 
                     // If value IS MAX SCALE ONE WAY OR THE OTHER, ADJUST DIGI POTS AND START THE ACQUISITION OVER UNLESS POTS ARE MAXED OUT
-                        if( ( valueTemp == 0 ) && !overscale_is_unfixable )
+                        if( ( value1 == 0 ) && !overscale_is_unfixable )
                             { if( adjust_whole_bridge_positive( i ) ) goto Start_of_addon_ADC_acquisition; }
-                        else if( ( valueTemp >= pow( 2, HighestBitResFromHighestSensiAddonADC ) ) && !overscale_is_unfixable )
+                        else if( ( value1 >= pow( 2, HighestBitResFromHighestSensiAddonADC ) ) && !overscale_is_unfixable )
                             { if( adjust_whole_bridge_negative( i ) ) goto Start_of_addon_ADC_acquisition; }
                         #endif
-                        value += valueTemp;
+                        value += value1;
                 }
                 #endif
 /*
@@ -1185,17 +1188,21 @@ NoPotChange:
 #endif
     }
     while ( !Serial ); // wait for serial port to connect. Needed for Leonardo's native USB
+#ifndef INBOARDINPARALLELWITHHIGHESTSENSI && ( NUM_INPUTS_TO_PLOT_OF_ADDON_HIGHEST_SENSI_ADC > 0 ) && ( NUM_INPUTS_TO_PLOT_OF_INBOARD_ANALOG > 1 )
     for( uint8_t i = 0; i < NUM_INPUTS_TO_PLOT_OF_INBOARD_ANALOG + NUM_INPUTS_TO_PLOT_OF_ADDON_HIGHEST_SENSI_ADC; i++ )
+#else
+    for( uint8_t i = 1; i < NUM_INPUTS_TO_PLOT_OF_INBOARD_ANALOG + NUM_INPUTS_TO_PLOT_OF_ADDON_HIGHEST_SENSI_ADC; i++ )
+#endif
     {
         if( !graphline )
-        {
+        {//going down
             Serial.print( screen_offsets[ i ].high_limit_of_this_plotline );
             plotvaluesforalltraces( true );
             Serial.print( screen_offsets[ i ].zero_of_this_plotline );
             plotvaluesforalltraces( true );
         }
         else
-        {
+        {//going up
             Serial.print( screen_offsets[ NUM_INPUTS_TO_PLOT_OF_INBOARD_ANALOG + NUM_INPUTS_TO_PLOT_OF_ADDON_HIGHEST_SENSI_ADC - i ].zero_of_this_plotline );
             plotvaluesforalltraces( true );
             Serial.print( screen_offsets[ NUM_INPUTS_TO_PLOT_OF_INBOARD_ANALOG + NUM_INPUTS_TO_PLOT_OF_ADDON_HIGHEST_SENSI_ADC - i ].high_limit_of_this_plotline );
