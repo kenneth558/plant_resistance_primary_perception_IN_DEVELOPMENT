@@ -1,3 +1,4 @@
+/* IN PROCESS AT LINE 548*/
 //        Before compiling this sketch, you must set or confirm the following appropriately for your configuration and preferences !!!
 #define NUM_INPUTS_TO_PLOT_OF_INBOARD_ANALOG 2                                                     //The number of consecutive analog pins to plot, beginning with PIN_A0
 #define NUM_INPUTS_TO_PLOT_OF_ADDON_HIGHEST_SENSI_ADC 1                                            //The number of consecutive "highest-sensitivity ADC" pins to plot, beginning with A0 and, if double-ended, A1.  ADDON ADC ONLY - DOES _NOT_ INCLUDE INBOARD ANALOG INPUT PINS
@@ -15,7 +16,7 @@
 #define HIGHEST_SENSI_PGA_GAIN_FACTOR 128                                                          //For HX711 a gain of 128 gets applied to channel A. Available to you for your own use PGA=Programmable Gain Amplifier: many ADCs will correlate a gain of one with full-scale being rail-to-rail, while a gain of anything higher correlates to full-scale being in the mV range (most sensitive and most noise-susceptible).
 #define MIN_WAIT_TIME_BETWEEN_PLOT_POINTS_MS 200                                                   //Sets maximum speed, but actual speed may be further limited by other factors
 #define USING_LM334_WITH_MCP4162_POTS                                                              //Remove if using standard wheatstone bridge with only standard resistors.  make true if using bridge with upper resistive elements being LM334s controllable with the MCP4162-104 pots
-#define INBOARDINPARALLELWITHHIGHESTSENSI                                                          //Allows rail-to-rail inboard Analog Inputs to be used to adjust digipots, also causes first two inboard Analog Inputs to be superimposed into same plot-line space
+#define INBOARDINPARALLELWITHHIGHESTSENSI                                                        //Allows rail-to-rail inboard Analog Inputs to be used to adjust digipots, also causes first two inboard Analog Inputs to be superimposed into same plot-line space
 //#define DEBUG true                                                                                 //Don't forget that DEBUG is not formatted for Serial plotter, but might work anyway if you'd never print numbers only any DEBUG print line
 //#define LEAVEPOTVALUESALONEDURINGSETUP                                                             //First run should leave this undefined to load digi pots with some values
 //#define POTTESTWOBBLEPOSITIVE true                                                                 //Auto-adjusts the positive line digipots to cause a wobble in the signals
@@ -911,7 +912,21 @@ Start_of_addon_ADC_acquisition:
 //                                hx711.power_up();
                                 value = hx711.read() + ( uint32_t )pow( 2, HighestBitResFromHighestSensiAddonADC - 1 );// This yields the saturated value when it should yield a max or min scale value.  TODO:FIX
 //                                value = hx711.read_average( 9 );
-                                
+/*                                
+            valueTemp = value;
+            #if ( HighestBitResFromHighestSensiAddonADC == 24 )  // or maybe no check is even needed
+                if( valueTemp > ( (uint32_t)-1 ) / 2 ) 
+                {
+                    valueTemp = ~valueTemp + 1;
+                    Serial.print( F( "-" ) );
+                    value = 0 - valueTemp; //This step prevents a need to keep track of number of bits read from the ADC
+                }
+            #endif
+            Serial.print( F( "raw = " ) );
+            Serial.print( value );// -1 displays 4294967295 decimal, FFFFFFFF hexadecimal, so .5 times that is 2147483647 or 7FFFFFFF the highest a positive number can be 
+            value += ( uint32_t )pow( 2, HighestBitResFromHighestSensiAddonADC - 1 );
+
+*/
 //                                hx711.power_down();
                             #else
                                 #if ( HIGHEST_SENSI_ADDON_ADC_TYPE == ADS1232 )
