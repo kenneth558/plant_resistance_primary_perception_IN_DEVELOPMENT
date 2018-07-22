@@ -5,7 +5,7 @@
 As of 30 April 2018, this sketch is functional, only requiring low-noise construction techniques of the connections and circuitry.  .INO FILE VERSIONS DATED PRIOR TO 30 APRIL 2018 ARE DEFICIENT IN VARIOUS CAPACITIES DISPLAYING THE TRACES.  Replace them with this newer version. If you are using the ADS1015 or ADS1115, be sure to install the supporting library Adafruit_ADS1015 since this sketch depends on it.  Thank you, Adafruit!  If you're using the HX711, install the .cpp and .h files located here: https://github.com/bogde/HX711 (thank you to bogde) PERIODIC IMPROVEMENTS TO THIS PROJECT MUST BE EXPECTED.  Consideration is being given to adapting a fork of this project to the Raspberry Pi-ish ARM single board computers.  This sketch *version* is FREE so that anyone can enjoy it.  For those of you who can afford to support my work on this project, I will offer a "not-free" sketch version when the parts arrive that has the following enhancements:
 
 -  Arrange for adjustments of various kinds during run time based on keyboard inputs.  The current plotter included with 
-        the Arduino IDE does not accommodate this, so this feature will need to be coded with a different language.
+        the Arduino IDE does not accommodate this, so this feature will have to be coded with a different language.
 -  Use an LM334 or two to prevent power supply noise from plotting (i.e., convert from monitoring resistance to monitoring 
         conductance, which means that power supply noise is eliminated!).  A toroid-based noise suppression coil in series 
         might be needed as one of the supporting components.  Since the part includes a temperature coefficient, a second 
