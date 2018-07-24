@@ -813,7 +813,9 @@ Start_of_addon_ADC_acquisition:
                         #else
                             #if ( HIGHEST_SENSI_ADDON_ADC_TYPE == HX711 )
 //                                hx711.power_up();
-                                value = hx711.read() + pow( 2, HighestBitResFromHighestSensiAddonADC - 1 );
+                                value = hx711.read();
+                           // Convert to single-ended style
+                                value += ( value & 0x800000 ? 0x800000 : 0x7FFFFF );                        
 //                                value = hx711.read_average( 9 );
                                 
 //                                hx711.power_down();
@@ -876,7 +878,9 @@ Start_of_addon_ADC_acquisition:
 //                                            Serial.println( F( "Reading differential valueTemp" ) );
                                         #endif
 //                                            hx711.power_up();
-                                            valueTemp = hx711.read() + pow( 2, HighestBitResFromHighestSensiAddonADC - 1 );
+                                            valueTemp = hx711.read();
+                       // Convert to single-ended style
+                                            valueTemp += ( valueTemp & 0x800000 ? 0x800000 : 0x7FFFFF );                        
 //                                            valueTemp = hx711.read_average( 9 );
                                             
 //                                            hx711.power_down();
