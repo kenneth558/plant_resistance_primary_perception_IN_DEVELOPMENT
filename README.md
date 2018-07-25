@@ -32,8 +32,8 @@ In the sketch source code of this project, you'll find some self-explanatorily-n
 -  NUM_INPUTS_TO_PLOT_OF_ADDON_HIGHEST_SENSI_ADC
 -  HIGHEST_SENSI_ADDON_ADC_TYPE (at this time only HX711 is supported)
 -  MULTIPLICATION_FACTOR
--  HighestBitResFromHighestSensiAddonADC
--  AnalogInputBitsOfBoard
+-  HIGHESTBITRESFROMHIGHESTSENSIADDONADC
+-  ANALOGINPUTBITSOFBOARD
 -  SAMPLE_TIMES
 -  DELAY_TIME_BETWEEN_SAMPLES_MS
 -  DELAY_TIME_BETWEEN_SAMPLES_US
