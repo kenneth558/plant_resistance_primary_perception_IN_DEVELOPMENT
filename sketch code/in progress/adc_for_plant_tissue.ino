@@ -19,7 +19,7 @@
 //#define DEBUG true                                                                                 //Don't forget that DEBUG is not formatted for Serial plotter, but might work anyway if you'd never print numbers only any DEBUG print line
 //#define POTTESTWOBBLEPOSITIVE true                                                                 //
 //#define POTTESTWOBBLENEGATIVE true                                                                 //
-#define TESTSTEPUPDOWN SINGLESIDE                                                                 //Available: SINGLESIDE COMMONMODE
+//#define TESTSTEPUPDOWN SINGLESIDE                                                                 //Available: SINGLESIDE COMMONMODE
 
 #define CONVERTTWOSCOMPTOSINGLEENDED(value_read_from_the_differential_ADC, mask, xorvalue )    ((value_read_from_the_differential_ADC & mask)^xorvalue)
 //OTHER DEFINES OR RE-DEFINES ELSEWHERE: VERSION, NUM_INPUTS_TO_PLOT_OF_INBOARD_ANALOG, NUM_INPUTS_TO_PLOT_OF_ADDON_HIGHEST_SENSI_ADC, STARTVALUE1 - STARTVALUE6, HALFHIGHESTBITRESFROMHIGHESTSENSIADDONADC, DIFFERENTIAL, PIN_FOR_DATA_TOFROM_HIGHEST_SENSI_ADC, PIN_FOR_CLK_TO_HIGHEST_SENSI_ADC, PLOTTERMAXSCALE, HUNDREDTHPLOTTERMAXSCALE, SAMPLE_TIMES, ANALOGINPUTBITSOFBOARD, SCALE_FACTOR_TO_PROMOTE_LOW_RES_ADC_TO_SAME_SCALE
