@@ -19,10 +19,9 @@
 //#define DEBUG true                                                                                 //Don't forget that DEBUG is not formatted for Serial plotter, but might work anyway if you'd never print numbers only any DEBUG print line
 //#define POTTESTWOBBLEPOSITIVE true                                                                 //
 //#define POTTESTWOBBLENEGATIVE true                                                                 //
-//#define TESTSTEPUPDOWN SINGLESIDE                                                                 //Available: SINGLESIDE COMMONMODE
+#define TESTSTEPUPDOWN SINGLESIDE                                                                 //Available: SINGLESIDE COMMONMODE
 
-#define CONVERTTWOSCOMPTOSINGLEENDED(value_read_from_the_differential_ADC)    ((value_read_from_the_differential_ADC & 0xFFFFFF)^0x800000)
-#define CONVERTTWOSCOMP16BITTOSINGLEENDED(value_read_from_the_16bit_differential_ADC)    ((value_read_from_the_16bit_differential_ADC & 0xFFFF)^0x8000)
+#define CONVERTTWOSCOMPTOSINGLEENDED(value_read_from_the_differential_ADC, mask, xorvalue )    ((value_read_from_the_differential_ADC & mask)^xorvalue)
 //OTHER DEFINES OR RE-DEFINES ELSEWHERE: VERSION, NUM_INPUTS_TO_PLOT_OF_INBOARD_ANALOG, NUM_INPUTS_TO_PLOT_OF_ADDON_HIGHEST_SENSI_ADC, STARTVALUE1 - STARTVALUE6, HALFHIGHESTBITRESFROMHIGHESTSENSIADDONADC, DIFFERENTIAL, PIN_FOR_DATA_TOFROM_HIGHEST_SENSI_ADC, PIN_FOR_CLK_TO_HIGHEST_SENSI_ADC, PLOTTERMAXSCALE, HUNDREDTHPLOTTERMAXSCALE, SAMPLE_TIMES, ANALOGINPUTBITSOFBOARD, SCALE_FACTOR_TO_PROMOTE_LOW_RES_ADC_TO_SAME_SCALE
 
 
@@ -920,10 +919,10 @@ Start_of_addon_ADC_acquisition:
                 #else
                     #ifdef DIFFERENTIAL
                         #if ( HIGHESTBITRESFROMHIGHESTSENSIADDONADC < 17 )
-                            value = CONVERTTWOSCOMP16BITTOSINGLEENDED( ( i == 1 ) ? ads.readADC_Differential_2_3() : ads.readADC_Differential_0_1() );  // Convert to single-ended style
+                            value = CONVERTTWOSCOMPTOSINGLEENDED( ( i == 1 ) ? ads.readADC_Differential_2_3() : ads.readADC_Differential_0_1(), 0xFFFF, 0x8000 );  // Convert to single-ended style
                         #else
                             #if ( HIGHEST_SENSI_ADDON_ADC_TYPE == HX711 )
-                                value = CONVERTTWOSCOMPTOSINGLEENDED( hx711.read() );
+                                value = CONVERTTWOSCOMPTOSINGLEENDED( hx711.read(), 0xFFFFFF, 0x800000 );
                             #else
                                 #if ( HIGHEST_SENSI_ADDON_ADC_TYPE == ADS1232 )
                                 #else
@@ -987,7 +986,7 @@ Start_of_addon_ADC_acquisition:
                         #else
                             #ifdef DIFFERENTIAL
                                 #if ( HIGHESTBITRESFROMHIGHESTSENSIADDONADC < 17 )
-                                    value1 = CONVERTTWOSCOMP16BITTOSINGLEENDED( ( i == 1 ) ? ads.readADC_Differential_2_3() : ads.readADC_Differential_0_1() );
+                                    value1 = CONVERTTWOSCOMPTOSINGLEENDED( ( i == 1 ) ? ads.readADC_Differential_2_3() : ads.readADC_Differential_0_1(), 0xFFFF, 0x8000 );
                                 #else
                                     #if ( HIGHEST_SENSI_ADDON_ADC_TYPE == HX711 )
                                         #ifdef DEBUG
@@ -995,7 +994,7 @@ Start_of_addon_ADC_acquisition:
 //                                            Serial.println( F( "Reading differential valueTemp" ) );
                                         #endif
 //                                            hx711.power_up();
-                                        value1 = CONVERTTWOSCOMPTOSINGLEENDED( hx711.read() );
+                                        value1 = CONVERTTWOSCOMPTOSINGLEENDED( hx711.read(), 0xFFFFFF, 0x800000 );
                                     #else
                                         #if ( HIGHEST_SENSI_ADDON_ADC_TYPE == ADS1232 )
                                         #else
