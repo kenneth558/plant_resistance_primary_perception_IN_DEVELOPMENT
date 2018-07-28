@@ -23,8 +23,6 @@
 
 #define CONVERTTWOSCOMPTOSINGLEENDED(value_read_from_the_differential_ADC, mask, xorvalue )    ((value_read_from_the_differential_ADC & mask)^xorvalue)
 //OTHER MACROS (DEFINES OR RE-DEFINES) ELSEWHERE: VERSION, NUM_INPUTS_TO_PLOT_OF_INBOARD_ANALOG, NUM_INPUTS_TO_PLOT_OF_ADDON_HIGHEST_SENSI_ADC, STARTVALUE1 - STARTVALUE6, HALFHIGHESTBITRESFROMHIGHESTSENSIADDONADC, DIFFERENTIAL, PIN_FOR_DATA_TOFROM_HIGHEST_SENSI_ADC, PIN_FOR_CLK_TO_HIGHEST_SENSI_ADC, PLOTTERMAXSCALE, HUNDREDTHPLOTTERMAXSCALE, SAMPLE_TIMES, ANALOGINPUTBITSOFBOARD, SCALE_FACTOR_TO_PROMOTE_LOW_RES_ADC_TO_SAME_SCALE, COMMON_MODE_LEVEL_FOR_MAX_GAIN_AS_READ_RAW_BY_INBOARD_ANALOG
-
-
 //FUTURE #define DEBUG_BRIDGE_BALANCING true //This will cause both the probe signal and the opposing bridge leg reference point to be displayed in full-scale, non-magnified views.  Useful with boards having low-Z Analog Input pins or none at all.
 //FUTURE #define FULL_SCALE_ADDON_ADC_TYPE ADS1X15  // FULL_SCALE is also known as rail-to-rail.  Proposing that "ADS1231" covers ADS1231; could make this "ADS1232" (ADS1232), "ADS1242" (ADS1242), "AD779x" (AD779x), "AD7780" (AD7780), "HX711" (HX711), "MAX112x0" (MAX112x0...) or "LTC2400" (LTC2400) but code not included in v.FREE
 //FUTURE #define LEAVEPOTVALUESALONEDURINGSETUP                                                       //First run should leave this undefined to load digi pots with some values.  EEPROM and nonvolatile settings are only available with >8.5 Vdc applied to CS pins of MCP4162, which we don't have.
