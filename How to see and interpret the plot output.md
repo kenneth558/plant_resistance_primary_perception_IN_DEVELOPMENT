@@ -18,7 +18,7 @@ Below is a screen shot of an HX711 trace below two inboard traces.  Note that in
 
 I learned through experimentation that the HX711's sensitivity or gain is only available in an extremely small common-mode voltage window where the inboard analog inputs read 306 out of 1024.  Therefore, I have developed auto-balancing into the setup function that can balance to any specified common-mode voltage level that fits the ADC being used.
 
-Note also that a 1 Mohm resistor is being used in place of the plant, fed by an LM334, and a second one is used in the opposing Wheatstone bridge leg as tha load for that second LM334.  The resistor values of the MCP4162 pots are 100K x2 and 10K x1, and their values are being manipulated in the lower third or less of their resistance ranges. 
+Note also that a 1 Mohm resistor is being used in place of the plant, fed by an LM334, and a second one is used in the opposing Wheatstone bridge leg as tha load for that second LM334.  The resistor values of the MCP4162 pots are 100K (x2 pots) and 10K (x1 pot), and their values are being manipulated in the lower third or less of their resistance ranges. 
 
 Note in the magnified trace wherever the timing trace crosses minimum to maximum or vice versa, that all the signal traces bridge that appearance of a window of time as horizontal no-changes.  if you don't like those horizontal bridges, you would have to turn off the timeline notches by so modifying the code, since I have not made a define to do it.![Screen shot with POTTESTSTEPUPDOWN set](https://github.com/kenneth558/plant_resistance_primary_perception/blob/Free/embeddeds/POTTESTSTEPUPDOWN.png)
 
