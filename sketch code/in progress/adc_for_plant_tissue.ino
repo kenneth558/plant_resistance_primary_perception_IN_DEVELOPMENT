@@ -2,27 +2,27 @@
 #define NUM_INPUTS_TO_PLOT_OF_INBOARD_ANALOG 2                                                     //The number of consecutive analog pins to plot, beginning with PIN_A0
 #define NUM_INPUTS_TO_PLOT_OF_ADDON_HIGHEST_SENSI_ADC 1                                            //The number of consecutive "highest-sensitivity ADC" pins to plot, beginning with A0 and, if double-ended, A1.  ADDON ADC ONLY - DOES _NOT_ INCLUDE INBOARD ANALOG INPUT PINS
 #define HIGHEST_SENSI_ADDON_ADC_TYPE HX711                                                         //Proposing that "ADS1231" covers ADS1231; could make this "ADS1232" (ADS1232), "ADS1242" (ADS1242), "ADS1256" (ADS1256), "AD779x" (AD779x), "AD7780" (AD7780), "MPC3914" (MPC3914), "HX711" (HX711), "MAX112x0" (MAX112x0...) or "LTC2400" (LTC2400) but code not included in v.FREE
-#define MAGNIFICATION_FACTOR 100                                                                   //To aid in viewing
+#define MAGNIFICATION_FACTOR (5/2)                                                                 //To aid in viewing, upper limit unknown
 #define HIGHESTBITRESFROMHIGHESTSENSIADDONADC 24                                                   //All ADC values will get scaled to the single-ended aspect of this,  15 is ADS1115 single-ended, 16 for double-ended when two LM334s are used.  change to 11 for ADS1015 single-ended or 12 with two LM334s, (future: change to 24 for HX711--NO b/c there is the ADS1231 at 24 bits)
 #define SAMPLE_TIMES 4                                                                             //To better average out artifacts we over-sample and average.  This value can be tweaked by you to ensure neutralization of power line noise or harmonics of power supplies, etc.....
 #define MOST_PROBLEMATIC_INTERFERENCE_FREQ 60                                                      //This is here just in case you think that you might have some interference on a known frequency.
 #define DELAY_TIME_BETWEEN_SAMPLES_MS ( 1000 / MOST_PROBLEMATIC_INTERFERENCE_FREQ / SAMPLE_TIMES ) //COARSE ADJUST
 #define DELAY_TIME_BETWEEN_SAMPLES_US ( ( ( 1000000 / MOST_PROBLEMATIC_INTERFERENCE_FREQ ) - ( DELAY_TIME_BETWEEN_SAMPLES_MS * SAMPLE_TIMES * 1000 ) ) / SAMPLE_TIMES ) //FINE ADJUST.  THIS GETS ADDED TO COARSE ADJUST, PRECISION = TRUNCATED PRAGMATICALLY TO uSec TO ACKNOWLEDGE SOME OVERHEAD FOR LOOPING SUPPORT CODE   // End of this part of code update
 #define FIRST_ANALOG_PIN_DIGITAL_NUMBER_FOR_BOARDS_NOT_HAVING_ANALOG_PINS_DEFINED_BY_PIN_A0_TYPE_DEFINES 14 //Some boards don't have good definitions and constants for the analog pins :-(
-#define REPOSITION_RATIO_OF_MAGNIFIED_VIEW_WHEN_LIMITS_GET_EXCEEDED (.85)                           //BETWEEN 0 AND 1 indicating how much of the display region to skip when magnified view trace has to get repositioned because trace would be outside region bounds
+#define REPOSITION_RATIO_OF_MAGNIFIED_VIEW_WHEN_LIMITS_GET_EXCEEDED (99/100)                           //BETWEEN 0 AND 1 indicating how much of the display region to skip when magnified view trace has to get repositioned because trace would be outside region bounds
 #define ANALOGINPUTBITSOFBOARD 10                                                                  //Most Arduino boards are 10-bit resolution, but some can be 12 bits.  For known 12 bit boards (SAM, SAMD and TTGO XI architectures), this gets re-defined below, so generally this can be left as 10 even for those boards
 #define SECONDS_THAT_A_LGT8FX8E_HARDWARE_SERIAL_NEEDS_TO_COME_UP_WORKING 9                         //8 works only usually
 #define HIGHEST_SENSI_PGA_GAIN_FACTOR 128                                                          //For HX711 a gain of 128 gets applied to channel A. Available to you for your own use PGA=Programmable Gain Amplifier: many ADCs will correlate a gain of one with full-scale being rail-to-rail, while a gain of anything higher correlates to full-scale being in the mV range (most sensitive and most noise-susceptible).
-#define MIN_WAIT_TIME_BETWEEN_PLOT_POINTS_MS 0                                                   //Sets maximum speed, but actual speed may be further limited by other factors
+#define MIN_WAIT_TIME_BETWEEN_PLOT_POINTS_MS 0                                                     //Sets maximum speed, but actual speed may be further limited by other factors
 #define USING_LM334_WITH_MCP4162_POTS                                                              //Remove if using standard wheatstone bridge with only standard resistors.  make true if using bridge with upper resistive elements being LM334s controllable with the MCP4162-104 pots
-#define INBOARDINPARALLELWITHHIGHESTSENSI                                                        //Allows rail-to-rail inboard Analog Inputs to be used to adjust digipots, also causes first two inboard Analog Inputs to be superimposed into same plot-line space
+#define INBOARDINPARALLELWITHHIGHESTSENSI                                                          //Allows rail-to-rail inboard Analog Inputs to be used to adjust digipots, also causes first two inboard Analog Inputs to be superimposed into same plot-line space
 //#define DEBUG true                                                                                 //Don't forget that DEBUG is not formatted for Serial plotter, but might work anyway if you'd never print numbers only any DEBUG print line
-//#define POTTESTWOBBLEPOSITIVE true                                                                 //
-//#define POTTESTWOBBLENEGATIVE true                                                                 //
-//#define TESTSTEPUPDOWN SINGLESIDE                                                                 //Available: SINGLESIDE COMMONMODE
+//#define POTTESTWOBBLEPOSITIVE true                                                                 //For testing - wobbles digipot settings to impose a signal into Wheatstone bridge outputs
+//#define POTTESTWOBBLENEGATIVE true                                                                 //For testing - wobbles digipot settings to impose a signal into Wheatstone bridge outputs
+//#define TESTSTEPUPDOWN COMMONMODE                                                                  //Available: SINGLESIDE COMMONMODE
 
 #define CONVERTTWOSCOMPTOSINGLEENDED(value_read_from_the_differential_ADC, mask, xorvalue )    ((value_read_from_the_differential_ADC & mask)^xorvalue)
-//OTHER DEFINES OR RE-DEFINES ELSEWHERE: VERSION, NUM_INPUTS_TO_PLOT_OF_INBOARD_ANALOG, NUM_INPUTS_TO_PLOT_OF_ADDON_HIGHEST_SENSI_ADC, STARTVALUE1 - STARTVALUE6, HALFHIGHESTBITRESFROMHIGHESTSENSIADDONADC, DIFFERENTIAL, PIN_FOR_DATA_TOFROM_HIGHEST_SENSI_ADC, PIN_FOR_CLK_TO_HIGHEST_SENSI_ADC, PLOTTERMAXSCALE, HUNDREDTHPLOTTERMAXSCALE, SAMPLE_TIMES, ANALOGINPUTBITSOFBOARD, SCALE_FACTOR_TO_PROMOTE_LOW_RES_ADC_TO_SAME_SCALE
+//OTHER MACROS (DEFINES OR RE-DEFINES) ELSEWHERE: VERSION, NUM_INPUTS_TO_PLOT_OF_INBOARD_ANALOG, NUM_INPUTS_TO_PLOT_OF_ADDON_HIGHEST_SENSI_ADC, STARTVALUE1 - STARTVALUE6, HALFHIGHESTBITRESFROMHIGHESTSENSIADDONADC, DIFFERENTIAL, PIN_FOR_DATA_TOFROM_HIGHEST_SENSI_ADC, PIN_FOR_CLK_TO_HIGHEST_SENSI_ADC, PLOTTERMAXSCALE, HUNDREDTHPLOTTERMAXSCALE, SAMPLE_TIMES, ANALOGINPUTBITSOFBOARD, SCALE_FACTOR_TO_PROMOTE_LOW_RES_ADC_TO_SAME_SCALE, COMMON_MODE_LEVEL_FOR_MAX_GAIN_AS_READ_RAW_BY_INBOARD_ANALOG
 
 
 //FUTURE #define DEBUG_BRIDGE_BALANCING true //This will cause both the probe signal and the opposing bridge leg reference point to be displayed in full-scale, non-magnified views.  Useful with boards having low-Z Analog Input pins or none at all.
@@ -35,7 +35,7 @@
 * File Name          : adc_for_plant_tissue.ino
 * Author             : KENNETH L ANDERSON
 * Version            : v.Free
-* Date               : 26-July-2018
+* Date               : 28-July-2018
 * Description        : To replicate Cleve Backster's findings that he attributed to a phenomenon he called "Primary Perception".  Basically, this sketch turns an Arduino MCU and optional (recommended) ADS1115 into a nicely functional poor man's polygraph in order to learn/demonstrate telempathic gardening.
 * Boards tested on   : Uno using both ADS1115 and inboard analog inputs.  
 *                    : TTGO XI using ADS1115.  
@@ -86,13 +86,15 @@
 *              17 July  2018 :  Received AD8244 buffer.  This rev is just some troubleshooting code trying to get the AD8244 up to speed.  Not there yet, though.
 *              20 July  2018 :  Improved plotting with INBOARDINPARALLELWITHHIGHESTSENSI and improved 24-bit plot values
 *              26 July  2018 :  Corrected conversion from twos complement differential readings to proper single ended plotting
+*              27 July  2018 :  Discovered HX711's common-mode level sweet spot for max sensitivity, made COMMON_MODE_LEVEL_FOR_MAX_GAIN_AS_READ_RAW_BY_INBOARD_ANALOG with default of half-scale
+*              28 July  2018 :  If using digipots with LM334s, sketch can now auto-balance during setup and target the most sensitive common-mode voltage of a selected outboard ADC
+*              NEXT          :  Make able continuously to auto-balance; may need to re-engineer the necessary settings range.  May need to plot a combo function of digipot settings with ADC readings instead of just ADC readings
 *              NEXT          :  Accommodate ADS1232
-*              NEXT          :  Made able to use MCP41XXX or MCP42XXX with LM334
-*              NEXT          :  Software temperature compensation using a 2nd LM334 tightly thermally coupled to 1st LM334 feeding a fixed resistor circuit in parallel with the plant circuit and connected to a 2nd analog input.  Table of offsets from midpoint or one end of pot settings.
 *               
 *********************************************************************************************************************/
 #define VERSION "v.Free"  // Since this never gets used anywhere, it doesn't compile in so no memory is wasted
 #include <math.h>
+#define COMMON_MODE_LEVEL_FOR_MAX_GAIN_AS_READ_RAW_BY_INBOARD_ANALOG ( 1 << ( ANALOGINPUTBITSOFBOARD - 1 ) ) // Needed f HIGHEST_SENSI_ADDON_ADC_TYPE has a sweet spot of max sensitivity, unlike true op-amp.  (HX711 == 306; normal op-amp, which has none, == Vcc/2 == 512)
 #if ( NUM_INPUTS_TO_PLOT_OF_ADDON_HIGHEST_SENSI_ADC > 0 ) //Since so many of the ADC libraries already use OO classes, we'll set that as a pattern - instantiate prior to executing any code
     #define HALFHIGHESTBITRESFROMHIGHESTSENSIADDONADC ( HIGHESTBITRESFROMHIGHESTSENSIADDONADC / 2 )
     #if ( ( HALFHIGHESTBITRESFROMHIGHESTSENSIADDONADC * 2 ) == HIGHESTBITRESFROMHIGHESTSENSIADDONADC )
@@ -127,6 +129,8 @@
         #if ( HIGHEST_SENSI_ADDON_ADC_TYPE == HX711 ) && ( HIGHESTBITRESFROMHIGHESTSENSIADDONADC == 24 )  //The HX711 does NOT communicate over open-collector I2C; pick your own pins for comming with it other than SS, CLK, MOSI, and MISO of SPI.  The digital interface to the HX711 is a proprietary SPI-like interface using CLK to select and Data is always lo-z (can't share either)
             #include <HX711.h>  //From https://github.com/bogde/HX711  This ADC has no CS pin so the library must use software SPI with dedicated CLK pin.  Not data selectable as would be in I2C, nor CS selectable - must be on dedicated CLK & Data lines
             HX711 hx711( PIN_FOR_DATA_TOFROM_HIGHEST_SENSI_ADC, PIN_FOR_CLK_TO_HIGHEST_SENSI_ADC ); // This library allows us to set the pins and gain here or later in a .begin().   
+            #undef COMMON_MODE_LEVEL_FOR_MAX_GAIN_AS_READ_RAW_BY_INBOARD_ANALOG
+            #define COMMON_MODE_LEVEL_FOR_MAX_GAIN_AS_READ_RAW_BY_INBOARD_ANALOG 305                // If HIGHEST_SENSI_ADDON_ADC_TYPE has a sweet spot of max sensitivity, unlike true op-amp.  (HX711 == 306)
         #else
             #if ( HIGHEST_SENSI_ADDON_ADC_TYPE == ADS1232 ) && ( HIGHESTBITRESFROMHIGHESTSENSIADDONADC == 24 )
             #else
@@ -197,19 +201,22 @@ If you only have the Arduino without an ADS1X15, then define NUM_INPUTS_TO_PLOT_
         #endif
     #endif
 /* EEPROM and nonvolatile settings are only available with >8.5, <12.5 Vdc applied to CS pins of MCP4162, which we don't have with mere Arduino: */
-    #define STARTVALUE1 211  //this value in digipots and with 1 MOhm resistors for the LM334 loads put the LM334 output voltage at closest to Vdd/2 - .1V (reads ~493 raw on the 10-bit Analog input)
-    #define STARTVALUE2 213  //this value in digipots and with 1 MOhm resistors for the LM334 loads put the LM334 output voltage at closest to Vdd/2 - .1V (reads ~493 raw on the 10-bit Analog input)
-    #define STARTVALUE3 5   //this value in digipots and with 1 MOhm resistors for the LM334 loads put the LM334 output voltage at closest to Vdd/2 - .1V (reads ~493 raw on the 10-bit Analog input)
-    #define STARTVALUE4 208   //this value in digipots and with 1 MOhm resistors for the LM334 loads put the LM334 output voltage at closest to Vdd/2 - .1V (reads ~493 raw on the 10-bit Analog input)
-    #define STARTVALUE5 208   //this value in digipots and with 1 MOhm resistors for the LM334 loads put the LM334 output voltage at closest to Vdd/2 - .1V (reads ~493 raw on the 10-bit Analog input)
-    #define STARTVALUE6 16   //this value in digipots and with 1 MOhm resistors for the LM334 loads put the LM334 output voltage at closest to Vdd/2 - .1V (reads ~493 raw on the 10-bit Analog input)
+    #define MAXPOTVALUE 257
+    #define STARTVALUE1 (MAXPOTVALUE / 2)  //this value in digipots and with 1 MOhm resistors for the LM334 loads put the LM334 output voltage at closest to Vdd/2 - .1V (reads ~493 raw on the 10-bit Analog input)
+    #define STARTVALUE2 (MAXPOTVALUE / 2)  //this value in digipots and with 1 MOhm resistors for the LM334 loads put the LM334 output voltage at closest to Vdd/2 - .1V (reads ~493 raw on the 10-bit Analog input)
+    #define STARTVALUE3 (MAXPOTVALUE / 2)   //this value in digipots and with 1 MOhm resistors for the LM334 loads put the LM334 output voltage at closest to Vdd/2 - .1V (reads ~493 raw on the 10-bit Analog input)
+    #define STARTVALUE4 (MAXPOTVALUE / 2)   //this value in digipots and with 1 MOhm resistors for the LM334 loads put the LM334 output voltage at closest to Vdd/2 - .1V (reads ~493 raw on the 10-bit Analog input)
+    #define STARTVALUE5 (MAXPOTVALUE / 2)   //this value in digipots and with 1 MOhm resistors for the LM334 loads put the LM334 output voltage at closest to Vdd/2 - .1V (reads ~493 raw on the 10-bit Analog input)
+    #define STARTVALUE6 (MAXPOTVALUE / 2)   //this value in digipots and with 1 MOhm resistors for the LM334 loads put the LM334 output voltage at closest to Vdd/2 - .1V (reads ~493 raw on the 10-bit Analog input)
+//    #define STARTVALUE4 ( STARTVALUE1 - 2 )   //this value in digipots and with 1 MOhm resistors for the LM334 loads put the LM334 output voltage at closest to Vdd/2 - .1V (reads ~493 raw on the 10-bit Analog input)
+//    #define STARTVALUE5 ( STARTVALUE2 - 1 )   //this value in digipots and with 1 MOhm resistors for the LM334 loads put the LM334 output voltage at closest to Vdd/2 - .1V (reads ~493 raw on the 10-bit Analog input)
+//    #define STARTVALUE6 ( STARTVALUE3 + 10 )   //this value in digipots and with 1 MOhm resistors for the LM334 loads put the LM334 output voltage at closest to Vdd/2 - .1V (reads ~493 raw on the 10-bit Analog input)
     uint16_t digipot_1_value = STARTVALUE1;  // Storing a copy of the digi pot values in sketch makes it possible to eliminate the MISO pin connection to the data out pins of all digi pots, besides the digi pots data out may not conform strictly to SPI since the MCP41X1 version has one bidirectional data pin
     uint16_t digipot_2_value = STARTVALUE2;
     uint16_t digipot_3_value = STARTVALUE3;
     uint16_t digipot_4_value = STARTVALUE4;
     uint16_t digipot_5_value = STARTVALUE5;
     uint16_t digipot_6_value = STARTVALUE6;
-    #define MAXPOTVALUE 257
 #endif
 /*
  * 
@@ -240,10 +247,10 @@ long millis_start;
 char szFull[ ] = {0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0, \
                    0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0};
 signed long long value, value1, valueTemp; //We're trying to accommodate the negative numbers produced by differential ADCs, and assuming they are also high sensitivity; i.e., not rail-to-rail translations; plus allow decent levels of MAGNIFICATION_FACTOR.  NOTE my IDE stopped working with 32 bit math to work with the 24-bit return value from HX711, math.h included or no.
-#ifndef INBOARDINPARALLELWITHHIGHESTSENSI && ( NUM_INPUTS_TO_PLOT_OF_ADDON_HIGHEST_SENSI_ADC > 0 ) && ( NUM_INPUTS_TO_PLOT_OF_INBOARD_ANALOG > 1 )
-    #define PLOTTERMAXSCALE ( uint32_t )pow( 2, HIGHESTBITRESFROMHIGHESTSENSIADDONADC ) * ( ( uint32_t )( NUM_INPUTS_TO_PLOT_OF_ADDON_HIGHEST_SENSI_ADC + NUM_INPUTS_TO_PLOT_OF_INBOARD_ANALOG ) )
-#else
+#ifdef INBOARDINPARALLELWITHHIGHESTSENSI && ( NUM_INPUTS_TO_PLOT_OF_ADDON_HIGHEST_SENSI_ADC > 0 ) && ( NUM_INPUTS_TO_PLOT_OF_INBOARD_ANALOG > 1 )
     #define PLOTTERMAXSCALE ( uint32_t )pow( 2, HIGHESTBITRESFROMHIGHESTSENSIADDONADC ) * ( ( uint32_t )( NUM_INPUTS_TO_PLOT_OF_ADDON_HIGHEST_SENSI_ADC + NUM_INPUTS_TO_PLOT_OF_INBOARD_ANALOG - 1 ) )
+#else
+    #define PLOTTERMAXSCALE ( uint32_t )pow( 2, HIGHESTBITRESFROMHIGHESTSENSIADDONADC ) * ( ( uint32_t )( NUM_INPUTS_TO_PLOT_OF_ADDON_HIGHEST_SENSI_ADC + NUM_INPUTS_TO_PLOT_OF_INBOARD_ANALOG ) )
 #endif
 #define HUNDREDTHPLOTTERMAXSCALE ( PLOTTERMAXSCALE / 100 );
 #if ( SAMPLE_TIMES < 1 )
@@ -375,10 +382,10 @@ signed long long value, value1, valueTemp; //We're trying to accommodate the neg
         return true;
     }
 
-    bool adjust_whole_bridge_positive( uint8_t channel ) //channel not utilized yet
+    bool adjust_whole_bridge_negative( uint8_t bank = 0 ) //bank not utilized yet
     {
         // If all are maxed out positive, return false
-        if( ( digipot_1_value /*When channel becomes relevent: ( channel == 0 ) ? digipot_1_value : digipot_7_value*/ + digipot_2_value + digipot_3_value >= ( 514 + MAXPOTVALUE ) ) && \
+        if( ( digipot_1_value /*When bank becomes relevent: ( bank == 0 ) ? digipot_1_value : digipot_7_value*/ + digipot_2_value + digipot_3_value >= ( 514 + MAXPOTVALUE ) ) && \
             ( digipot_4_value + digipot_5_value + digipot_6_value == 0 ) ) return false;
 //Target leg to adjust is the one that brings the negative leg closet to its midpoint: determine how far away from midpoint the negative leg is:
         if( ( ( ( digipot_4_value + digipot_5_value ) * 10 /*These 2 pots are ten times resistance per step as the fine*/ ) + ( digipot_6_value ) ) > MAXPOTVALUE * 10.5 /*This is half of total resistance in terms of digi pot units*/ )
@@ -390,7 +397,7 @@ signed long long value, value1, valueTemp; //We're trying to accommodate the neg
         return adjust_values_for_this_leg( DIGITAL_POT_4, &digipot_4_value, DIGITAL_POT_5, &digipot_5_value, DIGITAL_POT_6, &digipot_6_value );
     }
     
-    bool adjust_whole_bridge_negative( uint8_t channel ) //channel not utilized yet
+    bool adjust_whole_bridge_positive( uint8_t bank = 0 ) //bank not utilized yet
     { //Determine which leg is closest to Vcc/2 and tweak that first.  If all pots are maxed (positive leg to negative and negative leg to positive) return false
         if( ( digipot_1_value + digipot_2_value + digipot_3_value == 0 ) && \
             ( digipot_4_value + digipot_5_value >= MAXPOTVALUE * 2 ) && ( digipot_6_value > 256 ) ) return false;
@@ -407,14 +414,26 @@ signed long long value, value1, valueTemp; //We're trying to accommodate the neg
     #if defined TESTSTEPUPDOWN 
         bool potstepdirection = true;
         #if ( TESTSTEPUPDOWN == COMMONMODE )
-            void adjust_whole_bridge_commonmode( uint8_t channel ) //channel not utilized yet
+            void adjust_whole_bridge_commonmode( uint8_t bank = 0 ) //bank not utilized yet
             {
-                if( ( potstepdirection && ( digipot_1_value + digipot_2_value + digipot_3_value == 0 ) && \
-                    ( digipot_4_value + digipot_5_value >= MAXPOTVALUE * 2 ) && ( digipot_6_value > 256 ) ) \
-                || ( !potstepdirection && ( digipot_1_value /*When channel becomes relevent: ( channel == 0 ) ? digipot_1_value : digipot_7_value*/ + digipot_2_value + digipot_3_value >= ( 514 + MAXPOTVALUE ) ) && \
-                    ( digipot_4_value + digipot_5_value + digipot_6_value == 0 ) ) )
-                    potstepdirection = !potstepdirection;
-
+                for( uint8_t times = 0; times < 2; times++ )
+                {
+                    if( potstepdirection )
+                    {
+                        if( adjust_values_for_this_leg( DIGITAL_POT_1, &digipot_1_value, DIGITAL_POT_2, &digipot_2_value, DIGITAL_POT_3, &digipot_3_value ) )
+                        {
+                            if( adjust_values_for_this_leg( DIGITAL_POT_4, &digipot_4_value, DIGITAL_POT_5, &digipot_5_value, DIGITAL_POT_6, &digipot_6_value ) ) return;
+                        }
+                    }
+                    else
+                    {
+                        if( adjust_values_for_this_leg( DIGITAL_POT_1, &digipot_1_value, DIGITAL_POT_2, &digipot_2_value, DIGITAL_POT_3, &digipot_3_value, false ) )
+                        {
+                            if( adjust_values_for_this_leg( DIGITAL_POT_4, &digipot_4_value, DIGITAL_POT_5, &digipot_5_value, DIGITAL_POT_6, &digipot_6_value, false ) ) return;
+                        }
+                    }
+                    if( times == 0 ) potstepdirection = !potstepdirection;
+                }
             }
         #endif
     #endif
@@ -437,6 +456,31 @@ SkipMagnifiedViewThisTrace:
         Serial.print( F( " " ) );
     }
     Serial.println();
+}
+
+uint16_t bestoffour( uint8_t index = 0 )
+{ //remove from consideration the max and min, then return avg of remaining two  //Re-suse some variables not otherwise in use right now
+    uint16_t value = analogRead( *( A_PIN_ARRAY + index ) );
+    delay( 2 );
+    uint16_t value1 = analogRead( *( A_PIN_ARRAY + index ) );
+    delay( 2 );
+    uint16_t value2 = analogRead( *( A_PIN_ARRAY + index ) );
+    delay( 2 );
+    uint16_t val4 = analogRead( *( A_PIN_ARRAY + index ) );
+    return ( uint16_t )( ( ( long )( value + value1 + value2 + val4 ) ) - ( max( max( max( value, value1 ), value2 ), val4 ) + min( min( min( value, value1 ), value2 ), val4 ) ) ) / 2;
+}
+
+void setvaluetoAnalogInputreading( uint8_t input )
+{
+    do
+    {
+#if DEBUG
+    while ( !Serial && ( millis() - millis_start < 8000 ) );
+    Serial.println( F( "line 467" ) );
+#endif
+        value = ( signed long long )bestoffour( input );
+        value1 = ( signed long long )bestoffour( input );
+    }while( value != value1 );
 }
 
 void setup() 
@@ -484,7 +528,9 @@ input signal comes back to the input range.
 #endif
     #if DEBUG
         while ( !Serial && ( millis() - millis_start < 8000 ) );
-        Serial.print( F( "Digi pots set up and the HX711 reads " ) );
+        Serial.print( F( "COMMON_MODE_LEVEL_FOR_MAX_GAIN_AS_READ_RAW_BY_INBOARD_ANALOG = " ) );
+        Serial.print( COMMON_MODE_LEVEL_FOR_MAX_GAIN_AS_READ_RAW_BY_INBOARD_ANALOG );
+        Serial.print( F( ", Digi pots set up" ) );
         Serial.println();
     #endif
 #endif
@@ -585,12 +631,12 @@ input signal comes back to the input range.
         screen_offsets[ i ].magnify_adjustment = 0;
 //where i > NUM_INPUTS_TO_PLOT_OF_INBOARD_ANALOG results in 
         screen_offsets[ i ].high_limit_of_this_plotline = \
-            ( uint32_t )( 1 << ( HIGHESTBITRESFROMHIGHESTSENSIADDONADC - 1 ) ) * \
+            ( uint32_t )( pow( 2, HIGHESTBITRESFROMHIGHESTSENSIADDONADC ) ) * \
             ( i > NUM_INPUTS_TO_PLOT_OF_INBOARD_ANALOG ? \
             ( ( uint32_t )( NUM_INPUTS_TO_PLOT_OF_ADDON_HIGHEST_SENSI_ADC - i ) ) : \
             ( ( uint32_t )( NUM_INPUTS_TO_PLOT_OF_INBOARD_ANALOG - i ) + ( uint32_t )NUM_INPUTS_TO_PLOT_OF_ADDON_HIGHEST_SENSI_ADC ) );
         screen_offsets[ i ].zero_of_this_plotline = \
-            ( uint32_t )( 1 << ( HIGHESTBITRESFROMHIGHESTSENSIADDONADC - 1 ) ) * \
+            ( uint32_t )( pow( 2, HIGHESTBITRESFROMHIGHESTSENSIADDONADC ) ) * \
             ( i > NUM_INPUTS_TO_PLOT_OF_INBOARD_ANALOG ? \
             ( ( uint32_t )( NUM_INPUTS_TO_PLOT_OF_ADDON_HIGHEST_SENSI_ADC - ( i + 1 ) ) ) : \
             ( uint32_t )( NUM_INPUTS_TO_PLOT_OF_INBOARD_ANALOG - ( i + 1 ) ) + ( uint32_t )NUM_INPUTS_TO_PLOT_OF_ADDON_HIGHEST_SENSI_ADC );
@@ -769,12 +815,170 @@ the  24  bit  range,  the  output  data  will  be  saturated
 at  800000h  (MIN)  or  7FFFFFh  (MAX),  until  the  
 input signal comes back to the input range.
 */
+#endif
+#if DEBUG
+    while ( !Serial && ( millis() - millis_start < 8000 ) );
+    Serial.print( F( "Setting up digipots: bridge leg 0 = " ) );
+    Serial.print( analogRead( *( A_PIN_ARRAY + 0 ) ) );
+    Serial.print( F( ", bridge leg 1 = " ) );
+    Serial.println( analogRead( *( A_PIN_ARRAY + 1 ) ) );
+#endif
+    uint8_t stepsize = 10;
+    uint16_t startpoint1;
+    uint16_t startpoint2;
+    setvaluetoAnalogInputreading( 0 );
+    while( ( value < COMMON_MODE_LEVEL_FOR_MAX_GAIN_AS_READ_RAW_BY_INBOARD_ANALOG ) && ( stepsize > 0 ) )
+    {
+        while( value < COMMON_MODE_LEVEL_FOR_MAX_GAIN_AS_READ_RAW_BY_INBOARD_ANALOG )
+        {
     #if DEBUG
         while ( !Serial && ( millis() - millis_start < 8000 ) );
-        Serial.print( F( "Digi pots set up" ) );
-        Serial.println();
-        Serial.println(); //blank line for easier locating visually
+        Serial.print( F( "Found leg 0 low, so new readings: " ) );
+        Serial.print( analogRead( *( A_PIN_ARRAY + 0 ) ) );
+        Serial.print( F( ", bridge leg 1 = " ) );
+        Serial.println( analogRead( *( A_PIN_ARRAY + 1 ) ) );
     #endif
+            startpoint1 = digipot_1_value;
+            startpoint2 = digipot_2_value;
+            //Decrease digipot values as long as they respond right
+            if( ( digipot_1_value <= stepsize - 1 ) && ( digipot_2_value <= stepsize - 1 ) ) break;
+            if( digipot_1_value > stepsize - 1 ) setPotValue( DIGITAL_POT_1, digipot_1_value - stepsize );
+            if( digipot_2_value > stepsize - 1 ) setPotValue( DIGITAL_POT_2, digipot_2_value - stepsize );
+            setvaluetoAnalogInputreading( 0 );
+        }
+        setPotValue( DIGITAL_POT_1, startpoint1 );
+        setPotValue( DIGITAL_POT_2, startpoint2 );
+        stepsize >>= 1;
+        setvaluetoAnalogInputreading( 0 );
+    }
+    setvaluetoAnalogInputreading( 0 );
+    while( value < COMMON_MODE_LEVEL_FOR_MAX_GAIN_AS_READ_RAW_BY_INBOARD_ANALOG )
+    {
+        adjust_values_for_this_leg( DIGITAL_POT_1, &digipot_1_value, DIGITAL_POT_2, &digipot_2_value,  DIGITAL_POT_3, &digipot_3_value, false );
+        setvaluetoAnalogInputreading( 0 );
+    }
+
+#if DEBUG
+    while ( !Serial && ( millis() - millis_start < 8000 ) );
+    Serial.print( F( "Line 837 level upward adjusted 0 bridge leg 0 = " ) );
+    Serial.print( analogRead( *( A_PIN_ARRAY + 0 ) ) );
+    Serial.print( F( ", bridge leg 1 = " ) );
+    Serial.println( analogRead( *( A_PIN_ARRAY + 1 ) ) );
+#endif
+    stepsize = 10;
+    setvaluetoAnalogInputreading( 0 );
+    while( ( value > COMMON_MODE_LEVEL_FOR_MAX_GAIN_AS_READ_RAW_BY_INBOARD_ANALOG ) && ( stepsize > 0 ) )
+    {
+        while( value > COMMON_MODE_LEVEL_FOR_MAX_GAIN_AS_READ_RAW_BY_INBOARD_ANALOG )
+        {
+    #if DEBUG
+        while ( !Serial && ( millis() - millis_start < 8000 ) );
+        Serial.print( F( "Found leg 0 high, so new readings: " ) );
+        Serial.print( analogRead( *( A_PIN_ARRAY + 0 ) ) );
+        Serial.print( F( ", bridge leg 1 = " ) );
+        Serial.println( analogRead( *( A_PIN_ARRAY + 1 ) ) );
+    #endif
+            startpoint1 = digipot_1_value;
+            startpoint2 = digipot_2_value;
+            //Decrease digipot values as long as they respond right
+            if( ( digipot_1_value <= stepsize - 1 ) && ( digipot_2_value <= stepsize - 1 ) ) break;
+            if( digipot_1_value > stepsize - 1 ) setPotValue( DIGITAL_POT_1, digipot_1_value + stepsize );
+            if( digipot_2_value > stepsize - 1 ) setPotValue( DIGITAL_POT_2, digipot_2_value + stepsize );
+            setvaluetoAnalogInputreading( 0 );
+        }
+        setPotValue( DIGITAL_POT_1, startpoint1 );
+        setPotValue( DIGITAL_POT_2, startpoint2 );
+        stepsize >>= 1;
+        setvaluetoAnalogInputreading( 0 );
+    }
+    setvaluetoAnalogInputreading( 0 );
+    while( value > COMMON_MODE_LEVEL_FOR_MAX_GAIN_AS_READ_RAW_BY_INBOARD_ANALOG )
+    {
+        adjust_values_for_this_leg( DIGITAL_POT_1, &digipot_1_value, DIGITAL_POT_2, &digipot_2_value,  DIGITAL_POT_3, &digipot_3_value, true );
+        setvaluetoAnalogInputreading( 0 );
+    }
+
+    setvaluetoAnalogInputreading( 1 );
+    stepsize = 10;
+    while( ( value < COMMON_MODE_LEVEL_FOR_MAX_GAIN_AS_READ_RAW_BY_INBOARD_ANALOG ) && ( stepsize > 0 ) )
+    {
+        while( value < COMMON_MODE_LEVEL_FOR_MAX_GAIN_AS_READ_RAW_BY_INBOARD_ANALOG )
+        {
+    #if DEBUG
+        while ( !Serial && ( millis() - millis_start < 8000 ) );
+        Serial.print( F( "Found leg 1 low, so new readings: " ) );
+        Serial.print( analogRead( *( A_PIN_ARRAY + 0 ) ) );
+        Serial.print( F( ", bridge leg 1 = " ) );
+        Serial.println( analogRead( *( A_PIN_ARRAY + 1 ) ) );
+    #endif
+            startpoint1 = digipot_4_value;
+            startpoint2 = digipot_5_value;
+            //Decrease digipot values as long as they respond right
+            if( ( digipot_4_value <= stepsize - 1 ) && ( digipot_5_value <= stepsize - 1 ) ) break;
+            if( digipot_4_value > stepsize - 1 ) setPotValue( DIGITAL_POT_4, digipot_4_value - stepsize );
+            if( digipot_5_value > stepsize - 1 ) setPotValue( DIGITAL_POT_5, digipot_5_value - stepsize );
+            setvaluetoAnalogInputreading( 1 );
+        }
+        setPotValue( DIGITAL_POT_4, startpoint1 );
+        setPotValue( DIGITAL_POT_5, startpoint2 );
+        stepsize >>= 1;
+        setvaluetoAnalogInputreading( 1 );
+    }
+    setvaluetoAnalogInputreading( 1 );
+    while( value < COMMON_MODE_LEVEL_FOR_MAX_GAIN_AS_READ_RAW_BY_INBOARD_ANALOG )
+    {
+        adjust_values_for_this_leg( DIGITAL_POT_4, &digipot_4_value, DIGITAL_POT_5, &digipot_5_value,  DIGITAL_POT_6, &digipot_6_value, false );
+        setvaluetoAnalogInputreading( 1 );
+    }
+
+#if DEBUG
+    while ( !Serial && ( millis() - millis_start < 8000 ) );
+    Serial.print( F( "Line 837 level upward adjusted 0 bridge leg 0 = " ) );
+    Serial.print( analogRead( *( A_PIN_ARRAY + 0 ) ) );
+    Serial.print( F( ", bridge leg 1 = " ) );
+    Serial.println( analogRead( *( A_PIN_ARRAY + 1 ) ) );
+#endif
+    stepsize = 10;
+    setvaluetoAnalogInputreading( 1 );
+    while( ( value > COMMON_MODE_LEVEL_FOR_MAX_GAIN_AS_READ_RAW_BY_INBOARD_ANALOG ) && ( stepsize > 0 ) )
+    {
+        while( value > COMMON_MODE_LEVEL_FOR_MAX_GAIN_AS_READ_RAW_BY_INBOARD_ANALOG )
+        {
+    #if DEBUG
+        while ( !Serial && ( millis() - millis_start < 8000 ) );
+        Serial.print( F( "Found leg 1 high, so new readings: " ) );
+        Serial.print( analogRead( *( A_PIN_ARRAY + 0 ) ) );
+        Serial.print( F( ", bridge leg 1 = " ) );
+        Serial.println( analogRead( *( A_PIN_ARRAY + 1 ) ) );
+    #endif
+            startpoint1 = digipot_4_value;
+            startpoint2 = digipot_5_value;
+            //Decrease digipot values as long as they respond right
+            if( ( digipot_4_value <= stepsize - 1 ) && ( digipot_5_value <= stepsize - 1 ) ) break;
+            if( digipot_4_value > stepsize - 1 ) setPotValue( DIGITAL_POT_4, digipot_4_value + stepsize );
+            if( digipot_5_value > stepsize - 1 ) setPotValue( DIGITAL_POT_5, digipot_5_value + stepsize );
+            setvaluetoAnalogInputreading( 0 );
+        }
+        setPotValue( DIGITAL_POT_4, startpoint1 );
+        setPotValue( DIGITAL_POT_5, startpoint2 );
+        stepsize >>= 1;
+        setvaluetoAnalogInputreading( 1 );
+    }
+    setvaluetoAnalogInputreading( 1 );
+    while( value > COMMON_MODE_LEVEL_FOR_MAX_GAIN_AS_READ_RAW_BY_INBOARD_ANALOG )
+    {
+        adjust_values_for_this_leg( DIGITAL_POT_4, &digipot_4_value, DIGITAL_POT_5, &digipot_5_value,  DIGITAL_POT_6, &digipot_6_value, true );
+        setvaluetoAnalogInputreading( 1 );
+    }
+    setvaluetoAnalogInputreading( 1 );
+    if( value < COMMON_MODE_LEVEL_FOR_MAX_GAIN_AS_READ_RAW_BY_INBOARD_ANALOG )
+        adjust_values_for_this_leg( DIGITAL_POT_4, &digipot_4_value, DIGITAL_POT_5, &digipot_5_value,  DIGITAL_POT_6, &digipot_6_value, false );
+    
+#if DEBUG
+    while ( !Serial && ( millis() - millis_start < 8000 ) );
+    Serial.println();
+    Serial.println( F( "Setup complete" ) );
+    Serial.println(); //blank line for easier locating visually
 #endif
 }
 
@@ -824,13 +1028,28 @@ void plot_the_normal_and_magnified_signals( uint8_t channel )
     Serial.print( F( " " ) );
 }
 
+#if defined ( POTTESTWOBBLEPOSITIVE ) || defined ( POTTESTWOBBLENEGATIVE )
+bool potwobbledirection = true;
+uint8_t wobbleloops = 0;
+void wobble( void )
+{ //Adjust active code to amount of wobble you need at the moment
+#ifdef POTTESTWOBBLEPOSITIVE
+//        offsetPotValue( DIGITAL_POT_1, potwobbledirection ? 1 : -1 );
+//        offsetPotValue( DIGITAL_POT_2, potwobbledirection ? 1 : -1 );
+        offsetPotValue( DIGITAL_POT_3, potwobbledirection ? 1 : -1 );
+#endif
+#ifdef POTTESTWOBBLENEGATIVE
+//        offsetPotValue( DIGITAL_POT_4, potwobbledirection ? -1 : 1 );
+//        offsetPotValue( DIGITAL_POT_5, potwobbledirection ? -1 : 1 );
+        offsetPotValue( DIGITAL_POT_6, potwobbledirection ? -1 : 1 );
+#endif
+    potwobbledirection = !potwobbledirection;
+}
+#endif
+
 void loop() 
 {
-#if defined ( POTTESTWOBBLEPOSITIVE ) || defined ( POTTESTWOBBLENEGATIVE )
-    bool potwobbledirection = true;
-    uint8_t wobbleloops = 0;
-#endif
-    for( uint16_t plotter_loops = 0; plotter_loops < 500 / 3; plotter_loops++ ) 
+    for( uint16_t plotter_loops = 0; plotter_loops < 500 / 3; plotter_loops++ ) //The divisor is closely related to the algorithm at the end of the loop in terms of resetting the wobble correctly
     {
         millis_start = millis();
 /* */
@@ -1150,17 +1369,7 @@ NoPotChange:
     wobbleloops = ( wobbleloops + 1 ) % 4;
     if( wobbleloops == 0 )
     {
-#ifdef POTTESTWOBBLEPOSITIVE
-        offsetPotValue( DIGITAL_POT_1, potwobbledirection ? 1 : -1 );
-        offsetPotValue( DIGITAL_POT_2, potwobbledirection ? 1 : -1 );
-        offsetPotValue( DIGITAL_POT_3, potwobbledirection ? 1 : -1 );
-#endif
-#ifdef POTTESTWOBBLENEGATIVE
-        offsetPotValue( DIGITAL_POT_4, potwobbledirection ? -1 : 1 );
-        offsetPotValue( DIGITAL_POT_5, potwobbledirection ? -1 : 1 );
-        offsetPotValue( DIGITAL_POT_6, potwobbledirection ? -1 : 1 );
-#endif
-        potwobbledirection = !potwobbledirection;
+        wobble();
     }    
 #endif
 #if defined ( TESTSTEPUPDOWN )
@@ -1202,7 +1411,7 @@ NoPotChange:
         }
     }
 #elif ( TESTSTEPUPDOWN == COMMONMODE )
-
+    adjust_whole_bridge_commonmode();
 #endif
 #endif
     }
@@ -1233,5 +1442,9 @@ NoPotChange:
             }
         }
     }
+#if defined ( POTTESTWOBBLEPOSITIVE ) || defined ( POTTESTWOBBLENEGATIVE )
+ //Resetting the wobble correctly, 
+    wobble();
+#endif
     graphline = !graphline; // graphline started as false, so it becomes true here the first time it is complemented
 }
