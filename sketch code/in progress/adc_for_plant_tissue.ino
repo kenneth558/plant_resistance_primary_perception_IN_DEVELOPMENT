@@ -1,31 +1,30 @@
 //        Before compiling this sketch, you must set or confirm the following appropriately for your configuration and preferences !!!
 #define NUM_INPUTS_TO_PLOT_OF_INBOARD_ANALOG 2                                                     //The number of consecutive analog pins to plot, beginning with PIN_A0
-#define NUM_INPUTS_TO_PLOT_OF_ADDON_HIGHEST_SENSI_ADC 1                                            //The number of consecutive "highest-sensitivity ADC" pins to plot, beginning with A0 and, if double-ended, A1.  ADDON ADC ONLY - DOES _NOT_ INCLUDE INBOARD ANALOG INPUT PINS
+//#define NUM_INPUTS_TO_PLOT_OF_ADDON_HIGHEST_SENSI_ADC 1                                            //The number of consecutive "highest-sensitivity ADC" pins to plot, beginning with A0 and, if double-ended, A1.  ADDON ADC ONLY - DOES _NOT_ INCLUDE INBOARD ANALOG INPUT PINS
 #define HIGHEST_SENSI_ADDON_ADC_TYPE HX711                                                         //Proposing that "ADS1231" covers ADS1231; could make this "ADS1232" (ADS1232), "ADS1242" (ADS1242), "ADS1256" (ADS1256), "AD779x" (AD779x), "AD7780" (AD7780), "MPC3914" (MPC3914), "HX711" (HX711), "MAX112x0" (MAX112x0...) or "LTC2400" (LTC2400) but code not included in v.FREE
-#define MAGNIFICATION_FACTOR (5/2)                                                                 //To aid in viewing, upper limit unknown
+#define MAGNIFICATION_FACTOR 20                                                                     //To aid in viewing; upper limit unknown - depends on data types and numeric values of signals, fraction permitted for this value
 #define HIGHESTBITRESFROMHIGHESTSENSIADDONADC 24                                                   //All ADC values will get scaled to the single-ended aspect of this,  15 is ADS1115 single-ended, 16 for double-ended when two LM334s are used.  change to 11 for ADS1015 single-ended or 12 with two LM334s, (future: change to 24 for HX711--NO b/c there is the ADS1231 at 24 bits)
 #define SAMPLE_TIMES 4                                                                             //To better average out artifacts we over-sample and average.  This value can be tweaked by you to ensure neutralization of power line noise or harmonics of power supplies, etc.....
 #define MOST_PROBLEMATIC_INTERFERENCE_FREQ 60                                                      //This is here just in case you think that you might have some interference on a known frequency.
 #define DELAY_TIME_BETWEEN_SAMPLES_MS ( 1000 / MOST_PROBLEMATIC_INTERFERENCE_FREQ / SAMPLE_TIMES ) //COARSE ADJUST
 #define DELAY_TIME_BETWEEN_SAMPLES_US ( ( ( 1000000 / MOST_PROBLEMATIC_INTERFERENCE_FREQ ) - ( DELAY_TIME_BETWEEN_SAMPLES_MS * SAMPLE_TIMES * 1000 ) ) / SAMPLE_TIMES ) //FINE ADJUST.  THIS GETS ADDED TO COARSE ADJUST, PRECISION = TRUNCATED PRAGMATICALLY TO uSec TO ACKNOWLEDGE SOME OVERHEAD FOR LOOPING SUPPORT CODE   // End of this part of code update
 #define FIRST_ANALOG_PIN_DIGITAL_NUMBER_FOR_BOARDS_NOT_HAVING_ANALOG_PINS_DEFINED_BY_PIN_A0_TYPE_DEFINES 14 //Some boards don't have good definitions and constants for the analog pins :-(
-#define REPOSITION_RATIO_OF_MAGNIFIED_VIEW_WHEN_LIMITS_GET_EXCEEDED (99/100)                           //BETWEEN 0 AND 1 indicating how much of the display region to skip when magnified view trace has to get repositioned because trace would be outside region bounds
+#define REPOSITION_RATIO_OF_MAGNIFIED_VIEW_WHEN_LIMITS_GET_EXCEEDED (.95)                         //BETWEEN 0 AND 1 indicating how much of the display region to skip when magnified view trace has to get repositioned because trace would be outside region bounds
 #define ANALOGINPUTBITSOFBOARD 10                                                                  //Most Arduino boards are 10-bit resolution, but some can be 12 bits.  For known 12 bit boards (SAM, SAMD and TTGO XI architectures), this gets re-defined below, so generally this can be left as 10 even for those boards
 #define SECONDS_THAT_A_LGT8FX8E_HARDWARE_SERIAL_NEEDS_TO_COME_UP_WORKING 9                         //8 works only usually
-#define HIGHEST_SENSI_PGA_GAIN_FACTOR 128                                                          //For HX711 a gain of 128 gets applied to channel A. Available to you for your own use PGA=Programmable Gain Amplifier: many ADCs will correlate a gain of one with full-scale being rail-to-rail, while a gain of anything higher correlates to full-scale being in the mV range (most sensitive and most noise-susceptible).
-#define MIN_WAIT_TIME_BETWEEN_PLOT_POINTS_MS 0                                                     //Sets maximum speed, but actual speed may be further limited by other factors
-#define USING_LM334_WITH_MCP4162_POTS                                                              //Remove if using standard wheatstone bridge with only standard resistors.  make true if using bridge with upper resistive elements being LM334s controllable with the MCP4162-104 pots
-#define INBOARDINPARALLELWITHHIGHESTSENSI                                                          //Allows rail-to-rail inboard Analog Inputs to be used to adjust digipots, also causes first two inboard Analog Inputs to be superimposed into same plot-line space
-//#define DEBUG true                                                                                 //Don't forget that DEBUG is not formatted for Serial plotter, but might work anyway if you'd never print numbers only any DEBUG print line
+#define HIGHEST_SENSI_PGA_GAIN_FACTOR 128                                                          //For HX711 a gain of 128, 64, or 32 gets applied to channel A. Available to you for your own use PGA=Programmable Gain Amplifier: many ADCs will correlate a gain of one with full-scale being rail-to-rail, while a gain of anything higher correlates to full-scale being in the mV range (most sensitive and most noise-susceptible).
+#define MIN_WAIT_TIME_BETWEEN_PLOT_POINTS_MS 180                                                   //Sets maximum speed, but actual speed may be further limited by other factors
+//#define USING_LM334_WITH_MCP4162_POTS                                                              //Undefine or make false if using standard wheatstone bridge with only standard resistors.  make true if using bridge with upper resistive elements being LM334s controllable with the MCP4162-104 pots
+//#define INBOARDINPARALLELWITHHIGHESTSENSI                                                          //If defined allows rail-to-rail inboard Analog Inputs to be used to adjust digipots, also causes first two inboard Analog Inputs to be superimposed into same plot-line space
+//#define DEBUG true    //This is for code-skilled end-users: add, subtract, modify sections         //Don't forget that DEBUG is not formatted for Serial Plotter, but might work anyway if you'd never print numbers only any DEBUG print line
 //#define POTTESTWOBBLEPOSITIVE true                                                                 //For testing - wobbles digipot settings to impose a signal into Wheatstone bridge outputs
 //#define POTTESTWOBBLENEGATIVE true                                                                 //For testing - wobbles digipot settings to impose a signal into Wheatstone bridge outputs
-//#define TESTSTEPUPDOWN COMMONMODE                                                                  //Available: SINGLESIDE COMMONMODE
 
 #define CONVERTTWOSCOMPTOSINGLEENDED(value_read_from_the_differential_ADC, mask, xorvalue )    ((value_read_from_the_differential_ADC & mask)^xorvalue)
 //OTHER MACROS (DEFINES OR RE-DEFINES) ELSEWHERE: VERSION, NUM_INPUTS_TO_PLOT_OF_INBOARD_ANALOG, NUM_INPUTS_TO_PLOT_OF_ADDON_HIGHEST_SENSI_ADC, STARTVALUE1 - STARTVALUE6, HALFHIGHESTBITRESFROMHIGHESTSENSIADDONADC, DIFFERENTIAL, PIN_FOR_DATA_TOFROM_HIGHEST_SENSI_ADC, PIN_FOR_CLK_TO_HIGHEST_SENSI_ADC, PLOTTERMAXSCALE, HUNDREDTHPLOTTERMAXSCALE, SAMPLE_TIMES, ANALOGINPUTBITSOFBOARD, SCALE_FACTOR_TO_PROMOTE_LOW_RES_ADC_TO_SAME_SCALE, COMMON_MODE_LEVEL_FOR_MAX_GAIN_AS_READ_RAW_BY_INBOARD_ANALOG
-//FUTURE #define DEBUG_BRIDGE_BALANCING true //This will cause both the probe signal and the opposing bridge leg reference point to be displayed in full-scale, non-magnified views.  Useful with boards having low-Z Analog Input pins or none at all.
-//FUTURE #define FULL_SCALE_ADDON_ADC_TYPE ADS1X15  // FULL_SCALE is also known as rail-to-rail.  Proposing that "ADS1231" covers ADS1231; could make this "ADS1232" (ADS1232), "ADS1242" (ADS1242), "AD779x" (AD779x), "AD7780" (AD7780), "HX711" (HX711), "MAX112x0" (MAX112x0...) or "LTC2400" (LTC2400) but code not included in v.FREE
+//FUTURE #define DEBUG_BRIDGE_BALANCING true //This will cause both the probe signal and the opposing bridge leg reference point to be displayed in full-scale, non-magnified views.  Useful with boards having low-Z Analog Input pins they can't use or none at all but use an ADS1x15 besides a high sens ADC.
 //FUTURE #define LEAVEPOTVALUESALONEDURINGSETUP                                                       //First run should leave this undefined to load digi pots with some values.  EEPROM and nonvolatile settings are only available with >8.5 Vdc applied to CS pins of MCP4162, which we don't have.
+//FUTURE #define TESTSTEPUPDOWN COMMONMODE                                                                  //Available: SINGLESIDE COMMONMODE
 /*******************(C)  COPYRIGHT 2018 KENNETH L ANDERSON *********************
 * 
 *      ARDUINO ELECTRICAL RESISTANCE/CONDUCTANCE MONITORING SKETCH 
@@ -39,12 +38,15 @@
 *                    : TTGO XI using ADS1115.  
 *                    : Many other configurations should work fine.  
 *                    : The ATTINY85 is not suitable at all due to not having hardware serial
+*                    : Leonardo with HX711 and AD8422
 * 
 * Known limitations  : No ability to accept user input from keyboard during run time due to Arduino plottter limitation
 *                    : Re-compile is needed for any changes to configuration
 *                    : Analog input pins being used MUST be the first available analog inputs
-*                    : Only a single add-on ADS ADC device and only 1 or 2 differential channels on it is accommodated
+*                    : Only a single add-on ADC device and only 1 or 2 differential channels on it is accommodated
 *                    : Conventional add-on high-sensitivity ADCs limit their common mode differential input range to a few millivolts with active or passive clamping
+*                    : Digipot array settings can arrange multiple ways to achieve a particular overall resistance lending to a non-elegant run-time esthetic when examining those settings
+*                    : With INBOARDINPARALLELWITHHIGHESTSENSI, the plotspace includes the inboard Analog Input traces leaving half the room for the main trace.
 *                    : Some of these limitations will be addressed in future not-for-free versions
 *                    
 ********************************************************************************
@@ -81,7 +83,6 @@
 *              14 July  2018 :  Improved timing trace notching - made it shorter and consistent between levels
 *              15 July  2018 :  Allow unique digipot intializing value for each pot.  Discovered HX711 input Z is way too low for use without buffers.  Regrouping....
 *              16 July  2018 :  Removed disparaging comments toward TTGO XI/Wemo XI because we will make the plunge to employ the AD8244 buffer as standard, resulting in those boards being eligible as any other board
-*              17 July  2018 :  Received AD8244 buffer.  This rev is just some troubleshooting code trying to get the AD8244 up to speed.  Not there yet, though.
 *              20 July  2018 :  Improved plotting with INBOARDINPARALLELWITHHIGHESTSENSI and improved 24-bit plot values
 *              26 July  2018 :  Corrected conversion from twos complement differential readings to proper single ended plotting
 *              27 July  2018 :  Discovered HX711's common-mode level sweet spot for max sensitivity, made COMMON_MODE_LEVEL_FOR_MAX_GAIN_AS_READ_RAW_BY_INBOARD_ANALOG with default of half-scale
@@ -167,11 +168,15 @@ Sorry, but you will have to manually define the define variable NUM_ANALOG_INPUT
     #endif
 #else
     #if ( NUM_INPUTS_TO_PLOT_OF_ADDON_HIGHEST_SENSI_ADC == 0 )
-You'll need to manually define at least one of the variables NUM_INPUTS_TO_PLOT_OF_INBOARD_ANALOG or NUM_INPUTS_TO_PLOT_OF_ADDON_HIGHEST_SENSI_ADC where they appear in the lines above and re-compile...
-If you only have the Arduino without an ADS1X15, then define NUM_INPUTS_TO_PLOT_OF_INBOARD_ANALOG.  Otherwise, define NUM_INPUTS_TO_PLOT_OF_ADDON_HIGHEST_SENSI_ADC and/or both of them.
+#error You'll need to manually define at least one of the variables NUM_INPUTS_TO_PLOT_OF_INBOARD_ANALOG or NUM_INPUTS_TO_PLOT_OF_ADDON_HIGHEST_SENSI_ADC where they appear in the lines above and re-compile...
+#error If you only have the Arduino without an add-on ADC, then define NUM_INPUTS_TO_PLOT_OF_INBOARD_ANALOG.  Otherwise, define NUM_INPUTS_TO_PLOT_OF_ADDON_HIGHEST_SENSI_ADC and/or both of them.
     #endif
 #endif
-#ifdef USING_LM334_WITH_MCP4162_POTS
+#ifndef USING_LM334_WITH_MCP4162_POTS
+    #undef POTTESTWOBBLEPOSITIVE
+    #undef POTTESTWOBBLENEGATIVE
+    #undef TESTSTEPUPDOWN
+#else
 /*
  Using a Microchip MCP4162 digital potentiometer 
     [http://bit.ly/iwDmnd]
@@ -814,6 +819,7 @@ at  800000h  (MIN)  or  7FFFFFh  (MAX),  until  the
 input signal comes back to the input range.
 */
 #endif
+#ifdef USING_LM334_WITH_MCP4162_POTS
 #if DEBUG
     while ( !Serial && ( millis() - millis_start < 8000 ) );
     Serial.print( F( "Setting up digipots: bridge leg 0 = " ) );
@@ -855,6 +861,8 @@ input signal comes back to the input range.
         adjust_values_for_this_leg( DIGITAL_POT_1, &digipot_1_value, DIGITAL_POT_2, &digipot_2_value,  DIGITAL_POT_3, &digipot_3_value, false );
         setvaluetoAnalogInputreading( 0 );
     }
+    if( value > COMMON_MODE_LEVEL_FOR_MAX_GAIN_AS_READ_RAW_BY_INBOARD_ANALOG )
+        adjust_values_for_this_leg( DIGITAL_POT_1, &digipot_1_value, DIGITAL_POT_2, &digipot_2_value,  DIGITAL_POT_3, &digipot_3_value, true );
 
 #if DEBUG
     while ( !Serial && ( millis() - millis_start < 8000 ) );
@@ -895,6 +903,8 @@ input signal comes back to the input range.
         adjust_values_for_this_leg( DIGITAL_POT_1, &digipot_1_value, DIGITAL_POT_2, &digipot_2_value,  DIGITAL_POT_3, &digipot_3_value, true );
         setvaluetoAnalogInputreading( 0 );
     }
+    if( value < COMMON_MODE_LEVEL_FOR_MAX_GAIN_AS_READ_RAW_BY_INBOARD_ANALOG )
+        adjust_values_for_this_leg( DIGITAL_POT_1, &digipot_1_value, DIGITAL_POT_2, &digipot_2_value,  DIGITAL_POT_3, &digipot_3_value, false );
 
     setvaluetoAnalogInputreading( 1 );
     stepsize = 10;
@@ -928,6 +938,8 @@ input signal comes back to the input range.
         adjust_values_for_this_leg( DIGITAL_POT_4, &digipot_4_value, DIGITAL_POT_5, &digipot_5_value,  DIGITAL_POT_6, &digipot_6_value, false );
         setvaluetoAnalogInputreading( 1 );
     }
+    if( value > COMMON_MODE_LEVEL_FOR_MAX_GAIN_AS_READ_RAW_BY_INBOARD_ANALOG )
+        adjust_values_for_this_leg( DIGITAL_POT_4, &digipot_4_value, DIGITAL_POT_5, &digipot_5_value,  DIGITAL_POT_6, &digipot_6_value, true );
 
 #if DEBUG
     while ( !Serial && ( millis() - millis_start < 8000 ) );
@@ -971,7 +983,7 @@ input signal comes back to the input range.
     setvaluetoAnalogInputreading( 1 );
     if( value < COMMON_MODE_LEVEL_FOR_MAX_GAIN_AS_READ_RAW_BY_INBOARD_ANALOG )
         adjust_values_for_this_leg( DIGITAL_POT_4, &digipot_4_value, DIGITAL_POT_5, &digipot_5_value,  DIGITAL_POT_6, &digipot_6_value, false );
-    
+#endif
 #if DEBUG
     while ( !Serial && ( millis() - millis_start < 8000 ) );
     Serial.println();
@@ -995,7 +1007,6 @@ void plot_the_normal_and_magnified_signals( uint8_t channel )
         Serial.print( screen_offsets[ channel ].high_limit_of_this_plotline );
         lasttracepoints[ channel * 2 ] = screen_offsets[ channel ].high_limit_of_this_plotline;
     }
-    
     Serial.print( F( " " ) );
 
 #ifdef INBOARDINPARALLELWITHHIGHESTSENSI && ( NUM_INPUTS_TO_PLOT_OF_ADDON_HIGHEST_SENSI_ADC > 0 ) && ( NUM_INPUTS_TO_PLOT_OF_INBOARD_ANALOG > 1 )
@@ -1003,11 +1014,11 @@ void plot_the_normal_and_magnified_signals( uint8_t channel )
     {
 #endif
 //Next lines plot a magnified version.  First, magnify_adjustment is determined
-//The following preprocessor directive is NOT TESTED 29 May 2018:  Submit a better formula if you determine it.
-    #if ( ( HIGHESTBITRESFROMHIGHESTSENSIADDONADC > 23 ) && ( MAGNIFICATION_FACTOR > 255 ) ) || ( ( HIGHESTBITRESFROMHIGHESTSENSIADDONADC > 14 ) && ( MAGNIFICATION_FACTOR > 1000 ) ) || ( ( HIGHESTBITRESFROMHIGHESTSENSIADDONADC > 10 ) && ( MAGNIFICATION_FACTOR > 2000 ) ) || ( ( HIGHESTBITRESFROMHIGHESTSENSIADDONADC < 11 ) && ( MAGNIFICATION_FACTOR > 5000 ) )
-        Serial.print( 0 ); //This is color two or four when magnification is too large 4294967296 is max
-        lasttracepoints[ ( channel * 2 ) + 1 ] = 0;
-    #else
+//The following preprocessor directive to limit magnification is NOT TESTED 29 May 2018:  Submit a better formula if you determine it.
+//    #if ( ( HIGHESTBITRESFROMHIGHESTSENSIADDONADC > 23 ) && ( MAGNIFICATION_FACTOR > 255 ) ) || ( ( HIGHESTBITRESFROMHIGHESTSENSIADDONADC > 14 ) && ( MAGNIFICATION_FACTOR > 1000 ) ) || ( ( HIGHESTBITRESFROMHIGHESTSENSIADDONADC > 10 ) && ( MAGNIFICATION_FACTOR > 2000 ) ) || ( ( HIGHESTBITRESFROMHIGHESTSENSIADDONADC < 11 ) && ( MAGNIFICATION_FACTOR > 5000 ) )
+//        Serial.print( 0 ); //This is color two or four when magnification is too large 4294967296 is max
+//        lasttracepoints[ ( channel * 2 ) + 1 ] = 0;
+//    #else
         value *= MAGNIFICATION_FACTOR; //This needs to promote to float if normal cast produces overflow but I don't know how to do it without making it float always which is not native and thus too inefficient
     
         if( screen_offsets[ channel ].magnify_adjustment + screen_offsets[ channel ].zero_of_this_plotline > value )
@@ -1019,7 +1030,17 @@ void plot_the_normal_and_magnified_signals( uint8_t channel )
             //Plot it now
         Serial.print( ( uint32_t )( value - screen_offsets[ channel ].magnify_adjustment ) );
         lasttracepoints[ ( channel * 2 ) + 1 ] = value - screen_offsets[ channel ].magnify_adjustment;
-    #endif
+        #ifdef DEBUG
+        while( !Serial );
+        Serial.print( F( "Magnified value just printed where value = " ) );
+        Serial.print( ( long )value );
+        Serial.print( F( " and screen_offsets[ channel ].magnify_adjustment = " ) );
+        Serial.print( screen_offsets[ channel ].magnify_adjustment );
+        Serial.print( F( " and screen_offsets[ channel ].high_limit_of_this_plotline = " ) );
+        Serial.print( screen_offsets[ channel ].high_limit_of_this_plotline );
+        #endif
+//    #endif
+//The above preprocessor directive to limit magnification is NOT TESTED 29 May 2018:  Submit a better formula if you determine it, otherwise leave out or uncomment back in.
 #ifdef INBOARDINPARALLELWITHHIGHESTSENSI && ( NUM_INPUTS_TO_PLOT_OF_ADDON_HIGHEST_SENSI_ADC > 0 ) && ( NUM_INPUTS_TO_PLOT_OF_INBOARD_ANALOG > 1 )
     }
 #endif
