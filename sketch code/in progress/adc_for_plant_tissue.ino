@@ -1,28 +1,28 @@
-//        Before compiling this sketch, you must set or confirm the following appropriately for your configuration and preferences !!!
+// !!!    Before compiling this sketch, you MUST set or confirm the following appropriately for your configuration and preferences !!! Example: if you have the HX711, uncomment the second line below (NUM_INPUTS_TO_PLOT_OF_ADDON_HIGHEST_SENSI_ADC) into active use
 #define NUM_INPUTS_TO_PLOT_OF_INBOARD_ANALOG 2                                                     //The number of consecutive analog pins to plot, beginning with PIN_A0
 //#define NUM_INPUTS_TO_PLOT_OF_ADDON_HIGHEST_SENSI_ADC 1                                            //The number of consecutive "highest-sensitivity ADC" pins to plot, beginning with A0 and, if double-ended, A1.  ADDON ADC ONLY - DOES _NOT_ INCLUDE INBOARD ANALOG INPUT PINS
 #define HIGHEST_SENSI_ADDON_ADC_TYPE HX711                                                         //Proposing that "ADS1231" covers ADS1231; could make this "ADS1232" (ADS1232), "ADS1242" (ADS1242), "ADS1256" (ADS1256), "AD779x" (AD779x), "AD7780" (AD7780), "MPC3914" (MPC3914), "HX711" (HX711), "MAX112x0" (MAX112x0...) or "LTC2400" (LTC2400) but code not included in v.FREE
-#define MAGNIFICATION_FACTOR 20                                                                     //To aid in viewing; upper limit unknown - depends on data types and numeric values of signals, fraction permitted for this value
+#define MAGNIFICATION_FACTOR 20                                                                    //To aid in viewing; upper limit unknown - depends on data types and numeric values of signals, fraction permitted for this value
 #define HIGHESTBITRESFROMHIGHESTSENSIADDONADC 24                                                   //All ADC values will get scaled to the single-ended aspect of this,  15 is ADS1115 single-ended, 16 for double-ended when two LM334s are used.  change to 11 for ADS1015 single-ended or 12 with two LM334s, (future: change to 24 for HX711--NO b/c there is the ADS1231 at 24 bits)
 #define SAMPLE_TIMES 4                                                                             //To better average out artifacts we over-sample and average.  This value can be tweaked by you to ensure neutralization of power line noise or harmonics of power supplies, etc.....
 #define MOST_PROBLEMATIC_INTERFERENCE_FREQ 60                                                      //This is here just in case you think that you might have some interference on a known frequency.
 #define DELAY_TIME_BETWEEN_SAMPLES_MS ( 1000 / MOST_PROBLEMATIC_INTERFERENCE_FREQ / SAMPLE_TIMES ) //COARSE ADJUST
 #define DELAY_TIME_BETWEEN_SAMPLES_US ( ( ( 1000000 / MOST_PROBLEMATIC_INTERFERENCE_FREQ ) - ( DELAY_TIME_BETWEEN_SAMPLES_MS * SAMPLE_TIMES * 1000 ) ) / SAMPLE_TIMES ) //FINE ADJUST.  THIS GETS ADDED TO COARSE ADJUST, PRECISION = TRUNCATED PRAGMATICALLY TO uSec TO ACKNOWLEDGE SOME OVERHEAD FOR LOOPING SUPPORT CODE   // End of this part of code update
 #define FIRST_ANALOG_PIN_DIGITAL_NUMBER_FOR_BOARDS_NOT_HAVING_ANALOG_PINS_DEFINED_BY_PIN_A0_TYPE_DEFINES 14 //Some boards don't have good definitions and constants for the analog pins :-(
-#define REPOSITION_RATIO_OF_MAGNIFIED_VIEW_WHEN_LIMITS_GET_EXCEEDED (.95)                         //BETWEEN 0 AND 1 indicating how much of the display region to skip when magnified view trace has to get repositioned because trace would be outside region bounds
+#define REPOSITION_RATIO_OF_MAGNIFIED_VIEW_WHEN_LIMITS_GET_EXCEEDED (.99)                         //BETWEEN 0 AND 1 indicating how much of the display region to skip when magnified view trace has to get repositioned because trace would be outside region bounds
 #define ANALOGINPUTBITSOFBOARD 10                                                                  //Most Arduino boards are 10-bit resolution, but some can be 12 bits.  For known 12 bit boards (SAM, SAMD and TTGO XI architectures), this gets re-defined below, so generally this can be left as 10 even for those boards
 #define SECONDS_THAT_A_LGT8FX8E_HARDWARE_SERIAL_NEEDS_TO_COME_UP_WORKING 9                         //8 works only usually
 #define HIGHEST_SENSI_PGA_GAIN_FACTOR 128                                                          //For HX711 a gain of 128, 64, or 32 gets applied to channel A. Available to you for your own use PGA=Programmable Gain Amplifier: many ADCs will correlate a gain of one with full-scale being rail-to-rail, while a gain of anything higher correlates to full-scale being in the mV range (most sensitive and most noise-susceptible).
 #define MIN_WAIT_TIME_BETWEEN_PLOT_POINTS_MS 180                                                   //Sets maximum speed, but actual speed may be further limited by other factors
 //#define USING_LM334_WITH_MCP4162_POTS                                                              //Undefine or make false if using standard wheatstone bridge with only standard resistors.  make true if using bridge with upper resistive elements being LM334s controllable with the MCP4162-104 pots
 //#define INBOARDINPARALLELWITHHIGHESTSENSI                                                          //If defined allows rail-to-rail inboard Analog Inputs to be used to adjust digipots, also causes first two inboard Analog Inputs to be superimposed into same plot-line space
+//#define AUTO_BRIDGE_BALANCING  //increases setup time significantly                                //Turns on auto-balancing to in setup(), significant time elapse for this to complete!
 //#define DEBUG true    //This is for code-skilled end-users: add, subtract, modify sections         //Don't forget that DEBUG is not formatted for Serial Plotter, but might work anyway if you'd never print numbers only any DEBUG print line
 //#define POTTESTWOBBLEPOSITIVE true                                                                 //For testing - wobbles digipot settings to impose a signal into Wheatstone bridge outputs
 //#define POTTESTWOBBLENEGATIVE true                                                                 //For testing - wobbles digipot settings to impose a signal into Wheatstone bridge outputs
-
+//No need to change macros below:
 #define CONVERTTWOSCOMPTOSINGLEENDED(value_read_from_the_differential_ADC, mask, xorvalue )    ((value_read_from_the_differential_ADC & mask)^xorvalue)
 //OTHER MACROS (DEFINES OR RE-DEFINES) ELSEWHERE: VERSION, NUM_INPUTS_TO_PLOT_OF_INBOARD_ANALOG, NUM_INPUTS_TO_PLOT_OF_ADDON_HIGHEST_SENSI_ADC, STARTVALUE1 - STARTVALUE6, HALFHIGHESTBITRESFROMHIGHESTSENSIADDONADC, DIFFERENTIAL, PIN_FOR_DATA_TOFROM_HIGHEST_SENSI_ADC, PIN_FOR_CLK_TO_HIGHEST_SENSI_ADC, PLOTTERMAXSCALE, HUNDREDTHPLOTTERMAXSCALE, SAMPLE_TIMES, ANALOGINPUTBITSOFBOARD, SCALE_FACTOR_TO_PROMOTE_LOW_RES_ADC_TO_SAME_SCALE, COMMON_MODE_LEVEL_FOR_MAX_GAIN_AS_READ_RAW_BY_INBOARD_ANALOG
-//FUTURE #define DEBUG_BRIDGE_BALANCING true //This will cause both the probe signal and the opposing bridge leg reference point to be displayed in full-scale, non-magnified views.  Useful with boards having low-Z Analog Input pins they can't use or none at all but use an ADS1x15 besides a high sens ADC.
 //FUTURE #define LEAVEPOTVALUESALONEDURINGSETUP                                                       //First run should leave this undefined to load digi pots with some values.  EEPROM and nonvolatile settings are only available with >8.5 Vdc applied to CS pins of MCP4162, which we don't have.
 //FUTURE #define TESTSTEPUPDOWN COMMONMODE                                                                  //Available: SINGLESIDE COMMONMODE
 /*******************(C)  COPYRIGHT 2018 KENNETH L ANDERSON *********************
@@ -473,17 +473,19 @@ uint16_t bestoffour( uint8_t index = 0 )
     return ( uint16_t )( ( ( long )( value + value1 + value2 + val4 ) ) - ( max( max( max( value, value1 ), value2 ), val4 ) + min( min( min( value, value1 ), value2 ), val4 ) ) ) / 2;
 }
 
-void setvaluetoAnalogInputreading( uint8_t input )
+uint16_t BestGuessAnalogInputreading( uint8_t input )
 {
+    uint16_t value, value1;
     do
     {
 #if DEBUG
     while ( !Serial && ( millis() - millis_start < 8000 ) );
     Serial.println( F( "line 467" ) );
 #endif
-        value = ( signed long long )bestoffour( input );
-        value1 = ( signed long long )bestoffour( input );
+        value = bestoffour( input );
+        value1 = bestoffour( input );
     }while( value != value1 );
+    return value;
 }
 
 void setup() 
@@ -819,7 +821,7 @@ at  800000h  (MIN)  or  7FFFFFh  (MAX),  until  the
 input signal comes back to the input range.
 */
 #endif
-#ifdef USING_LM334_WITH_MCP4162_POTS
+#if defined USING_LM334_WITH_MCP4162_POTS && defined INBOARDINPARALLELWITHHIGHESTSENSI && defined DEBUG_BRIDGE_BALANCING
 #if DEBUG
     while ( !Serial && ( millis() - millis_start < 8000 ) );
     Serial.print( F( "Setting up digipots: bridge leg 0 = " ) );
@@ -830,10 +832,9 @@ input signal comes back to the input range.
     uint8_t stepsize = 10;
     uint16_t startpoint1;
     uint16_t startpoint2;
-    setvaluetoAnalogInputreading( 0 );
-    while( ( value < COMMON_MODE_LEVEL_FOR_MAX_GAIN_AS_READ_RAW_BY_INBOARD_ANALOG ) && ( stepsize > 0 ) )
+    while( ( BestGuessAnalogInputreading( 0 ) < COMMON_MODE_LEVEL_FOR_MAX_GAIN_AS_READ_RAW_BY_INBOARD_ANALOG ) && ( stepsize > 0 ) )
     {
-        while( value < COMMON_MODE_LEVEL_FOR_MAX_GAIN_AS_READ_RAW_BY_INBOARD_ANALOG )
+        while( BestGuessAnalogInputreading( 0 ) < COMMON_MODE_LEVEL_FOR_MAX_GAIN_AS_READ_RAW_BY_INBOARD_ANALOG )
         {
     #if DEBUG
         while ( !Serial && ( millis() - millis_start < 8000 ) );
@@ -848,22 +849,17 @@ input signal comes back to the input range.
             if( ( digipot_1_value <= stepsize - 1 ) && ( digipot_2_value <= stepsize - 1 ) ) break;
             if( digipot_1_value > stepsize - 1 ) setPotValue( DIGITAL_POT_1, digipot_1_value - stepsize );
             if( digipot_2_value > stepsize - 1 ) setPotValue( DIGITAL_POT_2, digipot_2_value - stepsize );
-            setvaluetoAnalogInputreading( 0 );
+            BestGuessAnalogInputreading( 0 );
         }
         setPotValue( DIGITAL_POT_1, startpoint1 );
         setPotValue( DIGITAL_POT_2, startpoint2 );
         stepsize >>= 1;
-        setvaluetoAnalogInputreading( 0 );
     }
-    setvaluetoAnalogInputreading( 0 );
-    while( value < COMMON_MODE_LEVEL_FOR_MAX_GAIN_AS_READ_RAW_BY_INBOARD_ANALOG )
+//Converge on COMMON_MODE_LEVEL_FOR_MAX_GAIN_AS_READ_RAW_BY_INBOARD_ANALOG in smaller steps
+    while( BestGuessAnalogInputreading( 0 ) < COMMON_MODE_LEVEL_FOR_MAX_GAIN_AS_READ_RAW_BY_INBOARD_ANALOG )
     {
         adjust_values_for_this_leg( DIGITAL_POT_1, &digipot_1_value, DIGITAL_POT_2, &digipot_2_value,  DIGITAL_POT_3, &digipot_3_value, false );
-        setvaluetoAnalogInputreading( 0 );
     }
-    if( value > COMMON_MODE_LEVEL_FOR_MAX_GAIN_AS_READ_RAW_BY_INBOARD_ANALOG )
-        adjust_values_for_this_leg( DIGITAL_POT_1, &digipot_1_value, DIGITAL_POT_2, &digipot_2_value,  DIGITAL_POT_3, &digipot_3_value, true );
-
 #if DEBUG
     while ( !Serial && ( millis() - millis_start < 8000 ) );
     Serial.print( F( "Line 837 level upward adjusted 0 bridge leg 0 = " ) );
@@ -872,10 +868,9 @@ input signal comes back to the input range.
     Serial.println( analogRead( *( A_PIN_ARRAY + 1 ) ) );
 #endif
     stepsize = 10;
-    setvaluetoAnalogInputreading( 0 );
-    while( ( value > COMMON_MODE_LEVEL_FOR_MAX_GAIN_AS_READ_RAW_BY_INBOARD_ANALOG ) && ( stepsize > 0 ) )
+    while( ( BestGuessAnalogInputreading( 0 ) > COMMON_MODE_LEVEL_FOR_MAX_GAIN_AS_READ_RAW_BY_INBOARD_ANALOG ) && ( stepsize > 0 ) )
     {
-        while( value > COMMON_MODE_LEVEL_FOR_MAX_GAIN_AS_READ_RAW_BY_INBOARD_ANALOG )
+        while( BestGuessAnalogInputreading( 0 ) > COMMON_MODE_LEVEL_FOR_MAX_GAIN_AS_READ_RAW_BY_INBOARD_ANALOG )
         {
     #if DEBUG
         while ( !Serial && ( millis() - millis_start < 8000 ) );
@@ -890,27 +885,37 @@ input signal comes back to the input range.
             if( ( digipot_1_value <= stepsize - 1 ) && ( digipot_2_value <= stepsize - 1 ) ) break;
             if( digipot_1_value > stepsize - 1 ) setPotValue( DIGITAL_POT_1, digipot_1_value + stepsize );
             if( digipot_2_value > stepsize - 1 ) setPotValue( DIGITAL_POT_2, digipot_2_value + stepsize );
-            setvaluetoAnalogInputreading( 0 );
+            BestGuessAnalogInputreading( 0 );
         }
         setPotValue( DIGITAL_POT_1, startpoint1 );
         setPotValue( DIGITAL_POT_2, startpoint2 );
         stepsize >>= 1;
-        setvaluetoAnalogInputreading( 0 );
     }
-    setvaluetoAnalogInputreading( 0 );
-    while( value > COMMON_MODE_LEVEL_FOR_MAX_GAIN_AS_READ_RAW_BY_INBOARD_ANALOG )
+
+//Converge on COMMON_MODE_LEVEL_FOR_MAX_GAIN_AS_READ_RAW_BY_INBOARD_ANALOG in smaller steps
+    while( BestGuessAnalogInputreading( 0 ) > COMMON_MODE_LEVEL_FOR_MAX_GAIN_AS_READ_RAW_BY_INBOARD_ANALOG )
     {
         adjust_values_for_this_leg( DIGITAL_POT_1, &digipot_1_value, DIGITAL_POT_2, &digipot_2_value,  DIGITAL_POT_3, &digipot_3_value, true );
-        setvaluetoAnalogInputreading( 0 );
     }
-    if( value < COMMON_MODE_LEVEL_FOR_MAX_GAIN_AS_READ_RAW_BY_INBOARD_ANALOG )
-        adjust_values_for_this_leg( DIGITAL_POT_1, &digipot_1_value, DIGITAL_POT_2, &digipot_2_value,  DIGITAL_POT_3, &digipot_3_value, false );
-
-    setvaluetoAnalogInputreading( 1 );
-    stepsize = 10;
-    while( ( value < COMMON_MODE_LEVEL_FOR_MAX_GAIN_AS_READ_RAW_BY_INBOARD_ANALOG ) && ( stepsize > 0 ) )
+//Converge by one or two consecutive readings
+    do
     {
-        while( value < COMMON_MODE_LEVEL_FOR_MAX_GAIN_AS_READ_RAW_BY_INBOARD_ANALOG )
+        if( BestGuessAnalogInputreading( 0 ) > COMMON_MODE_LEVEL_FOR_MAX_GAIN_AS_READ_RAW_BY_INBOARD_ANALOG )
+        {
+            adjust_values_for_this_leg( DIGITAL_POT_1, &digipot_1_value, DIGITAL_POT_2, &digipot_2_value,  DIGITAL_POT_3, &digipot_3_value, true );
+        }
+        else if( BestGuessAnalogInputreading( 0 ) /*read it again*/ < COMMON_MODE_LEVEL_FOR_MAX_GAIN_AS_READ_RAW_BY_INBOARD_ANALOG )
+        {
+            adjust_values_for_this_leg( DIGITAL_POT_1, &digipot_1_value, DIGITAL_POT_2, &digipot_2_value,  DIGITAL_POT_3, &digipot_3_value, false );
+        }
+        if( BestGuessAnalogInputreading( 0 ) /*read it again*/ != COMMON_MODE_LEVEL_FOR_MAX_GAIN_AS_READ_RAW_BY_INBOARD_ANALOG ) continue;
+        
+    }while( BestGuessAnalogInputreading( 0 ) /*read it again*/ != COMMON_MODE_LEVEL_FOR_MAX_GAIN_AS_READ_RAW_BY_INBOARD_ANALOG );
+
+    stepsize = 10;
+    while( ( BestGuessAnalogInputreading( 1 ) < COMMON_MODE_LEVEL_FOR_MAX_GAIN_AS_READ_RAW_BY_INBOARD_ANALOG ) && ( stepsize > 0 ) )
+    {
+        while( BestGuessAnalogInputreading( 1 ) < COMMON_MODE_LEVEL_FOR_MAX_GAIN_AS_READ_RAW_BY_INBOARD_ANALOG )
         {
     #if DEBUG
         while ( !Serial && ( millis() - millis_start < 8000 ) );
@@ -925,22 +930,16 @@ input signal comes back to the input range.
             if( ( digipot_4_value <= stepsize - 1 ) && ( digipot_5_value <= stepsize - 1 ) ) break;
             if( digipot_4_value > stepsize - 1 ) setPotValue( DIGITAL_POT_4, digipot_4_value - stepsize );
             if( digipot_5_value > stepsize - 1 ) setPotValue( DIGITAL_POT_5, digipot_5_value - stepsize );
-            setvaluetoAnalogInputreading( 1 );
         }
         setPotValue( DIGITAL_POT_4, startpoint1 );
         setPotValue( DIGITAL_POT_5, startpoint2 );
         stepsize >>= 1;
-        setvaluetoAnalogInputreading( 1 );
+
     }
-    setvaluetoAnalogInputreading( 1 );
-    while( value < COMMON_MODE_LEVEL_FOR_MAX_GAIN_AS_READ_RAW_BY_INBOARD_ANALOG )
+    while( BestGuessAnalogInputreading( 1 ) < COMMON_MODE_LEVEL_FOR_MAX_GAIN_AS_READ_RAW_BY_INBOARD_ANALOG )
     {
         adjust_values_for_this_leg( DIGITAL_POT_4, &digipot_4_value, DIGITAL_POT_5, &digipot_5_value,  DIGITAL_POT_6, &digipot_6_value, false );
-        setvaluetoAnalogInputreading( 1 );
     }
-    if( value > COMMON_MODE_LEVEL_FOR_MAX_GAIN_AS_READ_RAW_BY_INBOARD_ANALOG )
-        adjust_values_for_this_leg( DIGITAL_POT_4, &digipot_4_value, DIGITAL_POT_5, &digipot_5_value,  DIGITAL_POT_6, &digipot_6_value, true );
-
 #if DEBUG
     while ( !Serial && ( millis() - millis_start < 8000 ) );
     Serial.print( F( "Line 837 level upward adjusted 0 bridge leg 0 = " ) );
@@ -949,10 +948,9 @@ input signal comes back to the input range.
     Serial.println( analogRead( *( A_PIN_ARRAY + 1 ) ) );
 #endif
     stepsize = 10;
-    setvaluetoAnalogInputreading( 1 );
-    while( ( value > COMMON_MODE_LEVEL_FOR_MAX_GAIN_AS_READ_RAW_BY_INBOARD_ANALOG ) && ( stepsize > 0 ) )
+    while( ( BestGuessAnalogInputreading( 1 ) > COMMON_MODE_LEVEL_FOR_MAX_GAIN_AS_READ_RAW_BY_INBOARD_ANALOG ) && ( stepsize > 0 ) )
     {
-        while( value > COMMON_MODE_LEVEL_FOR_MAX_GAIN_AS_READ_RAW_BY_INBOARD_ANALOG )
+        while( BestGuessAnalogInputreading( 1 ) > COMMON_MODE_LEVEL_FOR_MAX_GAIN_AS_READ_RAW_BY_INBOARD_ANALOG )
         {
     #if DEBUG
         while ( !Serial && ( millis() - millis_start < 8000 ) );
@@ -967,22 +965,31 @@ input signal comes back to the input range.
             if( ( digipot_4_value <= stepsize - 1 ) && ( digipot_5_value <= stepsize - 1 ) ) break;
             if( digipot_4_value > stepsize - 1 ) setPotValue( DIGITAL_POT_4, digipot_4_value + stepsize );
             if( digipot_5_value > stepsize - 1 ) setPotValue( DIGITAL_POT_5, digipot_5_value + stepsize );
-            setvaluetoAnalogInputreading( 0 );
+            BestGuessAnalogInputreading( 0 );
         }
         setPotValue( DIGITAL_POT_4, startpoint1 );
         setPotValue( DIGITAL_POT_5, startpoint2 );
         stepsize >>= 1;
-        setvaluetoAnalogInputreading( 1 );
     }
-    setvaluetoAnalogInputreading( 1 );
-    while( value > COMMON_MODE_LEVEL_FOR_MAX_GAIN_AS_READ_RAW_BY_INBOARD_ANALOG )
+    while( BestGuessAnalogInputreading( 1 ) > COMMON_MODE_LEVEL_FOR_MAX_GAIN_AS_READ_RAW_BY_INBOARD_ANALOG )
     {
         adjust_values_for_this_leg( DIGITAL_POT_4, &digipot_4_value, DIGITAL_POT_5, &digipot_5_value,  DIGITAL_POT_6, &digipot_6_value, true );
-        setvaluetoAnalogInputreading( 1 );
     }
-    setvaluetoAnalogInputreading( 1 );
-    if( value < COMMON_MODE_LEVEL_FOR_MAX_GAIN_AS_READ_RAW_BY_INBOARD_ANALOG )
-        adjust_values_for_this_leg( DIGITAL_POT_4, &digipot_4_value, DIGITAL_POT_5, &digipot_5_value,  DIGITAL_POT_6, &digipot_6_value, false );
+//Converge by two consecutive readings
+    do
+    {
+        if( BestGuessAnalogInputreading( 1 ) > COMMON_MODE_LEVEL_FOR_MAX_GAIN_AS_READ_RAW_BY_INBOARD_ANALOG )
+        {
+            adjust_values_for_this_leg( DIGITAL_POT_4, &digipot_4_value, DIGITAL_POT_5, &digipot_5_value,  DIGITAL_POT_6, &digipot_6_value, true );
+        }
+        else if( BestGuessAnalogInputreading( 1 ) /*read it again*/ < COMMON_MODE_LEVEL_FOR_MAX_GAIN_AS_READ_RAW_BY_INBOARD_ANALOG )
+        {
+            adjust_values_for_this_leg( DIGITAL_POT_4, &digipot_4_value, DIGITAL_POT_5, &digipot_5_value,  DIGITAL_POT_6, &digipot_6_value, false );
+        }
+        if( BestGuessAnalogInputreading( 1 ) /*read it again*/ != COMMON_MODE_LEVEL_FOR_MAX_GAIN_AS_READ_RAW_BY_INBOARD_ANALOG ) continue;
+        
+    }while( BestGuessAnalogInputreading( 1 ) /*read it again*/ != COMMON_MODE_LEVEL_FOR_MAX_GAIN_AS_READ_RAW_BY_INBOARD_ANALOG );
+
 #endif
 #if DEBUG
     while ( !Serial && ( millis() - millis_start < 8000 ) );
