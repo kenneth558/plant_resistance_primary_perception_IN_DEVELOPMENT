@@ -32,7 +32,7 @@
 * File Name          : adc_for_plant_tissue.ino
 * Author             : KENNETH L ANDERSON
 * Version            : v.Free
-* Date               : 29-July-2018
+* Date               : 29-July-2018 
 * Description        : To replicate Cleve Backster's findings that he attributed to a phenomenon he called "Primary Perception".  Basically, this sketch turns an Arduino MCU and optional (recommended) ADS1115 into a nicely functional poor man's polygraph in order to learn/demonstrate telempathic gardening.
 * Boards tested on   : Uno using both ADS1115 and inboard analog inputs.  
 *                    : TTGO XI using ADS1115.  
@@ -910,7 +910,7 @@ at  800000h  (MIN)  or  7FFFFFh  (MAX),  until  the
 input signal comes back to the input range.
 */
 #endif
-#if defined USING_LM334_WITH_MCP4162_POTS && defined INBOARDINPARALLELWITHHIGHESTSENSI && defined AUTO_BRIDGE_BALANCING
+#if defined USING_LM334_WITH_MCP4162_POTS && defined INBOARDINPARALLELWITHHIGHESTSENSI && defined AUTO_BRIDGE_BALANCING && not defined LEAVEPOTVALUESALONEDURINGSETUP
 #if DEBUG
     while ( !Serial && ( millis() - millis_start < 8000 ) );
     Serial.print( F( "Setting up digipots: bridge leg 0 = " ) );
