@@ -821,7 +821,7 @@ at  800000h  (MIN)  or  7FFFFFh  (MAX),  until  the
 input signal comes back to the input range.
 */
 #endif
-#if defined USING_LM334_WITH_MCP4162_POTS && defined INBOARDINPARALLELWITHHIGHESTSENSI && defined DEBUG_BRIDGE_BALANCING
+#if defined USING_LM334_WITH_MCP4162_POTS && defined INBOARDINPARALLELWITHHIGHESTSENSI && defined AUTO_BRIDGE_BALANCING
 #if DEBUG
     while ( !Serial && ( millis() - millis_start < 8000 ) );
     Serial.print( F( "Setting up digipots: bridge leg 0 = " ) );
