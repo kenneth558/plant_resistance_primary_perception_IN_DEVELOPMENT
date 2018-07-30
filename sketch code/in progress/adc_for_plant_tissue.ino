@@ -31,7 +31,7 @@
 *      ARDUINO ELECTRICAL RESISTANCE/CONDUCTANCE MONITORING SKETCH 
 *      
 * File Name          : adc_for_plant_tissue.ino
-* Author             : KENNETH L ANDERSON
+* Author             : KENNETH L ANDERSON 
 * Version            : v.Free
 * Date               : 30-July-2018
 * Description        : To replicate Cleve Backster's findings that he attributed to a phenomenon he called "Primary Perception".  Basically, this sketch turns an Arduino MCU and optional (recommended) ADS1115 into a nicely functional poor man's polygraph in order to learn/demonstrate telempathic gardening.
