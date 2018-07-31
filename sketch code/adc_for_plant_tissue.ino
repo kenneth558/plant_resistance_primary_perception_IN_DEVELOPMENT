@@ -95,7 +95,7 @@
 *              NEXT          :  Make able continuously to auto-balance; may need to re-engineer the necessary settings range.  May need to plot a combo function of digipot settings with ADC readings instead of just ADC readings
 *              NEXT          :  Accommodate ADS1232
 *               
-*********************************************************************************************************************/
+********************************************************************************************************************/
 #define VERSION "v.Free"  // Since this never gets used anywhere, it doesn't compile in so no memory is wasted
 #include <math.h>
 #define COMMON_MODE_LEVEL_FOR_MAX_GAIN_AS_READ_RAW_BY_INBOARD_ANALOG ( 1 << ( ANALOGINPUTBITSOFBOARD - 1 ) ) // Needed f HIGHEST_SENSI_ADDON_ADC_TYPE has a sweet spot of max sensitivity, unlike true op-amp.  (HX711 == 306; normal op-amp, which has none, == Vcc/2 == 512)
