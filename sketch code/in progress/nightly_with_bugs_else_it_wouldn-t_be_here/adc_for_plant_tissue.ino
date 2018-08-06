@@ -1,8 +1,8 @@
 //        Before compiling this sketch, you must set or confirm the following appropriately for your configuration and preferences !!!
-#define NUM_INPUTS_TO_PLOT_OF_INBOARD_ANALOG 2                                                    //The number of consecutive analog pins to plot, beginning with PIN_A0
+#define NUM_INPUTS_TO_PLOT_OF_INBOARD_ANALOG 7                                                    //The number of consecutive analog pins to plot, beginning with PIN_A0
 //#define NUM_INPUTS_TO_PLOT_OF_ADDON_HIGHEST_SENSI_ADC 1                                            //The number of consecutive "highest-sensitivity ADC" pins to plot, beginning with A0 and, if double-ended, A1.  ADDON ADC ONLY - DOES _NOT_ INCLUDE INBOARD ANALOG INPUT PINS
 #define HIGHEST_SENSI_ADDON_ADC_TYPE HX711                                                         //Proposing that "ADS1231" covers ADS1231; could make this "ADS1232" (ADS1232), "ADS1242" (ADS1242), "AD779x" (AD779x), "AD7780" (AD7780), "HX711" (HX711), "MAX112x0" (MAX112x0...) or "LTC2400" (LTC2400) but code not included in v.FREE
-#define MAGNIFICATION_FACTOR 5                                                                     //To aid in viewing. Note: you can disable displaying magnified traces altogether by not defined this macro at all
+//#define MAGNIFICATION_FACTOR 5                                                                     //To aid in viewing. Note: you can disable displaying magnified traces altogether by not defined this macro at all
 #define HIGHESTBITRESFROMHIGHESTSENSIADDONADC 24                                                   //All ADC values will get scaled to the single-ended aspect of this,  15 is ADS1115 single-ended, 16 for double-ended when two LM334s are used.  change to 11 for ADS1015 single-ended or 12 with two LM334s, (future: change to 24 for HX711--NO b/c there is the ADS1231 at 24 bits)
 #define SAMPLE_TIMES 4                                                                             //To better average out artifacts we over-sample and average.  This value can be tweaked by you to ensure neutralization of power line noise or harmonics of power supplies, etc.....
 #define MOST_PROBLEMATIC_INTERFERENCE_FREQ 60                                                      //This is here just in case you think that you might have some interference on a known frequency.
@@ -421,8 +421,19 @@ void printvaluesforalltraces( bool actuals = false )                  //If we do
 #ifdef MAGNIFICATION_FACTOR
         Serial.print( actuals ? lasttracepoints[ i * 2 ] : 0 );
         Serial.print( F( " " ) );
-        Serial.print( actuals ? lasttracepoints[ ( i * 2 ) + 1 ] : 0 );
-        Serial.print( F( " " ) );
+        #if defined INBOARDINPARALLELWITHHIGHESTSENSI && ( NUM_INPUTS_TO_PLOT_OF_ADDON_HIGHEST_SENSI_ADC > 0 ) 
+            #if ( NUM_INPUTS_TO_PLOT_OF_INBOARD_ANALOG == 1 )
+                if( i > 0 )
+            #elif ( NUM_INPUTS_TO_PLOT_OF_INBOARD_ANALOG == 2 )
+                if( i > 1 )
+            #else
+                if( true )
+            #endif
+        #endif
+                {
+                    Serial.print( actuals ? lasttracepoints[ ( i * 2 ) + 1 ] : 0 );
+                    Serial.print( F( " " ) );
+                }
 #else //in #ifdef MAGNIFICATION_FACTOR construct: no magnified traces in the array
         Serial.print( actuals ? lasttracepoints[ i ] : 0 );
         Serial.print( F( " " ) );
@@ -630,7 +641,30 @@ void setup()
 #if ( NUM_INPUTS_TO_PLOT_OF_ADDON_HIGHEST_SENSI_ADC + NUM_INPUTS_TO_PLOT_OF_INBOARD_ANALOG == 1 )
     Serial.println( 0 );
 #endif
-//    shift_timing_line_up();
+//    shift_timing_line_up(); or as follows:
+while ( !Serial ); // wait for serial port to connect. Needed for Leonardo's native USB
+    for( uint8_t i = NUM_INPUTS_TO_PLOT_OF_INBOARD_ANALOG + NUM_INPUTS_TO_PLOT_OF_ADDON_HIGHEST_SENSI_ADC - 1; i > 0 ; i-- )
+    {
+        Serial.print( screen_offsets[ i ].high_limit_of_this_plotline );
+        printvaluesforalltraces();
+        Serial.print( screen_offsets[ i ].high_limit_of_this_plotline );
+        printvaluesforalltraces();
+/*
+        Serial.print( screen_offsets[ NUM_INPUTS_TO_PLOT_OF_INBOARD_ANALOG + NUM_INPUTS_TO_PLOT_OF_ADDON_HIGHEST_SENSI_ADC - i ].zero_of_this_plotline );
+        printvaluesforalltraces();
+        Serial.print( screen_offsets[ NUM_INPUTS_TO_PLOT_OF_INBOARD_ANALOG + NUM_INPUTS_TO_PLOT_OF_ADDON_HIGHEST_SENSI_ADC - i ].zero_of_this_plotline );
+        printvaluesforalltraces();
+*/
+/*
+        if( i == NUM_INPUTS_TO_PLOT_OF_INBOARD_ANALOG + NUM_INPUTS_TO_PLOT_OF_ADDON_HIGHEST_SENSI_ADC - 1 )
+        {
+            Serial.print( screen_offsets[ NUM_INPUTS_TO_PLOT_OF_INBOARD_ANALOG + NUM_INPUTS_TO_PLOT_OF_ADDON_HIGHEST_SENSI_ADC - i ].high_limit_of_this_plotline );
+            printvaluesforalltraces( true );
+        }
+*/
+    }
+//    Serial.println( PLOTTERMAXSCALE ); // graphline
+//    printvaluesforalltraces();
 
     #if ( NUM_INPUTS_TO_PLOT_OF_INBOARD_ANALOG > 0 )
         A_PIN_ARRAY = (uint8_t *)malloc( NUM_INPUTS_TO_PLOT_OF_INBOARD_ANALOG );
@@ -814,8 +848,8 @@ void plot_the_normal_and_magnified_signals( uint8_t channel )
     {
         screen_offsets[ channel ].magnify_adjustment += ( ( value - screen_offsets[ channel ].magnify_adjustment ) - screen_offsets[ channel ].high_limit_of_this_plotline ) + TRACESPACE_TO_SKIP_WHEN_REPOSITIONING;
     }
-    else if( ( value - screen_offsets[ channel ].magnify_adjustment < screen_offsets[ channel ].high_limit_of_this_plotline ) && \
-        ( value - screen_offsets[ channel ].magnify_adjustment < screen_offsets[ channel ].zero_of_this_plotline ) /*magnify_adjustment too large */ )
+    else if( ( value - screen_offsets[ channel ].magnify_adjustment < screen_offsets[ channel ].zero_of_this_plotline ) && \
+        ( value - screen_offsets[ channel ].magnify_adjustment < screen_offsets[ channel ].high_limit_of_this_plotline ) /*magnify_adjustment too large */ )
     {
         screen_offsets[ channel ].magnify_adjustment -= ( screen_offsets[ channel ].zero_of_this_plotline  - ( value - screen_offsets[ channel ].magnify_adjustment ) ) - TRACESPACE_TO_SKIP_WHEN_REPOSITIONING;
     }
