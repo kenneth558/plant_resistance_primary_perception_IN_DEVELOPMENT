@@ -838,16 +838,14 @@ void plot_the_normal_and_magnified_signals( uint8_t channel )
     //Next lines plot a magnified version.  First, magnify_adjustment is determined
     Serial.print( F( " " ) );
 //lines circa 421 might also be printing the magnified traces outside their limits
-//The less risky way to multiply is to subtract an adjustment from value before multiplying, then add the product of that adjustment and MAGNIFICATION_FACTOR back into value? That adjustment needs to 
-//#error Pick it up here: ensure correct math below
+//The less risky way to multiply is maybe? to subtract an adjustment from value before multiplying, then add the product of that adjustment and MAGNIFICATION_FACTOR back into value? That adjustment needs to 
+#error Pick it up here: ensure correct math below
 /*  NEW ATTTEMPT AT ALGORITHM: */
-    if( ( value - screen_offsets[ channel ].magnify_adjustment > screen_offsets[ channel ].high_limit_of_this_plot_linespace ) && \
-        ( value - screen_offsets[ channel ].magnify_adjustment > screen_offsets[ channel ].zero_of_this_plot_linespace ) /*magnify_adjustment too small */ )
+    if( value - screen_offsets[ channel ].magnify_adjustment > screen_offsets[ channel ].high_limit_of_this_plot_linespace /*magnify_adjustment too small */ )
     {
         screen_offsets[ channel ].magnify_adjustment += ( ( value - screen_offsets[ channel ].magnify_adjustment ) - screen_offsets[ channel ].high_limit_of_this_plot_linespace ) + TRACESPACE_TO_SKIP_WHEN_REPOSITIONING;
     }
-    else if( ( value - screen_offsets[ channel ].magnify_adjustment < screen_offsets[ channel ].zero_of_this_plot_linespace ) && \
-        ( value - screen_offsets[ channel ].magnify_adjustment < screen_offsets[ channel ].high_limit_of_this_plot_linespace ) /*magnify_adjustment too large */ )
+    else if( value - screen_offsets[ channel ].magnify_adjustment < screen_offsets[ channel ].zero_of_this_plot_linespace /*magnify_adjustment too large */ )
     {
         screen_offsets[ channel ].magnify_adjustment -= ( screen_offsets[ channel ].zero_of_this_plot_linespace  - ( value - screen_offsets[ channel ].magnify_adjustment ) ) - TRACESPACE_TO_SKIP_WHEN_REPOSITIONING;
     }
