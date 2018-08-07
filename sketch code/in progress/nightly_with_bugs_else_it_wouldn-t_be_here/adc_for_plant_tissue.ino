@@ -838,86 +838,19 @@ void plot_the_normal_and_magnified_signals( uint8_t channel )
     #endif
     //Next lines plot a magnified version.  First, magnify_adjustment is determined
     Serial.print( F( " " ) );
-//lines circa 421 might also be printing the magnified traces outside their limits
-#error Pick it up here: ensure correct math below considering when new mag'd point does rollover/carry 
-/*  NEW ATTTEMPT AT ALGORITHM: */
+
 //Next we multiply the difference between last_unmagnified_reading and this one, and see if it would take the trace out of bounds
-    if( value < screen_offsets[ channel ].last_unmagnified_reading ) /*if current is less than we'll check against zero_of_this_plot_linespace limit*/
-    {//validate math following all result in less than screen_offsets[ channel ].last_unmagnified_reading
-        if( lasttracepoints[ ( channel * 2 ) + 1 ] - ( ( screen_offsets[ channel ].last_unmagnified_reading - value ) * MAGNIFICATION_FACTOR ) < screen_offsets[ channel ].zero_of_this_plot_linespace )
-        {//The new plotpoint would be out of bounds so place it at screen_offsets[ channel ].high_limit_of_this_plot_linespace - TRACESPACE_TO_SKIP_WHEN_REPOSITIONING unless overflowed to get there
-            if( lasttracepoints[ ( channel * 2 ) + 1 ] - ( ( screen_offsets[ channel ].last_unmagnified_reading - value ) * MAGNIFICATION_FACTOR ) < screen_offsets[ channel ].last_unmagnified_reading )
-            {
-                Serial.print( screen_offsets[ channel ].high_limit_of_this_plot_linespace - TRACESPACE_TO_SKIP_WHEN_REPOSITIONING );
-                lasttracepoints[ ( channel * 2 ) + 1 ] = screen_offsets[ channel ].high_limit_of_this_plot_linespace - TRACESPACE_TO_SKIP_WHEN_REPOSITIONING;
-            }
-            else
-            deal with an overflowed condition by ?
-        }
-        else
-        {
-            Serial.print( lasttracepoints[ ( channel * 2 ) + 1 ] - ( ( screen_offsets[ channel ].last_unmagnified_reading - value ) * MAGNIFICATION_FACTOR );
-            lasttracepoints[ ( channel * 2 ) + 1 ] = lasttracepoints[ ( channel * 2 ) + 1 ] - ( ( screen_offsets[ channel ].last_unmagnified_reading - value ) * MAGNIFICATION_FACTOR );
-        }
-    }
-    else if( value > screen_offsets[ channel ].last_unmagnified_reading ) /*if current is more than we'll check against high_limit_of_this_plot_linespace limit*/
-    {//validate math following all result in more than screen_offsets[ channel ].last_unmagnified_reading
-        if( lasttracepoints[ ( channel * 2 ) + 1 ] + ( ( value - screen_offsets[ channel ].last_unmagnified_reading ) * MAGNIFICATION_FACTOR ) > screen_offsets[ channel ].high_limit_of_this_plot_linespace )
-        {//The new plotpoint would be out of bounds so place it at screen_offsets[ channel ].zero_of_this_plot_linespace + TRACESPACE_TO_SKIP_WHEN_REPOSITIONING unless overflowed to get there
-            if( lasttracepoints[ ( channel * 2 ) + 1 ] + ( ( screen_offsets[ channel ].last_unmagnified_reading - value ) * MAGNIFICATION_FACTOR ) > screen_offsets[ channel ].last_unmagnified_reading )
-            {
-                Serial.print( screen_offsets[ channel ].zero_of_this_plot_linespace + TRACESPACE_TO_SKIP_WHEN_REPOSITIONING );
-                lasttracepoints[ ( channel * 2 ) + 1 ] = screen_offsets[ channel ].zero_of_this_plot_linespace + TRACESPACE_TO_SKIP_WHEN_REPOSITIONING;
-            }
-            else
-            deal with an overflowed condition by ?
-        }
-        else
-        {
-            Serial.print( lasttracepoints[ ( channel * 2 ) + 1 ] + ( ( value - screen_offsets[ channel ].last_unmagnified_reading ) * MAGNIFICATION_FACTOR );
-            lasttracepoints[ ( channel * 2 ) + 1 ] = lasttracepoints[ ( channel * 2 ) + 1 ] + ( ( value - screen_offsets[ channel ].last_unmagnified_reading ) * MAGNIFICATION_FACTOR );
-        }
-    }
-    else // there has been no change so just re-plot the same point
-    {
-        Serial.print( lasttracepoints[ ( channel * 2 ) + 1 ] );
-    }
+    uint32_t next_plot_point = lasttracepoints[ ( channel * 2 ) + 1 ] - ( ( screen_offsets[ channel ].last_unmagnified_reading - value ) * MAGNIFICATION_FACTOR ); //initializes at new reading being lower
+    if( value > screen_offsets[ channel ].last_unmagnified_reading ) //new reading is higher than previous
+        next_plot_point = lasttracepoints[ ( channel * 2 ) + 1 ] + ( ( value - screen_offsets[ channel ].last_unmagnified_reading ) * MAGNIFICATION_FACTOR );//new reading was not lower, so correct new plot point
     screen_offsets[ channel ].last_unmagnified_reading = value;
 
-    
-//    if( value - screen_offsets[ channel ].magnify_adjustment > screen_offsets[ channel ].high_limit_of_this_plot_linespace /*magnify_adjustment too small */ )
-//    {
-//        screen_offsets[ channel ].magnify_adjustment += ( ( value - screen_offsets[ channel ].magnify_adjustment ) - screen_offsets[ channel ].high_limit_of_this_plot_linespace ) + TRACESPACE_TO_SKIP_WHEN_REPOSITIONING;
-//    }
-//    else if( value - screen_offsets[ channel ].magnify_adjustment < screen_offsets[ channel ].zero_of_this_plot_linespace /*magnify_adjustment too large */ )
-//    {
-//        screen_offsets[ channel ].magnify_adjustment -= ( screen_offsets[ channel ].zero_of_this_plot_linespace  - ( value - screen_offsets[ channel ].magnify_adjustment ) ) - TRACESPACE_TO_SKIP_WHEN_REPOSITIONING;
-//    }
-
-/******************************************************************************************************************/
-/*
-        if( ( ( value > 0 ) && ( ( ( unsigned long )-1 ) / value ) > MAGNIFICATION_FACTOR ) || value == 0 )  //ensure no overflow will occur during the next step = the -1 is casted to same type as value
-        {
-            value *= MAGNIFICATION_FACTOR;
-        
-            if( screen_offsets[ channel ].magnify_adjustment + screen_offsets[ channel ].zero_of_this_plot_linespace > value )
-                screen_offsets[ channel ].magnify_adjustment = value - screen_offsets[ channel ].zero_of_this_plot_linespace - ( ( screen_offsets[ channel ].high_limit_of_this_plot_linespace - screen_offsets[ channel ].zero_of_this_plot_linespace ) * REPOSITION_RATIO_OF_MAGNIFIED_VIEW_WHEN_LIMITS_GET_EXCEEDED ) ;
-        
-            if( screen_offsets[ channel ].magnify_adjustment + screen_offsets[ channel ].high_limit_of_this_plot_linespace < value )
-                screen_offsets[ channel ].magnify_adjustment = value - screen_offsets[ channel ].high_limit_of_this_plot_linespace + ( ( screen_offsets[ channel ].high_limit_of_this_plot_linespace - screen_offsets[ channel ].zero_of_this_plot_linespace ) * REPOSITION_RATIO_OF_MAGNIFIED_VIEW_WHEN_LIMITS_GET_EXCEEDED ) ;
-*/
-                //Plot it now
-            Serial.print( ( unsigned long )( value - screen_offsets[ channel ].magnify_adjustment ) );
-            lasttracepoints[ ( channel * 2 ) + 1 ] = value - screen_offsets[ channel ].magnify_adjustment;
-/*
-        }
-        else //value is too large to get multiplied by MAGNIFICATION_FACTOR so we keep subtracting MAGNIFICATION_FACTOR * zero_of_this_plot_linespace until the remainder is between zero_of_this_plot_linespace and high_limit_of_this_plot_linespace
-//?The way to multiply less likely to overflow is to subtract an adjustment from value before multiplying, then add the product of that adjustment and MAGNIFICATION_FACTOR back into value? That adjustment needs to 
-        {
-            Serial.print( screen_offsets[ channel ].high_limit_of_this_plot_linespace ); //This is color two or four
-            lasttracepoints[ ( channel * 2 ) + 1 ] = screen_offsets[ channel ].high_limit_of_this_plot_linespace;
-        }
-*/
+    if( next_plot_point < screen_offsets[ channel ].zero_of_this_plot_linespace ) //new plot point is lower than lower limit
+        next_plot_point = screen_offsets[ channel ].high_limit_of_this_plot_linespace - TRACESPACE_TO_SKIP_WHEN_REPOSITIONING;
+    else if( next_plot_point > screen_offsets[ channel ].high_limit_of_this_plot_linespace ) //new plot point is higher than upper limit
+        next_plot_point = screen_offsets[ channel ].zero_of_this_plot_linespace + TRACESPACE_TO_SKIP_WHEN_REPOSITIONING;
+    Serial.print( next_plot_point );
+    lasttracepoints[ ( channel * 2 ) + 1 ] = next_plot_point;
 AFTER_THE_MAGNIFIED_PLOTTED:
 #endif  //ending ifdef MAGNIFICATION_FACTOR
     Serial.print( F( " " ) );
