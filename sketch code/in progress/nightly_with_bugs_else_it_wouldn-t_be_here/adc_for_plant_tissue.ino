@@ -839,16 +839,20 @@ void plot_the_normal_and_magnified_signals( uint8_t channel )
     //Next lines plot a magnified version.  First, magnify_adjustment is determined
     Serial.print( F( " " ) );
 //lines circa 421 might also be printing the magnified traces outside their limits
-//The less risky way to multiply is maybe? to subtract an adjustment from value before multiplying, then add the product of that adjustment and MAGNIFICATION_FACTOR back into value? That adjustment needs to 
 #error Pick it up here: ensure correct math below considering when new mag'd point does rollover/carry 
 /*  NEW ATTTEMPT AT ALGORITHM: */
 //Next we multiply the difference between last_unmagnified_reading and this one, and see if it would take the trace out of bounds
     if( value < screen_offsets[ channel ].last_unmagnified_reading ) /*if current is less than we'll check against zero_of_this_plot_linespace limit*/
-    {
+    {//validate math following all result in less than screen_offsets[ channel ].last_unmagnified_reading
         if( lasttracepoints[ ( channel * 2 ) + 1 ] - ( ( screen_offsets[ channel ].last_unmagnified_reading - value ) * MAGNIFICATION_FACTOR ) < screen_offsets[ channel ].zero_of_this_plot_linespace )
-        {//The new plotpoint would be out of bounds so place it at screen_offsets[ channel ].high_limit_of_this_plot_linespace - TRACESPACE_TO_SKIP_WHEN_REPOSITIONING
-            Serial.print( screen_offsets[ channel ].high_limit_of_this_plot_linespace - TRACESPACE_TO_SKIP_WHEN_REPOSITIONING );
-            lasttracepoints[ ( channel * 2 ) + 1 ] = screen_offsets[ channel ].high_limit_of_this_plot_linespace - TRACESPACE_TO_SKIP_WHEN_REPOSITIONING;
+        {//The new plotpoint would be out of bounds so place it at screen_offsets[ channel ].high_limit_of_this_plot_linespace - TRACESPACE_TO_SKIP_WHEN_REPOSITIONING unless overflowed to get there
+            if( lasttracepoints[ ( channel * 2 ) + 1 ] - ( ( screen_offsets[ channel ].last_unmagnified_reading - value ) * MAGNIFICATION_FACTOR ) < screen_offsets[ channel ].last_unmagnified_reading )
+            {
+                Serial.print( screen_offsets[ channel ].high_limit_of_this_plot_linespace - TRACESPACE_TO_SKIP_WHEN_REPOSITIONING );
+                lasttracepoints[ ( channel * 2 ) + 1 ] = screen_offsets[ channel ].high_limit_of_this_plot_linespace - TRACESPACE_TO_SKIP_WHEN_REPOSITIONING;
+            }
+            else
+            deal with an overflowed condition by ?
         }
         else
         {
@@ -857,11 +861,16 @@ void plot_the_normal_and_magnified_signals( uint8_t channel )
         }
     }
     else if( value > screen_offsets[ channel ].last_unmagnified_reading ) /*if current is more than we'll check against high_limit_of_this_plot_linespace limit*/
-    {
+    {//validate math following all result in more than screen_offsets[ channel ].last_unmagnified_reading
         if( lasttracepoints[ ( channel * 2 ) + 1 ] + ( ( value - screen_offsets[ channel ].last_unmagnified_reading ) * MAGNIFICATION_FACTOR ) > screen_offsets[ channel ].high_limit_of_this_plot_linespace )
-        {
-            Serial.print( screen_offsets[ channel ].zero_of_this_plot_linespace + TRACESPACE_TO_SKIP_WHEN_REPOSITIONING );
-            lasttracepoints[ ( channel * 2 ) + 1 ] = screen_offsets[ channel ].zero_of_this_plot_linespace + TRACESPACE_TO_SKIP_WHEN_REPOSITIONING;
+        {//The new plotpoint would be out of bounds so place it at screen_offsets[ channel ].zero_of_this_plot_linespace + TRACESPACE_TO_SKIP_WHEN_REPOSITIONING unless overflowed to get there
+            if( lasttracepoints[ ( channel * 2 ) + 1 ] + ( ( screen_offsets[ channel ].last_unmagnified_reading - value ) * MAGNIFICATION_FACTOR ) > screen_offsets[ channel ].last_unmagnified_reading )
+            {
+                Serial.print( screen_offsets[ channel ].zero_of_this_plot_linespace + TRACESPACE_TO_SKIP_WHEN_REPOSITIONING );
+                lasttracepoints[ ( channel * 2 ) + 1 ] = screen_offsets[ channel ].zero_of_this_plot_linespace + TRACESPACE_TO_SKIP_WHEN_REPOSITIONING;
+            }
+            else
+            deal with an overflowed condition by ?
         }
         else
         {
