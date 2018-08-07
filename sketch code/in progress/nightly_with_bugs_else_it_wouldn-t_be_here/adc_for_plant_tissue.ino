@@ -1,8 +1,8 @@
 //        Before compiling this sketch, you must set or confirm the following appropriately for your configuration and preferences !!!
 #define NUM_INPUTS_TO_PLOT_OF_INBOARD_ANALOG 7                                                    //The number of consecutive analog pins to plot, beginning with PIN_A0
-//#define NUM_INPUTS_TO_PLOT_OF_ADDON_HIGHEST_SENSI_ADC 1                                            //The number of consecutive "highest-sensitivity ADC" pins to plot, beginning with A0 and, if double-ended, A1.  ADDON ADC ONLY - DOES _NOT_ INCLUDE INBOARD ANALOG INPUT PINS
+#define NUM_INPUTS_TO_PLOT_OF_ADDON_HIGHEST_SENSI_ADC 1                                            //The number of consecutive "highest-sensitivity ADC" pins to plot, beginning with A0 and, if double-ended, A1.  ADDON ADC ONLY - DOES _NOT_ INCLUDE INBOARD ANALOG INPUT PINS
 #define HIGHEST_SENSI_ADDON_ADC_TYPE HX711                                                         //Proposing that "ADS1231" covers ADS1231; could make this "ADS1232" (ADS1232), "ADS1242" (ADS1242), "AD779x" (AD779x), "AD7780" (AD7780), "HX711" (HX711), "MAX112x0" (MAX112x0...) or "LTC2400" (LTC2400) but code not included in v.FREE
-//#define MAGNIFICATION_FACTOR 5                                                                     //To aid in viewing. Note: you can disable displaying magnified traces altogether by not defined this macro at all
+#define MAGNIFICATION_FACTOR 5                                                                     //To aid in viewing. Note: you can disable displaying magnified traces altogether by not defined this macro at all
 #define HIGHESTBITRESFROMHIGHESTSENSIADDONADC 24                                                   //All ADC values will get scaled to the single-ended aspect of this,  15 is ADS1115 single-ended, 16 for double-ended when two LM334s are used.  change to 11 for ADS1015 single-ended or 12 with two LM334s, (future: change to 24 for HX711--NO b/c there is the ADS1231 at 24 bits)
 #define SAMPLE_TIMES 4                                                                             //To better average out artifacts we over-sample and average.  This value can be tweaked by you to ensure neutralization of power line noise or harmonics of power supplies, etc.....
 #define MOST_PROBLEMATIC_INTERFERENCE_FREQ 60                                                      //This is here just in case you think that you might have some interference on a known frequency.
@@ -25,7 +25,7 @@
 //#define BIAS_TO_APPLY_TO_SIGNAL1_TO_CENTER_TRACE 1                                                 //Though the name suggests otherwise, this offset will be applied to all signal lines, not just the first one, until further development (I couldn't make this into an array).  Inboard Analog Inputs of 10 bits will make much change with little values, 12 bit inboard allows more flexibility here
 //No need to change macros below:
 #define CONVERTTWOSCOMPTOSINGLEENDED( value_read_from_the_differential_ADC, mask, xorvalue ) ((value_read_from_the_differential_ADC & mask)^xorvalue)
-//OTHER MACROS (DEFINES OR RE-DEFINES) ELSEWHERE: VERSION, NUM_INPUTS_TO_PLOT_OF_INBOARD_ANALOG, NUM_INPUTS_TO_PLOT_OF_ADDON_HIGHEST_SENSI_ADC, STARTVALUE1 - STARTVALUE6, HALFHIGHESTBITRESFROMHIGHESTSENSIADDONADC, DIFFERENTIAL, PIN_FOR_DATA_TOFROM_HIGHEST_SENSI_ADC, PIN_FOR_CLK_TO_HIGHEST_SENSI_ADC, PLOTTERMAXSCALE, HUNDREDTHPLOTTERMAXSCALE, SAMPLE_TIMES, ANALOGINPUTBITSOFBOARD, SCALE_FACTOR_TO_PROMOTE_LOW_RES_ADC_TO_SAME_SCALE, COMMON_MODE_LEVEL_FOR_MAX_GAIN_AS_READ_RAW_BY_INBOARD_ANALOG, TRACE_HEIGHT_PLOTTERSPACE, TRACESPACE_TO_SKIP_WHEN_REPOSITIONING
+//OTHER MACROS (DEFINES OR RE-DEFINES) ELSEWHERE: VERSION, NUM_INPUTS_TO_PLOT_OF_INBOARD_ANALOG, NUM_INPUTS_TO_PLOT_OF_ADDON_HIGHEST_SENSI_ADC, STARTVALUE1 - STARTVALUE6, HALFHIGHESTBITRESFROMHIGHESTSENSIADDONADC, DIFFERENTIAL, PIN_FOR_DATA_TOFROM_HIGHEST_SENSI_ADC, PIN_FOR_CLK_TO_HIGHEST_SENSI_ADC, PLOTTERMAXSCALE, HUNDREDTHPLOTTERMAXSCALE, SAMPLE_TIMES, ANALOGINPUTBITSOFBOARD, SCALE_FACTOR_TO_PROMOTE_LOW_RES_ADC_TO_SAME_SCALE, COMMON_MODE_LEVEL_FOR_MAX_GAIN_AS_READ_RAW_BY_INBOARD_ANALOG, HEIGHT_OF_ALL_PLOT_LINESPACES, TRACESPACE_TO_SKIP_WHEN_REPOSITIONING
 //FUTURE #define TESTSTEPUPDOWN COMMONMODE                                                                  //Available: SINGLESIDE COMMONMODE
 /*******************(C)  COPYRIGHT 2018 KENNETH L ANDERSON *********************
 * 
@@ -234,8 +234,8 @@ struct magnify_adjustment_and_display_zero
 #ifdef MAGNIFICATION_FACTOR
     uint32_t magnify_adjustment;
 #endif
-    uint32_t zero_of_this_plotline;
-    uint32_t high_limit_of_this_plotline;
+    uint32_t zero_of_this_plot_linespace;
+    uint32_t high_limit_of_this_plot_linespace;
 } typedef magnify_adjustment_and_display_zero;
 
 magnify_adjustment_and_display_zero screen_offsets[ NUM_INPUTS_TO_PLOT_OF_ADDON_HIGHEST_SENSI_ADC + NUM_INPUTS_TO_PLOT_OF_INBOARD_ANALOG ];
@@ -253,12 +253,12 @@ char szFull[ ] = {0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
 #ifndef NUM_INPUTS_TO_PLOT_OF_INBOARD_ANALOG
     #define NUM_INPUTS_TO_PLOT_OF_INBOARD_ANALOG 0
 #endif
-#define TRACE_HEIGHT_PLOTTERSPACE ( ( uint32_t )pow( 2, HIGHESTBITRESFROMHIGHESTSENSIADDONADC ) )
-#define TRACESPACE_TO_SKIP_WHEN_REPOSITIONING ( TRACE_HEIGHT_PLOTTERSPACE * REPOSITION_RATIO_OF_MAGNIFIED_VIEW_WHEN_LIMITS_GET_EXCEEDED )
+#define HEIGHT_OF_ALL_PLOT_LINESPACES ( ( uint32_t )pow( 2, HIGHESTBITRESFROMHIGHESTSENSIADDONADC ) )
+#define TRACESPACE_TO_SKIP_WHEN_REPOSITIONING ( HEIGHT_OF_ALL_PLOT_LINESPACES * REPOSITION_RATIO_OF_MAGNIFIED_VIEW_WHEN_LIMITS_GET_EXCEEDED )
 #if not defined INBOARDINPARALLELWITHHIGHESTSENSI || ( NUM_INPUTS_TO_PLOT_OF_ADDON_HIGHEST_SENSI_ADC == 0 ) || ( NUM_INPUTS_TO_PLOT_OF_INBOARD_ANALOG != 2 )
-    #define PLOTTERMAXSCALE ( TRACE_HEIGHT_PLOTTERSPACE * ( ( uint32_t )( NUM_INPUTS_TO_PLOT_OF_ADDON_HIGHEST_SENSI_ADC + NUM_INPUTS_TO_PLOT_OF_INBOARD_ANALOG ) ) )
+    #define PLOTTERMAXSCALE ( HEIGHT_OF_ALL_PLOT_LINESPACES * ( ( uint32_t )( NUM_INPUTS_TO_PLOT_OF_ADDON_HIGHEST_SENSI_ADC + NUM_INPUTS_TO_PLOT_OF_INBOARD_ANALOG ) ) )
 #else
-    #define PLOTTERMAXSCALE ( TRACE_HEIGHT_PLOTTERSPACE * ( ( uint32_t )( NUM_INPUTS_TO_PLOT_OF_ADDON_HIGHEST_SENSI_ADC + NUM_INPUTS_TO_PLOT_OF_INBOARD_ANALOG - 1 ) ) )
+    #define PLOTTERMAXSCALE ( HEIGHT_OF_ALL_PLOT_LINESPACES * ( ( uint32_t )( NUM_INPUTS_TO_PLOT_OF_ADDON_HIGHEST_SENSI_ADC + NUM_INPUTS_TO_PLOT_OF_INBOARD_ANALOG - 1 ) ) )
 #endif
 #define HundredthPLOTTERMAXSCALE ( PLOTTERMAXSCALE / 100 );
 #if ( SAMPLE_TIMES < 1 )
@@ -450,9 +450,9 @@ void shift_timing_line_up()
     for( uint8_t i = NUM_INPUTS_TO_PLOT_OF_INBOARD_ANALOG + NUM_INPUTS_TO_PLOT_OF_ADDON_HIGHEST_SENSI_ADC - 2 ; i > 0; i-- )
 #endif
     {
-        Serial.print( screen_offsets[ i ].zero_of_this_plotline );
+        Serial.print( screen_offsets[ i ].zero_of_this_plot_linespace );
         printvaluesforalltraces();
-        Serial.print( screen_offsets[ i ].high_limit_of_this_plotline );
+        Serial.print( screen_offsets[ i ].high_limit_of_this_plot_linespace );
         printvaluesforalltraces();
         
 #if defined INBOARDINPARALLELWITHHIGHESTSENSI && ( NUM_INPUTS_TO_PLOT_OF_ADDON_HIGHEST_SENSI_ADC > 0 ) && ( NUM_INPUTS_TO_PLOT_OF_INBOARD_ANALOG == 2 )
@@ -461,7 +461,7 @@ void shift_timing_line_up()
         if( i == NUM_INPUTS_TO_PLOT_OF_INBOARD_ANALOG + NUM_INPUTS_TO_PLOT_OF_ADDON_HIGHEST_SENSI_ADC - 1 )
 #endif
         {
-            Serial.print( screen_offsets[ NUM_INPUTS_TO_PLOT_OF_INBOARD_ANALOG + NUM_INPUTS_TO_PLOT_OF_ADDON_HIGHEST_SENSI_ADC - i ].high_limit_of_this_plotline );
+            Serial.print( screen_offsets[ NUM_INPUTS_TO_PLOT_OF_INBOARD_ANALOG + NUM_INPUTS_TO_PLOT_OF_ADDON_HIGHEST_SENSI_ADC - i ].high_limit_of_this_plot_linespace );
             printvaluesforalltraces( true );
         }
     }
@@ -600,7 +600,7 @@ void setup()
         #define SCALE_FACTOR_TO_PROMOTE_LOW_RES_ADC_TO_SAME_SCALE 0
     #endif
 
-    if( NUM_INPUTS_TO_PLOT_OF_ADDON_HIGHEST_SENSI_ADC + NUM_INPUTS_TO_PLOT_OF_INBOARD_ANALOG > 1 ) screen_offsets[ 0 ].zero_of_this_plotline = PLOTTERMAXSCALE - TRACE_HEIGHT_PLOTTERSPACE;
+    if( NUM_INPUTS_TO_PLOT_OF_ADDON_HIGHEST_SENSI_ADC + NUM_INPUTS_TO_PLOT_OF_INBOARD_ANALOG > 1 ) screen_offsets[ 0 ].zero_of_this_plot_linespace = PLOTTERMAXSCALE - HEIGHT_OF_ALL_PLOT_LINESPACES;
     for( uint8_t i = 0; i < NUM_INPUTS_TO_PLOT_OF_ADDON_HIGHEST_SENSI_ADC + NUM_INPUTS_TO_PLOT_OF_INBOARD_ANALOG; i++ )
     {
 #ifdef MAGNIFICATION_FACTOR
@@ -608,32 +608,32 @@ void setup()
 #endif
         if( i == 0 )
         {
-            screen_offsets[ i ].high_limit_of_this_plotline = PLOTTERMAXSCALE;
-            screen_offsets[ i ].zero_of_this_plotline = PLOTTERMAXSCALE - TRACE_HEIGHT_PLOTTERSPACE;
+            screen_offsets[ i ].high_limit_of_this_plot_linespace = PLOTTERMAXSCALE;
+            screen_offsets[ i ].zero_of_this_plot_linespace = PLOTTERMAXSCALE - HEIGHT_OF_ALL_PLOT_LINESPACES;
         }
 #if defined INBOARDINPARALLELWITHHIGHESTSENSI && ( NUM_INPUTS_TO_PLOT_OF_ADDON_HIGHEST_SENSI_ADC > 0 ) && ( NUM_INPUTS_TO_PLOT_OF_INBOARD_ANALOG == 2 )
         else if( i == 1 )
         {
-            screen_offsets[ i ].zero_of_this_plotline = screen_offsets[ i - 1 ].zero_of_this_plotline;
-            screen_offsets[ i ].high_limit_of_this_plotline = screen_offsets[ i - 1 ].high_limit_of_this_plotline;
+            screen_offsets[ i ].zero_of_this_plot_linespace = screen_offsets[ i - 1 ].zero_of_this_plot_linespace;
+            screen_offsets[ i ].high_limit_of_this_plot_linespace = screen_offsets[ i - 1 ].high_limit_of_this_plot_linespace;
         }
         else
         {
-            screen_offsets[ i ].zero_of_this_plotline = TRACE_HEIGHT_PLOTTERSPACE * ( ( ( uint32_t )( NUM_INPUTS_TO_PLOT_OF_INBOARD_ANALOG + ( uint32_t )NUM_INPUTS_TO_PLOT_OF_ADDON_HIGHEST_SENSI_ADC ) - 2 ) - i );
-            screen_offsets[ i ].high_limit_of_this_plotline= screen_offsets[ i ].zero_of_this_plotline + TRACE_HEIGHT_PLOTTERSPACE;
+            screen_offsets[ i ].zero_of_this_plot_linespace = HEIGHT_OF_ALL_PLOT_LINESPACES * ( ( ( uint32_t )( NUM_INPUTS_TO_PLOT_OF_INBOARD_ANALOG + ( uint32_t )NUM_INPUTS_TO_PLOT_OF_ADDON_HIGHEST_SENSI_ADC ) - 2 ) - i );
+            screen_offsets[ i ].high_limit_of_this_plot_linespace= screen_offsets[ i ].zero_of_this_plot_linespace + HEIGHT_OF_ALL_PLOT_LINESPACES;
         }
 #else
         else
         {
-            screen_offsets[ i ].zero_of_this_plotline = TRACE_HEIGHT_PLOTTERSPACE * ( ( ( uint32_t )( NUM_INPUTS_TO_PLOT_OF_INBOARD_ANALOG + ( uint32_t )NUM_INPUTS_TO_PLOT_OF_ADDON_HIGHEST_SENSI_ADC ) - 1 ) - i );
-            screen_offsets[ i ].high_limit_of_this_plotline= screen_offsets[ i ].zero_of_this_plotline + TRACE_HEIGHT_PLOTTERSPACE;
+            screen_offsets[ i ].zero_of_this_plot_linespace = HEIGHT_OF_ALL_PLOT_LINESPACES * ( ( ( uint32_t )( NUM_INPUTS_TO_PLOT_OF_INBOARD_ANALOG + ( uint32_t )NUM_INPUTS_TO_PLOT_OF_ADDON_HIGHEST_SENSI_ADC ) - 1 ) - i );
+            screen_offsets[ i ].high_limit_of_this_plot_linespace= screen_offsets[ i ].zero_of_this_plot_linespace + HEIGHT_OF_ALL_PLOT_LINESPACES;
         }
 #endif
 #ifdef MAGNIFICATION_FACTOR
-        lasttracepoints[ i * 2 ] = ( screen_offsets[ i ].zero_of_this_plotline + screen_offsets[ i ].high_limit_of_this_plotline ) / 2;
-        lasttracepoints[ ( i * 2 ) + 1 ] = ( screen_offsets[ i ].zero_of_this_plotline + screen_offsets[ i ].high_limit_of_this_plotline ) / 2;
+        lasttracepoints[ i * 2 ] = screen_offsets[ i ].zero_of_this_plot_linespace + ( ( ( screen_offsets[ i ].high_limit_of_this_plot_linespace - screen_offsets[ i ].zero_of_this_plot_linespace ) * 2 ) / 3 );
+        lasttracepoints[ ( i * 2 ) + 1 ] = screen_offsets[ i ].zero_of_this_plot_linespace + ( ( screen_offsets[ i ].high_limit_of_this_plot_linespace - screen_offsets[ i ].zero_of_this_plot_linespace ) / 3 );
 #else
-        lasttracepoints[ i ] = ( screen_offsets[ i ].zero_of_this_plotline + screen_offsets[ i ].high_limit_of_this_plotline ) / 2;
+        lasttracepoints[ i ] = screen_offsets[ i ].zero_of_this_plot_linespace + ( ( ( screen_offsets[ i ].high_limit_of_this_plot_linespace - screen_offsets[ i ].zero_of_this_plot_linespace ) * 2 ) / 3 );
 #endif
     }
 
@@ -645,26 +645,24 @@ void setup()
 while ( !Serial ); // wait for serial port to connect. Needed for Leonardo's native USB
     for( uint8_t i = NUM_INPUTS_TO_PLOT_OF_INBOARD_ANALOG + NUM_INPUTS_TO_PLOT_OF_ADDON_HIGHEST_SENSI_ADC - 1; i > 0 ; i-- )
     {
-        Serial.print( screen_offsets[ i ].high_limit_of_this_plotline );
-        printvaluesforalltraces();
-        Serial.print( screen_offsets[ i ].high_limit_of_this_plotline );
-        printvaluesforalltraces();
+        Serial.print( screen_offsets[ i ].high_limit_of_this_plot_linespace );
+        printvaluesforalltraces( true );
+        Serial.print( screen_offsets[ i ].high_limit_of_this_plot_linespace );
+        printvaluesforalltraces( true );
 /*
-        Serial.print( screen_offsets[ NUM_INPUTS_TO_PLOT_OF_INBOARD_ANALOG + NUM_INPUTS_TO_PLOT_OF_ADDON_HIGHEST_SENSI_ADC - i ].zero_of_this_plotline );
+        Serial.print( screen_offsets[ NUM_INPUTS_TO_PLOT_OF_INBOARD_ANALOG + NUM_INPUTS_TO_PLOT_OF_ADDON_HIGHEST_SENSI_ADC - i ].zero_of_this_plot_linespace );
         printvaluesforalltraces();
-        Serial.print( screen_offsets[ NUM_INPUTS_TO_PLOT_OF_INBOARD_ANALOG + NUM_INPUTS_TO_PLOT_OF_ADDON_HIGHEST_SENSI_ADC - i ].zero_of_this_plotline );
+        Serial.print( screen_offsets[ NUM_INPUTS_TO_PLOT_OF_INBOARD_ANALOG + NUM_INPUTS_TO_PLOT_OF_ADDON_HIGHEST_SENSI_ADC - i ].zero_of_this_plot_linespace );
         printvaluesforalltraces();
 */
 /*
         if( i == NUM_INPUTS_TO_PLOT_OF_INBOARD_ANALOG + NUM_INPUTS_TO_PLOT_OF_ADDON_HIGHEST_SENSI_ADC - 1 )
         {
-            Serial.print( screen_offsets[ NUM_INPUTS_TO_PLOT_OF_INBOARD_ANALOG + NUM_INPUTS_TO_PLOT_OF_ADDON_HIGHEST_SENSI_ADC - i ].high_limit_of_this_plotline );
+            Serial.print( screen_offsets[ NUM_INPUTS_TO_PLOT_OF_INBOARD_ANALOG + NUM_INPUTS_TO_PLOT_OF_ADDON_HIGHEST_SENSI_ADC - i ].high_limit_of_this_plot_linespace );
             printvaluesforalltraces( true );
         }
 */
     }
-//    Serial.println( PLOTTERMAXSCALE ); // graphline
-//    printvaluesforalltraces();
 
     #if ( NUM_INPUTS_TO_PLOT_OF_INBOARD_ANALOG > 0 )
         A_PIN_ARRAY = (uint8_t *)malloc( NUM_INPUTS_TO_PLOT_OF_INBOARD_ANALOG );
@@ -812,22 +810,22 @@ void plot_the_normal_and_magnified_signals( uint8_t channel )
 {
     value = value / SAMPLE_TIMES;
     while ( !Serial ); // wait for serial port to connect. Needed for Leonardo's native USB
-    if( value + screen_offsets[ channel ].zero_of_this_plotline <= screen_offsets[ channel ].high_limit_of_this_plotline )
+    if( value + screen_offsets[ channel ].zero_of_this_plot_linespace <= screen_offsets[ channel ].high_limit_of_this_plot_linespace )
     {
-        Serial.print( value + screen_offsets[ channel ].zero_of_this_plotline ); //This is color one
+        Serial.print( value + screen_offsets[ channel ].zero_of_this_plot_linespace ); //This is color one
 #ifdef MAGNIFICATION_FACTOR
-        lasttracepoints[ channel * 2 ] = value + screen_offsets[ channel ].zero_of_this_plotline;
+        lasttracepoints[ channel * 2 ] = value + screen_offsets[ channel ].zero_of_this_plot_linespace;
 #else
-        lasttracepoints[ channel ] = value + screen_offsets[ channel ].zero_of_this_plotline;
+        lasttracepoints[ channel ] = value + screen_offsets[ channel ].zero_of_this_plot_linespace;
 #endif
     }
     else //unmagnified value will display outside its limits.  This should not ever execute
     {
-        Serial.print( screen_offsets[ channel ].high_limit_of_this_plotline );
+        Serial.print( screen_offsets[ channel ].high_limit_of_this_plot_linespace );
 #ifdef MAGNIFICATION_FACTOR
-        lasttracepoints[ channel * 2 ] = screen_offsets[ channel ].high_limit_of_this_plotline;
+        lasttracepoints[ channel * 2 ] = screen_offsets[ channel ].high_limit_of_this_plot_linespace;
 #else
-        lasttracepoints[ channel ] = screen_offsets[ channel ].high_limit_of_this_plotline;
+        lasttracepoints[ channel ] = screen_offsets[ channel ].high_limit_of_this_plot_linespace;
 #endif
     }
     
@@ -843,15 +841,15 @@ void plot_the_normal_and_magnified_signals( uint8_t channel )
 //The less risky way to multiply is to subtract an adjustment from value before multiplying, then add the product of that adjustment and MAGNIFICATION_FACTOR back into value? That adjustment needs to 
 //#error Pick it up here: ensure correct math below
 /*  NEW ATTTEMPT AT ALGORITHM: */
-    if( ( value - screen_offsets[ channel ].magnify_adjustment > screen_offsets[ channel ].high_limit_of_this_plotline ) && \
-        ( value - screen_offsets[ channel ].magnify_adjustment > screen_offsets[ channel ].zero_of_this_plotline ) /*magnify_adjustment too small */ )
+    if( ( value - screen_offsets[ channel ].magnify_adjustment > screen_offsets[ channel ].high_limit_of_this_plot_linespace ) && \
+        ( value - screen_offsets[ channel ].magnify_adjustment > screen_offsets[ channel ].zero_of_this_plot_linespace ) /*magnify_adjustment too small */ )
     {
-        screen_offsets[ channel ].magnify_adjustment += ( ( value - screen_offsets[ channel ].magnify_adjustment ) - screen_offsets[ channel ].high_limit_of_this_plotline ) + TRACESPACE_TO_SKIP_WHEN_REPOSITIONING;
+        screen_offsets[ channel ].magnify_adjustment += ( ( value - screen_offsets[ channel ].magnify_adjustment ) - screen_offsets[ channel ].high_limit_of_this_plot_linespace ) + TRACESPACE_TO_SKIP_WHEN_REPOSITIONING;
     }
-    else if( ( value - screen_offsets[ channel ].magnify_adjustment < screen_offsets[ channel ].zero_of_this_plotline ) && \
-        ( value - screen_offsets[ channel ].magnify_adjustment < screen_offsets[ channel ].high_limit_of_this_plotline ) /*magnify_adjustment too large */ )
+    else if( ( value - screen_offsets[ channel ].magnify_adjustment < screen_offsets[ channel ].zero_of_this_plot_linespace ) && \
+        ( value - screen_offsets[ channel ].magnify_adjustment < screen_offsets[ channel ].high_limit_of_this_plot_linespace ) /*magnify_adjustment too large */ )
     {
-        screen_offsets[ channel ].magnify_adjustment -= ( screen_offsets[ channel ].zero_of_this_plotline  - ( value - screen_offsets[ channel ].magnify_adjustment ) ) - TRACESPACE_TO_SKIP_WHEN_REPOSITIONING;
+        screen_offsets[ channel ].magnify_adjustment -= ( screen_offsets[ channel ].zero_of_this_plot_linespace  - ( value - screen_offsets[ channel ].magnify_adjustment ) ) - TRACESPACE_TO_SKIP_WHEN_REPOSITIONING;
     }
 /******************************************************************************************************************/
 /*
@@ -859,22 +857,22 @@ void plot_the_normal_and_magnified_signals( uint8_t channel )
         {
             value *= MAGNIFICATION_FACTOR;
         
-            if( screen_offsets[ channel ].magnify_adjustment + screen_offsets[ channel ].zero_of_this_plotline > value )
-                screen_offsets[ channel ].magnify_adjustment = value - screen_offsets[ channel ].zero_of_this_plotline - ( ( screen_offsets[ channel ].high_limit_of_this_plotline - screen_offsets[ channel ].zero_of_this_plotline ) * REPOSITION_RATIO_OF_MAGNIFIED_VIEW_WHEN_LIMITS_GET_EXCEEDED ) ;
+            if( screen_offsets[ channel ].magnify_adjustment + screen_offsets[ channel ].zero_of_this_plot_linespace > value )
+                screen_offsets[ channel ].magnify_adjustment = value - screen_offsets[ channel ].zero_of_this_plot_linespace - ( ( screen_offsets[ channel ].high_limit_of_this_plot_linespace - screen_offsets[ channel ].zero_of_this_plot_linespace ) * REPOSITION_RATIO_OF_MAGNIFIED_VIEW_WHEN_LIMITS_GET_EXCEEDED ) ;
         
-            if( screen_offsets[ channel ].magnify_adjustment + screen_offsets[ channel ].high_limit_of_this_plotline < value )
-                screen_offsets[ channel ].magnify_adjustment = value - screen_offsets[ channel ].high_limit_of_this_plotline + ( ( screen_offsets[ channel ].high_limit_of_this_plotline - screen_offsets[ channel ].zero_of_this_plotline ) * REPOSITION_RATIO_OF_MAGNIFIED_VIEW_WHEN_LIMITS_GET_EXCEEDED ) ;
+            if( screen_offsets[ channel ].magnify_adjustment + screen_offsets[ channel ].high_limit_of_this_plot_linespace < value )
+                screen_offsets[ channel ].magnify_adjustment = value - screen_offsets[ channel ].high_limit_of_this_plot_linespace + ( ( screen_offsets[ channel ].high_limit_of_this_plot_linespace - screen_offsets[ channel ].zero_of_this_plot_linespace ) * REPOSITION_RATIO_OF_MAGNIFIED_VIEW_WHEN_LIMITS_GET_EXCEEDED ) ;
 */
                 //Plot it now
             Serial.print( ( unsigned long )( value - screen_offsets[ channel ].magnify_adjustment ) );
             lasttracepoints[ ( channel * 2 ) + 1 ] = value - screen_offsets[ channel ].magnify_adjustment;
 /*
         }
-        else //value is too large to get multiplied by MAGNIFICATION_FACTOR so we keep subtracting MAGNIFICATION_FACTOR * zero_of_this_plotline until the remainder is between zero_of_this_plotline and high_limit_of_this_plotline
+        else //value is too large to get multiplied by MAGNIFICATION_FACTOR so we keep subtracting MAGNIFICATION_FACTOR * zero_of_this_plot_linespace until the remainder is between zero_of_this_plot_linespace and high_limit_of_this_plot_linespace
 //?The way to multiply less likely to overflow is to subtract an adjustment from value before multiplying, then add the product of that adjustment and MAGNIFICATION_FACTOR back into value? That adjustment needs to 
         {
-            Serial.print( screen_offsets[ channel ].high_limit_of_this_plotline ); //This is color two or four
-            lasttracepoints[ ( channel * 2 ) + 1 ] = screen_offsets[ channel ].high_limit_of_this_plotline;
+            Serial.print( screen_offsets[ channel ].high_limit_of_this_plot_linespace ); //This is color two or four
+            lasttracepoints[ ( channel * 2 ) + 1 ] = screen_offsets[ channel ].high_limit_of_this_plot_linespace;
         }
 */
 AFTER_THE_MAGNIFIED_PLOTTED:
@@ -967,19 +965,19 @@ Start_of_addon_ADC_acquisition:
                 #endif
                 #if ( HIGHESTBITRESFROMHIGHESTSENSIADDONADC == 11 ) || ( HIGHESTBITRESFROMHIGHESTSENSIADDONADC == 15 )
                     value = ads.readADC_SingleEnded( i );
-                    while( value > TRACE_HEIGHT_PLOTTERSPACE ) //TODO: verify the need for this check
+                    while( value > HEIGHT_OF_ALL_PLOT_LINESPACES ) //TODO: verify the need for this check
                     {
                         value = ads.readADC_SingleEnded( i );
                     }
                 #else
                     #ifdef DIFFERENTIAL
                         #if ( HIGHESTBITRESFROMHIGHESTSENSIADDONADC < 17 )
-                            value = CONVERTTWOSCOMPTOSINGLEENDED( ( i == 1 ) ? ads.readADC_Differential_2_3() : ads.readADC_Differential_0_1(), ( uint32_t )(  - 1 ), TRACE_HEIGHT_PLOTTERSPACE >> 1 );  // Convert to single-ended style
+                            value = CONVERTTWOSCOMPTOSINGLEENDED( ( i == 1 ) ? ads.readADC_Differential_2_3() : ads.readADC_Differential_0_1(), ( uint32_t )(  - 1 ), HEIGHT_OF_ALL_PLOT_LINESPACES >> 1 );  // Convert to single-ended style
                         #else
                             #if ( HIGHEST_SENSI_ADDON_ADC_TYPE == HX711 )
 //                                hx711.power_up();
-                                value = CONVERTTWOSCOMPTOSINGLEENDED( hx711.read(), TRACE_HEIGHT_PLOTTERSPACE - 1, TRACE_HEIGHT_PLOTTERSPACE >> 1 /*0x800000*/ );
-//                                value = hx711.read_average( 9 );
+                                value = CONVERTTWOSCOMPTOSINGLEENDED( hx711.read(), HEIGHT_OF_ALL_PLOT_LINESPACES - 1, HEIGHT_OF_ALL_PLOT_LINESPACES >> 1 /*0x800000*/ );
+//                                value = 0xFFFFFF;//= hx711.read_average( 9 );
                                 
 //                                hx711.power_down();
                             #else
@@ -1024,11 +1022,11 @@ Start_of_addon_ADC_acquisition:
                         #endif
                         #if ( HIGHESTBITRESFROMHIGHESTSENSIADDONADC == 11 ) || ( HIGHESTBITRESFROMHIGHESTSENSIADDONADC == 15 )
                             valueTemp = ads.readADC_SingleEnded( i );
-                            while( valueTemp > TRACE_HEIGHT_PLOTTERSPACE ) valueTemp = ads.readADC_SingleEnded( i );
+                            while( valueTemp > HEIGHT_OF_ALL_PLOT_LINESPACES ) valueTemp = ads.readADC_SingleEnded( i );
                         #else
                             #ifdef DIFFERENTIAL
                                 #if ( HIGHESTBITRESFROMHIGHESTSENSIADDONADC < 17 )
-                                    valueTemp = CONVERTTWOSCOMPTOSINGLEENDED( ( i == 1 ) ? ads.readADC_Differential_2_3() : ads.readADC_Differential_0_1(), TRACE_HEIGHT_PLOTTERSPACE - 1, TRACE_HEIGHT_PLOTTERSPACE >> 1 /*0x8000*/ );
+                                    valueTemp = CONVERTTWOSCOMPTOSINGLEENDED( ( i == 1 ) ? ads.readADC_Differential_2_3() : ads.readADC_Differential_0_1(), HEIGHT_OF_ALL_PLOT_LINESPACES - 1, HEIGHT_OF_ALL_PLOT_LINESPACES >> 1 /*0x8000*/ );
                                 #else
                                     #if ( HIGHEST_SENSI_ADDON_ADC_TYPE == HX711 )
                                         #ifdef DEBUG
@@ -1036,8 +1034,8 @@ Start_of_addon_ADC_acquisition:
 //                                            Serial.println( F( "Reading differential valueTemp" ) );
                                         #endif
 //                                            hx711.power_up();
-                                            valueTemp = CONVERTTWOSCOMPTOSINGLEENDED( hx711.read(), TRACE_HEIGHT_PLOTTERSPACE - 1, TRACE_HEIGHT_PLOTTERSPACE >> 1 /*0x800000*/ );
-//                                            valueTemp = hx711.read_average( 9 );
+                                            valueTemp = CONVERTTWOSCOMPTOSINGLEENDED( hx711.read(), HEIGHT_OF_ALL_PLOT_LINESPACES - 1/*mask of significant bits 24 or 32, etc*/, HEIGHT_OF_ALL_PLOT_LINESPACES >> 1 /*0x800000 which bit is sign bit*/ );
+//                                            valueTemp = 0xFFFFFF; //hx711.read_average( 9 );
                                             
 //                                            hx711.power_down();
                                     #else
@@ -1178,9 +1176,9 @@ NoPotChange:
 #if defined INBOARDINPARALLELWITHHIGHESTSENSI && ( NUM_INPUTS_TO_PLOT_OF_ADDON_HIGHEST_SENSI_ADC > 0 ) && ( NUM_INPUTS_TO_PLOT_OF_INBOARD_ANALOG == 2 )
             i = ( i < 1 ? 1 : i );
 #endif
-            Serial.print( screen_offsets[ i ].high_limit_of_this_plotline );
+            Serial.print( screen_offsets[ i ].high_limit_of_this_plot_linespace );
             printvaluesforalltraces( true );
-            Serial.print( screen_offsets[ i ].zero_of_this_plotline );
+            Serial.print( screen_offsets[ i ].zero_of_this_plot_linespace );
             printvaluesforalltraces( true );
         }
     }
@@ -1192,14 +1190,14 @@ NoPotChange:
         for( uint8_t i = NUM_INPUTS_TO_PLOT_OF_INBOARD_ANALOG + NUM_INPUTS_TO_PLOT_OF_ADDON_HIGHEST_SENSI_ADC - 1; i > 0; i-- )
 #endif
         {
-            Serial.print( screen_offsets[ i ].high_limit_of_this_plotline );
+            Serial.print( screen_offsets[ i ].high_limit_of_this_plot_linespace );
             printvaluesforalltraces( true );
-            Serial.print( screen_offsets[ i - 1 ].zero_of_this_plotline );
+            Serial.print( screen_offsets[ i - 1 ].zero_of_this_plot_linespace );
             printvaluesforalltraces( true );
 /*#else
             if( i == NUM_INPUTS_TO_PLOT_OF_INBOARD_ANALOG + NUM_INPUTS_TO_PLOT_OF_ADDON_HIGHEST_SENSI_ADC - 1 )
             {
-                Serial.print( screen_offsets[ NUM_INPUTS_TO_PLOT_OF_INBOARD_ANALOG + NUM_INPUTS_TO_PLOT_OF_ADDON_HIGHEST_SENSI_ADC - i - 1 ].high_limit_of_this_plotline );
+                Serial.print( screen_offsets[ NUM_INPUTS_TO_PLOT_OF_INBOARD_ANALOG + NUM_INPUTS_TO_PLOT_OF_ADDON_HIGHEST_SENSI_ADC - i - 1 ].high_limit_of_this_plot_linespace );
                 printvaluesforalltraces( true );
             }
 */ //#endif
