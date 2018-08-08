@@ -1,5 +1,5 @@
 //        Before compiling this sketch, you must set or confirm the following appropriately for your configuration and preferences !!!
-#define NUM_INPUTS_TO_PLOT_OF_INBOARD_ANALOG 7                                                    //The number of consecutive analog pins to plot, beginning with PIN_A0
+#define NUM_INPUTS_TO_PLOT_OF_INBOARD_ANALOG 2                                                    //The number of consecutive analog pins to plot, beginning with PIN_A0
 #define NUM_INPUTS_TO_PLOT_OF_ADDON_HIGHEST_SENSI_ADC 1                                            //The number of consecutive "highest-sensitivity ADC" pins to plot, beginning with A0 and, if double-ended, A1.  ADDON ADC ONLY - DOES _NOT_ INCLUDE INBOARD ANALOG INPUT PINS
 #define HIGHEST_SENSI_ADDON_ADC_TYPE HX711                                                         //Proposing that "ADS1231" covers ADS1231; could make this "ADS1232" (ADS1232), "ADS1242" (ADS1242), "AD779x" (AD779x), "AD7780" (AD7780), "HX711" (HX711), "MAX112x0" (MAX112x0...) or "LTC2400" (LTC2400) but code not included in v.FREE
 #define MAGNIFICATION_FACTOR 5                                                                     //To aid in viewing. Note: you can disable displaying magnified traces altogether by not defined this macro at all
@@ -15,7 +15,8 @@
 #define HIGHEST_SENSI_PGA_GAIN_FACTOR 128                                                          //For HX711 a gain of 128 gets applied to channel A. Available to you for your own use PGA=Programmable Gain Amplifier: many ADCs will correlate a gain of one with full-scale being rail-to-rail, while a gain of anything higher correlates to full-scale being in the mV range (most sensitive and most noise-susceptible).
 #define MIN_WAIT_TIME_BETWEEN_PLOT_POINTS_MS 1                                                   //Sets maximum speed, but actual speed may be further limited by other factors
 #define USING_LM334_WITH_MCP4162_POTS                                                              //Remove if using standard wheatstone bridge with only standard resistors.  make true if using bridge with upper resistive elements being LM334s controllable with the MCP4162-104 pots
-//#define INBOARDINPARALLELWITHHIGHESTSENSI                                                          //If defined allows rail-to-rail inboard Analog Inputs to be used to adjust digipots, also causes first two inboard Analog Inputs to be superimposed into same plot-line space
+/*the next macro doesn't get processed right for magnified traces*/
+#define INBOARDINPARALLELWITHHIGHESTSENSI                                                          //If defined allows rail-to-rail inboard Analog Inputs to be used to adjust digipots, also causes first two inboard Analog Inputs to be superimposed into same plot-line space
 //#define AUTO_BRIDGE_BALANCING  //increases setup time significantly                                //Turns on auto-balancing in setup(), significant time elapse for this to complete!
 //#define DEBUG true                                                                                 //Don't forget that DEBUG is not formatted for Serial plotter, but might work anyway if you'd never print numbers only any DEBUG print line
 //#define POTTESTWOBBLEPOSITIVE true                                                                 //For testing - wobbles digipot settings to impose a signal into Wheatstone bridge outputs
@@ -89,6 +90,7 @@
 *********************************************************************************************************************/
 #define VERSION "v.Free"  // Since this never gets used anywhere, it doesn't compile in so no memory is wasted
 #include <math.h>
+#define COMMON_MODE_LEVEL_FOR_MAX_GAIN_AS_READ_RAW_BY_INBOARD_ANALOG ( 1 << ( ANALOGINPUTBITSOFBOARD - 1 ) ) // Needed f HIGHEST_SENSI_ADDON_ADC_TYPE has a sweet spot of max sensitivity, unlike true op-amp.  (HX711 == 306; normal op-amp, which has none, == Vcc/2 == 512)
 #ifndef NUM_INPUTS_TO_PLOT_OF_ADDON_HIGHEST_SENSI_ADC
     #define NUM_INPUTS_TO_PLOT_OF_ADDON_HIGHEST_SENSI_ADC 0
 #endif
@@ -126,6 +128,8 @@
         #if ( HIGHEST_SENSI_ADDON_ADC_TYPE == HX711 ) && ( HIGHESTBITRESFROMHIGHESTSENSIADDONADC == 24 )  //The HX711 does NOT communicate over open-collector I2C; pick your own pins for comming with it other than SS, CLK, MOSI, and MISO of SPI.  The digital interface to the HX711 is a proprietary SPI-like interface using CLK to select and Data is always lo-z (can't share either)
             #include <HX711.h>  //From https://github.com/bogde/HX711  This ADC has no CS pin so the library must use software SPI with dedicated CLK pin.  Not data selectable as would be in I2C, nor CS selectable - must be on dedicated CLK & Data lines
             HX711 hx711( PIN_FOR_DATA_TOFROM_HIGHEST_SENSI_ADC, PIN_FOR_CLK_TO_HIGHEST_SENSI_ADC ); // This library allows us to set the pins and gain here or later in a .begin().   
+            #undef COMMON_MODE_LEVEL_FOR_MAX_GAIN_AS_READ_RAW_BY_INBOARD_ANALOG
+            #define COMMON_MODE_LEVEL_FOR_MAX_GAIN_AS_READ_RAW_BY_INBOARD_ANALOG 305                // If HIGHEST_SENSI_ADDON_ADC_TYPE has a sweet spot of max sensitivity, unlike true op-amp.  (HX711 == 305)
         #else
             #if ( HIGHEST_SENSI_ADDON_ADC_TYPE == ADS1232 ) && ( HIGHESTBITRESFROMHIGHESTSENSIADDONADC == 24 )
             #else
@@ -471,6 +475,272 @@ void shift_timing_line_up()
 
 }
 
+uint16_t bestoffour( uint8_t index = 0 )
+{ //remove from consideration the max and min, then return avg of remaining two  //Re-suse some variables not otherwise in use right now
+    uint16_t value = analogRead( *( A_PIN_ARRAY + index ) );
+    delay( 2 );
+    uint16_t value1 = analogRead( *( A_PIN_ARRAY + index ) );
+    delay( 2 );
+    uint16_t value2 = analogRead( *( A_PIN_ARRAY + index ) );
+    delay( 2 );
+    uint16_t val4 = analogRead( *( A_PIN_ARRAY + index ) );
+    return ( uint16_t )( ( ( long )( value + value1 + value2 + val4 ) ) - ( max( max( max( value, value1 ), value2 ), val4 ) + min( min( min( value, value1 ), value2 ), val4 ) ) ) / 2;
+}
+
+uint16_t BestGuessAnalogInputreading( uint8_t input, bool finetune = false )
+{
+    uint16_t value, value1;
+    unsigned long runningtotal = 0;
+    uint8_t times = 0;
+    do
+    {
+        value = bestoffour( input );
+        value1 = bestoffour( input );
+        if( finetune )
+        {
+            times++;
+            runningtotal += value;
+            runningtotal += value1;
+        }
+    }while( value != value1 );
+        if( !finetune ) return value;
+        return value; 
+        //The following wish isn't a good method
+        return ( uint16_t )( runningtotal / times );
+}
+
+uint8_t set_digipots_step = 0;
+
+bool set_digipots( bool just_perform_one_step = false )
+{
+#if DEBUG
+    while ( !Serial && ( millis() - millis_start < 8000 ) );
+    Serial.print( F( "Setting up digipots: bridge leg 0 = " ) );
+    Serial.print( analogRead( *( A_PIN_ARRAY + 0 ) ) ); //This array was not designed for digipot indexes but should have been
+    Serial.print( F( ", bridge leg 1 = " ) );
+    Serial.println( analogRead( *( A_PIN_ARRAY + 1 ) ) );
+#endif
+if( set_digipots_step != 0 )
+{
+    if( set_digipots_step == 1 ) goto set_digipots_step1;
+    if( set_digipots_step == 2 ) goto set_digipots_step2;
+    if( set_digipots_step == 3 ) goto set_digipots_step3;
+    if( set_digipots_step == 4 ) goto set_digipots_step4;
+    if( set_digipots_step == 5 ) goto set_digipots_step5;
+    if( set_digipots_step == 6 ) goto set_digipots_step6;
+    if( set_digipots_step == 7 ) goto set_digipots_step7;
+    if( set_digipots_step == 8 ) goto set_digipots_step8;
+    if( set_digipots_step == 9 ) goto set_digipots_step9;
+    if( set_digipots_step == 10 ) goto set_digipots_step10;
+}
+
+/*Next is where the Wheatstone bridge reference leg output (that connects to negative input of highest sensi ADC) is set to COMMON_MODE_LEVEL_FOR_MAX_GAIN_AS_READ_RAW_BY_INBOARD_ANALOG voltage level*/
+    static uint8_t stepsize;
+    stepsize = 10;
+    static uint16_t startpoint1;
+    static uint16_t startpoint2;
+    while( ( BestGuessAnalogInputreading( 1 ) < COMMON_MODE_LEVEL_FOR_MAX_GAIN_AS_READ_RAW_BY_INBOARD_ANALOG ) && ( stepsize > 0 ) )
+    {
+        while( BestGuessAnalogInputreading( 1 ) < COMMON_MODE_LEVEL_FOR_MAX_GAIN_AS_READ_RAW_BY_INBOARD_ANALOG )
+        {
+            startpoint1 = digipot_4_value;
+            startpoint2 = digipot_5_value;
+            //Decrease digipot values as long as they respond right
+            if( ( digipot_4_value <= stepsize - 1 ) && ( digipot_5_value <= stepsize - 1 ) ) break;
+            if( digipot_4_value > stepsize - 1 )
+            {
+                setPotValue( DIGITAL_POT_4, digipot_4_value - stepsize );
+                if( just_perform_one_step )
+                {
+                    set_digipots_step = 1;
+                    return false;
+                }
+set_digipots_step1:;
+            }
+            if( digipot_5_value > stepsize - 1 )
+            {
+                setPotValue( DIGITAL_POT_5, digipot_5_value - stepsize );
+                if( just_perform_one_step )
+                {
+                    set_digipots_step = 2;
+                    return false;
+                }
+set_digipots_step2:;
+            }
+        }
+        setPotValue( DIGITAL_POT_4, startpoint1 );
+        setPotValue( DIGITAL_POT_5, startpoint2 );
+        stepsize >>= 1;
+    }
+    while( BestGuessAnalogInputreading( 1 ) < COMMON_MODE_LEVEL_FOR_MAX_GAIN_AS_READ_RAW_BY_INBOARD_ANALOG )
+    {
+        adjust_values_for_this_leg( DIGITAL_POT_4, &digipot_4_value, DIGITAL_POT_5, &digipot_5_value,  DIGITAL_POT_6, &digipot_6_value, false );
+        if( just_perform_one_step )
+        {
+            set_digipots_step = 3;
+            return false;
+        }
+set_digipots_step3:;
+    }
+    stepsize = 10;
+    while( ( BestGuessAnalogInputreading( 1 ) > COMMON_MODE_LEVEL_FOR_MAX_GAIN_AS_READ_RAW_BY_INBOARD_ANALOG ) && ( stepsize > 0 ) )
+    {
+        while( BestGuessAnalogInputreading( 1 ) > COMMON_MODE_LEVEL_FOR_MAX_GAIN_AS_READ_RAW_BY_INBOARD_ANALOG )
+        {
+            startpoint1 = digipot_4_value;
+            startpoint2 = digipot_5_value;
+            //Decrease digipot values as long as they respond right
+            if( ( digipot_4_value <= stepsize - 1 ) && ( digipot_5_value <= stepsize - 1 ) ) break;
+            if( digipot_4_value > stepsize - 1 )
+            {
+                setPotValue( DIGITAL_POT_4, digipot_4_value + stepsize );
+                if( just_perform_one_step )
+                {
+                    set_digipots_step = 4;
+                    return false;
+                }
+set_digipots_step4:;
+            }
+            if( digipot_5_value > stepsize - 1 )
+            {
+                setPotValue( DIGITAL_POT_5, digipot_5_value + stepsize );
+                if( just_perform_one_step )
+                {
+                    set_digipots_step = 5;
+                    return false;
+                }
+set_digipots_step5:;
+            }
+            BestGuessAnalogInputreading( 0 );
+                if( just_perform_one_step )
+                {
+                    set_digipots_step = 6;
+                    return false;
+                }
+set_digipots_step6:;
+        }
+        setPotValue( DIGITAL_POT_4, startpoint1 );
+        setPotValue( DIGITAL_POT_5, startpoint2 );
+        stepsize >>= 1;
+    }
+    while( BestGuessAnalogInputreading( 1 ) > COMMON_MODE_LEVEL_FOR_MAX_GAIN_AS_READ_RAW_BY_INBOARD_ANALOG )
+    {
+        adjust_values_for_this_leg( DIGITAL_POT_4, &digipot_4_value, DIGITAL_POT_5, &digipot_5_value,  DIGITAL_POT_6, &digipot_6_value, true );
+        if( just_perform_one_step )
+        {
+            set_digipots_step = 7;
+            return false;
+        }
+set_digipots_step7:;
+    }
+//Converge by two consecutive readings
+    do
+    {//This leg is the  reference, so we need to take a little extra time: avg out more samples
+        if( BestGuessAnalogInputreading( 1, FINETUNE ) > COMMON_MODE_LEVEL_FOR_MAX_GAIN_AS_READ_RAW_BY_INBOARD_ANALOG )
+        {
+            adjust_values_for_this_leg( DIGITAL_POT_4, &digipot_4_value, DIGITAL_POT_5, &digipot_5_value,  DIGITAL_POT_6, &digipot_6_value, true );
+        }
+        else if( BestGuessAnalogInputreading( 1, FINETUNE ) /*read it again*/ < COMMON_MODE_LEVEL_FOR_MAX_GAIN_AS_READ_RAW_BY_INBOARD_ANALOG )
+        {
+            adjust_values_for_this_leg( DIGITAL_POT_4, &digipot_4_value, DIGITAL_POT_5, &digipot_5_value,  DIGITAL_POT_6, &digipot_6_value, false );
+        }
+        if( just_perform_one_step )
+        {
+            set_digipots_step = 8;
+            return false;
+        }
+set_digipots_step8:
+        if( BestGuessAnalogInputreading( 1, FINETUNE ) /*read it again*/ != COMMON_MODE_LEVEL_FOR_MAX_GAIN_AS_READ_RAW_BY_INBOARD_ANALOG ) continue;
+        if( just_perform_one_step )
+        {
+            set_digipots_step = 9;
+            return false;
+        }
+set_digipots_step9:;
+    }while( BestGuessAnalogInputreading( 1, FINETUNE ) /*read it again*/ != COMMON_MODE_LEVEL_FOR_MAX_GAIN_AS_READ_RAW_BY_INBOARD_ANALOG );
+
+    static uint8_t channel;
+    for( channel = 0; channel < NUM_INPUTS_TO_PLOT_OF_ADDON_HIGHEST_SENSI_ADC; channel++ )
+    {
+        set_bridge_leg_signal_input( channel );
+        if( just_perform_one_step )
+        {
+            set_digipots_step = 10;
+            return false;
+        }
+set_digipots_step10:;
+    }
+    set_digipots_step = 0;
+    return true;
+}
+
+#ifdef USING_LM334_WITH_MCP4162_POTS && defined AUTO_BRIDGE_BALANCING
+void set_bridge_leg_signal_input( uint8_t channel ) //When channel starts being used in the future, the digipots are what needs to get changed herein
+{//BIAS_TO_APPLY_TO_SIGNAL1_TO_CENTER_TRACE
+    uint16_t stepsize = 10;    
+    uint16_t startpoint1;
+    uint16_t startpoint2;
+    while( ( BestGuessAnalogInputreading( channel * 2 ) < COMMON_MODE_LEVEL_FOR_MAX_GAIN_AS_READ_RAW_BY_INBOARD_ANALOG + BIAS_TO_APPLY_TO_SIGNAL1_TO_CENTER_TRACE ) && ( stepsize > 0 ) )
+    {
+        while( BestGuessAnalogInputreading( channel * 2 ) < COMMON_MODE_LEVEL_FOR_MAX_GAIN_AS_READ_RAW_BY_INBOARD_ANALOG + BIAS_TO_APPLY_TO_SIGNAL1_TO_CENTER_TRACE )
+        {
+            startpoint1 = digipot_1_value;
+            startpoint2 = digipot_2_value;
+            //Decrease digipot values as long as they respond right
+            if( ( digipot_1_value <= stepsize - 1 ) && ( digipot_2_value <= stepsize - 1 ) ) break;
+            if( digipot_1_value > stepsize - 1 ) setPotValue( DIGITAL_POT_1, digipot_1_value - stepsize );
+            if( digipot_2_value > stepsize - 1 ) setPotValue( DIGITAL_POT_2, digipot_2_value - stepsize );
+            BestGuessAnalogInputreading( channel * 2 );
+        }
+        setPotValue( DIGITAL_POT_1, startpoint1 );
+        setPotValue( DIGITAL_POT_2, startpoint2 );
+        stepsize >>= 1;
+    }
+//Converge on COMMON_MODE_LEVEL_FOR_MAX_GAIN_AS_READ_RAW_BY_INBOARD_ANALOG in smaller steps
+    while( BestGuessAnalogInputreading( channel * 2 ) < COMMON_MODE_LEVEL_FOR_MAX_GAIN_AS_READ_RAW_BY_INBOARD_ANALOG + BIAS_TO_APPLY_TO_SIGNAL1_TO_CENTER_TRACE )
+    {
+        adjust_values_for_this_leg( DIGITAL_POT_1, &digipot_1_value, DIGITAL_POT_2, &digipot_2_value,  DIGITAL_POT_3, &digipot_3_value, false );
+    }
+    stepsize = 10;
+    while( ( BestGuessAnalogInputreading( channel * 2 ) > COMMON_MODE_LEVEL_FOR_MAX_GAIN_AS_READ_RAW_BY_INBOARD_ANALOG + BIAS_TO_APPLY_TO_SIGNAL1_TO_CENTER_TRACE ) && ( stepsize > 0 ) )
+    {
+        while( BestGuessAnalogInputreading( channel * 2 ) > COMMON_MODE_LEVEL_FOR_MAX_GAIN_AS_READ_RAW_BY_INBOARD_ANALOG + BIAS_TO_APPLY_TO_SIGNAL1_TO_CENTER_TRACE )
+        {
+            startpoint1 = digipot_1_value;
+            startpoint2 = digipot_2_value;
+            //Decrease digipot values as long as they respond right
+            if( ( digipot_1_value <= stepsize - 1 ) && ( digipot_2_value <= stepsize - 1 ) ) break;
+            setPotValue( DIGITAL_POT_1, digipot_1_value + stepsize );
+            setPotValue( DIGITAL_POT_2, digipot_2_value + stepsize );
+            BestGuessAnalogInputreading( channel * 2 );
+        }
+        setPotValue( DIGITAL_POT_1, startpoint1 );
+        setPotValue( DIGITAL_POT_2, startpoint2 );
+        stepsize >>= 1;
+    }
+
+//Converge on COMMON_MODE_LEVEL_FOR_MAX_GAIN_AS_READ_RAW_BY_INBOARD_ANALOG in smaller steps
+    while( BestGuessAnalogInputreading( channel * 2 ) > COMMON_MODE_LEVEL_FOR_MAX_GAIN_AS_READ_RAW_BY_INBOARD_ANALOG + BIAS_TO_APPLY_TO_SIGNAL1_TO_CENTER_TRACE )
+    {
+        adjust_values_for_this_leg( DIGITAL_POT_1, &digipot_1_value, DIGITAL_POT_2, &digipot_2_value,  DIGITAL_POT_3, &digipot_3_value, true );
+    }
+//Converge by one or two consecutive readings
+    do
+    {
+        if( BestGuessAnalogInputreading( channel * 2 ) > COMMON_MODE_LEVEL_FOR_MAX_GAIN_AS_READ_RAW_BY_INBOARD_ANALOG + BIAS_TO_APPLY_TO_SIGNAL1_TO_CENTER_TRACE )
+        {
+            adjust_values_for_this_leg( DIGITAL_POT_1, &digipot_1_value, DIGITAL_POT_2, &digipot_2_value,  DIGITAL_POT_3, &digipot_3_value, true );
+        }
+        else if( BestGuessAnalogInputreading( channel * 2 ) /*read it again*/ < COMMON_MODE_LEVEL_FOR_MAX_GAIN_AS_READ_RAW_BY_INBOARD_ANALOG + BIAS_TO_APPLY_TO_SIGNAL1_TO_CENTER_TRACE )
+        {
+            adjust_values_for_this_leg( DIGITAL_POT_1, &digipot_1_value, DIGITAL_POT_2, &digipot_2_value,  DIGITAL_POT_3, &digipot_3_value, false );
+        }
+        if( BestGuessAnalogInputreading( channel * 2 ) /*read it again*/ != COMMON_MODE_LEVEL_FOR_MAX_GAIN_AS_READ_RAW_BY_INBOARD_ANALOG + BIAS_TO_APPLY_TO_SIGNAL1_TO_CENTER_TRACE ) continue;
+        
+    }while( BestGuessAnalogInputreading( channel * 2 ) /*read it again*/ != COMMON_MODE_LEVEL_FOR_MAX_GAIN_AS_READ_RAW_BY_INBOARD_ANALOG + BIAS_TO_APPLY_TO_SIGNAL1_TO_CENTER_TRACE );
+}
+#endif
+
 void setup() 
 {
 //#ifdef __LGT8FX8E__
@@ -665,13 +935,20 @@ while ( !Serial ); // wait for serial port to connect. Needed for Leonardo's nat
 */
     }
 
-    #if ( NUM_INPUTS_TO_PLOT_OF_INBOARD_ANALOG > 0 )
+    #if defined USING_LM334_WITH_MCP4162_POTS && defined INBOARDINPARALLELWITHHIGHESTSENSI && defined AUTO_BRIDGE_BALANCING && not defined LEAVEPOTVALUESALONEDURINGSETUP && NUM_INPUTS_TO_PLOT_OF_INBOARD_ANALOG < 2
+        A_PIN_ARRAY = (uint8_t *)malloc( 2 );
+    #elif ( NUM_INPUTS_TO_PLOT_OF_INBOARD_ANALOG > 0 )
         A_PIN_ARRAY = (uint8_t *)malloc( NUM_INPUTS_TO_PLOT_OF_INBOARD_ANALOG );
-    
-        //Herafter is the pattern.  If you have more analog pins, add them according to the pattern.
+    #endif
+        #if ( NUM_INPUTS_TO_PLOT_OF_INBOARD_ANALOG > 0 ) || ( defined USING_LM334_WITH_MCP4162_POTS && defined INBOARDINPARALLELWITHHIGHESTSENSI && defined AUTO_BRIDGE_BALANCING && not defined LEAVEPOTVALUESALONEDURINGSETUP )
+        //Hereafter is the pattern.  If you have more analog pins, add them according to the pattern.
         #ifdef NUM_ANALOG_INPUTS
         #ifdef PIN_A0
+            #if defined USING_LM334_WITH_MCP4162_POTS && defined INBOARDINPARALLELWITHHIGHESTSENSI && defined AUTO_BRIDGE_BALANCING && not defined LEAVEPOTVALUESALONEDURINGSETUP && NUM_INPUTS_TO_PLOT_OF_INBOARD_ANALOG < 2
+            for( uint8_t i = 0; i < 2; i++ )
+            #else
             for( uint8_t i = 0; i < NUM_INPUTS_TO_PLOT_OF_INBOARD_ANALOG; i++ )
+            #endif
             {
                 if( i == 0 )
                     *(A_PIN_ARRAY + i) = PIN_A0;
@@ -770,7 +1047,11 @@ while ( !Serial ); // wait for serial port to connect. Needed for Leonardo's nat
                     while ( !Serial ); // wait for serial port to connect. Needed for Leonardo's native USB
                     Serial.println( F( "Creating analog pin definitions" ) );
                 #endif
+            #if defined USING_LM334_WITH_MCP4162_POTS && defined INBOARDINPARALLELWITHHIGHESTSENSI && defined AUTO_BRIDGE_BALANCING && not defined LEAVEPOTVALUESALONEDURINGSETUP && NUM_INPUTS_TO_PLOT_OF_INBOARD_ANALOG < 2
+                for( uint8_t i = 0; i < 2; i++ )
+            #else
                 for( uint8_t i = 0; i < NUM_INPUTS_TO_PLOT_OF_INBOARD_ANALOG; i++ )
+            #endif
                     *(A_PIN_ARRAY + i) = i + FIRST_ANALOG_PIN_DIGITAL_NUMBER_FOR_BOARDS_NOT_HAVING_ANALOG_PINS_DEFINED_BY_PIN_A0_TYPE_DEFINES;
             #endif //end of PIN_A0 check
         #endif
@@ -785,7 +1066,11 @@ while ( !Serial ); // wait for serial port to connect. Needed for Leonardo's nat
         Serial.println( F( "Some running parameters:" ) );
         Serial.print( F( "A_PIN_ARRAY = " ) );
         Serial.println( (unsigned long)A_PIN_ARRAY );
+    #if defined USING_LM334_WITH_MCP4162_POTS && defined INBOARDINPARALLELWITHHIGHESTSENSI && defined AUTO_BRIDGE_BALANCING && not defined LEAVEPOTVALUESALONEDURINGSETUP && NUM_INPUTS_TO_PLOT_OF_INBOARD_ANALOG < 2
+        for( uint8_t i = 0; i < 2; i++ )
+    #else
         for( uint8_t i = 0; i < NUM_INPUTS_TO_PLOT_OF_INBOARD_ANALOG; i++ )
+    #endif
             Serial.println( *( A_PIN_ARRAY + i ) );
         Serial.print( F( "PLOTTERMAXSCALE = " ) );
         Serial.print( PLOTTERMAXSCALE );
@@ -803,6 +1088,14 @@ while ( !Serial ); // wait for serial port to connect. Needed for Leonardo's nat
         
         Serial.println( F( "End of setup" ) );
     #endif
+/*
+ * MOVE THE FOLLOWING FUNCTIONALITY INTO THE NORMAL RUNNING LOOP SO THE EFFECTS OF AUTO DIGIPOT ADJUSTMENTS ARE SEEN BUT FIRST WE NEED TO 
+ * ENSURE THE PIN CROSS REFERENCING INDEXES ARE GOOD FOR WHEN ANALOG INPUT #2 IS NEEDED FOR AUTO BALANCE BUT NOT DISPLAY????
+*/
+#if defined USING_LM334_WITH_MCP4162_POTS && defined INBOARDINPARALLELWITHHIGHESTSENSI && defined AUTO_BRIDGE_BALANCING && not defined LEAVEPOTVALUESALONEDURINGSETUP
+set_digipots();
+#endif
+
 }
 
 //#if defined INBOARDINPARALLELWITHHIGHESTSENSI && ( NUM_INPUTS_TO_PLOT_OF_ADDON_HIGHEST_SENSI_ADC > 0 ) && ( NUM_INPUTS_TO_PLOT_OF_INBOARD_ANALOG > 0 )
@@ -831,6 +1124,7 @@ void plot_the_normal_and_magnified_signals( uint8_t channel )
     }
     
 #ifdef MAGNIFICATION_FACTOR
+    uint32_t next_plot_point;
     #if defined INBOARDINPARALLELWITHHIGHESTSENSI && ( NUM_INPUTS_TO_PLOT_OF_ADDON_HIGHEST_SENSI_ADC > 0 ) && ( NUM_INPUTS_TO_PLOT_OF_INBOARD_ANALOG == 1 )
         if( channel < 1 ) goto AFTER_THE_MAGNIFIED_PLOTTED;//if this is one of the two parallel traces, skip the magnified view
     #elif defined INBOARDINPARALLELWITHHIGHESTSENSI && ( NUM_INPUTS_TO_PLOT_OF_ADDON_HIGHEST_SENSI_ADC > 0 ) && ( NUM_INPUTS_TO_PLOT_OF_INBOARD_ANALOG >= 2 )
@@ -840,7 +1134,7 @@ void plot_the_normal_and_magnified_signals( uint8_t channel )
     Serial.print( F( " " ) );
 
 //Next we multiply the difference between last_unmagnified_reading and this one, and see if it would take the trace out of bounds
-    uint32_t next_plot_point = lasttracepoints[ ( channel * 2 ) + 1 ] - ( ( screen_offsets[ channel ].last_unmagnified_reading - value ) * MAGNIFICATION_FACTOR ); //initializes at new reading being lower
+    next_plot_point = lasttracepoints[ ( channel * 2 ) + 1 ] - ( ( screen_offsets[ channel ].last_unmagnified_reading - value ) * MAGNIFICATION_FACTOR ); //initializes at new reading being lower
     if( value > screen_offsets[ channel ].last_unmagnified_reading ) //new reading is higher than previous
         next_plot_point = lasttracepoints[ ( channel * 2 ) + 1 ] + ( ( value - screen_offsets[ channel ].last_unmagnified_reading ) * MAGNIFICATION_FACTOR );//new reading was not lower, so correct new plot point
     screen_offsets[ channel ].last_unmagnified_reading = value;
@@ -874,6 +1168,7 @@ screen_offsets array shall NOT be used for digipot setting in AUTO_BRIDGE_BALANC
 
 
 */
+
 //#if defined INBOARDINPARALLELWITHHIGHESTSENSI && ( NUM_INPUTS_TO_PLOT_OF_ADDON_HIGHEST_SENSI_ADC > 0 ) && ( NUM_INPUTS_TO_PLOT_OF_INBOARD_ANALOG == 1 ) This condition will mean one i index will need to be skipped
         #if ( NUM_INPUTS_TO_PLOT_OF_INBOARD_ANALOG > 0 ) //plot the inboard analogs first and above
             for( uint8_t i = 0; i < NUM_INPUTS_TO_PLOT_OF_INBOARD_ANALOG; i++ )
@@ -1066,7 +1361,11 @@ Start_of_addon_ADC_acquisition:
             Serial.println( digipot_6_value );
         #endif
 */
+//    #if defined USING_LM334_WITH_MCP4162_POTS && defined INBOARDINPARALLELWITHHIGHESTSENSI && defined AUTO_BRIDGE_BALANCING && not defined LEAVEPOTVALUESALONEDURINGSETUP && NUM_INPUTS_TO_PLOT_OF_INBOARD_ANALOG < 2
+//                plot_the_normal_and_magnified_signals( i + 2 );
+//    #else
                 plot_the_normal_and_magnified_signals( i + NUM_INPUTS_TO_PLOT_OF_INBOARD_ANALOG );
+//    #endif
             }
         #endif
 /*
