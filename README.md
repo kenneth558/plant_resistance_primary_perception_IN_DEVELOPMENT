@@ -47,7 +47,9 @@ For those who have any regard to NDEs, you would be interested to research Howar
 
 Submit an "Issue" or post in the "Wiki" (tabs above) to have me add your Youtube video to the official playlist for this 
 project.
+
 ------------
+
 As of 30 April 2018, this sketch is functional, only requiring low-noise construction techniques of the connections and circuitry.  However, until further notice, THIS .INO FILE IS UPDATED **_OFTEN_** FOR IMPROVEMENTS AND BUGFIXES.  
         
 If you are using the ADS1015 or ADS1115, using a AD8244 is recommended and be sure to install the supporting library Adafruit_ADS1015 since this sketch depends on it.  Thank you, Adafruit!  If you're using the HX711, using a AD8244 is required and install the .cpp and .h files located here: https://github.com/bogde/HX711 (thank you to bogde) Consideration is being given to adapting a fork of this project to the Raspberry Pi-ish ARM single board computers.  This sketch *version* is FREE so that anyone can enjoy it.  For those of you who can afford to support my work on this project, I will offer a "not-free" sketch version when the parts arrive that has the following enhancements:
