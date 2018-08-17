@@ -1,5 +1,6 @@
+
 //        Before compiling this sketch, you must set or confirm the following appropriately for your configuration and preferences !!!
-//#define NUM_INPUTS_TO_PLOT_OF_INBOARD_ANALOG 2                                                    //The number of consecutive analog pins to plot, beginning with PIN_A0
+#define NUM_INPUTS_TO_PLOT_OF_INBOARD_ANALOG 2                                                    //The number of consecutive analog pins to plot, beginning with PIN_A0
 #define NUM_INPUTS_TO_PLOT_OF_ADDON_HIGHEST_SENSI_ADC 1                                            //The number of consecutive "highest-sensitivity ADC" pins to plot, beginning with A0 and, if double-ended, A1.  ADDON ADC ONLY - DOES _NOT_ INCLUDE INBOARD ANALOG INPUT PINS
 #define HIGHEST_SENSI_ADDON_ADC_TYPE HX711                                                         //Proposing that "ADS1231" covers ADS1231; could make this "ADS1232" (ADS1232), "ADS1242" (ADS1242), "AD779x" (AD779x), "AD7780" (AD7780), "HX711" (HX711), "MAX112x0" (MAX112x0...) or "LTC2400" (LTC2400) but code not included in v.FREE
 #define MAGNIFICATION_FACTOR 5                                                                     //Activates the plotting of magnified traces in all ADC linespaces; upper limit somewhere less than 4,294,967,295. Note: you can disable displaying magnified traces altogether by not defined this macro at all. Proper use of INBOARDINPARALLELWITHHIGHESTSENSI will also disable magnified traces of the first two analog inputs
@@ -17,7 +18,7 @@
 #define USING_LM334_WITH_MCP4162_POTS                                                              //Remove if using standard wheatstone bridge with only standard resistors.  make true if using bridge with upper resistive elements being LM334s controllable with the MCP4162-104 pots
 /*the next macro doesn't get processed right for magnified traces*/
 #define INBOARDINPARALLELWITHHIGHESTSENSI                                                          //If defined allows rail-to-rail inboard Analog Inputs to be used to adjust digipots, also causes first two inboard Analog Inputs to be superimposed into same plot-line space
-//#define AUTO_BRIDGE_BALANCING  //increases setup time significantly                                //Turns on auto-balancing in setup(), significant time elapse for this to complete!
+#define AUTO_BRIDGE_BALANCING  //increases setup time significantly                                //Turns on auto-balancing in setup(), significant time elapse for this to complete!
 //#define DEBUG true                                                                                 //Don't forget that DEBUG is not formatted for Serial plotter, but might work anyway if you'd never print numbers only any DEBUG print line
 //#define POTTESTWOBBLEPOSITIVE true                                                                 //For testing - wobbles digipot settings to impose a signal into Wheatstone bridge outputs
 //#define POTTESTWOBBLENEGATIVE true                                                                 //For testing - wobbles digipot settings to impose a signal into Wheatstone bridge outputs
@@ -1288,7 +1289,7 @@ Serial.begin( BAUD_TO_SERIAL );//This speed is what works best with WeMos XI/TTG
         Serial.println( screen_offsets_of_linespaces[ i ].high_limit_of_this_plot_linespace );
 #endif
     }
-    plot_timing_line_going_up( true ); //The false makes all traces originate at global zero.  It seems to look better that way
+    plot_timing_line_going_up( false ); //The false makes all traces originate at global zero.  It seems to look better that way
 
 
 
@@ -1544,7 +1545,7 @@ while ( !Serial ); // wait for serial port to connect. Needed for Leonardo's nat
         #endif
         read_and_plot_from_all_ADCs_in_and_outboard();
         Serial.println();
-        while( set_digipots( true ) = false ) 
+        while( set_digipots( true ) == false ) 
         {
             delay( 10 ); // allow some settling time
             read_and_plot_from_all_ADCs_in_and_outboard(); // I would think the operator would appreciate seeing something like this during calibration
