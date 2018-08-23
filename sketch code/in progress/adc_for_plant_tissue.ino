@@ -114,8 +114,7 @@
 *              23 Aug   2018 :  added USING_DUAL_74LV138_DECODERS with possbily enough code (just needs testing)
 *              NEXT          :  Test proposed code for LOOP_COUNTER_LIMIT_THAT_TRACE_IS_ALLOWED_TO_BE_OFF_CENTER
 *              NEXT          :  EEPROM storage of things like ADC sweet spot, initial digipot settings, etc
-*              NEXT          :  Accommodate ADS1232 &/or ADS1231
-*               
+*              NEXT          :  Accommodate ADS1232 &/or ADS1231*               
 *********************************************************************************************************************/
 #define VERSION "v.Free"  // Since this never gets used anywhere, it doesn't compile in so no memory is wasted
 #include <math.h>
