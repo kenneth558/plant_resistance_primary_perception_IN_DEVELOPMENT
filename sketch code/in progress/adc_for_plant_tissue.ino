@@ -1,4 +1,4 @@
-  //        Before compiling this sketch, you must set or confirm the following appropriately for your configuration and preferences !!!
+//        Before compiling this sketch, you must set or confirm the following appropriately for your configuration and preferences !!!
 #define NUM_OF_INBOARD_ADCS_TO_PLOT 2                                                              //The number of consecutive analog pins to plot, beginning with PIN_A0
 #define NUM_OF_ADDON_HIGHEST_SENSI_ADCS_TO_PLOT 1                                                  //The number of consecutive "highest-sensitivity ADC" pins to plot, beginning with A0 and, if double-ended, A1.  ADDON ADC ONLY - DOES _NOT_ INCLUDE INBOARD ANALOG INPUT PINS
 #define HIGHEST_SENSI_ADDON_ADC_TYPE HX711                                                         //Proposing that "ADS1231" covers ADS1231; could make this "ADS1232" (ADS1232), "ADS1242" (ADS1242), "AD779x" (AD779x), "AD7780" (AD7780), "HX711" (HX711), "MAX112x0" (MAX112x0...) or "LTC2400" (LTC2400) but code not included in v.FREE; ONLY ONE TYPE ALLOWED
@@ -48,7 +48,7 @@
 *                    : Many other configurations should work fine.  
 *                    : The ATTINY85 is not suitable at all due to not having hardware serial
 * 
-* Known limitations  : No ability to accept user input from keyboard during run time due to Arduino plottter limitation
+* Known limitations  : No ability to accept user input from keyboard during run time due to Arduino plotter limitation
 *                    : Re-compile is needed for any changes to configuration
 *                    : Analog input pins being used MUST be the first available analog inputs
 *                    : Only a single add-on ADS ADC device and only 1 or 2 differential channels on it is accommodated
@@ -2045,31 +2045,3 @@ NoPotChange:
     }
     graphline = !graphline; // graphline started as false, so it becomes true here on the first complementing of it
 }
-//#include <EEPROM.h> // This is FUTURE to store things like the discovered sweet spots on the connected ADCs, digi-pot settings, etc.
-//#ifndef EEPROMlength //code copied from a thermostat project of mine
-//    #define EEPROMlength EEPROM.length()
-//#endif
-//unsigned int logging_address = EEPROMlength - sizeof( boolean );
-//unsigned int upper_heat_temp_address = logging_address - sizeof( short );//EEPROMlength - 2;
-//unsigned int lower_heat_temp_address = upper_heat_temp_address - sizeof( short );//EEPROMlength - 3;
-//unsigned int logging_temp_changes_address = lower_heat_temp_address - sizeof( boolean );//EEPROMlength - 4;
-//unsigned int upper_cool_temp_address = logging_temp_changes_address - sizeof( short );
-//unsigned int lower_cool_temp_address = upper_cool_temp_address - sizeof( short );
-//#ifdef __LGT8FX8E__
-//void EEPROMupdate ( unsigned long address, u8 val )
-//{
-//    if( EEPROM.read( address ) != val ) EEPROM.write( address, val );
-//}
-//#endif
-//#ifndef __LGT8FX8E__
-//           EEPROM.update( fan_mode_address, fan_mode ); //high; low = 'a'
-//#else
-//            EEPROMupdate( fan_mode_address, fan_mode );
-//#endif
-//    fan_mode = ( char )EEPROM.read( fan_mode_address );//a';//Can be either auto (a) or on (o)
-//#ifndef __LGT8FX8E__
-//    EEPROM.get( 0, tattoo );
-//#else
-//    tattoo = EEPROM.read( 0 );
-//    tattoo += ( u16 )( EEPROM.read( 1 ) << 8 );
-//#endif
