@@ -48,7 +48,7 @@
 *                    : Many other configurations should work fine.  
 *                    : The ATTINY85 is not suitable at all due to not having hardware serial
 * 
-* Known limitations  : No ability to accept user input from keyboard during run time due to Arduino plottter limitation
+* Known limitations  : No ability to accept user input from keyboard during run time due to Arduino plotter limitation
 *                    : Re-compile is needed for any changes to configuration
 *                    : Analog input pins being used MUST be the first available analog inputs
 *                    : Only a single add-on ADS ADC device and only 1 or 2 differential channels on it is accommodated
@@ -2045,31 +2045,3 @@ NoPotChange:
     }
     graphline = !graphline; // graphline started as false, so it becomes true here on the first complementing of it
 }
-//#include <EEPROM.h> // This is FUTURE to store things like the discovered sweet spots on the connected ADCs, digi-pot settings, etc.
-//#ifndef EEPROMlength //code copied from a thermostat project of mine
-//    #define EEPROMlength EEPROM.length()
-//#endif
-//unsigned int logging_address = EEPROMlength - sizeof( boolean );
-//unsigned int upper_heat_temp_address = logging_address - sizeof( short );//EEPROMlength - 2;
-//unsigned int lower_heat_temp_address = upper_heat_temp_address - sizeof( short );//EEPROMlength - 3;
-//unsigned int logging_temp_changes_address = lower_heat_temp_address - sizeof( boolean );//EEPROMlength - 4;
-//unsigned int upper_cool_temp_address = logging_temp_changes_address - sizeof( short );
-//unsigned int lower_cool_temp_address = upper_cool_temp_address - sizeof( short );
-//#ifdef __LGT8FX8E__
-//void EEPROMupdate ( unsigned long address, u8 val )
-//{
-//    if( EEPROM.read( address ) != val ) EEPROM.write( address, val );
-//}
-//#endif
-//#ifndef __LGT8FX8E__
-//           EEPROM.update( fan_mode_address, fan_mode ); //high; low = 'a'
-//#else
-//            EEPROMupdate( fan_mode_address, fan_mode );
-//#endif
-//    fan_mode = ( char )EEPROM.read( fan_mode_address );//a';//Can be either auto (a) or on (o)
-//#ifndef __LGT8FX8E__
-//    EEPROM.get( 0, tattoo );
-//#else
-//    tattoo = EEPROM.read( 0 );
-//    tattoo += ( u16 )( EEPROM.read( 1 ) << 8 );
-//#endif
