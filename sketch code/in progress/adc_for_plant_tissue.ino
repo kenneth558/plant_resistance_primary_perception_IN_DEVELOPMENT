@@ -28,6 +28,7 @@
     #define BAUD_TO_SERIAL 57600 //YOU MAY SET THIS TO THE MAXIMUM VALUE THAT YOUR CONFIGURATION WILL FUNCTION WITH (UNLESS YOU'RE USING THE WeMos XI/TTGO XI, OF COURSE)
 #endif
 //#define POT_WIPER_TO_THIS_ANALOG_INPUT_PIN_TO_ADJUST_MAGNIFICATION_FACTOR 6                                   //Can use a spare analog input as magnification attenuator by connecting wiper of a pot (100K or greater, please) that voltage-divides 0-5 vdc.
+//#define USING_DUAL_74LV138_DECODERS
 
 //No need to change macros below:
 #define CONVERTTWOSCOMPTOSINGLEENDED( value_read_from_the_differential_ADC, mask, xorvalue ) ((value_read_from_the_differential_ADC & mask)^xorvalue)
@@ -35,7 +36,16 @@
 
 //FUTURE #define LOOP_COUNTER_LIMIT_THAT_TRACE_IS_ALLOWED_TO_BE_OFF_CENTER 2                           //sets how soon run-time auto-balancing kicks in when trace goes off scale
 //FUTURE #define TESTSTEPUPDOWN COMMONMODE                                                                  //Available: SINGLESIDE COMMONMODE
-//FUTURE #define USING_DUAL_74LV138_DECODERS
+#ifdef USING_DUAL_74LV138_DECODERS //also applicable if using only a single decoder for the second.  IOW, the first decoder is optional if not needed
+    #warning These 7 pin numbers get specified normally, but be sure you specify the digital pot CS pins with the MSB set; IOW, make those >= 128
+    FIRST_3_TO_8_DECODER_A0_PIN 
+    FIRST_3_TO_8_DECODER_A1_PIN
+    FIRST_3_TO_8_DECODER_A2_PIN
+    SECOND_3_TO_8_DECODER_A0_PIN
+    SECOND_3_TO_8_DECODER_A1_PIN
+    SECOND_3_TO_8_DECODER_A2_PIN
+    SECOND_3_TO_8_DECODER_ENABLE_PIN
+#endif
 /*******************(C)  COPYRIGHT 2018 KENNETH L ANDERSON *********************
 * 
 *      ARDUINO ELECTRICAL RESISTANCE/CONDUCTANCE MONITORING SKETCH 
@@ -101,6 +111,7 @@
 *              01 Aug   2018 :  Working on vertical positioning of the magnified traces
 *              23 Aug   2018 :  Fixed magnified traces in all respects; added functionality to display digipot calibration effects during calibration in setup(); started adding code to handle multiple digipot banks that utilize dual 74VHC138/74LV138s.  Still no AUTO_BRIDGE_BALANCING
 *              23 Aug   2018 :  Magnification factor adjustable downward via a potentiometer if defined POT_WIPER_TO_THIS_ANALOG_INPUT_PIN_TO_ADJUST_MAGNIFICATION_FACTOR with the digital number of an inboard analog input pin.
+*              23 Aug   2018 :  added USING_DUAL_74LV138_DECODERS with possbily enough code (just needs testing)
 *              NEXT          :  Test proposed code for LOOP_COUNTER_LIMIT_THAT_TRACE_IS_ALLOWED_TO_BE_OFF_CENTER
 *              NEXT          :  EEPROM storage of things like ADC sweet spot, initial digipot settings, etc
 *              NEXT          :  Accommodate ADS1232 &/or ADS1231
@@ -264,6 +275,7 @@ If you only have the Arduino without an ADS1X15, then define NUM_OF_INBOARD_ADCS
     #define MAXPOTVALUE 257
 
 //    #if ( USING_LM334_WITH_MCP4162_POT_BANKS > 0 ) Just b/c this conforms to the pattern
+//When using one or two 3:8 decoders, note that these pins numbers must be greater than 127 AND note that bits 3, 4, and 5 (not 0, 1, and 2 as you might otherwise assume) encode the "pin" numbers (actually the CS lines which the second decoders produce) while bits 0, 1, and 2 decode which of the second decoders will be selected to produce a CS
     #define BANK_0_LEG_0_DIGITAL_POT_0 5  // first digital pot's CS line connected to here. coarse adjust A positive leg
     #define BANK_0_LEG_0_DIGITAL_POT_1 6  // second digital pot's CS line connected to here.  coarse adjust B positive leg
     #define BANK_0_LEG_0_DIGITAL_POT_2 7  // third digital pot's CS line connected to here.  fine adjust positive leg
@@ -495,15 +507,35 @@ So: - define ...PARALLELed = 0 if it is undefined
 #ifdef USING_LM334_WITH_MCP4162_POT_BANKS
     void setPotValue( uint8_t digital_pot_pin, uint16_t value )
     {
-        for( uint8_t index = 0; index < NUM_OF_DIGIPOTS_PER_BANK * USING_LM334_WITH_MCP4162_POT_BANKS; index++ )
+        if( digital_pot_pin < 128 ) //Pins numbered below 128 are normal digital inboard pins
         {
-            if( digital_pot_pin == digipot_pins[ index ] )
+            for( uint8_t index = 0; index < NUM_OF_DIGIPOTS_PER_BANK * USING_LM334_WITH_MCP4162_POT_BANKS; index++ )
             {
-                digipot_values[ index ] = value < MAXPOTVALUE ? value : MAXPOTVALUE;
-                value = digipot_values[ index ];
-                break;
+                if( digital_pot_pin == digipot_pins[ index ] )
+                {
+                    digipot_values[ index ] = value < MAXPOTVALUE ? value : MAXPOTVALUE;
+                    value = digipot_values[ index ];
+                    break;
+                }
             }
         }
+#ifdef USING_DUAL_74LV138_DECODERS
+        else
+        {//Pins numbered above 127 are outboard pins provided through the dual 74LV138 decoding circuitry
+         //The two 74LV138 each have three enable pins but we only use one.  It would require 7 pins to address the two devices simultaneously.  Use 'em since we have them...it'll save a part for latch
+            digitalWrite( FIRST_3_TO_8_DECODER_A0_PIN, digital_pot_pin & B1 ); //This decoder might not be present
+            digitalWrite( FIRST_3_TO_8_DECODER_A1_PIN, digital_pot_pin & B10 ); //This decoder might not be present
+            digitalWrite( FIRST_3_TO_8_DECODER_A2_PIN, digital_pot_pin & B100 ); //This decoder might not be present
+            digitalWrite( SECOND_3_TO_8_DECODER_A0_PIN, digital_pot_pin & B1000 ); //These address bits are always necessary
+            digitalWrite( SECOND_3_TO_8_DECODER_A1_PIN, digital_pot_pin & B10000 ); //These address bits are always necessary
+            digitalWrite( SECOND_3_TO_8_DECODER_A2_PIN, digital_pot_pin & B100000 ); //These address bits are always necessary
+            digital_pot_pin = SECOND_3_TO_8_DECODER_ENABLE_PIN;
+        }
+#endif
+        digitalWrite( digital_pot_pin, LOW );
+        SPI.transfer( ( value & 0x100 ) ? 1 : 0 );
+        SPI.transfer( value & 0xff ); // send value (0~255)
+        digitalWrite( digital_pot_pin, HIGH );
 //To accommodate multiple banks of digipots, replace the digitalWrite commands with decoding algorithm, and add dual 74LV138 decoding;i.e. lines 1-3 to the first 74LV138, lines 4-6 to the second which allows 8 banks of up to 7 devices each or 7 banks up to 8 device each.  Choose 8 banks, 7 devices:
 //Downside: all bank selecting pins must originate from one and the same port so port manipulation can be used to eliminate spurious bank cross-selections that would occur if bank selecting had to be done just one pin at a time
 //Additional advantage: that scheme can also be used without the dual 74LV138 decoding circuitry, so TODO: convert sketch to utilize this scheme
@@ -536,10 +568,6 @@ pin_mask_to_bank &= 0 << BIT_POSITION_WITHIN_PORT_OF_BANK_SELECT_A[ 0 ];
 pin_mask_to_bank &= 0 << BIT_POSITION_WITHIN_PORT_OF_BANK_SELECT_A[ 1 ];
 pin_mask_to_bank &= 0 << BIT_POSITION_WITHIN_PORT_OF_BANK_SELECT_A[ 2 ];
 */
-      digitalWrite( digital_pot_pin, LOW );
-      SPI.transfer( ( value & 0x100 ) ? 1 : 0 );
-      SPI.transfer( value & 0xff ); // send value (0~255)
-      digitalWrite( digital_pot_pin, HIGH );
     }
     
     void offsetPotValue( uint8_t digital_pot_pin, int16_t offsetvalue )
