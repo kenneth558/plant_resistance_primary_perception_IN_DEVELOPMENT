@@ -21,17 +21,19 @@
 //#define POTTESTWOBBLEPOSITIVE 0                                                                     //For testing - wobbles digipot settings on bank index to impose a signal into Wheatstone bridge outputs. This imposes a signal on the signal leg
 //#define POTTESTWOBBLENEGATIVE 0                                                                     //For testing - wobbles digipot settings on bank index to impose a signal into Wheatstone bridge outputs. This imposes a signal on the reference leg
 //#define LEAVEPOTVALUESALONEDURINGSETUP                                                             //First run should leave this undefined to load digi pots with some values
-#define LOOP_COUNTER_LIMIT_THAT_TRACE_IS_ALLOWED_TO_BE_OFF_CENTER 7 //not well tested                   //sets how soon run-time auto-balancing kicks in when trace goes off scale
 #define BIAS_TO_APPLY_TO_SIGNAL1_TO_CENTER_TRACE 0                                                 //Though the name suggests otherwise, this offset will be applied to all signal lines, not just the first one, until further development (I couldn't make this into an array).  Inboard Analog Inputs of 10 bits will make much change with little values, 12 bit inboard allows more flexibility here
-
 #ifdef __LGT8FX8E__
     #define BAUD_TO_SERIAL 19200  //This speed is what works best with WeMos XI/TTGO XI board.  Experiment as desired.
 #else
     #define BAUD_TO_SERIAL 57600 //YOU MAY SET THIS TO THE MAXIMUM VALUE THAT YOUR CONFIGURATION WILL FUNCTION WITH (UNLESS YOU'RE USING THE WeMos XI/TTGO XI, OF COURSE)
 #endif
+//#define POT_WIPER_TO_THIS_ANALOG_INPUT_PIN_TO_ADJUST_MAGNIFICATION_FACTOR 6                                   //Can use a spare analog input as magnification attenuator by connecting wiper of a pot (100K or greater, please) that voltage-divides 0-5 vdc.
+
 //No need to change macros below:
 #define CONVERTTWOSCOMPTOSINGLEENDED( value_read_from_the_differential_ADC, mask, xorvalue ) ((value_read_from_the_differential_ADC & mask)^xorvalue)
 //OTHER MACROS (DEFINES OR RE-DEFINES) ELSEWHERE: VERSION, NUM_OF_INBOARD_ADCS_TO_PLOT, NUM_OF_ADDON_HIGHEST_SENSI_ADCS_TO_PLOT, DIGIPOT_0_B0L0_STARTVALUE - DIGIPOT_2_B0L1_STARTVALUE, HALFHIGHESTBITRESFROMHIGHESTSENSIADDONADC, DIFFERENTIAL, PIN_FOR_DATA_TOFROM_HIGHEST_SENSI_ADC, PIN_FOR_CLK_TO_HIGHEST_SENSI_ADC, PLOTTERMAXSCALE, HUNDREDTHPLOTTERMAXSCALE, SAMPLE_TIMES, ANALOGINPUTBITSOFBOARD, SCALE_FACTOR_TO_PROMOTE_LOW_RES_ADC_TO_SAME_SCALE, COMMON_MODE_LEVEL_FOR_MAX_GAIN_AS_READ_RAW_BY_INBOARD_ANALOG, HEIGHT_OF_A_PLOT_LINESPACE
+
+//FUTURE #define LOOP_COUNTER_LIMIT_THAT_TRACE_IS_ALLOWED_TO_BE_OFF_CENTER 2                           //sets how soon run-time auto-balancing kicks in when trace goes off scale
 //FUTURE #define TESTSTEPUPDOWN COMMONMODE                                                                  //Available: SINGLESIDE COMMONMODE
 //FUTURE #define USING_DUAL_74LV138_DECODERS
 /*******************(C)  COPYRIGHT 2018 KENNETH L ANDERSON *********************
@@ -98,8 +100,9 @@
 *              31 July  2018 :  I've noticed one sketch bug in the printing of the magnified traces in that they don't stay within bounds any more. Older sketch versions never had that problem. I'm not sure where it began, but it seems to be a memory management problem from my inital troubleshooting rather than any type of algorithm weakness. I'll work on that when I'm able... 
 *              01 Aug   2018 :  Working on vertical positioning of the magnified traces
 *              23 Aug   2018 :  Fixed magnified traces in all respects; added functionality to display digipot calibration effects during calibration in setup(); started adding code to handle multiple digipot banks that utilize dual 74VHC138/74LV138s.  Still no AUTO_BRIDGE_BALANCING
-*              NEXT          :  Magnification factor really needs to be run-time adjustable via a potentiometer.  Very important!
-*              NEXT          :  Re-code AUTO_BRIDGE_BALANCING feature to get it working again but with additional ability to plot its effects during calibration
+*              23 Aug   2018 :  Magnification factor adjustable downward via a potentiometer if defined POT_WIPER_TO_THIS_ANALOG_INPUT_PIN_TO_ADJUST_MAGNIFICATION_FACTOR with the digital number of an inboard analog input pin.
+*              NEXT          :  Test proposed code for LOOP_COUNTER_LIMIT_THAT_TRACE_IS_ALLOWED_TO_BE_OFF_CENTER
+*              NEXT          :  EEPROM storage of things like ADC sweet spot, initial digipot settings, etc
 *              NEXT          :  Accommodate ADS1232 &/or ADS1231
 *               
 *********************************************************************************************************************/
@@ -1178,14 +1181,26 @@ void plot_the_normal_and_magnified_signals( uint8_t channel )
 //Derive the next plot point for the case of current this_reading being less than or equal to the last this_reading
     if( this_reading > screen_offsets_of_linespaces[ channel ].previous_unmagnified_reading ) //new reading is higher than previous
     {
+#ifdef POT_WIPER_TO_THIS_ANALOG_INPUT_PIN_TO_ADJUST_MAGNIFICATION_FACTOR
+        this_plot_point = last_plot_points[ ( channel * 2 ) + 1 ] + ( ( this_reading - screen_offsets_of_linespaces[ channel ].previous_unmagnified_reading ) * ( uint32_t )( ( analogRead( POT_WIPER_TO_THIS_ANALOG_INPUT_PIN_TO_ADJUST_MAGNIFICATION_FACTOR ) / pow( 2, ANALOGINPUTBITSOFBOARD ) ) * MAGNIFICATION_FACTOR );//new reading was not lower, so correct new plot point
+#else
         this_plot_point = last_plot_points[ ( channel * 2 ) + 1 ] + ( ( this_reading - screen_offsets_of_linespaces[ channel ].previous_unmagnified_reading ) * MAGNIFICATION_FACTOR );//new reading was not lower, so correct new plot point
+#endif
         if( this_plot_point > HEIGHT_OF_A_PLOT_LINESPACE ) //new plot point is higher than upper limit
             this_plot_point = tracespace_to_skip_when_repositioning;
     }
+#ifdef POT_WIPER_TO_THIS_ANALOG_INPUT_PIN_TO_ADJUST_MAGNIFICATION_FACTOR
+    else if( ( screen_offsets_of_linespaces[ channel ].previous_unmagnified_reading - this_reading ) * ( uint32_t )( ( analogRead( POT_WIPER_TO_THIS_ANALOG_INPUT_PIN_TO_ADJUST_MAGNIFICATION_FACTOR ) / pow( 2, ANALOGINPUTBITSOFBOARD ) ) * MAGNIFICATION_FACTOR ) > last_plot_points[ ( channel * 2 ) + 1 ] )
+#else
     else if( ( screen_offsets_of_linespaces[ channel ].previous_unmagnified_reading - this_reading ) * MAGNIFICATION_FACTOR > last_plot_points[ ( channel * 2 ) + 1 ] )
+#endif
         this_plot_point = negative_tracespace_to_skip_when_repositioning;
     else
+#ifdef POT_WIPER_TO_THIS_ANALOG_INPUT_PIN_TO_ADJUST_MAGNIFICATION_FACTOR
+        this_plot_point = last_plot_points[ ( channel * 2 ) + 1 ] - ( ( screen_offsets_of_linespaces[ channel ].previous_unmagnified_reading - this_reading ) * ( uint32_t )( ( analogRead( POT_WIPER_TO_THIS_ANALOG_INPUT_PIN_TO_ADJUST_MAGNIFICATION_FACTOR ) / pow( 2, ANALOGINPUTBITSOFBOARD ) ) * MAGNIFICATION_FACTOR );//new reading was lower but not too much, so correct new plot point
+#else
         this_plot_point = last_plot_points[ ( channel * 2 ) + 1 ] - ( ( screen_offsets_of_linespaces[ channel ].previous_unmagnified_reading - this_reading ) * MAGNIFICATION_FACTOR );//new reading was lower but not too much, so correct new plot point
+#endif
     Serial.print( screen_offsets_of_linespaces[ channel ].zero_of_this_plot_linespace + this_plot_point ); 
     Serial.print( F( " " ) );
     last_plot_points[ ( channel * 2 ) + 1 ] = this_plot_point;
