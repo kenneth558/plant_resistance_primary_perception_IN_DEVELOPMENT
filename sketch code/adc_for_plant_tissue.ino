@@ -1139,6 +1139,8 @@ void set_bridge_leg_signal_input( uint8_t bank ) //When bank starts being used i
 }
 #endif
 
+static uint32_t tracespace_to_skip_when_repositioning, negative_tracespace_to_skip_when_repositioning;
+
 #if ( NUM_OF_ADDON_HIGHEST_SENSI_ADCS_TO_PLOT > 0 ) && defined AUTO_BRIDGE_BALANCING
 int plot_the_normal_and_magnified_signals( uint8_t channel )
 #else
@@ -1178,10 +1180,10 @@ void plot_the_normal_and_magnified_signals( uint8_t channel )
     {
         this_plot_point = last_plot_points[ ( channel * 2 ) + 1 ] + ( ( this_reading - screen_offsets_of_linespaces[ channel ].previous_unmagnified_reading ) * MAGNIFICATION_FACTOR );//new reading was not lower, so correct new plot point
         if( this_plot_point > HEIGHT_OF_A_PLOT_LINESPACE ) //new plot point is higher than upper limit
-            this_plot_point = ( HEIGHT_OF_A_PLOT_LINESPACE * PERCENT_OF_LINESPACE_MAGNIFIED_VIEW_SKIPS_WHEN_REPOSITIONED_WHEN_LINESPACE_LIMITS_GET_EXCEEDED ) / 100;
+            this_plot_point = tracespace_to_skip_when_repositioning;
     }
     else if( ( screen_offsets_of_linespaces[ channel ].previous_unmagnified_reading - this_reading ) * MAGNIFICATION_FACTOR > last_plot_points[ ( channel * 2 ) + 1 ] )
-        this_plot_point = HEIGHT_OF_A_PLOT_LINESPACE - ( ( HEIGHT_OF_A_PLOT_LINESPACE * PERCENT_OF_LINESPACE_MAGNIFIED_VIEW_SKIPS_WHEN_REPOSITIONED_WHEN_LINESPACE_LIMITS_GET_EXCEEDED ) / 100 );
+        this_plot_point = negative_tracespace_to_skip_when_repositioning;
     else
         this_plot_point = last_plot_points[ ( channel * 2 ) + 1 ] - ( ( screen_offsets_of_linespaces[ channel ].previous_unmagnified_reading - this_reading ) * MAGNIFICATION_FACTOR );//new reading was lower but not too much, so correct new plot point
     Serial.print( screen_offsets_of_linespaces[ channel ].zero_of_this_plot_linespace + this_plot_point ); 
@@ -1590,6 +1592,8 @@ Serial.begin( BAUD_TO_SERIAL );//This speed is what works best with WeMos XI/TTG
     {
 #ifdef MAGNIFICATION_FACTOR
         screen_offsets_of_linespaces[ i ].magnify_adjustment = 0;
+        tracespace_to_skip_when_repositioning = ( HEIGHT_OF_A_PLOT_LINESPACE * PERCENT_OF_LINESPACE_MAGNIFIED_VIEW_SKIPS_WHEN_REPOSITIONED_WHEN_LINESPACE_LIMITS_GET_EXCEEDED ) / 100;
+        negative_tracespace_to_skip_when_repositioning = HEIGHT_OF_A_PLOT_LINESPACE - ( HEIGHT_OF_A_PLOT_LINESPACE * PERCENT_OF_LINESPACE_MAGNIFIED_VIEW_SKIPS_WHEN_REPOSITIONED_WHEN_LINESPACE_LIMITS_GET_EXCEEDED ) / 100;
 #endif
 #ifdef DEBUG
         while( !Serial );
