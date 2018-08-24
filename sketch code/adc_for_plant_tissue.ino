@@ -1479,7 +1479,7 @@ Start_of_addon_ADC_acquisition:
         while( !Serial );
         Serial.println( F( "Line 1296 Checking auto balance readings" ) );
     #endif
-//#error Carefully examine the following lines for logic, especially the indexes :
+#error Not calculating the argument right under some circumstances :
         int reading_after_computed = plot_the_normal_and_magnified_signals( which_ADC_subunit + 2 );
         if( reading_after_computed < 0 ) // means signal leg is higher
             if( --counter_for_trace_out_of_range_too_long[ which_ADC_subunit ] < -LOOP_COUNTER_LIMIT_THAT_TRACE_IS_ALLOWED_TO_BE_OFF_CENTER )
