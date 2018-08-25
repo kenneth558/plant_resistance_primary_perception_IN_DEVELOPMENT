@@ -1,3 +1,5 @@
+//CHANGES:
+
 //        Before compiling this sketch, you must set or confirm the following appropriately for your configuration and preferences !!!
 #define NUM_OF_INBOARD_ADCS_TO_PLOT 3                                                              //The number of consecutive analog pins to plot, beginning with PIN_A0
 #define NUM_OF_ADDON_HIGHEST_SENSI_ADCS_TO_PLOT 1                                                  //The number of consecutive "highest-sensitivity ADC" pins to plot, beginning with A0 and, if double-ended, A1.  ADDON ADC ONLY - DOES _NOT_ INCLUDE INBOARD ANALOG INPUT PINS
@@ -16,41 +18,24 @@
 #define MIN_WAIT_TIME_BETWEEN_PLOT_POINTS_MS 70                                                   //Sets a maximum speed limit, but actual speed may be further limited by other factors
 #define USING_LM334_WITH_MCP4162_POT_BANKS                                                            //Number of digipot Wheatstones, but this sketch revision level only handles 0 or 1 here.  Remove if using Wheatstone bridge with only standard resistors.  make true if using bridge with upper resistive elements being LM334s controllable with the MCP4162-104 pots
 #define FIRST_INBOARDS_ARE_IN_PAIRS_AND_EACH_PAIR_IS_IN_PARALLEL_WITH_ONE_HIGHEST_SENSI_ADC_INPUT_SET 1 //If defined, allows rail-to-rail inboard Analog Inputs to be used to adjust digipots, but mainly causes first inboard Analog Inputs to be paired (superimposed in pairs sharing plot-line spaces) so even manual pots can be adjusted easily
-#define AUTO_BRIDGE_BALANCING  //increases setup time and during which the plot timing line stays high, then spikes low and high to indicate balancing complete //Turns on auto-balancing in setup(), significant time elapse for this to complete!
+//#define AUTO_BRIDGE_BALANCING  //increases setup time significantly BROKEN FOR NOW                     //Turns on auto-balancing in setup(), significant time elapse for this to complete!
 //#define DEBUG                                                                                      //Don't forget that DEBUG is not formatted for Serial plotter, but might work anyway if you'd never print numbers only any DEBUG print line
-#define POTTESTWOBBLEPOSITIVE 0                                                                     //For testing - wobbles digipot settings on bank index to impose a signal into Wheatstone bridge outputs. This imposes a signal on the signal leg
+//#define POTTESTWOBBLEPOSITIVE 0                                                                     //For testing - wobbles digipot settings on bank index to impose a signal into Wheatstone bridge outputs. This imposes a signal on the signal leg
 //#define POTTESTWOBBLENEGATIVE 0                                                                     //For testing - wobbles digipot settings on bank index to impose a signal into Wheatstone bridge outputs. This imposes a signal on the reference leg
 //#define LEAVEPOTVALUESALONEDURINGSETUP                                                             //First run should leave this undefined to load digi pots with some values
-//#define BIAS_TO_APPLY_TO_SIGNAL_LEG_TO_CENTER_TRACE 0                                                 //Though the name suggests otherwise, this offset will be applied to all signal lines, not just the first one, until further development (I couldn't make this into an array).  Inboard Analog Inputs of 10 bits will make much change with little values, 12 bit inboard allows more flexibility here
-#ifdef BIAS_TO_APPLY_TO_SIGNAL_LEG_TO_CENTER_TRACE
-    #define ADDITIONAL_LSB_DIGIPOT_SETTING_BIAS_TO_SIGNAL_TRACE 1 //To maintain consistent effect with the above, associated macro, this gets applied inverted. This is in lieu of setting by reading the ADCs and zeroing them.
-#endif
+#define LOOP_COUNTER_LIMIT_THAT_TRACE_IS_ALLOWED_TO_BE_OFF_CENTER 7 //not well tested                   //sets how soon run-time auto-balancing kicks in when trace goes off scale
+#define BIAS_TO_APPLY_TO_SIGNAL1_TO_CENTER_TRACE 0                                                 //Though the name suggests otherwise, this offset will be applied to all signal lines, not just the first one, until further development (I couldn't make this into an array).  Inboard Analog Inputs of 10 bits will make much change with little values, 12 bit inboard allows more flexibility here
+
 #ifdef __LGT8FX8E__
     #define BAUD_TO_SERIAL 19200  //This speed is what works best with WeMos XI/TTGO XI board.  Experiment as desired.
 #else
-    #define BAUD_TO_SERIAL 115200 //YOU MAY SET THIS TO THE MAXIMUM VALUE THAT YOUR CONFIGURATION WILL FUNCTION WITH (UNLESS YOU'RE USING THE WeMos XI/TTGO XI, OF COURSE)
+    #define BAUD_TO_SERIAL 57600 //YOU MAY SET THIS TO THE MAXIMUM VALUE THAT YOUR CONFIGURATION WILL FUNCTION WITH (UNLESS YOU'RE USING THE WeMos XI/TTGO XI, OF COURSE)
 #endif
-#define LSB_DIGIPOT_RESISTANCE_STEP_PER_MSB_RESISTANCE_STEP 10                                   //Example: If the LSB digipot is 200 ohms/step and the MSB digipot is 2000 ohms/step, this value will be 10
-//#define POT_WIPER_TO_THIS_ANALOG_INPUT_PIN_TO_ADJUST_MAGNIFICATION_FACTOR 3   //NOT the digital number //Can use a spare analog input as magnification attenuator by connecting wiper of a pot (100K or greater, please) that voltage-divides 0-5 vdc.
-//#define USING_DUAL_74LV138_DECODERS_FOR_DIGIPOT_CS_LINES
-//!!! NOTE !!! 270+ lines below this are also macros entitled similar to BANK_X_LEG_X_DIGITAL_POT_X.  Those macros must also be set to correspond to the pins driving the CS lines of digipots
-
 //No need to change macros below:
 #define CONVERTTWOSCOMPTOSINGLEENDED( value_read_from_the_differential_ADC, mask, xorvalue ) ((value_read_from_the_differential_ADC & mask)^xorvalue)
 //OTHER MACROS (DEFINES OR RE-DEFINES) ELSEWHERE: VERSION, NUM_OF_INBOARD_ADCS_TO_PLOT, NUM_OF_ADDON_HIGHEST_SENSI_ADCS_TO_PLOT, DIGIPOT_0_B0L0_STARTVALUE - DIGIPOT_2_B0L1_STARTVALUE, HALFHIGHESTBITRESFROMHIGHESTSENSIADDONADC, DIFFERENTIAL, PIN_FOR_DATA_TOFROM_HIGHEST_SENSI_ADC, PIN_FOR_CLK_TO_HIGHEST_SENSI_ADC, PLOTTERMAXSCALE, HUNDREDTHPLOTTERMAXSCALE, SAMPLE_TIMES, ANALOGINPUTBITSOFBOARD, SCALE_FACTOR_TO_PROMOTE_LOW_RES_ADC_TO_SAME_SCALE, COMMON_MODE_LEVEL_FOR_MAX_GAIN_AS_READ_RAW_BY_INBOARD_ANALOG, HEIGHT_OF_A_PLOT_LINESPACE
-
-//FUTURE #define LOOP_COUNTER_LIMIT_THAT_TRACE_IS_ALLOWED_TO_BE_OFF_CENTER 2                           //sets how soon run-time auto-balancing kicks in when trace goes off scale
 //FUTURE #define TESTSTEPUPDOWN COMMONMODE                                                                  //Available: SINGLESIDE COMMONMODE
-#ifdef USING_DUAL_74LV138_DECODERS_FOR_DIGIPOT_CS_LINES 
-    #warning These_ 7 pin numbers get specified normally, but be sure you specify the _digital_pot_CS_pins_ with the MSB set to decode them; i.e., make those pin numbers>= 128, but not these
-    #define FIRST_STAGE_3_TO_8_DECODER_A0_PIN 5
-    #define FIRST_STAGE_3_TO_8_DECODER_A1_PIN 6
-    #define FIRST_STAGE_3_TO_8_DECODER_A2_PIN 7
-    #define SECOND_STAGE_3_TO_8_DECODER_A0_PIN 8
-    #define SECOND_STAGE_3_TO_8_DECODER_A1_PIN 9
-    #define SECOND_STAGE_3_TO_8_DECODER_A2_PIN 10
-    #define BOTH_STAGES_3_TO_8_DECODER_ENABLE_PIN 11
-#endif
+//FUTURE #define USING_DUAL_74LV138_DECODERS
 /*******************(C)  COPYRIGHT 2018 KENNETH L ANDERSON *********************
 * 
 *      ARDUINO ELECTRICAL RESISTANCE/CONDUCTANCE MONITORING SKETCH 
@@ -104,7 +89,7 @@
 *              18 June  2018 :  Bug fixes relative to displaying multiple traces while one or more are from inboard analog pins
 *              13 July  2018 :  Modified plotter timing trace to notch horizontally at range min and max for signal traces when it crosses up and down.  Incorporated digi pot adjustings in debug mode. Enabled bypass of digi pot set in setup()
 *              14 July  2018 :  Improved horizontal timing trace notching - made it shorter and consistent between levels
-*              15 July  2018 :  Allow unique digipot initializing value for each pot.  Discovered HX711 input Z is way too low for use without buffers.  Regrouping....
+*              15 July  2018 :  Allow unique digipot intializing value for each pot.  Discovered HX711 input Z is way too low for use without buffers.  Regrouping....
 *              16 July  2018 :  Removed disparaging comments toward TTGO XI/Wemo XI because we will make the plunge to employ the AD8244 buffer as standard, resulting in those boards being eligible as any other board
 *              20 July  2018 :  Improved plotting with INBOARDINPARALLELWITHHIGHESTSENSI and improved 24-bit plot values
 *              26 July  2018 :  Corrected conversion from twos complement differential readings to proper single ended plotting
@@ -115,10 +100,8 @@
 *              31 July  2018 :  I've noticed one sketch bug in the printing of the magnified traces in that they don't stay within bounds any more. Older sketch versions never had that problem. I'm not sure where it began, but it seems to be a memory management problem from my inital troubleshooting rather than any type of algorithm weakness. I'll work on that when I'm able... 
 *              01 Aug   2018 :  Working on vertical positioning of the magnified traces
 *              23 Aug   2018 :  Fixed magnified traces in all respects; added functionality to display digipot calibration effects during calibration in setup(); started adding code to handle multiple digipot banks that utilize dual 74VHC138/74LV138s.  Still no AUTO_BRIDGE_BALANCING
-*              23 Aug   2018 :  Magnification factor adjustable downward via a potentiometer if defined POT_WIPER_TO_THIS_ANALOG_INPUT_PIN_TO_ADJUST_MAGNIFICATION_FACTOR with the digital number of an inboard analog input pin.
-*              23 Aug   2018 :  added USING_DUAL_74LV138_DECODERS_FOR_DIGIPOT_CS_LINES with possibly enough code (just needs testing). Allowed for any ratio of LSB pot step to MSB step with LSB_DIGIPOT_RESISTANCE_STEP_PER_MSB_RESISTANCE_STEP
-*              NEXT          :  Runtime auto-adjust testing: Test proposed code for LOOP_COUNTER_LIMIT_THAT_TRACE_IS_ALLOWED_TO_BE_OFF_CENTER
-*              NEXT          :  EEPROM storage of things like ADC sweet spot, initial digipot settings, etc
+*              NEXT          :  Magnification factor really needs to be run-time adjustable via a potentiometer.  Very important!
+*              NEXT          :  Re-code AUTO_BRIDGE_BALANCING feature to get it working again but with additional ability to plot its effects during calibration
 *              NEXT          :  Accommodate ADS1232 &/or ADS1231
 *               
 *********************************************************************************************************************/
@@ -165,7 +148,7 @@
             #include <HX711.h>  //From https://github.com/bogde/HX711  This ADC has no CS pin so the library must use software SPI with dedicated CLK pin.  Not data selectable as would be in I2C, nor CS selectable - must be on dedicated CLK & Data lines
             HX711 hx711( PIN_FOR_DATA_TOFROM_HIGHEST_SENSI_ADC, PIN_FOR_CLK_TO_HIGHEST_SENSI_ADC ); // This library allows us to set the pins and gain here or later in a .begin().   
             #undef COMMON_MODE_LEVEL_FOR_MAX_GAIN_AS_READ_RAW_BY_INBOARD_ANALOG
-            #define COMMON_MODE_LEVEL_FOR_MAX_GAIN_AS_READ_RAW_BY_INBOARD_ANALOG 306                // If HIGHEST_SENSI_ADDON_ADC_TYPE has a sweet spot of max sensitivity, unlike true op-amp.  (HX711 == 305, ranging from 1.49 to 1.507 vdc depending which scale is used to read it).  This will also be discovered and stored in EEPROM in a future revision
+            #define COMMON_MODE_LEVEL_FOR_MAX_GAIN_AS_READ_RAW_BY_INBOARD_ANALOG 290                // If HIGHEST_SENSI_ADDON_ADC_TYPE has a sweet spot of max sensitivity, unlike true op-amp.  (HX711 == 305, ranging from 1.49 to 1.507 vdc depending which scale is used to read it).  This will also be discovered and stored in EEPROM in a future revision
         #else
             #if ( HIGHEST_SENSI_ADDON_ADC_TYPE == ADS1232 ) && ( HIGHESTBITRESFROMHIGHESTSENSIADDONADC == 24 )
             #else
@@ -204,8 +187,8 @@
 #ifndef LOOP_COUNTER_LIMIT_THAT_TRACE_IS_ALLOWED_TO_BE_OFF_CENTER
     #define LOOP_COUNTER_LIMIT_THAT_TRACE_IS_ALLOWED_TO_BE_OFF_CENTER 65536
 #endif
-#ifndef BIAS_TO_APPLY_TO_SIGNAL_LEG_TO_CENTER_TRACE
-    #define BIAS_TO_APPLY_TO_SIGNAL_LEG_TO_CENTER_TRACE 0
+#ifndef BIAS_TO_APPLY_TO_SIGNAL1_TO_CENTER_TRACE
+    #define BIAS_TO_APPLY_TO_SIGNAL1_TO_CENTER_TRACE 0
 #endif
 #if ( NUM_OF_INBOARD_ADCS_TO_PLOT > 0 )
     #ifndef NUM_ANALOG_INPUTS
@@ -233,9 +216,6 @@ If you only have the Arduino without an ADS1X15, then define NUM_OF_INBOARD_ADCS
         #undef FIRST_INBOARDS_ARE_IN_PAIRS_AND_EACH_PAIR_IS_IN_PARALLEL_WITH_ONE_HIGHEST_SENSI_ADC_INPUT_SET
         #define FIRST_INBOARDS_ARE_IN_PAIRS_AND_EACH_PAIR_IS_IN_PARALLEL_WITH_ONE_HIGHEST_SENSI_ADC_INPUT_SET 1
     #endif
-#endif
-#if ( NUM_OF_ADDON_HIGHEST_SENSI_ADCS_TO_PLOT == 0 ) && defined AUTO_BRIDGE_BALANCING
-    #undef AUTO_BRIDGE_BALANCING
 #endif
 #ifndef USING_LM334_WITH_MCP4162_POT_BANKS
     #undef POTTESTWOBBLEPOSITIVE
@@ -283,7 +263,6 @@ If you only have the Arduino without an ADS1X15, then define NUM_OF_INBOARD_ADCS
     #define MAXPOTVALUE 257
 
 //    #if ( USING_LM334_WITH_MCP4162_POT_BANKS > 0 ) Just b/c this conforms to the pattern
-//When using one or two 3:8 decoders, note that these pins numbers must be greater than 127
     #define BANK_0_LEG_0_DIGITAL_POT_0 5  // first digital pot's CS line connected to here. coarse adjust A positive leg
     #define BANK_0_LEG_0_DIGITAL_POT_1 6  // second digital pot's CS line connected to here.  coarse adjust B positive leg
     #define BANK_0_LEG_0_DIGITAL_POT_2 7  // third digital pot's CS line connected to here.  fine adjust positive leg
@@ -515,35 +494,15 @@ So: - define ...PARALLELed = 0 if it is undefined
 #ifdef USING_LM334_WITH_MCP4162_POT_BANKS
     void setPotValue( uint8_t digital_pot_pin, uint16_t value )
     {
-        if( digital_pot_pin < 128 ) //Pins numbered below 128 are normal digital inboard pins
+        for( uint8_t index = 0; index < NUM_OF_DIGIPOTS_PER_BANK * USING_LM334_WITH_MCP4162_POT_BANKS; index++ )
         {
-            for( uint8_t index = 0; index < NUM_OF_DIGIPOTS_PER_BANK * USING_LM334_WITH_MCP4162_POT_BANKS; index++ )
+            if( digital_pot_pin == digipot_pins[ index ] )
             {
-                if( digital_pot_pin == digipot_pins[ index ] )
-                {
-                    digipot_values[ index ] = value < MAXPOTVALUE ? value : MAXPOTVALUE;
-                    value = digipot_values[ index ];
-                    break;
-                }
+                digipot_values[ index ] = value < MAXPOTVALUE ? value : MAXPOTVALUE;
+                value = digipot_values[ index ];
+                break;
             }
         }
-#ifdef USING_DUAL_74LV138_DECODERS_FOR_DIGIPOT_CS_LINES
-        else
-        {//Pins numbered above 127 are outboard pins provided through the dual 74LV138 decoding circuitry
-         //The two 74LV138 each have three enable pins but we only use one.  It would require 7 pins to address the two devices simultaneously.  Use 'em since we have them...it'll save a part for latch
-            digitalWrite( FIRST_STAGE_3_TO_8_DECODER_A0_PIN, digital_pot_pin & B1 );  //These address bits are always necessary
-            digitalWrite( FIRST_STAGE_3_TO_8_DECODER_A1_PIN, digital_pot_pin & B10 ); //These address bits are always necessary
-            digitalWrite( FIRST_STAGE_3_TO_8_DECODER_A2_PIN, digital_pot_pin & B100 ); //These address bits are always necessary
-            digitalWrite( SECOND_STAGE_3_TO_8_DECODER_A0_PIN, digital_pot_pin & B1000 ); //This decoder might not be present
-            digitalWrite( SECOND_STAGE_3_TO_8_DECODER_A1_PIN, digital_pot_pin & B10000 ); //This decoder might not be present
-            digitalWrite( SECOND_STAGE_3_TO_8_DECODER_A2_PIN, digital_pot_pin & B100000 );  //This decoder might not be present
-            digital_pot_pin = BOTH_STAGES_3_TO_8_DECODER_ENABLE_PIN;
-        }
-#endif
-        digitalWrite( digital_pot_pin, LOW );
-        SPI.transfer( ( value & 0x100 ) ? 1 : 0 );
-        SPI.transfer( value & 0xff ); // send value (0~255)
-        digitalWrite( digital_pot_pin, HIGH );
 //To accommodate multiple banks of digipots, replace the digitalWrite commands with decoding algorithm, and add dual 74LV138 decoding;i.e. lines 1-3 to the first 74LV138, lines 4-6 to the second which allows 8 banks of up to 7 devices each or 7 banks up to 8 device each.  Choose 8 banks, 7 devices:
 //Downside: all bank selecting pins must originate from one and the same port so port manipulation can be used to eliminate spurious bank cross-selections that would occur if bank selecting had to be done just one pin at a time
 //Additional advantage: that scheme can also be used without the dual 74LV138 decoding circuitry, so TODO: convert sketch to utilize this scheme
@@ -576,6 +535,10 @@ pin_mask_to_bank &= 0 << BIT_POSITION_WITHIN_PORT_OF_BANK_SELECT_A[ 0 ];
 pin_mask_to_bank &= 0 << BIT_POSITION_WITHIN_PORT_OF_BANK_SELECT_A[ 1 ];
 pin_mask_to_bank &= 0 << BIT_POSITION_WITHIN_PORT_OF_BANK_SELECT_A[ 2 ];
 */
+      digitalWrite( digital_pot_pin, LOW );
+      SPI.transfer( ( value & 0x100 ) ? 1 : 0 );
+      SPI.transfer( value & 0xff ); // send value (0~255)
+      digitalWrite( digital_pot_pin, HIGH );
     }
     
     void offsetPotValue( uint8_t digital_pot_pin, int16_t offsetvalue )
@@ -613,7 +576,7 @@ pin_mask_to_bank &= 0 << BIT_POSITION_WITHIN_PORT_OF_BANK_SELECT_A[ 2 ];
     }
 
     bool adjust_values_for_this_leg( uint8_t MSB_pot_pin, uint16_t* MSB_pot_value, uint8_t MID_pot_pin, uint16_t* MID_pot_value, uint8_t LSB_pot_pin, uint16_t* LSB_pot_value, bool pos_or_neg = true ) //default direction will be positive
-    { // This effectively increments or decrements LSB digipot setting just once
+    {
         #ifdef DEBUG
             while ( !Serial );
             Serial.print( F( "adjust_values_for_this_leg called on " ) );
@@ -646,12 +609,12 @@ pin_mask_to_bank &= 0 << BIT_POSITION_WITHIN_PORT_OF_BANK_SELECT_A[ 2 ];
                 if( *LSB_pot_value > MAXPOTVALUE ) { *LSB_pot_value = MAXPOTVALUE; return false; }
                 return true;
             }
-            if( *LSB_pot_value + 1 > ( LSB_DIGIPOT_RESISTANCE_STEP_PER_MSB_RESISTANCE_STEP - 1 ) ) //This catches *LSB_pot_value having or about to have a value higher than 9 when it shouldn't.  So we cycle it down
+            if( *LSB_pot_value + 1 > 9 ) //This catches *LSB_pot_value having or about to have a value higher than 9 when it shouldn't.  So we cycle it down
             {
                 do 
                 {
-                    *LSB_pot_value = ( uint16_t )( ( int16_t )*LSB_pot_value - LSB_DIGIPOT_RESISTANCE_STEP_PER_MSB_RESISTANCE_STEP ); //Yes, this can cause an unsigned to underflow to -1
-                } while( ( ++total_value_coarse < MAXPOTVALUE * 2 ) && *LSB_pot_value + 1 > ( LSB_DIGIPOT_RESISTANCE_STEP_PER_MSB_RESISTANCE_STEP - 1 ) );
+                    *LSB_pot_value = ( uint16_t )( ( int16_t )*LSB_pot_value - 10 ); //Yes, this can cause an unsigned to underflow to -1
+                } while( ( ++total_value_coarse < MAXPOTVALUE * 2 ) && *LSB_pot_value + 1 > 9 );
 
                 *MSB_pot_value = ( total_value_coarse > MAXPOTVALUE ?  total_value_coarse - MAXPOTVALUE : 0 );
                 *MID_pot_value = ( total_value_coarse > MAXPOTVALUE ? MAXPOTVALUE : total_value_coarse );
@@ -666,7 +629,7 @@ pin_mask_to_bank &= 0 << BIT_POSITION_WITHIN_PORT_OF_BANK_SELECT_A[ 2 ];
         if( total_value_coarse == 0 && *LSB_pot_value == 0 ) return false;
         if( ( int16_t )*LSB_pot_value == 0 ) //This catches *LSB_pot_value having or about to have a value lower than 0.  So we cycle it up
         {
-            *LSB_pot_value = LSB_DIGIPOT_RESISTANCE_STEP_PER_MSB_RESISTANCE_STEP;
+            *LSB_pot_value = 10;
             *MSB_pot_value = ( --total_value_coarse > MAXPOTVALUE ? total_value_coarse - MAXPOTVALUE : 0 );
             *MID_pot_value = ( total_value_coarse > MAXPOTVALUE ? MAXPOTVALUE : total_value_coarse );
             setPotValue( MSB_pot_pin, *MSB_pot_value );
@@ -767,7 +730,7 @@ void plot_timing_line_going_up( bool traces_already_initialized_to_valid_reading
                 while( !Serial ) ; 
                 Serial.println( F( "Line 508" ) );
             #endif
-            if( traces_already_initialized_to_valid_readings ) plotvaluesforalltraces( traces_already_initialized_to_valid_readings );
+            plotvaluesforalltraces( traces_already_initialized_to_valid_readings );
             #ifdef DEBUG
                 while( !Serial ) ; 
                 Serial.println( F( "Line 513" ) );
@@ -779,7 +742,7 @@ void plot_timing_line_going_up( bool traces_already_initialized_to_valid_reading
             Serial.print( F( "Line 519 i=" ) );
             Serial.println( i );
         #endif
-        if( traces_already_initialized_to_valid_readings ) plotvaluesforalltraces( traces_already_initialized_to_valid_readings );
+        plotvaluesforalltraces( traces_already_initialized_to_valid_readings );
         #ifdef DEBUG
             while( !Serial ) ; 
             Serial.print( F( "Line 524, i=" ) );
@@ -1019,13 +982,13 @@ set_digipots_step9:;
 void read_and_plot_from_all_ADCs_in_and_outboard( bool );
 
 bool match_bridge_leg_signal_to_reference( uint8_t bank )
-{//BIAS_TO_APPLY_TO_SIGNAL_LEG_TO_CENTER_TRACE
+{//BIAS_TO_APPLY_TO_SIGNAL1_TO_CENTER_TRACE
     uint16_t stepsize = 10;    
     uint16_t startpoint1;
     uint16_t startpoint2;
-    while( ( BestGuessAnalogInputreading( bank * 2 ) < BestGuessAnalogInputreading( 1 + ( bank * 2 ) ) + BIAS_TO_APPLY_TO_SIGNAL_LEG_TO_CENTER_TRACE ) && ( stepsize > 0 ) )
+    while( ( BestGuessAnalogInputreading( bank * 2 ) < BestGuessAnalogInputreading( 1 + ( bank * 2 ) ) + BIAS_TO_APPLY_TO_SIGNAL1_TO_CENTER_TRACE ) && ( stepsize > 0 ) )
     {
-        while( BestGuessAnalogInputreading( bank * 2 ) < BestGuessAnalogInputreading( 1 + ( bank * 2 ) ) + BIAS_TO_APPLY_TO_SIGNAL_LEG_TO_CENTER_TRACE )
+        while( BestGuessAnalogInputreading( bank * 2 ) < BestGuessAnalogInputreading( 1 + ( bank * 2 ) ) + BIAS_TO_APPLY_TO_SIGNAL1_TO_CENTER_TRACE )
         {
             startpoint1 = digipot_values[ 0 + ( bank * NUM_OF_DIGIPOTS_PER_BANK ) ];
             startpoint2 = digipot_values[ 1 + ( bank * NUM_OF_DIGIPOTS_PER_BANK ) ];
@@ -1040,14 +1003,14 @@ bool match_bridge_leg_signal_to_reference( uint8_t bank )
         stepsize >>= 1;
     }
 //Converge on BestGuessAnalogInputreading( 1 + ( bank * 2 ) ) in smaller steps
-    while( BestGuessAnalogInputreading( bank * 2 ) < BestGuessAnalogInputreading( 1 + ( bank * 2 ) ) + BIAS_TO_APPLY_TO_SIGNAL_LEG_TO_CENTER_TRACE )
+    while( BestGuessAnalogInputreading( bank * 2 ) < BestGuessAnalogInputreading( 1 + ( bank * 2 ) ) + BIAS_TO_APPLY_TO_SIGNAL1_TO_CENTER_TRACE )
     {
         adjust_values_for_this_leg( digipot_pins[ 0 + ( bank * 2 ) ], &digipot_values[ 0 + ( bank * NUM_OF_DIGIPOTS_PER_BANK ) ], digipot_pins[ 1 + ( bank * 2 ) ], &digipot_values[ 1 + ( bank * NUM_OF_DIGIPOTS_PER_BANK ) ],  digipot_pins[ 2 + ( bank * 2 ) ], &digipot_values[ 2 + ( bank * NUM_OF_DIGIPOTS_PER_BANK ) ], false );
     }
     stepsize = 10;
-    while( ( BestGuessAnalogInputreading( bank * 2 ) > BestGuessAnalogInputreading( 1 + ( bank * 2 ) ) + BIAS_TO_APPLY_TO_SIGNAL_LEG_TO_CENTER_TRACE ) && ( stepsize > 0 ) )
+    while( ( BestGuessAnalogInputreading( bank * 2 ) > BestGuessAnalogInputreading( 1 + ( bank * 2 ) ) + BIAS_TO_APPLY_TO_SIGNAL1_TO_CENTER_TRACE ) && ( stepsize > 0 ) )
     {
-        while( BestGuessAnalogInputreading( bank * 2 ) > BestGuessAnalogInputreading( 1 + ( bank * 2 ) ) + BIAS_TO_APPLY_TO_SIGNAL_LEG_TO_CENTER_TRACE )
+        while( BestGuessAnalogInputreading( bank * 2 ) > BestGuessAnalogInputreading( 1 + ( bank * 2 ) ) + BIAS_TO_APPLY_TO_SIGNAL1_TO_CENTER_TRACE )
         {
             startpoint1 = digipot_values[ 0 + ( bank * NUM_OF_DIGIPOTS_PER_BANK ) ];
             startpoint2 = digipot_values[ 1 + ( bank * NUM_OF_DIGIPOTS_PER_BANK ) ];
@@ -1063,32 +1026,25 @@ bool match_bridge_leg_signal_to_reference( uint8_t bank )
     }
 
 //Converge on BestGuessAnalogInputreading( 1 + ( bank * 2 ) ) in smaller steps
-    while( BestGuessAnalogInputreading( bank * 2 ) > BestGuessAnalogInputreading( 1 + ( bank * 2 ) ) + BIAS_TO_APPLY_TO_SIGNAL_LEG_TO_CENTER_TRACE )
+    while( BestGuessAnalogInputreading( bank * 2 ) > BestGuessAnalogInputreading( 1 + ( bank * 2 ) ) + BIAS_TO_APPLY_TO_SIGNAL1_TO_CENTER_TRACE )
     {
         adjust_values_for_this_leg( digipot_pins[ 0 + ( bank * 2 ) ], &digipot_values[ 0 + ( bank * NUM_OF_DIGIPOTS_PER_BANK ) ], digipot_pins[ 1 + ( bank * 2 ) ], &digipot_values[ 1 + ( bank * NUM_OF_DIGIPOTS_PER_BANK ) ],  digipot_pins[ 2 + ( bank * 2 ) ], &digipot_values[ 2 + ( bank * NUM_OF_DIGIPOTS_PER_BANK ) ], true );
     }
 //Converge by one or two consecutive readings
     do
     {
-        if( BestGuessAnalogInputreading( bank * 2 ) > BestGuessAnalogInputreading( 1 + ( bank * 2 ) ) + BIAS_TO_APPLY_TO_SIGNAL_LEG_TO_CENTER_TRACE )
+        if( BestGuessAnalogInputreading( bank * 2 ) > BestGuessAnalogInputreading( 1 + ( bank * 2 ) ) + BIAS_TO_APPLY_TO_SIGNAL1_TO_CENTER_TRACE )
         {
             adjust_values_for_this_leg( digipot_pins[ 0 + ( bank * 2 ) ], &digipot_values[ 0 + ( bank * NUM_OF_DIGIPOTS_PER_BANK ) ], digipot_pins[ 1 + ( bank * 2 ) ], &digipot_values[ 1 + ( bank * NUM_OF_DIGIPOTS_PER_BANK ) ],  digipot_pins[ 2 + ( bank * 2 ) ], &digipot_values[ 2 + ( bank * NUM_OF_DIGIPOTS_PER_BANK ) ], true );
         }
-        else if( BestGuessAnalogInputreading( bank * 2 ) /*read it again*/ < BestGuessAnalogInputreading( 1 + ( bank * 2 ) ) + BIAS_TO_APPLY_TO_SIGNAL_LEG_TO_CENTER_TRACE )
+        else if( BestGuessAnalogInputreading( bank * 2 ) /*read it again*/ < BestGuessAnalogInputreading( 1 + ( bank * 2 ) ) + BIAS_TO_APPLY_TO_SIGNAL1_TO_CENTER_TRACE )
         {
             adjust_values_for_this_leg( digipot_pins[ 0 + ( bank * 2 ) ], &digipot_values[ 0 + ( bank * NUM_OF_DIGIPOTS_PER_BANK ) ], digipot_pins[ 1 + ( bank * 2 ) ], &digipot_values[ 1 + ( bank * NUM_OF_DIGIPOTS_PER_BANK ) ],  digipot_pins[ 2 + ( bank * 2 ) ], &digipot_values[ 2 + ( bank * NUM_OF_DIGIPOTS_PER_BANK ) ], false );
         }
-        if( BestGuessAnalogInputreading( bank * 2 ) /*read it again*/ != BestGuessAnalogInputreading( 1 + ( bank * 2 ) ) + BIAS_TO_APPLY_TO_SIGNAL_LEG_TO_CENTER_TRACE ) continue;
+        if( BestGuessAnalogInputreading( bank * 2 ) /*read it again*/ != BestGuessAnalogInputreading( 1 + ( bank * 2 ) ) + BIAS_TO_APPLY_TO_SIGNAL1_TO_CENTER_TRACE ) continue;
         
-    }while( BestGuessAnalogInputreading( bank * 2 ) /*read it again*/ != BestGuessAnalogInputreading( 1 + ( bank * 2 ) ) + BIAS_TO_APPLY_TO_SIGNAL_LEG_TO_CENTER_TRACE );
+    }while( BestGuessAnalogInputreading( bank * 2 ) /*read it again*/ != BestGuessAnalogInputreading( 1 + ( bank * 2 ) ) + BIAS_TO_APPLY_TO_SIGNAL1_TO_CENTER_TRACE );
 
-// Lastly, apply negative ADDITIONAL_LSB_DIGIPOT_SETTING_BIAS_TO_SIGNAL_TRACE to signal leg LSB digipot
-#if defined ADDITIONAL_LSB_DIGIPOT_SETTING_BIAS_TO_SIGNAL_TRACE
-    #if ( 1 < ADDITIONAL_LSB_DIGIPOT_SETTING_BIAS_TO_SIGNAL_TRACE + 1 )
-        for( uint8_t adjust_clicks = 0; adjust_clicks < abs( ADDITIONAL_LSB_DIGIPOT_SETTING_BIAS_TO_SIGNAL_TRACE ); adjust_clicks++ )
-            adjust_values_for_this_leg( digipot_pins[ 0 + ( bank * 2 ) ], &digipot_values[ 0 + ( bank * NUM_OF_DIGIPOTS_PER_BANK ) ], digipot_pins[ 1 + ( bank * 2 ) ], &digipot_values[ 1 + ( bank * NUM_OF_DIGIPOTS_PER_BANK ) ],  digipot_pins[ 2 + ( bank * 2 ) ], &digipot_values[ 2 + ( bank * NUM_OF_DIGIPOTS_PER_BANK ) ], ADDITIONAL_LSB_DIGIPOT_SETTING_BIAS_TO_SIGNAL_TRACE > 0 ? false : true  );
-    #endif
-#endif
 //If ADDON ADC affiliated with this bank reads above zero on avg, lower the signal leg and vice versa
     //refresh the readings
 //    read_and_plot_from_all_ADCs_in_and_outboard( true ); // I would think the operator would appreciate seeing something like this during calibration
@@ -1119,14 +1075,14 @@ bool match_bridge_leg_signal_to_reference( uint8_t bank )
     return false;
 }
 
-void set_bridge_leg_signal_input( uint8_t bank )
-{//BIAS_TO_APPLY_TO_SIGNAL_LEG_TO_CENTER_TRACE
+void set_bridge_leg_signal_input( uint8_t bank ) //When bank starts being used in the future, the digipots are what needs to get changed herein
+{//BIAS_TO_APPLY_TO_SIGNAL1_TO_CENTER_TRACE
     uint16_t stepsize = 10;    
     uint16_t startpoint1;
     uint16_t startpoint2;
-    while( ( BestGuessAnalogInputreading( bank * 2 ) < COMMON_MODE_LEVEL_FOR_MAX_GAIN_AS_READ_RAW_BY_INBOARD_ANALOG + BIAS_TO_APPLY_TO_SIGNAL_LEG_TO_CENTER_TRACE ) && ( stepsize > 0 ) )
+    while( ( BestGuessAnalogInputreading( bank * 2 ) < COMMON_MODE_LEVEL_FOR_MAX_GAIN_AS_READ_RAW_BY_INBOARD_ANALOG + BIAS_TO_APPLY_TO_SIGNAL1_TO_CENTER_TRACE ) && ( stepsize > 0 ) )
     {
-        while( BestGuessAnalogInputreading( bank * 2 ) < COMMON_MODE_LEVEL_FOR_MAX_GAIN_AS_READ_RAW_BY_INBOARD_ANALOG + BIAS_TO_APPLY_TO_SIGNAL_LEG_TO_CENTER_TRACE )
+        while( BestGuessAnalogInputreading( bank * 2 ) < COMMON_MODE_LEVEL_FOR_MAX_GAIN_AS_READ_RAW_BY_INBOARD_ANALOG + BIAS_TO_APPLY_TO_SIGNAL1_TO_CENTER_TRACE )
         {
             startpoint1 = digipot_values[ 0 + ( bank * NUM_OF_DIGIPOTS_PER_BANK ) ];
             startpoint2 = digipot_values[ 1 + ( bank * NUM_OF_DIGIPOTS_PER_BANK ) ];
@@ -1141,14 +1097,14 @@ void set_bridge_leg_signal_input( uint8_t bank )
         stepsize >>= 1;
     }
 //Converge on COMMON_MODE_LEVEL_FOR_MAX_GAIN_AS_READ_RAW_BY_INBOARD_ANALOG in smaller steps
-    while( BestGuessAnalogInputreading( bank * 2 ) < COMMON_MODE_LEVEL_FOR_MAX_GAIN_AS_READ_RAW_BY_INBOARD_ANALOG + BIAS_TO_APPLY_TO_SIGNAL_LEG_TO_CENTER_TRACE )
+    while( BestGuessAnalogInputreading( bank * 2 ) < COMMON_MODE_LEVEL_FOR_MAX_GAIN_AS_READ_RAW_BY_INBOARD_ANALOG + BIAS_TO_APPLY_TO_SIGNAL1_TO_CENTER_TRACE )
     {
         adjust_values_for_this_leg( digipot_pins[ 0 + ( bank * 2 ) ], &digipot_values[ 0 + ( bank * NUM_OF_DIGIPOTS_PER_BANK ) ], digipot_pins[ 1 + ( bank * 2 ) ], &digipot_values[ 1 + ( bank * NUM_OF_DIGIPOTS_PER_BANK ) ],  digipot_pins[ 2 + ( bank * 2 ) ], &digipot_values[ 2 + ( bank * NUM_OF_DIGIPOTS_PER_BANK ) ], false );
     }
     stepsize = 10;
-    while( ( BestGuessAnalogInputreading( bank * 2 ) > COMMON_MODE_LEVEL_FOR_MAX_GAIN_AS_READ_RAW_BY_INBOARD_ANALOG + BIAS_TO_APPLY_TO_SIGNAL_LEG_TO_CENTER_TRACE ) && ( stepsize > 0 ) )
+    while( ( BestGuessAnalogInputreading( bank * 2 ) > COMMON_MODE_LEVEL_FOR_MAX_GAIN_AS_READ_RAW_BY_INBOARD_ANALOG + BIAS_TO_APPLY_TO_SIGNAL1_TO_CENTER_TRACE ) && ( stepsize > 0 ) )
     {
-        while( BestGuessAnalogInputreading( bank * 2 ) > COMMON_MODE_LEVEL_FOR_MAX_GAIN_AS_READ_RAW_BY_INBOARD_ANALOG + BIAS_TO_APPLY_TO_SIGNAL_LEG_TO_CENTER_TRACE )
+        while( BestGuessAnalogInputreading( bank * 2 ) > COMMON_MODE_LEVEL_FOR_MAX_GAIN_AS_READ_RAW_BY_INBOARD_ANALOG + BIAS_TO_APPLY_TO_SIGNAL1_TO_CENTER_TRACE )
         {
             startpoint1 = digipot_values[ 0 + ( bank * NUM_OF_DIGIPOTS_PER_BANK ) ];
             startpoint2 = digipot_values[ 1 + ( bank * NUM_OF_DIGIPOTS_PER_BANK ) ];
@@ -1164,28 +1120,26 @@ void set_bridge_leg_signal_input( uint8_t bank )
     }
 
 //Converge on COMMON_MODE_LEVEL_FOR_MAX_GAIN_AS_READ_RAW_BY_INBOARD_ANALOG in smaller steps
-    while( BestGuessAnalogInputreading( bank * 2 ) > COMMON_MODE_LEVEL_FOR_MAX_GAIN_AS_READ_RAW_BY_INBOARD_ANALOG + BIAS_TO_APPLY_TO_SIGNAL_LEG_TO_CENTER_TRACE )
+    while( BestGuessAnalogInputreading( bank * 2 ) > COMMON_MODE_LEVEL_FOR_MAX_GAIN_AS_READ_RAW_BY_INBOARD_ANALOG + BIAS_TO_APPLY_TO_SIGNAL1_TO_CENTER_TRACE )
     {
         adjust_values_for_this_leg( digipot_pins[ 0 + ( bank * 2 ) ], &digipot_values[ 0 + ( bank * NUM_OF_DIGIPOTS_PER_BANK ) ], digipot_pins[ 1 + ( bank * 2 ) ], &digipot_values[ 1 + ( bank * NUM_OF_DIGIPOTS_PER_BANK ) ],  digipot_pins[ 2 + ( bank * 2 ) ], &digipot_values[ 2 + ( bank * NUM_OF_DIGIPOTS_PER_BANK ) ], true );
     }
 //Converge by one or two consecutive readings
     do
     {
-        if( BestGuessAnalogInputreading( bank * 2 ) > COMMON_MODE_LEVEL_FOR_MAX_GAIN_AS_READ_RAW_BY_INBOARD_ANALOG + BIAS_TO_APPLY_TO_SIGNAL_LEG_TO_CENTER_TRACE )
+        if( BestGuessAnalogInputreading( bank * 2 ) > COMMON_MODE_LEVEL_FOR_MAX_GAIN_AS_READ_RAW_BY_INBOARD_ANALOG + BIAS_TO_APPLY_TO_SIGNAL1_TO_CENTER_TRACE )
         {
             adjust_values_for_this_leg( digipot_pins[ 0 + ( bank * 2 ) ], &digipot_values[ 0 + ( bank * NUM_OF_DIGIPOTS_PER_BANK ) ], digipot_pins[ 1 + ( bank * 2 ) ], &digipot_values[ 1 + ( bank * NUM_OF_DIGIPOTS_PER_BANK ) ],  digipot_pins[ 2 + ( bank * 2 ) ], &digipot_values[ 2 + ( bank * NUM_OF_DIGIPOTS_PER_BANK ) ], true );
         }
-        else if( BestGuessAnalogInputreading( bank * 2 ) /*read it again*/ < COMMON_MODE_LEVEL_FOR_MAX_GAIN_AS_READ_RAW_BY_INBOARD_ANALOG + BIAS_TO_APPLY_TO_SIGNAL_LEG_TO_CENTER_TRACE )
+        else if( BestGuessAnalogInputreading( bank * 2 ) /*read it again*/ < COMMON_MODE_LEVEL_FOR_MAX_GAIN_AS_READ_RAW_BY_INBOARD_ANALOG + BIAS_TO_APPLY_TO_SIGNAL1_TO_CENTER_TRACE )
         {
             adjust_values_for_this_leg( digipot_pins[ 0 + ( bank * 2 ) ], &digipot_values[ 0 + ( bank * NUM_OF_DIGIPOTS_PER_BANK ) ], digipot_pins[ 1 + ( bank * 2 ) ], &digipot_values[ 1 + ( bank * NUM_OF_DIGIPOTS_PER_BANK ) ],  digipot_pins[ 2 + ( bank * 2 ) ], &digipot_values[ 2 + ( bank * NUM_OF_DIGIPOTS_PER_BANK ) ], false );
         }
-        if( BestGuessAnalogInputreading( bank * 2 ) /*read it again*/ != COMMON_MODE_LEVEL_FOR_MAX_GAIN_AS_READ_RAW_BY_INBOARD_ANALOG + BIAS_TO_APPLY_TO_SIGNAL_LEG_TO_CENTER_TRACE ) continue;
+        if( BestGuessAnalogInputreading( bank * 2 ) /*read it again*/ != COMMON_MODE_LEVEL_FOR_MAX_GAIN_AS_READ_RAW_BY_INBOARD_ANALOG + BIAS_TO_APPLY_TO_SIGNAL1_TO_CENTER_TRACE ) continue;
         
-    }while( BestGuessAnalogInputreading( bank * 2 ) /*read it again*/ != COMMON_MODE_LEVEL_FOR_MAX_GAIN_AS_READ_RAW_BY_INBOARD_ANALOG + BIAS_TO_APPLY_TO_SIGNAL_LEG_TO_CENTER_TRACE );
+    }while( BestGuessAnalogInputreading( bank * 2 ) /*read it again*/ != COMMON_MODE_LEVEL_FOR_MAX_GAIN_AS_READ_RAW_BY_INBOARD_ANALOG + BIAS_TO_APPLY_TO_SIGNAL1_TO_CENTER_TRACE );
 }
 #endif
-
-static uint32_t tracespace_to_skip_when_repositioning, negative_tracespace_to_skip_when_repositioning;
 
 #if ( NUM_OF_ADDON_HIGHEST_SENSI_ADCS_TO_PLOT > 0 ) && defined AUTO_BRIDGE_BALANCING
 int plot_the_normal_and_magnified_signals( uint8_t channel )
@@ -1195,6 +1149,7 @@ void plot_the_normal_and_magnified_signals( uint8_t channel )
 {
 #ifdef DEBUG
         while( !Serial );
+        Serial.println();
         Serial.print( F( "plot line index " ) );
         Serial.println( channel ); 
 #endif
@@ -1223,26 +1178,14 @@ void plot_the_normal_and_magnified_signals( uint8_t channel )
 //Derive the next plot point for the case of current this_reading being less than or equal to the last this_reading
     if( this_reading > screen_offsets_of_linespaces[ channel ].previous_unmagnified_reading ) //new reading is higher than previous
     {
-#ifdef POT_WIPER_TO_THIS_ANALOG_INPUT_PIN_TO_ADJUST_MAGNIFICATION_FACTOR
-        this_plot_point = last_plot_points[ ( channel * 2 ) + 1 ] + ( ( this_reading - screen_offsets_of_linespaces[ channel ].previous_unmagnified_reading ) * ( uint32_t )( ( analogRead( POT_WIPER_TO_THIS_ANALOG_INPUT_PIN_TO_ADJUST_MAGNIFICATION_FACTOR ) / pow( 2, ANALOGINPUTBITSOFBOARD ) ) * MAGNIFICATION_FACTOR );//new reading was not lower, so correct new plot point
-#else
         this_plot_point = last_plot_points[ ( channel * 2 ) + 1 ] + ( ( this_reading - screen_offsets_of_linespaces[ channel ].previous_unmagnified_reading ) * MAGNIFICATION_FACTOR );//new reading was not lower, so correct new plot point
-#endif
         if( this_plot_point > HEIGHT_OF_A_PLOT_LINESPACE ) //new plot point is higher than upper limit
-            this_plot_point = tracespace_to_skip_when_repositioning;
+            this_plot_point = ( HEIGHT_OF_A_PLOT_LINESPACE * PERCENT_OF_LINESPACE_MAGNIFIED_VIEW_SKIPS_WHEN_REPOSITIONED_WHEN_LINESPACE_LIMITS_GET_EXCEEDED ) / 100;
     }
-#ifdef POT_WIPER_TO_THIS_ANALOG_INPUT_PIN_TO_ADJUST_MAGNIFICATION_FACTOR
-    else if( ( screen_offsets_of_linespaces[ channel ].previous_unmagnified_reading - this_reading ) * ( uint32_t )( ( analogRead( POT_WIPER_TO_THIS_ANALOG_INPUT_PIN_TO_ADJUST_MAGNIFICATION_FACTOR ) / pow( 2, ANALOGINPUTBITSOFBOARD ) ) * MAGNIFICATION_FACTOR ) > last_plot_points[ ( channel * 2 ) + 1 ] )
-#else
     else if( ( screen_offsets_of_linespaces[ channel ].previous_unmagnified_reading - this_reading ) * MAGNIFICATION_FACTOR > last_plot_points[ ( channel * 2 ) + 1 ] )
-#endif
-        this_plot_point = negative_tracespace_to_skip_when_repositioning;
+        this_plot_point = HEIGHT_OF_A_PLOT_LINESPACE - ( ( HEIGHT_OF_A_PLOT_LINESPACE * PERCENT_OF_LINESPACE_MAGNIFIED_VIEW_SKIPS_WHEN_REPOSITIONED_WHEN_LINESPACE_LIMITS_GET_EXCEEDED ) / 100 );
     else
-#ifdef POT_WIPER_TO_THIS_ANALOG_INPUT_PIN_TO_ADJUST_MAGNIFICATION_FACTOR
-        this_plot_point = last_plot_points[ ( channel * 2 ) + 1 ] - ( ( screen_offsets_of_linespaces[ channel ].previous_unmagnified_reading - this_reading ) * ( uint32_t )( ( analogRead( POT_WIPER_TO_THIS_ANALOG_INPUT_PIN_TO_ADJUST_MAGNIFICATION_FACTOR ) / pow( 2, ANALOGINPUTBITSOFBOARD ) ) * MAGNIFICATION_FACTOR );//new reading was lower but not too much, so correct new plot point
-#else
         this_plot_point = last_plot_points[ ( channel * 2 ) + 1 ] - ( ( screen_offsets_of_linespaces[ channel ].previous_unmagnified_reading - this_reading ) * MAGNIFICATION_FACTOR );//new reading was lower but not too much, so correct new plot point
-#endif
     Serial.print( screen_offsets_of_linespaces[ channel ].zero_of_this_plot_linespace + this_plot_point ); 
     Serial.print( F( " " ) );
     last_plot_points[ ( channel * 2 ) + 1 ] = this_plot_point;
@@ -1250,10 +1193,7 @@ AFTER_THE_MAGNIFIED_PLOTTED:
 #endif
 screen_offsets_of_linespaces[ channel ].previous_unmagnified_reading = this_reading;
 #if ( NUM_OF_ADDON_HIGHEST_SENSI_ADCS_TO_PLOT > 0 ) && defined AUTO_BRIDGE_BALANCING
-    return BestGuessAnalogInputreading( 1 + ( ( channel - 2 ) * 2 ) ) + BIAS_TO_APPLY_TO_SIGNAL_LEG_TO_CENTER_TRACE - BestGuessAnalogInputreading( ( channel - 2 ) * 2 );
-#endif
-#ifdef DEBUG
-        Serial.println();
+    return BestGuessAnalogInputreading( 1 + ( ( channel - 2 ) * 2 ) ) + BIAS_TO_APPLY_TO_SIGNAL1_TO_CENTER_TRACE - BestGuessAnalogInputreading( ( channel - 2 ) * 2 );
 #endif
 }
 
@@ -1338,7 +1278,7 @@ void read_and_plot_from_all_ADCs_in_and_outboard( bool during_setup = false )
 #endif
 
 #if ( NUM_OF_ADDON_HIGHEST_SENSI_ADCS_TO_PLOT > 0 )
-    for( uint8_t which_ADC_subunit = 0; which_ADC_subunit < NUM_OF_ADDON_HIGHEST_SENSI_ADCS_TO_PLOT; which_ADC_subunit++ )
+    for( uint8_t which_ADC_subunit = 0; which_ADC_subunit < NUM_OF_ADDON_HIGHEST_SENSI_ADCS_TO_PLOT + NUM_OF_INBOARD_ADCS_TO_PLOT; which_ADC_subunit++ )
     {
         #ifdef USING_LM334_WITH_MCP4162_POT_BANKS 
 Start_of_addon_ADC_acquisition:
@@ -1652,8 +1592,6 @@ Serial.begin( BAUD_TO_SERIAL );//This speed is what works best with WeMos XI/TTG
     {
 #ifdef MAGNIFICATION_FACTOR
         screen_offsets_of_linespaces[ i ].magnify_adjustment = 0;
-        tracespace_to_skip_when_repositioning = ( HEIGHT_OF_A_PLOT_LINESPACE * PERCENT_OF_LINESPACE_MAGNIFIED_VIEW_SKIPS_WHEN_REPOSITIONED_WHEN_LINESPACE_LIMITS_GET_EXCEEDED ) / 100;
-        negative_tracespace_to_skip_when_repositioning = HEIGHT_OF_A_PLOT_LINESPACE - ( HEIGHT_OF_A_PLOT_LINESPACE * PERCENT_OF_LINESPACE_MAGNIFIED_VIEW_SKIPS_WHEN_REPOSITIONED_WHEN_LINESPACE_LIMITS_GET_EXCEEDED ) / 100;
 #endif
 #ifdef DEBUG
         while( !Serial );
@@ -1701,9 +1639,8 @@ Serial.begin( BAUD_TO_SERIAL );//This speed is what works best with WeMos XI/TTG
 #endif
 #ifdef DEBUG
         while( !Serial );
-        Serial.print( F( "screen_offsets_of_linespaces[ " ) );
         Serial.print( i );
-        Serial.print( F( " ].zero_of_this_plot_linespace == " ) );
+        Serial.print( F( " zero_of_this_plot_linespace == " ) );
         Serial.print( screen_offsets_of_linespaces[ i ].zero_of_this_plot_linespace );
         Serial.print( F( ", high_limit_of_this_plot_linespace == " ) );
         Serial.println( screen_offsets_of_linespaces[ i ].high_limit_of_this_plot_linespace );
@@ -1869,6 +1806,9 @@ Serial.begin( BAUD_TO_SERIAL );//This speed is what works best with WeMos XI/TTG
         #endif
         Serial.print( PLOTTERMAXSCALE );
         Serial.print( F( " " ) );
+        #ifdef DEBUG
+            Serial.println();
+        #endif
         read_and_plot_from_all_ADCs_in_and_outboard( true );
         uint32_t last_plot_points_temp[ USING_LM334_WITH_MCP4162_POT_BANKS * 2 ]; //2 legs/bank, each leg is one entry        
         Serial.println();
