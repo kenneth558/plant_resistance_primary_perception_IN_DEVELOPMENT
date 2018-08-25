@@ -1,5 +1,5 @@
 //        Before compiling this sketch, you must set or confirm the following appropriately for your configuration and preferences !!!
-#define NUM_OF_INBOARD_ADCS_TO_PLOT 2                                                              //The number of consecutive analog pins to plot, beginning with PIN_A0
+#define NUM_OF_INBOARD_ADCS_TO_PLOT 3                                                              //The number of consecutive analog pins to plot, beginning with PIN_A0
 #define NUM_OF_ADDON_HIGHEST_SENSI_ADCS_TO_PLOT 1                                                  //The number of consecutive "highest-sensitivity ADC" pins to plot, beginning with A0 and, if double-ended, A1.  ADDON ADC ONLY - DOES _NOT_ INCLUDE INBOARD ANALOG INPUT PINS
 #define HIGHEST_SENSI_ADDON_ADC_TYPE HX711                                                         //Proposing that "ADS1231" covers ADS1231; could make this "ADS1232" (ADS1232), "ADS1242" (ADS1242), "AD779x" (AD779x), "AD7780" (AD7780), "HX711" (HX711), "MAX112x0" (MAX112x0...) or "LTC2400" (LTC2400) but code not included in v.FREE; ONLY ONE TYPE ALLOWED
 #define MAGNIFICATION_FACTOR 4                                                                     //Activates the plotting of magnified traces in all ADC linespaces; upper limit somewhere less than 4,294,967,295. Note: you can disable displaying magnified traces altogether by not defined this macro at all. Proper use of FIRST_INBOARDS_ARE_IN_PAIRS_AND_EACH_PAIR_IS_IN_PARALLEL_WITH_ONE_HIGHEST_SENSI_ADC_INPUT_SET will also disable magnified traces of the first two analog inputs
@@ -18,12 +18,12 @@
 #define FIRST_INBOARDS_ARE_IN_PAIRS_AND_EACH_PAIR_IS_IN_PARALLEL_WITH_ONE_HIGHEST_SENSI_ADC_INPUT_SET 1 //If defined, allows rail-to-rail inboard Analog Inputs to be used to adjust digipots, but mainly causes first inboard Analog Inputs to be paired (superimposed in pairs sharing plot-line spaces) so even manual pots can be adjusted easily
 #define AUTO_BRIDGE_BALANCING  //increases setup time and during which the plot timing line stays high, then spikes low and high to indicate balancing complete //Turns on auto-balancing in setup(), significant time elapse for this to complete!
 //#define DEBUG                                                                                      //Don't forget that DEBUG is not formatted for Serial plotter, but might work anyway if you'd never print numbers only any DEBUG print line
-//#define POTTESTWOBBLEPOSITIVE 0                                                                     //For testing - wobbles digipot settings on bank index to impose a signal into Wheatstone bridge outputs. This imposes a signal on the signal leg
+#define POTTESTWOBBLEPOSITIVE 0                                                                     //For testing - wobbles digipot settings on bank index to impose a signal into Wheatstone bridge outputs. This imposes a signal on the signal leg
 //#define POTTESTWOBBLENEGATIVE 0                                                                     //For testing - wobbles digipot settings on bank index to impose a signal into Wheatstone bridge outputs. This imposes a signal on the reference leg
 //#define LEAVEPOTVALUESALONEDURINGSETUP                                                             //First run should leave this undefined to load digi pots with some values
-#define BIAS_TO_APPLY_TO_SIGNAL_LEG_TO_CENTER_TRACE 0                                                 //Though the name suggests otherwise, this offset will be applied to all signal lines, not just the first one, until further development (I couldn't make this into an array).  Inboard Analog Inputs of 10 bits will make much change with little values, 12 bit inboard allows more flexibility here
+//#define BIAS_TO_APPLY_TO_SIGNAL_LEG_TO_CENTER_TRACE 0                                                 //Though the name suggests otherwise, this offset will be applied to all signal lines, not just the first one, until further development (I couldn't make this into an array).  Inboard Analog Inputs of 10 bits will make much change with little values, 12 bit inboard allows more flexibility here
 #ifdef BIAS_TO_APPLY_TO_SIGNAL_LEG_TO_CENTER_TRACE
-    #define ADDITIONAL_LSB_DIGIPOT_SETTING_BIAS_TO_SIGNAL_TRACE 0 //To maintain consist effect with the above, associated macro, this gets applied inverted. This is in lieu of setting by reading the ADCs and zeroing them.
+    #define ADDITIONAL_LSB_DIGIPOT_SETTING_BIAS_TO_SIGNAL_TRACE 1 //To maintain consistent effect with the above, associated macro, this gets applied inverted. This is in lieu of setting by reading the ADCs and zeroing them.
 #endif
 #ifdef __LGT8FX8E__
     #define BAUD_TO_SERIAL 19200  //This speed is what works best with WeMos XI/TTGO XI board.  Experiment as desired.
@@ -131,9 +131,6 @@
     #undef NUM_OF_ADDON_HIGHEST_SENSI_ADCS_TO_PLOT
     #define NUM_OF_ADDON_HIGHEST_SENSI_ADCS_TO_PLOT 0
 #endif
-#if ( NUM_OF_ADDON_HIGHEST_SENSI_ADCS_TO_PLOT == 0 ) && defined AUTO_BRIDGE_BALANCING
-    #undef AUTO_BRIDGE_BALANCING
-#endif
 #if ( NUM_OF_ADDON_HIGHEST_SENSI_ADCS_TO_PLOT > 0 ) //Since so many of the ADC libraries already use OO classes, we'll set that as a pattern - instantiate prior to executing any code
     #define HALFHIGHESTBITRESFROMHIGHESTSENSIADDONADC ( HIGHESTBITRESFROMHIGHESTSENSIADDONADC / 2 )
     #if ( ( HALFHIGHESTBITRESFROMHIGHESTSENSIADDONADC * 2 ) == HIGHESTBITRESFROMHIGHESTSENSIADDONADC )
@@ -168,7 +165,7 @@
             #include <HX711.h>  //From https://github.com/bogde/HX711  This ADC has no CS pin so the library must use software SPI with dedicated CLK pin.  Not data selectable as would be in I2C, nor CS selectable - must be on dedicated CLK & Data lines
             HX711 hx711( PIN_FOR_DATA_TOFROM_HIGHEST_SENSI_ADC, PIN_FOR_CLK_TO_HIGHEST_SENSI_ADC ); // This library allows us to set the pins and gain here or later in a .begin().   
             #undef COMMON_MODE_LEVEL_FOR_MAX_GAIN_AS_READ_RAW_BY_INBOARD_ANALOG
-            #define COMMON_MODE_LEVEL_FOR_MAX_GAIN_AS_READ_RAW_BY_INBOARD_ANALOG 290                // If HIGHEST_SENSI_ADDON_ADC_TYPE has a sweet spot of max sensitivity, unlike true op-amp.  (HX711 == 305, ranging from 1.49 to 1.507 vdc depending which scale is used to read it).  This will also be discovered and stored in EEPROM in a future revision
+            #define COMMON_MODE_LEVEL_FOR_MAX_GAIN_AS_READ_RAW_BY_INBOARD_ANALOG 306                // If HIGHEST_SENSI_ADDON_ADC_TYPE has a sweet spot of max sensitivity, unlike true op-amp.  (HX711 == 305, ranging from 1.49 to 1.507 vdc depending which scale is used to read it).  This will also be discovered and stored in EEPROM in a future revision
         #else
             #if ( HIGHEST_SENSI_ADDON_ADC_TYPE == ADS1232 ) && ( HIGHESTBITRESFROMHIGHESTSENSIADDONADC == 24 )
             #else
@@ -237,6 +234,9 @@ If you only have the Arduino without an ADS1X15, then define NUM_OF_INBOARD_ADCS
         #define FIRST_INBOARDS_ARE_IN_PAIRS_AND_EACH_PAIR_IS_IN_PARALLEL_WITH_ONE_HIGHEST_SENSI_ADC_INPUT_SET 1
     #endif
 #endif
+#if ( NUM_OF_ADDON_HIGHEST_SENSI_ADCS_TO_PLOT == 0 ) && defined AUTO_BRIDGE_BALANCING
+    #undef AUTO_BRIDGE_BALANCING
+#endif
 #ifndef USING_LM334_WITH_MCP4162_POT_BANKS
     #undef POTTESTWOBBLEPOSITIVE
     #undef POTTESTWOBBLENEGATIVE
@@ -293,7 +293,7 @@ If you only have the Arduino without an ADS1X15, then define NUM_OF_INBOARD_ADCS
 
     #define DIGIPOT_0_B0L0_STARTVALUE 57 //(MAXPOTVALUE / 2)  //this value in digipots and with 1 MOhm resistors for the LM334 loads put the LM334 output voltage at closest 
     #define DIGIPOT_1_B0L0_STARTVALUE 57 //(MAXPOTVALUE / 2)  //this value in digipots and with 1 MOhm resistors for the LM334 loads put the LM334 output voltage at closest 
-    #define DIGIPOT_2_B0L0_STARTVALUE 44 //(MAXPOTVALUE / 2)   //this value in digipots and with 1 MOhm resistors for the LM334 loads put the LM334 output voltage at closest 
+    #define DIGIPOT_2_B0L0_STARTVALUE 40 //(MAXPOTVALUE / 2)   //this value in digipots and with 1 MOhm resistors for the LM334 loads put the LM334 output voltage at closest 
     #define DIGIPOT_0_B0L1_STARTVALUE 57 //(MAXPOTVALUE / 2)   //this value in digipots and with 1 MOhm resistors for the LM334 loads put the LM334 output voltage at closest 
     #define DIGIPOT_1_B0L1_STARTVALUE 57 //(MAXPOTVALUE / 2)   //this value in digipots and with 1 MOhm resistors for the LM334 loads put the LM334 output voltage at closest 
     #define DIGIPOT_2_B0L1_STARTVALUE 14 //(MAXPOTVALUE / 2)   //this value in digipots and with 1 MOhm resistors for the LM334 loads put the LM334 output voltage at closest 
@@ -767,7 +767,7 @@ void plot_timing_line_going_up( bool traces_already_initialized_to_valid_reading
                 while( !Serial ) ; 
                 Serial.println( F( "Line 508" ) );
             #endif
-            plotvaluesforalltraces( traces_already_initialized_to_valid_readings );
+            if( traces_already_initialized_to_valid_readings ) plotvaluesforalltraces( traces_already_initialized_to_valid_readings );
             #ifdef DEBUG
                 while( !Serial ) ; 
                 Serial.println( F( "Line 513" ) );
@@ -779,7 +779,7 @@ void plot_timing_line_going_up( bool traces_already_initialized_to_valid_reading
             Serial.print( F( "Line 519 i=" ) );
             Serial.println( i );
         #endif
-        plotvaluesforalltraces( traces_already_initialized_to_valid_readings );
+        if( traces_already_initialized_to_valid_readings ) plotvaluesforalltraces( traces_already_initialized_to_valid_readings );
         #ifdef DEBUG
             while( !Serial ) ; 
             Serial.print( F( "Line 524, i=" ) );
@@ -1083,9 +1083,12 @@ bool match_bridge_leg_signal_to_reference( uint8_t bank )
     }while( BestGuessAnalogInputreading( bank * 2 ) /*read it again*/ != BestGuessAnalogInputreading( 1 + ( bank * 2 ) ) + BIAS_TO_APPLY_TO_SIGNAL_LEG_TO_CENTER_TRACE );
 
 // Lastly, apply negative ADDITIONAL_LSB_DIGIPOT_SETTING_BIAS_TO_SIGNAL_TRACE to signal leg LSB digipot
-
-    for( uint8_t adjust_clicks = 0; adjust_clicks < abs( ADDITIONAL_LSB_DIGIPOT_SETTING_BIAS_TO_SIGNAL_TRACE ); adjust_clicks++ )
-        adjust_values_for_this_leg( digipot_pins[ 0 + ( bank * 2 ) ], &digipot_values[ 0 + ( bank * NUM_OF_DIGIPOTS_PER_BANK ) ], digipot_pins[ 1 + ( bank * 2 ) ], &digipot_values[ 1 + ( bank * NUM_OF_DIGIPOTS_PER_BANK ) ],  digipot_pins[ 2 + ( bank * 2 ) ], &digipot_values[ 2 + ( bank * NUM_OF_DIGIPOTS_PER_BANK ) ], ADDITIONAL_LSB_DIGIPOT_SETTING_BIAS_TO_SIGNAL_TRACE > 0 ? false : true  );
+#if defined ADDITIONAL_LSB_DIGIPOT_SETTING_BIAS_TO_SIGNAL_TRACE
+    #if ( 1 < ADDITIONAL_LSB_DIGIPOT_SETTING_BIAS_TO_SIGNAL_TRACE + 1 )
+        for( uint8_t adjust_clicks = 0; adjust_clicks < abs( ADDITIONAL_LSB_DIGIPOT_SETTING_BIAS_TO_SIGNAL_TRACE ); adjust_clicks++ )
+            adjust_values_for_this_leg( digipot_pins[ 0 + ( bank * 2 ) ], &digipot_values[ 0 + ( bank * NUM_OF_DIGIPOTS_PER_BANK ) ], digipot_pins[ 1 + ( bank * 2 ) ], &digipot_values[ 1 + ( bank * NUM_OF_DIGIPOTS_PER_BANK ) ],  digipot_pins[ 2 + ( bank * 2 ) ], &digipot_values[ 2 + ( bank * NUM_OF_DIGIPOTS_PER_BANK ) ], ADDITIONAL_LSB_DIGIPOT_SETTING_BIAS_TO_SIGNAL_TRACE > 0 ? false : true  );
+    #endif
+#endif
 //If ADDON ADC affiliated with this bank reads above zero on avg, lower the signal leg and vice versa
     //refresh the readings
 //    read_and_plot_from_all_ADCs_in_and_outboard( true ); // I would think the operator would appreciate seeing something like this during calibration
@@ -1192,7 +1195,6 @@ void plot_the_normal_and_magnified_signals( uint8_t channel )
 {
 #ifdef DEBUG
         while( !Serial );
-        Serial.println();
         Serial.print( F( "plot line index " ) );
         Serial.println( channel ); 
 #endif
@@ -1249,6 +1251,9 @@ AFTER_THE_MAGNIFIED_PLOTTED:
 screen_offsets_of_linespaces[ channel ].previous_unmagnified_reading = this_reading;
 #if ( NUM_OF_ADDON_HIGHEST_SENSI_ADCS_TO_PLOT > 0 ) && defined AUTO_BRIDGE_BALANCING
     return BestGuessAnalogInputreading( 1 + ( ( channel - 2 ) * 2 ) ) + BIAS_TO_APPLY_TO_SIGNAL_LEG_TO_CENTER_TRACE - BestGuessAnalogInputreading( ( channel - 2 ) * 2 );
+#endif
+#ifdef DEBUG
+        Serial.println();
 #endif
 }
 
@@ -1479,7 +1484,7 @@ Start_of_addon_ADC_acquisition:
         while( !Serial );
         Serial.println( F( "Line 1296 Checking auto balance readings" ) );
     #endif
-#error Not calculating the argument right under some circumstances :
+//#error Carefully examine the following lines for logic, especially the indexes :
         int reading_after_computed = plot_the_normal_and_magnified_signals( which_ADC_subunit + 2 );
         if( reading_after_computed < 0 ) // means signal leg is higher
             if( --counter_for_trace_out_of_range_too_long[ which_ADC_subunit ] < -LOOP_COUNTER_LIMIT_THAT_TRACE_IS_ALLOWED_TO_BE_OFF_CENTER )
@@ -1494,7 +1499,7 @@ Start_of_addon_ADC_acquisition:
     #endif
 */
 // INSTEAD JUST:
-        plot_the_normal_and_magnified_signals( which_ADC_subunit + 2 );
+        plot_the_normal_and_magnified_signals( which_ADC_subunit + NUM_OF_INBOARD_ADCS_TO_PLOT );
 
 //    #endif
     }
@@ -1696,8 +1701,9 @@ Serial.begin( BAUD_TO_SERIAL );//This speed is what works best with WeMos XI/TTG
 #endif
 #ifdef DEBUG
         while( !Serial );
+        Serial.print( F( "screen_offsets_of_linespaces[ " ) );
         Serial.print( i );
-        Serial.print( F( " zero_of_this_plot_linespace == " ) );
+        Serial.print( F( " ].zero_of_this_plot_linespace == " ) );
         Serial.print( screen_offsets_of_linespaces[ i ].zero_of_this_plot_linespace );
         Serial.print( F( ", high_limit_of_this_plot_linespace == " ) );
         Serial.println( screen_offsets_of_linespaces[ i ].high_limit_of_this_plot_linespace );
