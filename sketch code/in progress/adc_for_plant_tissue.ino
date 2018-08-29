@@ -37,7 +37,7 @@
 
 //No need to change macros below:
 #define CONVERT_TWOS_COMP_TO_SINGLE_ENDED( value_read_from_the_differential_ADC, mask, xorvalue ) ((value_read_from_the_differential_ADC & mask)^xorvalue)
-//OTHER MACROS (DEFINES OR RE-DEFINES) ELSEWHERE: VERSION, NUM_OF_INBOARD_ADCS_PLOTTED, NUM_OF_ADDON_HIGHEST_SENSI_ADCS_PLOTTED, DIGIPOT_0_B0L0_STARTVALUE - DIGIPOT_2_B0L1_STARTVALUE, HALFHIGHEST_BIT_RES_FROM_HIGHEST_SENSI_ADDON_ADC, DIFFERENTIAL, PIN_FOR_DATA_TOFROM_HIGHEST_SENSI_ADC, PIN_FOR_CLK_TO_HIGHEST_SENSI_ADC, PLOTTER_MAX_SCALE, HUNDREDTHPLOTTER_MAX_SCALE, SAMPLE_TIMES, ANALOG_INPUT_BITS_OF_BOARD, SCALE_FACTOR_TO_PROMOTE_LOW_RES_ADC_TO_SAME_SCALE, COMMON_MODE_LEVEL_FOR_MAX_GAIN_AS_READ_RAW_BY_INBOARD_ANALOG, HEIGHT_OF_A_PLOT_LINESPACE
+//OTHER MACROS (DEFINES OR RE-DEFINES) ELSEWHERE: VERSION, NUM_OF_INBOARD_ADCS_PLOTTED, NUM_OF_ADDON_HIGHEST_SENSI_ADCS_PLOTTED, DIGIPOT_0_B0L0_STARTVALUE - DIGIPOT_2_B0L1_STARTVALUE, HALFHIGHEST_BIT_RES_FROM_HIGHEST_SENSI_ADDON_ADC, DIFFERENTIAL, PIN_FOR_DATA_TOFROM_HIGHEST_SENSI_ADC, PIN_FOR_CLK_TO_HIGHEST_SENSI_ADC, PLOTTER_MAX_SCALE, HUNDREDTHPLOTTER_MAX_SCALE, SAMPLE_TIMES, SCALE_FACTOR_TO_PROMOTE_LOW_RES_ADC_TO_SAME_SCALE, COMMON_MODE_LEVEL_FOR_MAX_GAIN_AS_READ_RAW_BY_INBOARD_ANALOG, HEIGHT_OF_A_PLOT_LINESPACE
 
 //FUTURE #define LOOP_COUNTER_LIMIT_THAT_TRACE_IS_ALLOWED_TO_BE_OFF_CENTER 2                           //sets how soon run-time auto-balancing kicks in when trace goes off scale
 //FUTURE #define TEST_STEP_UP_DOWN COMMONMODE                                                                  //Available: SINGLESIDE COMMONMODE
@@ -448,34 +448,6 @@ If you only have the Arduino without an ADS1X15, then define NUM_OF_INBOARD_ADCS
     #define FINETUNE true
 #endif
 
-//global variables are declared static to prevent them from being seen by any later user-added compilation units that would try, presumeably inadvertently, through the use of the "extern" cast
-
-/*
- * 
- * The following pin defines are for the WeMos XI/TTGO XI board only
- * Change per your board layout if you need some non-standard Arduino 10-bit analog inputs.  Uno et. al. should work just fine without needing your attention
- * 
- */
-
-static uint8_t *AnalogPinArray;
-struct linespace_bounds_magnify_trace_offsets_and_previous_readings
-{
-#ifdef MAGNIFICATION_FACTOR
-    uint32_t MagnifyAdjustment;
-#endif
-#if defined MAGNIFICATION_FACTOR || defined AUTO_BRIDGE_BALANCING
-    uint32_t PreviousUnmagnifiedReading; //also reference LastPlotPoints ( magnified ) to see if the new magnified point would be out of limits so that it will need to be placed at +/- PERCENT_OF_LINESPACE_MAGNIFIED_VIEW_SKIPS_WHEN_REPOSITIONED_WHEN_LINESPACE_LIMITS_GET_EXCEEDED from the opposite limit it would violate 
-                                       //also needed for autobalancing
-#endif
-    uint32_t ZeroOfThisPlotLinespace;
-    uint32_t HighLimitOfThisPlotLinespace;
-} typedef linespace_bounds_magnify_trace_offsets_and_previous_readings;
-
-struct previous_readings_of_non_plotted_analogs
-{
-    uint32_t PreviousUnmagnifiedReading; //also reference LastPlotPoints ( magnified ) to see if the new magnified point would be out of limits so that it will need to be placed at +/- PERCENT_OF_LINESPACE_MAGNIFIED_VIEW_SKIPS_WHEN_REPOSITIONED_WHEN_LINESPACE_LIMITS_GET_EXCEEDED from the opposite limit it would violate 
-} typedef previous_readings_only;
-
 #if ( ARDUINO_ARCH_XI || ARDUINO_ARCH_SAM || ARDUINO_ARCH_SAMD ) //These are the boards known to have 12 bit analog inputs
     #ifdef ANALOG_INPUT_BITS_OF_BOARD
         #undef ANALOG_INPUT_BITS_OF_BOARD
@@ -483,6 +455,7 @@ struct previous_readings_of_non_plotted_analogs
     #define ANALOG_INPUT_BITS_OF_BOARD 12  //These boards have 12 bit
 #endif
 
+//global variables are declared static to prevent them from being seen by any later user-added compilation units that would try, presumeably inadvertently, through the use of the "extern" cast
 #if ( NUM_OF_ADDON_HIGHEST_SENSI_ADCS_PLOTTED > 0 )
     #define SCALE_FACTOR_TO_PROMOTE_LOW_RES_ADC_TO_SAME_SCALE ( HIGHEST_BIT_RES_FROM_HIGHEST_SENSI_ADDON_ADC - ANALOG_INPUT_BITS_OF_BOARD )
     #ifdef FIRST_INBOARDS_ARE_IN_PAIRS_AND_EACH_PAIR_IS_IN_PARALLEL_WITH_ONE_HIGHEST_SENSI_ADC_INPUT_SET_PAIRS
@@ -492,43 +465,94 @@ struct previous_readings_of_non_plotted_analogs
             #define FIRST_INBOARDS_ARE_IN_PAIRS_AND_EACH_PAIR_IS_IN_PARALLEL_WITH_ONE_HIGHEST_SENSI_ADC_INPUT_SET_PAIRS NUM_OF_ADDON_HIGHEST_SENSI_ADCS_PLOTTED
         #endif
     #endif
+    #ifdef USING_LM334_WITH_DIGIPOT_BANKS
+        #if ( USING_LM334_WITH_DIGIPOT_BANKS > NUM_OF_ADDON_HIGHEST_SENSI_ADCS_PLOTTED )
+            #warning The number of outboard ADCs does not allow for that many paired inputs.  Adjusting paired input number downward
+            #undef USING_LM334_WITH_DIGIPOT_BANKS
+            #define USING_LM334_WITH_DIGIPOT_BANKS NUM_OF_ADDON_HIGHEST_SENSI_ADCS_PLOTTED
+        #endif
+    #endif
 #else
     #define SCALE_FACTOR_TO_PROMOTE_LOW_RES_ADC_TO_SAME_SCALE 0
+    #ifdef FIRST_INBOARDS_ARE_IN_PAIRS_AND_EACH_PAIR_IS_IN_PARALLEL_WITH_ONE_HIGHEST_SENSI_ADC_INPUT_SET_PAIRS
+        #warning Using FIRST_INBOARDS_ARE_IN_PAIRS_AND_EACH_PAIR_IS_IN_PARALLEL_WITH_ONE_HIGHEST_SENSI_ADC_INPUT_SET_PAIRS without add-on ADCs is not valid.  Removing it...
+        #undef FIRST_INBOARDS_ARE_IN_PAIRS_AND_EACH_PAIR_IS_IN_PARALLEL_WITH_ONE_HIGHEST_SENSI_ADC_INPUT_SET_PAIRS
+    #endif
+    #ifdef USING_LM334_WITH_DIGIPOT_BANKS
+        #warning Using USING_LM334_WITH_DIGIPOT_BANKS without add-on ADCs is not valid.  Removing it...
+        #undef USING_LM334_WITH_DIGIPOT_BANKS
+    #endif
 #endif
 
-//NEXT ARE THE VARIOUS ARRAYS THAT I FIRST TRIED TO HAVE AS ONE ALL-ENCOMPASSING ARRAY BUT CODING IT THAT WAY WAS FAR, FAR TOO UNWIELDY DURING DEVELOPMENT EVEN THOUGH IT WOULD HAVE SAVED MEMORY OR WHATEVER
-//The array sizes determined here will make iterating the arrays so much easier for the developer
-//#if defined USING_LM334_WITH_DIGIPOT_BANKS && defined FIRST_INBOARDS_ARE_IN_PAIRS_AND_EACH_PAIR_IS_IN_PARALLEL_WITH_ONE_HIGHEST_SENSI_ADC_INPUT_SET_PAIRS && ( NUM_OF_INBOARD_ADCS_PLOTTED > 0 )
-#if defined USING_LM334_WITH_DIGIPOT_BANKS && defined FIRST_INBOARDS_ARE_IN_PAIRS_AND_EACH_PAIR_IS_IN_PARALLEL_WITH_ONE_HIGHEST_SENSI_ADC_INPUT_SET_PAIRS // && ( NUM_OF_INBOARD_ADCS_PLOTTED < USING_LM334_WITH_DIGIPOT_BANKS * 2 )
-    #define SIZE_OF_RAW_READINGS_NEEDED_FOR_DIGIPOT_LEG_ADJUSTMENTS_WHETHER_PLOTTED_OR_NOT ( USING_LM334_WITH_DIGIPOT_BANKS * 2 ) //traced less than digipot banks * 2
+//#error Currently reworking the code section below:
+#if defined USING_LM334_WITH_DIGIPOT_BANKS && ( USING_LM334_WITH_DIGIPOT_BANKS > 0 )
+    #if ( ( USING_LM334_WITH_DIGIPOT_BANKS * 2 ) < NUM_OF_INBOARD_ADCS_PLOTTED ) //use the smaller of the two possibilities
+        #define INBOARDS_NOT_SUPERIMPOSED ( USING_LM334_WITH_DIGIPOT_BANKS * 2 )
+    #else
+        #define INBOARDS_NOT_SUPERIMPOSED NUM_OF_INBOARD_ADCS_PLOTTED
+    #endif
+#elif defined FIRST_INBOARDS_ARE_IN_PAIRS_AND_EACH_PAIR_IS_IN_PARALLEL_WITH_ONE_HIGHEST_SENSI_ADC_INPUT_SET_PAIRS && ( FIRST_INBOARDS_ARE_IN_PAIRS_AND_EACH_PAIR_IS_IN_PARALLEL_WITH_ONE_HIGHEST_SENSI_ADC_INPUT_SET_PAIRS > 0 )
+    #if ( ( FIRST_INBOARDS_ARE_IN_PAIRS_AND_EACH_PAIR_IS_IN_PARALLEL_WITH_ONE_HIGHEST_SENSI_ADC_INPUT_SET_PAIRS * 2 ) < NUM_OF_INBOARD_ADCS_PLOTTED ) //use the smaller of the two possibilities
+        #define INBOARDS_NOT_SUPERIMPOSED ( FIRST_INBOARDS_ARE_IN_PAIRS_AND_EACH_PAIR_IS_IN_PARALLEL_WITH_ONE_HIGHEST_SENSI_ADC_INPUT_SET_PAIRS * 2 )
+    #else
+        #define INBOARDS_NOT_SUPERIMPOSED NUM_OF_INBOARD_ADCS_PLOTTED
+    #endif
 #else
-    #define SIZE_OF_RAW_READINGS_NEEDED_FOR_DIGIPOT_LEG_ADJUSTMENTS_WHETHER_PLOTTED_OR_NOT 0 //traced equal to digipot banks * 2
+    #define INBOARD_NOT_SUPERIMPOSED 0
+#endif //This array gets iterated when traces all get plotted.  This is first before not-superimposed.  Readings from the pins have already been acquired
+
+#if ( ( USING_LM334_WITH_DIGIPOT_BANKS * 2 ) > NUM_OF_INBOARD_ADCS_PLOTTED )
+    #define NON_PLOTTED_INBOARDS_FOR_DIGIPOT_USEAGE_ONLY ( ( USING_LM334_WITH_DIGIPOT_BANKS * 2 ) - NUM_OF_INBOARD_ADCS_PLOTTED ) //plotted is less than digipot banks * 2
+#elif ()
+    #define NON_PLOTTED_INBOARDS_FOR_DIGIPOT_USEAGE_ONLY INBOARD_NOT_SUPERIMPOSED
+#else
+    #define NON_PLOTTED_INBOARDS_FOR_DIGIPOT_USEAGE_ONLY ( INBOARD_NOT_SUPERIMPOSED + NUM_OF_INBOARD_ADCS_PLOTTED )
 #endif
-static uint32_t LastRawReadingsNeededForDigipotLegAdjustmentsWhetherPlottedOrNot[ SIZE_OF_RAW_READINGS_NEEDED_FOR_DIGIPOT_LEG_ADJUSTMENTS_WHETHER_PLOTTED_OR_NOT ];
+#error The above lines are just a quick guess before retiring for the night
+
+#if defined FIRST_INBOARDS_ARE_IN_PAIRS_AND_EACH_PAIR_IS_IN_PARALLEL_WITH_ONE_HIGHEST_SENSI_ADC_INPUT_SET_PAIRS && ( ( FIRST_INBOARDS_ARE_IN_PAIRS_AND_EACH_PAIR_IS_IN_PARALLEL_WITH_ONE_HIGHEST_SENSI_ADC_INPUT_SET_PAIRS * 2 ) < NUM_OF_INBOARD_ADCS_PLOTTED )
+    #define PREPROCESSOR_SIZE_OF_SUPERIMPOSED_INBOARDS ( FIRST_INBOARDS_ARE_IN_PAIRS_AND_EACH_PAIR_IS_IN_PARALLEL_WITH_ONE_HIGHEST_SENSI_ADC_INPUT_SET_PAIRS * 2 )
+#elif defined FIRST_INBOARDS_ARE_IN_PAIRS_AND_EACH_PAIR_IS_IN_PARALLEL_WITH_ONE_HIGHEST_SENSI_ADC_INPUT_SET_PAIRS && ( ( FIRST_INBOARDS_ARE_IN_PAIRS_AND_EACH_PAIR_IS_IN_PARALLEL_WITH_ONE_HIGHEST_SENSI_ADC_INPUT_SET_PAIRS * 2 ) >= NUM_OF_INBOARD_ADCS_PLOTTED )
+    #define PREPROCESSOR_SIZE_OF_SUPERIMPOSED_INBOARDS NUM_OF_INBOARD_ADCS_PLOTTED
+#endif
+NON_PLOTTED_INBOARDS_FOR_DIGIPOT_USEAGE_ONLY
+
+
+//Advantage of doing it that way is being able to code:
+//if the adc index for plotting is greater than START_INDEX_IF_IT_EXISTS_OF_DIGIPOT_LEGS_BEYOND_PLOTTED_INBOARDS then y is added to that index in the plotting for construct
+
+//Advantage of doing it that way is being able to code:
+//if the adc index for plotting is greater than PREPROCESSOR_SIZE_OF_SUPERIMPOSED_INBOARDS then the reading is known to not be superimposed, meaning the readings need to get taken during the plotting loop and put them in MasterReadingsArray else get the readings from MasterReadingsArray for plotting.  Either case, then plot from MasterReadingsArray
+
+#if defined USING_LM334_WITH_DIGIPOT_BANKS && defined FIRST_INBOARDS_ARE_IN_PAIRS_AND_EACH_PAIR_IS_IN_PARALLEL_WITH_ONE_HIGHEST_SENSI_ADC_INPUT_SET_PAIRS // && ( NUM_OF_INBOARD_ADCS_PLOTTED < USING_LM334_WITH_DIGIPOT_BANKS * 2 )
+    #define END_INDEX_OF_DIGIPOT_LEGS_BEYOND_PLOTTED_INBOARDS NUM_OF_INBOARD_ADCS_PLOTTED //plotted is less than digipot banks * 2
+#else
+    #define END_INDEX_OF_DIGIPOT_LEGS_BEYOND_PLOTTED_INBOARDS 0
+#endif
+
+#define START_INDEX_OF_MASTER_READINGS_ARRAY 0 //SizeOfMasterReadings is calculated below
+
+#if defined USING_LM334_WITH_DIGIPOT_BANKS && defined FIRST_INBOARDS_ARE_IN_PAIRS_AND_EACH_PAIR_IS_IN_PARALLEL_WITH_ONE_HIGHEST_SENSI_ADC_INPUT_SET_PAIRS && ( NUM_OF_INBOARD_ADCS_PLOTTED > USING_LM334_WITH_DIGIPOT_BANKS * 2 )
+    #define ADDITIONAL_SIZE_OF_NONRAW_READINGS_NEEDED_FOR_DIGIPOT_LEG_ADJUSTMENTS_WHETHER_PLOTTED_OR_NOT_PLUS_ALL_PLOTTED NUM_OF_INBOARD_ADCS_PLOTTED
+#else
+    #define ADDITIONAL_SIZE_OF_NONRAW_READINGS_NEEDED_FOR_DIGIPOT_LEG_ADJUSTMENTS_WHETHER_PLOTTED_OR_NOT_PLUS_ALL_PLOTTED ( ( USING_LM334_WITH_DIGIPOT_BANKS * 2 ) - NUM_OF_INBOARD_ADCS_PLOTTED )
+#endif
+#define SIZE_OF_NONRAW_READINGS_NEEDED_FOR_DIGIPOT_LEG_ADJUSTMENTS_WHETHER_PLOTTED_OR_NOT_PLUS_ALL_PLOTTED ( ADDITIONAL_SIZE_OF_NONRAW_READINGS_NEEDED_FOR_DIGIPOT_LEG_ADJUSTMENTS_WHETHER_PLOTTED_OR_NOT_PLUS_ALL_PLOTTED + INDEX_OF_DIGIPOT_LEGS_BEYOND_PLOTTED_INBOARDS ) 
 
 #if not defined USING_LM334_WITH_DIGIPOT_BANKS && defined FIRST_INBOARDS_ARE_IN_PAIRS_AND_EACH_PAIR_IS_IN_PARALLEL_WITH_ONE_HIGHEST_SENSI_ADC_INPUT_SET_PAIRS  // && ( NUM_OF_INBOARD_ADCS_PLOTTED < USING_LM334_WITH_DIGIPOT_BANKS * 2 )
-    #define SIZE_OF_RAW_READINGS_NEEDED_FOR_MANUAL_POT_LEG_ADJUSTMENTS_PLOTTED FIRST_INBOARDS_ARE_IN_PAIRS_AND_EACH_PAIR_IS_IN_PARALLEL_WITH_ONE_HIGHEST_SENSI_ADC_INPUT_SET_PAIRS //traced less than digipot banks * 2
+    #define SIZE_OF_NONRAW_READINGS_NEEDED_FOR_MANUAL_POT_LEG_ADJUSTMENTS_PLOTTED FIRST_INBOARDS_ARE_IN_PAIRS_AND_EACH_PAIR_IS_IN_PARALLEL_WITH_ONE_HIGHEST_SENSI_ADC_INPUT_SET_PAIRS //traced less than digipot banks * 2
 #else // THIS CASE REQUIRES 
-    #define SIZE_OF_RAW_READINGS_NEEDED_FOR_MANUAL_POT_LEG_ADJUSTMENTS_PLOTTED 0 //traced equal to digipot banks * 2
+    #define SIZE_OF_NONRAW_READINGS_NEEDED_FOR_MANUAL_POT_LEG_ADJUSTMENTS_PLOTTED 0 //traced equal to digipot banks * 2
 #endif
-static uint32_t LastRawReadingsNeededForManualPotLegAdjustmentsPlotted[ SIZE_OF_RAW_READINGS_NEEDED_FOR_MANUAL_POT_LEG_ADJUSTMENTS_PLOTTED ];
+struct previous_readings_of_non_plotted_analogs
+{
+    uint32_t PreviousUnmagnifiedReading; //also reference LastPlotPoints ( magnified ) to see if the new magnified point would be out of limits so that it will need to be placed at +/- PERCENT_OF_LINESPACE_MAGNIFIED_VIEW_SKIPS_WHEN_REPOSITIONED_WHEN_LINESPACE_LIMITS_GET_EXCEEDED from the opposite limit it would violate 
+} typedef previous_readings_only;
 
-#if ( USING_LM334_WITH_DIGIPOT_BANKS > 0 )
-    #if ( ( USING_LM334_WITH_DIGIPOT_BANKS * 2 ) < NUM_OF_INBOARD_ADCS_PLOTTED ) //use the smaller of the two possibilities
-        #define SIZE_OF_LINESPACES_PARAMETERS_INBOARD_SUPERIMPOSED_ARRAY ( USING_LM334_WITH_DIGIPOT_BANKS * 2 )
-    #else
-        #define SIZE_OF_LINESPACES_PARAMETERS_INBOARD_SUPERIMPOSED_ARRAY NUM_OF_INBOARD_ADCS_PLOTTED
-    #endif
-#elif ( FIRST_INBOARDS_ARE_IN_PAIRS_AND_EACH_PAIR_IS_IN_PARALLEL_WITH_ONE_HIGHEST_SENSI_ADC_INPUT_SET_PAIRS > 0 )
-    #if ( ( FIRST_INBOARDS_ARE_IN_PAIRS_AND_EACH_PAIR_IS_IN_PARALLEL_WITH_ONE_HIGHEST_SENSI_ADC_INPUT_SET_PAIRS * 2 ) < NUM_OF_INBOARD_ADCS_PLOTTED ) //use the smaller of the two possibilities
-        #define SIZE_OF_LINESPACES_PARAMETERS_INBOARD_SUPERIMPOSED_ARRAY ( FIRST_INBOARDS_ARE_IN_PAIRS_AND_EACH_PAIR_IS_IN_PARALLEL_WITH_ONE_HIGHEST_SENSI_ADC_INPUT_SET_PAIRS * 2 )
-    #else
-        #define SIZE_OF_LINESPACES_PARAMETERS_INBOARD_SUPERIMPOSED_ARRAY NUM_OF_INBOARD_ADCS_PLOTTED
-    #endif
-#else
-    #define SIZE_OF_LINESPACES_PARAMETERS_INBOARD_SUPERIMPOSED_ARRAY 0
-#endif //This array gets iterated when traces all get plotted.  This is first before not-superimposed.  Readings from the pins have already been acquired
-linespace_bounds_magnify_trace_offsets_and_previous_readings LinespaceParametersInboardSuperimposed[ SIZE_OF_LINESPACES_PARAMETERS_INBOARD_SUPERIMPOSED_ARRAY ];  //The size of this array will and must ALWAYS be SIZE_OF_LINESPACESPARAMETERSINBOARD_ARRAY
+previous_readings_only MasterReadingsArray[ SIZE_OF_MASTER_READINGS_ARRAY ];
+//To retrieve bridgeleg readings for non-plotting use, you must downconvert them with >> SCALE_FACTOR_TO_PROMOTE_LOW_RES_ADC_TO_SAME_SCALE (shift rights).
+
+linespace_bounds_magnify_trace_offsets_and_previous_readings LinespaceParametersInboardSuperimposed[ SIZE_OF_INBOARD_SUPERIMPOSED_ARRAY ];  //The size of this array will and must ALWAYS be SIZE_OF_LINESPACESPARAMETERSINBOARD_ARRAY
 
 #if ( NUM_OF_INBOARD_ADCS_PLOTTED > 0 )
     #define SIZE_OF_LINESPACES_PARAMETERS_INBOARD_NOT_SUPERIMPOSED_ARRAY ( NUM_OF_INBOARD_ADCS_PLOTTED - SIZE_OF_LINESPACES_PARAMETERS_INBOARD_SUPERIMPOSED_ARRAY )
@@ -549,8 +573,20 @@ linespace_bounds_magnify_trace_offsets_and_previous_readings LinespaceParameters
 #else
     #define SIZE_OF_LASTPLOTPOINTS_ARRAY ( NUM_OF_ADDON_HIGHEST_SENSI_ADCS_PLOTTED + NUM_OF_INBOARD_ADCS_PLOTTED )
 #endif //This array gets iterated when the plotter timing line gets complemented and the last plotted points need to be re-plotted
+struct linespace_bounds_magnify_trace_offsets_and_previous_readings
+{
+#ifdef MAGNIFICATION_FACTOR
+    uint32_t MagnifyAdjustment;
+#endif
+#if defined MAGNIFICATION_FACTOR || defined AUTO_BRIDGE_BALANCING
+    uint32_t PreviousUnmagnifiedReading; //also reference LastPlotPoints ( magnified ) to see if the new magnified point would be out of limits so that it will need to be placed at +/- PERCENT_OF_LINESPACE_MAGNIFIED_VIEW_SKIPS_WHEN_REPOSITIONED_WHEN_LINESPACE_LIMITS_GET_EXCEEDED from the opposite limit it would violate 
+                                       //also needed for autobalancing
+#endif
+    uint32_t ZeroOfThisPlotLinespace;
+    uint32_t HighLimitOfThisPlotLinespace;
+} typedef linespace_bounds_magnify_trace_offsets_and_previous_readings;
 static uint32_t LastPlotPoints[ SIZE_OF_LASTPLOTPOINTS_ARRAY ];  //The size will correspond to the number of ADC traces
-#error current development is just finished at macros above.  Next step is to code compliance throughout the rest of the sketch
+//#error current development is just finished at macros above.  Next step is to code compliance throughout the rest of the sketch
 
 static bool graphline = false;
 static uint32_t ThisReading, ThisReadingTemp;
@@ -915,6 +951,7 @@ CHANGING THE WAY THIS IS DONE
 #endif
 }
 
+static uint8_t *AnalogPinArray;
 uint16_t BestOfFour( uint8_t AnalogPinArrayIndex = 0 )
 { //remove from consideration the max and min, then return avg of remaining two  //Re-suse some variables not otherwise in use right now
     uint16_t value = analogRead( *( AnalogPinArray + AnalogPinArrayIndex ) );
