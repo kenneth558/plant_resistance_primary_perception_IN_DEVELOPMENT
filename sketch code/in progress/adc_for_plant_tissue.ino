@@ -1,6 +1,6 @@
 //        Before compiling this sketch, you must set or confirm the following appropriately for your configuration and preferences !!!
 #define NUM_OF_INBOARD_ADCS_PLOTTED 3                                                              //The number of consecutive analog pins to plot, beginning with PIN_A0
-//#define NUM_OF_ADDON_HIGHEST_SENSI_ADCS_PLOTTED 1                                                  //The number of consecutive "highest-sensitivity ADC" pins to plot, beginning with A0 and, if double-ended, A1.  ADDON ADC ONLY - DOES _NOT_ INCLUDE INBOARD ANALOG INPUT PINS
+#define NUM_OF_ADDON_HIGHEST_SENSI_ADCS_PLOTTED 1                                                  //The number of consecutive "highest-sensitivity ADC" pins to plot, beginning with A0 and, if double-ended, A1.  ADDON ADC ONLY - DOES _NOT_ INCLUDE INBOARD ANALOG INPUT PINS
 #define HIGHEST_SENSI_ADDON_ADC_TYPE HX711                                                         //Proposing that "ADS1231" covers ADS1231; could make this "ADS1232" (ADS1232), "ADS1242" (ADS1242), "AD779x" (AD779x), "AD7780" (AD7780), "HX711" (HX711), "MAX112x0" (MAX112x0...) or "LTC2400" (LTC2400) but code not included in v.FREE; ONLY ONE TYPE ALLOWED
 #define MAGNIFICATION_FACTOR 4                                                                     //Activates the plotting of magnified traces in all ADC linespaces; upper limit somewhere less than 4,294,967,295. Note: you can disable displaying magnified traces altogether by not defined this macro at all. Proper use of FIRST_INBOARDS_ARE_IN_PAIRS_AND_EACH_PAIR_IS_IN_PARALLEL_WITH_ONE_HIGHEST_SENSI_ADC_INPUT_SET_PAIRS will also disable magnified traces of the first two analog inputs
 #define HIGHEST_BIT_RES_FROM_HIGHEST_SENSI_ADDON_ADC 24                                            //All ADC values will get scaled to the single-ended aspect of this,  15 is ADS1115 single-ended, 16 for double-ended when two LM334s are used.  change to 11 for ADS1015 single-ended or 12 with two LM334s, (future: change to 24 for HX711--NO b/c there is the ADS1231 at 24 bits)
@@ -125,6 +125,7 @@
 #define VERSION "v.Free"  // Since this never gets used anywhere, it doesn't compile in so no memory is wasted
 #include <math.h>
 #define COMMON_MODE_LEVEL_FOR_MAX_GAIN_AS_READ_RAW_BY_INBOARD_ANALOG ( 1 << ( ANALOG_INPUT_BITS_OF_BOARD - 1 ) ) // Needed if HIGHEST_SENSI_ADDON_ADC_TYPE has a sweet spot of max sensitivity, unlike true op-amp.  (HX711 == 306; normal op-amp, which has none == Vcc/2 == 512)
+//Next, force all macros to be coherent with each other
 #ifndef NUM_OF_ADDON_HIGHEST_SENSI_ADCS_PLOTTED
     #define NUM_OF_ADDON_HIGHEST_SENSI_ADCS_PLOTTED 0
 #elif ( 1 > NUM_OF_ADDON_HIGHEST_SENSI_ADCS_PLOTTED + 0 ) //Evaluates to 1>+0 if the macro was defined as a blank.  Only way I know of to check for blank macros when we need a number in them
@@ -317,7 +318,7 @@ If you only have the Arduino without an ADS1X15, then define NUM_OF_INBOARD_ADCS
     #endif
     #define NUM_OF_DIGIPOTS_PER_BANK 6
     #define NUM_OF_DIGIPOTS ( NUM_OF_DIGIPOTS_PER_BANK * USING_LM334_WITH_DIGIPOT_BANKS )
-    uint8_t DigipotPins[ NUM_OF_DIGIPOTS ];
+    static uint8_t DigipotPins[ NUM_OF_DIGIPOTS ];
     static uint16_t DigipotValues[ NUM_OF_DIGIPOTS ];
     #define MAXPOTVALUE 257
 
@@ -465,7 +466,7 @@ If you only have the Arduino without an ADS1X15, then define NUM_OF_INBOARD_ADCS
             #define FIRST_INBOARDS_ARE_IN_PAIRS_AND_EACH_PAIR_IS_IN_PARALLEL_WITH_ONE_HIGHEST_SENSI_ADC_INPUT_SET_PAIRS NUM_OF_ADDON_HIGHEST_SENSI_ADCS_PLOTTED
         #endif
     #endif
-    #ifdef USING_LM334_WITH_DIGIPOT_BANKS
+    #if defined USING_LM334_WITH_DIGIPOT_BANKS
         #if ( USING_LM334_WITH_DIGIPOT_BANKS > NUM_OF_ADDON_HIGHEST_SENSI_ADCS_PLOTTED )
             #warning The number of outboard ADCs does not allow for that many paired inputs.  Adjusting paired input number downward
             #undef USING_LM334_WITH_DIGIPOT_BANKS
@@ -484,109 +485,49 @@ If you only have the Arduino without an ADS1X15, then define NUM_OF_INBOARD_ADCS
     #endif
 #endif
 
-//#error Currently reworking the code section below:
 #if defined USING_LM334_WITH_DIGIPOT_BANKS && ( USING_LM334_WITH_DIGIPOT_BANKS > 0 )
     #if ( ( USING_LM334_WITH_DIGIPOT_BANKS * 2 ) < NUM_OF_INBOARD_ADCS_PLOTTED ) //use the smaller of the two possibilities
-        #define INBOARDS_NOT_SUPERIMPOSED ( USING_LM334_WITH_DIGIPOT_BANKS * 2 )
+        #define INDEX_OF_INBOARDS_NOT_SUPERIMPOSED ( USING_LM334_WITH_DIGIPOT_BANKS * 2 )
     #else
-        #define INBOARDS_NOT_SUPERIMPOSED NUM_OF_INBOARD_ADCS_PLOTTED
+        #define INDEX_OF_INBOARDS_NOT_SUPERIMPOSED NUM_OF_INBOARD_ADCS_PLOTTED
     #endif
 #elif defined FIRST_INBOARDS_ARE_IN_PAIRS_AND_EACH_PAIR_IS_IN_PARALLEL_WITH_ONE_HIGHEST_SENSI_ADC_INPUT_SET_PAIRS && ( FIRST_INBOARDS_ARE_IN_PAIRS_AND_EACH_PAIR_IS_IN_PARALLEL_WITH_ONE_HIGHEST_SENSI_ADC_INPUT_SET_PAIRS > 0 )
     #if ( ( FIRST_INBOARDS_ARE_IN_PAIRS_AND_EACH_PAIR_IS_IN_PARALLEL_WITH_ONE_HIGHEST_SENSI_ADC_INPUT_SET_PAIRS * 2 ) < NUM_OF_INBOARD_ADCS_PLOTTED ) //use the smaller of the two possibilities
-        #define INBOARDS_NOT_SUPERIMPOSED ( FIRST_INBOARDS_ARE_IN_PAIRS_AND_EACH_PAIR_IS_IN_PARALLEL_WITH_ONE_HIGHEST_SENSI_ADC_INPUT_SET_PAIRS * 2 )
+        #define INDEX_OF_INBOARDS_NOT_SUPERIMPOSED ( FIRST_INBOARDS_ARE_IN_PAIRS_AND_EACH_PAIR_IS_IN_PARALLEL_WITH_ONE_HIGHEST_SENSI_ADC_INPUT_SET_PAIRS * 2 )
     #else
-        #define INBOARDS_NOT_SUPERIMPOSED NUM_OF_INBOARD_ADCS_PLOTTED
+        #define INDEX_OF_INBOARDS_NOT_SUPERIMPOSED NUM_OF_INBOARD_ADCS_PLOTTED
     #endif
 #else
-    #define INBOARD_NOT_SUPERIMPOSED 0
-#endif //This array gets iterated when traces all get plotted.  This is first before not-superimposed.  Readings from the pins have already been acquired
+    #define INDEX_OF_INBOARDS_NOT_SUPERIMPOSED 0
+#endif
 
-#if ( ( USING_LM334_WITH_DIGIPOT_BANKS * 2 ) > NUM_OF_INBOARD_ADCS_PLOTTED )
-    #define NON_PLOTTED_INBOARDS_FOR_DIGIPOT_USEAGE_ONLY ( ( USING_LM334_WITH_DIGIPOT_BANKS * 2 ) - NUM_OF_INBOARD_ADCS_PLOTTED ) //plotted is less than digipot banks * 2
-#elif ()
-    #define NON_PLOTTED_INBOARDS_FOR_DIGIPOT_USEAGE_ONLY INBOARD_NOT_SUPERIMPOSED
+#if defined FIRST_INBOARDS_ARE_IN_PAIRS_AND_EACH_PAIR_IS_IN_PARALLEL_WITH_ONE_HIGHEST_SENSI_ADC_INPUT_SET_PAIRS && defined USING_LM334_WITH_DIGIPOT_BANKS && defined AUTO_BRIDGE_BALANCING && ( ( USING_LM334_WITH_DIGIPOT_BANKS * 2 ) > NUM_OF_INBOARD_ADCS_PLOTTED )
+    #define INDEX_OF_OUTBOARDS ( USING_LM334_WITH_DIGIPOT_BANKS * 2 )
 #else
-    #define NON_PLOTTED_INBOARDS_FOR_DIGIPOT_USEAGE_ONLY ( INBOARD_NOT_SUPERIMPOSED + NUM_OF_INBOARD_ADCS_PLOTTED )
-#endif
-#error The above lines are just a quick guess before retiring for the night
-
-#if defined FIRST_INBOARDS_ARE_IN_PAIRS_AND_EACH_PAIR_IS_IN_PARALLEL_WITH_ONE_HIGHEST_SENSI_ADC_INPUT_SET_PAIRS && ( ( FIRST_INBOARDS_ARE_IN_PAIRS_AND_EACH_PAIR_IS_IN_PARALLEL_WITH_ONE_HIGHEST_SENSI_ADC_INPUT_SET_PAIRS * 2 ) < NUM_OF_INBOARD_ADCS_PLOTTED )
-    #define PREPROCESSOR_SIZE_OF_SUPERIMPOSED_INBOARDS ( FIRST_INBOARDS_ARE_IN_PAIRS_AND_EACH_PAIR_IS_IN_PARALLEL_WITH_ONE_HIGHEST_SENSI_ADC_INPUT_SET_PAIRS * 2 )
-#elif defined FIRST_INBOARDS_ARE_IN_PAIRS_AND_EACH_PAIR_IS_IN_PARALLEL_WITH_ONE_HIGHEST_SENSI_ADC_INPUT_SET_PAIRS && ( ( FIRST_INBOARDS_ARE_IN_PAIRS_AND_EACH_PAIR_IS_IN_PARALLEL_WITH_ONE_HIGHEST_SENSI_ADC_INPUT_SET_PAIRS * 2 ) >= NUM_OF_INBOARD_ADCS_PLOTTED )
-    #define PREPROCESSOR_SIZE_OF_SUPERIMPOSED_INBOARDS NUM_OF_INBOARD_ADCS_PLOTTED
-#endif
-NON_PLOTTED_INBOARDS_FOR_DIGIPOT_USEAGE_ONLY
-
-
-//Advantage of doing it that way is being able to code:
-//if the adc index for plotting is greater than START_INDEX_IF_IT_EXISTS_OF_DIGIPOT_LEGS_BEYOND_PLOTTED_INBOARDS then y is added to that index in the plotting for construct
-
-//Advantage of doing it that way is being able to code:
-//if the adc index for plotting is greater than PREPROCESSOR_SIZE_OF_SUPERIMPOSED_INBOARDS then the reading is known to not be superimposed, meaning the readings need to get taken during the plotting loop and put them in MasterReadingsArray else get the readings from MasterReadingsArray for plotting.  Either case, then plot from MasterReadingsArray
-
-#if defined USING_LM334_WITH_DIGIPOT_BANKS && defined FIRST_INBOARDS_ARE_IN_PAIRS_AND_EACH_PAIR_IS_IN_PARALLEL_WITH_ONE_HIGHEST_SENSI_ADC_INPUT_SET_PAIRS // && ( NUM_OF_INBOARD_ADCS_PLOTTED < USING_LM334_WITH_DIGIPOT_BANKS * 2 )
-    #define END_INDEX_OF_DIGIPOT_LEGS_BEYOND_PLOTTED_INBOARDS NUM_OF_INBOARD_ADCS_PLOTTED //plotted is less than digipot banks * 2
-#else
-    #define END_INDEX_OF_DIGIPOT_LEGS_BEYOND_PLOTTED_INBOARDS 0
+    #define INDEX_OF_OUTBOARDS NUM_OF_INBOARD_ADCS_PLOTTED
 #endif
 
-#define START_INDEX_OF_MASTER_READINGS_ARRAY 0 //SizeOfMasterReadings is calculated below
-
-#if defined USING_LM334_WITH_DIGIPOT_BANKS && defined FIRST_INBOARDS_ARE_IN_PAIRS_AND_EACH_PAIR_IS_IN_PARALLEL_WITH_ONE_HIGHEST_SENSI_ADC_INPUT_SET_PAIRS && ( NUM_OF_INBOARD_ADCS_PLOTTED > USING_LM334_WITH_DIGIPOT_BANKS * 2 )
-    #define ADDITIONAL_SIZE_OF_NONRAW_READINGS_NEEDED_FOR_DIGIPOT_LEG_ADJUSTMENTS_WHETHER_PLOTTED_OR_NOT_PLUS_ALL_PLOTTED NUM_OF_INBOARD_ADCS_PLOTTED
-#else
-    #define ADDITIONAL_SIZE_OF_NONRAW_READINGS_NEEDED_FOR_DIGIPOT_LEG_ADJUSTMENTS_WHETHER_PLOTTED_OR_NOT_PLUS_ALL_PLOTTED ( ( USING_LM334_WITH_DIGIPOT_BANKS * 2 ) - NUM_OF_INBOARD_ADCS_PLOTTED )
-#endif
-#define SIZE_OF_NONRAW_READINGS_NEEDED_FOR_DIGIPOT_LEG_ADJUSTMENTS_WHETHER_PLOTTED_OR_NOT_PLUS_ALL_PLOTTED ( ADDITIONAL_SIZE_OF_NONRAW_READINGS_NEEDED_FOR_DIGIPOT_LEG_ADJUSTMENTS_WHETHER_PLOTTED_OR_NOT_PLUS_ALL_PLOTTED + INDEX_OF_DIGIPOT_LEGS_BEYOND_PLOTTED_INBOARDS ) 
-
-#if not defined USING_LM334_WITH_DIGIPOT_BANKS && defined FIRST_INBOARDS_ARE_IN_PAIRS_AND_EACH_PAIR_IS_IN_PARALLEL_WITH_ONE_HIGHEST_SENSI_ADC_INPUT_SET_PAIRS  // && ( NUM_OF_INBOARD_ADCS_PLOTTED < USING_LM334_WITH_DIGIPOT_BANKS * 2 )
-    #define SIZE_OF_NONRAW_READINGS_NEEDED_FOR_MANUAL_POT_LEG_ADJUSTMENTS_PLOTTED FIRST_INBOARDS_ARE_IN_PAIRS_AND_EACH_PAIR_IS_IN_PARALLEL_WITH_ONE_HIGHEST_SENSI_ADC_INPUT_SET_PAIRS //traced less than digipot banks * 2
-#else // THIS CASE REQUIRES 
-    #define SIZE_OF_NONRAW_READINGS_NEEDED_FOR_MANUAL_POT_LEG_ADJUSTMENTS_PLOTTED 0 //traced equal to digipot banks * 2
-#endif
-struct previous_readings_of_non_plotted_analogs
+struct previous_readings_only_of_inboards_and_outboards
 {
-    uint32_t PreviousUnmagnifiedReading; //also reference LastPlotPoints ( magnified ) to see if the new magnified point would be out of limits so that it will need to be placed at +/- PERCENT_OF_LINESPACE_MAGNIFIED_VIEW_SKIPS_WHEN_REPOSITIONED_WHEN_LINESPACE_LIMITS_GET_EXCEEDED from the opposite limit it would violate 
+    uint32_t PreviousUnmagnifiedReading;
+    uint8_t IndexInLinespaceParametersArray;
 } typedef previous_readings_only;
 
-previous_readings_only MasterReadingsArray[ SIZE_OF_MASTER_READINGS_ARRAY ];
 //To retrieve bridgeleg readings for non-plotting use, you must downconvert them with >> SCALE_FACTOR_TO_PROMOTE_LOW_RES_ADC_TO_SAME_SCALE (shift rights).
+previous_readings_only MasterReadingsArray[ INDEX_OF_OUTBOARDS + NUM_OF_ADDON_HIGHEST_SENSI_ADCS_PLOTTED ];
 
-linespace_bounds_magnify_trace_offsets_and_previous_readings LinespaceParametersInboardSuperimposed[ SIZE_OF_INBOARD_SUPERIMPOSED_ARRAY ];  //The size of this array will and must ALWAYS be SIZE_OF_LINESPACESPARAMETERSINBOARD_ARRAY
-
-#if ( NUM_OF_INBOARD_ADCS_PLOTTED > 0 )
-    #define SIZE_OF_LINESPACES_PARAMETERS_INBOARD_NOT_SUPERIMPOSED_ARRAY ( NUM_OF_INBOARD_ADCS_PLOTTED - SIZE_OF_LINESPACES_PARAMETERS_INBOARD_SUPERIMPOSED_ARRAY )
-#else
-    #define SIZE_OF_LINESPACES_PARAMETERS_INBOARD_NOT_SUPERIMPOSED_ARRAY 0
-#endif //This array gets iterated when traces all get plotted.  This is second after superimposed, before outboards.   Readings from the pins need to be acquired while plotting
-linespace_bounds_magnify_trace_offsets_and_previous_readings LinespaceParametersInboardNotSuperimposed[ SIZE_OF_LINESPACES_PARAMETERS_INBOARD_NOT_SUPERIMPOSED_ARRAY ];  //The size of this array will and must ALWAYS be SIZE_OF_LINESPACESPARAMETERSINBOARD_ARRAY
-
-#if ( NUM_OF_ADDON_HIGHEST_SENSI_ADCS_PLOTTED > 0 )
-    #define SIZE_OF_LINESPACES_PARAMETERS_OUTBOARD_ARRAY NUM_OF_ADDON_HIGHEST_SENSI_ADCS_PLOTTED
-#else
-    #define SIZE_OF_LINESPACES_PARAMETERS_OUTBOARD_ARRAY 0
-#endif //This array gets iterated when traces all get plotted.  This is last after not-superimposed.  Readings from the pins need to be acquired while plotting
-linespace_bounds_magnify_trace_offsets_and_previous_readings LinespaceParametersOutboard[ SIZE_OF_LINESPACES_PARAMETERS_OUTBOARD_ARRAY ];  //The size of this array will and must ALWAYS be SIZE_OF_LINESPACES_PARAMETERS_OUTBOARD_ARRAY
-
-#ifdef MAGNIFICATION_FACTOR
-    #define SIZE_OF_LASTPLOTPOINTS_ARRAY ( ( NUM_OF_ADDON_HIGHEST_SENSI_ADCS_PLOTTED + NUM_OF_INBOARD_ADCS_PLOTTED ) * 2 )
-#else
-    #define SIZE_OF_LASTPLOTPOINTS_ARRAY ( NUM_OF_ADDON_HIGHEST_SENSI_ADCS_PLOTTED + NUM_OF_INBOARD_ADCS_PLOTTED )
-#endif //This array gets iterated when the plotter timing line gets complemented and the last plotted points need to be re-plotted
-struct linespace_bounds_magnify_trace_offsets_and_previous_readings
+struct linespace_bounds_and_magnify_trace_offsets
 {
+    uint32_t ZeroOfThisPlotLinespace;
+    uint32_t HighLimitOfThisPlotLinespace;
+    uint32_t LastSignalPinPlotPoint;
+    uint32_t LastReferencePinPlotPointOrLastMagnifiedPlotPoint;
 #ifdef MAGNIFICATION_FACTOR
     uint32_t MagnifyAdjustment;
 #endif
-#if defined MAGNIFICATION_FACTOR || defined AUTO_BRIDGE_BALANCING
-    uint32_t PreviousUnmagnifiedReading; //also reference LastPlotPoints ( magnified ) to see if the new magnified point would be out of limits so that it will need to be placed at +/- PERCENT_OF_LINESPACE_MAGNIFIED_VIEW_SKIPS_WHEN_REPOSITIONED_WHEN_LINESPACE_LIMITS_GET_EXCEEDED from the opposite limit it would violate 
-                                       //also needed for autobalancing
-#endif
-    uint32_t ZeroOfThisPlotLinespace;
-    uint32_t HighLimitOfThisPlotLinespace;
-} typedef linespace_bounds_magnify_trace_offsets_and_previous_readings;
-static uint32_t LastPlotPoints[ SIZE_OF_LASTPLOTPOINTS_ARRAY ];  //The size will correspond to the number of ADC traces
-//#error current development is just finished at macros above.  Next step is to code compliance throughout the rest of the sketch
+} typedef linespace_bounds_and_magnify_trace_offsets;
+
+linespace_bounds_and_magnify_trace_offsets LinespaceParameters[ NUM_OF_INBOARD_ADCS_PLOTTED + NUM_OF_ADDON_HIGHEST_SENSI_ADCS_PLOTTED - ( INDEX_OF_INBOARDS_NOT_SUPERIMPOSED / 2 ) ]; // INDEX_OF_INBOARDS_NOT_SUPERIMPOSED, being the start index for the not superimposed part of the array is also actually the number of superimposed inboards
 
 static bool graphline = false;
 static uint32_t ThisReading, ThisReadingTemp;
@@ -809,7 +750,7 @@ So: - define ...PARALLELed = 0 if it is undefined
 #endif
 
 void ReplotLastValuesForAllTraces( bool actuals = false )                  //If we don't execute the following construct, the signal traces will lag behind the graphline
-{//conditional LastPlotPoints indexes from range NUM_OF_INBOARD_ADCS_PLOTTED + NUM_OF_ADDON_HIGHEST_SENSI_ADCS_PLOTTED (guessing): magnified traces, analog 0 & 1 which could be outside the range
+{
 #ifdef DEBUG
     while( !Serial ) ; 
     Serial.println( F( "Entering ReplotLastValuesForAllTraces" ) );
@@ -832,37 +773,23 @@ void ReplotLastValuesForAllTraces( bool actuals = false )                  //If 
 
  */
 //#ifndef MAGNIFICATION_FACTOR
-    uint8_t IndexOfLinespaceParameters = 0;
 //    for( ; IndexOfLinespaceParameters < max( NUM_OF_INBOARD_ADCS_PLOTTED, ( FIRST_INBOARDS_ARE_IN_PAIRS_AND_EACH_PAIR_IS_IN_PARALLEL_WITH_ONE_HIGHEST_SENSI_ADC_INPUT_SET_PAIRS * 2 ) ) + NUM_OF_ADDON_HIGHEST_SENSI_ADCS_PLOTTED; IndexOfLinespaceParameters++ )
-    for( uint8_t i = 0; i < NUM_OF_INBOARD_ADCS_PLOTTED; i++ )    
+    for( uint8_t LinespaceParametersIndex = 0; LinespaceParametersIndex < NUM_OF_INBOARD_ADCS_PLOTTED + NUM_OF_ADDON_HIGHEST_SENSI_ADCS_PLOTTED - ( INDEX_OF_INBOARDS_NOT_SUPERIMPOSED / 2 ); LinespaceParametersIndex++ )    
     {
-    #ifdef FIRST_INBOARDS_ARE_IN_PAIRS_AND_EACH_PAIR_IS_IN_PARALLEL_WITH_ONE_HIGHEST_SENSI_ADC_INPUT_SET_PAIRS
-        if( IndexOfLinespaceParameters == NUM_OF_INBOARD_ADCS_PLOTTED )
+        Serial.print( actuals ? LinespaceParameters[ LinespaceParametersIndex ].ZeroOfThisPlotLinespace + LinespaceParameters[ LinespaceParametersIndex ].LastSignalPinPlotPoint: 0 ); //I think this looks better than the line above
+        Serial.print( F( " " ) );
+// INDEX_OF_INBOARDS_NOT_SUPERIMPOSED actually equals the number of InboardSuperimposed that exist
+        if( LinespaceParametersIndex < INDEX_OF_INBOARDS_NOT_SUPERIMPOSED / 2 )
         {
-            IndexOfLinespaceParameters += ( FIRST_INBOARDS_ARE_IN_PAIRS_AND_EACH_PAIR_IS_IN_PARALLEL_WITH_ONE_HIGHEST_SENSI_ADC_INPUT_SET_PAIRS * 2 ) - NUM_OF_INBOARD_ADCS_PLOTTED;
+            Serial.print( actuals ? LinespaceParameters[ LinespaceParametersIndex ].LastReferencePinPlotPointOrLastMagnifiedPlotPoint + LinespaceParameters[ LinespaceParametersIndex ].ZeroOfThisPlotLinespace : 0 ); //I think this looks better than the line above
+            Serial.print( F( " " ) );
+            break;
         }
-    #endif
-        Serial.print( actuals ? LastPlotPoints[ i \
-            * 2 ] + LinespaceParameters[ i ].ZeroOfThisPlotLinespace : 0 ); //I think this looks better than the line above
+#ifdef MAGNIFICATION_FACTOR 
+//        Serial.print( actuals ? LinespaceParameters[ LinespaceParametersIndex ].LastReferencePinPlotPointOrLastMagnifiedPlotPoint + LinespaceParameters[ LinespaceParametersIndex ].ZeroOfThisPlotLinespace : LinespaceParameters[ i ].ZeroOfThisPlotLinespace );
+        Serial.print( actuals ? LinespaceParameters[ LinespaceParametersIndex ].LastReferencePinPlotPointOrLastMagnifiedPlotPoint + LinespaceParameters[ LinespaceParametersIndex ].ZeroOfThisPlotLinespace : 0 ); //I think this looks better than the line above
         Serial.print( F( " " ) );
-        #if defined FIRST_INBOARDS_ARE_IN_PAIRS_AND_EACH_PAIR_IS_IN_PARALLEL_WITH_ONE_HIGHEST_SENSI_ADC_INPUT_SET_PAIRS && ( NUM_OF_ADDON_HIGHEST_SENSI_ADCS_PLOTTED > 0 )
-            #if ( NUM_OF_INBOARD_ADCS_PLOTTED == 1 )
-                if( i > 0 )
-            #elif ( NUM_OF_INBOARD_ADCS_PLOTTED > 1 )
-                if( i > 1 )
-            #endif
-        #endif
-            if( true )
-            {
-//                Serial.print( actuals ? LastPlotPoints[ ( i * 2 ) + 1 ] + LinespaceParameters[ i ].ZeroOfThisPlotLinespace : LinespaceParameters[ i ].ZeroOfThisPlotLinespace );
-                Serial.print( actuals ? LastPlotPoints[ ( i * 2 ) + 1 ] + LinespaceParameters[ i ].ZeroOfThisPlotLinespace : 0 ); //I think this looks better than the line above
-                Serial.print( F( " " ) );
-            }
-//#else //in #ifdef MAGNIFICATION_FACTOR construct: no magnified traces in the array
-//        Serial.print( actuals ? LastPlotPoints[ i ] + LinespaceParameters[ i ].ZeroOfThisPlotLinespace : LinespaceParameters[ i ].ZeroOfThisPlotLinespace );
-        Serial.print( actuals ? LastPlotPoints[ i ] + LinespaceParameters[ i ].ZeroOfThisPlotLinespace : 0 ); //I think this looks better than the line above
-        Serial.print( F( " " ) );
-//#endif
+#endif
     }
     Serial.println();
 #ifdef DEBUG
@@ -1359,28 +1286,31 @@ static uint32_t TracespaceToSkipWhenRepositioning, NegativeTracespaceToSkipWhenR
 
 */
 #if ( NUM_OF_ADDON_HIGHEST_SENSI_ADCS_PLOTTED > 0 ) && defined AUTO_BRIDGE_BALANCING
-int PlotTheNormalAndMagnifiedSignals( uint8_t channel )
+int PlotTheNormalAndMagnifiedSignals( uint8_t MasterReadingsArrayIndex )
 #else
-void PlotTheNormalAndMagnifiedSignals( uint8_t channel ) //Two indices per every non-magnified trace ifdef MAGNIFICATION_FACTOR, otherwise one per 
+void PlotTheNormalAndMagnifiedSignals( uint8_t MasterReadingsArrayIndex ) //Two indices per every non-magnified trace ifdef MAGNIFICATION_FACTOR, otherwise one per 
 #endif
 {
-/*
-LinespaceParametersIndex Converts to LastPlotPointsIndex by doubling it ifdef MAGNIFICATION_FACTOR and add 1 again for the actual magnifed LastPlotPointsIndex
-*/
+    //uint8_t LinespaceParametersIndex = MasterReadingsArray[ MasterReadingsArrayIndex ].IndexInLinespaceParametersArray
 #ifdef DEBUG
         while( !Serial );
-        Serial.print( F( "plot line index " ) );
-        Serial.println( channel );
-#endif
-    ThisReading = ThisReading / SAMPLE_TIMES;
-    ThisReading = ThisReading < HEIGHT_OF_A_PLOT_LINESPACE ? ThisReading : HEIGHT_OF_A_PLOT_LINESPACE;
-#ifdef MAGNIFICATION_FACTOR
-        LastPlotPoints[ channel * 2 ] = ThisReading;// + LinespaceParameters[ channel ].ZeroOfThisPlotLinespace;
-#else
-        LastPlotPoints[ channel ] = ThisReading;// + LinespaceParameters[ channel ].ZeroOfThisPlotLinespace;
+        Serial.print( F( "MasterReadingsArrayIndex = " ) );
+        Serial.println( MasterReadingsArrayIndex );
 #endif
     while ( !Serial ); // wait for serial port to connect. Needed for Leonardo's native USB
-    Serial.print( ThisReading + LinespaceParameters[ channel ].ZeroOfThisPlotLinespace ); //This is color one
+    if( MasterReadingsArrayIndex < INDEX_OF_INBOARDS_NOT_SUPERIMPOSED ) //This is the case for those ADCs that have just had their current readings refreshed immediately prior to teh execution of this function, so use the stored readings.  Note also that the standard linespace is designed large enough to always accommodate plotting the full unmagnified reading
+    {//this case and the case of MasterReadingsArrayIndex < INDEX_OF_OUTBOARDS but not including the case of MasterReadingsArrayIndex < NUM_OF_INBOARD_ADCS_PLOTTED needs to return some values
+        Serial.print( MasterReadingsArray[ MasterReadingsArrayIndex ].PreviousUnmagnifiedReading + LinespaceParameters[ MasterReadingsArray[ MasterReadingsArrayIndex ].IndexInLinespaceParametersArray ].ZeroOfThisPlotLinespace ); //This is color one
+        #ifdef DEBUG
+                Serial.println();
+        #endif
+    }
+    else if( MasterReadingsArrayIndex < NUM_OF_INBOARD_ADCS_PLOTTED )
+    {
+        Serial.print( MasterReadingsArray[ MasterReadingsArrayIndex ].PreviousUnmagnifiedReading + LinespaceParameters[ MasterReadingsArray[ MasterReadingsArrayIndex ].IndexInLinespaceParametersArray ].ZeroOfThisPlotLinespace ); //This is color one
+    }
+    else
+        Serial.print( MasterReadingsArray[ MasterReadingsArrayIndex ].PreviousUnmagnifiedReading + LinespaceParameters[ MasterReadingsArray[ MasterReadingsArrayIndex ].IndexInLinespaceParametersArray ].ZeroOfThisPlotLinespace ); //This is color one
     Serial.print( F( " " ) );
 #ifdef MAGNIFICATION_FACTOR
     uint32_t ThisPlotPoint;
@@ -1390,11 +1320,7 @@ NUM_OF_INBOARD_ADCS_PLOTTED are paired times FIRST_INBOARDS_ARE_IN_PAIRS_AND_EAC
 NUM_OF_ADDON_HIGHEST_SENSI_ADCS_PLOTTED is taken at face value
 */
     #if defined FIRST_INBOARDS_ARE_IN_PAIRS_AND_EACH_PAIR_IS_IN_PARALLEL_WITH_ONE_HIGHEST_SENSI_ADC_INPUT_SET_PAIRS && ( NUM_OF_ADDON_HIGHEST_SENSI_ADCS_PLOTTED > 0 )
-        #if ( NUM_OF_INBOARD_ADCS_PLOTTED == 1 )
-            if( channel < 1 ) goto AFTER_THE_MAGNIFIED_PLOTTED;//if this is one of the two parallel traces, skip the magnified view
-        #elif ( NUM_OF_INBOARD_ADCS_PLOTTED >= 2 )
-            if( channel < 2 ) goto AFTER_THE_MAGNIFIED_PLOTTED;//if this is one of the two parallel traces, skip the magnified view
-        #endif
+        if( MasterReadingsArrayIndex < INDEX_OF_INBOARDS_NOT_SUPERIMPOSED ) goto AFTER_THE_MAGNIFIED_PLOTTED;//if this is one of the two parallel traces, skip the magnified view
     #endif
 
 /*
@@ -1408,50 +1334,52 @@ NUM_OF_ADDON_HIGHEST_SENSI_ADCS_PLOTTED is taken at face value
 */
     //Next lines plot a magnified version.  First, MagnifyAdjustment is determined
 
+//LinespaceParameters[ MasterReadingsArray[ MasterReadingsArrayIndex ].IndexInLinespaceParametersArray ].
 //Next we multiply the difference between PreviousUnmagnifiedReading and this one, and see if it would take the trace out of bounds
 //Derive the next plot point for the case of current ThisReading being less than or equal to the last ThisReading
-    if( ThisReading > LinespaceParameters[ channel ].PreviousUnmagnifiedReading ) //new reading is higher than previous
+    if( ThisPlotPoint > MasterReadingsArray[ MasterReadingsArrayIndex ].PreviousUnmagnifiedReading ) //new reading is higher than previous
     {
 #ifdef POT_WIPER_TO_THIS_ANALOG_INPUT_PIN_TO_ADJUST_MAGNIFICATION_FACTOR
-        ThisPlotPoint = LastPlotPoints[ ( channel * 2 ) + 1 ] + ( ( ThisReading - LinespaceParameters[ channel ].PreviousUnmagnifiedReading ) * ( uint32_t )( ( analogRead( POT_WIPER_TO_THIS_ANALOG_INPUT_PIN_TO_ADJUST_MAGNIFICATION_FACTOR ) / pow( 2, ANALOG_INPUT_BITS_OF_BOARD ) ) * MAGNIFICATION_FACTOR );//new reading was not lower, so correct new plot point
+        ThisPlotPoint = LinespaceParameters[ MasterReadingsArray[ MasterReadingsArrayIndex ].IndexInLinespaceParametersArray ].LastReferencePinPlotPointOrLastMagnifiedPlotPoint + ( ( ThisReading - MasterReadingsArray[ MasterReadingsArrayIndex ].PreviousUnmagnifiedReading ) * ( uint32_t )( ( analogRead( POT_WIPER_TO_THIS_ANALOG_INPUT_PIN_TO_ADJUST_MAGNIFICATION_FACTOR ) / pow( 2, ANALOG_INPUT_BITS_OF_BOARD ) ) * MAGNIFICATION_FACTOR );//new reading was not lower, so correct new plot point
 #else
-        ThisPlotPoint = LastPlotPoints[ ( channel * 2 ) + 1 ] + ( ( ThisReading - LinespaceParameters[ channel ].PreviousUnmagnifiedReading ) * MAGNIFICATION_FACTOR );//new reading was not lower, so correct new plot point
+        ThisPlotPoint = LinespaceParameters[ MasterReadingsArray[ MasterReadingsArrayIndex ].IndexInLinespaceParametersArray ].LastReferencePinPlotPointOrLastMagnifiedPlotPoint + ( ( ThisReading - MasterReadingsArray[ MasterReadingsArrayIndex ].PreviousUnmagnifiedReading ) * MAGNIFICATION_FACTOR );//new reading was not lower, so correct new plot point
 #endif
         if( ThisPlotPoint > HEIGHT_OF_A_PLOT_LINESPACE ) //new plot point is higher than upper limit
             ThisPlotPoint = TracespaceToSkipWhenRepositioning;
     }
 #ifdef POT_WIPER_TO_THIS_ANALOG_INPUT_PIN_TO_ADJUST_MAGNIFICATION_FACTOR
-    else if( ( LinespaceParameters[ channel ].PreviousUnmagnifiedReading - ThisReading ) * ( uint32_t )( ( analogRead( POT_WIPER_TO_THIS_ANALOG_INPUT_PIN_TO_ADJUST_MAGNIFICATION_FACTOR ) / pow( 2, ANALOG_INPUT_BITS_OF_BOARD ) ) * MAGNIFICATION_FACTOR ) > LastPlotPoints[ ( channel * 2 ) + 1 ] )
+    else if( ( MasterReadingsArray[ MasterReadingsArrayIndex ].PreviousUnmagnifiedReading - ThisReading ) * ( uint32_t )( ( analogRead( POT_WIPER_TO_THIS_ANALOG_INPUT_PIN_TO_ADJUST_MAGNIFICATION_FACTOR ) / pow( 2, ANALOG_INPUT_BITS_OF_BOARD ) ) * MAGNIFICATION_FACTOR ) > LinespaceParameters[ MasterReadingsArray[ MasterReadingsArrayIndex ].IndexInLinespaceParametersArray ].LastReferencePinPlotPointOrLastMagnifiedPlotPoint )
 #else
-    else if( ( LinespaceParameters[ channel ].PreviousUnmagnifiedReading - ThisReading ) * MAGNIFICATION_FACTOR > LastPlotPoints[ ( channel * 2 ) + 1 ] )
+    else if( ( MasterReadingsArray[ MasterReadingsArrayIndex ].PreviousUnmagnifiedReading - ThisReading ) * MAGNIFICATION_FACTOR > LinespaceParameters[ MasterReadingsArray[ MasterReadingsArrayIndex ].IndexInLinespaceParametersArray ].LastReferencePinPlotPointOrLastMagnifiedPlotPoint )
 #endif
         ThisPlotPoint = NegativeTracespaceToSkipWhenRepositioning;
     else
 #ifdef POT_WIPER_TO_THIS_ANALOG_INPUT_PIN_TO_ADJUST_MAGNIFICATION_FACTOR
-        ThisPlotPoint = LastPlotPoints[ ( channel * 2 ) + 1 ] - ( ( LinespaceParameters[ channel ].PreviousUnmagnifiedReading - ThisReading ) * ( uint32_t )( ( analogRead( POT_WIPER_TO_THIS_ANALOG_INPUT_PIN_TO_ADJUST_MAGNIFICATION_FACTOR ) / pow( 2, ANALOG_INPUT_BITS_OF_BOARD ) ) * MAGNIFICATION_FACTOR );//new reading was lower but not too much, so correct new plot point
+        ThisPlotPoint = LinespaceParameters[ MasterReadingsArray[ MasterReadingsArrayIndex ].IndexInLinespaceParametersArray ].LastReferencePinPlotPointOrLastMagnifiedPlotPoint  - ( ( MasterReadingsArray[ MasterReadingsArrayIndex ].PreviousUnmagnifiedReading - ThisReading ) * ( uint32_t )( ( analogRead( POT_WIPER_TO_THIS_ANALOG_INPUT_PIN_TO_ADJUST_MAGNIFICATION_FACTOR ) / pow( 2, ANALOG_INPUT_BITS_OF_BOARD ) ) * MAGNIFICATION_FACTOR );//new reading was lower but not too much, so correct new plot point
 #else
-        ThisPlotPoint = LastPlotPoints[ ( channel * 2 ) + 1 ] - ( ( LinespaceParameters[ channel ].PreviousUnmagnifiedReading - ThisReading ) * MAGNIFICATION_FACTOR );//new reading was lower but not too much, so correct new plot point
+        ThisPlotPoint = LinespaceParameters[ MasterReadingsArray[ MasterReadingsArrayIndex ].IndexInLinespaceParametersArray ].LastReferencePinPlotPointOrLastMagnifiedPlotPoint - ( ( MasterReadingsArray[ MasterReadingsArrayIndex ].PreviousUnmagnifiedReading - ThisReading ) * MAGNIFICATION_FACTOR );//new reading was lower but not too much, so correct new plot point
 #endif
-    Serial.print( LinespaceParameters[ channel ].ZeroOfThisPlotLinespace + ThisPlotPoint ); 
+    Serial.print( LinespaceParameters[ MasterReadingsArray[ MasterReadingsArrayIndex ].IndexInLinespaceParametersArray ].ZeroOfThisPlotLinespace + ThisPlotPoint ); 
     Serial.print( F( " " ) );
-    LastPlotPoints[ ( channel * 2 ) + 1 ] = ThisPlotPoint;
+    LinespaceParameters[ MasterReadingsArray[ MasterReadingsArrayIndex ].IndexInLinespaceParametersArray ].LastReferencePinPlotPointOrLastMagnifiedPlotPoint = ThisPlotPoint;
 AFTER_THE_MAGNIFIED_PLOTTED:
 #endif
-LinespaceParameters[ channel ].PreviousUnmagnifiedReading = ThisReading;
-//#error Working on the indices below.  This last guess not yet tested
-#if ( NUM_OF_ADDON_HIGHEST_SENSI_ADCS_PLOTTED > 0 ) && defined AUTO_BRIDGE_BALANCING
-    #ifdef MAGNIFICATION_FACTOR
-    if( ( channel >= NUM_OF_INBOARD_ADCS_PLOTTED ) * 2 ) return BestGuessAnalogInputreading( 1 + ( channel * 2 ) + BIAS_TO_APPLY_TO_SIGNAL_LEG_TO_CENTER_TRACE - BestGuessAnalogInputreading( ( channel - 2 ) * 2 ) );
-    #else
-    if( channel >= NUM_OF_INBOARD_ADCS_PLOTTED ) return BestGuessAnalogInputreading( 1 + channel ) + BIAS_TO_APPLY_TO_SIGNAL_LEG_TO_CENTER_TRACE - BestGuessAnalogInputreading( ( channel - 2 ) * 2 );
-    #endif
-//BestGuessAnalogInputreading index argument is a bank...which doesn't exist except with the outboard ADCs
-#endif
+MasterReadingsArray[ MasterReadingsArrayIndex ].PreviousUnmagnifiedReading = ThisReading;
 #ifdef DEBUG
         Serial.println();
 #endif
 }
-
+/* Something left over from previous revision
+#if ( NUM_OF_ADDON_HIGHEST_SENSI_ADCS_PLOTTED > 0 ) && defined AUTO_BRIDGE_BALANCING
+    #ifdef MAGNIFICATION_FACTOR
+    if( MasterReadingsArrayIndex < INDEX_OF_OUTBOARDS ) return BestGuessAnalogInputreading( 1 + ( channel * 2 ) + BIAS_TO_APPLY_TO_SIGNAL_LEG_TO_CENTER_TRACE - BestGuessAnalogInputreading( ( channel - 2 ) * 2 ) );
+    #else
+    if( MasterReadingsArrayIndex >= NUM_OF_INBOARD_ADCS_PLOTTED ) return BestGuessAnalogInputreading( 1 + channel ) + BIAS_TO_APPLY_TO_SIGNAL_LEG_TO_CENTER_TRACE - BestGuessAnalogInputreading( ( channel - 2 ) * 2 );
+    #endif
+//BestGuessAnalogInputreading index argument is a bank...which doesn't exist except with the outboard ADCs
+#endif
+return;//only saving the reading, don't plot.  These are just LM334 non-plotted banks
+*/
 #if defined ( POT_TEST_WOBBLE_POSITIVE ) || defined ( POT_TEST_WOBBLE_NEGATIVE )
 static bool potwobbledirection = true;
 static uint8_t wobbleloops = 0;
@@ -1477,29 +1405,28 @@ void wobble( void )
 
 void ReadAndPlotFromAllADCsInAndOutboard( bool DuringSetup = false )
 {
-#if ( NUM_OF_INBOARD_ADCS_PLOTTED > 0 ) //plot the inboard analogs first and above
-    for( uint8_t whichADCsubunit = 0; whichADCsubunit < NUM_OF_INBOARD_ADCS_PLOTTED; whichADCsubunit++ )
+    for( uint8_t InboardPinIndex = 0; InboardPinIndex < INDEX_OF_OUTBOARDS; InboardPinIndex++ )
     {
         #ifdef DEBUG
             while ( !Serial ); // wait for serial port to connect. Needed for Leonardo's native USB
 //                    Serial.print( F( "AnalogPinArray = " ) );
 //                    Serial.println( (unsigned long)AnalogPinArray );
             Serial.print( F( "Reading pin " ) );
-            Serial.print( *( AnalogPinArray + whichADCsubunit ) );
+            Serial.print( *( AnalogPinArray + InboardPinIndex ) );
             Serial.print( F( ", level appearing as " ) );
-            Serial.print( analogRead( *( AnalogPinArray + whichADCsubunit ) ) );
-            if( whichADCsubunit == 0 )
+            Serial.print( analogRead( *( AnalogPinArray + InboardPinIndex ) ) );
+            if( InboardPinIndex == 0 )
             {
                 Serial.print( F( ", SCALE_FACTOR_TO_PROMOTE_LOW_RES_ADC_TO_SAME_SCALE " ) );
                 Serial.println( SCALE_FACTOR_TO_PROMOTE_LOW_RES_ADC_TO_SAME_SCALE );
             }
             else Serial.println();
         #endif
-        ThisReading = analogRead( *( AnalogPinArray + whichADCsubunit ) );
+        MasterReadingsArray[ InboardPinIndex ].PreviousUnmagnifiedReading = analogRead( *( AnalogPinArray + InboardPinIndex ) );
         #ifdef DEBUG
             while ( !Serial ); // wait for serial port to connect. Needed for Leonardo's native USB
             Serial.print( F( "Value was " ) );
-            Serial.print( ThisReading );;
+            Serial.print( MasterReadingsArray[ InboardPinIndex ].PreviousUnmagnifiedReading );;
         #endif
 
         for( uint8_t sampletimes = 1; sampletimes < SAMPLE_TIMES; sampletimes++ )
@@ -1510,26 +1437,27 @@ void ReadAndPlotFromAllADCsInAndOutboard( bool DuringSetup = false )
             #if ( defined DELAY_TIME_BETWEEN_SAMPLES_US ) && ( DELAY_TIME_BETWEEN_SAMPLES_US > 0 )
                             delayMicroseconds( DELAY_TIME_BETWEEN_SAMPLES_US );
             #endif
-            ThisReading += analogRead( *( AnalogPinArray + whichADCsubunit ) );
+            MasterReadingsArray[ InboardPinIndex ].PreviousUnmagnifiedReading += analogRead( *( AnalogPinArray + InboardPinIndex ) );
         }
         #ifdef DEBUG
             while ( !Serial ); // wait for serial port to connect. Needed for Leonardo's native USB
             Serial.print( F( ".  Done reading pin " ) );
-            Serial.print( *( AnalogPinArray + whichADCsubunit ) );
+            Serial.print( *( AnalogPinArray + InboardPinIndex ) );
             Serial.print( F( ", " ) );
             Serial.print( SAMPLE_TIMES );
             Serial.print( F( " times, total ThisReading now " ) );
-            Serial.print( ThisReading );
+            Serial.print( MasterReadingsArray[ InboardPinIndex ].PreviousUnmagnifiedReading );
             Serial.print( F( " which should average to " ) );
-            Serial.print( ThisReading / SAMPLE_TIMES );
+            Serial.print( MasterReadingsArray[ InboardPinIndex ].PreviousUnmagnifiedReading / SAMPLE_TIMES );
             Serial.println( F( ", now plotting one inboard analog input with magnified version offset for proper positioning:" ) );
         #endif
-        /*value = */ ThisReading <<= SCALE_FACTOR_TO_PROMOTE_LOW_RES_ADC_TO_SAME_SCALE;
-        #ifdef MAGNIFICATION_FACTOR
-        PlotTheNormalAndMagnifiedSignals( whichADCsubunit * 2 ); //Two indices per every non-magnified trace ifdef MAGNIFICATION_FACTOR, otherwise one per
-        #else
-        PlotTheNormalAndMagnifiedSignals( whichADCsubunit ); //Two indices per every non-magnified trace ifdef MAGNIFICATION_FACTOR, otherwise one per
-        #endif
+        MasterReadingsArray[ InboardPinIndex ].PreviousUnmagnifiedReading <<= SCALE_FACTOR_TO_PROMOTE_LOW_RES_ADC_TO_SAME_SCALE;
+    }
+
+#if ( NUM_OF_INBOARD_ADCS_PLOTTED > 0 ) //plot the inboard analogs first and above from readings in MasterReadingsArray
+    for( uint8_t InboardPinIndex = 0; InboardPinIndex < NUM_OF_INBOARD_ADCS_PLOTTED; InboardPinIndex++ )
+    {
+        PlotTheNormalAndMagnifiedSignals( InboardPinIndex );
         #ifdef DEBUG
             Serial.println();
         #endif
@@ -1537,7 +1465,7 @@ void ReadAndPlotFromAllADCsInAndOutboard( bool DuringSetup = false )
 #endif
 
 #if ( NUM_OF_ADDON_HIGHEST_SENSI_ADCS_PLOTTED > 0 )
-    for( uint8_t whichADCsubunit = 0; whichADCsubunit < NUM_OF_ADDON_HIGHEST_SENSI_ADCS_PLOTTED + NUM_OF_INBOARD_ADCS_PLOTTED; whichADCsubunit++ )
+    for( uint8_t whichOutboardADCindex = 0; whichOutboardADCindex < INDEX_OF_OUTBOARDS + NUM_OF_ADDON_HIGHEST_SENSI_ADCS_PLOTTED; whichOutboardADCindex++ )
     {
         #ifdef USING_LM334_WITH_DIGIPOT_BANKS 
 Start_of_addon_ADC_acquisition:
@@ -1546,19 +1474,19 @@ Start_of_addon_ADC_acquisition:
             {
         #endif
         #if ( HIGHEST_BIT_RES_FROM_HIGHEST_SENSI_ADDON_ADC == 11 ) || ( HIGHEST_BIT_RES_FROM_HIGHEST_SENSI_ADDON_ADC == 15 )
-            ThisReading = ads.readADC_SingleEnded( whichADCsubunit );
-            while( ThisReading > HEIGHT_OF_A_PLOT_LINESPACE ) //TODO: verify the need for this check
+            MasterReadingsArray[ INDEX_OF_OUTBOARDS + whichOutboardADCindex ].PreviousUnmagnifiedReading = ads.readADC_SingleEnded( whichOutboardADCindex );
+            while( MasterReadingsArray[ INDEX_OF_OUTBOARDS + whichOutboardADCindex ] > HEIGHT_OF_A_PLOT_LINESPACE ) //TODO: verify the need for this check
             {
-                ThisReading = ads.readADC_SingleEnded( whichADCsubunit );
+                MasterReadingsArray[ INDEX_OF_OUTBOARDS + whichOutboardADCindex ].PreviousUnmagnifiedReading = ads.readADC_SingleEnded( whichOutboardADCindex );
             }
         #else
             #ifdef DIFFERENTIAL
                 #if ( HIGHEST_BIT_RES_FROM_HIGHEST_SENSI_ADDON_ADC < 17 )
-                    ThisReading = CONVERT_TWOS_COMP_TO_SINGLE_ENDED( ( whichADCsubunit == 1 ) ? ads.readADC_Differential_2_3() : ads.readADC_Differential_0_1(), ( uint32_t )(  - 1 ), HEIGHT_OF_A_PLOT_LINESPACE >> 1 );  // Convert to single-ended style
+                    MasterReadingsArray[ INDEX_OF_OUTBOARDS + whichOutboardADCindex ].PreviousUnmagnifiedReading = CONVERT_TWOS_COMP_TO_SINGLE_ENDED( ( whichOutboardADCindex == 1 ) ? ads.readADC_Differential_2_3() : ads.readADC_Differential_0_1(), ( uint32_t )(  - 1 ), HEIGHT_OF_A_PLOT_LINESPACE >> 1 );  // Convert to single-ended style
                 #else
                     #if ( HIGHEST_SENSI_ADDON_ADC_TYPE == HX711 )
 //                                hx711.power_up();
-                        ThisReading = CONVERT_TWOS_COMP_TO_SINGLE_ENDED( hx711.read(), HEIGHT_OF_A_PLOT_LINESPACE - 1, HEIGHT_OF_A_PLOT_LINESPACE >> 1 /*0x800000*/ );
+                        MasterReadingsArray[ INDEX_OF_OUTBOARDS + whichOutboardADCindex ].PreviousUnmagnifiedReading = CONVERT_TWOS_COMP_TO_SINGLE_ENDED( hx711.read(), HEIGHT_OF_A_PLOT_LINESPACE - 1, HEIGHT_OF_A_PLOT_LINESPACE >> 1 /*0x800000*/ );
 //                                ThisReading = 0xFFFFFF;//= hx711.read_average( 9 );
                         
 //                                hx711.power_down();
@@ -1603,12 +1531,12 @@ Start_of_addon_ADC_acquisition:
                     delayMicroseconds( DELAY_TIME_BETWEEN_SAMPLES_US );
                 #endif
                 #if ( HIGHEST_BIT_RES_FROM_HIGHEST_SENSI_ADDON_ADC == 11 ) || ( HIGHEST_BIT_RES_FROM_HIGHEST_SENSI_ADDON_ADC == 15 )
-                    ThisReadingTemp = ads.readADC_SingleEnded( whichADCsubunit );
-                    while( ThisReadingTemp > HEIGHT_OF_A_PLOT_LINESPACE ) ThisReadingTemp = ads.readADC_SingleEnded( whichADCsubunit );
+                    ThisReadingTemp = ads.readADC_SingleEnded( whichOutboardADCindex );
+                    while( ThisReadingTemp > HEIGHT_OF_A_PLOT_LINESPACE ) ThisReadingTemp = ads.readADC_SingleEnded( whichOutboardADCindex );
                 #else
                     #ifdef DIFFERENTIAL
                         #if ( HIGHEST_BIT_RES_FROM_HIGHEST_SENSI_ADDON_ADC < 17 )
-                            ThisReadingTemp = CONVERT_TWOS_COMP_TO_SINGLE_ENDED( ( whichADCsubunit == 1 ) ? ads.readADC_Differential_2_3() : ads.readADC_Differential_0_1(), HEIGHT_OF_A_PLOT_LINESPACE - 1, HEIGHT_OF_A_PLOT_LINESPACE >> 1 /*0x8000*/ );
+                            ThisReadingTemp = CONVERT_TWOS_COMP_TO_SINGLE_ENDED( ( whichOutboardADCindex == 1 ) ? ads.readADC_Differential_2_3() : ads.readADC_Differential_0_1(), HEIGHT_OF_A_PLOT_LINESPACE - 1, HEIGHT_OF_A_PLOT_LINESPACE >> 1 /*0x8000*/ );
                         #else
                             #if ( HIGHEST_SENSI_ADDON_ADC_TYPE == HX711 )
                                 #ifdef DEBUG
@@ -1651,58 +1579,12 @@ Start_of_addon_ADC_acquisition:
                         #endif
                     #endif
                 #endif
-                ThisReading += ThisReadingTemp;
+                MasterReadingsArray[ INDEX_OF_OUTBOARDS + whichOutboardADCindex ].PreviousUnmagnifiedReading += ThisReadingTemp;
         }
         #endif
-/*
-#ifdef USING_LM334_WITH_DIGIPOT_BANKS && #ifdef DEBUG
-    while ( !Serial ); // wait for serial port to connect. Needed for Leonardo's native USB
-    Serial.print( F( "digipot_values[ 0 + ( bank * NUM_OF_DIGIPOTS_PER_BANK ) ] = " ) );
-    Serial.print( DigipotValues[ 0 + ( bank * NUM_OF_DIGIPOTS_PER_BANK ) ] );
-    Serial.print( F( ", DigipotValues[ 1 + ( bank * NUM_OF_DIGIPOTS_PER_BANK ) ] = " ) );
-    Serial.print( DigipotValues[ 1 + ( bank * NUM_OF_DIGIPOTS_PER_BANK ) ] );
-    Serial.print( F( ", DigipotValues[ 2 + ( bank * NUM_OF_DIGIPOTS_PER_BANK ) ] = " ) );
-    Serial.print( DigipotValues[ 2 + ( bank * NUM_OF_DIGIPOTS_PER_BANK ) ] );
-    while ( !Serial ); // wait for serial port to connect. Needed for Leonardo's native USB
-    Serial.print( F( ", DigipotValues[ 3 + ( bank * NUM_OF_DIGIPOTS_PER_BANK ) ] = " ) );
-    Serial.print( DigipotValues[ 3 + ( bank * NUM_OF_DIGIPOTS_PER_BANK ) ] );
-    Serial.print( F( ", DigipotValues[ 4 + ( bank * NUM_OF_DIGIPOTS_PER_BANK ) ] = " ) );
-    Serial.print( DigipotValues[ 4 + ( bank * NUM_OF_DIGIPOTS_PER_BANK ) ] );
-    Serial.print( F( ", DigipotValues[ 5 + ( bank * NUM_OF_DIGIPOTS_PER_BANK ) ] = " ) );
-    Serial.println( DigipotValues[ 5 + ( bank * NUM_OF_DIGIPOTS_PER_BANK ) ] );
-#endif
-*/
-//    #if defined USING_LM334_WITH_DIGIPOT_BANKS && defined FIRST_INBOARDS_ARE_IN_PAIRS_AND_EACH_PAIR_IS_IN_PARALLEL_WITH_ONE_HIGHEST_SENSI_ADC_INPUT_SET_PAIRS && defined AUTO_BRIDGE_BALANCING && not defined LEAVE_POT_VALUES_ALONE_DURING_SETUP && NUM_OF_INBOARD_ADCS_PLOTTED < 2
-//                PlotTheNormalAndMagnifiedSignals( whichADCsubunit + 2 );
-//    #else
-//#error This next construct was developed when it was in loop() only, I don't know how it will work in setup():
-
-/*
-#ifdef AUTO_BRIDGE_BALANCING
-    #ifdef DEBUG
-        while( !Serial );
-        Serial.println( F( "Line 1296 Checking auto balance readings" ) );
-    #endif
-//#error Carefully examine the following lines for logic, especially the indexes :
-        int reading_after_computed = PlotTheNormalAndMagnifiedSignals( whichADCsubunit + 2 );
-        if( reading_after_computed < 0 ) // means signal leg is higher
-            if( --CounterForTraceOutOfRangeTooLong[ whichADCsubunit ] < -LOOP_COUNTER_LIMIT_THAT_TRACE_IS_ALLOWED_TO_BE_OFF_CENTER )
-                SetBridgeLegSignalInput( whichADCsubunit );
-        else if( reading_after_computed > 0 ) //means reference leg is higher
-            if( ++CounterForTraceOutOfRangeTooLong[ whichADCsubunit ] > LOOP_COUNTER_LIMIT_THAT_TRACE_IS_ALLOWED_TO_BE_OFF_CENTER )
-                SetBridgeLegSignalInput( whichADCsubunit );
-        else
-            CounterForTraceOutOfRangeTooLong[ whichADCsubunit ] = 0;
-//    #else
-//        PlotTheNormalAndMagnifiedSignals( whichADCsubunit + NUM_OF_INBOARD_ADCS_PLOTTED );
-    #endif
-*/
-// INSTEAD JUST:
-    #ifdef MAGNIFICATION_FACTOR
-        PlotTheNormalAndMagnifiedSignals( ( whichADCsubunit + NUM_OF_INBOARD_ADCS_PLOTTED) * 2 );
-    #else
-        PlotTheNormalAndMagnifiedSignals( whichADCsubunit + NUM_OF_INBOARD_ADCS_PLOTTED );
-    #endif
+        MasterReadingsArray[ INDEX_OF_OUTBOARDS + whichOutboardADCindex ].PreviousUnmagnifiedReading /= SAMPLE_TIMES;
+        MasterReadingsArray[ INDEX_OF_OUTBOARDS + whichOutboardADCindex ].PreviousUnmagnifiedReading =(  MasterReadingsArray[ INDEX_OF_OUTBOARDS + whichOutboardADCindex ].PreviousUnmagnifiedReading < HEIGHT_OF_A_PLOT_LINESPACE  ) ? MasterReadingsArray[ INDEX_OF_OUTBOARDS + whichOutboardADCindex ].PreviousUnmagnifiedReading : HEIGHT_OF_A_PLOT_LINESPACE;
+        PlotTheNormalAndMagnifiedSignals( INDEX_OF_OUTBOARDS + whichOutboardADCindex );
     }
 #endif
 }
@@ -1772,7 +1654,7 @@ Serial.begin( BAUD_TO_SERIAL );//This speed is what works best with WeMos XI/TTG
     #ifdef DEBUG
         MillisStart = millis();
         while ( !Serial && ( millis() - MillisStart < 8000 ) );
-        Serial.print( F( "Starting setup with SDA & SCL & SCK & A4 & A5 = " ) );
+        Serial.print( F( "Starting setup with SDA & SCL & SCK & A4 & A5 & INDEX_OF_OUTBOARDS = " ) );
         Serial.print( SDA );
         Serial.print( F( " & " ) );
         Serial.print( SCL );
@@ -1782,6 +1664,8 @@ Serial.begin( BAUD_TO_SERIAL );//This speed is what works best with WeMos XI/TTG
         Serial.print( A4 );
         Serial.print( F( " & " ) );
         Serial.println( A5 );
+        Serial.print( F( " & " ) );
+        Serial.println( INDEX_OF_OUTBOARDS );
     #endif
     //#ifndef ARDUINO_AVR_DIGISPARKPRO
     //    analogReadResolution( ADC_RES_BIT );
@@ -1850,73 +1734,70 @@ Serial.begin( BAUD_TO_SERIAL );//This speed is what works best with WeMos XI/TTG
     //    analogReadResolution( 12 );  //I believe this is not necessary
         delay( SECONDS_THAT_A_LGT8FX8E_HARDWARE_SERIAL_NEEDS_TO_COME_UP_WORKING * 1000 );  // Needed by this board for serial to work
     #endif
-
-    if( NUM_OF_ADDON_HIGHEST_SENSI_ADCS_PLOTTED + NUM_OF_INBOARD_ADCS_PLOTTED > 1 ) LinespaceParameters[ 0 ].ZeroOfThisPlotLinespace = PLOTTER_MAX_SCALE - HEIGHT_OF_A_PLOT_LINESPACE;
+#ifdef MAGNIFICATION_FACTOR
+    TracespaceToSkipWhenRepositioning = ( HEIGHT_OF_A_PLOT_LINESPACE * PERCENT_OF_LINESPACE_MAGNIFIED_VIEW_SKIPS_WHEN_REPOSITIONED_WHEN_LINESPACE_LIMITS_GET_EXCEEDED ) / 100;
+    NegativeTracespaceToSkipWhenRepositioning = HEIGHT_OF_A_PLOT_LINESPACE - ( HEIGHT_OF_A_PLOT_LINESPACE * PERCENT_OF_LINESPACE_MAGNIFIED_VIEW_SKIPS_WHEN_REPOSITIONED_WHEN_LINESPACE_LIMITS_GET_EXCEEDED ) / 100;
+#endif
+//    if( NUM_OF_ADDON_HIGHEST_SENSI_ADCS_PLOTTED + NUM_OF_INBOARD_ADCS_PLOTTED > 1 ) LinespaceParameters[ 0 ].ZeroOfThisPlotLinespace = PLOTTER_MAX_SCALE - HEIGHT_OF_A_PLOT_LINESPACE;
 
 #ifdef DEBUG
         while( !Serial );
         Serial.println( F( "The following numbers count up to the highest index of traces to be displayed:" ) );
 #endif
-/*LinespaceParametersIndex Converts to LastPlotPointsIndex by doubling it ifdef MAGNIFICATION_FACTOR and add 1 again for the actual magnifed LastPlotPointsIndex*/
-    for( uint8_t i = 0; i < NUM_OF_ADDON_HIGHEST_SENSI_ADCS_PLOTTED + NUM_OF_INBOARD_ADCS_PLOTTED; i++ )
-    {
-#ifdef MAGNIFICATION_FACTOR
-        LinespaceParameters[ i ].MagnifyAdjustment = 0;
-        TracespaceToSkipWhenRepositioning = ( HEIGHT_OF_A_PLOT_LINESPACE * PERCENT_OF_LINESPACE_MAGNIFIED_VIEW_SKIPS_WHEN_REPOSITIONED_WHEN_LINESPACE_LIMITS_GET_EXCEEDED ) / 100;
-        NegativeTracespaceToSkipWhenRepositioning = HEIGHT_OF_A_PLOT_LINESPACE - ( HEIGHT_OF_A_PLOT_LINESPACE * PERCENT_OF_LINESPACE_MAGNIFIED_VIEW_SKIPS_WHEN_REPOSITIONED_WHEN_LINESPACE_LIMITS_GET_EXCEEDED ) / 100;
+// INDEX_OF_INBOARDS_NOT_SUPERIMPOSED actually equals the number of InboardSuperimposed exist!
+    LinespaceParameters[ 0 ].HighLimitOfThisPlotLinespace = PLOTTER_MAX_SCALE;
+    LinespaceParameters[ 0 ].ZeroOfThisPlotLinespace = PLOTTER_MAX_SCALE - HEIGHT_OF_A_PLOT_LINESPACE;
+#ifdef DEBUG
+        while( !Serial );
+        Serial.print( F( ", Line 1761 " ) );
+//        Serial.print( 0 );
 #endif
+    uint8_t LinespacesIndex = 1;
+    uint8_t MasterReadingsArrayIndex = 0;
+    for( ; LinespacesIndex < NUM_OF_INBOARD_ADCS_PLOTTED / 2; LinespacesIndex++ )
+    {//in this for construct, populate two entries in MasterReadingsArray per iteration
+#ifdef DEBUG
+        while( !Serial );
+        Serial.print( F( ", Line 1769 " ) );
+//        Serial.print( LinespacesIndex );
+#endif
+        LinespaceParameters[ LinespacesIndex ].ZeroOfThisPlotLinespace = LinespaceParameters[ LinespacesIndex - 1 ].ZeroOfThisPlotLinespace;
+        LinespaceParameters[ LinespacesIndex ].HighLimitOfThisPlotLinespace = LinespaceParameters[ LinespacesIndex - 1 ].HighLimitOfThisPlotLinespace;
+        LinespaceParameters[ LinespacesIndex ].LastReferencePinPlotPointOrLastMagnifiedPlotPoint = HALF_HEIGHT_OF_A_PLOT_LINESPACE;
+        MasterReadingsArray[ MasterReadingsArrayIndex++ ].IndexInLinespaceParametersArray = LinespacesIndex;
+//                  Note that INDEX_OF_INBOARDS_NOT_SUPERIMPOSED is an index and actually is equal to the number of InboardSuperimposed that exist
+        if( LinespacesIndex < INDEX_OF_INBOARDS_NOT_SUPERIMPOSED / 2 ) MasterReadingsArray[ MasterReadingsArrayIndex++ ].IndexInLinespaceParametersArray = LinespacesIndex;
+#ifdef MAGNIFICATION_FACTOR
+        else
+            LinespaceParameters[ LinespacesIndex ].MagnifyAdjustment = 0;
+#endif
+    }
+    MasterReadingsArrayIndex = INDEX_OF_OUTBOARDS;
+    for( ; LinespacesIndex < NUM_OF_INBOARD_ADCS_PLOTTED + NUM_OF_ADDON_HIGHEST_SENSI_ADCS_PLOTTED; LinespacesIndex++ )
+    {
 #ifdef DEBUG
         while( !Serial );
         Serial.print( F( "Line 1170" ) );
-//        Serial.print( i );
+//        Serial.print( LinespacesIndex );
 #endif
-        if( i == 0 )
-        {
-#ifdef DEBUG
-        while( !Serial );
-        Serial.print( F( ", Line 1177 " ) );
-//        Serial.print( i );
-#endif
-            LinespaceParameters[ i ].HighLimitOfThisPlotLinespace = PLOTTER_MAX_SCALE;
-            LinespaceParameters[ i ].ZeroOfThisPlotLinespace = PLOTTER_MAX_SCALE - HEIGHT_OF_A_PLOT_LINESPACE;
-        }
-#if defined FIRST_INBOARDS_ARE_IN_PAIRS_AND_EACH_PAIR_IS_IN_PARALLEL_WITH_ONE_HIGHEST_SENSI_ADC_INPUT_SET_PAIRS && ( NUM_OF_ADDON_HIGHEST_SENSI_ADCS_PLOTTED > 0 ) && ( NUM_OF_INBOARD_ADCS_PLOTTED > 1 )
-        else if( i == 1 )
-        {
-    #ifdef DEBUG
-        while( !Serial );
-        Serial.print( F( ", Line 1188 " ) );
-//        Serial.print( i );
-    #endif
-            LinespaceParameters[ i ].ZeroOfThisPlotLinespace = LinespaceParameters[ i - 1 ].ZeroOfThisPlotLinespace;
-            LinespaceParameters[ i ].HighLimitOfThisPlotLinespace = LinespaceParameters[ i - 1 ].HighLimitOfThisPlotLinespace;
-        }
-#endif
-        else
-        {
-    #ifdef DEBUG
-        while( !Serial );
-        Serial.print( F( ", Line 1198 " ) );
-//        Serial.print( i );
-    #endif
-            LinespaceParameters[ i ].HighLimitOfThisPlotLinespace = LinespaceParameters[ i - 1 ].ZeroOfThisPlotLinespace;
-            LinespaceParameters[ i ].ZeroOfThisPlotLinespace = LinespaceParameters[ i ].HighLimitOfThisPlotLinespace - HEIGHT_OF_A_PLOT_LINESPACE;
-        }
+        LinespaceParameters[ LinespacesIndex ].HighLimitOfThisPlotLinespace = LinespaceParameters[ LinespacesIndex - 1 ].ZeroOfThisPlotLinespace;
+        LinespaceParameters[ LinespacesIndex ].LastSignalPinPlotPoint = HALF_HEIGHT_OF_A_PLOT_LINESPACE;
+        LinespaceParameters[ LinespacesIndex ].ZeroOfThisPlotLinespace = LinespaceParameters[ LinespacesIndex ].HighLimitOfThisPlotLinespace - HEIGHT_OF_A_PLOT_LINESPACE;
+        MasterReadingsArray[ MasterReadingsArrayIndex ].IndexInLinespaceParametersArray = LinespacesIndex;
 #ifdef MAGNIFICATION_FACTOR
-        LinespaceParameters[ i ].PreviousUnmagnifiedReading = HALF_HEIGHT_OF_A_PLOT_LINESPACE;
-        LastPlotPoints[ i * 2 ] = HALF_HEIGHT_OF_A_PLOT_LINESPACE;
-        LastPlotPoints[ ( i * 2 ) + 1 ] = HALF_HEIGHT_OF_A_PLOT_LINESPACE;
-#else
-        LastPlotPoints[ i ] = HALF_HEIGHT_OF_A_PLOT_LINESPACE;
+        MasterReadingsArray[ MasterReadingsArrayIndex ].PreviousUnmagnifiedReading = HALF_HEIGHT_OF_A_PLOT_LINESPACE;
+        LinespaceParameters[ LinespacesIndex ].LastReferencePinPlotPointOrLastMagnifiedPlotPoint = HALF_HEIGHT_OF_A_PLOT_LINESPACE;
+        LinespaceParameters[ LinespacesIndex ].MagnifyAdjustment = 0;
 #endif
+        MasterReadingsArrayIndex++;
 #ifdef DEBUG
         while( !Serial );
         Serial.print( F( "LinespaceParameters[ " ) );
-        Serial.print( i );
+        Serial.print( LinespacesIndex );
         Serial.print( F( " ].ZeroOfThisPlotLinespace == " ) );
-        Serial.print( LinespaceParameters[ i ].ZeroOfThisPlotLinespace );
+        Serial.print( LinespaceParameters[ LinespacesIndex ].ZeroOfThisPlotLinespace );
         Serial.print( F( ", HighLimitOfThisPlotLinespace == " ) );
-        Serial.println( LinespaceParameters[ i ].HighLimitOfThisPlotLinespace );
+        Serial.println( LinespaceParameters[ LinespacesIndex ].HighLimitOfThisPlotLinespace );
 #endif
     }
     PlotTimingLineGoingUp( false ); //The false makes all traces originate at global zero.  It seems to look better that way
@@ -2079,7 +1960,8 @@ Serial.begin( BAUD_TO_SERIAL );//This speed is what works best with WeMos XI/TTG
         #endif
         Serial.print( PLOTTER_MAX_SCALE );
         Serial.print( F( " " ) );
-        ReadAndPlotFromAllADCsInAndOutboard( true );
+        ReadAndPlotFromAllADCsInAndOutboard( true ); //Fills the arrays with valid values
+/* Don't remember why following lines were there
         uint32_t LastPlotPoints_temp[ USING_LM334_WITH_DIGIPOT_BANKS * 2 ]; //2 legs/bank, each leg is one entry        
         Serial.println();
 //Then get the readings of desired legs from 
@@ -2093,11 +1975,6 @@ Serial.begin( BAUD_TO_SERIAL );//This speed is what works best with WeMos XI/TTG
             LastPlotPoints_temp[ 1 + ( bank * 2 ) ] = LastPlotPoints[ 1 + ( bank * 2 ) ] >> SCALE_FACTOR_TO_PROMOTE_LOW_RES_ADC_TO_SAME_SCALE;
 #endif
         }
-/*        
-How the indexing compares: each unit of USING_LM334_WITH_DIGIPOT_BANKS covers a digipot bank with 2 legs, therefore 2 inboard ADC pins
-Each entry in LastPlotPoints[] correlates to the unmagnified or magnified trace of pins, so either 1 (no magnification) or 2 (magnification) array entries per pin
-So each unit of USING_LM334_WITH_DIGIPOT_BANKS could group LastPlotPoints[] into 2 or 4 entries, not caring about entires 1 and 3 when magnified==true.
-SetDigipotsReferenceLeg() has done one entire bank by the time it returns true
 */
 //#ifdef MAGNIFICATION_FACTOR
 //        /*reading=*/LastPlotPoints[ bank * 2 ] >> SCALE_FACTOR_TO_PROMOTE_LOW_RES_ADC_TO_SAME_SCALE;// + LinespaceParameters[ channel ].ZeroOfThisPlotLinespace;
@@ -2153,6 +2030,19 @@ void loop()
         Serial.print( F( " " ) );
         ReadAndPlotFromAllADCsInAndOutboard();
         Serial.println();
+/*        old style partial of auto adjust case:
+    if( MasterReadingsArrayIndex < INDEX_OF_OUTBOARDS )
+    {
+        #if ( NUM_OF_ADDON_HIGHEST_SENSI_ADCS_PLOTTED > 0 ) && defined AUTO_BRIDGE_BALANCING
+            #ifdef MAGNIFICATION_FACTOR
+            if( MasterReadingsArrayIndex < INDEX_OF_OUTBOARDS )  BestGuessAnalogInputreading( 1 + ( channel * 2 ) + BIAS_TO_APPLY_TO_SIGNAL_LEG_TO_CENTER_TRACE - BestGuessAnalogInputreading( ( channel - 2 ) * 2 ) );
+            #else
+            if( MasterReadingsArrayIndex >= NUM_OF_INBOARD_ADCS_PLOTTED ) BestGuessAnalogInputreading( 1 + channel ) + BIAS_TO_APPLY_TO_SIGNAL_LEG_TO_CENTER_TRACE - BestGuessAnalogInputreading( ( channel - 2 ) * 2 );
+            #endif
+        //BestGuessAnalogInputreading index argument is a bank...which doesn't exist except with the outboard ADCs
+        #endif
+    }
+*/
 /*
         char nextChar;
         nextChar = 0;
