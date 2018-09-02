@@ -1,8 +1,9 @@
+//#error Current problem is that too many readings get plotted in a single line
 //        Before compiling this sketch, you must set or confirm the following appropriately for your configuration and preferences !!!
-#define NUM_OF_INBOARDS_PLOTTED 4                                                              //The number of consecutive analog pins to plot, beginning with PIN_A0
-//#define NUM_OF_ADDON_HIGHEST_SENSI_ADCS_PLOTTED 1                                                  //The number of consecutive "highest-sensitivity ADC" pins to plot, beginning with A0 and, if double-ended, A1.  ADDON ADC ONLY - DOES _NOT_ INCLUDE INBOARD ANALOG INPUT PINS
+#define NUM_OF_INBOARDS_PLOTTED 5                                                              //The number of consecutive analog pins to plot, beginning with PIN_A0
+#define NUM_OF_ADDON_HIGHEST_SENSI_ADCS_PLOTTED 1                                                  //The number of consecutive "highest-sensitivity ADC" pins to plot, beginning with A0 and, if double-ended, A1.  ADDON ADC ONLY - DOES _NOT_ INCLUDE INBOARD ANALOG INPUT PINS
 #define HIGHEST_SENSI_ADDON_ADC_TYPE HX711                                                         //Proposing that "ADS1231" covers ADS1231; could make this "ADS1232" (ADS1232), "ADS1242" (ADS1242), "AD779x" (AD779x), "AD7780" (AD7780), "HX711" (HX711), "MAX112x0" (MAX112x0...) or "LTC2400" (LTC2400) but code not included in v.FREE; ONLY ONE TYPE ALLOWED
-//#define MAGNIFICATION_FACTOR 10                                                                     //Activates the plotting of magnified traces in all ADC linespaces; upper limit somewhere less than 4,294,967,295. Note: you can disable displaying magnified traces altogether by not defined this macro at all. Proper use of FIRST_INBOARDS_ARE_IN_PAIRS_AND_EACH_PAIR_IS_IN_PARALLEL_WITH_ONE_HIGHEST_SENSI_ADC_INPUT_SET_PAIRS will also disable magnified traces of the first two analog inputs
+#define MAGNIFICATION_FACTOR 20                                                                     //Activates the plotting of magnified traces in all ADC linespaces; upper limit somewhere less than 4,294,967,295. Note: you can disable displaying magnified traces altogether by not defined this macro at all. Proper use of FIRST_INBOARDS_ARE_IN_PAIRS_AND_EACH_PAIR_IS_IN_PARALLEL_WITH_ONE_HIGHEST_SENSI_ADC_INPUT_SET_PAIRS will also disable magnified traces of the first two analog inputs
 #define HIGHEST_BIT_RES_FROM_HIGHEST_SENSI_ADDON_ADC 24                                            //All ADC values will get scaled to the single-ended aspect of this,  15 is ADS1115 single-ended, 16 for double-ended when two LM334s are used.  change to 11 for ADS1015 single-ended or 12 with two LM334s, (future: change to 24 for HX711--NO b/c there is the ADS1231 at 24 bits)
 #define SAMPLE_TIMES 4                                                                             //To better average out artifacts we over-sample and average.  This value can be tweaked by you to ensure neutralization of power line noise or harmonics of power supplies, etc.....
 #define MOST_PROBLEMATIC_INTERFERENCE_FREQ 60                                                      //This is here just in case you think that you might have some interference on a known frequency.
@@ -1367,7 +1368,7 @@ NUM_OF_ADDON_HIGHEST_SENSI_ADCS_PLOTTED is taken at face value
     #endif
 */
     //Next lines plot a magnified version.  First, MagnifyAdjustment is determined
-
+//FIXME: NOT WORKING COMPLETELY YET
 //LinespaceParameters[ MasterReadingsArray[ MasterReadingsArrayIndex ].IndexInLinespaceParametersArray ].
 //Next we multiply the difference between PreviousUnmagnifiedReading and this one, and see if it would take the trace out of bounds
 //Derive the next plot point for the case of current CurrentUnmagnifiedReading being less than or equal to the last UnmagnifiedReading
@@ -1401,6 +1402,36 @@ NUM_OF_ADDON_HIGHEST_SENSI_ADCS_PLOTTED is taken at face value
             Serial.println( F( "Line 1356 " ) );
         Serial.println();
 #endif
+/* Previous algorithm that I think worked fine:
+
+    if( ThisReading > LinespaceParameters[ channel ].PreviousUnmagnifiedReading ) //new reading is higher than previous
+    {
+#ifdef POT_WIPER_TO_THIS_ANALOG_INPUT_PIN_TO_ADJUST_MAGNIFICATION_FACTOR
+        ThisPlotPoint = LastPlotPoints[ ( channel * 2 ) + 1 ] + ( ( ThisReading - LinespaceParameters[ channel ].PreviousUnmagnifiedReading ) * ( uint32_t )( ( analogRead( POT_WIPER_TO_THIS_ANALOG_INPUT_PIN_TO_ADJUST_MAGNIFICATION_FACTOR ) / pow( 2, ANALOG_INPUT_BITS_OF_BOARD ) ) * MAGNIFICATION_FACTOR );//new reading was not lower, so correct new plot point
+#else
+        ThisPlotPoint = LastPlotPoints[ ( channel * 2 ) + 1 ] + ( ( ThisReading - LinespaceParameters[ channel ].PreviousUnmagnifiedReading ) * MAGNIFICATION_FACTOR );//new reading was not lower, so correct new plot point
+#endif
+        if( ThisPlotPoint > HEIGHT_OF_A_PLOT_LINESPACE ) //new plot point is higher than upper limit
+            ThisPlotPoint = TracespaceToSkipWhenRepositioning;
+    }
+#ifdef POT_WIPER_TO_THIS_ANALOG_INPUT_PIN_TO_ADJUST_MAGNIFICATION_FACTOR
+    else if( ( LinespaceParameters[ channel ].PreviousUnmagnifiedReading - ThisReading ) * ( uint32_t )( ( analogRead( POT_WIPER_TO_THIS_ANALOG_INPUT_PIN_TO_ADJUST_MAGNIFICATION_FACTOR ) / pow( 2, ANALOG_INPUT_BITS_OF_BOARD ) ) * MAGNIFICATION_FACTOR ) > LastPlotPoints[ ( channel * 2 ) + 1 ] )
+#else
+    else if( ( LinespaceParameters[ channel ].PreviousUnmagnifiedReading - ThisReading ) * MAGNIFICATION_FACTOR > LastPlotPoints[ ( channel * 2 ) + 1 ] )
+#endif
+        ThisPlotPoint = NegativeTracespaceToSkipWhenRepositioning;
+    else
+#ifdef POT_WIPER_TO_THIS_ANALOG_INPUT_PIN_TO_ADJUST_MAGNIFICATION_FACTOR
+        ThisPlotPoint = LastPlotPoints[ ( channel * 2 ) + 1 ] - ( ( LinespaceParameters[ channel ].PreviousUnmagnifiedReading - ThisReading ) * ( uint32_t )( ( analogRead( POT_WIPER_TO_THIS_ANALOG_INPUT_PIN_TO_ADJUST_MAGNIFICATION_FACTOR ) / pow( 2, ANALOG_INPUT_BITS_OF_BOARD ) ) * MAGNIFICATION_FACTOR );//new reading was lower but not too much, so correct new plot point
+#else
+        ThisPlotPoint = LastPlotPoints[ ( channel * 2 ) + 1 ] - ( ( LinespaceParameters[ channel ].PreviousUnmagnifiedReading - ThisReading ) * MAGNIFICATION_FACTOR );//new reading was lower but not too much, so correct new plot point
+#endif
+    Serial.print( LinespaceParameters[ channel ].ZeroOfThisPlotLinespace + ThisPlotPoint ); 
+    Serial.print( F( " " ) );
+    LastPlotPoints[ ( channel * 2 ) + 1 ] = ThisPlotPoint;
+
+
+*/
 AFTER_THE_MAGNIFIED_PLOTTED:
 #endif
 MasterReadingsArray[ MasterReadingsArrayIndex ].PreviousUnmagnifiedReading = MasterReadingsArray[ MasterReadingsArrayIndex ].CurrentUnmagnifiedReading;
@@ -1748,6 +1779,7 @@ Serial.begin( BAUD_TO_SERIAL );//This speed is what works best with WeMos XI/TTG
             ads.begin();
         #else
             #if ( HIGHEST_SENSI_ADDON_ADC_TYPE == HX711 )
+            /*
                 #ifdef USING_LM334_WITH_DIGIPOT_BANKS
                     #define MCP4162_POT_BRIDGE_DEPENDENT_ADCS_PRESENT NUM_OF_ADDON_HIGHEST_SENSI_ADCS_PLOTTED
                     #ifdef FIRST_INBOARDS_ARE_IN_PAIRS_AND_EACH_PAIR_IS_IN_PARALLEL_WITH_ONE_HIGHEST_SENSI_ADC_INPUT_SET_PAIRS
@@ -1757,6 +1789,7 @@ Serial.begin( BAUD_TO_SERIAL );//This speed is what works best with WeMos XI/TTG
                     #define MCP4162_POT_BRIDGE_DEPENDENT_ADCS_PRESENT 0
                     #define ( NUM_OF_ADDON_HIGHEST_SENSI_ADCS_PLOTTED + RAIL_TO_RAIL_OR_OTHERWISE_NOT_DIGIPOT_BRIDGE_DEPENDENT_ADCS_PRESENT NUM_OF_INBOARDS_PLOTTED )
                 #endif
+                */
                 #ifdef DEBUG
                     MillisStart = millis();
                     while ( !Serial && ( millis() - MillisStart < 8000 ) );
