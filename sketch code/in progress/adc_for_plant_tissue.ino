@@ -1,10 +1,11 @@
 //        Before compiling this sketch, you must set or confirm the following appropriately for your configuration and preferences !!!
-#define NUM_OF_INBOARDS_PLOTTED 1                                                              //The number of consecutive analog pins to plot, beginning with PIN_A0
-//#define NUM_OF_ADDON_HIGHEST_SENSI_ADCS_PLOTTED 1                                                  //The number of consecutive "highest-sensitivity ADC" pins to plot, beginning with A0 and, if double-ended, A1.  ADDON ADC ONLY - DOES _NOT_ INCLUDE INBOARD ANALOG INPUT PINS
-#define MAGNIFICATION_FACTOR 200                                                                     //Activates the plotting of magnified traces in all ADC linespaces; upper limit somewhere less than 4,294,967,295. Note: you can disable displaying magnified traces altogether by not defined this macro at all. Proper use of FIRST_INBOARDS_ARE_IN_PAIRS_AND_EACH_PAIR_IS_IN_PARALLEL_WITH_ONE_HIGHEST_SENSI_ADC_INPUT_SET_PAIRS will also disable magnified traces of the first two analog inputs
+#define USING_LM334_WITH_DIGIPOT_BANKS 1                                                        //Number of digipot Wheatstones you have, but this sketch revision level not tested beyond 1.  Remove if using Wheatstone bridge with only standard resistors.  make this the number of bridges with upper resistive elements being LM334s controllable with the MCP4162-104 pots
+#define NUM_OF_INBOARDS_PLOTTED 2                                                              //The number of consecutive analog pins to plot, beginning with PIN_A0
+#define NUM_OF_OUTBOARDS_PLOTTED 1                                                  //The number of consecutive "highest-sensitivity ADC" pins to plot, beginning with A0 and, if double-ended, A1.  ADDON ADC ONLY - DOES _NOT_ INCLUDE INBOARD ANALOG INPUT PINS
+#define MAGNIFICATION_FACTOR 2                                                                     //Activates the plotting of magnified traces in all ADC linespaces; upper limit somewhere less than 4,294,967,295. Note: you can disable displaying magnified traces altogether by not defined this macro at all. Proper use of SUPERIMPOSE_FIRST_INBOARDS_IN_PAIRS will also disable magnified traces of the first two analog inputs
 #define HIGHEST_SENSI_ADDON_ADC_TYPE HX711                                                         //Proposing that "ADS1231" covers ADS1231; could make this "ADS1232" (ADS1232), "ADS1242" (ADS1242), "AD779x" (AD779x), "AD7780" (AD7780), "HX711" (HX711), "MAX112x0" (MAX112x0...) or "LTC2400" (LTC2400) but code not included in v.FREE; ONLY ONE TYPE ALLOWED
 #define HIGHEST_BIT_RES_FROM_HIGHEST_SENSI_ADDON_ADC 24                                            //All ADC values will get scaled to the single-ended aspect of this,  15 is ADS1115 single-ended, 16 for double-ended when two LM334s are used.  change to 11 for ADS1015 single-ended or 12 with two LM334s, (future: change to 24 for HX711--NO b/c there is the ADS1231 at 24 bits)
-#define SAMPLE_TIMES 3                                                                             //To better average out artifacts we over-sample and average.  This value can be tweaked by you to ensure neutralization of power line noise or harmonics of power supplies, etc.....
+#define SAMPLE_TIMES 2                                                                             //To better average out artifacts we over-sample and average.  This value can be tweaked by you to ensure neutralization of power line noise or harmonics of power supplies, etc.....
 #define MOST_PROBLEMATIC_INTERFERENCE_FREQ 60                                                      //This is here just in case you think that you might have some interference on a known frequency.
 #define DELAY_TIME_BETWEEN_SAMPLES_MS ( 1000 / MOST_PROBLEMATIC_INTERFERENCE_FREQ / SAMPLE_TIMES ) //COARSE ADJUST
 #define DELAY_TIME_BETWEEN_SAMPLES_US ( ( ( 1000000 / MOST_PROBLEMATIC_INTERFERENCE_FREQ ) - ( DELAY_TIME_BETWEEN_SAMPLES_MS * SAMPLE_TIMES * 1000 ) ) / SAMPLE_TIMES ) //FINE ADJUST.  THIS GETS ADDED TO COARSE ADJUST, PRECISION = TRUNCATED PRAGMATICALLY TO uSec TO ACKNOWLEDGE SOME OVERHEAD FOR LOOPING SUPPORT CODE   // End of this part of code update
@@ -14,12 +15,11 @@
 #define SECONDS_THAT_A_LGT8FX8E_HARDWARE_SERIAL_NEEDS_TO_COME_UP_WORKING 9                         //8 works only usually
 #define HIGHEST_SENSI_PGA_GAIN_FACTOR 128                                                          //For HX711 a gain of 128 gets applied to channel A. Available to you for your own use PGA=Programmable Gain Amplifier: many ADCs will correlate a gain of one with full-scale being rail-to-rail, while a gain of anything higher correlates to full-scale being in the mV range (most sensitive and most noise-susceptible).
 #define MIN_WAIT_TIME_BETWEEN_PLOT_POINTS_MS 70                                                    //Sets a maximum speed limit, but actual speed may be further limited by other factors
-//#define USING_LM334_WITH_DIGIPOT_BANKS 1                                                        //Number of digipot Wheatstones, but this sketch revision level only handles 0 or 1 here.  Remove if using Wheatstone bridge with only standard resistors.  make true if using bridge with upper resistive elements being LM334s controllable with the MCP4162-104 pots
-//#define FIRST_INBOARDS_ARE_IN_PAIRS_AND_EACH_PAIR_IS_IN_PARALLEL_WITH_ONE_HIGHEST_SENSI_ADC_INPUT_SET_PAIRS 3 //If defined AND enough inboard inputs are specified to plot, allows the rail-to-rail inboard Analog Inputs to be used to adjust digipots, but mainly causes first inboard Analog Inputs to be paired (superimposed in pairs sharing plot-line spaces) so even manual pots can be adjusted easily.  This also will get its value compared to USING_LM334_WITH_DIGIPOT_BANKS, and, if that is defined at all, both will get set to the largest of the two
-//#define AUTO_BRIDGE_BALANCING  //increases setup time and during which the plot timing line stays high, then spikes low and high to indicate balancing complete //Turns on auto-balancing in setup(), significant time elapse for this to complete!
+#define SUPERIMPOSE_FIRST_INBOARDS_IN_PAIRS 1 //If defined allows the rail-to-rail inboard Analog Inputs to be used to adjust digipots, but mainly causes first inboard Analog Inputs to be paired (superimposed in pairs sharing plot-line spaces) so even manual pots can be adjusted easily.
+#define AUTO_BRIDGE_BALANCING  //increases setup time and during which the plot timing line stays high, then spikes low and high to indicate balancing complete //Turns on auto-balancing in setup(), significant time elapse for this to complete!
 //#define DEBUG                                                                                      //Don't forget that DEBUG is not formatted for Serial plotter, but might work anyway if you'd never print numbers only any DEBUG print line
-//#define POT_TEST_WOBBLE_POSITIVE 0                                                                 //For testing - wobbles digipot settings on bank index to impose a signal into Wheatstone bridge outputs. This imposes a signal on the signal leg
-//#define POT_TEST_WOBBLE_NEGATIVE 0                                                                 //For testing - wobbles digipot settings on bank index to impose a signal into Wheatstone bridge outputs. This imposes a signal on the reference leg
+#define POT_TEST_WOBBLE_POSITIVE 0                                                                 //For testing - wobbles digipot settings on bank index to impose a signal into Wheatstone bridge outputs. This imposes a signal on the signal leg
+#define POT_TEST_WOBBLE_NEGATIVE 0                                                                 //For testing - wobbles digipot settings on bank index to impose a signal into Wheatstone bridge outputs. This imposes a signal on the reference leg
 //#define LEAVE_POT_VALUES_ALONE_DURING_SETUP                                                        //First run should leave this undefined to load digi pots with some values
 //#define BIAS_TO_APPLY_TO_SIGNAL_LEG_TO_CENTER_THE_TRACE 0                                          //Though the name suggests otherwise, this offset will be applied to all signal lines, not just the first one, until further development (I couldn't make this into an array).  Inboard Analog Inputs of 10 bits will make much change with little values, 12 bit inboard allows more flexibility here
 #ifdef BIAS_TO_APPLY_TO_SIGNAL_LEG_TO_CENTER_THE_TRACE
@@ -37,7 +37,7 @@
 
 //No need to change macros below:
 #define CONVERT_TWOS_COMP_TO_SINGLE_ENDED( value_read_from_the_differential_ADC, mask, xorvalue ) ((value_read_from_the_differential_ADC & mask)^xorvalue)
-//OTHER MACROS (DEFINES OR RE-DEFINES) ELSEWHERE: VERSION, NUM_OF_INBOARDS_PLOTTED, NUM_OF_ADDON_HIGHEST_SENSI_ADCS_PLOTTED, DIGIPOT_0_B0L0_STARTVALUE - DIGIPOT_2_B0L1_STARTVALUE, HALFHIGHEST_BIT_RES_FROM_HIGHEST_SENSI_ADDON_ADC, DIFFERENTIAL, PIN_FOR_DATA_TOFROM_HIGHEST_SENSI_ADC, PIN_FOR_CLK_TO_HIGHEST_SENSI_ADC, PLOTTER_MAX_SCALE, HUNDREDTHPLOTTER_MAX_SCALE, SAMPLE_TIMES, SCALE_FACTOR_TO_PROMOTE_LOW_RES_ADC_TO_SAME_SCALE, COMMON_MODE_LEVEL_FOR_MAX_GAIN_AS_READ_RAW_BY_INBOARD_ANALOG, HEIGHT_OF_A_PLOT_LINESPACE
+//OTHER MACROS (DEFINES OR RE-DEFINES) ELSEWHERE: VERSION, NUM_OF_INBOARDS_PLOTTED, NUM_OF_OUTBOARDS_PLOTTED, DIGIPOT_0_B0L0_STARTVALUE - DIGIPOT_2_B0L1_STARTVALUE, HALFHIGHEST_BIT_RES_FROM_HIGHEST_SENSI_ADDON_ADC, DIFFERENTIAL, PIN_FOR_DATA_TOFROM_HIGHEST_SENSI_ADC, PIN_FOR_CLK_TO_HIGHEST_SENSI_ADC, PLOTTER_MAX_SCALE, HUNDREDTHPLOTTER_MAX_SCALE, SAMPLE_TIMES, SCALE_FACTOR_TO_PROMOTE_LOW_RES_ADC_TO_SAME_SCALE, COMMON_MODE_LEVEL_FOR_MAX_GAIN_AS_READ_RAW_BY_INBOARD_ANALOG, HEIGHT_OF_A_PLOT_LINESPACE
 
 //FUTURE #define LOOP_COUNTER_LIMIT_THAT_TRACE_IS_ALLOWED_TO_BE_OFF_CENTER 2                           //sets how soon run-time auto-balancing kicks in when trace goes off scale
 //FUTURE #define TEST_STEP_UP_DOWN COMMONMODE                                                                  //Available: SINGLESIDE COMMONMODE
@@ -127,11 +127,11 @@
 //global variables are declared static to prevent them from being seen by any later user-added compilation units that would try, presumeably inadvertently, through the use of the "extern" cast
 #define COMMON_MODE_LEVEL_FOR_MAX_GAIN_AS_READ_RAW_BY_INBOARD_ANALOG ( 1 << ( ANALOG_INPUT_BITS_OF_BOARD - 1 ) ) // Needed if HIGHEST_SENSI_ADDON_ADC_TYPE has a sweet spot of max sensitivity, unlike true op-amp.  (HX711 == 306; normal op-amp, which has none == Vcc/2 == 512)
 //Next, force all macros to be coherent with each other
-#ifndef NUM_OF_ADDON_HIGHEST_SENSI_ADCS_PLOTTED
-    #define NUM_OF_ADDON_HIGHEST_SENSI_ADCS_PLOTTED 0
-#elif ( 1 > NUM_OF_ADDON_HIGHEST_SENSI_ADCS_PLOTTED + 0 ) //Evaluates to 1>+0 if the macro was defined as a blank.  Only way I know of to check for blank macros when we need a number in them
-    #undef NUM_OF_ADDON_HIGHEST_SENSI_ADCS_PLOTTED
-    #define NUM_OF_ADDON_HIGHEST_SENSI_ADCS_PLOTTED 0
+#ifndef NUM_OF_OUTBOARDS_PLOTTED
+    #define NUM_OF_OUTBOARDS_PLOTTED 0
+#elif ( 1 > NUM_OF_OUTBOARDS_PLOTTED + 0 ) //Evaluates to 1>+0 if the macro was defined as a blank.  Only way I know of to check for blank macros when we need a number in them
+    #undef NUM_OF_OUTBOARDS_PLOTTED
+    #define NUM_OF_OUTBOARDS_PLOTTED 0
 #endif
 #ifndef NUM_OF_INBOARDS_PLOTTED  
     #define NUM_OF_INBOARDS_PLOTTED 0 //This is used for some lightly thought out formulas in any case, so it must be defined until formulas are re-written to handle null values, but that might not be desirable as it results in more confusing formulas
@@ -145,12 +145,12 @@
         #define MAGNIFICATION_FACTOR 1
     #endif
 #endif
-#if ( NUM_OF_ADDON_HIGHEST_SENSI_ADCS_PLOTTED > 0 ) //Since so many of the ADC libraries already use OO classes, we'll set that as a pattern - instantiate prior to executing any code
+#if ( NUM_OF_OUTBOARDS_PLOTTED > 0 ) //Since so many of the ADC libraries already use OO classes, we'll set that as a pattern - instantiate prior to executing any code
     #define HALFHIGHEST_BIT_RES_FROM_HIGHEST_SENSI_ADDON_ADC ( HIGHEST_BIT_RES_FROM_HIGHEST_SENSI_ADDON_ADC / 2 )
     #if ( ( HALFHIGHEST_BIT_RES_FROM_HIGHEST_SENSI_ADDON_ADC * 2 ) == HIGHEST_BIT_RES_FROM_HIGHEST_SENSI_ADDON_ADC )
         #define DIFFERENTIAL 
     #endif
-    #if ( HIGHEST_BIT_RES_FROM_HIGHEST_SENSI_ADDON_ADC < 17 ) && ( NUM_OF_ADDON_HIGHEST_SENSI_ADCS_PLOTTED > 0 )
+    #if ( HIGHEST_BIT_RES_FROM_HIGHEST_SENSI_ADDON_ADC < 17 ) && ( NUM_OF_OUTBOARDS_PLOTTED > 0 )
         #include <Adafruit_ADS1015.h>//for systems using ADS1115/ADS1015  Data addressable I2C, shares bidirectional, open-collector data and clk only with other I2C slaves on same bus, must use the core-defined SDA/SCL pins except ESP8266 and ATtiny85 or see https://www.arduino.cc/en/reference/wire or see the Adafruit_ADS1X15-master README.md
 /*  
 *  With Adafruit_ADS1015.h, SDA, SCL Wemos XI/TTGO XI use A4 for SDA, and A5 is SCL.
@@ -210,9 +210,6 @@
         #undef HIGHEST_BIT_RES_FROM_HIGHEST_SENSI_ADDON_ADC
     #endif
     #define HIGHEST_BIT_RES_FROM_HIGHEST_SENSI_ADDON_ADC ANALOG_INPUT_BITS_OF_BOARD
-    #ifdef USING_LM334_WITH_DIGIPOT_BANKS
-        #undef USING_LM334_WITH_DIGIPOT_BANKS // I realize doing this will introduce a restriction of use that may be irritating, but I'm not up to coding the required bounds checking right now
-    #endif
     #ifdef HIGHEST_SENSI_ADDON_ADC_TYPE
         #undef HIGHEST_SENSI_ADDON_ADC_TYPE
     #endif
@@ -221,9 +218,6 @@
     #endif
     #ifdef AUTO_BRIDGE_BALANCING
         #undef AUTO_BRIDGE_BALANCING
-    #endif
-    #if defined FIRST_INBOARDS_ARE_IN_PAIRS_AND_EACH_PAIR_IS_IN_PARALLEL_WITH_ONE_HIGHEST_SENSI_ADC_INPUT_SET_PAIRS && ( NUM_OF_INBOARDS_PLOTTED < 2 )
-        #undef FIRST_INBOARDS_ARE_IN_PAIRS_AND_EACH_PAIR_IS_IN_PARALLEL_WITH_ONE_HIGHEST_SENSI_ADC_INPUT_SET_PAIRS
     #endif
 #endif
 #ifndef LOOP_COUNTER_LIMIT_THAT_TRACE_IS_ALLOWED_TO_BE_OFF_CENTER
@@ -237,9 +231,9 @@
 #error You will have to manually define the define variable NUM_ANALOG_INPUTS somewhere above this line and re-compile...
     #endif
 #else
-    #if ( NUM_OF_ADDON_HIGHEST_SENSI_ADCS_PLOTTED == 0 )
-You'll need to manually define at least one of the variables NUM_OF_INBOARDS_PLOTTED or NUM_OF_ADDON_HIGHEST_SENSI_ADCS_PLOTTED where they appear in the lines above and re-compile...
-If you only have the Arduino without an ADS1X15, then define NUM_OF_INBOARDS_PLOTTED.  Otherwise, define NUM_OF_ADDON_HIGHEST_SENSI_ADCS_PLOTTED and/or both of them.
+    #if ( NUM_OF_OUTBOARDS_PLOTTED == 0 )
+You'll need to manually define at least one of the variables NUM_OF_INBOARDS_PLOTTED or NUM_OF_OUTBOARDS_PLOTTED where they appear in the lines above and re-compile...
+If you only have the Arduino without an ADS1X15, then define NUM_OF_INBOARDS_PLOTTED.  Otherwise, define NUM_OF_OUTBOARDS_PLOTTED and/or both of them.
     #endif
 #endif
 
@@ -259,44 +253,17 @@ If you only have the Arduino without an ADS1X15, then define NUM_OF_INBOARDS_PLO
         #undef USING_LM334_WITH_DIGIPOT_BANKS     //Zero value means same as undefined so undef it to minimize variations
     #endif
 #endif
-#ifdef FIRST_INBOARDS_ARE_IN_PAIRS_AND_EACH_PAIR_IS_IN_PARALLEL_WITH_ONE_HIGHEST_SENSI_ADC_INPUT_SET_PAIRS
-    #if ( 1 > FIRST_INBOARDS_ARE_IN_PAIRS_AND_EACH_PAIR_IS_IN_PARALLEL_WITH_ONE_HIGHEST_SENSI_ADC_INPUT_SET_PAIRS + 0 ) //This traps both a null and all negatives - they are invalid
-        #undef FIRST_INBOARDS_ARE_IN_PAIRS_AND_EACH_PAIR_IS_IN_PARALLEL_WITH_ONE_HIGHEST_SENSI_ADC_INPUT_SET_PAIRS
-        #define FIRST_INBOARDS_ARE_IN_PAIRS_AND_EACH_PAIR_IS_IN_PARALLEL_WITH_ONE_HIGHEST_SENSI_ADC_INPUT_SET_PAIRS 1
-        #warning You are specifying FIRST_INBOARDS_ARE_IN_PAIRS_AND_EACH_PAIR_IS_IN_PARALLEL_WITH_ONE_HIGHEST_SENSI_ADC_INPUT_SET_PAIRS with no number: Assuming just a single bridge exists
-    #elif ( FIRST_INBOARDS_ARE_IN_PAIRS_AND_EACH_PAIR_IS_IN_PARALLEL_WITH_ONE_HIGHEST_SENSI_ADC_INPUT_SET_PAIRS == 0 )
-        #undef FIRST_INBOARDS_ARE_IN_PAIRS_AND_EACH_PAIR_IS_IN_PARALLEL_WITH_ONE_HIGHEST_SENSI_ADC_INPUT_SET_PAIRS //Zero value means same as undefined so undef it to minimize variations
-    #endif
+#if ( NUM_OF_INBOARDS_PLOTTED < 2 ) && defined SUPERIMPOSE_FIRST_INBOARDS_IN_PAIRS
+    #undef SUPERIMPOSE_FIRST_INBOARDS_IN_PAIRS
 #endif
-
-#if defined FIRST_INBOARDS_ARE_IN_PAIRS_AND_EACH_PAIR_IS_IN_PARALLEL_WITH_ONE_HIGHEST_SENSI_ADC_INPUT_SET_PAIRS \
-    && ( FIRST_INBOARDS_ARE_IN_PAIRS_AND_EACH_PAIR_IS_IN_PARALLEL_WITH_ONE_HIGHEST_SENSI_ADC_INPUT_SET_PAIRS > NUM_OF_ADDON_HIGHEST_SENSI_ADCS_PLOTTED )
-    #warning The number of outboard ADCs does not allow for that many paired inputs.  Adjusting paired input number downward or undefining it if it is 1
-    #undef FIRST_INBOARDS_ARE_IN_PAIRS_AND_EACH_PAIR_IS_IN_PARALLEL_WITH_ONE_HIGHEST_SENSI_ADC_INPUT_SET_PAIRS
-    #if ( FIRST_INBOARDS_ARE_IN_PAIRS_AND_EACH_PAIR_IS_IN_PARALLEL_WITH_ONE_HIGHEST_SENSI_ADC_INPUT_SET_PAIRS == 1 )\
-        || ( NUM_OF_ADDON_HIGHEST_SENSI_ADCS_PLOTTED == 0 )  //The plus one notation allows trapping for undefined and zero values in the same
-        //Leave it undefined
-    #else
-        #define FIRST_INBOARDS_ARE_IN_PAIRS_AND_EACH_PAIR_IS_IN_PARALLEL_WITH_ONE_HIGHEST_SENSI_ADC_INPUT_SET_PAIRS NUM_OF_ADDON_HIGHEST_SENSI_ADCS_PLOTTED
+#ifdef SUPERIMPOSE_FIRST_INBOARDS_IN_PAIRS
+    #if ( 1 > SUPERIMPOSE_FIRST_INBOARDS_IN_PAIRS + 0 ) //This traps both a null and all negatives - they are invalid
+        #undef SUPERIMPOSE_FIRST_INBOARDS_IN_PAIRS
+        #define SUPERIMPOSE_FIRST_INBOARDS_IN_PAIRS 1
+        #warning You are specifying SUPERIMPOSE_FIRST_INBOARDS_IN_PAIRS with no number: Assuming just a single bridge exists
+    #elif ( SUPERIMPOSE_FIRST_INBOARDS_IN_PAIRS == 0 )
+        #undef SUPERIMPOSE_FIRST_INBOARDS_IN_PAIRS //Zero value means same as undefined so undef it to minimize variations
     #endif
-#elif defined USING_LM334_WITH_DIGIPOT_BANKS \
-    && ( USING_LM334_WITH_DIGIPOT_BANKS > NUM_OF_ADDON_HIGHEST_SENSI_ADCS_PLOTTED )
-//Any reason for this condition?  Like just seeing the effects of the LM334+digipots through the inboard Analog Inputs?  Sure; keep it allowable here, but it does get disallowed later.
-#endif
-
-//At this stage both macros being worked with are set to values greater than 0 else they've been undefined
-//BELOW: Just remember FIRST_INBOARDS_ARE_IN_PAIRS_AND_EACH_PAIR_IS_IN_PARALLEL_WITH_ONE_HIGHEST_SENSI_ADC_INPUT_SET_PAIRS may be defined without USING_LM334_WITH_DIGIPOT_BANKS and for when using manual pots and even without outboard ADC for being able to see better
-#if defined FIRST_INBOARDS_ARE_IN_PAIRS_AND_EACH_PAIR_IS_IN_PARALLEL_WITH_ONE_HIGHEST_SENSI_ADC_INPUT_SET_PAIRS && defined USING_LM334_WITH_DIGIPOT_BANKS //To allow the number of banks on either macro.  Makes both of these equal
-    //Making them both equal to the larger of the two; that makes sense to me anyway.
-    #if ( FIRST_INBOARDS_ARE_IN_PAIRS_AND_EACH_PAIR_IS_IN_PARALLEL_WITH_ONE_HIGHEST_SENSI_ADC_INPUT_SET_PAIRS > USING_LM334_WITH_DIGIPOT_BANKS ) //This style allows nulls in comparison and both these macros need to be equal
-        #undef USING_LM334_WITH_DIGIPOT_BANKS
-        #define USING_LM334_WITH_DIGIPOT_BANKS FIRST_INBOARDS_ARE_IN_PAIRS_AND_EACH_PAIR_IS_IN_PARALLEL_WITH_ONE_HIGHEST_SENSI_ADC_INPUT_SET_PAIRS
-    #elif ( USING_LM334_WITH_DIGIPOT_BANKS > FIRST_INBOARDS_ARE_IN_PAIRS_AND_EACH_PAIR_IS_IN_PARALLEL_WITH_ONE_HIGHEST_SENSI_ADC_INPUT_SET_PAIRS )  //To allow the number of banks on either macro.  Makes both of these equal
-        #undef FIRST_INBOARDS_ARE_IN_PAIRS_AND_EACH_PAIR_IS_IN_PARALLEL_WITH_ONE_HIGHEST_SENSI_ADC_INPUT_SET_PAIRS
-        #define FIRST_INBOARDS_ARE_IN_PAIRS_AND_EACH_PAIR_IS_IN_PARALLEL_WITH_ONE_HIGHEST_SENSI_ADC_INPUT_SET_PAIRS USING_LM334_WITH_DIGIPOT_BANKS
-    #endif
-//#elif defined FIRST_INBOARDS_ARE_IN_PAIRS_AND_EACH_PAIR_IS_IN_PARALLEL_WITH_ONE_HIGHEST_SENSI_ADC_INPUT_SET_PAIRS 
-//FYI - This case for first inboard analog inputs superimposed displaying only but no digipot banks exist; useful for manual pots
 #endif
 
 #ifndef USING_LM334_WITH_DIGIPOT_BANKS
@@ -473,61 +440,43 @@ If you only have the Arduino without an ADS1X15, then define NUM_OF_INBOARDS_PLO
     #define ANALOG_INPUT_BITS_OF_BOARD 12  //These boards have 12 bit
 #endif
 
-#if ( NUM_OF_ADDON_HIGHEST_SENSI_ADCS_PLOTTED > 0 )
+#if ( NUM_OF_OUTBOARDS_PLOTTED > 0 )
     #define SCALE_FACTOR_TO_PROMOTE_LOW_RES_ADC_TO_SAME_SCALE ( HIGHEST_BIT_RES_FROM_HIGHEST_SENSI_ADDON_ADC - ANALOG_INPUT_BITS_OF_BOARD )
-    #ifdef FIRST_INBOARDS_ARE_IN_PAIRS_AND_EACH_PAIR_IS_IN_PARALLEL_WITH_ONE_HIGHEST_SENSI_ADC_INPUT_SET_PAIRS
-        #if ( FIRST_INBOARDS_ARE_IN_PAIRS_AND_EACH_PAIR_IS_IN_PARALLEL_WITH_ONE_HIGHEST_SENSI_ADC_INPUT_SET_PAIRS > NUM_OF_ADDON_HIGHEST_SENSI_ADCS_PLOTTED )
-            #warning The number of outboard ADCs does not allow for that many paired inputs.  Adjusting paired input number downward
-            #undef FIRST_INBOARDS_ARE_IN_PAIRS_AND_EACH_PAIR_IS_IN_PARALLEL_WITH_ONE_HIGHEST_SENSI_ADC_INPUT_SET_PAIRS
-            #define FIRST_INBOARDS_ARE_IN_PAIRS_AND_EACH_PAIR_IS_IN_PARALLEL_WITH_ONE_HIGHEST_SENSI_ADC_INPUT_SET_PAIRS NUM_OF_ADDON_HIGHEST_SENSI_ADCS_PLOTTED
-        #endif
-    #endif
-    #if defined USING_LM334_WITH_DIGIPOT_BANKS
-        #if ( USING_LM334_WITH_DIGIPOT_BANKS > NUM_OF_ADDON_HIGHEST_SENSI_ADCS_PLOTTED )
-            #warning The number of outboard ADCs does not allow for that many paired inputs.  Adjusting paired input number downward
-            #undef USING_LM334_WITH_DIGIPOT_BANKS
-            #define USING_LM334_WITH_DIGIPOT_BANKS NUM_OF_ADDON_HIGHEST_SENSI_ADCS_PLOTTED
-        #endif
-    #endif
 #else
     #define SCALE_FACTOR_TO_PROMOTE_LOW_RES_ADC_TO_SAME_SCALE 0
-    #ifdef USING_LM334_WITH_DIGIPOT_BANKS
-        #warning Using USING_LM334_WITH_DIGIPOT_BANKS without add-on ADCs is not valid.  Removing it...
-        #undef USING_LM334_WITH_DIGIPOT_BANKS
-    #endif
 #endif
 
-#warning  NOT ALL OF THE FOLLOWING INDEX_OF_INBOARDS_NOT_PLOTTED MACROS WILL BE CORRECT.  ADJUST AS NEEDED DURING DEVELOPMENT,
-//Examine carefully the following calculations:  Use the printout in setup() to assist
-#if defined FIRST_INBOARDS_ARE_IN_PAIRS_AND_EACH_PAIR_IS_IN_PARALLEL_WITH_ONE_HIGHEST_SENSI_ADC_INPUT_SET_PAIRS \
-    && defined USING_LM334_WITH_DIGIPOT_BANKS \
-    && ( USING_LM334_WITH_DIGIPOT_BANKS > 0 )
+/*
+DEFINING INDEX_OF_INBOARDS_NOT_SUPERIMPOSED:
+*/
 
-    #if ( ( USING_LM334_WITH_DIGIPOT_BANKS * 2 ) < NUM_OF_INBOARDS_PLOTTED ) //use the smaller of the two possibilities
-        #define INDEX_OF_INBOARDS_NOT_SUPERIMPOSED ( USING_LM334_WITH_DIGIPOT_BANKS * 2 )
-    #else
-        #define INDEX_OF_INBOARDS_NOT_SUPERIMPOSED NUM_OF_INBOARDS_PLOTTED
-    #endif
-    
-#elif defined FIRST_INBOARDS_ARE_IN_PAIRS_AND_EACH_PAIR_IS_IN_PARALLEL_WITH_ONE_HIGHEST_SENSI_ADC_INPUT_SET_PAIRS \
-    && ( FIRST_INBOARDS_ARE_IN_PAIRS_AND_EACH_PAIR_IS_IN_PARALLEL_WITH_ONE_HIGHEST_SENSI_ADC_INPUT_SET_PAIRS > 0 )
+#if defined SUPERIMPOSE_FIRST_INBOARDS_IN_PAIRS \
+    && ( SUPERIMPOSE_FIRST_INBOARDS_IN_PAIRS > 0 )
 
-    #if ( ( FIRST_INBOARDS_ARE_IN_PAIRS_AND_EACH_PAIR_IS_IN_PARALLEL_WITH_ONE_HIGHEST_SENSI_ADC_INPUT_SET_PAIRS * 2 ) < NUM_OF_INBOARDS_PLOTTED ) //use the smaller of the two possibilities
-        #define INDEX_OF_INBOARDS_NOT_SUPERIMPOSED ( FIRST_INBOARDS_ARE_IN_PAIRS_AND_EACH_PAIR_IS_IN_PARALLEL_WITH_ONE_HIGHEST_SENSI_ADC_INPUT_SET_PAIRS * 2 )
+    #if ( ( SUPERIMPOSE_FIRST_INBOARDS_IN_PAIRS * 2 ) < NUM_OF_INBOARDS_PLOTTED ) //use the smaller of the two possibilities
+        #define INDEX_OF_INBOARDS_NOT_SUPERIMPOSED ( SUPERIMPOSE_FIRST_INBOARDS_IN_PAIRS * 2 )
     #else
         #define INDEX_OF_INBOARDS_NOT_SUPERIMPOSED NUM_OF_INBOARDS_PLOTTED
     #endif
 
 #else
-    #define INDEX_OF_INBOARDS_NOT_SUPERIMPOSED 0 //This had to raised to 1 or setup would skip one.  FIXME fix setup(), not this
+    #define INDEX_OF_INBOARDS_NOT_SUPERIMPOSED 0
 
 #endif
 
-#define INDEX_OF_INBOARDS_NOT_PLOTTED NUM_OF_INBOARDS_PLOTTED //This had to subtract 1 or setup would skip one
+/*
+DEFINING INDEX_OF_INBOARDS_NOT_PLOTTED:
+*/
 
-//#if defined FIRST_INBOARDS_ARE_IN_PAIRS_AND_EACH_PAIR_IS_IN_PARALLEL_WITH_ONE_HIGHEST_SENSI_ADC_INPUT_SET_PAIRS && defined USING_LM334_WITH_DIGIPOT_BANKS && defined AUTO_BRIDGE_BALANCING && ( ( USING_LM334_WITH_DIGIPOT_BANKS * 2 ) > NUM_OF_INBOARDS_PLOTTED )
-#if defined FIRST_INBOARDS_ARE_IN_PAIRS_AND_EACH_PAIR_IS_IN_PARALLEL_WITH_ONE_HIGHEST_SENSI_ADC_INPUT_SET_PAIRS
-    #define INDEX_OF_OUTBOARDS ( FIRST_INBOARDS_ARE_IN_PAIRS_AND_EACH_PAIR_IS_IN_PARALLEL_WITH_ONE_HIGHEST_SENSI_ADC_INPUT_SET_PAIRS * 2 )
+#define INDEX_OF_INBOARDS_NOT_PLOTTED NUM_OF_INBOARDS_PLOTTED
+
+/*
+DEFINING INDEX_OF_OUTBOARDS:
+*/
+
+#if defined USING_LM334_WITH_DIGIPOT_BANKS \
+    && ( ( USING_LM334_WITH_DIGIPOT_BANKS * 2 ) > NUM_OF_INBOARDS_PLOTTED )
+    #define INDEX_OF_OUTBOARDS ( USING_LM334_WITH_DIGIPOT_BANKS * 2 )
 #else
     #define INDEX_OF_OUTBOARDS NUM_OF_INBOARDS_PLOTTED
 #endif
@@ -540,7 +489,7 @@ struct previous_readings_only_of_inboards_and_outboards
 } typedef previous_readings_only;
 
 //To retrieve bridgeleg readings for non-plotting use, you must downconvert them with >> SCALE_FACTOR_TO_PROMOTE_LOW_RES_ADC_TO_SAME_SCALE (shift rights).
-previous_readings_only MasterReadingsArray[ INDEX_OF_OUTBOARDS + NUM_OF_ADDON_HIGHEST_SENSI_ADCS_PLOTTED ];
+previous_readings_only MasterReadingsArray[ INDEX_OF_OUTBOARDS + NUM_OF_OUTBOARDS_PLOTTED ];
 
 struct linespace_bounds_and_magnify_trace_offsets
 {
@@ -552,7 +501,12 @@ struct linespace_bounds_and_magnify_trace_offsets
     uint32_t MagnifyAdjustment;
 #endif
 } typedef linespace_bounds_and_magnify_trace_offsets;
-#define NUMBER_OF_LINESPACES ( NUM_OF_INBOARDS_PLOTTED + NUM_OF_ADDON_HIGHEST_SENSI_ADCS_PLOTTED - ( INDEX_OF_INBOARDS_NOT_SUPERIMPOSED / 2 ) )
+
+/*
+DEFINING NUMBER_OF_LINESPACES:
+*/
+
+#define NUMBER_OF_LINESPACES ( NUM_OF_INBOARDS_PLOTTED + NUM_OF_OUTBOARDS_PLOTTED - ( INDEX_OF_INBOARDS_NOT_SUPERIMPOSED / 2 ) ) //Each superimposed pair reduces total linespaces by one from total of plotted
 linespace_bounds_and_magnify_trace_offsets LinespaceParameters[ NUMBER_OF_LINESPACES ]; // INDEX_OF_INBOARDS_NOT_SUPERIMPOSED, being the start index for the not superimposed part of the array is also actually the number of superimposed inboards
 
 static bool graphline = false;
@@ -566,10 +520,10 @@ static long MillisStart;
 #define PLOTTER_MAX_SCALE ( ( uint32_t )( HEIGHT_OF_A_PLOT_LINESPACE * NUMBER_OF_LINESPACES ) )
 #define HALF_HEIGHT_OF_A_PLOT_LINESPACE ( ( uint32_t )( HEIGHT_OF_A_PLOT_LINESPACE / 2 ) )
 
-//#if not defined FIRST_INBOARDS_ARE_IN_PAIRS_AND_EACH_PAIR_IS_IN_PARALLEL_WITH_ONE_HIGHEST_SENSI_ADC_INPUT_SET_PAIRS || ( NUM_OF_ADDON_HIGHEST_SENSI_ADCS_PLOTTED == 0 ) || ( NUM_OF_INBOARDS_PLOTTED != 2 )
-//    #define PLOTTER_MAX_SCALE ( HEIGHT_OF_A_PLOT_LINESPACE * ( ( uint32_t )( NUM_OF_ADDON_HIGHEST_SENSI_ADCS_PLOTTED + NUM_OF_INBOARDS_PLOTTED ) ) )
+//#if not defined SUPERIMPOSE_FIRST_INBOARDS_IN_PAIRS || ( NUM_OF_OUTBOARDS_PLOTTED == 0 ) || ( NUM_OF_INBOARDS_PLOTTED != 2 )
+//    #define PLOTTER_MAX_SCALE ( HEIGHT_OF_A_PLOT_LINESPACE * ( ( uint32_t )( NUM_OF_OUTBOARDS_PLOTTED + NUM_OF_INBOARDS_PLOTTED ) ) )
 //#else
-//    #define PLOTTER_MAX_SCALE ( HEIGHT_OF_A_PLOT_LINESPACE * ( ( uint32_t )( NUM_OF_ADDON_HIGHEST_SENSI_ADCS_PLOTTED + NUM_OF_INBOARDS_PLOTTED - 1 ) ) )
+//    #define PLOTTER_MAX_SCALE ( HEIGHT_OF_A_PLOT_LINESPACE * ( ( uint32_t )( NUM_OF_OUTBOARDS_PLOTTED + NUM_OF_INBOARDS_PLOTTED - 1 ) ) )
 //#endif
 #define HundredthPLOTTER_MAX_SCALE ( PLOTTER_MAX_SCALE / 100 );
 #ifndef SAMPLE_TIMES
@@ -579,15 +533,15 @@ static long MillisStart;
     #define SAMPLE_TIMES 1
 #endif
 /*  development notes to self:
-Is FIRST_INBOARDS_ARE_IN_PAIRS_AND_EACH_PAIR_IS_IN_PARALLEL_WITH_ONE_HIGHEST_SENSI_ADC_INPUT_SET_PAIRS (1, 2, 3, etc. ) ever needed?
+Is SUPERIMPOSE_FIRST_INBOARDS_IN_PAIRS (1, 2, 3, etc. ) ever needed?
 
 AUTO_BRIDGE_BALANCING means both initial setup & ongoing adjustment: initial adjustment means setting pots to EEPROM settings or defines settings and for 
 sweet spot ADCs it fines tunes during setup and re-stores that in EEPROM
 
 defined AUTO_BRIDGE_BALANCING should only be allowed to be the case 
-    with NUM_OF_ADDON_HIGHEST_SENSI_ADCS_PLOTTED > 0
+    with NUM_OF_OUTBOARDS_PLOTTED > 0
     and USING_LM334_WITH_DIGIPOT_BANKS (?inboard pairs 1, 2, 3, etc. or ADDONs n... ) //Besides being used for auto-balancing, these could be used just to allow a wider range of plant tissue conductance.
-    and FIRST_INBOARDS_ARE_IN_PAIRS_AND_EACH_PAIR_IS_IN_PARALLEL_WITH_ONE_HIGHEST_SENSI_ADC_INPUT_SET_PAIRS (but is this moot?).  The alternative 
+    and SUPERIMPOSE_FIRST_INBOARDS_IN_PAIRS (but is this moot?).  The alternative 
     to this condition in isolation from bridge balancing is just adjusting to plant resistance instead of 
 
 Bridge balancing should not be needed with those ADCs that need a sweet spot to work.  That sweet spot could be hard wired or manual pot adjusted and only 
@@ -784,16 +738,16 @@ void ReplotLastValuesForAllTraces( bool actuals = false )                  //If 
 #if ( NUM_OF_INBOARDS_PLOTTED > 0 )
     linespace_bounds_magnify_trace_offsets_and_previous_readings LinespaceParametersInboard[ NUM_OF_INBOARDS_PLOTTED ];
 #endif
-#if defined USING_LM334_WITH_DIGIPOT_BANKS && defined FIRST_INBOARDS_ARE_IN_PAIRS_AND_EACH_PAIR_IS_IN_PARALLEL_WITH_ONE_HIGHEST_SENSI_ADC_INPUT_SET_PAIRS && ( NUM_OF_INBOARDS_PLOTTED < USING_LM334_WITH_DIGIPOT_BANKS * 2 )
+#if defined USING_LM334_WITH_DIGIPOT_BANKS && defined SUPERIMPOSE_FIRST_INBOARDS_IN_PAIRS && ( NUM_OF_INBOARDS_PLOTTED < USING_LM334_WITH_DIGIPOT_BANKS * 2 )
     previous_readings_only DigipotLeg[ ( USING_LM334_WITH_DIGIPOT_BANKS * 2 ) - NUM_OF_INBOARDS_PLOTTED ];
 #endif
-#if ( NUM_OF_ADDON_HIGHEST_SENSI_ADCS_PLOTTED > 0 )
-    linespace_bounds_magnify_trace_offsets_and_previous_readings LinespaceParametersOutboard[ NUM_OF_ADDON_HIGHEST_SENSI_ADCS_PLOTTED ];
+#if ( NUM_OF_OUTBOARDS_PLOTTED > 0 )
+    linespace_bounds_magnify_trace_offsets_and_previous_readings LinespaceParametersOutboard[ NUM_OF_OUTBOARDS_PLOTTED ];
 #endif
 
  */
 //#ifndef MAGNIFICATION_FACTOR
-//    for( ; IndexOfLinespaceParameters < max( NUM_OF_INBOARDS_PLOTTED, ( FIRST_INBOARDS_ARE_IN_PAIRS_AND_EACH_PAIR_IS_IN_PARALLEL_WITH_ONE_HIGHEST_SENSI_ADC_INPUT_SET_PAIRS * 2 ) ) + NUM_OF_ADDON_HIGHEST_SENSI_ADCS_PLOTTED; IndexOfLinespaceParameters++ )
+//    for( ; IndexOfLinespaceParameters < max( NUM_OF_INBOARDS_PLOTTED, ( SUPERIMPOSE_FIRST_INBOARDS_IN_PAIRS * 2 ) ) + NUM_OF_OUTBOARDS_PLOTTED; IndexOfLinespaceParameters++ )
     for( uint8_t LinespaceParametersIndex = 0; LinespaceParametersIndex < NUMBER_OF_LINESPACES; LinespaceParametersIndex++ )    
     {
 #ifdef DEBUG
@@ -1106,7 +1060,7 @@ SetDigipotsStep8:;
 
 /* This notion is for if a single reference bank leg of the first digipot bank suffices for the reference legs of all ADDON digipot banks to minimize parts count of multiple digipot bank systems.  Is not being pursued at this time....
     static uint8_t channel;
-    for( channel = 0; channel < NUM_OF_ADDON_HIGHEST_SENSI_ADCS_PLOTTED; channel++ )
+    for( channel = 0; channel < NUM_OF_OUTBOARDS_PLOTTED; channel++ )
     {
         SetBridgeLegSignalInput( channel );
         if( JustPerformOneStep )
@@ -1294,11 +1248,11 @@ static uint32_t TracespaceToSkipWhenRepositioning, NegativeTracespaceToSkipWhenR
 #if ( NUM_OF_INBOARDS_PLOTTED > 0 )
     linespace_bounds_magnify_trace_offsets_and_previous_readings LinespaceParametersInboard[ NUM_OF_INBOARDS_PLOTTED ];
 #endif
-#if defined USING_LM334_WITH_DIGIPOT_BANKS && defined FIRST_INBOARDS_ARE_IN_PAIRS_AND_EACH_PAIR_IS_IN_PARALLEL_WITH_ONE_HIGHEST_SENSI_ADC_INPUT_SET_PAIRS && ( NUM_OF_INBOARDS_PLOTTED < USING_LM334_WITH_DIGIPOT_BANKS * 2 )
+#if defined USING_LM334_WITH_DIGIPOT_BANKS && defined SUPERIMPOSE_FIRST_INBOARDS_IN_PAIRS && ( NUM_OF_INBOARDS_PLOTTED < USING_LM334_WITH_DIGIPOT_BANKS * 2 )
     previous_readings_only DigipotLeg[ ( USING_LM334_WITH_DIGIPOT_BANKS * 2 ) - NUM_OF_INBOARDS_PLOTTED ];
 #endif
-#if ( NUM_OF_ADDON_HIGHEST_SENSI_ADCS_PLOTTED > 0 )
-    linespace_bounds_magnify_trace_offsets_and_previous_readings LinespaceParametersOutboard[ NUM_OF_ADDON_HIGHEST_SENSI_ADCS_PLOTTED ];
+#if ( NUM_OF_OUTBOARDS_PLOTTED > 0 )
+    linespace_bounds_magnify_trace_offsets_and_previous_readings LinespaceParametersOutboard[ NUM_OF_OUTBOARDS_PLOTTED ];
 #endif
 
 How are LastSignalPinPlotPoint and PreviousUnmagnifiedReading differently used?
@@ -1306,7 +1260,7 @@ How are LastSignalPinPlotPoint and PreviousUnmagnifiedReading differently used?
 LinespaceParameters[ MasterReadingsArray[ MasterReadingsArrayIndex ].IndexInLinespaceParametersArray ].LastSignalPinPlotPoint = MasterReadingsArray[ MasterReadingsArrayIndex ].CurrentUnmagnifiedReading;
 
 */
-#if ( NUM_OF_ADDON_HIGHEST_SENSI_ADCS_PLOTTED > 0 ) && defined AUTO_BRIDGE_BALANCING
+#if ( NUM_OF_OUTBOARDS_PLOTTED > 0 ) && defined AUTO_BRIDGE_BALANCING
 int PlotTheNormalAndMagnifiedSignals( uint8_t MasterReadingsArrayIndex )
 #else
 void PlotTheNormalAndMagnifiedSignals( uint8_t MasterReadingsArrayIndex ) //Two indices per every non-magnified trace ifdef MAGNIFICATION_FACTOR, otherwise one per 
@@ -1378,26 +1332,15 @@ void PlotTheNormalAndMagnifiedSignals( uint8_t MasterReadingsArrayIndex ) //Two 
 #ifdef MAGNIFICATION_FACTOR
     uint32_t ThisPlotPoint;
 /*
-FIRST_INBOARDS_ARE_IN_PAIRS_AND_EACH_PAIR_IS_IN_PARALLEL_WITH_ONE_HIGHEST_SENSI_ADC_INPUT_SET_PAIRS will be one for every pair to superimpose on each other
-NUM_OF_INBOARDS_PLOTTED are paired times FIRST_INBOARDS_ARE_IN_PAIRS_AND_EACH_PAIR_IS_IN_PARALLEL_WITH_ONE_HIGHEST_SENSI_ADC_INPUT_SET_PAIRS, then singled
-NUM_OF_ADDON_HIGHEST_SENSI_ADCS_PLOTTED is taken at face value
+SUPERIMPOSE_FIRST_INBOARDS_IN_PAIRS will be one for every pair to superimpose on each other
+NUM_OF_INBOARDS_PLOTTED are paired times SUPERIMPOSE_FIRST_INBOARDS_IN_PAIRS, then singled
+NUM_OF_OUTBOARDS_PLOTTED is taken at face value
 */
-    #if defined FIRST_INBOARDS_ARE_IN_PAIRS_AND_EACH_PAIR_IS_IN_PARALLEL_WITH_ONE_HIGHEST_SENSI_ADC_INPUT_SET_PAIRS 
+    #if defined SUPERIMPOSE_FIRST_INBOARDS_IN_PAIRS 
         if( MasterReadingsArrayIndex < INDEX_OF_INBOARDS_NOT_SUPERIMPOSED ) goto AFTER_THE_MAGNIFIED_PLOTTED;//if this is one of the two parallel traces, skip the magnified view
     #endif
 
-/*
-    #if defined FIRST_INBOARDS_ARE_IN_PAIRS_AND_EACH_PAIR_IS_IN_PARALLEL_WITH_ONE_HIGHEST_SENSI_ADC_INPUT_SET_PAIRS && ( NUM_OF_ADDON_HIGHEST_SENSI_ADCS_PLOTTED > 0 )
-        #if ( NUM_OF_INBOARDS_PLOTTED == 1 )
-            if( channel < 1 ) goto AFTER_THE_MAGNIFIED_PLOTTED;//if this is one of the two parallel traces, skip the magnified view
-        #elif ( NUM_OF_INBOARDS_PLOTTED >= 2 )
-            if( channel < 2 ) goto AFTER_THE_MAGNIFIED_PLOTTED;//if this is one of the two parallel traces, skip the magnified view
-        #endif
-    #endif
-*/
     //Next lines plot a magnified version.  First, MagnifyAdjustment is determined
-//FIXME: NOT WORKING COMPLETELY YET
-//LinespaceParameters[ MasterReadingsArray[ MasterReadingsArrayIndex ].IndexInLinespaceParametersArray ].
 //Next we multiply the difference between PreviousUnmagnifiedReading and this one, and see if it would take the trace out of bounds
 //Derive the next plot point for the case of current CurrentUnmagnifiedReading being less than or equal to the last UnmagnifiedReading
     if( MasterReadingsArray[ MasterReadingsArrayIndex ].CurrentUnmagnifiedReading > MasterReadingsArray[ MasterReadingsArrayIndex ].PreviousUnmagnifiedReading ) //new plot point is higher than previous
@@ -1468,7 +1411,7 @@ MasterReadingsArray[ MasterReadingsArrayIndex ].PreviousUnmagnifiedReading = Mas
 #endif
 }
 /* Something left over from previous revision
-#if ( NUM_OF_ADDON_HIGHEST_SENSI_ADCS_PLOTTED > 0 ) && defined AUTO_BRIDGE_BALANCING
+#if ( NUM_OF_OUTBOARDS_PLOTTED > 0 ) && defined AUTO_BRIDGE_BALANCING
     #ifdef MAGNIFICATION_FACTOR
     if( MasterReadingsArrayIndex < INDEX_OF_OUTBOARDS ) return BestGuessAnalogInputreading( 1 + ( channel * 2 ) + BIAS_TO_APPLY_TO_SIGNAL_LEG_TO_CENTER_THE_TRACE - BestGuessAnalogInputreading( ( channel - 2 ) * 2 ) );
     #else
@@ -1498,7 +1441,7 @@ void wobble( void )
 #endif
 
 #ifdef AUTO_BRIDGE_BALANCING
-    static uint16_t CounterForTraceOutOfRangeTooLong[ NUM_OF_ADDON_HIGHEST_SENSI_ADCS_PLOTTED ]; //This is to prevent infinite loop with AUTO_BRIDGE_BALANCING
+    static uint16_t CounterForTraceOutOfRangeTooLong[ NUM_OF_OUTBOARDS_PLOTTED ]; //This is to prevent infinite loop with AUTO_BRIDGE_BALANCING
 #endif
 
 void ReadAndPlotFromAllADCsInAndOutboard( bool DuringSetup = false )
@@ -1563,8 +1506,8 @@ void ReadAndPlotFromAllADCsInAndOutboard( bool DuringSetup = false )
     }
 #endif
 
-#if ( NUM_OF_ADDON_HIGHEST_SENSI_ADCS_PLOTTED > 0 )
-    for( uint8_t whichOutboardADCindex = 0; whichOutboardADCindex < NUM_OF_ADDON_HIGHEST_SENSI_ADCS_PLOTTED; whichOutboardADCindex++ )
+#if ( NUM_OF_OUTBOARDS_PLOTTED > 0 )
+    for( uint8_t whichOutboardADCindex = 0; whichOutboardADCindex < NUM_OF_OUTBOARDS_PLOTTED; whichOutboardADCindex++ )
     {
         #ifdef USING_LM334_WITH_DIGIPOT_BANKS 
 Start_of_addon_ADC_acquisition:
@@ -1683,7 +1626,6 @@ Start_of_addon_ADC_acquisition:
         #endif
         MasterReadingsArray[ INDEX_OF_OUTBOARDS + whichOutboardADCindex ].CurrentUnmagnifiedReading /= SAMPLE_TIMES;
         MasterReadingsArray[ INDEX_OF_OUTBOARDS + whichOutboardADCindex ].CurrentUnmagnifiedReading =(  MasterReadingsArray[ INDEX_OF_OUTBOARDS + whichOutboardADCindex ].CurrentUnmagnifiedReading < HEIGHT_OF_A_PLOT_LINESPACE  ) ? MasterReadingsArray[ INDEX_OF_OUTBOARDS + whichOutboardADCindex ].CurrentUnmagnifiedReading : HEIGHT_OF_A_PLOT_LINESPACE;
-//#error This is wrong indexing below
 #ifdef DEBUG
         while ( !Serial ); // wait for serial port to connect. Needed for Leonardo's native USB
         Serial.print( F( "Line 1687 INDEX_OF_OUTBOARDS = " ) );
@@ -1753,7 +1695,7 @@ Serial.begin( BAUD_TO_SERIAL );//This speed is what works best with WeMos XI/TTG
         #error This sketch is not entirely able to handle multiple digipot banks at this revision level
     #endif
 #endif
-    #if ( NUM_OF_ADDON_HIGHEST_SENSI_ADCS_PLOTTED > 0 ) 
+    #if ( NUM_OF_OUTBOARDS_PLOTTED > 0 ) 
         #if !( ARDUINO_ARCH_SAM || ARDUINO_ARCH_SAMD )
             analogReference( DEFAULT ); //This is the voltage level of max bit value on analog input
         #else
@@ -1775,14 +1717,14 @@ Serial.begin( BAUD_TO_SERIAL );//This speed is what works best with WeMos XI/TTG
         Serial.print( A5 );
         Serial.print( F( " & " ) );
         Serial.println( INDEX_OF_OUTBOARDS );
-#ifdef FIRST_INBOARDS_ARE_IN_PAIRS_AND_EACH_PAIR_IS_IN_PARALLEL_WITH_ONE_HIGHEST_SENSI_ADC_INPUT_SET_PAIRS
-        Serial.print( F( "FIRST_INBOARDS_ARE_IN_PAIRS_AND_EACH_PAIR_IS_IN_PARALLEL_WITH_ONE_HIGHEST_SENSI_ADC_INPUT_SET_PAIRS " ) );
-        Serial.println( FIRST_INBOARDS_ARE_IN_PAIRS_AND_EACH_PAIR_IS_IN_PARALLEL_WITH_ONE_HIGHEST_SENSI_ADC_INPUT_SET_PAIRS );
+#ifdef SUPERIMPOSE_FIRST_INBOARDS_IN_PAIRS
+        Serial.print( F( "SUPERIMPOSE_FIRST_INBOARDS_IN_PAIRS " ) );
+        Serial.println( SUPERIMPOSE_FIRST_INBOARDS_IN_PAIRS );
 #else
-        Serial.println( F( "FIRST_INBOARDS_ARE_IN_PAIRS_AND_EACH_PAIR_IS_IN_PARALLEL_WITH_ONE_HIGHEST_SENSI_ADC_INPUT_SET_PAIRS not defined" ) );
+        Serial.println( F( "SUPERIMPOSE_FIRST_INBOARDS_IN_PAIRS not defined" ) );
 #endif
-        Serial.print( F( "NUM_OF_ADDON_HIGHEST_SENSI_ADCS_PLOTTED " ) );
-        Serial.println( NUM_OF_ADDON_HIGHEST_SENSI_ADCS_PLOTTED );
+        Serial.print( F( "NUM_OF_OUTBOARDS_PLOTTED " ) );
+        Serial.println( NUM_OF_OUTBOARDS_PLOTTED );
 #ifdef USING_LM334_WITH_DIGIPOT_BANKS
         Serial.print( F( "USING_LM334_WITH_DIGIPOT_BANKS " ) );
         Serial.println( USING_LM334_WITH_DIGIPOT_BANKS );
@@ -1806,7 +1748,7 @@ Serial.begin( BAUD_TO_SERIAL );//This speed is what works best with WeMos XI/TTG
     //#ifndef ARDUINO_AVR_DIGISPARKPRO
     //    analogReadResolution( ADC_RES_BIT );
     //#endif
-    #if ( NUM_OF_ADDON_HIGHEST_SENSI_ADCS_PLOTTED > 0 )
+    #if ( NUM_OF_OUTBOARDS_PLOTTED > 0 )
         #if ( HIGHEST_BIT_RES_FROM_HIGHEST_SENSI_ADDON_ADC < 17 )
         //   ads.setGain( GAIN_TWOTHIRDS );  // 2/3x gain +/- 6.144V  1 bit = 3mV      0.1875mV (default)  //The extra ones are here for reference 
            ads.setGain( GAIN_ONE );        // 1x gain   +/- 4.096V  1 bit = 2mV      0.125mV  //This allows a simple power rail excitation supply to voltage divider
@@ -1819,13 +1761,13 @@ Serial.begin( BAUD_TO_SERIAL );//This speed is what works best with WeMos XI/TTG
             #if ( HIGHEST_SENSI_ADDON_ADC_TYPE == HX711 )
             /*
                 #ifdef USING_LM334_WITH_DIGIPOT_BANKS
-                    #define MCP4162_POT_BRIDGE_DEPENDENT_ADCS_PRESENT NUM_OF_ADDON_HIGHEST_SENSI_ADCS_PLOTTED
-                    #ifdef FIRST_INBOARDS_ARE_IN_PAIRS_AND_EACH_PAIR_IS_IN_PARALLEL_WITH_ONE_HIGHEST_SENSI_ADC_INPUT_SET_PAIRS
+                    #define MCP4162_POT_BRIDGE_DEPENDENT_ADCS_PRESENT NUM_OF_OUTBOARDS_PLOTTED
+                    #ifdef SUPERIMPOSE_FIRST_INBOARDS_IN_PAIRS
                         #define RAIL_TO_RAIL_OR_OTHERWISE_NOT_DIGIPOT_BRIDGE_DEPENDENT_ADCS_PRESENT NUM_OF_INBOARDS_PLOTTED
                     #endif
                 #else
                     #define MCP4162_POT_BRIDGE_DEPENDENT_ADCS_PRESENT 0
-                    #define ( NUM_OF_ADDON_HIGHEST_SENSI_ADCS_PLOTTED + RAIL_TO_RAIL_OR_OTHERWISE_NOT_DIGIPOT_BRIDGE_DEPENDENT_ADCS_PRESENT NUM_OF_INBOARDS_PLOTTED )
+                    #define ( NUM_OF_OUTBOARDS_PLOTTED + RAIL_TO_RAIL_OR_OTHERWISE_NOT_DIGIPOT_BRIDGE_DEPENDENT_ADCS_PRESENT NUM_OF_INBOARDS_PLOTTED )
                 #endif
                 */
                 #ifdef DEBUG
@@ -1880,28 +1822,29 @@ Serial.begin( BAUD_TO_SERIAL );//This speed is what works best with WeMos XI/TTG
     TracespaceToSkipWhenRepositioning = ( HEIGHT_OF_A_PLOT_LINESPACE * PERCENT_OF_LINESPACE_MAGNIFIED_VIEW_SKIPS_WHEN_REPOSITIONED_WHEN_LINESPACE_LIMITS_GET_EXCEEDED ) / 100;
     NegativeTracespaceToSkipWhenRepositioning = HEIGHT_OF_A_PLOT_LINESPACE - ( HEIGHT_OF_A_PLOT_LINESPACE * PERCENT_OF_LINESPACE_MAGNIFIED_VIEW_SKIPS_WHEN_REPOSITIONED_WHEN_LINESPACE_LIMITS_GET_EXCEEDED ) / 100;
 #endif
-//    if( NUM_OF_ADDON_HIGHEST_SENSI_ADCS_PLOTTED + NUM_OF_INBOARDS_PLOTTED > 1 ) LinespaceParameters[ 0 ].ZeroOfThisPlotLinespace = PLOTTER_MAX_SCALE - HEIGHT_OF_A_PLOT_LINESPACE;
+//    if( NUM_OF_OUTBOARDS_PLOTTED + NUM_OF_INBOARDS_PLOTTED > 1 ) LinespaceParameters[ 0 ].ZeroOfThisPlotLinespace = PLOTTER_MAX_SCALE - HEIGHT_OF_A_PLOT_LINESPACE;
 
 #ifdef DEBUG
         while( !Serial );
         Serial.println( F( "The following numbers count up to the highest index of linespaces to be displayed:" ) );
 #endif
-//#error Fix indexing below
-// INDEX_OF_INBOARDS_NOT_SUPERIMPOSED actually equals the number of InboardSuperimposed exist!
-    uint8_t LinespacesIndex = 0;
-    uint8_t MasterReadingsArrayIndex = 0;
-    for( ; LinespacesIndex < NUMBER_OF_LINESPACES; LinespacesIndex++ )
+// INDEX_OF_INBOARDS_NOT_SUPERIMPOSED actually equals the number of InboardSuperimposed exist
+    for( uint8_t LinespacesIndex = 0; LinespacesIndex < NUMBER_OF_LINESPACES; LinespacesIndex++ )
     {
+        uint8_t MasterReadingsArrayIndex;
+        if( LinespacesIndex == 0 ) MasterReadingsArrayIndex = 0;
         if( ( MasterReadingsArrayIndex == INDEX_OF_INBOARDS_NOT_PLOTTED ) && ( MasterReadingsArrayIndex < INDEX_OF_OUTBOARDS ) )
-        {
+//        {
             MasterReadingsArrayIndex = INDEX_OF_OUTBOARDS; //whatever members are not plotted get skipped
-            LinespacesIndex--; //ensure this linepsace doesn't get skipped
-            continue;
-        }
+//            LinespacesIndex--; //ensure this linepsace doesn't get skipped
+//            continue;
+//        }
 #ifdef DEBUG
         while( !Serial );
-        Serial.print( F( ", Line 1771 LinespacesIndex = " ) );
+        Serial.print( F( ", Line 1852 LinespacesIndex = " ) );
         Serial.print( LinespacesIndex );
+        Serial.print( F( ", Line 1854 MasterReadingsArrayIndex = " ) );
+        Serial.print( MasterReadingsArrayIndex );
         Serial.print( F( " " ) );
 #endif
         LinespaceParameters[ LinespacesIndex ].HighLimitOfThisPlotLinespace = ( NUMBER_OF_LINESPACES - LinespacesIndex ) * HEIGHT_OF_A_PLOT_LINESPACE;
@@ -1918,7 +1861,6 @@ Serial.begin( BAUD_TO_SERIAL );//This speed is what works best with WeMos XI/TTG
             MasterReadingsArray[ MasterReadingsArrayIndex + 1 ].CurrentUnmagnifiedReading = HALF_HEIGHT_OF_A_PLOT_LINESPACE;
             MasterReadingsArray[ MasterReadingsArrayIndex + 1 ].IndexInLinespaceParametersArray = LinespacesIndex;
         }
-//#error Study Lines 1871 to 1935
 #ifdef MAGNIFICATION_FACTOR
         else
             LinespaceParameters[ LinespacesIndex ].MagnifyAdjustment = 0;
@@ -1954,53 +1896,21 @@ Serial.begin( BAUD_TO_SERIAL );//This speed is what works best with WeMos XI/TTG
         MasterReadingsArrayIndex++;
         if( LinespacesIndex < INDEX_OF_INBOARDS_NOT_SUPERIMPOSED / 2 ) MasterReadingsArrayIndex++; //skip the one we had to take care of in this linepsace iteration
     }
-/*    
-    MasterReadingsArrayIndex = INDEX_OF_OUTBOARDS;
-    for( ; LinespacesIndex < NUMBER_OF_LINESPACES; LinespacesIndex++ )
-    {
-#ifdef DEBUG
-        while( !Serial );
-        Serial.print( F( "Line 1181 LinespacesIndex = " ) );
-        Serial.println( LinespacesIndex );
-//        Serial.print( F( " " ) );
-#endif
-        LinespaceParameters[ LinespacesIndex ].HighLimitOfThisPlotLinespace = LinespaceParameters[ LinespacesIndex - 1 ].ZeroOfThisPlotLinespace;
-        LinespaceParameters[ LinespacesIndex ].ZeroOfThisPlotLinespace = LinespaceParameters[ LinespacesIndex ].HighLimitOfThisPlotLinespace - HEIGHT_OF_A_PLOT_LINESPACE;
-        LinespaceParameters[ LinespacesIndex ].LastSignalPinPlotPoint = HALF_HEIGHT_OF_A_PLOT_LINESPACE;
-        MasterReadingsArray[ MasterReadingsArrayIndex ].PreviousUnmagnifiedReading = HALF_HEIGHT_OF_A_PLOT_LINESPACE;
-        MasterReadingsArray[ MasterReadingsArrayIndex ].CurrentUnmagnifiedReading = HALF_HEIGHT_OF_A_PLOT_LINESPACE;
-        MasterReadingsArray[ MasterReadingsArrayIndex ].IndexInLinespaceParametersArray = LinespacesIndex;
-#ifdef MAGNIFICATION_FACTOR
-        LinespaceParameters[ LinespacesIndex ].MagnifyAdjustment = 0;
-#endif
-#ifdef DEBUG
-        while( !Serial );
-//        Serial.println();
-        Serial.print( F( "LinespaceParameters[ " ) );
-        Serial.print( LinespacesIndex );
-        Serial.print( F( " ].ZeroOfThisPlotLinespace == " ) );
-        Serial.print( LinespaceParameters[ LinespacesIndex ].ZeroOfThisPlotLinespace );
-        Serial.print( F( ", HighLimitOfThisPlotLinespace == " ) );
-        Serial.println( LinespaceParameters[ LinespacesIndex ].HighLimitOfThisPlotLinespace );
-#endif
-        MasterReadingsArrayIndex++;
-    }
-*/
 //    Serial.println();
-//don't worry about the baseline not being zero here until the other bugs get dealt with
+
     PlotTimingLineGoingUp( false ); //The false makes all traces originate at global zero.  It seems to look better that way
 
 //Next the pin translation table is allocated then filled
-    #if defined USING_LM334_WITH_DIGIPOT_BANKS && defined FIRST_INBOARDS_ARE_IN_PAIRS_AND_EACH_PAIR_IS_IN_PARALLEL_WITH_ONE_HIGHEST_SENSI_ADC_INPUT_SET_PAIRS && ( NUM_OF_INBOARDS_PLOTTED < USING_LM334_WITH_DIGIPOT_BANKS * 2 )
+    #if defined USING_LM334_WITH_DIGIPOT_BANKS /* && defined SUPERIMPOSE_FIRST_INBOARDS_IN_PAIRS */ && ( NUM_OF_INBOARDS_PLOTTED < USING_LM334_WITH_DIGIPOT_BANKS * 2 )
         AnalogPinArray = ( uint8_t * )malloc( 2 * USING_LM334_WITH_DIGIPOT_BANKS );
     #elif ( NUM_OF_INBOARDS_PLOTTED > 0 )
         AnalogPinArray = ( uint8_t * )malloc( NUM_OF_INBOARDS_PLOTTED );
     #endif
-        #if ( NUM_OF_INBOARDS_PLOTTED > 0 ) || ( defined USING_LM334_WITH_DIGIPOT_BANKS && defined FIRST_INBOARDS_ARE_IN_PAIRS_AND_EACH_PAIR_IS_IN_PARALLEL_WITH_ONE_HIGHEST_SENSI_ADC_INPUT_SET_PAIRS && defined AUTO_BRIDGE_BALANCING && not defined LEAVE_POT_VALUES_ALONE_DURING_SETUP )
+        #if ( NUM_OF_INBOARDS_PLOTTED > 0 ) || ( defined USING_LM334_WITH_DIGIPOT_BANKS /*&& defined SUPERIMPOSE_FIRST_INBOARDS_IN_PAIRS && defined AUTO_BRIDGE_BALANCING && not defined LEAVE_POT_VALUES_ALONE_DURING_SETUP*/ )
         //Hereafter is the pattern.  If you have more analog pins, add them according to the pattern.
         #ifdef NUM_ANALOG_INPUTS
         #ifdef PIN_A0
-            #if defined USING_LM334_WITH_DIGIPOT_BANKS && defined FIRST_INBOARDS_ARE_IN_PAIRS_AND_EACH_PAIR_IS_IN_PARALLEL_WITH_ONE_HIGHEST_SENSI_ADC_INPUT_SET_PAIRS && ( NUM_OF_INBOARDS_PLOTTED < USING_LM334_WITH_DIGIPOT_BANKS * 2 )
+            #if defined USING_LM334_WITH_DIGIPOT_BANKS /*&& defined SUPERIMPOSE_FIRST_INBOARDS_IN_PAIRS */ && ( NUM_OF_INBOARDS_PLOTTED < USING_LM334_WITH_DIGIPOT_BANKS * 2 )
             for( uint8_t i = 0; i < ( USING_LM334_WITH_DIGIPOT_BANKS * 2 ); i++ )
             #else
             for( uint8_t i = 0; i < NUM_OF_INBOARDS_PLOTTED; i++ )
@@ -2103,7 +2013,7 @@ Serial.begin( BAUD_TO_SERIAL );//This speed is what works best with WeMos XI/TTG
                     while ( !Serial ); // wait for serial port to connect. Needed for Leonardo's native USB
                     Serial.println( F( "Creating analog pin definitions" ) );
                 #endif
-            #if defined USING_LM334_WITH_DIGIPOT_BANKS && defined FIRST_INBOARDS_ARE_IN_PAIRS_AND_EACH_PAIR_IS_IN_PARALLEL_WITH_ONE_HIGHEST_SENSI_ADC_INPUT_SET_PAIRS && ( NUM_OF_INBOARDS_PLOTTED < USING_LM334_WITH_DIGIPOT_BANKS * 2 )
+            #if defined USING_LM334_WITH_DIGIPOT_BANKS && defined SUPERIMPOSE_FIRST_INBOARDS_IN_PAIRS && ( NUM_OF_INBOARDS_PLOTTED < USING_LM334_WITH_DIGIPOT_BANKS * 2 )
                 for( uint8_t i = 0; i < ( USING_LM334_WITH_DIGIPOT_BANKS * 2 ); i++ )
             #else
                 for( uint8_t i = 0; i < NUM_OF_INBOARDS_PLOTTED; i++ )
@@ -2122,7 +2032,7 @@ Serial.begin( BAUD_TO_SERIAL );//This speed is what works best with WeMos XI/TTG
         Serial.println( F( "Some running parameters:" ) );
         Serial.print( F( "AnalogPinArray = " ) );
         Serial.println( (unsigned long)AnalogPinArray );
-        #if defined USING_LM334_WITH_DIGIPOT_BANKS && defined FIRST_INBOARDS_ARE_IN_PAIRS_AND_EACH_PAIR_IS_IN_PARALLEL_WITH_ONE_HIGHEST_SENSI_ADC_INPUT_SET_PAIRS && ( NUM_OF_INBOARDS_PLOTTED < USING_LM334_WITH_DIGIPOT_BANKS * 2 )
+        #if defined USING_LM334_WITH_DIGIPOT_BANKS && defined SUPERIMPOSE_FIRST_INBOARDS_IN_PAIRS && ( NUM_OF_INBOARDS_PLOTTED < USING_LM334_WITH_DIGIPOT_BANKS * 2 )
             for( uint8_t i = 0; i < ( USING_LM334_WITH_DIGIPOT_BANKS * 2 ); i++ )
         #else
             for( uint8_t i = 0; i < NUM_OF_INBOARDS_PLOTTED; i++ )
@@ -2130,15 +2040,15 @@ Serial.begin( BAUD_TO_SERIAL );//This speed is what works best with WeMos XI/TTG
             Serial.println( *( AnalogPinArray + i ) );
         Serial.print( F( "PLOTTER_MAX_SCALE = " ) );
         Serial.print( PLOTTER_MAX_SCALE );
-        Serial.print( F( " and ( uint32_t )( NUM_OF_ADDON_HIGHEST_SENSI_ADCS_PLOTTED + NUM_OF_INBOARDS_PLOTTED ) = " ) );
-        Serial.println( ( uint32_t )( NUM_OF_ADDON_HIGHEST_SENSI_ADCS_PLOTTED + NUM_OF_INBOARDS_PLOTTED ) );
+        Serial.print( F( " and ( uint32_t )( NUM_OF_OUTBOARDS_PLOTTED + NUM_OF_INBOARDS_PLOTTED ) = " ) );
+        Serial.println( ( uint32_t )( NUM_OF_OUTBOARDS_PLOTTED + NUM_OF_INBOARDS_PLOTTED ) );
         
         //add other prints here to your liking
         
         Serial.print( F( "End of " ) );
     #endif //end of DEBUG
     #ifdef AUTO_BRIDGE_BALANCING
-        for( uint8_t index = 0; index < NUM_OF_ADDON_HIGHEST_SENSI_ADCS_PLOTTED; index++ )
+        for( uint8_t index = 0; index < NUM_OF_OUTBOARDS_PLOTTED; index++ )
             CounterForTraceOutOfRangeTooLong[ index ] = 0;
     #endif
 //#error this area below is where I'm at in development
@@ -2223,7 +2133,7 @@ void loop()
 /*        old style partial of auto adjust case:
     if( MasterReadingsArrayIndex < INDEX_OF_OUTBOARDS )
     {
-        #if ( NUM_OF_ADDON_HIGHEST_SENSI_ADCS_PLOTTED > 0 ) && defined AUTO_BRIDGE_BALANCING
+        #if ( NUM_OF_OUTBOARDS_PLOTTED > 0 ) && defined AUTO_BRIDGE_BALANCING
             #ifdef MAGNIFICATION_FACTOR
             if( MasterReadingsArrayIndex < INDEX_OF_OUTBOARDS )  BestGuessAnalogInputreading( 1 + ( channel * 2 ) + BIAS_TO_APPLY_TO_SIGNAL_LEG_TO_CENTER_THE_TRACE - BestGuessAnalogInputreading( ( channel - 2 ) * 2 ) );
             #else
