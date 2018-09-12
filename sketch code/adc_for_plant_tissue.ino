@@ -1,29 +1,29 @@
 //        Before compiling this sketch, you must set or confirm the following appropriately for your configuration and preferences !!!
-#define USING_LM334_WITH_DIGIPOT_BANKS 1                                                        //Number of digipot Wheatstones you have, but this sketch revision level not tested beyond 1.  Remove if using Wheatstone bridge with only standard resistors.  make this the number of bridges with upper resistive elements being LM334s controllable with the MCP4162-104 pots
+#define USING_LM334_WITH_DIGIPOT_BANKS 1                                                       //Number of digipot Wheatstones you have, but this sketch revision level not tested beyond 1.  Remove if using Wheatstone bridge with only standard resistors.  make this the number of bridges with upper resistive elements being LM334s controllable with the MCP4162-104 pots
 #define NUM_OF_INBOARDS_PLOTTED 2                                                              //The number of consecutive analog pins to plot, beginning with PIN_A0
-#define NUM_OF_OUTBOARDS_PLOTTED 1                                                  //The number of consecutive "highest-sensitivity ADC" pins to plot, beginning with A0 and, if double-ended, A1.  ADDON ADC ONLY - DOES _NOT_ INCLUDE INBOARD ANALOG INPUT PINS
-#define MAGNIFICATION_FACTOR 2                                                                     //Activates the plotting of magnified traces in all ADC linespaces; upper limit somewhere less than 4,294,967,295. Note: you can disable displaying magnified traces altogether by not defined this macro at all. Proper use of SUPERIMPOSE_FIRST_INBOARDS_IN_PAIRS will also disable magnified traces of the first two analog inputs
-#define HIGHEST_SENSI_ADDON_ADC_TYPE HX711                                                         //Proposing that "ADS1231" covers ADS1231; could make this "ADS1232" (ADS1232), "ADS1242" (ADS1242), "AD779x" (AD779x), "AD7780" (AD7780), "HX711" (HX711), "MAX112x0" (MAX112x0...) or "LTC2400" (LTC2400) but code not included in v.FREE; ONLY ONE TYPE ALLOWED
-#define HIGHEST_BIT_RES_FROM_HIGHEST_SENSI_ADDON_ADC 24                                            //All ADC values will get scaled to the single-ended aspect of this,  15 is ADS1115 single-ended, 16 for double-ended when two LM334s are used.  change to 11 for ADS1015 single-ended or 12 with two LM334s, (future: change to 24 for HX711--NO b/c there is the ADS1231 at 24 bits)
-#define SAMPLE_TIMES 2                                                                             //To better average out artifacts we over-sample and average.  This value can be tweaked by you to ensure neutralization of power line noise or harmonics of power supplies, etc.....
-#define MOST_PROBLEMATIC_INTERFERENCE_FREQ 60                                                      //This is here just in case you think that you might have some interference on a known frequency.
+#define NUM_OF_OUTBOARDS_PLOTTED 1                                                             //The number of consecutive "highest-sensitivity ADC" pins to plot, beginning with A0 and, if double-ended, A1.  ADDON ADC ONLY - DOES _NOT_ INCLUDE INBOARD ANALOG INPUT PINS
+#define MAGNIFICATION_FACTOR 14                                                                //Activates the plotting of magnified traces in all ADC linespaces; upper limit somewhere less than 4,294,967,295. Note: you can disable displaying magnified traces altogether by not defined this macro at all. Proper use of SUPERIMPOSE_FIRST_INBOARDS_IN_PAIRS will also disable magnified traces of the first two analog inputs
+#define HIGHEST_SENSI_ADDON_ADC_TYPE HX711                                                     //Proposing that "ADS1231" covers ADS1231; could make this "ADS1232" (ADS1232), "ADS1242" (ADS1242), "AD779x" (AD779x), "AD7780" (AD7780), "HX711" (HX711), "MAX112x0" (MAX112x0...) or "LTC2400" (LTC2400) but code not included in v.FREE; ONLY ONE TYPE ALLOWED
+#define HIGHEST_BIT_RES_FROM_HIGHEST_SENSI_ADDON_ADC 24                                        //All ADC values will get scaled to the single-ended aspect of this,  15 is ADS1115 single-ended, 16 for double-ended when two LM334s are used.  change to 11 for ADS1015 single-ended or 12 with two LM334s, (future: change to 24 for HX711--NO b/c there is the ADS1231 at 24 bits)
+#define SAMPLE_TIMES 2                                                                         //To better average out artifacts we over-sample and average.  This value can be tweaked by you to ensure neutralization of power line noise or harmonics of power supplies, etc.....
+#define MOST_PROBLEMATIC_INTERFERENCE_FREQ 60                                                  //This is here just in case you think that you might have some interference on a known frequency.
 #define DELAY_TIME_BETWEEN_SAMPLES_MS ( 1000 / MOST_PROBLEMATIC_INTERFERENCE_FREQ / SAMPLE_TIMES ) //COARSE ADJUST
 #define DELAY_TIME_BETWEEN_SAMPLES_US ( ( ( 1000000 / MOST_PROBLEMATIC_INTERFERENCE_FREQ ) - ( DELAY_TIME_BETWEEN_SAMPLES_MS * SAMPLE_TIMES * 1000 ) ) / SAMPLE_TIMES ) //FINE ADJUST.  THIS GETS ADDED TO COARSE ADJUST, PRECISION = TRUNCATED PRAGMATICALLY TO uSec TO ACKNOWLEDGE SOME OVERHEAD FOR LOOPING SUPPORT CODE   // End of this part of code update
 #define FIRST_ANALOG_PIN_DIGITAL_NUMBER_FOR_BOARDS_NOT_HAVING_ANALOG_PINS_DEFINED_BY_PIN_A0_TYPE_DEFINES 14 //Some boards don't have good definitions and constants for the analog pins :-(
-#define PERCENT_OF_LINESPACE_MAGNIFIED_VIEW_SKIPS_WHEN_REPOSITIONED_WHEN_LINESPACE_LIMITS_GET_EXCEEDED 50 //BETWEEN 0 AND 100 indicating how much of the display region in percent to skip when magnified view trace has to get repositioned because trace would be outside region bounds; NO BOUNDS CHECKING IS PROVIDED!!!
-#define ANALOG_INPUT_BITS_OF_BOARD 10                                                              //Most Arduino boards are 10-bit resolution, but some can be 12 bits.  For known 12 bit boards (SAM, SAMD and TTGO XI architectures), this gets re-defined below, so generally this can be left as 10 even for those boards
-#define SECONDS_THAT_A_LGT8FX8E_HARDWARE_SERIAL_NEEDS_TO_COME_UP_WORKING 9                         //8 works only usually
-#define HIGHEST_SENSI_PGA_GAIN_FACTOR 128                                                          //For HX711 a gain of 128 gets applied to channel A. Available to you for your own use PGA=Programmable Gain Amplifier: many ADCs will correlate a gain of one with full-scale being rail-to-rail, while a gain of anything higher correlates to full-scale being in the mV range (most sensitive and most noise-susceptible).
-#define MIN_WAIT_TIME_BETWEEN_PLOT_POINTS_MS 70                                                    //Sets a maximum speed limit, but actual speed may be further limited by other factors
+#define PERCENT_OF_LINESPACE_MAGNIFIED_VIEW_SKIPS_WHEN_REPOSITIONED_WHEN_LINESPACE_LIMITS_GET_EXCEEDED 99 //BETWEEN 0 AND 100 indicating how much of the display region in percent to skip when magnified view trace has to get repositioned because trace would be outside region bounds; NO BOUNDS CHECKING IS PROVIDED!!!
+#define ANALOG_INPUT_BITS_OF_BOARD 10                                                          //Most Arduino boards are 10-bit resolution, but some can be 12 bits.  For known 12 bit boards (SAM, SAMD and TTGO XI architectures), this gets re-defined below, so generally this can be left as 10 even for those boards
+#define SECONDS_THAT_A_LGT8FX8E_HARDWARE_SERIAL_NEEDS_TO_COME_UP_WORKING 9                     //8 works only usually
+#define HIGHEST_SENSI_PGA_GAIN_FACTOR 128                                                      //For HX711 a gain of 128 gets applied to channel A. Available to you for your own use PGA=Programmable Gain Amplifier: many ADCs will correlate a gain of one with full-scale being rail-to-rail, while a gain of anything higher correlates to full-scale being in the mV range (most sensitive and most noise-susceptible).
+#define MIN_WAIT_TIME_BETWEEN_PLOT_POINTS_MS 70                                                //Sets a maximum speed limit, but actual speed may be further limited by other factors
 #define SUPERIMPOSE_FIRST_INBOARDS_IN_PAIRS 1 //If defined allows the rail-to-rail inboard Analog Inputs to be used to adjust digipots, but mainly causes first inboard Analog Inputs to be paired (superimposed in pairs sharing plot-line spaces) so even manual pots can be adjusted easily.
 #define AUTO_BRIDGE_BALANCING  //increases setup time and during which the plot timing line stays high, then spikes low and high to indicate balancing complete //Turns on auto-balancing in setup(), significant time elapse for this to complete!
-//#define DEBUG                                                                                      //Don't forget that DEBUG is not formatted for Serial plotter, but might work anyway if you'd never print numbers only any DEBUG print line
-//#define POT_TEST_WOBBLE_POSITIVE 0                                                                 //For testing - wobbles digipot settings on bank index to impose a signal into Wheatstone bridge outputs. This imposes a signal on the signal leg
-//#define POT_TEST_WOBBLE_NEGATIVE 0                                                                 //For testing - wobbles digipot settings on bank index to impose a signal into Wheatstone bridge outputs. This imposes a signal on the reference leg
-//#define LEAVE_POT_VALUES_ALONE_DURING_SETUP                                                        //First run should leave this undefined to load digi pots with some values
-//#define BIAS_TO_APPLY_TO_SIGNAL_LEG_TO_CENTER_THE_TRACE 0                                          //Though the name suggests otherwise, this offset will be applied to all signal lines, not just the first one, until further development (I couldn't make this into an array).  Inboard Analog Inputs of 10 bits will make much change with little values, 12 bit inboard allows more flexibility here
+//#define DEBUG                                                                                  //Don't forget that DEBUG is not formatted for Serial plotter, but might work anyway if you'd never print numbers only any DEBUG print line
+//#define POT_TEST_WOBBLE_POSITIVE 0                                                             //For testing - wobbles digipot settings on bank index to impose a signal into Wheatstone bridge outputs. This imposes a signal on the signal leg
+//#define POT_TEST_WOBBLE_NEGATIVE 0                                                             //For testing - wobbles digipot settings on bank index to impose a signal into Wheatstone bridge outputs. This imposes a signal on the reference leg
+//#define LEAVE_POT_VALUES_ALONE_DURING_SETUP                                                    //First run should leave this undefined to load digi pots with some values
+//#define BIAS_TO_APPLY_TO_SIGNAL_LEG_TO_CENTER_THE_TRACE 1                                      //Though the name suggests otherwise, this offset will be applied to all signal lines, not just the first one, until further development (I couldn't make this into an array).  Inboard Analog Inputs of 10 bits will make much change with little values, 12 bit inboard allows more flexibility here
 #ifdef BIAS_TO_APPLY_TO_SIGNAL_LEG_TO_CENTER_THE_TRACE
-    #define ADDITIONAL_LSB_DIGIPOT_SETTING_BIAS_TO_SIGNAL_TRACE 1                                  //To maintain consistent effect with the above, associated macro, this gets applied inverted. This is in lieu of setting by reading the ADCs and zeroing them.
+    #define ADDITIONAL_LSB_DIGIPOT_SETTING_BIAS_TO_SIGNAL_TRACE 1                                //To maintain consistent effect with the above, associated macro, this gets applied inverted. This is in lieu of setting by reading the ADCs and zeroing them.
 #endif
 #ifdef __LGT8FX8E__
     #define BAUD_TO_SERIAL 19200  //This speed is what works best with WeMos XI/TTGO XI board.  Experiment as desired.
@@ -120,6 +120,7 @@
 *              11 Sep   2018 :  Back with new style of arrays useage to make bug-free coding more possible.
 *              NEXT          :  Auto adjust only works in setup, not tested beyond that, quite sure it doesn't work yet during run time
 *              NEXT          :  Runtime auto-adjust testing: Test proposed code for LOOP_COUNTER_LIMIT_THAT_TRACE_IS_ALLOWED_TO_BE_OFF_CENTER
+*              NEXT          :  Try putting some alpha chars into output for future expansion beyond Arduino
 *              NEXT          :  EEPROM storage of things like ADC sweet spot, initial digipot settings, etc
 *              NEXT          :  Accommodate ADS1232 &/or ADS1231
 *               
@@ -217,9 +218,6 @@
     #endif
     #ifdef HIGHEST_SENSI_PGA_GAIN_FACTOR
         #undef HIGHEST_SENSI_PGA_GAIN_FACTOR
-    #endif
-    #ifdef AUTO_BRIDGE_BALANCING
-        #undef AUTO_BRIDGE_BALANCING
     #endif
 #endif
 #ifndef LOOP_COUNTER_LIMIT_THAT_TRACE_IS_ALLOWED_TO_BE_OFF_CENTER
