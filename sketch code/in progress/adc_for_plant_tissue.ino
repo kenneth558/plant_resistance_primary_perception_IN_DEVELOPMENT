@@ -1,29 +1,29 @@
 //        Before compiling this sketch, you must set or confirm the following appropriately for your configuration and preferences !!!
-#define USING_LM334_WITH_DIGIPOT_BANKS 1                                                        //Number of digipot Wheatstones you have, but this sketch revision level not tested beyond 1.  Remove if using Wheatstone bridge with only standard resistors.  make this the number of bridges with upper resistive elements being LM334s controllable with the MCP4162-104 pots
-#define NUM_OF_INBOARDS_PLOTTED 2                                                              //The number of consecutive analog pins to plot, beginning with PIN_A0
-#define NUM_OF_OUTBOARDS_PLOTTED 1                                                  //The number of consecutive "highest-sensitivity ADC" pins to plot, beginning with A0 and, if double-ended, A1.  ADDON ADC ONLY - DOES _NOT_ INCLUDE INBOARD ANALOG INPUT PINS
-#define MAGNIFICATION_FACTOR 2                                                                     //Activates the plotting of magnified traces in all ADC linespaces; upper limit somewhere less than 4,294,967,295. Note: you can disable displaying magnified traces altogether by not defined this macro at all. Proper use of SUPERIMPOSE_FIRST_INBOARDS_IN_PAIRS will also disable magnified traces of the first two analog inputs
-#define HIGHEST_SENSI_ADDON_ADC_TYPE HX711                                                         //Proposing that "ADS1231" covers ADS1231; could make this "ADS1232" (ADS1232), "ADS1242" (ADS1242), "AD779x" (AD779x), "AD7780" (AD7780), "HX711" (HX711), "MAX112x0" (MAX112x0...) or "LTC2400" (LTC2400) but code not included in v.FREE; ONLY ONE TYPE ALLOWED
-#define HIGHEST_BIT_RES_FROM_HIGHEST_SENSI_ADDON_ADC 24                                            //All ADC values will get scaled to the single-ended aspect of this,  15 is ADS1115 single-ended, 16 for double-ended when two LM334s are used.  change to 11 for ADS1015 single-ended or 12 with two LM334s, (future: change to 24 for HX711--NO b/c there is the ADS1231 at 24 bits)
-#define SAMPLE_TIMES 2                                                                             //To better average out artifacts we over-sample and average.  This value can be tweaked by you to ensure neutralization of power line noise or harmonics of power supplies, etc.....
-#define MOST_PROBLEMATIC_INTERFERENCE_FREQ 60                                                      //This is here just in case you think that you might have some interference on a known frequency.
+#define USING_LM334_WITH_DIGIPOT_BANKS 1                                                       //Number of digipot Wheatstones you have, but this sketch revision level not tested beyond 1.  Remove if using Wheatstone bridge with only standard resistors.  make this the number of bridges with upper resistive elements being LM334s controllable with the MCP4162-104 pots
+//#define NUM_OF_INBOARDS_PLOTTED 2                                                              //The number of consecutive analog pins to plot, beginning with PIN_A0
+#define NUM_OF_OUTBOARDS_PLOTTED 1                                                             //The number of consecutive "highest-sensitivity ADC" pins to plot, beginning with A0 and, if double-ended, A1.  ADDON ADC ONLY - DOES _NOT_ INCLUDE INBOARD ANALOG INPUT PINS
+#define MAGNIFICATION_FACTOR 40                                                                //Activates the plotting of magnified traces in all ADC linespaces; upper limit somewhere less than 4,294,967,295. Note: you can disable displaying magnified traces altogether by not defined this macro at all. Proper use of SUPERIMPOSE_FIRST_INBOARDS_IN_PAIRS will also disable magnified traces of the first two analog inputs
+#define HIGHEST_SENSI_ADDON_ADC_TYPE HX711                                                     //Proposing that "ADS1231" covers ADS1231; could make this "ADS1232" (ADS1232), "ADS1242" (ADS1242), "AD779x" (AD779x), "AD7780" (AD7780), "HX711" (HX711), "MAX112x0" (MAX112x0...) or "LTC2400" (LTC2400) but code not included in v.FREE; ONLY ONE TYPE ALLOWED
+#define HIGHEST_BIT_RES_FROM_HIGHEST_SENSI_ADDON_ADC 24                                        //All ADC values will get scaled to the single-ended aspect of this,  15 is ADS1115 single-ended, 16 for double-ended when two LM334s are used.  change to 11 for ADS1015 single-ended or 12 with two LM334s, (future: change to 24 for HX711--NO b/c there is the ADS1231 at 24 bits)
+#define SAMPLE_TIMES 2                                                                         //To better average out artifacts we over-sample and average.  This value can be tweaked by you to ensure neutralization of power line noise or harmonics of power supplies, etc.....
+#define MOST_PROBLEMATIC_INTERFERENCE_FREQ 60                                                  //This is here just in case you think that you might have some interference on a known frequency.
 #define DELAY_TIME_BETWEEN_SAMPLES_MS ( 1000 / MOST_PROBLEMATIC_INTERFERENCE_FREQ / SAMPLE_TIMES ) //COARSE ADJUST
 #define DELAY_TIME_BETWEEN_SAMPLES_US ( ( ( 1000000 / MOST_PROBLEMATIC_INTERFERENCE_FREQ ) - ( DELAY_TIME_BETWEEN_SAMPLES_MS * SAMPLE_TIMES * 1000 ) ) / SAMPLE_TIMES ) //FINE ADJUST.  THIS GETS ADDED TO COARSE ADJUST, PRECISION = TRUNCATED PRAGMATICALLY TO uSec TO ACKNOWLEDGE SOME OVERHEAD FOR LOOPING SUPPORT CODE   // End of this part of code update
 #define FIRST_ANALOG_PIN_DIGITAL_NUMBER_FOR_BOARDS_NOT_HAVING_ANALOG_PINS_DEFINED_BY_PIN_A0_TYPE_DEFINES 14 //Some boards don't have good definitions and constants for the analog pins :-(
-#define PERCENT_OF_LINESPACE_MAGNIFIED_VIEW_SKIPS_WHEN_REPOSITIONED_WHEN_LINESPACE_LIMITS_GET_EXCEEDED 50 //BETWEEN 0 AND 100 indicating how much of the display region in percent to skip when magnified view trace has to get repositioned because trace would be outside region bounds; NO BOUNDS CHECKING IS PROVIDED!!!
-#define ANALOG_INPUT_BITS_OF_BOARD 10                                                              //Most Arduino boards are 10-bit resolution, but some can be 12 bits.  For known 12 bit boards (SAM, SAMD and TTGO XI architectures), this gets re-defined below, so generally this can be left as 10 even for those boards
-#define SECONDS_THAT_A_LGT8FX8E_HARDWARE_SERIAL_NEEDS_TO_COME_UP_WORKING 9                         //8 works only usually
-#define HIGHEST_SENSI_PGA_GAIN_FACTOR 128                                                          //For HX711 a gain of 128 gets applied to channel A. Available to you for your own use PGA=Programmable Gain Amplifier: many ADCs will correlate a gain of one with full-scale being rail-to-rail, while a gain of anything higher correlates to full-scale being in the mV range (most sensitive and most noise-susceptible).
-#define MIN_WAIT_TIME_BETWEEN_PLOT_POINTS_MS 70                                                    //Sets a maximum speed limit, but actual speed may be further limited by other factors
+#define PERCENT_OF_LINESPACE_MAGNIFIED_VIEW_SKIPS_WHEN_REPOSITIONED_WHEN_LINESPACE_LIMITS_GET_EXCEEDED 99 //BETWEEN 0 AND 100 indicating how much of the display region in percent to skip when magnified view trace has to get repositioned because trace would be outside region bounds; NO BOUNDS CHECKING IS PROVIDED!!!
+#define ANALOG_INPUT_BITS_OF_BOARD 10                                                          //Most Arduino boards are 10-bit resolution, but some can be 12 bits.  For known 12 bit boards (SAM, SAMD and TTGO XI architectures), this gets re-defined below, so generally this can be left as 10 even for those boards
+#define SECONDS_THAT_A_LGT8FX8E_HARDWARE_SERIAL_NEEDS_TO_COME_UP_WORKING 9                     //8 works only usually
+#define HIGHEST_SENSI_PGA_GAIN_FACTOR 128                                                      //For HX711 a gain of 128 gets applied to channel A. Available to you for your own use PGA=Programmable Gain Amplifier: many ADCs will correlate a gain of one with full-scale being rail-to-rail, while a gain of anything higher correlates to full-scale being in the mV range (most sensitive and most noise-susceptible).
+#define MIN_WAIT_TIME_BETWEEN_PLOT_POINTS_MS 70                                                //Sets a maximum speed limit, but actual speed may be further limited by other factors
 #define SUPERIMPOSE_FIRST_INBOARDS_IN_PAIRS 1 //If defined allows the rail-to-rail inboard Analog Inputs to be used to adjust digipots, but mainly causes first inboard Analog Inputs to be paired (superimposed in pairs sharing plot-line spaces) so even manual pots can be adjusted easily.
 #define AUTO_BRIDGE_BALANCING  //increases setup time and during which the plot timing line stays high, then spikes low and high to indicate balancing complete //Turns on auto-balancing in setup(), significant time elapse for this to complete!
-//#define DEBUG                                                                                      //Don't forget that DEBUG is not formatted for Serial plotter, but might work anyway if you'd never print numbers only any DEBUG print line
-#define POT_TEST_WOBBLE_POSITIVE 0                                                                 //For testing - wobbles digipot settings on bank index to impose a signal into Wheatstone bridge outputs. This imposes a signal on the signal leg
-#define POT_TEST_WOBBLE_NEGATIVE 0                                                                 //For testing - wobbles digipot settings on bank index to impose a signal into Wheatstone bridge outputs. This imposes a signal on the reference leg
-//#define LEAVE_POT_VALUES_ALONE_DURING_SETUP                                                        //First run should leave this undefined to load digi pots with some values
-//#define BIAS_TO_APPLY_TO_SIGNAL_LEG_TO_CENTER_THE_TRACE 0                                          //Though the name suggests otherwise, this offset will be applied to all signal lines, not just the first one, until further development (I couldn't make this into an array).  Inboard Analog Inputs of 10 bits will make much change with little values, 12 bit inboard allows more flexibility here
+//#define DEBUG                                                                                  //Don't forget that DEBUG is not formatted for Serial plotter, but might work anyway if you'd never print numbers only any DEBUG print line
+//#define POT_TEST_WOBBLE_POSITIVE 0                                                             //For testing - wobbles digipot settings on bank index to impose a signal into Wheatstone bridge outputs. This imposes a signal on the signal leg
+//#define POT_TEST_WOBBLE_NEGATIVE 0                                                             //For testing - wobbles digipot settings on bank index to impose a signal into Wheatstone bridge outputs. This imposes a signal on the reference leg
+//#define LEAVE_POT_VALUES_ALONE_DURING_SETUP                                                    //First run should leave this undefined to load digi pots with some values
+#define BIAS_TO_APPLY_TO_SIGNAL_LEG_TO_CENTER_THE_TRACE 1                                      //This offset will be applied to all signal lines of outboard ADCs, not just the first one, until further development (I couldn't define an array in preprocessor directives).  Inboard Analog Inputs of 10 bits will make much change with little values, 12 bit inboard allows more flexibility here
 #ifdef BIAS_TO_APPLY_TO_SIGNAL_LEG_TO_CENTER_THE_TRACE
-    #define ADDITIONAL_LSB_DIGIPOT_SETTING_BIAS_TO_SIGNAL_TRACE 1                                  //To maintain consistent effect with the above, associated macro, this gets applied inverted. This is in lieu of setting by reading the ADCs and zeroing them.
+    #define ADDITIONAL_LSB_DIGIPOT_SETTING_BIAS_TO_SIGNAL_TRACE 1                                //To maintain consistent effect with the above, associated macro, this gets applied inverted. This is in lieu of setting by reading the ADCs and zeroing them.
 #endif
 #ifdef __LGT8FX8E__
     #define BAUD_TO_SERIAL 19200  //This speed is what works best with WeMos XI/TTGO XI board.  Experiment as desired.
@@ -58,7 +58,7 @@
 * File Name          : adc_for_plant_tissue.ino
 * Author             : KENNETH L ANDERSON
 * Version            : v.Free
-* Date               : 23-Aug-2018
+* Date               : 11-Sep-2018
 * Description        : To replicate Cleve Backster's findings that he attributed to a phenomenon he called "Primary Perception".  Basically, this sketch turns an Arduino MCU and optional (recommended) ADS1115 into a nicely functional poor man's polygraph in order to learn/demonstrate telempathic gardening.
 * Boards tested on   : Uno using both ADS1115 and inboard analog inputs.  
 *                    : TTGO XI using ADS1115.  
@@ -68,7 +68,7 @@
 * Known limitations  : No ability to accept user input from keyboard during run time due to Arduino plotter limitation
 *                    : Re-compile is needed for any changes to configuration
 *                    : Analog input pins being used MUST be the first available analog inputs
-*                    : Only a single add-on ADS ADC device and only 1 or 2 differential channels on it is accommodated
+*                    : Only a single add-on ADS ADC device and only 1 or 2 differential channels on it is tested
 *                    : Conventional add-on high-sensitivity ADCs limit their common mode differential input range to a few millivolts with active or passive clamping
 *                    : Some of these limitations will be addressed in future not-for-free versions
 *                    
@@ -117,7 +117,10 @@
 *              23 Aug   2018 :  Fixed magnified traces in all respects; added functionality to display digipot calibration effects during calibration in setup(); started adding code to handle multiple digipot banks that utilize dual 74VHC138/74LV138s.  Still no AUTO_BRIDGE_BALANCING
 *              23 Aug   2018 :  Magnification factor adjustable downward via a potentiometer if defined POT_WIPER_TO_THIS_ANALOG_INPUT_PIN_TO_ADJUST_MAGNIFICATION_FACTOR with the digital number of an inboard analog input pin.
 *              23 Aug   2018 :  added USING_DUAL_74LV138_DECODERS_FOR_DIGIPOT_CS_LINES with possibly enough code (just needs testing). Allowed for any ratio of LSB pot step to MSB step with LSB_DIGIPOT_RESISTANCE_STEP_PER_MSB_RESISTANCE_STEP
+*              11 Sep   2018 :  Back with new style of arrays useage to make bug-free coding more possible.
+*              NEXT          :  Auto adjust only works in setup, not tested beyond that, quite sure it doesn't work yet during run time
 *              NEXT          :  Runtime auto-adjust testing: Test proposed code for LOOP_COUNTER_LIMIT_THAT_TRACE_IS_ALLOWED_TO_BE_OFF_CENTER
+*              NEXT          :  Try putting some alpha chars into output for future expansion beyond Arduino
 *              NEXT          :  EEPROM storage of things like ADC sweet spot, initial digipot settings, etc
 *              NEXT          :  Accommodate ADS1232 &/or ADS1231
 *               
@@ -215,9 +218,6 @@
     #endif
     #ifdef HIGHEST_SENSI_PGA_GAIN_FACTOR
         #undef HIGHEST_SENSI_PGA_GAIN_FACTOR
-    #endif
-    #ifdef AUTO_BRIDGE_BALANCING
-        #undef AUTO_BRIDGE_BALANCING
     #endif
 #endif
 #ifndef LOOP_COUNTER_LIMIT_THAT_TRACE_IS_ALLOWED_TO_BE_OFF_CENTER
@@ -628,11 +628,11 @@ So: - define ...PARALLELed = 0 if it is undefined
     #endif
     }
 
-    bool adjustValuesForThisLeg( uint8_t MSBpotPin, uint16_t* MSBpotValue, uint8_t MIDpotPin, uint16_t* MIDpotValue, uint8_t LSBpotPin, uint16_t* LSBpotValue, bool PosOrNeg = true ) //default direction will be positive
+    bool stepAdjustDigipotsForThisLeg( uint8_t MSBpotPin, uint16_t* MSBpotValue, uint8_t MIDpotPin, uint16_t* MIDpotValue, uint8_t LSBpotPin, uint16_t* LSBpotValue, bool PosOrNeg = true ) //default direction will be positive
     { // This effectively increments or decrements LSB digipot setting just once
         #ifdef DEBUG
             while ( !Serial );
-            Serial.print( F( "adjustValuesForThisLeg called on " ) );
+            Serial.print( F( "stepAdjustDigipotsForThisLeg called on " ) );
             Serial.print( MSBpotPin );
             Serial.print( F( " going " ) );
             Serial.println( PosOrNeg ? "up": "down");
@@ -700,25 +700,25 @@ So: - define ...PARALLELed = 0 if it is undefined
 //Target leg to adjust is the one that brings the negative leg closet to its midpoint: determine how far away from midpoint the negative leg is:
         if( ( ( ( DigipotValues[ 3 + ( bank * NUM_OF_DIGIPOTS_PER_BANK ) ] + DigipotValues[ 4 + ( bank * NUM_OF_DIGIPOTS_PER_BANK ) ] ) * MAXPOTVALUE ) + ( DigipotValues[ 5 + ( bank * NUM_OF_DIGIPOTS_PER_BANK ) ] ) ) > 66177 /*This is half of total resistance in terms of digi pot units*/ )
         {
-            if( adjustValuesForThisLeg( DigipotPins[ 3 ], DigipotValues[ 3 + ( bank * NUM_OF_DIGIPOTS_PER_BANK ) ], DigipotPins[ 4 ], DigipotValues[ 4 + ( bank * NUM_OF_DIGIPOTS_PER_BANK ) ], DigipotPins[ 5 ], DigipotValues[ 5 + ( bank * NUM_OF_DIGIPOTS_PER_BANK ) ], false ) ) return true;
-            else return adjustValuesForThisLeg( DigipotPins[ 0 ], DigipotValues[ 0 + ( bank * NUM_OF_DIGIPOTS_PER_BANK ) ], DigipotPins[ 1 ], DigipotValues[ 1 + ( bank * NUM_OF_DIGIPOTS_PER_BANK ) ], DigipotPins[ 2 ], DigipotValues[ 2 + ( bank * NUM_OF_DIGIPOTS_PER_BANK ) ] );
+            if( stepAdjustDigipotsForThisLeg( DigipotPins[ 3 ], DigipotValues[ 3 + ( bank * NUM_OF_DIGIPOTS_PER_BANK ) ], DigipotPins[ 4 ], DigipotValues[ 4 + ( bank * NUM_OF_DIGIPOTS_PER_BANK ) ], DigipotPins[ 5 ], DigipotValues[ 5 + ( bank * NUM_OF_DIGIPOTS_PER_BANK ) ], false ) ) return true;
+            else return stepAdjustDigipotsForThisLeg( DigipotPins[ 0 ], DigipotValues[ 0 + ( bank * NUM_OF_DIGIPOTS_PER_BANK ) ], DigipotPins[ 1 ], DigipotValues[ 1 + ( bank * NUM_OF_DIGIPOTS_PER_BANK ) ], DigipotPins[ 2 ], DigipotValues[ 2 + ( bank * NUM_OF_DIGIPOTS_PER_BANK ) ] );
         }
-        else if( adjustValuesForThisLeg( DigipotPins[ 0 ], DigipotValues[ 0 + ( bank * NUM_OF_DIGIPOTS_PER_BANK ) ], DigipotPins[ 1 ], DigipotValues[ 1 + ( bank * NUM_OF_DIGIPOTS_PER_BANK ) ], DigipotPins[ 2 ], DigipotValues[ 2 + ( bank * NUM_OF_DIGIPOTS_PER_BANK ) ], false ) ) return true;
-        return adjustValuesForThisLeg( DigipotPins[ 3 ], DigipotValues[ 3 + ( bank * NUM_OF_DIGIPOTS_PER_BANK ) ], DigipotPins[ 4 ], DigipotValues[ 4 + ( bank * NUM_OF_DIGIPOTS_PER_BANK ) ], DigipotPins[ 5 ], DigipotValues[ 5 + ( bank * NUM_OF_DIGIPOTS_PER_BANK ) ] );
+        if( stepAdjustDigipotsForThisLeg( DigipotPins[ 0 ], DigipotValues[ 0 + ( bank * NUM_OF_DIGIPOTS_PER_BANK ) ], DigipotPins[ 1 ], DigipotValues[ 1 + ( bank * NUM_OF_DIGIPOTS_PER_BANK ) ], DigipotPins[ 2 ], DigipotValues[ 2 + ( bank * NUM_OF_DIGIPOTS_PER_BANK ) ], false ) ) return true;
+        return stepAdjustDigipotsForThisLeg( DigipotPins[ 3 ], DigipotValues[ 3 + ( bank * NUM_OF_DIGIPOTS_PER_BANK ) ], DigipotPins[ 4 ], DigipotValues[ 4 + ( bank * NUM_OF_DIGIPOTS_PER_BANK ) ], DigipotPins[ 5 ], DigipotValues[ 5 + ( bank * NUM_OF_DIGIPOTS_PER_BANK ) ] );
     }
     
     bool AdjustBridgeOutputNegative( uint8_t bank )
-    { //Determine which leg is closest to Vcc/2 and tweak that first.  If all pots are maxed (positive leg to negative and negative leg to positive) return false
+    { //Determine which leg is closest to COMMON_MODE_LEVEL_FOR_MAX_GAIN_AS_READ_RAW_BY_INBOARD_ANALOG and tweak that first.  If all pots are maxed (positive leg to negative and negative leg to positive) return false
         if( ( DigipotValues[ 0 + ( bank * NUM_OF_DIGIPOTS_PER_BANK ) ] + DigipotValues[ 1 + ( bank * NUM_OF_DIGIPOTS_PER_BANK ) ] + DigipotValues[ 2 + ( bank * NUM_OF_DIGIPOTS_PER_BANK ) ] == 0 ) && \
             ( DigipotValues[ 3 + ( bank * NUM_OF_DIGIPOTS_PER_BANK ) ] + DigipotValues[ 4 + ( bank * NUM_OF_DIGIPOTS_PER_BANK ) ] >= MAXPOTVALUE * 2 ) && ( DigipotValues[ 5 + ( bank * NUM_OF_DIGIPOTS_PER_BANK ) ] > 256 ) ) return false;
 //Target leg to adjust is the one that brings the negative leg closet to its midpoint: determine how far away from midpoint the negative leg is:
         if( ( ( ( DigipotValues[ 3 + ( bank * NUM_OF_DIGIPOTS_PER_BANK ) ] + DigipotValues[ 4 + ( bank * NUM_OF_DIGIPOTS_PER_BANK ) ] ) * MAXPOTVALUE ) + ( DigipotValues[ 5 + ( bank * NUM_OF_DIGIPOTS_PER_BANK ) ] ) ) < 66177 /*This is half of total resistance in terms of digi pot units*/ )
         {
-            if( adjustValuesForThisLeg( DigipotPins[ 3 ], DigipotValues[ 3 + ( bank * NUM_OF_DIGIPOTS_PER_BANK ) ], DigipotPins[ 4 ], DigipotValues[ 4 + ( bank * NUM_OF_DIGIPOTS_PER_BANK ) ], DigipotPins[ 5 ], DigipotValues[ 5 + ( bank * NUM_OF_DIGIPOTS_PER_BANK ) ] ) ) return true;
-            else return adjustValuesForThisLeg( DigipotPins[ 0 ], DigipotValues[ 0 + ( bank * NUM_OF_DIGIPOTS_PER_BANK ) ], DigipotPins[ 1 ], DigipotValues[ 1 + ( bank * NUM_OF_DIGIPOTS_PER_BANK ) ], DigipotPins[ 2 ], DigipotValues[ 2 + ( bank * NUM_OF_DIGIPOTS_PER_BANK ) ], false );
+            if( stepAdjustDigipotsForThisLeg( DigipotPins[ 3 ], DigipotValues[ 3 + ( bank * NUM_OF_DIGIPOTS_PER_BANK ) ], DigipotPins[ 4 ], DigipotValues[ 4 + ( bank * NUM_OF_DIGIPOTS_PER_BANK ) ], DigipotPins[ 5 ], DigipotValues[ 5 + ( bank * NUM_OF_DIGIPOTS_PER_BANK ) ] ) ) return true;
+            else return stepAdjustDigipotsForThisLeg( DigipotPins[ 0 ], DigipotValues[ 0 + ( bank * NUM_OF_DIGIPOTS_PER_BANK ) ], DigipotPins[ 1 ], DigipotValues[ 1 + ( bank * NUM_OF_DIGIPOTS_PER_BANK ) ], DigipotPins[ 2 ], DigipotValues[ 2 + ( bank * NUM_OF_DIGIPOTS_PER_BANK ) ], false );
         }
-        else if( adjustValuesForThisLeg( DigipotPins[ 0 ], DigipotValues[ 0 + ( bank * NUM_OF_DIGIPOTS_PER_BANK ) ], DigipotPins[ 1 ], DigipotValues[ 1 + ( bank * NUM_OF_DIGIPOTS_PER_BANK ) ], DigipotPins[ 2 ], DigipotValues[ 2 + ( bank * NUM_OF_DIGIPOTS_PER_BANK ) ] ) ) return true;
-        return adjustValuesForThisLeg( DigipotPins[ 3 ], DigipotValues[ 3 + ( bank * NUM_OF_DIGIPOTS_PER_BANK ) ], DigipotPins[ 4 ], DigipotValues[ 4 + ( bank * NUM_OF_DIGIPOTS_PER_BANK ) ], DigipotPins[ 5 ], DigipotValues[ 5 + ( bank * NUM_OF_DIGIPOTS_PER_BANK ) ], false );
+        if( stepAdjustDigipotsForThisLeg( DigipotPins[ 0 ], DigipotValues[ 0 + ( bank * NUM_OF_DIGIPOTS_PER_BANK ) ], DigipotPins[ 1 ], DigipotValues[ 1 + ( bank * NUM_OF_DIGIPOTS_PER_BANK ) ], DigipotPins[ 2 ], DigipotValues[ 2 + ( bank * NUM_OF_DIGIPOTS_PER_BANK ) ] ) ) return true;
+        return stepAdjustDigipotsForThisLeg( DigipotPins[ 3 ], DigipotValues[ 3 + ( bank * NUM_OF_DIGIPOTS_PER_BANK ) ], DigipotPins[ 4 ], DigipotValues[ 4 + ( bank * NUM_OF_DIGIPOTS_PER_BANK ) ], DigipotPins[ 5 ], DigipotValues[ 5 + ( bank * NUM_OF_DIGIPOTS_PER_BANK ) ], false );
     }
 #endif
 
@@ -956,7 +956,7 @@ SetDigipotsStep2:;
     }
     while( BestGuessAnalogInputreading( 1 + ( bank * 2 ) ) < COMMON_MODE_LEVEL_FOR_MAX_GAIN_AS_READ_RAW_BY_INBOARD_ANALOG )
     {
-        adjustValuesForThisLeg( DigipotPins[ 3 + ( bank * 2 ) ], &DigipotValues[ 3 + ( bank * NUM_OF_DIGIPOTS_PER_BANK ) ], DigipotPins[ 4 + ( bank * 2 ) ], &DigipotValues[ 4 + ( bank * NUM_OF_DIGIPOTS_PER_BANK ) ],  DigipotPins[ 5 + ( bank * 2 ) ], &DigipotValues[ 5 + ( bank * NUM_OF_DIGIPOTS_PER_BANK ) ], false );
+        stepAdjustDigipotsForThisLeg( DigipotPins[ 3 + ( bank * 2 ) ], &DigipotValues[ 3 + ( bank * NUM_OF_DIGIPOTS_PER_BANK ) ], DigipotPins[ 4 + ( bank * 2 ) ], &DigipotValues[ 4 + ( bank * NUM_OF_DIGIPOTS_PER_BANK ) ],  DigipotPins[ 5 + ( bank * 2 ) ], &DigipotValues[ 5 + ( bank * NUM_OF_DIGIPOTS_PER_BANK ) ], false );
         if( JustPerformOneStep )
         {
             SetDigipotsStep = 3;
@@ -1024,7 +1024,7 @@ SetDigipotsStep5:; //This bottoms out as far as setting digipots
     }
     while( BestGuessAnalogInputreading( 1 + ( bank * 2 ) ) > COMMON_MODE_LEVEL_FOR_MAX_GAIN_AS_READ_RAW_BY_INBOARD_ANALOG )
     {
-        adjustValuesForThisLeg( DigipotPins[ 3 + ( bank * 2 ) ], &DigipotValues[ 3 + ( bank * NUM_OF_DIGIPOTS_PER_BANK ) ], DigipotPins[ 4 + ( bank * 2 ) ], &DigipotValues[ 4 + ( bank * NUM_OF_DIGIPOTS_PER_BANK ) ],  DigipotPins[ 5 + ( bank * 2 ) ], &DigipotValues[ 5 + ( bank * NUM_OF_DIGIPOTS_PER_BANK ) ], true );
+        stepAdjustDigipotsForThisLeg( DigipotPins[ 3 + ( bank * 2 ) ], &DigipotValues[ 3 + ( bank * NUM_OF_DIGIPOTS_PER_BANK ) ], DigipotPins[ 4 + ( bank * 2 ) ], &DigipotValues[ 4 + ( bank * NUM_OF_DIGIPOTS_PER_BANK ) ],  DigipotPins[ 5 + ( bank * 2 ) ], &DigipotValues[ 5 + ( bank * NUM_OF_DIGIPOTS_PER_BANK ) ], true );
         if( JustPerformOneStep )
         {
             SetDigipotsStep = 6;
@@ -1037,11 +1037,11 @@ SetDigipotsStep6:;
     {//This leg is the  reference, so we need to take a little extra time: avg out more samples
         if( BestGuessAnalogInputreading( 1 + ( bank * 2 ), FINETUNE ) > COMMON_MODE_LEVEL_FOR_MAX_GAIN_AS_READ_RAW_BY_INBOARD_ANALOG )
         {
-            adjustValuesForThisLeg( DigipotPins[ 3 + ( bank * 2 ) ], &DigipotValues[ 3 + ( bank * NUM_OF_DIGIPOTS_PER_BANK ) ], DigipotPins[ 4 + ( bank * 2 ) ], &DigipotValues[ 4 + ( bank * NUM_OF_DIGIPOTS_PER_BANK ) ],  DigipotPins[ 5 + ( bank * 2 ) ], &DigipotValues[ 5 + ( bank * NUM_OF_DIGIPOTS_PER_BANK ) ], true );
+            stepAdjustDigipotsForThisLeg( DigipotPins[ 3 + ( bank * 2 ) ], &DigipotValues[ 3 + ( bank * NUM_OF_DIGIPOTS_PER_BANK ) ], DigipotPins[ 4 + ( bank * 2 ) ], &DigipotValues[ 4 + ( bank * NUM_OF_DIGIPOTS_PER_BANK ) ],  DigipotPins[ 5 + ( bank * 2 ) ], &DigipotValues[ 5 + ( bank * NUM_OF_DIGIPOTS_PER_BANK ) ], true );
         }
         else if( BestGuessAnalogInputreading( 1 + ( bank * 2 ), FINETUNE ) /*read it again*/ < COMMON_MODE_LEVEL_FOR_MAX_GAIN_AS_READ_RAW_BY_INBOARD_ANALOG )
         {
-            adjustValuesForThisLeg( DigipotPins[ 3 + ( bank * 2 ) ], &DigipotValues[ 3 + ( bank * NUM_OF_DIGIPOTS_PER_BANK ) ], DigipotPins[ 4 + ( bank * 2 ) ], &DigipotValues[ 4 + ( bank * NUM_OF_DIGIPOTS_PER_BANK ) ],  DigipotPins[ 5 + ( bank * 2 ) ], &DigipotValues[ 5 + ( bank * NUM_OF_DIGIPOTS_PER_BANK ) ], false );
+            stepAdjustDigipotsForThisLeg( DigipotPins[ 3 + ( bank * 2 ) ], &DigipotValues[ 3 + ( bank * NUM_OF_DIGIPOTS_PER_BANK ) ], DigipotPins[ 4 + ( bank * 2 ) ], &DigipotValues[ 4 + ( bank * NUM_OF_DIGIPOTS_PER_BANK ) ],  DigipotPins[ 5 + ( bank * 2 ) ], &DigipotValues[ 5 + ( bank * NUM_OF_DIGIPOTS_PER_BANK ) ], false );
         }
         if( JustPerformOneStep )
         {
@@ -1100,7 +1100,7 @@ bool MatchBridgeLegSignalToReference( uint8_t bank )
 //Converge on BestGuessAnalogInputreading( 1 + ( bank * 2 ) ) in smaller steps
     while( BestGuessAnalogInputreading( bank * 2 ) < BestGuessAnalogInputreading( 1 + ( bank * 2 ) ) + BIAS_TO_APPLY_TO_SIGNAL_LEG_TO_CENTER_THE_TRACE )
     {
-        adjustValuesForThisLeg( DigipotPins[ 0 + ( bank * 2 ) ], &DigipotValues[ 0 + ( bank * NUM_OF_DIGIPOTS_PER_BANK ) ], DigipotPins[ 1 + ( bank * 2 ) ], &DigipotValues[ 1 + ( bank * NUM_OF_DIGIPOTS_PER_BANK ) ],  DigipotPins[ 2 + ( bank * 2 ) ], &DigipotValues[ 2 + ( bank * NUM_OF_DIGIPOTS_PER_BANK ) ], false );
+        stepAdjustDigipotsForThisLeg( DigipotPins[ 0 + ( bank * 2 ) ], &DigipotValues[ 0 + ( bank * NUM_OF_DIGIPOTS_PER_BANK ) ], DigipotPins[ 1 + ( bank * 2 ) ], &DigipotValues[ 1 + ( bank * NUM_OF_DIGIPOTS_PER_BANK ) ],  DigipotPins[ 2 + ( bank * 2 ) ], &DigipotValues[ 2 + ( bank * NUM_OF_DIGIPOTS_PER_BANK ) ], false );
     }
     stepsize = 10;
     while( ( BestGuessAnalogInputreading( bank * 2 ) > BestGuessAnalogInputreading( 1 + ( bank * 2 ) ) + BIAS_TO_APPLY_TO_SIGNAL_LEG_TO_CENTER_THE_TRACE ) && ( stepsize > 0 ) )
@@ -1123,28 +1123,49 @@ bool MatchBridgeLegSignalToReference( uint8_t bank )
 //Converge on BestGuessAnalogInputreading( 1 + ( bank * 2 ) ) in smaller steps
     while( BestGuessAnalogInputreading( bank * 2 ) > BestGuessAnalogInputreading( 1 + ( bank * 2 ) ) + BIAS_TO_APPLY_TO_SIGNAL_LEG_TO_CENTER_THE_TRACE )
     {
-        adjustValuesForThisLeg( DigipotPins[ 0 + ( bank * 2 ) ], &DigipotValues[ 0 + ( bank * NUM_OF_DIGIPOTS_PER_BANK ) ], DigipotPins[ 1 + ( bank * 2 ) ], &DigipotValues[ 1 + ( bank * NUM_OF_DIGIPOTS_PER_BANK ) ],  DigipotPins[ 2 + ( bank * 2 ) ], &DigipotValues[ 2 + ( bank * NUM_OF_DIGIPOTS_PER_BANK ) ], true );
+        stepAdjustDigipotsForThisLeg( DigipotPins[ 0 + ( bank * 2 ) ], &DigipotValues[ 0 + ( bank * NUM_OF_DIGIPOTS_PER_BANK ) ], DigipotPins[ 1 + ( bank * 2 ) ], &DigipotValues[ 1 + ( bank * NUM_OF_DIGIPOTS_PER_BANK ) ],  DigipotPins[ 2 + ( bank * 2 ) ], &DigipotValues[ 2 + ( bank * NUM_OF_DIGIPOTS_PER_BANK ) ], true );
     }
 //Converge by one or two consecutive readings
     do
     {
         if( BestGuessAnalogInputreading( bank * 2 ) > BestGuessAnalogInputreading( 1 + ( bank * 2 ) ) + BIAS_TO_APPLY_TO_SIGNAL_LEG_TO_CENTER_THE_TRACE )
         {
-            adjustValuesForThisLeg( DigipotPins[ 0 + ( bank * 2 ) ], &DigipotValues[ 0 + ( bank * NUM_OF_DIGIPOTS_PER_BANK ) ], DigipotPins[ 1 + ( bank * 2 ) ], &DigipotValues[ 1 + ( bank * NUM_OF_DIGIPOTS_PER_BANK ) ],  DigipotPins[ 2 + ( bank * 2 ) ], &DigipotValues[ 2 + ( bank * NUM_OF_DIGIPOTS_PER_BANK ) ], true );
+            stepAdjustDigipotsForThisLeg( DigipotPins[ 0 + ( bank * 2 ) ], &DigipotValues[ 0 + ( bank * NUM_OF_DIGIPOTS_PER_BANK ) ], DigipotPins[ 1 + ( bank * 2 ) ], &DigipotValues[ 1 + ( bank * NUM_OF_DIGIPOTS_PER_BANK ) ],  DigipotPins[ 2 + ( bank * 2 ) ], &DigipotValues[ 2 + ( bank * NUM_OF_DIGIPOTS_PER_BANK ) ], true );
         }
         else if( BestGuessAnalogInputreading( bank * 2 ) /*read it again*/ < BestGuessAnalogInputreading( 1 + ( bank * 2 ) ) + BIAS_TO_APPLY_TO_SIGNAL_LEG_TO_CENTER_THE_TRACE )
         {
-            adjustValuesForThisLeg( DigipotPins[ 0 + ( bank * 2 ) ], &DigipotValues[ 0 + ( bank * NUM_OF_DIGIPOTS_PER_BANK ) ], DigipotPins[ 1 + ( bank * 2 ) ], &DigipotValues[ 1 + ( bank * NUM_OF_DIGIPOTS_PER_BANK ) ],  DigipotPins[ 2 + ( bank * 2 ) ], &DigipotValues[ 2 + ( bank * NUM_OF_DIGIPOTS_PER_BANK ) ], false );
+            stepAdjustDigipotsForThisLeg( DigipotPins[ 0 + ( bank * 2 ) ], &DigipotValues[ 0 + ( bank * NUM_OF_DIGIPOTS_PER_BANK ) ], DigipotPins[ 1 + ( bank * 2 ) ], &DigipotValues[ 1 + ( bank * NUM_OF_DIGIPOTS_PER_BANK ) ],  DigipotPins[ 2 + ( bank * 2 ) ], &DigipotValues[ 2 + ( bank * NUM_OF_DIGIPOTS_PER_BANK ) ], false );
         }
         if( BestGuessAnalogInputreading( bank * 2 ) /*read it again*/ != BestGuessAnalogInputreading( 1 + ( bank * 2 ) ) + BIAS_TO_APPLY_TO_SIGNAL_LEG_TO_CENTER_THE_TRACE ) continue;
         
     }while( BestGuessAnalogInputreading( bank * 2 ) /*read it again*/ != BestGuessAnalogInputreading( 1 + ( bank * 2 ) ) + BIAS_TO_APPLY_TO_SIGNAL_LEG_TO_CENTER_THE_TRACE );
+#ifdef DEBUG
+    while( !Serial );
+    Serial.println( F( "Line 1144" ) );
+#endif
 
 // Lastly, apply negative ADDITIONAL_LSB_DIGIPOT_SETTING_BIAS_TO_SIGNAL_TRACE to signal leg LSB digipot
-#if defined ADDITIONAL_LSB_DIGIPOT_SETTING_BIAS_TO_SIGNAL_TRACE
-    #if ( 1 < ADDITIONAL_LSB_DIGIPOT_SETTING_BIAS_TO_SIGNAL_TRACE + 1 )
+#ifdef ADDITIONAL_LSB_DIGIPOT_SETTING_BIAS_TO_SIGNAL_TRACE
+#ifdef DEBUG
+    while( !Serial );
+    Serial.println( F( "Line 1151" ) );
+#endif
+    #if ( ( 1 < ADDITIONAL_LSB_DIGIPOT_SETTING_BIAS_TO_SIGNAL_TRACE + 1 ) || ( -1 > ADDITIONAL_LSB_DIGIPOT_SETTING_BIAS_TO_SIGNAL_TRACE - 1 ) )
+#ifdef DEBUG
+    while( !Serial );
+    Serial.println( F( "Line 1156" ) );
+#endif
         for( uint8_t AdjustClicks = 0; AdjustClicks < abs( ADDITIONAL_LSB_DIGIPOT_SETTING_BIAS_TO_SIGNAL_TRACE ); AdjustClicks++ )
-            adjustValuesForThisLeg( DigipotPins[ 0 + ( bank * 2 ) ], &DigipotValues[ 0 + ( bank * NUM_OF_DIGIPOTS_PER_BANK ) ], DigipotPins[ 1 + ( bank * 2 ) ], &DigipotValues[ 1 + ( bank * NUM_OF_DIGIPOTS_PER_BANK ) ],  DigipotPins[ 2 + ( bank * 2 ) ], &DigipotValues[ 2 + ( bank * NUM_OF_DIGIPOTS_PER_BANK ) ], ADDITIONAL_LSB_DIGIPOT_SETTING_BIAS_TO_SIGNAL_TRACE > 0 ? false : true  );
+        {
+#ifdef DEBUG
+    while( !Serial );
+    Serial.print( F( "Line 1150, AdjustClicks=" ) );
+    Serial.println( AdjustClicks );
+    Serial.print( F( ", ADDITIONAL_LSB_DIGIPOT_SETTING_BIAS_TO_SIGNAL_TRACE=" ) );
+    Serial.println( ADDITIONAL_LSB_DIGIPOT_SETTING_BIAS_TO_SIGNAL_TRACE );
+#endif
+            stepAdjustDigipotsForThisLeg( DigipotPins[ 0 + ( bank * 2 ) ], &DigipotValues[ 0 + ( bank * NUM_OF_DIGIPOTS_PER_BANK ) ], DigipotPins[ 1 + ( bank * 2 ) ], &DigipotValues[ 1 + ( bank * NUM_OF_DIGIPOTS_PER_BANK ) ],  DigipotPins[ 2 + ( bank * 2 ) ], &DigipotValues[ 2 + ( bank * NUM_OF_DIGIPOTS_PER_BANK ) ], ADDITIONAL_LSB_DIGIPOT_SETTING_BIAS_TO_SIGNAL_TRACE > 0 ? false : true  );
+        }
     #endif
 #endif
 //If ADDON ADC affiliated with this bank reads above zero on avg, lower the signal leg and vice versa
@@ -1152,7 +1173,7 @@ bool MatchBridgeLegSignalToReference( uint8_t bank )
 //    ReadAndPlotFromAllADCsInAndOutboard( true ); // I would think the operator would appreciate seeing something like this during calibration
 /*    Fine tune into perfect balance:
 
-//    bool adjustValuesForThisLeg( uint8_t MSBpotPin, uint16_t* MSBpotValue, uint8_t MIDpotPin, uint16_t* MIDpotValue, uint8_t LSBpotPin, uint16_t* LSBpotValue, bool PosOrNeg = true ) //default direction will be positive
+//    bool stepAdjustDigipotsForThisLeg( uint8_t MSBpotPin, uint16_t* MSBpotValue, uint8_t MIDpotPin, uint16_t* MIDpotValue, uint8_t LSBpotPin, uint16_t* LSBpotValue, bool PosOrNeg = true ) //default direction will be positive
     //see what ADDON ADC affiliated with this bank reads avg
 #ifdef MAGNIFICATION_FACTOR
     while( LastPlotPoints[ bank * 2 ] < 0 )// + LinespaceParameters[ channel ].ZeroOfThisPlotLinespace;
@@ -1160,7 +1181,7 @@ bool MatchBridgeLegSignalToReference( uint8_t bank )
     while( LastPlotPoints[ bank ] < 0 )// + LinespaceParameters[ channel ].ZeroOfThisPlotLinespace;
 #endif
     {//reading is too high, lower the leg
-        if( adjustValuesForThisLeg( *( AnalogPinArray + 0 + ( bank * 2 ) ), &DigipotValues[ 0 + ( bank * NUM_OF_DIGIPOTS_PER_BANK ) ], *( AnalogPinArray + 1 + ( bank * 2 ) ), &DigipotValues[ 1 + ( bank * NUM_OF_DIGIPOTS_PER_BANK ) ], *( AnalogPinArray + 2 + ( bank * 2 ) ), &DigipotValues[ 2 + ( bank * NUM_OF_DIGIPOTS_PER_BANK ) ], false ) == false ) break;
+        if( stepAdjustDigipotsForThisLeg( *( AnalogPinArray + 0 + ( bank * 2 ) ), &DigipotValues[ 0 + ( bank * NUM_OF_DIGIPOTS_PER_BANK ) ], *( AnalogPinArray + 1 + ( bank * 2 ) ), &DigipotValues[ 1 + ( bank * NUM_OF_DIGIPOTS_PER_BANK ) ], *( AnalogPinArray + 2 + ( bank * 2 ) ), &DigipotValues[ 2 + ( bank * NUM_OF_DIGIPOTS_PER_BANK ) ], false ) == false ) break;
         ReadAndPlotFromAllADCsInAndOutboard( true ); // I would think the operator would appreciate seeing something like this during calibration
     }
 #ifdef MAGNIFICATION_FACTOR
@@ -1169,7 +1190,7 @@ bool MatchBridgeLegSignalToReference( uint8_t bank )
     while( LastPlotPoints[ bank ] > 0 )// + LinespaceParameters[ channel ].ZeroOfThisPlotLinespace;
 #endif
     {//reading is too low, raise the leg
-        if( adjustValuesForThisLeg( *( AnalogPinArray + 0 + ( bank * 2 ) ), &DigipotValues[ 0 + ( bank * NUM_OF_DIGIPOTS_PER_BANK ) ], *( AnalogPinArray + 1 + ( bank * 2 ) ), &DigipotValues[ 1 + ( bank * NUM_OF_DIGIPOTS_PER_BANK ) ], *( AnalogPinArray + 2 + ( bank * 2 ) ), &DigipotValues[ 2 + ( bank * NUM_OF_DIGIPOTS_PER_BANK ) ], true ) == false ) break;
+        if( stepAdjustDigipotsForThisLeg( *( AnalogPinArray + 0 + ( bank * 2 ) ), &DigipotValues[ 0 + ( bank * NUM_OF_DIGIPOTS_PER_BANK ) ], *( AnalogPinArray + 1 + ( bank * 2 ) ), &DigipotValues[ 1 + ( bank * NUM_OF_DIGIPOTS_PER_BANK ) ], *( AnalogPinArray + 2 + ( bank * 2 ) ), &DigipotValues[ 2 + ( bank * NUM_OF_DIGIPOTS_PER_BANK ) ], true ) == false ) break;
         ReadAndPlotFromAllADCsInAndOutboard( true ); // I would think the operator would appreciate seeing something like this during calibration
     }
 */
@@ -1201,7 +1222,7 @@ void SetBridgeLegSignalInput( uint8_t bank )
 //Converge on COMMON_MODE_LEVEL_FOR_MAX_GAIN_AS_READ_RAW_BY_INBOARD_ANALOG in smaller steps
     while( BestGuessAnalogInputreading( bank * 2 ) < COMMON_MODE_LEVEL_FOR_MAX_GAIN_AS_READ_RAW_BY_INBOARD_ANALOG + BIAS_TO_APPLY_TO_SIGNAL_LEG_TO_CENTER_THE_TRACE )
     {
-        adjustValuesForThisLeg( DigipotPins[ 0 + ( bank * 2 ) ], &DigipotValues[ 0 + ( bank * NUM_OF_DIGIPOTS_PER_BANK ) ], DigipotPins[ 1 + ( bank * 2 ) ], &DigipotValues[ 1 + ( bank * NUM_OF_DIGIPOTS_PER_BANK ) ],  DigipotPins[ 2 + ( bank * 2 ) ], &DigipotValues[ 2 + ( bank * NUM_OF_DIGIPOTS_PER_BANK ) ], false );
+        stepAdjustDigipotsForThisLeg( DigipotPins[ 0 + ( bank * 2 ) ], &DigipotValues[ 0 + ( bank * NUM_OF_DIGIPOTS_PER_BANK ) ], DigipotPins[ 1 + ( bank * 2 ) ], &DigipotValues[ 1 + ( bank * NUM_OF_DIGIPOTS_PER_BANK ) ],  DigipotPins[ 2 + ( bank * 2 ) ], &DigipotValues[ 2 + ( bank * NUM_OF_DIGIPOTS_PER_BANK ) ], false );
     }
     stepsize = 10;
     while( ( BestGuessAnalogInputreading( bank * 2 ) > COMMON_MODE_LEVEL_FOR_MAX_GAIN_AS_READ_RAW_BY_INBOARD_ANALOG + BIAS_TO_APPLY_TO_SIGNAL_LEG_TO_CENTER_THE_TRACE ) && ( stepsize > 0 ) )
@@ -1224,18 +1245,18 @@ void SetBridgeLegSignalInput( uint8_t bank )
 //Converge on COMMON_MODE_LEVEL_FOR_MAX_GAIN_AS_READ_RAW_BY_INBOARD_ANALOG in smaller steps
     while( BestGuessAnalogInputreading( bank * 2 ) > COMMON_MODE_LEVEL_FOR_MAX_GAIN_AS_READ_RAW_BY_INBOARD_ANALOG + BIAS_TO_APPLY_TO_SIGNAL_LEG_TO_CENTER_THE_TRACE )
     {
-        adjustValuesForThisLeg( DigipotPins[ 0 + ( bank * 2 ) ], &DigipotValues[ 0 + ( bank * NUM_OF_DIGIPOTS_PER_BANK ) ], DigipotPins[ 1 + ( bank * 2 ) ], &DigipotValues[ 1 + ( bank * NUM_OF_DIGIPOTS_PER_BANK ) ],  DigipotPins[ 2 + ( bank * 2 ) ], &DigipotValues[ 2 + ( bank * NUM_OF_DIGIPOTS_PER_BANK ) ], true );
+        stepAdjustDigipotsForThisLeg( DigipotPins[ 0 + ( bank * 2 ) ], &DigipotValues[ 0 + ( bank * NUM_OF_DIGIPOTS_PER_BANK ) ], DigipotPins[ 1 + ( bank * 2 ) ], &DigipotValues[ 1 + ( bank * NUM_OF_DIGIPOTS_PER_BANK ) ],  DigipotPins[ 2 + ( bank * 2 ) ], &DigipotValues[ 2 + ( bank * NUM_OF_DIGIPOTS_PER_BANK ) ], true );
     }
 //Converge by one or two consecutive readings
     do
     {
         if( BestGuessAnalogInputreading( bank * 2 ) > COMMON_MODE_LEVEL_FOR_MAX_GAIN_AS_READ_RAW_BY_INBOARD_ANALOG + BIAS_TO_APPLY_TO_SIGNAL_LEG_TO_CENTER_THE_TRACE )
         {
-            adjustValuesForThisLeg( DigipotPins[ 0 + ( bank * 2 ) ], &DigipotValues[ 0 + ( bank * NUM_OF_DIGIPOTS_PER_BANK ) ], DigipotPins[ 1 + ( bank * 2 ) ], &DigipotValues[ 1 + ( bank * NUM_OF_DIGIPOTS_PER_BANK ) ],  DigipotPins[ 2 + ( bank * 2 ) ], &DigipotValues[ 2 + ( bank * NUM_OF_DIGIPOTS_PER_BANK ) ], true );
+            stepAdjustDigipotsForThisLeg( DigipotPins[ 0 + ( bank * 2 ) ], &DigipotValues[ 0 + ( bank * NUM_OF_DIGIPOTS_PER_BANK ) ], DigipotPins[ 1 + ( bank * 2 ) ], &DigipotValues[ 1 + ( bank * NUM_OF_DIGIPOTS_PER_BANK ) ],  DigipotPins[ 2 + ( bank * 2 ) ], &DigipotValues[ 2 + ( bank * NUM_OF_DIGIPOTS_PER_BANK ) ], true );
         }
         else if( BestGuessAnalogInputreading( bank * 2 ) /*read it again*/ < COMMON_MODE_LEVEL_FOR_MAX_GAIN_AS_READ_RAW_BY_INBOARD_ANALOG + BIAS_TO_APPLY_TO_SIGNAL_LEG_TO_CENTER_THE_TRACE )
         {
-            adjustValuesForThisLeg( DigipotPins[ 0 + ( bank * 2 ) ], &DigipotValues[ 0 + ( bank * NUM_OF_DIGIPOTS_PER_BANK ) ], DigipotPins[ 1 + ( bank * 2 ) ], &DigipotValues[ 1 + ( bank * NUM_OF_DIGIPOTS_PER_BANK ) ],  DigipotPins[ 2 + ( bank * 2 ) ], &DigipotValues[ 2 + ( bank * NUM_OF_DIGIPOTS_PER_BANK ) ], false );
+            stepAdjustDigipotsForThisLeg( DigipotPins[ 0 + ( bank * 2 ) ], &DigipotValues[ 0 + ( bank * NUM_OF_DIGIPOTS_PER_BANK ) ], DigipotPins[ 1 + ( bank * 2 ) ], &DigipotValues[ 1 + ( bank * NUM_OF_DIGIPOTS_PER_BANK ) ],  DigipotPins[ 2 + ( bank * 2 ) ], &DigipotValues[ 2 + ( bank * NUM_OF_DIGIPOTS_PER_BANK ) ], false );
         }
         if( BestGuessAnalogInputreading( bank * 2 ) /*read it again*/ != COMMON_MODE_LEVEL_FOR_MAX_GAIN_AS_READ_RAW_BY_INBOARD_ANALOG + BIAS_TO_APPLY_TO_SIGNAL_LEG_TO_CENTER_THE_TRACE ) continue;
         
@@ -1636,6 +1657,25 @@ Start_of_addon_ADC_acquisition:
         Serial.println( INDEX_OF_OUTBOARDS + whichOutboardADCindex );
 #endif
         PlotTheNormalAndMagnifiedSignals( INDEX_OF_OUTBOARDS + whichOutboardADCindex );
+/*
+#ifdef AUTO_BRIDGE_BALANCING
+        int reading_after_computed = plot_the_normal_and_magnified_signals( INDEX_OF_OUTBOARDS + whichOutboardADCindex );
+        if( reading_after_computed < 0 ) // means signal leg is higher
+            if( --counter_for_trace_out_of_range_too_long[ whichOutboardADCindex ] < -LOOP_COUNTER_LIMIT_THAT_TRACE_IS_ALLOWED_TO_BE_OFF_CENTER )
+                set_bridge_leg_signal_input(  ); Instead maybe use AdjustBridgeOutputNegative( bank );
+        else if( reading_after_computed > 0 ) //means reference leg is higher
+            if( ++counter_for_trace_out_of_range_too_long[ whichOutboardADCindex ] > LOOP_COUNTER_LIMIT_THAT_TRACE_IS_ALLOWED_TO_BE_OFF_CENTER )
+                set_bridge_leg_signal_input(  ); Instead maybe use AdjustBridgeOutputNegative( bank );
+        else
+            counter_for_trace_out_of_range_too_long[ whichOutboardADCindex ] = 0;
+    #else
+        plot_the_normal_and_magnified_signals( INDEX_OF_OUTBOARDS + whichOutboardADCindex );
+    #endif
+//    #endif
+    }
+#endif
+
+ */
     }
 #endif
 }
