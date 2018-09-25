@@ -32,8 +32,8 @@ SS – digital 10 to CS of a single digital pot, not abstracted by library call,
 
 MOSI – digital 11 to inputs of all digital pots unidirectional NOT PIN 11 ON LEONARDO - IS FOUND ON 1CSP ONLY.  REQ'D IN ALL CASES.
 
-MISO – digital 12 to outputs of all digital pots unidirectional NOT PIN 12 ON EXCEPT LEONARDO - IS FOUND ON 1CSP ONLY.  OPTIONAL IN 
-      SOME CASES.
+MISO – digital 12 to outputs of all digital pots unidirectional NOT PIN 12 ON EXCEPT LEONARDO - IS FOUND ON 1CSP ONLY.  NOT USED 
+      CURRENTLY BECAUSE SETTINGS CAN'T BE SAVED INSIDE THE DIGPOTS, SO OF COURSE THEY CAN'T BE READ BACK.
 
 SCK – digital 13 to CLK of all digital pots unidirectional NOT PIN 13 ON LEONARDO - IS FOUND ON 1CSP ONLY
 
