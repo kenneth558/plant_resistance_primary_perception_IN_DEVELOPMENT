@@ -24,7 +24,15 @@ The signal input is from a Wheatstone bridge circuit whose legs span the 5 VDC s
 
 The load resistance in the reference leg has been a 1 MOhm resistor for all of the R&D time.  That value also seemed to work surprisingly well whenever I attached electrodes to an actual plant.  That's just one of those "God things", I'd say, but I'm sure different plants and electrode surface areas will result in adjustment needed to that resistance.
 
-The digpots need to be low-noise; i.e., you should not use the popular MCP41xxx digipots because they have internal charge pumps that generate noise.  Charge pumps are needed in digipots to save settings to EEPROM, so you'll be stuck using pots that can't save their settings in order to have low noise.  The digipots I would recommend are the MCP4262-104 and MCP4262-502 (one of each will handle one bridge).  Those values are 100K and 5K with two pots per package, and you would control each LM334 with one 100K pot and one 5K pot in series with each other.  
+The digpots need to be low-noise; i.e., you should not use the popular MCP41xxx digipots because they have internal charge pumps that generate noise.  Charge pumps are needed in digipots to save settings to EEPROM, so you'll be stuck using pots that can't save their settings in order to have low noise.  The digipots I would recommend are the MCP4262-104 and MCP4262-502 (one of each will handle one bridge).  Those values are 100K and 5K with two pots per package, and you would control each LM334 with one 100K pot and one 5K pot in series with each other.   
+Other pin assignments:  
+    SS – digital 10 to CS of a single digital pot, not abstracted by library call, so can be any pin as determined within main function 
+      unidirectional NOT PIN 10 ON LEONARDO - IS FOUND ON LED_BUILTIN_RX (PIN 17) ONLY
+    MOSI – digital 11 to inputs of all digital pots unidirectional NOT PIN 11 ON LEONARDO - IS FOUND ON 1CSP ONLY.  REQ'D IN ALL CASES.
+    MISO – digital 12 to outputs of all digital pots unidirectional NOT PIN 12 ON EXCEPT LEONARDO - IS FOUND ON 1CSP ONLY.  OPTIONAL IN 
+      SOME CASES.
+    SCK – digital 13 to CLK of all digital pots unidirectional NOT PIN 13 ON LEONARDO - IS FOUND ON 1CSP ONLY
+
 
 As I describe in the sentence above, I use an extra, unnecessary 100K pot per LM334, so the CS pin numbers in the sketch are wasting two pins, if you care to shift the digital pins for the CS line down in the sketch.  The Arduino Digital pins are set in the sketch to preprocessor macros called "BANK_1_LEG_0_DIGITAL_POT_0" and similar.  If you use the two digipot per leg design, the MSB namesaked digipots need to be skipped in favor of only the MID and LSB namesaked ones; hence, the MSB pins are wasted if you don't shift the others down.
 
