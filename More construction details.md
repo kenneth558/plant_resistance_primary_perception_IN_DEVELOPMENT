@@ -14,7 +14,7 @@ The power decoupling capacitor must *not* be connected on the ADS1X15 signal sid
 
 Another note electronics-wise is that the inputs of the ADS device draw current from the device of interest connected.  The amount of that current depends on the the input voltage difference from 0.7 volts.  The electronics-saavy reader recognizes that voltage as a silicon diode junction voltage that will exist on the input pin when nothing is connected to it.  However, the current drawn is NOT that of a resistive load but rather, when used with the high impedance application of this project, a capacitive load.  The point being that the RC filter capacitance added to the input pins as mentioned in point 2 above actually increases the DC readings a small amount from what they would read without any added  capacitors on the input pins.  I only state this because I was initially puzzled by the input difference myself before I understood why a capacitor was changing the input voltage, and I don't want you to waste your time worrying about it if you notice it.
 
-My reply to:
+4.  My reply to:
 "Your demo in Lincoln interests me and I would like to know all the details, schema and everything I need to know to replicate your idea!"
 
 As you know, I don't have the schematic in e-form, yet, but I can certainly describe the circuit verbally here.  You'll find the sketch under the "sketch code" folder in that GitHub location.  I'm keeping two sketches out there so one I call the nightly version.  "Weekly" is more accurate on that.
