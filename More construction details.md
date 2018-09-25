@@ -26,12 +26,16 @@ The load resistance in the reference leg has been a 1 MOhm resistor for all of t
 
 The digpots need to be low-noise; i.e., you should not use the popular X9Cxxx digipots because they have internal charge pumps that generate noise.  Charge pumps are needed in digipots to save settings to EEPROM, so you'll be stuck using pots that can't save their settings in order to have low noise.  The digipots I've successfully tested are the MCP4162-104 and MCP4162-502 (two of each will handle one bridge).  Those values are 100 KOhm and 5 KOhm, and you would control each LM334 with one 100K pot and one 5K pot in series with each other. Please note that in my development circuit I actually use more 100K pots thinking I would get greater range but discovered the LM334 doesn't seem to have the range at 5VDC to handle adjustment resistance higher than 100K, so you could save yourself a couple parts from what the development sketch is capable of if you just use one of the 100K pots in series with the 5K pot per LM334.
 Other pin assignments:  
-    SS – digital 10 to CS of a single digital pot, not abstracted by library call, so can be any pin as determined within main function 
+
+SS – digital 10 to CS of a single digital pot, not abstracted by library call, so can be any pin as determined within main function 
       unidirectional NOT PIN 10 ON LEONARDO - IS FOUND ON LED_BUILTIN_RX (PIN 17) ONLY
-    MOSI – digital 11 to inputs of all digital pots unidirectional NOT PIN 11 ON LEONARDO - IS FOUND ON 1CSP ONLY.  REQ'D IN ALL CASES.
-    MISO – digital 12 to outputs of all digital pots unidirectional NOT PIN 12 ON EXCEPT LEONARDO - IS FOUND ON 1CSP ONLY.  OPTIONAL IN 
+
+MOSI – digital 11 to inputs of all digital pots unidirectional NOT PIN 11 ON LEONARDO - IS FOUND ON 1CSP ONLY.  REQ'D IN ALL CASES.
+
+MISO – digital 12 to outputs of all digital pots unidirectional NOT PIN 12 ON EXCEPT LEONARDO - IS FOUND ON 1CSP ONLY.  OPTIONAL IN 
       SOME CASES.
-    SCK – digital 13 to CLK of all digital pots unidirectional NOT PIN 13 ON LEONARDO - IS FOUND ON 1CSP ONLY
+
+SCK – digital 13 to CLK of all digital pots unidirectional NOT PIN 13 ON LEONARDO - IS FOUND ON 1CSP ONLY
 
 
 As I describe in the sentence above, I use an extra, unnecessary 100K pot per LM334, so the CS pin numbers in the sketch are wasting two pins, if you care to shift the digital pins for the CS line down in the sketch.  The Arduino Digital pins are set in the sketch to preprocessor macros called "BANK_1_LEG_0_DIGITAL_POT_0" and similar.  If you use the two digipot per leg design, the MSB namesaked digipots need to be skipped in favor of only the MID and LSB namesaked ones; hence, the MSB pins are wasted if you don't shift the others down.
