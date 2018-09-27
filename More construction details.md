@@ -1,10 +1,10 @@
  ##### 1.  A decoupling capacitor is required at the ADS1X15 device VDD to GND.  From the datasheet:
 >Good power-supply decoupling is important to achieve optimum performance. VDD must be decoupled with at least a 0.1-μF capacitor, as shown in Figure 47. The 0.1-μF bypass capacitor supplies the momentary bursts of extra current required from the supply when the device is converting. Place the bypass capacitor as close to the power-supply pin of the device as possible using low-impedance connections. Use multilayer ceramic chip capacitors (MLCCs) that offer low equivalent series resistance (ESR) and inductance (ESL) characteristics for power-supply decoupling purposes. For very sensitive systems, or for systems in harsh noise environments, avoid the use of vias for connecting the capacitors to the device pins for better noise immunity. The use of multiple vias in parallel lowers the overall inductance, and is beneficial for connections to ground planes.
 
- # 2.  An RC filter to each used ADS1X15 analog input is advised by the manufacturer.  From the datasheet:
+ ##### 2.  An RC filter to each used ADS1X15 analog input is advised by the manufacturer.  From the datasheet:
 >...any noise pick-up along the sensor wiring or the application circuitry can potentially alias into the pass-band. Power line-cycle frequency and harmonics are one common noise source. External noise can also be generated from electromagnetic interference (EMI) or radio frequency interference (RFI) sources, such as nearby motors and cellular phones. Another noise source typically exists on the printed-circuit-board (PCB) itself in the form of clocks and other digital signals. Analog input filtering helps remove unwanted signals from affecting the measurement result...
 
- # 3.  Unused analog input pins of the ADS1X15 should not be connected to GND or more power cupply current will be drawn than is necessary.  From the datasheet:
+ ##### 3.  Unused analog input pins of the ADS1X15 should not be connected to GND or more power cupply current will be drawn than is necessary.  From the datasheet:
 >Either float unused analog inputs, or tie the unused analog inputs to midsupply or VDD. Connecting unused analog inputs to GND is possible, but may yield higher leakage currents than the previous options.
 
 
@@ -14,7 +14,7 @@ The power decoupling capacitor must *not* be connected on the ADS1X15 signal sid
 
 Another note electronics-wise is that if you don't use an AD8244 the inputs of the ADS device will draw current (S-H capacitor charging current) from the device under test (DUT) connected.  The amount of that current depends on the the input voltage difference from 0.7 volts.  The electronics-saavy reader recognizes that voltage as a silicon diode junction voltage that will exist on the input pin when nothing is connected to it.  However, the current drawn is NOT that of a resistive load but rather, when used with the high impedance application of this project, a capacitive load.  The point being that the RC filter capacitance added to the input pins as mentioned in point 2 above actually increases the DC readings a small amount from what they would read without any added  capacitors on the input pins.  I only state this because I was initially puzzled by the input difference myself before I understood why a capacitor was changing the input voltage, and I don't want you to waste your time worrying about it if you notice it.  The AD8244 is designed to isolate the DUT from that S-H capacitor charging current.
 
- # 4.  My reply to:
+ ##### 4.  My reply to:
 "Your demo in Lincoln interests me and I would like to know all the details, schema and everything I need to know to replicate your idea!"
 
 As you know, I don't have the schematic in e-form, yet, but I can certainly describe the circuit verbally here.  You'll find the sketch under the "sketch code" folder in that GitHub location.  I'm keeping two sketches out there so one I call the nightly version.  "Weekly" is more accurate on that.
@@ -53,28 +53,28 @@ You might be able to be notified of my changes to the project by GitHub settings
 written as to a fellow Electronics Technician, hope you can fill in the rest of it.
 Ken
 
- # 5.  Tony provides this parts list, which doesn't include the Arduino and its cable:  
+ ##### 5.  Tony provides this parts list, which doesn't include the Arduino and its cable:  
 
 qty - part number, then one or two sources for purchase
- # 1   - AD8244
+ ##### 1   - AD8244
       https://www.arrow.com/en/products/ad8244brmz/analog-devices
 
- # 1   -  MSOP-10 PCB ADAPTER BOARD FOR THE AD8244
+ ##### 1   -  MSOP-10 PCB ADAPTER BOARD FOR THE AD8244
       https://www.aliexpress.com/item/50PCS-SOT23-MSOP10-UMAX-to-DIP10-Transfer-Board-DIP-Pin-Board-Pitch-Adapter-NEW/32902829277.html?spm=2114.search0204.3.2.602e4baddaQg2A&s=p&ws_ab_test=searchweb0_0,searchweb201602_2_10065_10068_10130_5726815_10547_10546_10059_10884_10548_315_10545_10887_10696_100031_531_10084_10083_5726915_10103_10618_10307_449,searchweb201603_60,ppcSwitch_5_ppcChannel&priceBeautifyAB=0
 
- # 2   - LM334
+ ##### 2   - LM334
       https://www.arrow.com/en/products/lm334znopb/texas-instruments
 AlliExpress  https://www.aliexpress.com/item/5PCS-NSC-LM334Z-LM334-TO-92-3-Terminal-Adjustable-Current-Source-IC/32662487264.html?spm=2114.search0204.3.2.26cb47c7S8iZma&ws_ab_test=searchweb0_0,searchweb201602_2_10065_10068_10130_5726815_10547_10546_10059_10884_10548_315_10545_10887_10696_100031_531_10084_10083_5726915_10103_10618_10307_449,searchweb201603_60,ppcSwitch_5_ppcChannel&algo_expid=9d9e9270-c9bd-414c-9cd4-0bc1886ba5d3-0&algo_pvid=9d9e9270-c9bd-414c-9cd4-0bc1886ba5d3&priceBeautifyAB=0
 
- # 2   - MCP4162-502
+ ##### 2   - MCP4162-502
       https://www.arrow.com/en/products/mcp4162-502ep/microchip-technology
 
- # 2   - MCP4162-104
+ ##### 2   - MCP4162-104
       https://www.arrow.com/en/products/mcp4162-104ep/microchip-technology
       
- # 1   - 1 MOhm resistor
+ ##### 1   - 1 MOhm resistor
 
- # 1   - HX711 ADC (recommended unless you can code for own ADC)
+ ##### 1   - HX711 ADC (recommended unless you can code for own ADC)
       https://www.aliexpress.com/item/Dual-Channel-HX711-Weighing-Pressure-Sensor-24-bit-Precision-A-D-Module-for-arduino-DIY-Electronic/32878181081.html?spm=2114.search0204.3.2.5f8a7264S5dDtV&ws_ab_test=searchweb0_0,searchweb201602_2_10065_10068_10130_5726815_10547_10546_10059_10884_10548_315_10545_10887_10696_100031_531_10084_10083_5726915_10103_10618_10307_449,searchweb201603_60,ppcSwitch_5_ppcChannel&algo_expid=719ad9df-13c6-42bc-adff-e19814e28dae-0&algo_pvid=719ad9df-13c6-42bc-adff-e19814e28dae&priceBeautifyAB=0
 
 Newer Version of the HX711 is available instead, but not yet tested:
