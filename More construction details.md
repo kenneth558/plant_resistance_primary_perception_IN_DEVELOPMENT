@@ -55,7 +55,7 @@ You might be able to be notified of my changes to the project by GitHub settings
 written as to a fellow Electronics Technician, hope you can fill in the rest of it.
 Ken
 
- ##### 5.  Tony provides this parts list, which doesn't include the Arduino and its cable:  
+ ##### 5.  Tony provides this parts list, which doesn't include the Arduino and its cable to your computer:  
 
 qty - part number, then one or two sources for purchase
  ##### 1   - AD8244
