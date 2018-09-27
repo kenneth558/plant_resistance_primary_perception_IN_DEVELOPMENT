@@ -1,3 +1,5 @@
+If you are stuck using the "not recommended due to far lower resolution" ADS1X15, observe the following 3 points:
+
  ##### 1.  A decoupling capacitor is required at the ADS1X15 device VDD to GND.  From the datasheet:
 >Good power-supply decoupling is important to achieve optimum performance. VDD must be decoupled with at least a 0.1-μF capacitor, as shown in Figure 47. The 0.1-μF bypass capacitor supplies the momentary bursts of extra current required from the supply when the device is converting. Place the bypass capacitor as close to the power-supply pin of the device as possible using low-impedance connections. Use multilayer ceramic chip capacitors (MLCCs) that offer low equivalent series resistance (ESR) and inductance (ESL) characteristics for power-supply decoupling purposes. For very sensitive systems, or for systems in harsh noise environments, avoid the use of vias for connecting the capacitors to the device pins for better noise immunity. The use of multiple vias in parallel lowers the overall inductance, and is beneficial for connections to ground planes.
 
