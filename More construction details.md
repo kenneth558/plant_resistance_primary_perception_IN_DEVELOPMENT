@@ -57,8 +57,7 @@ Ken
 
  ##### 5.  Tony provides this parts list, which doesn't include the Arduino and its cable to your computer:  
 
-qty - part number, then one or two sources for purchase
- ##### 1   - AD8244
+qty - part number, then one or two sources for purchase ##### 1   - AD8244
 Arrow      https://www.arrow.com/en/products/ad8244brmz/analog-devices
 
  ##### 1   -  MSOP-10 PCB ADAPTER BOARD FOR THE AD8244
