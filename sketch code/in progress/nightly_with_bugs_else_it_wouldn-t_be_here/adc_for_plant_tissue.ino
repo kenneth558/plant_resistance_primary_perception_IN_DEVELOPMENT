@@ -1,6 +1,6 @@
 //        Before compiling this sketch, you must set or confirm the following preprocessor macros appropriately for your configuration and preferences !!!
 #define USING_LM334_WITH_DIGIPOT_BANKS 1                                                       //Number of digipot Wheatstones you have, but this sketch revision level not tested beyond 1.  Remove if using Wheatstone bridge with only standard resistors.  make this the number of bridges with upper resistive elements being LM334s controllable with the MCP4162-104 pots
-#define NUM_OF_DIGIPOTS_PER_BANK 4                                                              //Not yet tested for any setting except 6
+#define NUM_OF_DIGIPOTS_PER_BANK 6                                                              //Not yet tested for any setting except 6
 #define NUM_OF_INBOARDS_PLOTTED 2                                                              //The number of consecutive analog pins to plot, beginning with PIN_A0
 #define NUM_OF_OUTBOARDS_PLOTTED 1                                                             //The number of consecutive "highest-sensitivity ADC" pins to plot, beginning with A0 and, if double-ended, A1.  OUTBOARD ADC ONLY - DOES _NOT_ INCLUDE INBOARD ANALOG INPUT PINS
 #define MAGNIFICATION_FACTOR 5                                                                //Activates the plotting of magnified traces in all ADC linespaces; upper limit somewhere less than 4,294,967,295. Note: you can disable displaying magnified traces altogether by not defined this macro at all. Proper use of SUPERIMPOSE_FIRST_INBOARDS_IN_PAIRS will also disable magnified traces of the first two analog inputs
@@ -19,9 +19,9 @@
 #define SUPERIMPOSE_FIRST_INBOARDS_IN_PAIRS 1 //If defined allows the rail-to-rail inboard Analog Inputs to be used to adjust digipots, but mainly causes first inboard Analog Inputs to be paired (superimposed in pairs sharing plot-line spaces) so even manual pots can be adjusted easily.
 #define AUTO_BRIDGE_BALANCING  //increases setup time and during which the plot timing line stays high, then spikes low and high to indicate balancing complete //Turns on auto-balancing in setup(), significant time elapse for this to complete!
 #define CONTINUE_PLOTTING_DURING_AUTO_BRIDGE_BALANCE true                                      //Without predictive balancing, this takes too much time if true
-#define DEBUG                                                                                  //Don't forget that DEBUG is not formatted for Serial plotter, but might work anyway if you'd never print numbers only any DEBUG print line
-#define POT_TEST_WOBBLE_SIGNAL_SIDE 0                                                             //For testing - wobbles digipot settings on bank index to impose a signal into Wheatstone bridge outputs. This imposes a signal on the signal leg
-#define POT_TEST_WOBBLE_REFERENCE_SIDE 0                                                             //For testing - wobbles digipot settings on bank index to impose a signal into Wheatstone bridge outputs. This imposes a signal on the reference leg
+//#define DEBUG                                                                                  //Don't forget that DEBUG is not formatted for Serial plotter, but might work anyway if you'd never print numbers only any DEBUG print line
+//#define POT_TEST_WOBBLE_SIGNAL_ON_THIS_OUTBOARD_ADC 0                                                             //For testing - wobbles digipot settings on bank index to impose a signal into Wheatstone bridge outputs. This imposes a signal on the signal leg
+//#define POT_TEST_WOBBLE_REFERENCE_ON_THIS_OUTBOARD_ADC 0                                                             //For testing - wobbles digipot settings on bank index to impose a signal into Wheatstone bridge outputs. This imposes a signal on the reference leg
 #define WOBBLE_TIME_PERIOD  10
 //#define LEAVE_POT_VALUES_ALONE_DURING_SETUP                                                    //First run should leave this undefined to load digi pots with some values
 #define BIAS_IN_ANALOG_INPUT_BITS_TO_APPLY_TO_SIGNAL_LEG_TO_CENTER_THE_TRACE_BANK0 0                                //This offset will be applied to all signal lines of outboard ADCs, not just the first one, until further development.  Write some code yourself to expand.  Inboard Analog Inputs of 10 bits will make much change with little values, 12 bit inboard allows more flexibility here
@@ -271,8 +271,8 @@ If you only have the Arduino without an ADS1X15, then define NUM_OF_INBOARDS_PLO
     #endif
 #endif
 #ifndef USING_LM334_WITH_DIGIPOT_BANKS
-    #undef POT_TEST_WOBBLE_SIGNAL_SIDE
-    #undef POT_TEST_WOBBLE_REFERENCE_SIDE
+    #undef POT_TEST_WOBBLE_SIGNAL_ON_THIS_OUTBOARD_ADC
+    #undef POT_TEST_WOBBLE_REFERENCE_ON_THIS_OUTBOARD_ADC
     #undef TEST_STEP_UP_DOWN
     #undef AUTO_BRIDGE_BALANCING
 #else
@@ -292,16 +292,16 @@ If you only have the Arduino without an ADS1X15, then define NUM_OF_INBOARDS_PLO
 */
     #include "SPI.h" //This is the hardware implementatino of SPI with CS pin selectable devices, not addressable via data and unidirectional data in and data out pins.  The software implementation uses shiftIn() instead and is slower but flexible which pins get used and can be used adjunctive for cases where a chip has no CS pin.  Adafruit_ADS1015 uses the shiftIn() method, so those pins are user's choice.  Not data addressable as would be in I2C
 
-    #ifdef POT_TEST_WOBBLE_SIGNAL_SIDE
-        #if ( 1 > POT_TEST_WOBBLE_SIGNAL_SIDE + 0 )
-            #undef POT_TEST_WOBBLE_SIGNAL_SIDE
-            #define POT_TEST_WOBBLE_SIGNAL_SIDE 0 //make sure it contains a bank index, default is bank 0
+    #ifdef POT_TEST_WOBBLE_SIGNAL_ON_THIS_OUTBOARD_ADC
+        #if ( 1 > POT_TEST_WOBBLE_SIGNAL_ON_THIS_OUTBOARD_ADC + 0 )
+            #undef POT_TEST_WOBBLE_SIGNAL_ON_THIS_OUTBOARD_ADC
+            #define POT_TEST_WOBBLE_SIGNAL_ON_THIS_OUTBOARD_ADC 0 //make sure it contains a bank index, default is bank 0
         #endif
     #endif
-    #ifdef POT_TEST_WOBBLE_REFERENCE_SIDE
-        #if ( 1 > POT_TEST_WOBBLE_REFERENCE_SIDE + 0 )
-            #undef POT_TEST_WOBBLE_REFERENCE_SIDE
-            #define POT_TEST_WOBBLE_REFERENCE_SIDE 0 //make sure it contains a bank index, default is bank 0
+    #ifdef POT_TEST_WOBBLE_REFERENCE_ON_THIS_OUTBOARD_ADC
+        #if ( 1 > POT_TEST_WOBBLE_REFERENCE_ON_THIS_OUTBOARD_ADC + 0 )
+            #undef POT_TEST_WOBBLE_REFERENCE_ON_THIS_OUTBOARD_ADC
+            #define POT_TEST_WOBBLE_REFERENCE_ON_THIS_OUTBOARD_ADC 0 //make sure it contains a bank index, default is bank 0
         #endif
     #endif
     #define NUM_OF_BRIDGE_LEGS_PER_BANK 2
@@ -520,27 +520,31 @@ static uint8_t *AnalogPinArray;
             Serial.print( digipot_bank );
             Serial.print( F( "] " ) );
             for( uint8_t digipot_unit = 0; digipot_unit < NUM_OF_DIGIPOTS_PER_BANK; digipot_unit++ )
-            {
-                if( digipot_unit < 3 )
+            {//NUM_OF_DIGIPOTS_PER_LEG
+                Serial.print( F( ", dpot[" ) );
+                Serial.print(DigipotPins[ digipot_unit + ( digipot_bank * NUM_OF_DIGIPOTS_PER_BANK ) ] );
+                Serial.print( F( "]" ) );
+                if( digipot_unit < NUM_OF_DIGIPOTS_PER_LEG )
                     Serial.print( F( ", signal " ) );
                 else
                     Serial.print( F( ", reference " ) );
-                if( ( digipot_unit % 3 ) == 0 )
-                    Serial.print( F( "MSB " ) );
-                else if( ( digipot_unit % 3 ) == 1 )
+//#error The next construct isn't working as expected
+                if( ( digipot_unit % NUM_OF_DIGIPOTS_PER_LEG ) == 0 )
+                    Serial.print( F( "LSB " ) );
+                else if( ( digipot_unit % NUM_OF_DIGIPOTS_PER_LEG ) == 1 )
                     Serial.print( F( "MID " ) );
                 else
-                    Serial.print( F( "LSB " ) );
+                    Serial.print( F( "MSB " ) );
                 Serial.print( F( "setting=" ) );
                 Serial.print( DigipotValues[ digipot_unit + ( digipot_bank * NUM_OF_DIGIPOTS_PER_BANK ) ] );
-                if( digipot_unit == 2 || digipot_unit == 5 )
+                if( digipot_unit == 0 || digipot_unit == NUM_OF_DIGIPOTS_PER_LEG )
                 {
-                    if( digipot_unit < 3 )
+                    if( digipot_unit < NUM_OF_DIGIPOTS_PER_LEG )
                         Serial.print( F( ", signal" ) );
                     else
                         Serial.print( F( ", reference" ) );
                     Serial.print( F( " voltage=<" ) );
-                    if( digipot_unit < 3 )
+                    if( digipot_unit < NUM_OF_DIGIPOTS_PER_LEG )
                         Serial.print( MidTwoOfFourSum( digipot_bank ) / 2 );
                     else
                         Serial.print( MidTwoOfFourSum( digipot_bank + 1 ) / 2 );
@@ -550,57 +554,64 @@ static uint8_t *AnalogPinArray;
         }
     }
 
-    void setPotValue( uint8_t DigitalPotPin, short value, bool useOffsetStyle = false )
-    {
-#error needs to be debugged in here
+    bool setPotValue( uint8_t DigitalPotPin, short value, bool useOffsetStyle = false )
+    { //This doesn't use the pin index so that non-array pins can be set to 0 during program development testing different size dpot banks
+        Serial.print( F( "DigipotValues[" ) );
+        Serial.print( DigitalPotPin );
+        Serial.print( F( "]=" ) );
         bool ThisIsAnLSBpin = false;
+        uint8_t index = 0;
 //        if( useOffsetStyle && ( value < 0 ) ) ;
         if( DigitalPotPin < 128 ) //Pins numbered below 128 are normal digital inboard pins
         {
-            for( uint8_t index = 0; index < NUM_OF_DIGIPOTS_PER_BANK * USING_LM334_WITH_DIGIPOT_BANKS; index++ )
+            for( ; index < NUM_OF_DIGIPOTS_PER_BANK * USING_LM334_WITH_DIGIPOT_BANKS; index++ )
             {
                 if( DigitalPotPin == DigipotPins[ index ] )
                 {
-/*
-                    Serial.print( F( " DigipotValues[" ) );
-                    Serial.print( DigitalPotPin );
-                    Serial.print( F( "]=" ) );
+/* */
                     Serial.print( DigipotValues[ index ] );
-                    Serial.print( F( ",about to get set to:" ) );
+                    Serial.print( F( ",about to get " ) );
+                    if( !useOffsetStyle )
+                        Serial.print( F( "set to=" ) );
+                    else
+                        Serial.print( F( "offset by=" ) );
                     Serial.print( value );
-                    Serial.print( F( "..." ) );
+                    Serial.print( F( ",.." ) );
+                    Serial.print( F( "(" ) );
+                    Serial.print( value, BIN );
+                    Serial.print( F( ").." ) );
                     Serial.flush();
-*/
+/* */
                     uint8_t bankPlusLSBoffset;
                     for( bankPlusLSBoffset = 0; bankPlusLSBoffset < NUM_OF_DIGIPOTS_PER_BANK * USING_LM334_WITH_DIGIPOT_BANKS; bankPlusLSBoffset += NUM_OF_DIGIPOTS_PER_LEG )
                     {
                         if( DigitalPotPin == DigipotPins[ bankPlusLSBoffset ] )
                         {
+                            Serial.print( F( " LSB pin " ) );
                             ThisIsAnLSBpin = true;
                             break;
                         }
                     }
-#error This is what I'm working on below
+//#error This is what I'm working on below
                     if( useOffsetStyle ) 
                     {
                         value += DigipotValues[ index ];
-                        if( value < 0 );
+                        /*
+                        while( ( ( 0 - value ) > DigipotValues[ index ] ) && ThisIsAnLSBpin )
+                        { //Notice this is an incremental adjustment loop
+                            if( ( 0 - value ) > DigipotValues[ index ] == 0 )
+                            {
+                                offsetPotValue( DigipotPins[ bankPlusLSBoffset - 1 ], DigipotValues[ bankPlusLSBoffset - 1 ] - 1 );
+                                setPotValue( DigitalPotPin, LSB_DIGIPOT_RESISTANCE_STEP_PER_MSB_RESISTANCE_STEP - 1 );
+                            }
+                            else
+                            {
+                                ;
+                            }
+                        } */
                     }
-
-                    while( ( ( 0 - value ) > DigipotValues[ index ] ) && ThisIsAnLSBpin )
-                    { //Notice this is an incremental adjustment loop
-                        if( ( 0 - value ) > DigipotValues[ index ] == 0 )
-                        {
-                            offsetPotValue( DigipotPins[ bankPlusLSBoffset - 1 ], DigipotValues[ bankPlusLSBoffset - 1 ] - 1 );
-                            setPotValue( DigitalPotPin, LSB_DIGIPOT_RESISTANCE_STEP_PER_MSB_RESISTANCE_STEP - 1 );
-                        }
-                        else
-                        {
-                            ;
-                        }
-                    }
-                    DigipotValues[ index ] = value < MAXPOTVALUE ? value : MAXPOTVALUE;
-                    value = DigipotValues[ index ]; //setting value but it's existence is only until end of function (transient)
+//                    DigipotValues[ index ] = value < MAXPOTVALUE ? value : MAXPOTVALUE;
+//                    value = DigipotValues[ index ]; //setting value but it's existence is only until end of function (transient)
                     break;
                 }
             }
@@ -619,6 +630,17 @@ static uint8_t *AnalogPinArray;
             DigitalPotPin = BOTH_STAGES_3_TO_8_DECODER_ENABLE_PIN;
         }
 #endif
+        Serial.print( F( ", =" ) );
+        Serial.print( value );
+        Serial.print( F( ",.." ) );
+        if( ( value < 0 ) || ( value > MAXPOTVALUE ) ) return false;
+        DigipotValues[ index ] = value;
+        value = value;
+        Serial.print( F( ", =" ) );
+        Serial.print( value );
+        Serial.print( F( ",..(binary=" ) );
+        Serial.print( value, BIN );
+        Serial.print( F( ").." ) );
         digitalWrite( DigitalPotPin, LOW );
         SPI.transfer( ( value & 0x100 ) ? 1 : 0 );
         SPI.transfer( value & 0xff ); // send value (0~255)
@@ -1173,7 +1195,11 @@ uint16_t MidTwoOfFourSum( uint8_t AnalogPinArrayIndex ) //returns an INBOARD Ana
     delay( 2 );
     uint16_t value4 = analogRead( *( AnalogPinArray + AnalogPinArrayIndex ) );
 /* */
-    Serial.print( F( "reading one=" ) );
+    Serial.print( F( "Reading one, pin[" ) );
+    Serial.print( *( AnalogPinArray + AnalogPinArrayIndex ) );
+    Serial.print( F( "] where pin index in array=[" ) );
+    Serial.print( AnalogPinArrayIndex );
+    Serial.print( F( "]=" ) );
     Serial.print( value1 );
     Serial.print( F( ", reading two=" ) );
     Serial.print( value2 );
@@ -1254,7 +1280,7 @@ bool SetDigipotsReferenceLeg( bool JustPerformOneStep = false, uint8_t bank = 0,
     {
         if( !MatchLevelToSignalLegInsteadOfToCOMMON_MODE_LEVEL_FOR_MAX_GAIN_AS_READ_RAW_BY_INBOARD_ANALOG ) TargetLevel = COMMON_MODE_LEVEL_FOR_MAX_GAIN_AS_READ_RAW_BY_INBOARD_ANALOG;
         else TargetLevel = ( AnalogInputReadingTimes4IfInboard( bank * NUM_OF_BRIDGE_LEGS_PER_BANK ) / 4 ) - BIAS_IN_ANALOG_INPUT_BITS_TO_APPLY_TO_SIGNAL_LEG_TO_CENTER_THE_TRACE_BANK0;
-        Serial.print( F( ", TargetLevel changed=" ) );
+        Serial.print( F( "TargetLevel changed=" ) );
         Serial.print( TargetLevel );
         Serial.print( F( ". " ) );
         if( MatchLevelToSignalLegInsteadOfToCOMMON_MODE_LEVEL_FOR_MAX_GAIN_AS_READ_RAW_BY_INBOARD_ANALOG )
@@ -2031,35 +2057,25 @@ MasterReadingsArray[ MasterReadingsArrayIndex ].PreviousUnmagnifiedReading = Mas
 return;//only saving the reading, don't plot.  These are just LM334 non-plotted banks
 }
 
-#if defined ( POT_TEST_WOBBLE_SIGNAL_SIDE ) || defined ( POT_TEST_WOBBLE_REFERENCE_SIDE )
+#if defined ( POT_TEST_WOBBLE_SIGNAL_ON_THIS_OUTBOARD_ADC ) || defined ( POT_TEST_WOBBLE_REFERENCE_ON_THIS_OUTBOARD_ADC )
 static bool potwobbledirection = true;
 static uint8_t wobbleloops = 0;
 void wobble( void )
 { //Adjust active code to amount of wobble you need at the moment
-#ifdef POT_TEST_WOBBLE_SIGNAL_SIDE
-//        offsetPotValue( DigipotPins[ 0 + ( POT_TEST_WOBBLE_SIGNAL_SIDE * NUM_OF_BRIDGE_LEGS_PER_BANK ) ], potwobbledirection ? 1 : -1 );
-//#if ( NUM_OF_OUTBOARDS_PLOTTED == 0 ) //Why? to be large enough change for inboards to plot definitively
-//        offsetPotValue( DigipotPins[ 1 + ( POT_TEST_WOBBLE_SIGNAL_SIDE * NUM_OF_BRIDGE_LEGS_PER_BANK ) ], potwobbledirection ? 1 : -1 );
-//#else
-        if( offsetPotValue( DigipotPins[ 2 + ( POT_TEST_WOBBLE_REFERENCE_SIDE * NUM_OF_BRIDGE_LEGS_PER_BANK ) ], potwobbledirection ? -1 : 1 ) != 0 )
-        {
-            offsetPotValue( DigipotPins[ 1 + ( POT_TEST_WOBBLE_REFERENCE_SIDE * NUM_OF_BRIDGE_LEGS_PER_BANK ) ], potwobbledirection ? -1 : 1 );
-            offsetPotValue( DigipotPins[ 2 + ( POT_TEST_WOBBLE_REFERENCE_SIDE * NUM_OF_BRIDGE_LEGS_PER_BANK ) ], potwobbledirection ? ( LSB_DIGIPOT_RESISTANCE_STEP_PER_MSB_RESISTANCE_STEP - 1 ) : ( 1 - LSB_DIGIPOT_RESISTANCE_STEP_PER_MSB_RESISTANCE_STEP ) );
-        }
-//#endif
+#ifdef POT_TEST_WOBBLE_SIGNAL_ON_THIS_OUTBOARD_ADC
+#if ( ( NUM_OF_OUTBOARDS_PLOTTED == 0 ) && ( NUM_OF_DIGIPOTS_PER_BANK > 1 ) )  //Why? to be large enough change for inboards to plot definitively
+        offsetPotValue( DigipotPins[ 1 + ( POT_TEST_WOBBLE_SIGNAL_ON_THIS_OUTBOARD_ADC * NUM_OF_DIGIPOTS_PER_BANK ) ], potwobbledirection ? -1 : 1 );
+#else
+        offsetPotValue( DigipotPins[ ( POT_TEST_WOBBLE_SIGNAL_ON_THIS_OUTBOARD_ADC * NUM_OF_DIGIPOTS_PER_BANK ) ], potwobbledirection ? -1 : 1 );
+#endif
 #endif
 
-#ifdef POT_TEST_WOBBLE_REFERENCE_SIDE
-//        offsetPotValue( DigipotPins[ 3 + ( POT_TEST_WOBBLE_REFERENCE_SIDE * NUM_OF_BRIDGE_LEGS_PER_BANK ) ], potwobbledirection ? -1 : 1 );
-//#if ( NUM_OF_OUTBOARDS_PLOTTED == 0 )//Why? to be large enough change for inboards to plot definitively
-//        offsetPotValue( DigipotPins[ 4 + ( POT_TEST_WOBBLE_REFERENCE_SIDE * NUM_OF_BRIDGE_LEGS_PER_BANK ) ], potwobbledirection ? -1 : 1 );
-//#else
-        if( offsetPotValue( DigipotPins[ 5 + ( POT_TEST_WOBBLE_REFERENCE_SIDE * NUM_OF_BRIDGE_LEGS_PER_BANK ) ], potwobbledirection ? -1 : 1 ) != 0 )
-        {
-            offsetPotValue( DigipotPins[ 4 + ( POT_TEST_WOBBLE_REFERENCE_SIDE * NUM_OF_BRIDGE_LEGS_PER_BANK ) ], potwobbledirection ? -1 : 1 );
-            offsetPotValue( DigipotPins[ 5 + ( POT_TEST_WOBBLE_REFERENCE_SIDE * NUM_OF_BRIDGE_LEGS_PER_BANK ) ], potwobbledirection ? ( LSB_DIGIPOT_RESISTANCE_STEP_PER_MSB_RESISTANCE_STEP - 1 ) : ( 1 - LSB_DIGIPOT_RESISTANCE_STEP_PER_MSB_RESISTANCE_STEP ) );
-        }
-//#endif
+#ifdef POT_TEST_WOBBLE_REFERENCE_ON_THIS_OUTBOARD_ADC
+#if ( ( NUM_OF_OUTBOARDS_PLOTTED == 0 ) && ( NUM_OF_DIGIPOTS_PER_BANK > 1 ) )    //Why? to be large enough change for inboards to plot definitively
+        offsetPotValue( DigipotPins[ 1 + NUM_OF_DIGIPOTS_PER_LEG + ( POT_TEST_WOBBLE_REFERENCE_ON_THIS_OUTBOARD_ADC * NUM_OF_DIGIPOTS_PER_BANK ) ], potwobbledirection ? -1 : 1 );
+#else
+        offsetPotValue( DigipotPins[ NUM_OF_DIGIPOTS_PER_LEG + ( POT_TEST_WOBBLE_REFERENCE_ON_THIS_OUTBOARD_ADC * NUM_OF_DIGIPOTS_PER_BANK ) ], potwobbledirection ? -1 : 1 );
+#endif
 #endif
     potwobbledirection = !potwobbledirection;
 }
@@ -2290,22 +2306,22 @@ Serial.println();
         digitalWrite( DigipotPins[ NUM_OF_DIGIPOTS_PER_LEG + 2 + bank ], HIGH );
 #endif
 #endif
-Serial.println( F( "Line=2292, " ) );
         SPI.begin();
         SPI.setBitOrder( MSBFIRST );
-Serial.println( F( "Line=2295, " ) );
     #ifndef LEAVE_POT_VALUES_ALONE_DURING_SETUP //This causes digipot stored settings not to match digipots, but at least they stay put to what they were last set to
-Serial.println( F( "Line=2297, " ) );
         setPotValue( DigipotPins[ 0 + bank ], DigipotValues[ 0 + bank ] );
-Serial.println( F( "Line=2299, " ) );
         setPotValue( DigipotPins[ NUM_OF_DIGIPOTS_PER_LEG + bank ], DigipotValues[ NUM_OF_DIGIPOTS_PER_LEG + bank ] );
 #if ( NUM_OF_DIGIPOTS_PER_LEG > 1 )
-Serial.println( F( "Line=2302, " ) );
         setPotValue( DigipotPins[ 1 + bank ], DigipotValues[ 1 + bank ] );
         setPotValue( DigipotPins[ NUM_OF_DIGIPOTS_PER_LEG + 1 + bank ], DigipotValues[ NUM_OF_DIGIPOTS_PER_LEG + 1 + bank ] );
 #if ( NUM_OF_DIGIPOTS_PER_LEG > 2 )
         setPotValue( DigipotPins[ 2 + bank ], DigipotValues[ 2 + bank ] );
         setPotValue( DigipotPins[ NUM_OF_DIGIPOTS_PER_LEG + 2 + bank ], DigipotValues[ NUM_OF_DIGIPOTS_PER_LEG + 2 + bank ] );
+/* REMOVE THIS CODE v_BELOW_v IF YOU SEE IT.  IT IS INADVERTANTLY OVERLOOKED AND INTENDED TO BE REMOVED FROM PRODUCTION VERSIONS */
+#else
+setPotValue( 5, 0);
+setPotValue( 8, 0);
+ /* REMOVE THIS CODE ^ABOVE^ IF YOU SEE IT.  IT IS INADVERTANTLY OVERLOOKED AND INTENDED TO BE REMOVED FROM PRODUCTION VERSIONS */
 #endif
 #endif
     #endif
@@ -2517,7 +2533,7 @@ Serial.println( F( "Line=2302, " ) );
         if( LinespacesIndex < INDEX_OF_INBOARDS_NOT_SUPERIMPOSED / 2 ) MasterReadingsArrayIndex++; //skip the one we had to take care of in this linepsace iteration
     }
 //    Serial.println();
-    Serial.print( F( " plotting rising timing line: " ) );
+    Serial.print( F( "Plotting rising timing line: " ) );
     PlotTimingLineGoingUp( false ); //The false makes all traces originate at global zero.  It seems to look better that way
 
 //Next the pin translation table is allocated then filled
@@ -2929,7 +2945,7 @@ NoPotChange:
             #endif
         }
 */
-#if defined ( POT_TEST_WOBBLE_SIGNAL_SIDE ) || defined ( POT_TEST_WOBBLE_REFERENCE_SIDE )
+#if defined ( POT_TEST_WOBBLE_SIGNAL_ON_THIS_OUTBOARD_ADC ) || defined ( POT_TEST_WOBBLE_REFERENCE_ON_THIS_OUTBOARD_ADC )
     wobbleloops = ( wobbleloops + 1 ) % WOBBLE_TIME_PERIOD;
     #ifdef DEBUG
         while ( !Serial ); // wait for serial port to connect. Needed for Leonardo's native USB
