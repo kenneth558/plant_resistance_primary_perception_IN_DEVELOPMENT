@@ -89,6 +89,7 @@ or 1 - ADS1X15 ADC (not recommended due to far lower resolution, so only if it's
 
 Interconnects and soldering equipment, wiring, circuit substrate, piece of coaxial cable from plant leaf to circuit, electrode assemblies attached to that coax, 4-way light switch at the plant end of that coax (can give you the flexibility to reverse the electrical polarity to the plant), mounting brackets and the like...
 
+[Click here for a snapshot of my price-shopping spreadsheet to get you started](https://github.com/kenneth558/plant_resistance_primary_perception/blob/Free/embeddeds/Parts%20shopping%20list.ods)
 
 Below is a copy-pasteable from the "raw" display of it (see button above and right side a little), spreadsheet-compatible price tracking version of the parts list for you to compare prices when you do your ordering.  I've used the ^ (top keyboard row shifted 6) symbol to separate the columns and ideally your spreadsheet application will ask you as you are pasting into it what separator I used.  Without that miracle, you'll just replace each ^ with a tab character in whatever way you can in a text editor capable of doing that (I don't know of one but you might).  After that try just selecting the whole thing at once within that editor and copying from there into a spreadsheet sheet, perhaps while the entire empty spreadsheet sheet is selected:
 
