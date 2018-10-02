@@ -90,7 +90,7 @@ or 1 - ADS1X15 ADC (only if it's all that you can come up with...and favor the A
 Interconnects and soldering equipment, wiring, circuit substrate, piece of coaxial cable from plant leaf to circuit, electrode assemblies attached to that coax, 4-way light switch at the plant end of that coax (can give you the flexibility to reverse the electrical polarity to the plant), mounting brackets and the like...
 
 
-Below is a copy-pasteable, spreadsheet-compatible price tracking version of the parts list for you to compare prices when you do your ordering.  I've used the ^ (top keyboard row shifted 6) symbol to delimit the columns and hope that your spreadsheet application will ask you what delimiter I used as you are pasting into it.  Try just selecting the whole thing at once and copying into a spreadsheet sheet while the entire empty spreadsheet sheet is selected:
+Below is a copy-pasteable, spreadsheet-compatible price tracking version of the parts list for you to compare prices when you do your ordering.  I've used the ^ (top keyboard row shifted 6) symbol to separate the columns and hope that your spreadsheet application will ask you as you are pasting into it what separator I used.  Try just selecting the whole thing at once and copying into a spreadsheet sheet while the entire empty spreadsheet sheet is selected:
 
 Part #	Qty	Arrow Price	Arrow URL	AlliExpress Price	AlliExpress URL	Mouser Price	Mouser URL	DigiKey Price	DigiKey URL
 AD8244^1^^https://www.arrow.com/en/products/ad8244brmz/analog-devices						
