@@ -1,6 +1,6 @@
 //        Before compiling this sketch, you must set or confirm the following preprocessor macros appropriately for your configuration and preferences !!!
 #define USING_LM334_WITH_DPOT_BANKS 1                                                       //Number of digipot Wheatstones you have, but this sketch revision level not tested beyond 1.  Remove if using Wheatstone bridge with only standard resistors.  make this the number of bridges with upper resistive elements being LM334s controllable with the MCP4162-104 pots
-#define NUM_OF_DPOTS_PER_BANK 6                                                              //Not yet tested for any setting except 6
+#define NUM_OF_DPOTS_PER_BANK 2                                                              //Not yet tested for any setting except 6, so verify it before trusting fully
 #define NUM_OF_INBOARDS_PLOTTED 2                                                              //The number of consecutive analog pins to plot, beginning with PIN_A0
 #define NUM_OF_OUTBOARDS_PLOTTED 1                                                             //The number of consecutive "highest-sensitivity ADC" pins to plot, beginning with A0 and, if double-ended, A1.  OUTBOARD ADC ONLY - DOES _NOT_ INCLUDE INBOARD ANALOG INPUT PINS
 #define MAGNIFICATION_FACTOR 5                                                                //Activates the plotting of magnified traces in all ADC linespaces; upper limit somewhere less than 4,294,967,295. Note: you can disable displaying magnified traces altogether by not defined this macro at all. Proper use of SUPERIMPOSE_FIRST_INBOARDS_IN_PAIRS will also disable magnified traces of the first two analog inputs
@@ -310,8 +310,8 @@ If you only have the Arduino without an ADS1X15, then define NUM_OF_INBOARDS_PLO
     #define NUM_OF_BRIDGE_LEGS_PER_BANK 2
     #define NUM_OF_DPOTS_PER_LEG ( NUM_OF_DPOTS_PER_BANK / NUM_OF_BRIDGE_LEGS_PER_BANK )
     #define NUM_OF_DPOTS ( NUM_OF_DPOTS_PER_BANK * USING_LM334_WITH_DPOT_BANKS )
-    static uint8_t DPotPins[ NUM_OF_DPOTS ];
-    static uint16_t DPotValues[ NUM_OF_DPOTS ];
+    static uint8_t DPotPins[ NUM_OF_DPOTS ]; //This being an array, it can't be filled during preprocessing to make it a type const
+    static uint16_t DPotSettings[ NUM_OF_DPOTS ];
     #define MAXPOTVALUE 257
 
 //    #if ( USING_LM334_WITH_DPOT_BANKS > 0 ) Just b/c this conforms to the pattern
@@ -320,7 +320,7 @@ If you only have the Arduino without an ADS1X15, then define NUM_OF_INBOARDS_PLO
 /*
     To scale up to multiple values of digipotsperleg:
 x1   fix BANK_0_LEG_0_DPOT_0 names and such
-x2   fix index order within DPotValues and DPotPins
+x2   fix index order within DPotSettings and DPotPins
 >3   fix DPOT_0_B0L0_STARTVALUE names and such
 4   fix LSB_DPOT_RESISTANCE_STEP_PER_MSB_RESISTANCE_STEP to something that will work where it is used
 5   
@@ -510,7 +510,7 @@ uint16_t PlotterLoops;
 void ReadAndPlotFromAllADCsInAndOutboard( uint32_t, bool = false );
 bool MatchBridgeLegSignalToReference( bool = false, uint8_t = 0, bool = false );
 bool SetDPotsReferenceLeg( bool = false, uint8_t = 0, bool = false, int = 0, const bool = false ); //All this does without the third argument is set the reference leg to COMMON_MODE_LEVEL_FOR_MAX_GAIN_AS_READ_RAW_BY_INBOARD_ANALOG.  
-static uint8_t *AnalogPinArray = 0; //Initializing to 0 allows functions that would use it to know whether valid or not
+static uint8_t* AnalogPinArray = 0; //Initializing to 0 allows functions that would use it to know whether valid or not
 
 #ifdef USING_LM334_WITH_DPOT_BANKS
     uint16_t MidTwoOfFourSum( uint8_t );
@@ -539,7 +539,7 @@ static uint8_t *AnalogPinArray = 0; //Initializing to 0 allows functions that wo
                 else
                     Serial.print( F( "MSB " ) );
                 Serial.print( F( "setting=" ) );
-                Serial.print( DPotValues[ digipot_unit + ( digipot_bank * NUM_OF_DPOTS_PER_BANK ) ] );
+                Serial.print( DPotSettings[ digipot_unit + ( digipot_bank * NUM_OF_DPOTS_PER_BANK ) ] );
                 if( digipot_unit == 0 || digipot_unit == NUM_OF_DPOTS_PER_LEG )
                 {
                     if( digipot_unit < NUM_OF_DPOTS_PER_LEG )
@@ -567,249 +567,37 @@ static uint8_t *AnalogPinArray = 0; //Initializing to 0 allows functions that wo
 I would expect the arithmetic and other aspects of algorithms in the following function could be optimized for better speed and/or size, but I'm not up to it right now
 
 */
-    bool setPotValue( uint8_t DPotPin, short value, bool useOffsetStyle = false, bool thisPinNotInDPotArrays = false /**/ )
+    short getPinIndex( const uint8_t DPotPin )
+    {
+        if( AnalogPinArray == 0 ) return -1;
+        for( uint8_t index = 0; index < NUM_OF_DPOTS_PER_BANK * USING_LM334_WITH_DPOT_BANKS; index++ )
+        { 
+            if( DPotPin == DPotPins[ index ] )
+            {
+                Serial.print( F( "Found pin [" ) );
+                Serial.print( DPotPin );
+                Serial.print( F( "] at DPotSettings[" ) );
+                Serial.print( DPotSettings[ index ] );
+                Serial.print( F( "] about to be manipulated," ) );
+                //offset code removed from here
+            }
+            return index;
+        }
+        return -1;
+    }
+
+    bool setPotValue( const uint8_t DPotPin, uint16_t value )
     { //This doesn't use the pin index so that non-array pins can be set to 0 during program development testing different size dpot banks
-        Serial.print( F( "DPotValues[" ) );
+        Serial.print( F( "DPotSettings[" ) );
         Serial.print( DPotPin );
         Serial.print( F( "]=" ) );
-        bool ThisIsAnMSBpin = true, ThisIsAnLSBpin = true;
-//        uint16_t sandboxDPotSetting[ NUM_OF_DPOTS_PER_LEG ]; //This needed when a while loop is used to do carrying and borrowing math
-#if ( NUM_OF_DPOTS_PER_LEG > 1 ) //ends at Line 576
-        uint16_t chunksBorrowedCarriedFromOtherPin;
-        ThisIsAnMSBpin = ThisIsAnLSBpin = false;
-#endif //of Line 574
-        uint8_t index = 0;
-//        if( useOffsetStyle && ( value < 0 ) ) ;
-        if( !thisPinNotInDPotArrays )
-        {  //elses at Line 804, ends at Line 813
-            for( ; index < NUM_OF_DPOTS_PER_BANK * USING_LM334_WITH_DPOT_BANKS; index++ )
-            { //ends Line 
-                if( DPotPin == DPotPins[ index ] )
-                { //ends near Line 756
-                    Serial.print( DPotValues[ index ] );
-                    Serial.print( F( ",about to get " ) );
-                    if( !useOffsetStyle )
-                        Serial.print( F( "set to=" ) );
-                    else
-                        Serial.print( F( "offset by=" ) );
-                    Serial.print( value );
-                    Serial.print( F( ",.." ) );
-                    Serial.print( F( "(" ) );
-                    Serial.print( value, BIN );
-                    Serial.print( F( ").." ) );
-                    Serial.flush();
-                    uint8_t bankPlusLSBoffset = 0;
-                    uint8_t bankPlusMSBoffset = 0; //Start at bank index 0
-                #if ( NUM_OF_DPOTS_PER_LEG > 1 ) //ends at Line 621
-                    for( bankPlusLSBoffset += 0/*add LSB offset*/; bankPlusLSBoffset < NUM_OF_DPOTS_PER_BANK * USING_LM334_WITH_DPOT_BANKS; bankPlusLSBoffset += NUM_OF_DPOTS_PER_LEG )
-                    {
-                        if( DPotPin == DPotPins[ bankPlusLSBoffset ] )
-                        {
-                            Serial.print( F( " LSB pin " ) );
-                            ThisIsAnLSBpin = true;
-                            break;
-                        }
-                    }
-                    for( bankPlusMSBoffset += ( NUM_OF_DPOTS_PER_LEG - 1 )/*add MSB DPot offset of a leg less one*/; bankPlusMSBoffset < NUM_OF_DPOTS_PER_BANK * USING_LM334_WITH_DPOT_BANKS; bankPlusMSBoffset += NUM_OF_DPOTS_PER_LEG )
-                    {
-                        if( DPotPin == DPotPins[ bankPlusMSBoffset ] )
-                        {
-                            Serial.print( F( " MSB pin " ) );
-                            ThisIsAnMSBpin = true;
-                            break;
-                        }
-                    }
-                #endif //of Line 602
-                    if( useOffsetStyle ) 
-                    {  //ends Line 
-                        if( value < 0 ? 0 - value : value > value < 0 ? DPotValues[ index ] : MAXPOTVALUE - DPotValues[ index ] ) //if will cause under- overflow  ends at Line 657
-                        {
-                            short offset1;
-                            short offset2;
-                        #if ( NUM_OF_DPOTS_PER_LEG > 2 ) //ends at Line 657
-                                if( DPotValues[ index ] == value < 0 ? 0 : MAXPOTVALUE )
-                                {
-                                    if( !ThisIsAnMSBpin && !ThisIsAnLSBpin ) //this pin is MID (when another pin may have some value)
-                                    {
-                                        offset1 = 1;
-                                        offset2 = -1;
-                                    }
-                                    else if( ThisIsAnMSBpin ) //this pin is MSB (when another pin may have some value)
-                                    {
-                                        offset1 = -2;
-                                        offset2 = -1;
-                                    }
-                                    else //this pin is LSB (when another pin may have some value)
-                                    {
-                                        offset1 = 2;
-                                        offset2 = 1;
-                                    }
-                                    if( DPotValues[ index + offset1 ] == DPotValues[ index + offset2 ] == DPotValues[ index ] ) return false;
-                                }
-                        #elif ( NUM_OF_DPOTS_PER_LEG > 1 ) //ends at Line 657
-                                offset1
-                                if( DPotValues[ index ] == value < 0 ? 0 : MAXPOTVALUE )
-                                {
-                                    offset1 = ThisIsAnMSBpin ? -1 : 1;
-                                    if( DPotValues[ index + offset1 ] == DPotValues[ index ] ) return false;
-                                }
-                        #else //ends at Line 657
-                                if( DPotValues[ index ] == value < 0 ? 0 : MAXPOTVALUE ) return false;
-                        #endif //of Line 624
-                        }
-                        if( value < 0 ) //chance exists of underflow
-                        {
-                #if ( NUM_OF_DPOTS_PER_LEG > 1 ) //elses out at Line 740, ends at Line 743
-                                if( !ThisIsAnMSBpin && !ThisIsAnLSBpin ) //means this is MIDpin needing to borrow from MSB and means more than two DPots per leg
-                                {
-                                    if( DPotValues[ index ]/*MIDpin*/ + DPotValues[ index + 1 ]/*MSBpin*/ >= ( 0 - value ) )//                    ( uint16_t )( DPotValues[ index ] - ( 0 - value ) / LSB_DPOT_RESISTANCE_STEP_PER_MSB_RESISTANCE_STEP ) //how many borrows from MID or MSB are needed?
-                                    { //if so take MSB to ( 0 - value ) - DPotValues[ index ] and DPotValues[ index ] to 0
-                                    //this must be done by one recursive call plus finish this: 
-                                        setPotValue( DPotPins[ index + 1 ]/*MSBpin*/, ( 0 - value ) - DPotValues[ index ], false, thisPinNotInDPotArrays ); //recursive call
-                                        value = 0 - DPotValues[ index ]; //accomplishes the above line when this instantiation finishes so we don't have to end it all right here
-                                    }
-                                    else if( ( ( DPotValues[ index - 1 ]/*LSBpin*/ - ( DPotValues[ index - 1 ] % LSB_DPOT_RESISTANCE_STEP_PER_MSB_RESISTANCE_STEP ) ) / LSB_DPOT_RESISTANCE_STEP_PER_MSB_RESISTANCE_STEP ) + DPotValues[ index ]/*MIDpin*/ >= ( 0 - value ) )
-                                    { //if so take all we can from LSB in chunks of LSB_DPOT_RESISTANCE_STEP_PER_MSB_RESISTANCE_STEP and take MID down by remainder, one unit per chunk
-                                        chunksBorrowedCarriedFromOtherPin = min( ( 0 - value ) - DPotValues[ index ], ( DPotValues[ index - 1 ]/*LSBpin*/ - ( DPotValues[ index - 1 ] % LSB_DPOT_RESISTANCE_STEP_PER_MSB_RESISTANCE_STEP ) ) / LSB_DPOT_RESISTANCE_STEP_PER_MSB_RESISTANCE_STEP );
-                                        setPotValue( DPotPins[ index - 1 ], DPotValues[ index - 1 ] - chunksBorrowedCarriedFromOtherPin * LSB_DPOT_RESISTANCE_STEP_PER_MSB_RESISTANCE_STEP, false, thisPinNotInDPotArrays ); //recursive call
-                                        value = DPotValues[ index ] - ( ( ( 0 - value ) - chunksBorrowedCarriedFromOtherPin ) +  - DPotValues[ index ] ); //The other one gets recursive call, this one doesn't need recursive
-                                    }
-                                    else if( ( ( DPotValues[ index - 1 ]/*LSBpin*/ - ( DPotValues[ index - 1 ] % LSB_DPOT_RESISTANCE_STEP_PER_MSB_RESISTANCE_STEP ) ) / LSB_DPOT_RESISTANCE_STEP_PER_MSB_RESISTANCE_STEP ) + DPotValues[ index ]/*MIDpin*/ + DPotValues[ index + 1 ]/*MSBpin*/ >= ( 0 - value ) )
-                                    { //take all we can from LSB in chunks of LSB_DPOT_RESISTANCE_STEP_PER_MSB_RESISTANCE_STEP and Mtake ID by all of it and MSB down by remainder
-                                        chunksBorrowedCarriedFromOtherPin = min( ( 0 - value ) - ( DPotValues[ index ] + DPotValues[ index + 1 ] ), ( DPotValues[ index - 1 ]/*LSBpin*/ - ( DPotValues[ index - 1 ] % LSB_DPOT_RESISTANCE_STEP_PER_MSB_RESISTANCE_STEP ) ) / LSB_DPOT_RESISTANCE_STEP_PER_MSB_RESISTANCE_STEP );
-                                        setPotValue( DPotPins[ index - 1 ], DPotValues[ index - 1 ] - chunksBorrowedCarriedFromOtherPin * LSB_DPOT_RESISTANCE_STEP_PER_MSB_RESISTANCE_STEP, false, thisPinNotInDPotArrays ); //recursive call
-                                        setPotValue( DPotPins[ index + 1 ], DPotValues[ index + 1 ] - ( ( 0 - value ) - ( chunksBorrowedCarriedFromOtherPin + DPotValues[ index ] ) ), false, thisPinNotInDPotArrays ); //recursive call
-                                        value = 0 - DPotValues[ index ]; //The other two get recursive calls, this one doesn't need recursive
-                                    }
-                                    else //there is not enough anywhere, just take all down to 0;
-                                    {
-                                        setPotValue( DPotPins[ index - 1 ], 0, false, thisPinNotInDPotArrays ); //recursive call
-                                        setPotValue( DPotPins[ index + 1 ], 0, false, thisPinNotInDPotArrays ); //recursive call
-                                        value = 0 - DPotValues[ index ]; //The other two get recursive calls, this one doesn't need recursive
-                                    }
-                                }
-                    #if ( NUM_OF_DPOTS_PER_LEG == 2 ) //ends at Line 709
-                                else if( ThisIsAnLSBpin ) //means this is LSBpin needing to borrow from MSB
-                                { //each unit from MSB is worth LSB_DPOT_RESISTANCE_STEP_PER_MSB_RESISTANCE_STEP
-                                    if( ( DPotValues[ index + 1 ]/*MSBpin*/ * LSB_DPOT_RESISTANCE_STEP_PER_MSB_RESISTANCE_STEP ) + DPotValues[ index ] > ( 0 - value ) )
-                                    {
-                                        chunksBorrowedCarriedFromOtherPin = ( ( ( 0 - value ) - DPotValues[ index ] ) + ( LSB_DPOT_RESISTANCE_STEP_PER_MSB_RESISTANCE_STEP - 1 ) / LSB_DPOT_RESISTANCE_STEP_PER_MSB_RESISTANCE_STEP );
-                                        setPotValue( DPotPins[ index + 1 ], DPotValues[ index + 1 ] -= chunksBorrowedCarriedFromOtherPin, false, thisPinNotInDPotArrays );
-                                        //setPotValue( DPotPins[ index ], ( chunksBorrowedCarriedFromOtherPin/* + DPotValues[ index + 2 ] ) */ * LSB_DPOT_RESISTANCE_STEP_PER_MSB_RESISTANCE_STEP ) + DPotValues[ index ] + value/*value is a negative here*/, false, thisPinNotInDPotArrays );
-                                        value = ( chunksBorrowedCarriedFromOtherPin/* + DPotValues[ index + 2 ] ) */ * LSB_DPOT_RESISTANCE_STEP_PER_MSB_RESISTANCE_STEP ) /*+ DPotValues[ index ]*/ + value/*value is a negative here*/; //The other two get recursive calls, this one doesn't need recursive
-                                    }
-                                    else //there is not enough anywhere, just take all down to 0;
-                                    {
-                                        setPotValue( DPotPins[ index + 1 ], 0, false, thisPinNotInDPotArrays ); //recursive call
-                                        value = 0 - DPotValues[ index ]; //The other two get recursive calls, this one doesn't need recursive
-                                    }
-                                }
-                    #endif
-                    #if ( NUM_OF_DPOTS_PER_LEG > 2 ) //ends at Line 733
-                                else if( ThisIsAnLSBpin ) //means this is LSBpin needing to borrow from MID
-                                {
-                                    if( ( DPotValues[ index + 1 ]/*MIDpin*/ * LSB_DPOT_RESISTANCE_STEP_PER_MSB_RESISTANCE_STEP ) + DPotValues[ index ] > ( 0 - value ) )
-                                    { //can do without borrowing from MSB
-                                        chunksBorrowedCarriedFromOtherPin = ( ( ( 0 - value ) - DPotValues[ index ] ) + ( LSB_DPOT_RESISTANCE_STEP_PER_MSB_RESISTANCE_STEP - 1 ) / LSB_DPOT_RESISTANCE_STEP_PER_MSB_RESISTANCE_STEP );
-                                        setPotValue( DPotPins[ index + 1 ], DPotValues[ index + 1 ] -= chunksBorrowedCarriedFromOtherPin, false, thisPinNotInDPotArrays );
-                                        //setPotValue( DPotPins[ index ], ( chunksBorrowedCarriedFromOtherPin/* + DPotValues[ index + 2 ] ) */ * LSB_DPOT_RESISTANCE_STEP_PER_MSB_RESISTANCE_STEP ) + DPotValues[ index ] + value/*value is a negative here*/, false, thisPinNotInDPotArrays );
-                                        value = ( chunksBorrowedCarriedFromOtherPin/* + DPotValues[ index + 2 ] ) */ * LSB_DPOT_RESISTANCE_STEP_PER_MSB_RESISTANCE_STEP ) /*+ DPotValues[ index ]*/ + value/*value is a negative here*/; //The other two get recursive calls, this one doesn't need recursive
-                                    }
-                                    if( ( DPotValues[ index + 1 ]/*MIDpin*/ * LSB_DPOT_RESISTANCE_STEP_PER_MSB_RESISTANCE_STEP ) + ( DPotValues[ index + 2 ]/*MSBpin*/ * LSB_DPOT_RESISTANCE_STEP_PER_MSB_RESISTANCE_STEP ) + DPotValues[ index ] > ( 0 - value ) )
-                                    { //must borrow from MSB
-                                        chunksBorrowedCarriedFromOtherPin = ( ( ( 0 - value ) - DPotValues[ index ] ) + ( LSB_DPOT_RESISTANCE_STEP_PER_MSB_RESISTANCE_STEP - 1 ) / LSB_DPOT_RESISTANCE_STEP_PER_MSB_RESISTANCE_STEP );
-                                        setPotValue( DPotPins[ index + 1 ], DPotValues[ index + 1 ] -= chunksBorrowedCarriedFromOtherPin, false, thisPinNotInDPotArrays );
-                                        //setPotValue( DPotPins[ index ], ( chunksBorrowedCarriedFromOtherPin/* + DPotValues[ index + 2 ] ) */ * LSB_DPOT_RESISTANCE_STEP_PER_MSB_RESISTANCE_STEP ) + DPotValues[ index ] + value/*value is a negative here*/, false, thisPinNotInDPotArrays );
-                                        value = ( chunksBorrowedCarriedFromOtherPin/* + DPotValues[ index + 2 ] ) */ * LSB_DPOT_RESISTANCE_STEP_PER_MSB_RESISTANCE_STEP ) /*+ DPotValues[ index ]*/ + value/*value is a negative here*/; //The other two get recursive calls, this one doesn't need recursive
-                                    }
-                                    else //there is not enough anywhere, just take all down to 0;
-                                    {
-                                        setPotValue( DPotPins[ index + 1 ], 0, false, thisPinNotInDPotArrays );
-                                        value = 0 - DPotValues[ index ]; //The other two get recursive calls, this one doesn't need recursive
-                                    }
-                                }
-                    #endif //of Line 710
-                                else if( ThisIsAnMSBpin )//means this is an MSBpin with no option to borrow, but could there be some to steal? valid code for
-                                {
-                                    value = 0 - DPotValues[ index ];
-                                }
-                #else //match this up and debug: Line 663
-                                value = 0 - DPotValues[ index ];
-//By now, value has been prepared to be added to DPotValues[ index ], so it has too likely been changed.  No more looking at it
-                #endif //match this up and debug: Line 663
-                            } //if it will still cause an underflow Line 628
-                        }//started at line 626 //ends "chance exists of underflow"
-/*much fixing needed around here for preprocessor endif's and normal if constructs*/
-                        else if( value > 0 ) //chance exists of overflow
-                        {
-#error  Under construction here, changed bracketed constructs a little, brackets may now need fixing a little next change to load and run this
-                #if ( NUM_OF_DPOTS_PER_LEG > 1 ) //elses out at Line 740, ends at Line 743
-                            if( !ThisIsAnMSBpin && !ThisIsAnLSBpin ) //being neither LSB nor MSB means this is MID pin and both LSB and MSB do exist on other pins
-                            {
-                                if( DPotValues[ index ]/*MIDpin*/ + DPotValues[ index + 1 ]/*MSBpin*/ + value <= MAXPOTVALUE * 2 )//                    ( uint16_t )( DPotValues[ index ] - ( 0 - value ) / LSB_DPOT_RESISTANCE_STEP_PER_MSB_RESISTANCE_STEP ) //how many borrows from MID or MSB are needed?
-                                { //if so put MAXPOTVALUE - into this one and the remainder into others
-                                //this must be done by one recursive call plus finish this: 
-                                    setPotValue( DPotPins[ index + 1 ]/*MSBpin*/, ( value - MAXPOTVALUE ) + DPotValues[ index + 1 ], false, thisPinNotInDPotArrays ); //recursive call
-                                    value = DPotValues[ index ] - MAXPOTVALUE; //accomplishes the above line when this instantiation finishes so we don't have to end it all right here
-                                }
-                                else if( ( DPotValues[ index - 1 ] - ( ( MAXPOTVALUE - DPotValues[ index - 1 ]/*LSBpin*/ ) % LSB_DPOT_RESISTANCE_STEP_PER_MSB_RESISTANCE_STEP ) / LSB_DPOT_RESISTANCE_STEP_PER_MSB_RESISTANCE_STEP ) + DPotValues[ index ]/*MIDpin*/ + DPotPins[ index + 1 ] <= MAXPOTVALUE * 3 )
-                                { //if so take all we can from LSB in chunks of LSB_DPOT_RESISTANCE_STEP_PER_MSB_RESISTANCE_STEP, value - each chunk gets divi'd between MID and MSB with MID taking as much additional as it can first, then MSB taking additional
-                                    chunksBorrowedCarriedFromOtherPin = min( DPotValues[ index - 1 ] - ( ( MAXPOTVALUE - DPotValues[ index - 1 ]/*LSBpin*/ ) % LSB_DPOT_RESISTANCE_STEP_PER_MSB_RESISTANCE_STEP ), value * LSB_DPOT_RESISTANCE_STEP_PER_MSB_RESISTANCE_STEP );
-                                    setPotValue( DPotPins[ index - 1 ], DPotValues[ index - 1 ] - chunksBorrowedCarriedFromOtherPin, false, thisPinNotInDPotArrays ); //recursive call
-                                    chunksBorrowedCarriedFromOtherPin /= LSB_DPOT_RESISTANCE_STEP_PER_MSB_RESISTANCE_STEP;
-//max( //( 0 - value ) - DPotValues[ index ], ( DPotValues[ index - 1 ]/*LSBpin*/ - ( DPotValues[ index - 1 ] % LSB_DPOT_RESISTANCE_STEP_PER_MSB_RESISTANCE_STEP ) ) / LSB_DPOT_RESISTANCE_STEP_PER_MSB_RESISTANCE_STEP );
-#error careful of this math         setPotValue( DPotPins[ index + 1 ]/*MSBpin*/, ?min( value - MAXPOTVALUE ) + DPotValues[ index + 1 ], MAXPOTVALUE ), false, thisPinNotInDPotArrays ); //recursive call
-#error here and following           value = DPotValues[ index ] - ( ( ( 0 - value ) - chunksBorrowedCarriedFromOtherPin ) +  - DPotValues[ index ] ); //The other one gets recursive call, this one doesn't need recursive
-                                }
-                                else if( ( ( DPotValues[ index - 1 ]/*LSBpin*/ - ( DPotValues[ index - 1 ] % LSB_DPOT_RESISTANCE_STEP_PER_MSB_RESISTANCE_STEP ) ) / LSB_DPOT_RESISTANCE_STEP_PER_MSB_RESISTANCE_STEP ) + DPotValues[ index ]/*MIDpin*/ + DPotValues[ index + 1 ]/*MSBpin*/ >= ( 0 - value ) )
-                                { //take all we can from LSB in chunks of LSB_DPOT_RESISTANCE_STEP_PER_MSB_RESISTANCE_STEP and Mtake ID by all of it and MSB down by remainder
-                                    chunksBorrowedCarriedFromOtherPin = min( ( 0 - value ) - ( DPotValues[ index ] + DPotValues[ index + 1 ] ), ( DPotValues[ index - 1 ]/*LSBpin*/ - ( DPotValues[ index - 1 ] % LSB_DPOT_RESISTANCE_STEP_PER_MSB_RESISTANCE_STEP ) ) / LSB_DPOT_RESISTANCE_STEP_PER_MSB_RESISTANCE_STEP );
-                                    setPotValue( DPotPins[ index - 1 ], DPotValues[ index - 1 ] - chunksBorrowedCarriedFromOtherPin * LSB_DPOT_RESISTANCE_STEP_PER_MSB_RESISTANCE_STEP, false, thisPinNotInDPotArrays ); //recursive call
-                                    setPotValue( DPotPins[ index + 1 ], DPotValues[ index + 1 ] - ( ( 0 - value ) - ( chunksBorrowedCarriedFromOtherPin + DPotValues[ index ] ) ), false, thisPinNotInDPotArrays ); //recursive call
-                                    value = 0 - DPotValues[ index ]; //The other two get recursive calls, this one doesn't need recursive
-                                }
-                                else //there is not enough anywhere, just take all down to 0;
-                                {
-                                    setPotValue( DPotPins[ index - 1 ], 0, false, thisPinNotInDPotArrays ); //recursive call
-                                    setPotValue( DPotPins[ index + 1 ], 0, false, thisPinNotInDPotArrays ); //recursive call
-                                    value = 0 - DPotValues[ index ]; //The other two get recursive calls, this one doesn't need recursive
-                                }
-                            }
-                    #if ( NUM_OF_DPOTS_PER_LEG == 2 ) //ends at Line 709
-                            else if( ThisIsAnLSBpin ) //is LSB and not MSB means another pin 
-                            {
-                                ;
-                            }
-                    #endif
-                    #if ( NUM_OF_DPOTS_PER_LEG > 2 ) //ends at Line 733
-                            else if( ThisIsAnLSBpin )
-                            {
-                                ;
-                            }
-                    #endif
-                            else if( ThisIsAnMSBpin )
-                            {
-                                value += DPotValues[ index ];
-                            }
-                        }
-                        } // end of useOffsetStyle loop or maybe the one above was?
-                #else
-                            value += DPotValues[ index ];
-                        }
-                        } // end of useOffsetStyle loop
-                #endif 
-                        break; //breaks out of loop that's finding index
-                        } //end of pin equal loop
-//                    } //end of for loop 586//offset style construct started Line 623
-//                } //end of if construct from Line 587 that works with the found index
-            } //end of for construct that loops to find index
-//        } //end of checking !thisPinNotInDPotArrays
+        short index = getPinIndex( DPotPin );
         Serial.print( F( ", =" ) );
         Serial.print( value );
         Serial.print( F( ",.." ) );
         if( ( value < 0 ) || ( value > MAXPOTVALUE ) ) return false;
-        if( !thisPinNotInDPotArrays )
-            DPotValues[ index ] = value;
+        if( index > -1 )
+            DPotSettings[ index ] = value;
         Serial.print( F( ", =" ) );
         Serial.print( value );
         Serial.print( F( ",..(binary=" ) );
@@ -838,81 +626,296 @@ I would expect the arithmetic and other aspects of algorithms in the following f
         Serial.flush();
     }
 
-int offsetPotValue( uint8_t, short );
-    int offsetPotValue( uint8_t DPotPin, short offsetvalue )
+#error After debug of following function, this sketch is expected to be ready for beta test
+    int offsetPotValue( const uint8_t DPotPin, short offsetvalue )
     {
-        setPotValue( DPotPin, offsetvalue, true );
-        return 0;
-    #ifdef DEBUG
-//        offsetvalue += 40;  //A magnifier for troubleshooting
-        while ( !Serial );
-        Serial.print( F( "Line 610 offsetvalue=" ) );
-        Serial.print( offsetvalue );
-        Serial.print( F( " for Digi pot on pin " ) );
-    #endif
-        for( uint8_t index = 0; index < NUM_OF_DPOTS_PER_BANK * USING_LM334_WITH_DPOT_BANKS; index++ )
+        short index = getPinIndex( DPotPin );
+        if( index < 0 ) return index;
+        uint8_t bankPlusLSBoffset = 0; //Start at bank index 0
+        uint8_t bankPlusMSBoffset = 0; //Start at bank index 0
+        bool useOffsetStyle = true;
+        uint16_t value = offsetvalue;
+        bool ThisIsAnMSBpin = true, ThisIsAnLSBpin = true;
+#if ( NUM_OF_DPOTS_PER_LEG > 1 )
+        uint16_t chunksBorrowedCarriedFromOtherPin;
+        ThisIsAnMSBpin = ThisIsAnLSBpin = false;
+#endif 
+    #if ( NUM_OF_DPOTS_PER_LEG > 1 ) //ends at Line 
+        for( bankPlusLSBoffset += 0/*add LSB offset*/; bankPlusLSBoffset < NUM_OF_DPOTS_PER_BANK * USING_LM334_WITH_DPOT_BANKS; bankPlusLSBoffset += NUM_OF_DPOTS_PER_LEG )
         {
-            bool ThisIsAnLSBpin = false;
-            if( DPotPin == DPotPins[ index ] )
-            { //Next determine if this is an LSB pin: DPotPins[ 2 + ( bank * NUM_OF_DPOTS_PER_BANK ) ]
-//#error //The following needs to be reconsidered in light of carries across MSB over and underruns and multiple banks
-                for( uint8_t bankPlusLSBoffset = 0; bankPlusLSBoffset < NUM_OF_DPOTS_PER_BANK * USING_LM334_WITH_DPOT_BANKS; bankPlusLSBoffset += NUM_OF_DPOTS_PER_LEG )
-                {
-                    if( DPotPin == DPotPins[ bankPlusLSBoffset ] )
-                    {
-                        ThisIsAnLSBpin = true;
-                        break;
-                    }
-                }
-                if( offsetvalue < 0 ) 
-                {
-                    while( ( ( 0 - offsetvalue ) > DPotValues[ index ] ) && ThisIsAnLSBpin )
-                    { //Notice this is an incremental adjustment loop
-                        if( ( 0 - offsetvalue ) > DPotValues[ index ] == 0 )
-                        {
-//                            offsetPotValue( DPotPins[ bankPlusLSBoffset - 1 ], -1 );
-                            setPotValue( DPotPin, LSB_DPOT_RESISTANCE_STEP_PER_MSB_RESISTANCE_STEP - 1 );
-                        }
-                        else
-                        {
-                            ;
-                        }
-                        offsetvalue++;
-//                        Serial.print( F( " unable to effect that offset due to that underflow result " ) );
-//                        return -1;
-                    }
-//                    else
-//                    {
-//                        offsetvalue = max( offsetvalue, 0 - DPotValues[ index ] ); 
-//                    }
-                }
-                else if( offsetvalue > 0 ) 
-                {
-                    if( ( offsetvalue + DPotValues[ index ] > MAXPOTVALUE ) && ThisIsAnLSBpin )
-                    {
-                        Serial.print( F( " unable to effect that offset due to that overflow result " ) );
-                        return 1;
-                    }
-                    else
-                    {
-                        offsetvalue = min( offsetvalue, MAXPOTVALUE - DPotValues[ index ] ); 
-                    }
-                }
-                DPotValues[ index ] += offsetvalue; 
-                offsetvalue = DPotValues[ index ]; 
+            if( DPotPin == DPotPins[ bankPlusLSBoffset ] )
+            {
+                Serial.print( F( " LSB pin " ) );
+                ThisIsAnLSBpin = true;
                 break;
             }
         }
-        #ifdef DEBUG
-            while ( !Serial );
-            Serial.print( DPotPin );
-            Serial.print( F( " getting " ) );
-            Serial.print( offsetvalue );
-        #endif
-      digitalWrite( DPotPin, LOW );
-      SPI.transfer( ( offsetvalue & 0x100 /*This restricts data to step numbers only.  Maybe you'd want to open it up for other type data...*/) ? 1 : 0 );
-      SPI.transfer( offsetvalue & 0xff ); // send value (0~255)
-      digitalWrite( DPotPin, HIGH );
+        for( bankPlusMSBoffset += ( NUM_OF_DPOTS_PER_LEG - 1 )/*add MSB DPot offset of a leg less one*/; bankPlusMSBoffset < NUM_OF_DPOTS_PER_BANK * USING_LM334_WITH_DPOT_BANKS; bankPlusMSBoffset += NUM_OF_DPOTS_PER_LEG )
+        {
+            if( DPotPin == DPotPins[ bankPlusMSBoffset ] )
+            {
+                Serial.print( F( " MSB pin " ) );
+                ThisIsAnMSBpin = true;
+                break;
+            }
+        }
+    #endif
+        if( value < 0 ? 0 - value : value > value < 0 ? DPotSettings[ index ] : MAXPOTVALUE - DPotSettings[ index ] ) //if will cause under- overflow  ends at Line 
+        {
+            short offset1;
+            short offset2;
+    #if ( NUM_OF_DPOTS_PER_LEG > 2 ) //ends at Line 
+            if( DPotSettings[ index ] == value < 0 ? 0 : MAXPOTVALUE )
+            {
+                if( !ThisIsAnMSBpin && !ThisIsAnLSBpin ) //this pin is MID (when another pin may have some value)
+                {
+                    offset1 = 1;
+                    offset2 = -1;
+                }
+                else if( ThisIsAnMSBpin ) //this pin is MSB (when another pin may have some value)
+                {
+                    offset1 = -2;
+                    offset2 = -1;
+                }
+                else //this pin is LSB (when another pin may have some value)
+                {
+                    offset1 = 2;
+                    offset2 = 1;
+                }
+                if( DPotSettings[ index + offset1 ] == DPotSettings[ index + offset2 ] == DPotSettings[ index ] ) return false;
+            }
+    #elif ( NUM_OF_DPOTS_PER_LEG > 1 ) //ends at Line 
+            if( DPotSettings[ index ] == value < 0 ? 0 : MAXPOTVALUE )
+            {
+                offset1 = ThisIsAnMSBpin ? -1 : 1;
+                if( DPotSettings[ index + offset1 ] == DPotSettings[ index ] ) return false;
+            }
+    #else //ends at Line 
+            if( DPotSettings[ index ] == value < 0 ? 0 : MAXPOTVALUE ) return false;
+    #endif //of Line 
+    }
+    if( ( value < 0 ) && ( 0 - value ) > DPotSettings[ index ] )
+    { //ding ding ding; will underflow
+#if ( NUM_OF_DPOTS_PER_LEG > 1 ) //elses out at Line , ends at Line 
+            if( !ThisIsAnMSBpin && !ThisIsAnLSBpin ) //means this is MIDpin needing to borrow from MSB and means more than two DPots per leg
+            {
+                if( DPotSettings[ index ]/*MIDpin*/ + DPotSettings[ index + 1 ]/*MSBpin*/ >= ( 0 - value ) )//                    ( uint16_t )( DPotSettings[ index ] - ( 0 - value ) / LSB_DPOT_RESISTANCE_STEP_PER_MSB_RESISTANCE_STEP ) //how many borrows from MID or MSB are needed?
+                { //if so take MSB to ( 0 - value ) - DPotSettings[ index ] and DPotSettings[ index ] to 0
+                //this must be done by one recursive call plus finish this: 
+                    setPotValue( DPotPins[ index + 1 ]/*MSBpin*/, ( 0 - value ) - DPotSettings[ index ] ); //recursive call
+                    value = 0 - DPotSettings[ index ]; //accomplishes the above line when this instantiation finishes so we don't have to end it all right here
+                }
+                else if( ( ( DPotSettings[ index - 1 ]/*LSBpin*/ - ( DPotSettings[ index - 1 ] % LSB_DPOT_RESISTANCE_STEP_PER_MSB_RESISTANCE_STEP ) ) / LSB_DPOT_RESISTANCE_STEP_PER_MSB_RESISTANCE_STEP ) + DPotSettings[ index ]/*MIDpin*/ >= ( 0 - value ) )
+                { //if so take all we can from LSB in chunks of LSB_DPOT_RESISTANCE_STEP_PER_MSB_RESISTANCE_STEP and take MID down by remainder, one unit per chunk
+                    chunksBorrowedCarriedFromOtherPin = min( ( 0 - value ) - DPotSettings[ index ], ( DPotSettings[ index - 1 ]/*LSBpin*/ - ( DPotSettings[ index - 1 ] % LSB_DPOT_RESISTANCE_STEP_PER_MSB_RESISTANCE_STEP ) ) / LSB_DPOT_RESISTANCE_STEP_PER_MSB_RESISTANCE_STEP );
+                    setPotValue( DPotPins[ index - 1 ], DPotSettings[ index - 1 ] - chunksBorrowedCarriedFromOtherPin * LSB_DPOT_RESISTANCE_STEP_PER_MSB_RESISTANCE_STEP ); //recursive call
+                    value = DPotSettings[ index ] - ( ( ( 0 - value ) - chunksBorrowedCarriedFromOtherPin ) +  - DPotSettings[ index ] ); //The other one gets recursive call, this one doesn't need recursive
+                }
+                else if( ( ( DPotSettings[ index - 1 ]/*LSBpin*/ - ( DPotSettings[ index - 1 ] % LSB_DPOT_RESISTANCE_STEP_PER_MSB_RESISTANCE_STEP ) ) / LSB_DPOT_RESISTANCE_STEP_PER_MSB_RESISTANCE_STEP ) + DPotSettings[ index ]/*MIDpin*/ + DPotSettings[ index + 1 ]/*MSBpin*/ >= ( 0 - value ) )
+                { //take all we can from LSB in chunks of LSB_DPOT_RESISTANCE_STEP_PER_MSB_RESISTANCE_STEP and Mtake ID by all of it and MSB down by remainder
+                    chunksBorrowedCarriedFromOtherPin = min( ( 0 - value ) - ( DPotSettings[ index ] + DPotSettings[ index + 1 ] ), ( DPotSettings[ index - 1 ]/*LSBpin*/ - ( DPotSettings[ index - 1 ] % LSB_DPOT_RESISTANCE_STEP_PER_MSB_RESISTANCE_STEP ) ) / LSB_DPOT_RESISTANCE_STEP_PER_MSB_RESISTANCE_STEP );
+                    setPotValue( DPotPins[ index - 1 ], DPotSettings[ index - 1 ] - chunksBorrowedCarriedFromOtherPin * LSB_DPOT_RESISTANCE_STEP_PER_MSB_RESISTANCE_STEP, ); //recursive call
+                    setPotValue( DPotPins[ index + 1 ], DPotSettings[ index + 1 ] - ( ( 0 - value ) - ( chunksBorrowedCarriedFromOtherPin + DPotSettings[ index ] ) ) ); //recursive call
+                    value = 0 - DPotSettings[ index ]; //The other two get recursive calls, this one doesn't need recursive
+                }
+                else //there is not enough anywhere, just take all down to 0;
+                {
+                    setPotValue( DPotPins[ index - 1 ], 0 ); //recursive call
+                    setPotValue( DPotPins[ index + 1 ], 0 ); //recursive call
+                    value = 0 - DPotSettings[ index ]; //The other two get recursive calls, this one doesn't need recursive
+                }
+            }
+#if ( NUM_OF_DPOTS_PER_LEG == 2 ) //ends at Line 
+            else if( ThisIsAnLSBpin ) //means this is LSBpin needing to borrow from MSB
+            { //each unit from MSB is worth LSB_DPOT_RESISTANCE_STEP_PER_MSB_RESISTANCE_STEP
+                if( ( DPotSettings[ index + 1 ]/*MSBpin*/ * LSB_DPOT_RESISTANCE_STEP_PER_MSB_RESISTANCE_STEP ) + DPotSettings[ index ] > ( 0 - value ) )
+                {
+                    chunksBorrowedCarriedFromOtherPin = ( ( ( 0 - value ) - DPotSettings[ index ] ) + ( LSB_DPOT_RESISTANCE_STEP_PER_MSB_RESISTANCE_STEP - 1 ) / LSB_DPOT_RESISTANCE_STEP_PER_MSB_RESISTANCE_STEP );
+                    setPotValue( DPotPins[ index + 1 ], DPotSettings[ index + 1 ] -= chunksBorrowedCarriedFromOtherPin );
+                    //setPotValue( DPotPins[ index ], ( chunksBorrowedCarriedFromOtherPin/* + DPotSettings[ index + 2 ] ) */ * LSB_DPOT_RESISTANCE_STEP_PER_MSB_RESISTANCE_STEP ) + DPotSettings[ index ] + value/*value is a negative here*/ );
+                    value = ( chunksBorrowedCarriedFromOtherPin/* + DPotSettings[ index + 2 ] ) */ * LSB_DPOT_RESISTANCE_STEP_PER_MSB_RESISTANCE_STEP ) /*+ DPotSettings[ index ]*/ + value/*value is a negative here*/; //The other two get recursive calls, this one doesn't need recursive
+                }
+                else //there is not enough anywhere, just take all down to 0;
+                {
+                    setPotValue( DPotPins[ index + 1 ], 0 ); //recursive call
+                    value = 0 - DPotSettings[ index ]; //The other two get recursive calls, this one doesn't need recursive
+                }
+            }
+#endif
+#if ( NUM_OF_DPOTS_PER_LEG > 2 ) //ends at Line 
+            else if( ThisIsAnLSBpin ) //means this is LSBpin needing to borrow from MID
+            {
+                if( ( DPotSettings[ index + 1 ]/*MIDpin*/ * LSB_DPOT_RESISTANCE_STEP_PER_MSB_RESISTANCE_STEP ) + DPotSettings[ index ] > ( 0 - value ) )
+                { //can do without borrowing from MSB
+                    chunksBorrowedCarriedFromOtherPin = ( ( ( 0 - value ) - DPotSettings[ index ] ) + ( LSB_DPOT_RESISTANCE_STEP_PER_MSB_RESISTANCE_STEP - 1 ) / LSB_DPOT_RESISTANCE_STEP_PER_MSB_RESISTANCE_STEP );
+                    setPotValue( DPotPins[ index + 1 ], DPotSettings[ index + 1 ] -= chunksBorrowedCarriedFromOtherPin );
+                    //setPotValue( DPotPins[ index ], ( chunksBorrowedCarriedFromOtherPin/* + DPotSettings[ index + 2 ] ) */ * LSB_DPOT_RESISTANCE_STEP_PER_MSB_RESISTANCE_STEP ) + DPotSettings[ index ] + value/*value is a negative here*/ );
+                    value = ( chunksBorrowedCarriedFromOtherPin/* + DPotSettings[ index + 2 ] ) */ * LSB_DPOT_RESISTANCE_STEP_PER_MSB_RESISTANCE_STEP ) /*+ DPotSettings[ index ]*/ + value/*value is a negative here*/; //The other two get recursive calls, this one doesn't need recursive
+                }
+                if( ( DPotSettings[ index + 1 ]/*MIDpin*/ * LSB_DPOT_RESISTANCE_STEP_PER_MSB_RESISTANCE_STEP ) + ( DPotSettings[ index + 2 ]/*MSBpin*/ * LSB_DPOT_RESISTANCE_STEP_PER_MSB_RESISTANCE_STEP ) + DPotSettings[ index ] > ( 0 - value ) )
+                { //must borrow from MSB
+                    chunksBorrowedCarriedFromOtherPin = ( ( ( 0 - value ) - DPotSettings[ index ] ) + ( LSB_DPOT_RESISTANCE_STEP_PER_MSB_RESISTANCE_STEP - 1 ) / LSB_DPOT_RESISTANCE_STEP_PER_MSB_RESISTANCE_STEP );
+                    setPotValue( DPotPins[ index + 1 ], DPotSettings[ index + 1 ] -= chunksBorrowedCarriedFromOtherPin );
+                    //setPotValue( DPotPins[ index ], ( chunksBorrowedCarriedFromOtherPin/* + DPotSettings[ index + 2 ] ) */ * LSB_DPOT_RESISTANCE_STEP_PER_MSB_RESISTANCE_STEP ) + DPotSettings[ index ] + value/*value is a negative here*/ );
+                    value = ( chunksBorrowedCarriedFromOtherPin/* + DPotSettings[ index + 2 ] ) */ * LSB_DPOT_RESISTANCE_STEP_PER_MSB_RESISTANCE_STEP ) /*+ DPotSettings[ index ]*/ + value/*value is a negative here*/; //The other two get recursive calls, this one doesn't need recursive
+                }
+                else //there is not enough anywhere, just take all down to 0;
+                {
+                    setPotValue( DPotPins[ index + 1 ], 0 );
+                    value = 0 - DPotSettings[ index ]; //The other two get recursive calls, this one doesn't need recursive
+                }
+            }
+#endif //of Line 710
+            else if( ThisIsAnMSBpin )//means this is an MSBpin with no option to borrow, but could there be some to steal? valid code for
+            {
+                value = 0 - DPotSettings[ index ];
+            }
+#else //match this up and debug: Line 
+            value = 0 - DPotSettings[ index ];
+//By now, value has been prepared to be added to DPotSettings[ index ], so it has too likely been changed.  No longer useful for decision-making
+#endif //match this up and debug: Line 
+        } //if it will still cause an underflow Line 628
+        else if( ( value > 0 ) && ( value + DPotSettings[ index ] > MAXPOTVALUE ) ) //ding ding ding; will overflow
+        { //ding ding ding; will overflow
+//#error NEW THING: //Dont' confuse resistance range with setting range when working with overflows that need to go to LSB from MID/MSB!  
+#if ( NUM_OF_DPOTS_PER_LEG > 1 ) //elses out at Line , ends at Line 
+
+            if( !ThisIsAnMSBpin && !ThisIsAnLSBpin ) //being neither LSB nor MSB means this is MID pin and both LSB and MSB do exist on other pins
+            {//When pin is MID or MSB: available range of both MID/MSB: MAXPOTVALUE - DPotSettings[ index.... ]
+//checking MSB for extra range to place excess value:
+                if( DPotSettings[ index ]/*MIDpin*/ + DPotSettings[ index + 1 ]/*MSBpin*/ + value <= MAXPOTVALUE * 2 )
+                { //if so put MAXPOTVALUE - into this one and the remainder into others
+                //this must be done by one recursive call plus finish executing this function call: 
+                    setPotValue( DPotPins[ index + 1 ]/*MSBpin*/, ( value - MAXPOTVALUE ) + DPotSettings[ index + 1 ] ); //recursive call
+                    value = DPotSettings[ index ] - MAXPOTVALUE; //accomplishes the above line when this instantiation finishes so we don't have to end it all right here
+                }
+                
+//number of available more chunks LSB can handle: ( ( MAXPOTVALUE - DPotSettings[ index - 1or2 ] ) - ( ( MAXPOTVALUE - DPotSettings[ index - 1or2 ] )/*LSBpin*/ ) % LSB_DPOT_RESISTANCE_STEP_PER_MSB_RESISTANCE_STEP ) / LSB_DPOT_RESISTANCE_STEP_PER_MSB_RESISTANCE_STEP )
+//#error this line is partial     
+                else if( ( ( DPotSettings[ index - 1 ]/*LSBpin*/ - ( DPotSettings[ index - 1 ] % LSB_DPOT_RESISTANCE_STEP_PER_MSB_RESISTANCE_STEP ) ) / LSB_DPOT_RESISTANCE_STEP_PER_MSB_RESISTANCE_STEP ) + DPotSettings[ index ]/*MIDpin*/ + DPotSettings[ index + 1 ]/*MSBpin*/ >= MAXPOTVALUE * 3 )
+                { //use all we can in LSB in chunks of LSB_DPOT_RESISTANCE_STEP_PER_MSB_RESISTANCE_STEP and MID by all of it and MSB down by remainder
+//#error  taken out for compile success: must still be fixed                                    ?chunksBorrowedCarriedFromOtherPin = min( MAXPOTVALUE - ( DPotSettings[ index ] + DPotSettings[ index + 1 ] ), ( DPotSettings[ index - 1 ]/*LSBpin*/ - ( DPotSettings[ index - 1 ] % LSB_DPOT_RESISTANCE_STEP_PER_MSB_RESISTANCE_STEP ) ) / LSB_DPOT_RESISTANCE_STEP_PER_MSB_RESISTANCE_STEP );
+                    setPotValue( DPotPins[ index - 1 ], DPotSettings[ index - 1 ] - chunksBorrowedCarriedFromOtherPin * LSB_DPOT_RESISTANCE_STEP_PER_MSB_RESISTANCE_STEP ); //recursive call
+                    setPotValue( DPotPins[ index + 1 ], DPotSettings[ index + 1 ] - ( ( 0 - value ) - ( chunksBorrowedCarriedFromOtherPin + DPotSettings[ index ] ) ) ); //recursive call
+//setting to end up with = ( value * LSB_DPOT_RESISTANCE_STEP_PER_MSB_RESISTANCE_STEP ) - ( ( DPotSettings[ index + 1 ] + DPotSettings[ index + 1 ] ) * LSB_DPOT_RESISTANCE_STEP_PER_MSB_RESISTANCE_STEP ) 
+                    value = ( ( value * LSB_DPOT_RESISTANCE_STEP_PER_MSB_RESISTANCE_STEP ) - ( ( DPotSettings[ index + 1 ] + DPotSettings[ index + 1 ] ) * LSB_DPOT_RESISTANCE_STEP_PER_MSB_RESISTANCE_STEP ) ) - DPotSettings[ index ]; //The other two get recursive calls, this one doesn't need recursive
+                }
+// ( ( max – level ) - ( ( max - level ) % large unit ) ) / large unit
+//available range of the LSB = ( ( MAXPOTVALUE - DPotSettings[ index - 1or2 ] ) - ( ( MAXPOTVALUE - DPotSettings[ index - 1or2 ] )/*LSBpin*/ ) % LSB_DPOT_RESISTANCE_STEP_PER_MSB_RESISTANCE_STEP ) / LSB_DPOT_RESISTANCE_STEP_PER_MSB_RESISTANCE_STEP )
+//checking LSB + MSB for extra range to place excess value, use up entire ranges of MID and MSB with remaining being multiplied by LSB_DPOT_RESISTANCE_STEP_PER_MSB_RESISTANCE_STEP and added to LSB setting
+               
+                else if( ( DPotSettings[ index - 1 ] - ( ( MAXPOTVALUE - DPotSettings[ index - 1 ]/*LSBpin*/ ) % LSB_DPOT_RESISTANCE_STEP_PER_MSB_RESISTANCE_STEP ) / LSB_DPOT_RESISTANCE_STEP_PER_MSB_RESISTANCE_STEP ) + DPotSettings[ index ]/*MIDpin*/ + DPotPins[ index + 1 ] <= MAXPOTVALUE * 3 )
+                { //if so take all we can from LSB in chunks of LSB_DPOT_RESISTANCE_STEP_PER_MSB_RESISTANCE_STEP, value - each chunk gets divi'd between MID and MSB with MID taking as much additional as it can first, then MSB taking additional
+                    chunksBorrowedCarriedFromOtherPin = min( DPotSettings[ index - 1 ] - ( ( MAXPOTVALUE - DPotSettings[ index - 1 ]/*LSBpin*/ ) % LSB_DPOT_RESISTANCE_STEP_PER_MSB_RESISTANCE_STEP ), value * LSB_DPOT_RESISTANCE_STEP_PER_MSB_RESISTANCE_STEP );
+                    setPotValue( DPotPins[ index - 1 ], DPotSettings[ index - 1 ] - chunksBorrowedCarriedFromOtherPin ); //recursive call
+                    chunksBorrowedCarriedFromOtherPin /= LSB_DPOT_RESISTANCE_STEP_PER_MSB_RESISTANCE_STEP;
+//max( //( 0 - value ) - DPotSettings[ index ], ( DPotSettings[ index - 1 ]/*LSBpin*/ - ( DPotSettings[ index - 1 ] % LSB_DPOT_RESISTANCE_STEP_PER_MSB_RESISTANCE_STEP ) ) / LSB_DPOT_RESISTANCE_STEP_PER_MSB_RESISTANCE_STEP );
+//#error careful of this math         setPotValue( DPotPins[ index + 1 ]/*MSBpin*/, min( value - MAXPOTVALUE ) + DPotSettings[ index + 1 ], MAXPOTVALUE ) ); //recursive call
+//#error here and following           value = DPotSettings[ index ] - ( ( ( 0 - value ) - chunksBorrowedCarriedFromOtherPin ) +  - DPotSettings[ index ] ); //The other one gets recursive call, this one doesn't need recursive
+                }
+                
+                else //there is not enough anywhere, just take all settings up to MAXPOTVALUE which means finish this with value = MAXPOTVALUE - DPotSettings[ index ]
+                {
+                    setPotValue( DPotPins[ index - 1 ], 0 ); //recursive call
+                    setPotValue( DPotPins[ index + 1 ], 0 ); //recursive call
+                    value = MAXPOTVALUE - DPotSettings[ index ]; //The other two get recursive calls, this one doesn't need recursive
+                }
+            }
+
+    #if ( NUM_OF_DPOTS_PER_LEG == 2 ) //ends at Line 
+            else if( ThisIsAnLSBpin ) //is LSB and not MSB means another pin 
+            {
+                ;
+            }
+    #endif
+    #if ( NUM_OF_DPOTS_PER_LEG > 2 ) //ends at Line 
+            else if( ThisIsAnLSBpin )
+            {
+                ;
+            }
+    #endif
+            else if( ThisIsAnMSBpin )
+            {
+                value += DPotSettings[ index ];
+            }
+        }
+#else
+            value += DPotSettings[ index ];
+        }
+#endif 
+        setPotValue( DPotPin, value );
+        return 0;
+/*
+#ifdef DEBUG
+//        offsetvalue += 40;  //A magnifier for troubleshooting
+    while ( !Serial );
+    Serial.print( F( "Line 610 offsetvalue=" ) );
+    Serial.print( offsetvalue );
+    Serial.print( F( " for Digi pot on pin " ) );
+#endif
+    for( uint8_t index = 0; index < NUM_OF_DPOTS_PER_BANK * USING_LM334_WITH_DPOT_BANKS; index++ )
+    {
+        bool ThisIsAnLSBpin = false;
+        if( DPotPin == DPotPins[ index ] )
+        { //Next determine if this is an LSB pin: DPotPins[ 2 + ( bank * NUM_OF_DPOTS_PER_BANK ) ]
+//#error //The following needs to be reconsidered in light of carries across MSB over and underruns and multiple banks
+            for( uint8_t bankPlusLSBoffset = 0; bankPlusLSBoffset < NUM_OF_DPOTS_PER_BANK * USING_LM334_WITH_DPOT_BANKS; bankPlusLSBoffset += NUM_OF_DPOTS_PER_LEG )
+            {
+                if( DPotPin == DPotPins[ bankPlusLSBoffset ] )
+                {
+                    ThisIsAnLSBpin = true;
+                    break;
+                }
+            }
+            if( offsetvalue < 0 ) 
+            {
+                while( ( ( 0 - offsetvalue ) > DPotSettings[ index ] ) && ThisIsAnLSBpin )
+                { //Notice this is an incremental adjustment loop
+                    if( ( 0 - offsetvalue ) > DPotSettings[ index ] == 0 )
+                    {
+//                            offsetPotValue( DPotPins[ bankPlusLSBoffset - 1 ], -1 );
+                        setPotValue( DPotPin, LSB_DPOT_RESISTANCE_STEP_PER_MSB_RESISTANCE_STEP - 1 );
+                    }
+                    else
+                    {
+                        ;
+                    }
+                    offsetvalue++;
+//                        Serial.print( F( " unable to effect that offset due to that underflow result " ) );
+//                        return -1;
+                }
+//                    else
+//                    {
+//                        offsetvalue = max( offsetvalue, 0 - DPotSettings[ index ] ); 
+//                    }
+            }
+            else if( offsetvalue > 0 ) 
+            {
+                if( ( offsetvalue + DPotSettings[ index ] > MAXPOTVALUE ) && ThisIsAnLSBpin )
+                {
+                    Serial.print( F( " unable to effect that offset due to that overflow result " ) );
+                    return 1;
+                }
+                else
+                {
+                    offsetvalue = min( offsetvalue, MAXPOTVALUE - DPotSettings[ index ] ); 
+                }
+            }
+            DPotSettings[ index ] += offsetvalue; 
+            offsetvalue = DPotSettings[ index ]; 
+            break;
+        }
+    }
+    #ifdef DEBUG
+        while ( !Serial );
+        Serial.print( DPotPin );
+        Serial.print( F( " getting " ) );
+        Serial.print( offsetvalue );
+    #endif
+    digitalWrite( DPotPin, LOW );
+*///    SPI.transfer( ( offsetvalue & 0x100 /*This restricts data to step numbers only.  Maybe you'd want to open it up for other type data...*/) ? 1 : 0 );
+/*    SPI.transfer( offsetvalue & 0xff ); // send value (0~255)
+    digitalWrite( DPotPin, HIGH );
     #ifdef DEBUG
         while ( !Serial );
         Serial.print( F( ". Digi pot on pin " ) );
@@ -921,20 +924,21 @@ int offsetPotValue( uint8_t, short );
         Serial.println( offsetvalue );
     #endif
     return 0;
+*/
     }
 
     bool stepAdjustDPotsForThisLeg( uint8_t DigiPotLeg, bool PosOrNeg = TAKE_LEG_VOLTAGE_DOWN, bool JustQueryingWhetherSettingsAreMaxedOut = false ) //default direction will be positive
     { // This effectively increments or decrements LSB digipot setting just once
 #if ( NUM_OF_DPOTS_PER_LEG > 2 )
         uint8_t MSBpotPin = DPotPins[ ( DigiPotLeg * NUM_OF_DPOTS_PER_LEG ) + 2 ];
-        uint16_t* MSBpotValue = &DPotValues[ ( DigiPotLeg * NUM_OF_DPOTS_PER_LEG ) + 2 ];
+        uint16_t* MSBpotValue = &DPotSettings[ ( DigiPotLeg * NUM_OF_DPOTS_PER_LEG ) + 2 ];
 #endif
 #if ( NUM_OF_DPOTS_PER_LEG > 1 ) //The MSB will not exist
         uint8_t MIDPotPin = DPotPins[ ( DigiPotLeg * NUM_OF_DPOTS_PER_LEG ) + 1 ];
-        uint16_t* MIDPotValue = &DPotValues[ ( DigiPotLeg * NUM_OF_DPOTS_PER_LEG ) + 1 ];
+        uint16_t* MIDPotValue = &DPotSettings[ ( DigiPotLeg * NUM_OF_DPOTS_PER_LEG ) + 1 ];
 #endif
         uint8_t LSBpotPin = DPotPins[ DigiPotLeg * NUM_OF_DPOTS_PER_LEG ];
-        uint16_t* LSBpotValue = &DPotValues[ DigiPotLeg * NUM_OF_DPOTS_PER_LEG ];
+        uint16_t* LSBpotValue = &DPotSettings[ DigiPotLeg * NUM_OF_DPOTS_PER_LEG ];
         if( JustQueryingWhetherSettingsAreMaxedOut )
         {//returning false means failure of digipot settings that they are either maxed high or minimized zeroes whichever one was queried
 #if ( NUM_OF_DPOTS_PER_LEG == 3 )
@@ -970,10 +974,10 @@ int offsetPotValue( uint8_t, short );
 /*
         for( uint8_t pin = 0; pin < 6; pin++ )
         {
-            Serial.print( F( " Entering DPotValues[" ) );
+            Serial.print( F( " Entering DPotSettings[" ) );
             Serial.print( DPotPins[ pin ] );
             Serial.print( F( "]=" ) );
-            Serial.print( DPotValues[ pin ] );
+            Serial.print( DPotSettings[ pin ] );
             if( pin < 5 )
                 Serial.print( F( ",. " ) );
             else
@@ -995,10 +999,10 @@ int offsetPotValue( uint8_t, short );
 /*
         for( uint8_t pin = 0; pin < 6; pin++ )
         {
-            Serial.print( F( " before calling setPotValue DPotValues[" ) );
+            Serial.print( F( " before calling setPotValue DPotSettings[" ) );
             Serial.print( DPotPins[ pin ] );
             Serial.print( F( "]=" ) );
-            Serial.print( DPotValues[ pin ] );
+            Serial.print( DPotSettings[ pin ] );
             if( pin < 5 )
                 Serial.print( F( ",. " ) );
             else
@@ -1015,10 +1019,10 @@ int offsetPotValue( uint8_t, short );
 /*
         for( uint8_t pin = 0; pin < 6; pin++ )
         {
-            Serial.print( F( " after calling setPotValue on MSB DPotValues[" ) );
+            Serial.print( F( " after calling setPotValue on MSB DPotSettings[" ) );
             Serial.print( DPotPins[ pin ] );
             Serial.print( F( "]=" ) );
-            Serial.print( DPotValues[ pin ] );
+            Serial.print( DPotSettings[ pin ] );
             if( pin < 5 )
                 Serial.print( F( ",. " ) );
             else
@@ -1029,10 +1033,10 @@ int offsetPotValue( uint8_t, short );
 /*
         for( uint8_t pin = 0; pin < 6; pin++ )
         {
-            Serial.print( F( " after calling setPotValue on MID and MSB DPotValues[" ) );
+            Serial.print( F( " after calling setPotValue on MID and MSB DPotSettings[" ) );
             Serial.print( DPotPins[ pin ] );
             Serial.print( F( "]=" ) );
-            Serial.print( DPotValues[ pin ] );
+            Serial.print( DPotSettings[ pin ] );
             if( pin < 5 )
                 Serial.print( F( ",. " ) );
             else
@@ -1048,10 +1052,10 @@ int offsetPotValue( uint8_t, short );
         {
             Serial.print( F( " after calling setPotValue on LSB and MID and MSB 
 
-            DPotValues[" ) );
+            DPotSettings[" ) );
             Serial.print( DPotPins[ pin ] );
             Serial.print( F( "]=" ) );
-            Serial.print( DPotValues[ pin ] );
+            Serial.print( DPotSettings[ pin ] );
             if( pin < 5 )
                 Serial.print( F( ",. " ) );
             else
@@ -1099,7 +1103,7 @@ int offsetPotValue( uint8_t, short );
 #endif
                 setPotValue( MIDPotPin, *MIDPotValue );
                 Serial.print( F( " called setPotValue on " ) );
-                Serial.print( F( "MID and/or MSB DPotValues DigiPotLeg leg=" ) );
+                Serial.print( F( "MID and/or MSB DPotSettings DigiPotLeg leg=" ) );
                 Serial.print( DigiPotLeg );
                 Serial.print( F( ",." ) );
             }
@@ -1529,15 +1533,15 @@ x6.  Settle on which of the last two steps produced the closest voltage to the t
         {
             do
             {
-                startpoint2 = DPotValues[ NUM_OF_DPOTS_PER_LEG + 1 /*this offset specifies the MID for the reference leg this bank*/ + ( bank * NUM_OF_DPOTS_PER_BANK ) ]; //reference leg, MID
+                startpoint2 = DPotSettings[ NUM_OF_DPOTS_PER_LEG + 1 /*this offset specifies the MID for the reference leg this bank*/ + ( bank * NUM_OF_DPOTS_PER_BANK ) ]; //reference leg, MID
 #if ( NUM_OF_DPOTS_PER_LEG > 2 )
-                startpoint1 = DPotValues[ NUM_OF_DPOTS_PER_LEG + 2 /*this offset specifies the MSB for the reference leg this bank*/ + ( bank * NUM_OF_DPOTS_PER_BANK ) ]; //reference leg, MSB
+                startpoint1 = DPotSettings[ NUM_OF_DPOTS_PER_LEG + 2 /*this offset specifies the MSB for the reference leg this bank*/ + ( bank * NUM_OF_DPOTS_PER_BANK ) ]; //reference leg, MSB
                 if ( goingUp )
                 {
                     //Decrease digipot values as long as they respond right
-                    if( ( DPotValues[ NUM_OF_DPOTS_PER_LEG + 2 + ( bank * NUM_OF_DPOTS_PER_BANK ) ] <= stepsize - 1 ) \
-                        && ( DPotValues[ NUM_OF_DPOTS_PER_LEG + 1 + ( bank * NUM_OF_DPOTS_PER_BANK ) ] <= stepsize - 1 ) ) break;
-                    if( DPotValues[ NUM_OF_DPOTS_PER_LEG + 2 + ( bank * NUM_OF_DPOTS_PER_BANK ) ] > stepsize - 1 )
+                    if( ( DPotSettings[ NUM_OF_DPOTS_PER_LEG + 2 + ( bank * NUM_OF_DPOTS_PER_BANK ) ] <= stepsize - 1 ) \
+                        && ( DPotSettings[ NUM_OF_DPOTS_PER_LEG + 1 + ( bank * NUM_OF_DPOTS_PER_BANK ) ] <= stepsize - 1 ) ) break;
+                    if( DPotSettings[ NUM_OF_DPOTS_PER_LEG + 2 + ( bank * NUM_OF_DPOTS_PER_BANK ) ] > stepsize - 1 )
                     {
                         offsetPotValue( DPotPins[ NUM_OF_DPOTS_PER_LEG + 2 /*this offset specifies the MSB for the reference leg this bank*/ + ( bank * NUM_OF_BRIDGE_LEGS_PER_BANK ) ], 0 - stepsize );
                         if( ( AnalogInputReadingTimes4IfInboard( 1 + ( bank * NUM_OF_BRIDGE_LEGS_PER_BANK ) ) / 4 ) == TargetLevel )
@@ -1555,9 +1559,9 @@ x6.  Settle on which of the last two steps produced the closest voltage to the t
                 else
                 {
                     //Increase digipot values as long as they respond right
-                    if( ( DPotValues[ NUM_OF_DPOTS_PER_LEG + 2 + ( bank * NUM_OF_DPOTS_PER_BANK ) ] > MAXPOTVALUE - stepsize ) \
-                        && ( DPotValues[ NUM_OF_DPOTS_PER_LEG + 1 /*this offset specifies the MID for the reference leg this bank*/ + ( bank * NUM_OF_DPOTS_PER_BANK ) ] > MAXPOTVALUE - stepsize ) ) break;
-                    if( DPotValues[ NUM_OF_DPOTS_PER_LEG + 2 + ( bank * NUM_OF_DPOTS_PER_BANK ) ] <= MAXPOTVALUE - stepsize )// > stepsize - 1 )
+                    if( ( DPotSettings[ NUM_OF_DPOTS_PER_LEG + 2 + ( bank * NUM_OF_DPOTS_PER_BANK ) ] > MAXPOTVALUE - stepsize ) \
+                        && ( DPotSettings[ NUM_OF_DPOTS_PER_LEG + 1 /*this offset specifies the MID for the reference leg this bank*/ + ( bank * NUM_OF_DPOTS_PER_BANK ) ] > MAXPOTVALUE - stepsize ) ) break;
+                    if( DPotSettings[ NUM_OF_DPOTS_PER_LEG + 2 + ( bank * NUM_OF_DPOTS_PER_BANK ) ] <= MAXPOTVALUE - stepsize )// > stepsize - 1 )
                     {
                         offsetPotValue( DPotPins[ NUM_OF_DPOTS_PER_LEG + 2 /*this offset specifies the MSB for the reference leg this bank*/ + ( bank * NUM_OF_BRIDGE_LEGS_PER_BANK ) ], stepsize );
                         if( ( AnalogInputReadingTimes4IfInboard( 1 + ( bank * NUM_OF_BRIDGE_LEGS_PER_BANK ) ) / 4 ) == TargetLevel )
@@ -1578,7 +1582,7 @@ SetDPotsStep1:
 #if ( NUM_OF_DPOTS_PER_LEG > 1 )
                 if ( goingUp )
                 {
-                    if( ( DPotValues[ NUM_OF_DPOTS_PER_LEG + 1 /*this offset specifies the MID for the reference leg this bank*/+ ( bank * NUM_OF_DPOTS_PER_BANK ) ] > stepsize - 1 ) && ( ( AnalogInputReadingTimes4IfInboard( 1 + ( bank * NUM_OF_BRIDGE_LEGS_PER_BANK ) ) / 4 ) < TargetLevel ) )
+                    if( ( DPotSettings[ NUM_OF_DPOTS_PER_LEG + 1 /*this offset specifies the MID for the reference leg this bank*/+ ( bank * NUM_OF_DPOTS_PER_BANK ) ] > stepsize - 1 ) && ( ( AnalogInputReadingTimes4IfInboard( 1 + ( bank * NUM_OF_BRIDGE_LEGS_PER_BANK ) ) / 4 ) < TargetLevel ) )
                     {
                         offsetPotValue( DPotPins[ NUM_OF_DPOTS_PER_LEG + 1/*this offset specifies the MID for the reference leg this bank*/ + ( bank * NUM_OF_BRIDGE_LEGS_PER_BANK ) ], 0 - stepsize );
                         if( ( AnalogInputReadingTimes4IfInboard( 1 + ( bank * NUM_OF_BRIDGE_LEGS_PER_BANK ) ) / 4 ) == TargetLevel )
@@ -1595,7 +1599,7 @@ SetDPotsStep1:
                 }
                 else
                 {
-                    if( ( DPotValues[ NUM_OF_DPOTS_PER_LEG + 1/*this offset specifies the MID for the reference leg this bank*/ + ( bank * NUM_OF_DPOTS_PER_BANK ) ]<= MAXPOTVALUE - stepsize ) && ( ( AnalogInputReadingTimes4IfInboard( 1 + ( bank * NUM_OF_BRIDGE_LEGS_PER_BANK ) ) / 4 ) > TargetLevel ) )
+                    if( ( DPotSettings[ NUM_OF_DPOTS_PER_LEG + 1/*this offset specifies the MID for the reference leg this bank*/ + ( bank * NUM_OF_DPOTS_PER_BANK ) ]<= MAXPOTVALUE - stepsize ) && ( ( AnalogInputReadingTimes4IfInboard( 1 + ( bank * NUM_OF_BRIDGE_LEGS_PER_BANK ) ) / 4 ) > TargetLevel ) )
                     {
                         offsetPotValue( DPotPins[ NUM_OF_DPOTS_PER_LEG + 1 /*this offset specifies the MID for the reference leg this bank*/+ ( bank * NUM_OF_BRIDGE_LEGS_PER_BANK ) ], stepsize );
                         if( ( AnalogInputReadingTimes4IfInboard( 1 + ( bank * NUM_OF_BRIDGE_LEGS_PER_BANK ) ) / 4 ) == TargetLevel )
@@ -1771,12 +1775,12 @@ bool MatchBridgeLegSignalToReference( bool JustPerformOneStep = false, uint8_t b
     {
         while( AnalogInputReadingTimes4IfInboard( bank * NUM_OF_BRIDGE_LEGS_PER_BANK ) < AnalogInputReadingTimes4IfInboard( 1 + ( bank * NUM_OF_BRIDGE_LEGS_PER_BANK ) ) + ( 4 * BIAS_IN_ANALOG_INPUT_BITS_TO_APPLY_TO_SIGNAL_LEG_TO_CENTER_THE_TRACE_BANK0 ) )
         {
-            startpoint1 = DPotValues[ 0 + ( bank * NUM_OF_DPOTS_PER_BANK ) ];
-            startpoint2 = DPotValues[ 1 + ( bank * NUM_OF_DPOTS_PER_BANK ) ];
+            startpoint1 = DPotSettings[ 0 + ( bank * NUM_OF_DPOTS_PER_BANK ) ];
+            startpoint2 = DPotSettings[ 1 + ( bank * NUM_OF_DPOTS_PER_BANK ) ];
             //Decrease digipot values as long as they respond right
-            if( ( DPotValues[ 0 + ( bank * NUM_OF_DPOTS_PER_BANK ) ] <= stepsize - 1 ) && ( DPotValues[ 1 + ( bank * NUM_OF_DPOTS_PER_BANK ) ] <= stepsize - 1 ) ) break;
-            if( DPotValues[ 0 + ( bank * NUM_OF_DPOTS_PER_BANK ) ] > stepsize - 1 ) setPotValue( DPotPins[ 0 + ( bank * NUM_OF_BRIDGE_LEGS_PER_BANK ) ], DPotValues[ 0 + ( bank * NUM_OF_DPOTS_PER_BANK ) ] - stepsize );
-            if( DPotValues[ 1 + ( bank * NUM_OF_DPOTS_PER_BANK ) ] > stepsize - 1 ) setPotValue( DPotPins[ 1 + ( bank * NUM_OF_BRIDGE_LEGS_PER_BANK ) ], DPotValues[ 1 + ( bank * NUM_OF_DPOTS_PER_BANK ) ] - stepsize );
+            if( ( DPotSettings[ 0 + ( bank * NUM_OF_DPOTS_PER_BANK ) ] <= stepsize - 1 ) && ( DPotSettings[ 1 + ( bank * NUM_OF_DPOTS_PER_BANK ) ] <= stepsize - 1 ) ) break;
+            if( DPotSettings[ 0 + ( bank * NUM_OF_DPOTS_PER_BANK ) ] > stepsize - 1 ) setPotValue( DPotPins[ 0 + ( bank * NUM_OF_BRIDGE_LEGS_PER_BANK ) ], DPotSettings[ 0 + ( bank * NUM_OF_DPOTS_PER_BANK ) ] - stepsize );
+            if( DPotSettings[ 1 + ( bank * NUM_OF_DPOTS_PER_BANK ) ] > stepsize - 1 ) setPotValue( DPotPins[ 1 + ( bank * NUM_OF_BRIDGE_LEGS_PER_BANK ) ], DPotSettings[ 1 + ( bank * NUM_OF_DPOTS_PER_BANK ) ] - stepsize );
         }
         setPotValue( DPotPins[ 0 + ( bank * NUM_OF_BRIDGE_LEGS_PER_BANK ) ], startpoint1 );
         setPotValue( DPotPins[ 1 + ( bank * NUM_OF_BRIDGE_LEGS_PER_BANK ) ], startpoint2 );
@@ -1854,12 +1858,12 @@ Line 1356
 //            Serial.print( F( " " ) );
             ReadAndPlotFromAllADCsInAndOutboard( PLOTTER_MAX_SCALE, true ); // I would think the operator would appreciate seeing something like this during calibration
 //            Serial.println();
-            startpoint1 = DPotValues[ 0 + ( bank * NUM_OF_DPOTS_PER_BANK ) ];
-            startpoint2 = DPotValues[ 1 + ( bank * NUM_OF_DPOTS_PER_BANK ) ];
+            startpoint1 = DPotSettings[ 0 + ( bank * NUM_OF_DPOTS_PER_BANK ) ];
+            startpoint2 = DPotSettings[ 1 + ( bank * NUM_OF_DPOTS_PER_BANK ) ];
             //Increase digipot values as long as they respond right
-            if( ( DPotValues[ 0 + ( bank * NUM_OF_DPOTS_PER_BANK ) ] <= stepsize - 1 ) && ( DPotValues[ 1 + ( bank * NUM_OF_DPOTS_PER_BANK ) ] <= stepsize - 1 ) ) break;
-            setPotValue( DPotPins[ 0 + ( bank * NUM_OF_BRIDGE_LEGS_PER_BANK ) ], DPotValues[ 0 + ( bank * NUM_OF_DPOTS_PER_BANK ) ] + stepsize );
-            setPotValue( DPotPins[ 1 + ( bank * NUM_OF_BRIDGE_LEGS_PER_BANK ) ], DPotValues[ 1 + ( bank * NUM_OF_DPOTS_PER_BANK ) ] + stepsize );
+            if( ( DPotSettings[ 0 + ( bank * NUM_OF_DPOTS_PER_BANK ) ] <= stepsize - 1 ) && ( DPotSettings[ 1 + ( bank * NUM_OF_DPOTS_PER_BANK ) ] <= stepsize - 1 ) ) break;
+            setPotValue( DPotPins[ 0 + ( bank * NUM_OF_BRIDGE_LEGS_PER_BANK ) ], DPotSettings[ 0 + ( bank * NUM_OF_DPOTS_PER_BANK ) ] + stepsize );
+            setPotValue( DPotPins[ 1 + ( bank * NUM_OF_BRIDGE_LEGS_PER_BANK ) ], DPotSettings[ 1 + ( bank * NUM_OF_DPOTS_PER_BANK ) ] + stepsize );
         }
         setPotValue( DPotPins[ 0 + ( bank * NUM_OF_BRIDGE_LEGS_PER_BANK ) ], startpoint1 );
         setPotValue( DPotPins[ 1 + ( bank * NUM_OF_BRIDGE_LEGS_PER_BANK ) ], startpoint2 );
@@ -1958,7 +1962,7 @@ Line 1356
     while( LastPlotPoints[ bank ] < 0 )// + LinespaceParameters[ channel ].ZeroOfThisPlotLinespace;
 #endif
     {//reading is too high, lower the leg
-        if( stepAdjustDPotsForThisLeg( *( AnalogPinArray + 0 + ( bank * NUM_OF_BRIDGE_LEGS_PER_BANK ) ), &DPotValues[ 0 + ( bank * NUM_OF_DPOTS_PER_BANK ) ], *( AnalogPinArray + 1 + ( bank * NUM_OF_BRIDGE_LEGS_PER_BANK ) ), &DPotValues[ 1 + ( bank * NUM_OF_DPOTS_PER_BANK ) ], *( AnalogPinArray + 2 + ( bank * NUM_OF_BRIDGE_LEGS_PER_BANK ) ), &DPotValues[ 2 + ( bank * NUM_OF_DPOTS_PER_BANK ) ], false ) == false ) break;
+        if( stepAdjustDPotsForThisLeg( *( AnalogPinArray + 0 + ( bank * NUM_OF_BRIDGE_LEGS_PER_BANK ) ), &DPotSettings[ 0 + ( bank * NUM_OF_DPOTS_PER_BANK ) ], *( AnalogPinArray + 1 + ( bank * NUM_OF_BRIDGE_LEGS_PER_BANK ) ), &DPotSettings[ 1 + ( bank * NUM_OF_DPOTS_PER_BANK ) ], *( AnalogPinArray + 2 + ( bank * NUM_OF_BRIDGE_LEGS_PER_BANK ) ), &DPotSettings[ 2 + ( bank * NUM_OF_DPOTS_PER_BANK ) ], false ) == false ) break;
 //        Serial.print( PLOTTER_MAX_SCALE );
 //        Serial.print( F( " " ) );
         ReadAndPlotFromAllADCsInAndOutboard( PLOTTER_MAX_SCALE, true ); // I would think the operator would appreciate seeing something like this during calibration
@@ -1970,7 +1974,7 @@ Line 1356
     while( LastPlotPoints[ bank ] > 0 )// + LinespaceParameters[ channel ].ZeroOfThisPlotLinespace;
 #endif
     {//reading is too low, raise the leg
-        if( stepAdjustDPotsForThisLeg( *( AnalogPinArray + 0 + ( bank * NUM_OF_BRIDGE_LEGS_PER_BANK ) ), &DPotValues[ 0 + ( bank * NUM_OF_DPOTS_PER_BANK ) ], *( AnalogPinArray + 1 + ( bank * NUM_OF_BRIDGE_LEGS_PER_BANK ) ), &DPotValues[ 1 + ( bank * NUM_OF_DPOTS_PER_BANK ) ], *( AnalogPinArray + 2 + ( bank * NUM_OF_BRIDGE_LEGS_PER_BANK ) ), &DPotValues[ 2 + ( bank * NUM_OF_DPOTS_PER_BANK ) ], true ) == false ) break;
+        if( stepAdjustDPotsForThisLeg( *( AnalogPinArray + 0 + ( bank * NUM_OF_BRIDGE_LEGS_PER_BANK ) ), &DPotSettings[ 0 + ( bank * NUM_OF_DPOTS_PER_BANK ) ], *( AnalogPinArray + 1 + ( bank * NUM_OF_BRIDGE_LEGS_PER_BANK ) ), &DPotSettings[ 1 + ( bank * NUM_OF_DPOTS_PER_BANK ) ], *( AnalogPinArray + 2 + ( bank * NUM_OF_BRIDGE_LEGS_PER_BANK ) ), &DPotSettings[ 2 + ( bank * NUM_OF_DPOTS_PER_BANK ) ], true ) == false ) break;
 //        Serial.print( PLOTTER_MAX_SCALE );
 //        Serial.print( F( " " ) );
         ReadAndPlotFromAllADCsInAndOutboard( PLOTTER_MAX_SCALE, true ); // I would think the operator would appreciate seeing something like this during calibration
@@ -1991,12 +1995,12 @@ void SetBridgeLegSignalInput( uint8_t bank )
     {
         while( AnalogInputReadingTimes4IfInboard( bank * NUM_OF_BRIDGE_LEGS_PER_BANK ) < 4 * COMMON_MODE_LEVEL_FOR_MAX_GAIN_AS_READ_RAW_BY_INBOARD_ANALOG + BIAS_IN_ANALOG_INPUT_BITS_TO_APPLY_TO_SIGNAL_LEG_TO_CENTER_THE_TRACE_BANK0 )
         {
-            startpoint1 = DPotValues[ 0 + ( bank * NUM_OF_DPOTS_PER_BANK ) ];
-            startpoint2 = DPotValues[ 1 + ( bank * NUM_OF_DPOTS_PER_BANK ) ];
+            startpoint1 = DPotSettings[ 0 + ( bank * NUM_OF_DPOTS_PER_BANK ) ];
+            startpoint2 = DPotSettings[ 1 + ( bank * NUM_OF_DPOTS_PER_BANK ) ];
             //Decrease digipot values as long as they respond right
-            if( ( DPotValues[ 0 + ( bank * NUM_OF_DPOTS_PER_BANK ) ] <= stepsize - 1 ) && ( DPotValues[ 1 + ( bank * NUM_OF_DPOTS_PER_BANK ) ] <= stepsize - 1 ) ) break;
-            if( DPotValues[ 0 + ( bank * NUM_OF_DPOTS_PER_BANK ) ] > stepsize - 1 ) setPotValue( DPotPins[ 0 + ( bank * NUM_OF_BRIDGE_LEGS_PER_BANK ) ], DPotValues[ 0 + ( bank * NUM_OF_DPOTS_PER_BANK ) ] - stepsize );
-            if( DPotValues[ 1 + ( bank * NUM_OF_DPOTS_PER_BANK ) ] > stepsize - 1 ) setPotValue( DPotPins[ 1 + ( bank * NUM_OF_BRIDGE_LEGS_PER_BANK ) ], DPotValues[ 1 + ( bank * NUM_OF_DPOTS_PER_BANK ) ] - stepsize );
+            if( ( DPotSettings[ 0 + ( bank * NUM_OF_DPOTS_PER_BANK ) ] <= stepsize - 1 ) && ( DPotSettings[ 1 + ( bank * NUM_OF_DPOTS_PER_BANK ) ] <= stepsize - 1 ) ) break;
+            if( DPotSettings[ 0 + ( bank * NUM_OF_DPOTS_PER_BANK ) ] > stepsize - 1 ) setPotValue( DPotPins[ 0 + ( bank * NUM_OF_BRIDGE_LEGS_PER_BANK ) ], DPotSettings[ 0 + ( bank * NUM_OF_DPOTS_PER_BANK ) ] - stepsize );
+            if( DPotSettings[ 1 + ( bank * NUM_OF_DPOTS_PER_BANK ) ] > stepsize - 1 ) setPotValue( DPotPins[ 1 + ( bank * NUM_OF_BRIDGE_LEGS_PER_BANK ) ], DPotSettings[ 1 + ( bank * NUM_OF_DPOTS_PER_BANK ) ] - stepsize );
         }
         setPotValue( DPotPins[ 0 + ( bank * NUM_OF_BRIDGE_LEGS_PER_BANK ) ], startpoint1 );
         setPotValue( DPotPins[ 1 + ( bank * NUM_OF_BRIDGE_LEGS_PER_BANK ) ], startpoint2 );
@@ -2020,12 +2024,12 @@ void SetBridgeLegSignalInput( uint8_t bank )
     {
         while( AnalogInputReadingTimes4IfInboard( bank * NUM_OF_BRIDGE_LEGS_PER_BANK ) > 4 * COMMON_MODE_LEVEL_FOR_MAX_GAIN_AS_READ_RAW_BY_INBOARD_ANALOG + BIAS_IN_ANALOG_INPUT_BITS_TO_APPLY_TO_SIGNAL_LEG_TO_CENTER_THE_TRACE_BANK0 )
         {
-            startpoint1 = DPotValues[ 0 + ( bank * NUM_OF_DPOTS_PER_BANK ) ];
-            startpoint2 = DPotValues[ 1 + ( bank * NUM_OF_DPOTS_PER_BANK ) ];
+            startpoint1 = DPotSettings[ 0 + ( bank * NUM_OF_DPOTS_PER_BANK ) ];
+            startpoint2 = DPotSettings[ 1 + ( bank * NUM_OF_DPOTS_PER_BANK ) ];
             //Decrease digipot values as long as they respond right
-            if( ( DPotValues[ 0 + ( bank * NUM_OF_DPOTS_PER_BANK ) ] <= stepsize - 1 ) && ( DPotValues[ 1 + ( bank * NUM_OF_DPOTS_PER_BANK ) ] <= stepsize - 1 ) ) break;
-            setPotValue( DPotPins[ 0 + ( bank * NUM_OF_BRIDGE_LEGS_PER_BANK ) ], DPotValues[ 0 + ( bank * NUM_OF_DPOTS_PER_BANK ) ] + stepsize );
-            setPotValue( DPotPins[ 1 + ( bank * NUM_OF_BRIDGE_LEGS_PER_BANK ) ], DPotValues[ 1 + ( bank * NUM_OF_DPOTS_PER_BANK ) ] + stepsize );
+            if( ( DPotSettings[ 0 + ( bank * NUM_OF_DPOTS_PER_BANK ) ] <= stepsize - 1 ) && ( DPotSettings[ 1 + ( bank * NUM_OF_DPOTS_PER_BANK ) ] <= stepsize - 1 ) ) break;
+            setPotValue( DPotPins[ 0 + ( bank * NUM_OF_BRIDGE_LEGS_PER_BANK ) ], DPotSettings[ 0 + ( bank * NUM_OF_DPOTS_PER_BANK ) ] + stepsize );
+            setPotValue( DPotPins[ 1 + ( bank * NUM_OF_BRIDGE_LEGS_PER_BANK ) ], DPotSettings[ 1 + ( bank * NUM_OF_DPOTS_PER_BANK ) ] + stepsize );
         }
         setPotValue( DPotPins[ 0 + ( bank * NUM_OF_BRIDGE_LEGS_PER_BANK ) ], startpoint1 );
         setPotValue( DPotPins[ 1 + ( bank * NUM_OF_BRIDGE_LEGS_PER_BANK ) ], startpoint2 );
@@ -2468,14 +2472,14 @@ Serial.println();
         Serial.print( F( "] at pin array index[" ) );
         Serial.print( 0 + bank );
         Serial.println( F( "]" ) );
-        DPotValues[ 0 + bank ] = DPOT_0_B0L0_STARTVALUE;
+        DPotSettings[ 0 + bank ] = DPOT_0_B0L0_STARTVALUE;
         DPotPins[ NUM_OF_DPOTS_PER_LEG + bank ] = DPOT_0_B0L1_PIN;
         Serial.print( F( "Stored pin number[" ) );
         Serial.print( DPotPins[ NUM_OF_DPOTS_PER_LEG + bank ] );
         Serial.print( F( "] at pin array index[" ) );
         Serial.print( NUM_OF_DPOTS_PER_LEG + bank );
         Serial.println( F( "]" ) );
-        DPotValues[ NUM_OF_DPOTS_PER_LEG + bank ] = DPOT_0_B0L1_STARTVALUE;
+        DPotSettings[ NUM_OF_DPOTS_PER_LEG + bank ] = DPOT_0_B0L1_STARTVALUE;
 #if ( NUM_OF_DPOTS_PER_LEG > 1 )
         DPotPins[ 1 + bank ] = DPOT_1_B0L0_PIN;
         Serial.print( F( "Stored pin number[" ) );
@@ -2483,14 +2487,14 @@ Serial.println();
         Serial.print( F( "] at pin array index[" ) );
         Serial.print( 1 + bank );
         Serial.println( F( "]" ) );
-        DPotValues[ 1 + bank ] = DPOT_1_B0L0_STARTVALUE;
+        DPotSettings[ 1 + bank ] = DPOT_1_B0L0_STARTVALUE;
         DPotPins[ NUM_OF_DPOTS_PER_LEG + 1 + bank ] = DPOT_1_B0L1_PIN;
         Serial.print( F( "Stored pin number[" ) );
         Serial.print( DPotPins[ NUM_OF_DPOTS_PER_LEG + 1 + bank ] );
         Serial.print( F( "] at pin array index[" ) );
         Serial.print( NUM_OF_DPOTS_PER_LEG + 1 + bank );
         Serial.println( F( "]" ) );
-        DPotValues[ NUM_OF_DPOTS_PER_LEG + 1 + bank ] = DPOT_1_B0L1_STARTVALUE;
+        DPotSettings[ NUM_OF_DPOTS_PER_LEG + 1 + bank ] = DPOT_1_B0L1_STARTVALUE;
 #if ( NUM_OF_DPOTS_PER_LEG > 2 )
         DPotPins[ 2 + bank ] = DPOT_2_B0L0_PIN;
         Serial.print( F( "Stored pin number[" ) );
@@ -2498,14 +2502,14 @@ Serial.println();
         Serial.print( F( "] at pin array index[" ) );
         Serial.print( 2 + bank );
         Serial.println( F( "]" ) );
-        DPotValues[ 2 + bank ] = DPOT_2_B0L0_STARTVALUE;
+        DPotSettings[ 2 + bank ] = DPOT_2_B0L0_STARTVALUE;
         DPotPins[ NUM_OF_DPOTS_PER_LEG + 2 + bank ] = DPOT_2_B0L1_PIN;
         Serial.print( F( "Stored pin number[" ) );
         Serial.print( DPotPins[ NUM_OF_DPOTS_PER_LEG + 2 + bank ] );
         Serial.print( F( "] at pin array index[" ) );
         Serial.print( NUM_OF_DPOTS_PER_LEG + 2 + bank );
         Serial.println( F( "]" ) );
-        DPotValues[ NUM_OF_DPOTS_PER_LEG + 2 + bank ] = DPOT_2_B0L1_STARTVALUE;    
+        DPotSettings[ NUM_OF_DPOTS_PER_LEG + 2 + bank ] = DPOT_2_B0L1_STARTVALUE;    
 #endif
 #endif
     }
@@ -2540,18 +2544,18 @@ Serial.println();
 #endif
         }
     #ifndef LEAVE_POT_VALUES_ALONE_DURING_SETUP //This causes digipot stored settings not to match digipots, but at least they stay put to what they were last set to
-        setPotValue( DPotPins[ 0 + bank ], DPotValues[ 0 + bank ] );
-        setPotValue( DPotPins[ NUM_OF_DPOTS_PER_LEG + bank ], DPotValues[ NUM_OF_DPOTS_PER_LEG + bank ] );
+        setPotValue( DPotPins[ 0 + bank ], DPotSettings[ 0 + bank ] );
+        setPotValue( DPotPins[ NUM_OF_DPOTS_PER_LEG + bank ], DPotSettings[ NUM_OF_DPOTS_PER_LEG + bank ] );
 #if ( NUM_OF_DPOTS_PER_LEG > 1 )
-        setPotValue( DPotPins[ 1 + bank ], DPotValues[ 1 + bank ] );
-        setPotValue( DPotPins[ NUM_OF_DPOTS_PER_LEG + 1 + bank ], DPotValues[ NUM_OF_DPOTS_PER_LEG + 1 + bank ] );
+        setPotValue( DPotPins[ 1 + bank ], DPotSettings[ 1 + bank ] );
+        setPotValue( DPotPins[ NUM_OF_DPOTS_PER_LEG + 1 + bank ], DPotSettings[ NUM_OF_DPOTS_PER_LEG + 1 + bank ] );
 #if ( NUM_OF_DPOTS_PER_LEG > 2 )
-        setPotValue( DPotPins[ 2 + bank ], DPotValues[ 2 + bank ] );
-        setPotValue( DPotPins[ NUM_OF_DPOTS_PER_LEG + 2 + bank ], DPotValues[ NUM_OF_DPOTS_PER_LEG + 2 + bank ] );
+        setPotValue( DPotPins[ 2 + bank ], DPotSettings[ 2 + bank ] );
+        setPotValue( DPotPins[ NUM_OF_DPOTS_PER_LEG + 2 + bank ], DPotSettings[ NUM_OF_DPOTS_PER_LEG + 2 + bank ] );
 /* REMOVE THIS CODE v_BELOW_v IF YOU SEE IT.  IT IS INADVERTANTLY OVERLOOKED AND INTENDED TO BE REMOVED FROM PRODUCTION VERSIONS */
 #else
-setPotValue( 5, 0, true ); //No space in DPot... arrays for these values, so we must utilize the boolean argument
-setPotValue( 8, 0, true );
+setPotValue( 5, 0 ); //No space in DPot... arrays for these values, so we must utilize the boolean argument
+setPotValue( 8, 0 );
  /* REMOVE THIS CODE ^ABOVE^ IF YOU SEE IT.  IT IS INADVERTANTLY OVERLOOKED AND INTENDED TO BE REMOVED FROM PRODUCTION VERSIONS */
 #endif
 #endif
@@ -3034,10 +3038,10 @@ setPotValue( 8, 0, true );
 /*
     for( uint8_t pin = 0; pin < 6; pin++ )
     {
-        Serial.print( F( "DPotValues[" ) );
+        Serial.print( F( "DPotSettings[" ) );
         Serial.print( DPotPins[ pin ] );
         Serial.print( F( "]=" ) );
-        Serial.print( DPotValues[ pin ] );
+        Serial.print( DPotSettings[ pin ] );
         if( pin < 5 )
             Serial.print( F( ",. " ) );
         else
