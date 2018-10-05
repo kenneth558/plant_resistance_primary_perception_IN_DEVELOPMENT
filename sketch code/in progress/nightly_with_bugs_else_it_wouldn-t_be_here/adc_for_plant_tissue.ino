@@ -763,7 +763,7 @@ I would expect the arithmetic and other aspects of algorithms in the following f
                     value = 0 - DPotSettings[ index ]; //The other two get recursive calls, this one doesn't need recursive
                 }
             }
-#endif //of Line 710
+#endif //of Line 
             else if( ThisIsAnMSBpin )//means this is an MSBpin with no option to borrow, but could there be some to steal? valid code for
             {
                 value = 0 - DPotSettings[ index ];
@@ -772,7 +772,7 @@ I would expect the arithmetic and other aspects of algorithms in the following f
             value = 0 - DPotSettings[ index ];
 //By now, value has been prepared to be added to DPotSettings[ index ], so it has too likely been changed.  No longer useful for decision-making
 #endif //match this up and debug: Line 
-        } //if it will still cause an underflow Line 628
+        } //if it will still cause an underflow Line 
 
 //Now check if an upward setting adjust would result in carrying, do the carrying
         else if( ( value > 0 ) && ( value + DPotSettings[ index ] > MAXPOTVALUE ) )
@@ -832,11 +832,8 @@ I would expect the arithmetic and other aspects of algorithms in the following f
                 }
 #endif
             }
-#error This and the few lines above are where we are in development right now
+#error This and the few lines above are where we are in development right now, then work downwards just a little farther
 
-                
-                
-                
                 else
                 { //use all we can in LSB in chunks of LSB_DPOT_RESISTANCE_STEP_PER_MSB_RESISTANCE_STEP and MID by all of it and MSB down by remainder
                     setPotValue( DPotPins[ index - 2 ], min( MAXPOTVALUE, ( uint16_t )( long )( value - ( ( 2 * MAXPOTVALUE ) - ( DPotSettings[ index - 1 ] + DPotSettings[ index ] ) ) ) * LSB_DPOT_RESISTANCE_STEP_PER_MSB_RESISTANCE_STEP ) ); 
@@ -848,6 +845,7 @@ min( MAXPOTVALUE, ( uint16_t )( long )( value - ( ( 2 * MAXPOTVALUE ) - ( DPotSe
                 }
             }
 #endif
+//Much of the following may not be relevent any longer
 #if ( NUM_OF_DPOTS_PER_LEG > 1 )
             else if()
 /*
