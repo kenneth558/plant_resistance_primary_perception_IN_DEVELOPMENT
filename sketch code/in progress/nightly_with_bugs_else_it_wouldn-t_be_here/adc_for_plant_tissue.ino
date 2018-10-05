@@ -792,7 +792,7 @@ I would expect the arithmetic and other aspects of algorithms in the following f
                 else
                 { //use all we can in LSB in chunks of LSB_DPOT_RESISTANCE_STEP_PER_MSB_RESISTANCE_STEP and MID by all of it and MSB down by remainder
                     setPotValue( DPotPins[ index - 1 ], min( MAXPOTVALUE, ( uint16_t )( long )( value - ( ( 2 * MAXPOTVALUE ) - ( DPotSettings[ index + 1 ] + DPotSettings[ index ] ) ) ) * LSB_DPOT_RESISTANCE_STEP_PER_MSB_RESISTANCE_STEP ) ); 
-                    setPotValue( DPotPins[ index + 1 ], MAXPOTVALUE - DPotSettings[ index + 1 ] ); 
+                    setPotValue( DPotPins[ index + 1 ], MAXPOTVALUE ); 
                     value = ( MAXPOTVALUE - DPotSettings[ index ] ) - DPotSettings[ index ];
                 }
             }
@@ -803,10 +803,10 @@ I would expect the arithmetic and other aspects of algorithms in the following f
                     value = ( MAXPOTVALUE - DPotSettings[ index ] ) - DPotSettings[ index ]; //accomplishes the above line when this instantiation finishes so we don't have to end it all right here.  Note that we subtracted an extra amount of what is in there now because it will get added back in later
                 }
             }
-//Now we know that each leg >= 2 and this Dpot is either LSB or MSB but not both
-#if ( NUM_OF_DPOTS_PER_LEG > 2 )
-            else if( ThisIsAnMSBpin ) //there will still exist both a MID and MSB
+//Now we know that each leg > 1 and this Dpot is either LSB or MSB but not both
+            else if( ThisIsAnMSBpin )
             {
+#if ( NUM_OF_DPOTS_PER_LEG > 2 )  //there will still exist both a MID and MSB
                 if( DPotSettings[ index - 1 ]/*MIDpin*/ + DPotSettings[ index ]/*MSBpin*/ + value <= MAXPOTVALUE * 2 )
                 { //if so put MAXPOTVALUE - into this one but first put the remainder into LSB
                 //this must be done by one recursive call plus finish executing this function call: 
@@ -816,19 +816,31 @@ I would expect the arithmetic and other aspects of algorithms in the following f
                 else
                 { //use all we can in LSB in chunks of LSB_DPOT_RESISTANCE_STEP_PER_MSB_RESISTANCE_STEP and MID by all of it and MSB down by remainder
                     setPotValue( DPotPins[ index - 2 ], min( MAXPOTVALUE, ( uint16_t )( long )( value - ( ( 2 * MAXPOTVALUE ) - ( DPotSettings[ index - 1 ] + DPotSettings[ index ] ) ) ) * LSB_DPOT_RESISTANCE_STEP_PER_MSB_RESISTANCE_STEP ) ); 
-                    setPotValue( DPotPins[ index - 1 ], MAXPOTVALUE - DPotSettings[ index - 1 ] ); 
+                    setPotValue( DPotPins[ index - 1 ], MAXPOTVALUE ); 
                     value = ( MAXPOTVALUE - DPotSettings[ index ] ) - DPotSettings[ index ];
                 }
+#elif ( NUM_OF_DPOTS_PER_LEG == 2 )//there will only exist an LSB besides this to carry to
+                if( value + MAXPOTVALUE - DPotSettings[ index ]/*MSBpin*/<= MAXPOTVALUE )
+                {
+                    setPotValue( DPotPins[ index - 1 ], min( MAXPOTVALUE, ( value - ( MAXPOTVALUE - DPotSettings[ index ] ) * LSB_DPOT_RESISTANCE_STEP_PER_MSB_RESISTANCE_STEP ) ) ); //put diff of ( value and amount going to this pin ) * LSB_DPOT_RESISTANCE_STEP_PER_MSB_RESISTANCE_STEP
+                    value = ( MAXPOTVALUE - DPotSettings[ index ] ) - DPotSettings[ index ];
+                }
+                else
+                { //use all we can in LSB in chunks of LSB_DPOT_RESISTANCE_STEP_PER_MSB_RESISTANCE_STEP and MID by all of it and MSB down by remainder
+                    setPotValue( DPotPins[ index - 1 ], min( MAXPOTVALUE, ( uint16_t )( long )( value - ( ( 2 * MAXPOTVALUE ) - ( DPotSettings[ index - 1 ] + DPotSettings[ index ] ) ) ) * LSB_DPOT_RESISTANCE_STEP_PER_MSB_RESISTANCE_STEP ) ); 
+                    value = ( MAXPOTVALUE - DPotSettings[ index ] ) - DPotSettings[ index ];
+                }
+#endif
             }
-            else if( ThisIsAnLSBpin )
-            { // MID and MSB exist at +1 and +2 resp., see which if either has room
-  ;              
-//                if( DPotSettings[ index + 1 ]/*MIDpin*/ + DPotSettings[ index + 2 ]/*MSBpin*/ + ( value / LSB_DPOT_RESISTANCE_STEP_PER_MSB_RESISTANCE_STEP ) <= MAXPOTVALUE * 2 )
-            }
+#error This and the few lines above are where we are in development right now
+
+                
+                
+                
                 else
                 { //use all we can in LSB in chunks of LSB_DPOT_RESISTANCE_STEP_PER_MSB_RESISTANCE_STEP and MID by all of it and MSB down by remainder
                     setPotValue( DPotPins[ index - 2 ], min( MAXPOTVALUE, ( uint16_t )( long )( value - ( ( 2 * MAXPOTVALUE ) - ( DPotSettings[ index - 1 ] + DPotSettings[ index ] ) ) ) * LSB_DPOT_RESISTANCE_STEP_PER_MSB_RESISTANCE_STEP ) ); 
-                    setPotValue( DPotPins[ index - 1 ], MAXPOTVALUE - DPotSettings[ index - 1 ] ); 
+                    setPotValue( DPotPins[ index - 1 ], MAXPOTVALUE ); 
                     value = \
 min( MAXPOTVALUE, ( uint16_t )( long )( value - ( ( 2 * MAXPOTVALUE ) - ( DPotSettings[ index + 1 ] + DPotSettings[ index ] ) ) ) * LSB_DPOT_RESISTANCE_STEP_PER_MSB_RESISTANCE_STEP ) 
                     ( MAXPOTVALUE - DPotSettings[ index ] ) \
@@ -838,7 +850,6 @@ min( MAXPOTVALUE, ( uint16_t )( long )( value - ( ( 2 * MAXPOTVALUE ) - ( DPotSe
 #endif
 #if ( NUM_OF_DPOTS_PER_LEG > 1 )
             else if()
-#error This is where we are in development right now
 /*
             else if( ThisIsAnLSBpin && ThisIsAnMSBpin ) //is LSB and not MSB means another pin 
             {
