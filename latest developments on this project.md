@@ -1,4 +1,4 @@
-<dl><dt>06 Oct 2018</dt></dl>Sketch version dated today and later will now accommodate the dual pot version of MCP42xxx.  The way the second pot in the package is controlled to that its pin number will have the pin number of first pot in the package OR'd with a hex value of 40 as being the pin number for the second digipot in the package in the defines section of the sketch right where the digipot pins are currently defined.  
+<dl><dt>06 Oct 2018</dt></dl>Sketch versions dated today and later will now accommodate the dual pot version of MCP42xxx.  The way the second pot in the package is controlled to that its pin number will have the pin number of first pot in the package OR'd with a hex value of 40 (0x40) as being the pin number for the second digipot in the package in the defines section of the sketch right where the digipot pins are currently defined.  
 
 <dl><dt>04 Oct 2018</dt></dl>Its been very slow progress in recent days as I realized the sketch needed an overhaul to its inter-function flow to remove some algorithm duplicates when I found it overly difficult to get the bracketing within the code correct.  Better to deal with it now than later.
 
