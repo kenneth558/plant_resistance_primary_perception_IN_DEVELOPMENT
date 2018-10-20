@@ -291,6 +291,10 @@ If you only have the Arduino without an ADS1X15, then define NUM_OF_INBOARDS_PLO
 #endif
 #define LEGS_PER_DPOT_PRESENT_BRIDGE 0
 #if ( ( defined LM334_BRIDGES ) && ( defined DPOTS_PER_LM334_LEG ) && ( LM334_BRIDGES > 0 ) && ( DPOTS_PER_LM334_LEG > 0 ) )
+// Limit checking here for number of DPots this sketch can work with.  Be your own developer and expand this capability to fit your needs
+    #if ( ( LM334_BRIDGES > 1 ) || ( DPOTS_PER_LM334_LEG > 3 ) )
+        #error To utilize that value for LM334_BRIDGES or DPOTS_PER_LM334_LEG, you'll have to develop this sketch further yourself.
+    #endif
     #define NUM_OF_DPOTS_IN_ALL_LM334_BRIDGES ( LM334_BRIDGES * DPOTS_PER_LM334_LEG * LEGS_PER_DPOT_PRESENT_BRIDGE ) //For LM334-tipped bridges //For LM334-tipped bridges
     #define DPOTS_PER_LM334_BRIDGE ( DPOTS_PER_LM334_LEG * LEGS_PER_DPOT_PRESENT_BRIDGE )
     #undef LEGS_PER_DPOT_PRESENT_BRIDGE
@@ -299,6 +303,10 @@ If you only have the Arduino without an ADS1X15, then define NUM_OF_INBOARDS_PLO
     #define NUM_OF_DPOTS_IN_ALL_LM334_BRIDGES ( 0 ) //For LM334-tipped bridges
 #endif
 #if ( ( defined BARE_DPOT_LEG_BRIDGES ) && ( defined DPOTS_PER_BRIDGED_BARE_LEG ) && ( BARE_DPOT_LEG_BRIDGES > 0 ) && ( DPOTS_PER_BRIDGED_BARE_LEG > 0 ) )
+// Limit checking here for number of DPots this sketch can work with.  Be your own developer and expand this capability to fit your needs
+    #if ( ( BARE_DPOT_LEG_BRIDGES > 0 ) || ( DPOTS_PER_BRIDGED_BARE_LEG > 0 ) )
+        #error To utilize that value for BARE_DPOT_LEG_BRIDGES or DPOTS_PER_BRIDGED_BARE_LEG, you'll have to develop this sketch version further yourself.
+    #endif
     #define NUM_OF_DPOTS_IN_ALL_BARE_LEG_BRIDGES ( BARE_DPOT_LEG_BRIDGES * DPOTS_PER_BRIDGED_BARE_LEG * LEGS_PER_DPOT_PRESENT_BRIDGE ) //for bare DPot bridges
     #define DPOTS_PER_BARE_LEG_BRIDGE ( DPOTS_PER_BRIDGED_BARE_LEG * LEGS_PER_DPOT_PRESENT_BRIDGE )
     #undef LEGS_PER_DPOT_PRESENT_BRIDGE
@@ -307,6 +315,10 @@ If you only have the Arduino without an ADS1X15, then define NUM_OF_INBOARDS_PLO
     #define NUM_OF_DPOTS_IN_ALL_BARE_LEG_BRIDGES ( 0 ) //for bare DPot bridges
 #endif
 #if ( ( defined BARE_DPOT_LEGS_NOT_BRIDGED ) && ( defined DPOTS_PER_UNBRIDGED_BARE_LEG ) && ( BARE_DPOT_LEGS_NOT_BRIDGED > 0 ) && ( DPOTS_PER_UNBRIDGED_BARE_LEG > 0 ) )
+// Limit checking here for number of DPots this sketch can work with.  Be your own developer and expand this capability to fit your needs
+    #if ( ( NUM_OF_DPOTS_IN_ALL_BARE_LEGS_UNBRIDGED > 0 ) || ( BARE_DPOT_LEGS_NOT_BRIDGED > 0 ) )
+        #error To utilize that value for LM334_BRIDGES or DPOTS_PER_LM334_LEG, you'll have to develop this sketch version further yourself.
+    #endif
     #define NUM_OF_DPOTS_IN_ALL_BARE_LEGS_UNBRIDGED ( BARE_DPOT_LEGS_NOT_BRIDGED * DPOTS_PER_UNBRIDGED_BARE_LEG ) //FUTURE USE for unbridged DPot control
 #else
     #define NUM_OF_DPOTS_IN_ALL_BARE_LEGS_UNBRIDGED ( 0 ) //FUTURE USE for unbridged DPot control
@@ -372,24 +384,24 @@ Never use bit 6 of DPotPin for anything except to designate the second pot in a 
 //If a digipot is the second in a pkg, OR that digipot's pin number with B0100000 (add 64) like so: #define LSB_DPOT_B0L0_PIN ( 7 + 64 ) for when pin 7 is the physical pin
 //If you find that you don't understand that, I'd encourage you to learn the topics of converting between hexadecimal, decimal, and binary and to learn bitwise boolean operations
     #define LSB_DPOT_B0L0_PIN 7         // Signal LSB fine adjust digital pot's CS line connected to here
-    #define LSB_DPOT_B0L0_STARTVALUE 75 //or (MAXPOTSETTG / 2)     //this value in digipots and with 1 MOhm resistors for the LM334 loads put the LM334 output voltage at closest 
+    #define LSB_DPOT_B0L0_STARTVALUE 75 //or ( MAXPOTSETTG / 2 )   //this value in digipots and with 1 MOhm resistors for the LM334 loads put the LM334 output voltage at closest 
 
     #define LSB_DPOT_B0L1_PIN 10        // Reference LSB fine adjust digital pot's CS line connected to here
-    #define LSB_DPOT_B0L1_STARTVALUE 14 //or (MAXPOTSETTG / 2)   //this value in digipots and with 1 MOhm resistors for the LM334 loads put the LM334 output voltage at closest 
+    #define LSB_DPOT_B0L1_STARTVALUE 14 //or ( MAXPOTSETTG / 2 )   //this value in digipots and with 1 MOhm resistors for the LM334 loads put the LM334 output voltage at closest 
 
     #if ( ( DPOTS_PER_LM334_LEG > 1 ) || ( DPOTS_PER_BRIDGED_BARE_LEG > 1) )
-        #define NON_LSB_DPOT_1_B0L0_PIN 6  // second digital pot's CS line connected to here.  coarse adjust B positive leg
-        #define NON_LSB_DPOT_1_B0L0_STARTVALUE 122 //(MAXPOTSETTG / 2)  //this value in digipots and with 1 MOhm resistors for the LM334 loads put the LM334 output voltage at closest 
+        #define NON_LSB_DPOT_1_B0L0_PIN 6          // second digital pot of signal leg CS line connected to here.  coarse adjust B positive (signal) leg
+        #define NON_LSB_DPOT_1_B0L0_STARTVALUE 122 //or ( MAXPOTSETTG / 2 )  //this value in digipots and with 1 MOhm resistors for the LM334 loads put the LM334 output voltage at closest 
     
-        #define NON_LSB_DPOT_1_B0L1_PIN 9  // fifth digital pot's CS line connected to here.  coarse adjust B negative leg
-        #define NON_LSB_DPOT_1_B0L1_STARTVALUE 114 //(MAXPOTSETTG / 2)   //this value in digipots and with 1 MOhm resistors for the LM334 loads put the LM334 output voltage at closest 
+        #define NON_LSB_DPOT_1_B0L1_PIN 9          // second digital pot of reference leg CS line connected to here.  coarse adjust B negative (reference) leg
+        #define NON_LSB_DPOT_1_B0L1_STARTVALUE 114 //or ( MAXPOTSETTG / 2 )   //this value in digipots and with 1 MOhm resistors for the LM334 loads put the LM334 output voltage at closest 
     
         #if ( ( DPOTS_PER_LM334_LEG > 2 ) || ( DPOTS_PER_BRIDGED_BARE_LEG > 2 ) )
-            #define NON_LSB_DPOT_2_B0L0_PIN 5  // first digital pot's CS line connected to here. coarse adjust A positive (AKA "signal") leg
-            #define NON_LSB_DPOT_2_B0L0_STARTVALUE 0 //(MAXPOTSETTG / 2)  //this value in digipots and with 1 MOhm resistors for the LM334 loads put the LM334 output voltage at closest 
+            #define NON_LSB_DPOT_2_B0L0_PIN 5         // third digital pot of signal leg CS line connected to here.  coarse adjust B positive (signal) leg
+            #define NON_LSB_DPOT_2_B0L0_STARTVALUE 0  //or ( MAXPOTSETTG / 2 )  //this value in digipots and with 1 MOhm resistors for the LM334 loads put the LM334 output voltage at closest 
         
-            #define NON_LSB_DPOT_2_B0L1_PIN 8  // fourth digital pot's CS line connected to here.  coarse adjust A negative (AKA "reference") leg
-            #define NON_LSB_DPOT_2_B0L1_STARTVALUE 0 //(MAXPOTSETTG / 2)   //this value in digipots and with 1 MOhm resistors for the LM334 loads put the LM334 output voltage at closest 
+            #define NON_LSB_DPOT_2_B0L1_PIN 8         // third digital pot of reference leg CS line connected to here.  coarse adjust B negative (reference) leg
+            #define NON_LSB_DPOT_2_B0L1_STARTVALUE 0  //or ( MAXPOTSETTG / 2 )   //this value in digipots and with 1 MOhm resistors for the LM334 loads put the LM334 output voltage at closest 
         #endif
     #endif
     #if ( LM334_BRIDGES + BARE_DPOT_LEG_BRIDGES > 1 )
@@ -421,15 +433,14 @@ Never use bit 6 of DPotPin for anything except to designate the second pot in a 
             #endif
         #endif
     #endif
-
-    #if defined ARDUINO_AVR_LEONARDO \
+    #if ( ( defined ARDUINO_AVR_LEONARDO ) \
     && ( NON_LSB_DPOT_2_B0L0_PIN == 2 || NON_LSB_DPOT_2_B0L0_PIN == 3 \
     || NON_LSB_DPOT_1_B0L0_PIN == 2 || NON_LSB_DPOT_1_B0L0_PIN == 3 \
     || LSB_DPOT_B0L0_PIN == 2 || LSB_DPOT_B0L0_PIN == 3 \
     || NON_LSB_DPOT_2_B0L1_PIN == 2 || NON_LSB_DPOT_2_B0L1_PIN == 3 \
     || NON_LSB_DPOT_1_B0L1_PIN == 2 || NON_LSB_DPOT_1_B0L1_PIN == 3 \
     || LSB_DPOT_B0L1_PIN == 2 || LSB_DPOT_B0L1_PIN == 3 \
-    )
+    ) )
 //        #if ( LM334_BRIDGES + BARE_DPOT_LEG_BRIDGES > 1 )
 //            #if ( LM334_BRIDGES + BARE_DPOT_LEG_BRIDGES > 2 )
 //                #if ( LM334_BRIDGES + BARE_DPOT_LEG_BRIDGES > 3 )
@@ -447,7 +458,7 @@ Never use bit 6 of DPotPin for anything except to designate the second pot in a 
         #error "The pins being used for clock and data of the ADC conflict with the I2C pins used by ADS1x15.  See https://www.arduino.cc/en/reference/wire and the Adafruit_ADS1X15-master README.md.  Remove this warning once you are satisfied one way or another"
     #endif
 /* EEPROM and nonvolatile settings are only available with >8.5, <12.5 Vdc applied to CS pins of MCP4162, which we don't have with mere Arduino: */
-    #define FINETUNE true
+    #define MATCHING_TO_SIGNAL_LEG true
 #endif
 
 #if ( ARDUINO_ARCH_XI || ARDUINO_ARCH_SAM || ARDUINO_ARCH_SAMD ) //These are the boards known to have 12 bit analog inputs
@@ -1305,7 +1316,7 @@ SetDigipotsStep6:;
 //Converge by two consecutive readings
     do
     {//This leg is the  reference, so we need to take a little extra time: avg out more samples
-        if( BestGuessAnalogInputreading( 1 + ( bank * LEGS_PER_DPOT_PRESENT_BRIDGE ), FINETUNE ) > TargetLevel )
+        if( BestGuessAnalogInputreading( 1 + ( bank * LEGS_PER_DPOT_PRESENT_BRIDGE ), MATCHING_TO_SIGNAL_LEG ) > TargetLevel )
         {
 #ifdef DEBUG
     while( !Serial ) ; 
@@ -1319,7 +1330,7 @@ SetDigipotsStep6:;
             }
             stepAdjustDigipotsForThisLeg( DPotPins[ 3 + ( bank * LEGS_PER_DPOT_PRESENT_BRIDGE ) ], &DPotSettings[ 3 + ( bank * DPOTS_PER_LM334_BRIDGE ) ], DPotPins[ 4 + ( bank * LEGS_PER_DPOT_PRESENT_BRIDGE ) ], &DPotSettings[ 4 + ( bank * DPOTS_PER_LM334_BRIDGE ) ],  DPotPins[ 5 + ( bank * LEGS_PER_DPOT_PRESENT_BRIDGE ) ], &DPotSettings[ 5 + ( bank * DPOTS_PER_LM334_BRIDGE ) ], true );
         }
-        else if( BestGuessAnalogInputreading( 1 + ( bank * LEGS_PER_DPOT_PRESENT_BRIDGE ), FINETUNE ) /*read it again*/ < TargetLevel )
+        else if( BestGuessAnalogInputreading( 1 + ( bank * LEGS_PER_DPOT_PRESENT_BRIDGE ), MATCHING_TO_SIGNAL_LEG ) /*read it again*/ < TargetLevel )
         {
 #ifdef DEBUG
     while( !Serial ) ; 
@@ -1343,10 +1354,10 @@ SetDigipotsStep7:
     while( !Serial ) ; 
     Serial.print( F( "Looping line 1143, TargetLevel=" ) );
     Serial.print( TargetLevel );
-    Serial.print( F( ", BestGuessAnalogInputreading( 1 + ( bank * LEGS_PER_DPOT_PRESENT_BRIDGE ), FINETUNE )=" ) );
-    Serial.println( BestGuessAnalogInputreading( 1 + ( bank * LEGS_PER_DPOT_PRESENT_BRIDGE ), FINETUNE ) );
+    Serial.print( F( ", BestGuessAnalogInputreading( 1 + ( bank * LEGS_PER_DPOT_PRESENT_BRIDGE ), MATCHING_TO_SIGNAL_LEG )=" ) );
+    Serial.println( BestGuessAnalogInputreading( 1 + ( bank * LEGS_PER_DPOT_PRESENT_BRIDGE ), MATCHING_TO_SIGNAL_LEG ) );
 #endif
-        if( BestGuessAnalogInputreading( 1 + ( bank * LEGS_PER_DPOT_PRESENT_BRIDGE ), FINETUNE ) /*read it again*/ != TargetLevel ) continue;
+        if( BestGuessAnalogInputreading( 1 + ( bank * LEGS_PER_DPOT_PRESENT_BRIDGE ), MATCHING_TO_SIGNAL_LEG ) /*read it again*/ != TargetLevel ) continue;
 #ifdef DEBUG
     while( !Serial ) ; 
     Serial.println( F( "Looping line 1148" ) );
@@ -1357,7 +1368,7 @@ SetDigipotsStep7:
             return false;
         }
 SetDigipotsStep8:;
-    }while( BestGuessAnalogInputreading( 1 + ( bank * LEGS_PER_DPOT_PRESENT_BRIDGE ), FINETUNE ) /*read it again*/ != TargetLevel ); //This would create an endless loop if the level is out of range
+    }while( BestGuessAnalogInputreading( 1 + ( bank * LEGS_PER_DPOT_PRESENT_BRIDGE ), MATCHING_TO_SIGNAL_LEG ) /*read it again*/ != TargetLevel ); //This would create an endless loop if the level is out of range
 
 /* This notion is for if a single reference bank leg of the first digipot bank suffices for the reference legs of all ADDON digipot banks to minimize parts count of multiple digipot bank systems.  Is not being pursued at this time....
     static uint8_t channel;
