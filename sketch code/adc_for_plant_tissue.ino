@@ -19,11 +19,12 @@
 #define HIGHEST_SENSI_PGA_GAIN_FACTOR 128                                  //For HX711 a gain of 128 gets applied to channel A. Available to you for your own use PGA=Programmable Gain Amplifier: many ADCs will correlate a gain of one with full-scale being rail-to-rail, while a gain of anything higher correlates to full-scale being in the mV range (most sensitive and most noise-susceptible).
 #define MIN_WAIT_TIME_BETWEEN_PLOT_POINTS_MS 70                            //Sets a maximum speed limit, but actual speed may be further limited by other factors
 #define SUPERIMPOSE_FIRST_INBOARDS_IN_PAIRS 1                              //If defined allows the rail-to-rail inboard Analog Inputs to be used to adjust digipots, but mainly causes first inboard Analog Inputs to be paired (superimposed in pairs sharing plot-line spaces) so even manual pots can be adjusted easily.
+#define PLOT_ONLY_THE_SIGNAL_LEG_OF_SUPERIMPOSED_DPOT_LEG_BRIDGE_INBOARDS  //By defining this macro comparison between signal and reference is no longer possible but it could be less confusing this way since user doesn't need to manually adjust anything with DPots and especially with AUTO_BRIDGE_BALANCING. ADVISE without AUTO_BRIDGE_BALANCING in effect, this macro probably should not be defined either. But regardless for greatest flexibility, that macro won't affect this.
 #define AUTO_BRIDGE_BALANCING                                              //increases setup time and during which the plot timing line stays high, then spikes low and high to indicate balancing complete //Turns on auto-balancing in setup(), significant time elapse for this to complete!
 //#define CONTINUE_PLOTTING_DURING_AUTO_BRIDGE_BALANCE true                //Without predictive balancing, this takes too much time if true
 //#define DEBUG                                                            //Don't forget that DEBUG is not formatted for Serial plotter, but might work anyway if you'd never print numbers only any DEBUG print line
-#define POT_TEST_WOBBLE_SIGNAL_ON_THIS_OUTBOARD_ADC 0                      //For testing - wobbles digipot settings on bridge index to impose a signal into Wheatstone bridge outputs. This imposes a signal on the signal leg
-#define POT_TEST_WOBBLE_REFERENCE_ON_THIS_OUTBOARD_ADC 0                   //For testing - wobbles digipot settings on bridge index to impose a signal into Wheatstone bridge outputs. This imposes a signal on the reference leg
+//#define POT_TEST_WOBBLE_SIGNAL_ON_THIS_OUTBOARD_ADC 0                      //For testing - wobbles digipot settings on bridge index to impose a signal into Wheatstone bridge outputs. This imposes a signal on the signal leg
+//#define POT_TEST_WOBBLE_REFERENCE_ON_THIS_OUTBOARD_ADC 0                   //For testing - wobbles digipot settings on bridge index to impose a signal into Wheatstone bridge outputs. This imposes a signal on the reference leg
 #define WOBBLE_TIME_PERIOD  10
 //#define LEAVE_POT_VALUES_ALONE_DURING_SETUP                                               //First run should leave this undefined to load digi pots with some values
 #define BIAS_IN_ANALOG_INPUT_BITS_TO_APPLY_TO_SIGNAL_LEG_TO_CENTER_THE_TRACE_BANK0 0        //This offset will be applied to all signal lines of outboard ADCs, not just the first one, until further development.  Write some code yourself to expand.  Inboard Analog Inputs of 10 bits will make much change with little values, 12 bit inboard allows more flexibility here
@@ -289,30 +290,35 @@ If you only have the Arduino without an ADS1X15, then define NUM_OF_INBOARDS_PLO
         #undef SUPERIMPOSE_FIRST_INBOARDS_IN_PAIRS //Zero value means same as undefined so undef it to minimize variations
     #endif
 #endif
-#define LEGS_PER_DPOT_PRESENT_BRIDGE 0
+#define LEGS_PER_DPOT_STYLE_BRIDGE ( 0 )
+#define LEGS_PER_ENTIRE_SYSTEM ( 0 )
 #if ( ( defined LM334_BRIDGES ) && ( defined DPOTS_PER_LM334_LEG ) && ( LM334_BRIDGES > 0 ) && ( DPOTS_PER_LM334_LEG > 0 ) )
 // Limit checking here for number of DPots this sketch can work with.  Be your own developer and expand this capability to fit your needs
     #if ( ( LM334_BRIDGES > 1 ) || ( DPOTS_PER_LM334_LEG > 3 ) )
         #error To utilize that value for LM334_BRIDGES or DPOTS_PER_LM334_LEG, you'll have to develop this sketch further yourself.
     #endif
-    #define NUM_OF_DPOTS_IN_ALL_LM334_BRIDGES ( LM334_BRIDGES * DPOTS_PER_LM334_LEG * LEGS_PER_DPOT_PRESENT_BRIDGE ) //For LM334-tipped bridges //For LM334-tipped bridges
-    #define DPOTS_PER_LM334_BRIDGE ( DPOTS_PER_LM334_LEG * LEGS_PER_DPOT_PRESENT_BRIDGE )
-    #undef LEGS_PER_DPOT_PRESENT_BRIDGE
-    #define LEGS_PER_DPOT_PRESENT_BRIDGE 2
+    #define NUM_OF_DPOTS_IN_ALL_LM334_BRIDGES ( LM334_BRIDGES * DPOTS_PER_LM334_LEG * LEGS_PER_DPOT_STYLE_BRIDGE ) //For LM334-tipped bridges //For LM334-tipped bridges
+    #define DPOTS_PER_LM334_BRIDGE ( DPOTS_PER_LM334_LEG * LEGS_PER_DPOT_STYLE_BRIDGE )
+    #undef LEGS_PER_DPOT_STYLE_BRIDGE
+    #define LEGS_PER_DPOT_STYLE_BRIDGE ( 2 )
+    #define LM334_BRIDGE_LEGS_PER_ENTIRE_SYSTEM ( LM334_BRIDGES * LEGS_PER_DPOT_STYLE_BRIDGE )
 #else
     #define NUM_OF_DPOTS_IN_ALL_LM334_BRIDGES ( 0 ) //For LM334-tipped bridges
+    #define LM334_BRIDGE_LEGS_PER_ENTIRE_SYSTEM ( 0 ) //For LM334-tipped bridges
 #endif
 #if ( ( defined BARE_DPOT_LEG_BRIDGES ) && ( defined DPOTS_PER_BRIDGED_BARE_LEG ) && ( BARE_DPOT_LEG_BRIDGES > 0 ) && ( DPOTS_PER_BRIDGED_BARE_LEG > 0 ) )
 // Limit checking here for number of DPots this sketch can work with.  Be your own developer and expand this capability to fit your needs
     #if ( ( BARE_DPOT_LEG_BRIDGES > 0 ) || ( DPOTS_PER_BRIDGED_BARE_LEG > 0 ) )
         #error To utilize that value for BARE_DPOT_LEG_BRIDGES or DPOTS_PER_BRIDGED_BARE_LEG, you'll have to develop this sketch version further yourself.
     #endif
-    #define NUM_OF_DPOTS_IN_ALL_BARE_LEG_BRIDGES ( BARE_DPOT_LEG_BRIDGES * DPOTS_PER_BRIDGED_BARE_LEG * LEGS_PER_DPOT_PRESENT_BRIDGE ) //for bare DPot bridges
-    #define DPOTS_PER_BARE_LEG_BRIDGE ( DPOTS_PER_BRIDGED_BARE_LEG * LEGS_PER_DPOT_PRESENT_BRIDGE )
-    #undef LEGS_PER_DPOT_PRESENT_BRIDGE
-    #define LEGS_PER_DPOT_PRESENT_BRIDGE 2
+    #define NUM_OF_DPOTS_IN_ALL_BARE_LEG_BRIDGES ( BARE_DPOT_LEG_BRIDGES * DPOTS_PER_BRIDGED_BARE_LEG * LEGS_PER_DPOT_STYLE_BRIDGE ) //for bare DPot bridges
+    #define DPOTS_PER_BARE_LEG_BRIDGE ( DPOTS_PER_BRIDGED_BARE_LEG * LEGS_PER_DPOT_STYLE_BRIDGE )
+    #undef LEGS_PER_DPOT_STYLE_BRIDGE
+    #define LEGS_PER_DPOT_STYLE_BRIDGE ( 2 )
+    #define BARE_BRIDGE_LEGS_PER_ENTIRE_SYSTEM ( BARE_DPOT_LEG_BRIDGES * LEGS_PER_DPOT_STYLE_BRIDGE ) //for bare DPot bridges
 #else
     #define NUM_OF_DPOTS_IN_ALL_BARE_LEG_BRIDGES ( 0 ) //for bare DPot bridges
+    #define BARE_BRIDGE_LEGS_PER_ENTIRE_SYSTEM ( 0 ) //for bare DPot bridges
 #endif
 #if ( ( defined BARE_DPOT_LEGS_NOT_BRIDGED ) && ( defined DPOTS_PER_UNBRIDGED_BARE_LEG ) && ( BARE_DPOT_LEGS_NOT_BRIDGED > 0 ) && ( DPOTS_PER_UNBRIDGED_BARE_LEG > 0 ) )
 // Limit checking here for number of DPots this sketch can work with.  Be your own developer and expand this capability to fit your needs
@@ -322,9 +328,10 @@ If you only have the Arduino without an ADS1X15, then define NUM_OF_INBOARDS_PLO
     #define NUM_OF_DPOTS_IN_ALL_BARE_LEGS_UNBRIDGED ( BARE_DPOT_LEGS_NOT_BRIDGED * DPOTS_PER_UNBRIDGED_BARE_LEG ) //FUTURE USE for unbridged DPot control
 #else
     #define NUM_OF_DPOTS_IN_ALL_BARE_LEGS_UNBRIDGED ( 0 ) //FUTURE USE for unbridged DPot control
+    #define BARE_DPOT_LEGS_NOT_BRIDGED ( 0 )
 #endif
 #if ( NUM_OF_DPOTS_IN_ALL_LM334_BRIDGES + NUM_OF_DPOTS_IN_ALL_BARE_LEG_BRIDGES == 0 )
-    #undef LEGS_PER_DPOT_PRESENT_BRIDGE //Means there are no bridges with DPots in them
+    #undef LEGS_PER_DPOT_STYLE_BRIDGE //Means there are no bridges with DPots in them
     #undef AUTO_BRIDGE_BALANCING
 #endif
 #if ( NUM_OF_DPOTS_IN_ALL_LM334_BRIDGES + NUM_OF_DPOTS_IN_ALL_BARE_LEG_BRIDGES + NUM_OF_DPOTS_IN_ALL_BARE_LEGS_UNBRIDGED == 0 )
@@ -478,18 +485,16 @@ Never use bit 6 of DPotPin for anything except to designate the second pot in a 
 DEFINING INDEX_OF_INBOARDS_NOT_SUPERIMPOSED:
 */
 
-#warning This is where to resume coding to advance the progress toward Predictive DPot setting, DigiPots without LM334, etc
 #if defined SUPERIMPOSE_FIRST_INBOARDS_IN_PAIRS \
     && ( SUPERIMPOSE_FIRST_INBOARDS_IN_PAIRS > 0 )
-    #if ( ( SUPERIMPOSE_FIRST_INBOARDS_IN_PAIRS * LEGS_PER_DPOT_PRESENT_BRIDGE ) < NUM_OF_INBOARDS_PLOTTED ) //use the smaller of the two possibilities
-        #define INDEX_OF_INBOARDS_NOT_SUPERIMPOSED ( SUPERIMPOSE_FIRST_INBOARDS_IN_PAIRS * LEGS_PER_DPOT_PRESENT_BRIDGE )
+    #if ( ( SUPERIMPOSE_FIRST_INBOARDS_IN_PAIRS * LEGS_PER_DPOT_STYLE_BRIDGE ) < NUM_OF_INBOARDS_PLOTTED ) //use the smaller of the two possibilities
+        #define INDEX_OF_INBOARDS_NOT_SUPERIMPOSED ( SUPERIMPOSE_FIRST_INBOARDS_IN_PAIRS * LEGS_PER_DPOT_STYLE_BRIDGE )
     #else
         #define INDEX_OF_INBOARDS_NOT_SUPERIMPOSED NUM_OF_INBOARDS_PLOTTED
     #endif
 
 #else
     #define INDEX_OF_INBOARDS_NOT_SUPERIMPOSED 0
-
 #endif
 
 /*
@@ -501,11 +506,9 @@ DEFINING INDEX_OF_INBOARDS_NOT_PLOTTED:
 /*
 DEFINING INDEX_OF_OUTBOARDS:
 */
-#if ( ( defined LM334_BRIDGES ) || ( defined BARE_DPOT_LEG_BRIDGES ) ) \
-    && ( ( ( LM334_BRIDGES + BARE_DPOT_LEG_BRIDGES ) * LEGS_PER_DPOT_PRESENT_BRIDGE ) > NUM_OF_INBOARDS_PLOTTED )
-    #define INDEX_OF_OUTBOARDS ( ( LM334_BRIDGES + BARE_DPOT_LEG_BRIDGES ) * LEGS_PER_DPOT_PRESENT_BRIDGE )
-//#elif ()
-//    #define INDEX_OF_OUTBOARDS ( BARE_DPOT_LEG_BRIDGES * LEGS_PER_DPOT_PRESENT_BRIDGE )
+#define DPOT_LEGS_PER_ENTIRE_SYSTEM ( LM334_BRIDGE_LEGS_PER_ENTIRE_SYSTEM + BARE_BRIDGE_LEGS_PER_ENTIRE_SYSTEM + BARE_DPOT_LEGS_NOT_BRIDGED )
+#if ( DPOT_LEGS_PER_ENTIRE_SYSTEM > NUM_OF_INBOARDS_PLOTTED )
+    #define INDEX_OF_OUTBOARDS DPOT_LEGS_PER_ENTIRE_SYSTEM
 #else
     #define INDEX_OF_OUTBOARDS NUM_OF_INBOARDS_PLOTTED
 #endif
@@ -550,11 +553,10 @@ uint16_t PlotterLoops;
 #define PLOTTER_MAX_SCALE ( ( uint32_t )( HEIGHT_OF_A_PLOT_LINESPACE * NUMBER_OF_LINESPACES ) )
 #define HALF_HEIGHT_OF_A_PLOT_LINESPACE ( ( uint32_t )( HEIGHT_OF_A_PLOT_LINESPACE / 2 ) )
 
-//#if not defined SUPERIMPOSE_FIRST_INBOARDS_IN_PAIRS || ( NUM_OF_OUTBOARDS_PLOTTED == 0 ) || ( NUM_OF_INBOARDS_PLOTTED != 2 )
-//    #define PLOTTER_MAX_SCALE ( HEIGHT_OF_A_PLOT_LINESPACE * ( ( uint32_t )( NUM_OF_OUTBOARDS_PLOTTED + NUM_OF_INBOARDS_PLOTTED ) ) )
-//#else
-//    #define PLOTTER_MAX_SCALE ( HEIGHT_OF_A_PLOT_LINESPACE * ( ( uint32_t )( NUM_OF_OUTBOARDS_PLOTTED + NUM_OF_INBOARDS_PLOTTED - 1 ) ) )
-//#endif
+#ifdef AUTO_BRIDGE_BALANCING
+    #define HALF_HEIGHT_INBOARD_SCALE_OF_A_PLOT_LINESPACE ( pow( 2, ANALOG_INPUT_BITS_OF_BOARD - 1 ) )
+    static uint16_t CounterForTraceOutOfRangeTooLong[ NUM_OF_OUTBOARDS_PLOTTED ]; //This is to prevent infinite loop with AUTO_BRIDGE_BALANCING
+#endif
 #define HundredthPLOTTER_MAX_SCALE ( PLOTTER_MAX_SCALE / 100 );
 #ifndef SAMPLE_TIMES
     #define SAMPLE_TIMES 1
@@ -591,7 +593,64 @@ So: - define ...PARALLELed = 0 if it is undefined
     
  */
 void ReadAndPlotFromAllADCsInAndOutboard( uint32_t, bool = false );
-#ifdef LM334_BRIDGES
+static uint8_t* AnalogPinArray = 0; //Initializing to 0 allows functions that would use it to know whether valid or not
+#if defined LM334_BRIDGES
+    uint16_t MidTwoOfFourSum( uint8_t /*change from bridge value to leg*/){ return ( 2 * ( 1 << ( ANALOG_INPUT_BITS_OF_BOARD - 1 ) ) );}
+    void PrintDPotSettings()
+    {
+        for( uint8_t DpotLeg = 0; DpotLeg < DPOT_LEGS_PER_ENTIRE_SYSTEM; DpotLeg++ )
+        {
+            Serial.print( F( "LegUnit[" ) );
+            Serial.print( DpotLeg );
+            Serial.print( F( "]" ) );
+            for( uint8_t digipot_unit = 0; digipot_unit < ( DpotLeg < LM334_BRIDGE_LEGS_PER_ENTIRE_SYSTEM ) ? DPOTS_PER_LM334_LEG : ( DpotLeg < ( LM334_BRIDGE_LEGS_PER_ENTIRE_SYSTEM + BARE_BRIDGE_LEGS_PER_ENTIRE_SYSTEM ) ?  DPOTS_PER_BRIDGED_BARE_LEG : DPOTS_PER_UNBRIDGED_BARE_LEG ); digipot_unit++ )
+            {//DPOTS_PER_LM334_LEG
+                Serial.print( F( ", DPotPin[" ) );
+//Using DpotLeg and digipot_unit, obtain exact element of DPots in system and print its pin number:
+//Remember there are three sections within the DPot arrays - first section is 
+                Serial.print( DPotPins[ ( DpotLeg * \
+                    ( ( DpotLeg < LM334_BRIDGE_LEGS_PER_ENTIRE_SYSTEM ) ? \
+                    ( DPOTS_PER_LM334_LEG * LEGS_PER_DPOT_STYLE_BRIDGE ) : \
+                    ( DpotLeg < ( LM334_BRIDGE_LEGS_PER_ENTIRE_SYSTEM + BARE_BRIDGE_LEGS_PER_ENTIRE_SYSTEM ) ? \
+                    ( DPOTS_PER_BRIDGED_BARE_LEG + DPOTS_PER_LM334_LEG ) * LEGS_PER_DPOT_STYLE_BRIDGE : \
+                    ( ( DPOTS_PER_BRIDGED_BARE_LEG + DPOTS_PER_LM334_LEG ) * LEGS_PER_DPOT_STYLE_BRIDGE ) + DPOTS_PER_UNBRIDGED_BARE_LEG ) ) ) + digipot_unit ] );
+                Serial.print( F( "]" ) );
+                if( digipot_unit < DPOTS_PER_LM334_LEG )
+                    Serial.print( F( ", signal " ) );
+                else
+                    Serial.print( F( ", reference " ) );
+//#error The next construct isn't working as expected
+                if( ( digipot_unit % DPOTS_PER_LM334_LEG ) == 0 )
+                    Serial.print( F( "LSB " ) );
+                else if( ( digipot_unit % DPOTS_PER_LM334_LEG ) == 1 )
+                    Serial.print( F( "MID " ) );
+                else
+                    Serial.print( F( "MSB " ) );
+                Serial.print( F( "setting=" ) );
+                Serial.print( DPotSettings[ DpotLeg * + digipot_unit ] );
+                if( digipot_unit == 0 || digipot_unit == DPOTS_PER_LM334_LEG )
+                {
+                    if( digipot_unit < DPOTS_PER_LM334_LEG )
+                        Serial.print( F( ", signal" ) );
+                    else
+                        Serial.print( F( ", reference" ) );
+                    if( AnalogPinArray == 0 )
+                    {
+                        Serial.println( F( "AnalogPinArray not malloc'd yet. Unable to know pin numbers to read them. Failing" ) );
+                        return;
+                    }
+                    Serial.print( F( " voltage=" ) );
+//The next printout only designed for one bridge in entire system.  TODO: fix it
+                    if( digipot_unit < DPOTS_PER_LM334_LEG )
+                        Serial.print( MidTwoOfFourSum( DpotLeg ) / 2 );
+                    else
+                        Serial.print( MidTwoOfFourSum( DpotLeg + 1 ) / 2 );
+                    Serial.print( F( "> " ) );
+                }
+            }
+        }
+    }
+
     void setPotValue( uint8_t DigitalPotPin, uint16_t value )
     {
         if( DigitalPotPin < 128 ) //Pins numbered below 128 are normal digital inboard pins
@@ -866,7 +925,7 @@ then resume to lower reference leg until can't lower it any more
         if( ( DPotSettings[ 0 + bank * DPOTS_PER_LM334_BRIDGE ]  + DPotSettings[ 1 + ( bank * DPOTS_PER_LM334_BRIDGE ) ] + DPotSettings[ 2 + ( bank * DPOTS_PER_LM334_BRIDGE ) ] >= ( 514 + MAXPOTSETTG ) ) && \
             ( DPotSettings[ 3 + ( bank * DPOTS_PER_LM334_BRIDGE ) ] + DPotSettings[ 4 + ( bank * DPOTS_PER_LM334_BRIDGE ) ] + DPotSettings[ 5 + ( bank * DPOTS_PER_LM334_BRIDGE ) ] == 0 ) ) return false;
 */
-        while( BestOfFour( 1 + ( bank * LEGS_PER_DPOT_PRESENT_BRIDGE ) ) > COMMON_MODE_LEVEL_FOR_MAX_GAIN_AS_READ_RAW_BY_INBOARD_ANALOG )
+        while( BestOfFour( 1 + ( bank * LEGS_PER_DPOT_STYLE_BRIDGE ) ) > COMMON_MODE_LEVEL_FOR_MAX_GAIN_AS_READ_RAW_BY_INBOARD_ANALOG )
         {
 //            Serial.print( F( " raising the reference leg settings since that voltage is higher than optimal " ) );
 //            Serial.print( F( " rtrlsstvihto " ) );
@@ -935,7 +994,7 @@ then resume to lower reference leg until can't lower it any more
               return false; //checks if reference leg is maxed to highest voltage already
            }
                 
-        while( BestOfFour( 1 + ( bank * LEGS_PER_DPOT_PRESENT_BRIDGE ) ) < COMMON_MODE_LEVEL_FOR_MAX_GAIN_AS_READ_RAW_BY_INBOARD_ANALOG )
+        while( BestOfFour( 1 + ( bank * LEGS_PER_DPOT_STYLE_BRIDGE ) ) < COMMON_MODE_LEVEL_FOR_MAX_GAIN_AS_READ_RAW_BY_INBOARD_ANALOG )
         {
 //            Serial.print( F( " lowering the reference leg settings since that voltage is lower than optimal " ) );
 //            Serial.print( F( " ltrlssttvilto " ) );
@@ -1001,8 +1060,8 @@ void ReplotLastValuesForAllTraces( bool actuals = false )                  //If 
 #if ( NUM_OF_INBOARDS_PLOTTED > 0 )
     linespace_bounds_magnify_trace_offsets_and_previous_readings LinespaceParametersInboard[ NUM_OF_INBOARDS_PLOTTED ];
 #endif
-#if defined LM334_BRIDGES && defined SUPERIMPOSE_FIRST_INBOARDS_IN_PAIRS && ( NUM_OF_INBOARDS_PLOTTED < LM334_BRIDGES * LEGS_PER_DPOT_PRESENT_BRIDGE )
-    previous_readings_only DigipotLeg[ ( LM334_BRIDGES * LEGS_PER_DPOT_PRESENT_BRIDGE ) - NUM_OF_INBOARDS_PLOTTED ];
+#if defined LM334_BRIDGES && defined SUPERIMPOSE_FIRST_INBOARDS_IN_PAIRS && ( NUM_OF_INBOARDS_PLOTTED < LM334_BRIDGES * LEGS_PER_DPOT_STYLE_BRIDGE )
+    previous_readings_only DigipotLeg[ ( LM334_BRIDGES * LEGS_PER_DPOT_STYLE_BRIDGE ) - NUM_OF_INBOARDS_PLOTTED ];
 #endif
 #if ( NUM_OF_OUTBOARDS_PLOTTED > 0 )
     linespace_bounds_magnify_trace_offsets_and_previous_readings LinespaceParametersOutboard[ NUM_OF_OUTBOARDS_PLOTTED ];
@@ -1010,7 +1069,7 @@ void ReplotLastValuesForAllTraces( bool actuals = false )                  //If 
 
  */
 //#ifndef MAGNIFICATION_FACTOR
-//    for( ; IndexOfLinespaceParameters < max( NUM_OF_INBOARDS_PLOTTED, ( SUPERIMPOSE_FIRST_INBOARDS_IN_PAIRS * LEGS_PER_DPOT_PRESENT_BRIDGE ) ) + NUM_OF_OUTBOARDS_PLOTTED; IndexOfLinespaceParameters++ )
+//    for( ; IndexOfLinespaceParameters < max( NUM_OF_INBOARDS_PLOTTED, ( SUPERIMPOSE_FIRST_INBOARDS_IN_PAIRS * LEGS_PER_DPOT_STYLE_BRIDGE ) ) + NUM_OF_OUTBOARDS_PLOTTED; IndexOfLinespaceParameters++ )
     for( uint8_t LinespaceParametersIndex = 0; LinespaceParametersIndex < NUMBER_OF_LINESPACES; LinespaceParametersIndex++ )    
     {
 #ifdef DEBUG
@@ -1027,15 +1086,17 @@ void ReplotLastValuesForAllTraces( bool actuals = false )                  //If 
         Serial.print( actuals ? LinespaceParameters[ LinespaceParametersIndex ].LastSignalPinPlotPoint + LinespaceParameters[ LinespaceParametersIndex ].ZeroOfThisPlotLinespace: 0 ); //I think this looks better than the line above
         Serial.print( F( " " ) );
 // INDEX_OF_INBOARDS_NOT_SUPERIMPOSED actually equals the number of InboardSuperimposed that exist
-        if( LinespaceParametersIndex < INDEX_OF_INBOARDS_NOT_SUPERIMPOSED / 2 )
+        if( LinespaceParametersIndex < INDEX_OF_INBOARDS_NOT_SUPERIMPOSED / 2 ) //The same as comparing MasterReadingsArrayIndex < INDEX_OF_INBOARDS_NOT_SUPERIMPOSED
         {
-#ifdef DEBUG
-    while( !Serial ) ; 
-    Serial.print( F( ", LastReferencePinPlotPointOrLastMagnifiedPlotPoint = " ) );
-    Serial.println( LinespaceParameters[ LinespaceParametersIndex ].LastReferencePinPlotPointOrLastMagnifiedPlotPoint );
-#endif
+    #if not defined PLOT_ONLY_THE_SIGNAL_LEG_OF_SUPERIMPOSED_DPOT_LEG_BRIDGE_INBOARDS
+        #ifdef DEBUG
+            while( !Serial ) ; 
+            Serial.print( F( ", LastReferencePinPlotPointOrLastMagnifiedPlotPoint = " ) );
+            Serial.println( LinespaceParameters[ LinespaceParametersIndex ].LastReferencePinPlotPointOrLastMagnifiedPlotPoint );
+        #endif
             Serial.print( actuals ? LinespaceParameters[ LinespaceParametersIndex ].LastReferencePinPlotPointOrLastMagnifiedPlotPoint + LinespaceParameters[ LinespaceParametersIndex ].ZeroOfThisPlotLinespace : 0 ); //I think this looks better than the line above
             Serial.print( F( " " ) );
+    #endif
             continue;
         }
         else //skip the following if the above was true
@@ -1115,7 +1176,6 @@ void PlotTimingLineGoingUp( bool TracesAlreadyInitializedToValidReadings = true 
 #endif
 }
 
-static uint8_t *AnalogPinArray;
 uint16_t BestOfFour( uint8_t AnalogPinArrayIndex = 0 ) //returns an INBOARD Analog Input pin reading, AnalogPinArrayIndex is also equal to bridge leg
 { //remove from consideration the max and min, then return avg of remaining two  //Re-suse some variables not otherwise in use right now
     uint16_t value = analogRead( *( AnalogPinArray + AnalogPinArrayIndex ) );
@@ -1135,8 +1195,8 @@ uint16_t BestGuessAnalogInputreading( uint8_t AnalogPinArrayIndex, bool finetune
     uint8_t times = 0;
     do
     {
-//        value = BestOfFour( AnalogPinArrayIndex + ( bank * LEGS_PER_DPOT_PRESENT_BRIDGE ) ); //The value of 2 is the number of bridge legs per bank
-//        value1 = BestOfFour( AnalogPinArrayIndex + ( bank * LEGS_PER_DPOT_PRESENT_BRIDGE ) );
+//        value = BestOfFour( AnalogPinArrayIndex + ( bank * LEGS_PER_DPOT_STYLE_BRIDGE ) ); //The value of 2 is the number of bridge legs per bank
+//        value1 = BestOfFour( AnalogPinArrayIndex + ( bank * LEGS_PER_DPOT_STYLE_BRIDGE ) );
         value = BestOfFour( AnalogPinArrayIndex );
         value1 = BestOfFour( AnalogPinArrayIndex );
         if( finetune )
@@ -1187,16 +1247,16 @@ if( SetDigipotsStep != 0 )
 //    if( SetDigipotsStep == 10 ) goto SetDigipotsStep10;
 }
     if( !MatchLevelToSignalLegInsteadOfToCOMMON_MODE_LEVEL_FOR_MAX_GAIN_AS_READ_RAW_BY_INBOARD_ANALOG ) TargetLevel = COMMON_MODE_LEVEL_FOR_MAX_GAIN_AS_READ_RAW_BY_INBOARD_ANALOG;
-    else TargetLevel = BestGuessAnalogInputreading( bank * LEGS_PER_DPOT_PRESENT_BRIDGE ) - BIAS_IN_ANALOG_INPUT_BITS_TO_APPLY_TO_SIGNAL_LEG_TO_CENTER_THE_TRACE_BANK0; 
+    else TargetLevel = BestGuessAnalogInputreading( bank * LEGS_PER_DPOT_STYLE_BRIDGE ) - BIAS_IN_ANALOG_INPUT_BITS_TO_APPLY_TO_SIGNAL_LEG_TO_CENTER_THE_TRACE_BANK0; 
 
 /*Next is where the Wheatstone bridge reference leg output (that connects to negative input of highest sensi ADC) is set to TargetLevel voltage level*/
     stepsize = 10;
     static uint16_t startpoint1;
     static uint16_t startpoint2;
 
-    while( ( BestGuessAnalogInputreading( 1 + ( bank * LEGS_PER_DPOT_PRESENT_BRIDGE ) ) < TargetLevel ) && ( stepsize > 0 ) )
+    while( ( BestGuessAnalogInputreading( 1 + ( bank * LEGS_PER_DPOT_STYLE_BRIDGE ) ) < TargetLevel ) && ( stepsize > 0 ) )
     {
-        while( BestGuessAnalogInputreading( 1 + ( bank * LEGS_PER_DPOT_PRESENT_BRIDGE ) ) < TargetLevel )
+        while( BestGuessAnalogInputreading( 1 + ( bank * LEGS_PER_DPOT_STYLE_BRIDGE ) ) < TargetLevel )
         {
             startpoint1 = DPotSettings[ 3 + ( bank * DPOTS_PER_LM334_BRIDGE ) ];
             startpoint2 = DPotSettings[ 4 + ( bank * DPOTS_PER_LM334_BRIDGE ) ];
@@ -1204,7 +1264,7 @@ if( SetDigipotsStep != 0 )
             if( ( DPotSettings[ 3 + ( bank * DPOTS_PER_LM334_BRIDGE ) ] <= stepsize - 1 ) && ( DPotSettings[ 4 + ( bank * DPOTS_PER_LM334_BRIDGE ) ] <= stepsize - 1 ) ) break;
             if( DPotSettings[ 3 + ( bank * DPOTS_PER_LM334_BRIDGE ) ] > stepsize - 1 )
             {
-                setPotValue( DPotPins[ 3 + ( bank * LEGS_PER_DPOT_PRESENT_BRIDGE ) ], DPotSettings[ 3 + ( bank * DPOTS_PER_LM334_BRIDGE ) ] - stepsize );
+                setPotValue( DPotPins[ 3 + ( bank * LEGS_PER_DPOT_STYLE_BRIDGE ) ], DPotSettings[ 3 + ( bank * DPOTS_PER_LM334_BRIDGE ) ] - stepsize );
                 if( JustPerformOneStep )
                 {
                     SetDigipotsStep = 1;
@@ -1214,7 +1274,7 @@ SetDigipotsStep1:;
             }
             if( DPotSettings[ 4 + ( bank * DPOTS_PER_LM334_BRIDGE ) ] > stepsize - 1 )
             {
-                setPotValue( DPotPins[ 4 + ( bank * LEGS_PER_DPOT_PRESENT_BRIDGE ) ], DPotSettings[ 4 + ( bank * DPOTS_PER_LM334_BRIDGE ) ] - stepsize );
+                setPotValue( DPotPins[ 4 + ( bank * LEGS_PER_DPOT_STYLE_BRIDGE ) ], DPotSettings[ 4 + ( bank * DPOTS_PER_LM334_BRIDGE ) ] - stepsize );
                 if( JustPerformOneStep )
                 {
                     SetDigipotsStep = 2;
@@ -1223,17 +1283,17 @@ SetDigipotsStep1:;
 SetDigipotsStep2:;
             }
         }
-        setPotValue( DPotPins[ 3 + ( bank * LEGS_PER_DPOT_PRESENT_BRIDGE ) ], startpoint1 );
-        setPotValue( DPotPins[ 4 + ( bank * LEGS_PER_DPOT_PRESENT_BRIDGE ) ], startpoint2 );
+        setPotValue( DPotPins[ 3 + ( bank * LEGS_PER_DPOT_STYLE_BRIDGE ) ], startpoint1 );
+        setPotValue( DPotPins[ 4 + ( bank * LEGS_PER_DPOT_STYLE_BRIDGE ) ], startpoint2 );
         stepsize >>= 1;
     }
-    while( BestGuessAnalogInputreading( 1 + ( bank * LEGS_PER_DPOT_PRESENT_BRIDGE ) ) < TargetLevel )
+    while( BestGuessAnalogInputreading( 1 + ( bank * LEGS_PER_DPOT_STYLE_BRIDGE ) ) < TargetLevel )
     {
 #ifdef DEBUG
     while( !Serial ) ; 
     Serial.println( F( "Looping line 977" ) );
 #endif
-        stepAdjustDigipotsForThisLeg( DPotPins[ 3 + ( bank * LEGS_PER_DPOT_PRESENT_BRIDGE ) ], &DPotSettings[ 3 + ( bank * DPOTS_PER_LM334_BRIDGE ) ], DPotPins[ 4 + ( bank * LEGS_PER_DPOT_PRESENT_BRIDGE ) ], &DPotSettings[ 4 + ( bank * DPOTS_PER_LM334_BRIDGE ) ],  DPotPins[ 5 + ( bank * LEGS_PER_DPOT_PRESENT_BRIDGE ) ], &DPotSettings[ 5 + ( bank * DPOTS_PER_LM334_BRIDGE ) ], false );
+        stepAdjustDigipotsForThisLeg( DPotPins[ 3 + ( bank * LEGS_PER_DPOT_STYLE_BRIDGE ) ], &DPotSettings[ 3 + ( bank * DPOTS_PER_LM334_BRIDGE ) ], DPotPins[ 4 + ( bank * LEGS_PER_DPOT_STYLE_BRIDGE ) ], &DPotSettings[ 4 + ( bank * DPOTS_PER_LM334_BRIDGE ) ],  DPotPins[ 5 + ( bank * LEGS_PER_DPOT_STYLE_BRIDGE ) ], &DPotSettings[ 5 + ( bank * DPOTS_PER_LM334_BRIDGE ) ], false );
         if( JustPerformOneStep )
         {
             SetDigipotsStep = 3;
@@ -1243,9 +1303,9 @@ SetDigipotsStep3:;
     }
     stepsize = 10;
 
-    while( ( BestGuessAnalogInputreading( 1 + ( bank * LEGS_PER_DPOT_PRESENT_BRIDGE ) ) > TargetLevel ) && ( stepsize > 0 ) )
+    while( ( BestGuessAnalogInputreading( 1 + ( bank * LEGS_PER_DPOT_STYLE_BRIDGE ) ) > TargetLevel ) && ( stepsize > 0 ) )
     {//FIXME this loop can never be false when the startpoints get restored?
-        while( BestGuessAnalogInputreading( 1 + ( bank * LEGS_PER_DPOT_PRESENT_BRIDGE ) ) > TargetLevel )
+        while( BestGuessAnalogInputreading( 1 + ( bank * LEGS_PER_DPOT_STYLE_BRIDGE ) ) > TargetLevel )
         {
             startpoint1 = DPotSettings[ 3 + ( bank * DPOTS_PER_LM334_BRIDGE ) ];
             startpoint2 = DPotSettings[ 4 + ( bank * DPOTS_PER_LM334_BRIDGE ) ];
@@ -1253,7 +1313,7 @@ SetDigipotsStep3:;
             if( ( DPotSettings[ 3 + ( bank * DPOTS_PER_LM334_BRIDGE ) ] <= stepsize - 1 ) && ( DPotSettings[ 4 + ( bank * DPOTS_PER_LM334_BRIDGE ) ] <= stepsize - 1 ) ) break;
             if( DPotSettings[ 3 + ( bank * DPOTS_PER_LM334_BRIDGE ) ] > stepsize - 1 )
             {
-                setPotValue( DPotPins[ 3 + ( bank * LEGS_PER_DPOT_PRESENT_BRIDGE ) ], DPotSettings[ 3 + ( bank * DPOTS_PER_LM334_BRIDGE ) ] + stepsize );
+                setPotValue( DPotPins[ 3 + ( bank * LEGS_PER_DPOT_STYLE_BRIDGE ) ], DPotSettings[ 3 + ( bank * DPOTS_PER_LM334_BRIDGE ) ] + stepsize );
                 if( JustPerformOneStep )
                 {
                     SetDigipotsStep = 4;
@@ -1263,7 +1323,7 @@ SetDigipotsStep4:;
             }
             if( DPotSettings[ 4 + ( bank * DPOTS_PER_LM334_BRIDGE ) ] > stepsize - 1 )
             {
-                setPotValue( DPotPins[ 4 + ( bank * LEGS_PER_DPOT_PRESENT_BRIDGE ) ], DPotSettings[ 4 + ( bank * DPOTS_PER_LM334_BRIDGE ) ] + stepsize );
+                setPotValue( DPotPins[ 4 + ( bank * LEGS_PER_DPOT_STYLE_BRIDGE ) ], DPotSettings[ 4 + ( bank * DPOTS_PER_LM334_BRIDGE ) ] + stepsize );
                 if( JustPerformOneStep )
                 {
                     SetDigipotsStep = 5;
@@ -1272,8 +1332,8 @@ SetDigipotsStep4:;
 SetDigipotsStep5:; //This bottoms out as far as setting digipots
 #ifdef DEBUG
     while( !Serial );
-    Serial.print( F( "Line 897, BestGuessAnalogInputreading( 1 + ( bank * LEGS_PER_DPOT_PRESENT_BRIDGE ) )= " ) );
-    Serial.print( BestGuessAnalogInputreading( 1 + ( bank * LEGS_PER_DPOT_PRESENT_BRIDGE ) ) );
+    Serial.print( F( "Line 897, BestGuessAnalogInputreading( 1 + ( bank * LEGS_PER_DPOT_STYLE_BRIDGE ) )= " ) );
+    Serial.print( BestGuessAnalogInputreading( 1 + ( bank * LEGS_PER_DPOT_STYLE_BRIDGE ) ) );
     Serial.print( F( ", DPotSettings[ 3 + ( bank * DPOTS_PER_LM334_BRIDGE ) ]= " ) );
     Serial.print( DPotSettings[ 3 + ( bank * DPOTS_PER_LM334_BRIDGE ) ] ); //These setting values increase without end FIXME
     Serial.print( F( ", DPotSettings[ 4 + ( bank * DPOTS_PER_LM334_BRIDGE ) ] = " ) );
@@ -1290,8 +1350,8 @@ SetDigipotsStep5:; //This bottoms out as far as setting digipots
     Serial.println( stepsize );
 #endif
         }
-        setPotValue( DPotPins[ 3 + ( bank * LEGS_PER_DPOT_PRESENT_BRIDGE ) ], startpoint1 );
-        setPotValue( DPotPins[ 4 + ( bank * LEGS_PER_DPOT_PRESENT_BRIDGE ) ], startpoint2 );
+        setPotValue( DPotPins[ 3 + ( bank * LEGS_PER_DPOT_STYLE_BRIDGE ) ], startpoint1 );
+        setPotValue( DPotPins[ 4 + ( bank * LEGS_PER_DPOT_STYLE_BRIDGE ) ], startpoint2 );
         stepsize >>= 1;
 #ifdef DEBUG
     while( !Serial );
@@ -1299,13 +1359,13 @@ SetDigipotsStep5:; //This bottoms out as far as setting digipots
     Serial.println( stepsize );
 #endif
     }
-    while( BestGuessAnalogInputreading( 1 + ( bank * LEGS_PER_DPOT_PRESENT_BRIDGE ) ) > TargetLevel )
+    while( BestGuessAnalogInputreading( 1 + ( bank * LEGS_PER_DPOT_STYLE_BRIDGE ) ) > TargetLevel )
     {
 #ifdef DEBUG
     while( !Serial ) ; 
     Serial.println( F( "Looping line 1049" ) );
 #endif
-        stepAdjustDigipotsForThisLeg( DPotPins[ 3 + ( bank * LEGS_PER_DPOT_PRESENT_BRIDGE ) ], &DPotSettings[ 3 + ( bank * DPOTS_PER_LM334_BRIDGE ) ], DPotPins[ 4 + ( bank * LEGS_PER_DPOT_PRESENT_BRIDGE ) ], &DPotSettings[ 4 + ( bank * DPOTS_PER_LM334_BRIDGE ) ],  DPotPins[ 5 + ( bank * LEGS_PER_DPOT_PRESENT_BRIDGE ) ], &DPotSettings[ 5 + ( bank * DPOTS_PER_LM334_BRIDGE ) ], true );
+        stepAdjustDigipotsForThisLeg( DPotPins[ 3 + ( bank * LEGS_PER_DPOT_STYLE_BRIDGE ) ], &DPotSettings[ 3 + ( bank * DPOTS_PER_LM334_BRIDGE ) ], DPotPins[ 4 + ( bank * LEGS_PER_DPOT_STYLE_BRIDGE ) ], &DPotSettings[ 4 + ( bank * DPOTS_PER_LM334_BRIDGE ) ],  DPotPins[ 5 + ( bank * LEGS_PER_DPOT_STYLE_BRIDGE ) ], &DPotSettings[ 5 + ( bank * DPOTS_PER_LM334_BRIDGE ) ], true );
         if( JustPerformOneStep )
         {
             SetDigipotsStep = 6;
@@ -1316,33 +1376,33 @@ SetDigipotsStep6:;
 //Converge by two consecutive readings
     do
     {//This leg is the  reference, so we need to take a little extra time: avg out more samples
-        if( BestGuessAnalogInputreading( 1 + ( bank * LEGS_PER_DPOT_PRESENT_BRIDGE ), MATCHING_TO_SIGNAL_LEG ) > TargetLevel )
+        if( BestGuessAnalogInputreading( 1 + ( bank * LEGS_PER_DPOT_STYLE_BRIDGE ), MATCHING_TO_SIGNAL_LEG ) > TargetLevel )
         {
 #ifdef DEBUG
     while( !Serial ) ; 
     Serial.println( F( "Looping line 1114" ) );
 #endif
 //We must prevent endless looping when out of range: if digipot settings are maxed out in the direction we're wanting them to go, return with SetDigipotsStep = 0 and failure
-            if( !stepAdjustDigipotsForThisLeg( DPotPins[ 3 + ( bank * LEGS_PER_DPOT_PRESENT_BRIDGE ) ], &DPotSettings[ 3 + ( bank * DPOTS_PER_LM334_BRIDGE ) ], DPotPins[ 4 + ( bank * LEGS_PER_DPOT_PRESENT_BRIDGE ) ], &DPotSettings[ 4 + ( bank * DPOTS_PER_LM334_BRIDGE ) ],  DPotPins[ 5 + ( bank * LEGS_PER_DPOT_PRESENT_BRIDGE ) ], &DPotSettings[ 5 + ( bank * DPOTS_PER_LM334_BRIDGE ) ], true, true ) )
+            if( !stepAdjustDigipotsForThisLeg( DPotPins[ 3 + ( bank * LEGS_PER_DPOT_STYLE_BRIDGE ) ], &DPotSettings[ 3 + ( bank * DPOTS_PER_LM334_BRIDGE ) ], DPotPins[ 4 + ( bank * LEGS_PER_DPOT_STYLE_BRIDGE ) ], &DPotSettings[ 4 + ( bank * DPOTS_PER_LM334_BRIDGE ) ],  DPotPins[ 5 + ( bank * LEGS_PER_DPOT_STYLE_BRIDGE ) ], &DPotSettings[ 5 + ( bank * DPOTS_PER_LM334_BRIDGE ) ], true, true ) )
             {
                 SetDigipotsStep = 0;
                 return false;
             }
-            stepAdjustDigipotsForThisLeg( DPotPins[ 3 + ( bank * LEGS_PER_DPOT_PRESENT_BRIDGE ) ], &DPotSettings[ 3 + ( bank * DPOTS_PER_LM334_BRIDGE ) ], DPotPins[ 4 + ( bank * LEGS_PER_DPOT_PRESENT_BRIDGE ) ], &DPotSettings[ 4 + ( bank * DPOTS_PER_LM334_BRIDGE ) ],  DPotPins[ 5 + ( bank * LEGS_PER_DPOT_PRESENT_BRIDGE ) ], &DPotSettings[ 5 + ( bank * DPOTS_PER_LM334_BRIDGE ) ], true );
+            stepAdjustDigipotsForThisLeg( DPotPins[ 3 + ( bank * LEGS_PER_DPOT_STYLE_BRIDGE ) ], &DPotSettings[ 3 + ( bank * DPOTS_PER_LM334_BRIDGE ) ], DPotPins[ 4 + ( bank * LEGS_PER_DPOT_STYLE_BRIDGE ) ], &DPotSettings[ 4 + ( bank * DPOTS_PER_LM334_BRIDGE ) ],  DPotPins[ 5 + ( bank * LEGS_PER_DPOT_STYLE_BRIDGE ) ], &DPotSettings[ 5 + ( bank * DPOTS_PER_LM334_BRIDGE ) ], true );
         }
-        else if( BestGuessAnalogInputreading( 1 + ( bank * LEGS_PER_DPOT_PRESENT_BRIDGE ), MATCHING_TO_SIGNAL_LEG ) /*read it again*/ < TargetLevel )
+        else if( BestGuessAnalogInputreading( 1 + ( bank * LEGS_PER_DPOT_STYLE_BRIDGE ), MATCHING_TO_SIGNAL_LEG ) /*read it again*/ < TargetLevel )
         {
 #ifdef DEBUG
     while( !Serial ) ; 
     Serial.println( F( "Looping line 1128" ) );
 #endif
 //We must prevent endless looping when out of range: if digipot settings are maxed out in the direction we're wanting them to go, return with SetDigipotsStep = 0 and failure
-            if( !stepAdjustDigipotsForThisLeg( DPotPins[ 3 + ( bank * LEGS_PER_DPOT_PRESENT_BRIDGE ) ], &DPotSettings[ 3 + ( bank * DPOTS_PER_LM334_BRIDGE ) ], DPotPins[ 4 + ( bank * LEGS_PER_DPOT_PRESENT_BRIDGE ) ], &DPotSettings[ 4 + ( bank * DPOTS_PER_LM334_BRIDGE ) ],  DPotPins[ 5 + ( bank * LEGS_PER_DPOT_PRESENT_BRIDGE ) ], &DPotSettings[ 5 + ( bank * DPOTS_PER_LM334_BRIDGE ) ], false, true ) )
+            if( !stepAdjustDigipotsForThisLeg( DPotPins[ 3 + ( bank * LEGS_PER_DPOT_STYLE_BRIDGE ) ], &DPotSettings[ 3 + ( bank * DPOTS_PER_LM334_BRIDGE ) ], DPotPins[ 4 + ( bank * LEGS_PER_DPOT_STYLE_BRIDGE ) ], &DPotSettings[ 4 + ( bank * DPOTS_PER_LM334_BRIDGE ) ],  DPotPins[ 5 + ( bank * LEGS_PER_DPOT_STYLE_BRIDGE ) ], &DPotSettings[ 5 + ( bank * DPOTS_PER_LM334_BRIDGE ) ], false, true ) )
             {
                 SetDigipotsStep = 0;
                 return false;
             }
-            stepAdjustDigipotsForThisLeg( DPotPins[ 3 + ( bank * LEGS_PER_DPOT_PRESENT_BRIDGE ) ], &DPotSettings[ 3 + ( bank * DPOTS_PER_LM334_BRIDGE ) ], DPotPins[ 4 + ( bank * LEGS_PER_DPOT_PRESENT_BRIDGE ) ], &DPotSettings[ 4 + ( bank * DPOTS_PER_LM334_BRIDGE ) ],  DPotPins[ 5 + ( bank * LEGS_PER_DPOT_PRESENT_BRIDGE ) ], &DPotSettings[ 5 + ( bank * DPOTS_PER_LM334_BRIDGE ) ], false );
+            stepAdjustDigipotsForThisLeg( DPotPins[ 3 + ( bank * LEGS_PER_DPOT_STYLE_BRIDGE ) ], &DPotSettings[ 3 + ( bank * DPOTS_PER_LM334_BRIDGE ) ], DPotPins[ 4 + ( bank * LEGS_PER_DPOT_STYLE_BRIDGE ) ], &DPotSettings[ 4 + ( bank * DPOTS_PER_LM334_BRIDGE ) ],  DPotPins[ 5 + ( bank * LEGS_PER_DPOT_STYLE_BRIDGE ) ], &DPotSettings[ 5 + ( bank * DPOTS_PER_LM334_BRIDGE ) ], false );
         }
         if( JustPerformOneStep )
         {
@@ -1354,10 +1414,10 @@ SetDigipotsStep7:
     while( !Serial ) ; 
     Serial.print( F( "Looping line 1143, TargetLevel=" ) );
     Serial.print( TargetLevel );
-    Serial.print( F( ", BestGuessAnalogInputreading( 1 + ( bank * LEGS_PER_DPOT_PRESENT_BRIDGE ), MATCHING_TO_SIGNAL_LEG )=" ) );
-    Serial.println( BestGuessAnalogInputreading( 1 + ( bank * LEGS_PER_DPOT_PRESENT_BRIDGE ), MATCHING_TO_SIGNAL_LEG ) );
+    Serial.print( F( ", BestGuessAnalogInputreading( 1 + ( bank * LEGS_PER_DPOT_STYLE_BRIDGE ), MATCHING_TO_SIGNAL_LEG )=" ) );
+    Serial.println( BestGuessAnalogInputreading( 1 + ( bank * LEGS_PER_DPOT_STYLE_BRIDGE ), MATCHING_TO_SIGNAL_LEG ) );
 #endif
-        if( BestGuessAnalogInputreading( 1 + ( bank * LEGS_PER_DPOT_PRESENT_BRIDGE ), MATCHING_TO_SIGNAL_LEG ) /*read it again*/ != TargetLevel ) continue;
+        if( BestGuessAnalogInputreading( 1 + ( bank * LEGS_PER_DPOT_STYLE_BRIDGE ), MATCHING_TO_SIGNAL_LEG ) /*read it again*/ != TargetLevel ) continue;
 #ifdef DEBUG
     while( !Serial ) ; 
     Serial.println( F( "Looping line 1148" ) );
@@ -1368,7 +1428,7 @@ SetDigipotsStep7:
             return false;
         }
 SetDigipotsStep8:;
-    }while( BestGuessAnalogInputreading( 1 + ( bank * LEGS_PER_DPOT_PRESENT_BRIDGE ), MATCHING_TO_SIGNAL_LEG ) /*read it again*/ != TargetLevel ); //This would create an endless loop if the level is out of range
+    }while( BestGuessAnalogInputreading( 1 + ( bank * LEGS_PER_DPOT_STYLE_BRIDGE ), MATCHING_TO_SIGNAL_LEG ) /*read it again*/ != TargetLevel ); //This would create an endless loop if the level is out of range
 
 /* This notion is for if a single reference bank leg of the first digipot bank suffices for the reference legs of all ADDON digipot banks to minimize parts count of multiple digipot bank systems.  Is not being pursued at this time....
     static uint8_t channel;
@@ -1392,30 +1452,30 @@ int MatchBridgeLegSignalToReference( uint8_t bank, bool JustQuery = false )
     uint16_t stepsize = 10;    
     uint16_t startpoint1;
     uint16_t startpoint2;
-    while( ( BestGuessAnalogInputreading( bank * LEGS_PER_DPOT_PRESENT_BRIDGE ) < BestGuessAnalogInputreading( 1 + ( bank * LEGS_PER_DPOT_PRESENT_BRIDGE ) ) + BIAS_IN_ANALOG_INPUT_BITS_TO_APPLY_TO_SIGNAL_LEG_TO_CENTER_THE_TRACE_BANK0 ) && ( stepsize > 0 ) )
+    while( ( BestGuessAnalogInputreading( bank * LEGS_PER_DPOT_STYLE_BRIDGE ) < BestGuessAnalogInputreading( 1 + ( bank * LEGS_PER_DPOT_STYLE_BRIDGE ) ) + BIAS_IN_ANALOG_INPUT_BITS_TO_APPLY_TO_SIGNAL_LEG_TO_CENTER_THE_TRACE_BANK0 ) && ( stepsize > 0 ) )
     {
-        while( BestGuessAnalogInputreading( bank * LEGS_PER_DPOT_PRESENT_BRIDGE ) < BestGuessAnalogInputreading( 1 + ( bank * LEGS_PER_DPOT_PRESENT_BRIDGE ) ) + BIAS_IN_ANALOG_INPUT_BITS_TO_APPLY_TO_SIGNAL_LEG_TO_CENTER_THE_TRACE_BANK0 )
+        while( BestGuessAnalogInputreading( bank * LEGS_PER_DPOT_STYLE_BRIDGE ) < BestGuessAnalogInputreading( 1 + ( bank * LEGS_PER_DPOT_STYLE_BRIDGE ) ) + BIAS_IN_ANALOG_INPUT_BITS_TO_APPLY_TO_SIGNAL_LEG_TO_CENTER_THE_TRACE_BANK0 )
         {
             startpoint1 = DPotSettings[ 0 + ( bank * DPOTS_PER_LM334_BRIDGE ) ];
             startpoint2 = DPotSettings[ 1 + ( bank * DPOTS_PER_LM334_BRIDGE ) ];
             //Decrease digipot values as long as they respond right
             if( ( DPotSettings[ 0 + ( bank * DPOTS_PER_LM334_BRIDGE ) ] <= stepsize - 1 ) && ( DPotSettings[ 1 + ( bank * DPOTS_PER_LM334_BRIDGE ) ] <= stepsize - 1 ) ) break;
-            if( DPotSettings[ 0 + ( bank * DPOTS_PER_LM334_BRIDGE ) ] > stepsize - 1 ) setPotValue( DPotPins[ 0 + ( bank * LEGS_PER_DPOT_PRESENT_BRIDGE ) ], DPotSettings[ 0 + ( bank * DPOTS_PER_LM334_BRIDGE ) ] - stepsize );
-            if( DPotSettings[ 1 + ( bank * DPOTS_PER_LM334_BRIDGE ) ] > stepsize - 1 ) setPotValue( DPotPins[ 1 + ( bank * LEGS_PER_DPOT_PRESENT_BRIDGE ) ], DPotSettings[ 1 + ( bank * DPOTS_PER_LM334_BRIDGE ) ] - stepsize );
-            BestGuessAnalogInputreading( bank * LEGS_PER_DPOT_PRESENT_BRIDGE );
+            if( DPotSettings[ 0 + ( bank * DPOTS_PER_LM334_BRIDGE ) ] > stepsize - 1 ) setPotValue( DPotPins[ 0 + ( bank * LEGS_PER_DPOT_STYLE_BRIDGE ) ], DPotSettings[ 0 + ( bank * DPOTS_PER_LM334_BRIDGE ) ] - stepsize );
+            if( DPotSettings[ 1 + ( bank * DPOTS_PER_LM334_BRIDGE ) ] > stepsize - 1 ) setPotValue( DPotPins[ 1 + ( bank * LEGS_PER_DPOT_STYLE_BRIDGE ) ], DPotSettings[ 1 + ( bank * DPOTS_PER_LM334_BRIDGE ) ] - stepsize );
+            BestGuessAnalogInputreading( bank * LEGS_PER_DPOT_STYLE_BRIDGE );
         }
-        setPotValue( DPotPins[ 0 + ( bank * LEGS_PER_DPOT_PRESENT_BRIDGE ) ], startpoint1 );
-        setPotValue( DPotPins[ 1 + ( bank * LEGS_PER_DPOT_PRESENT_BRIDGE ) ], startpoint2 );
+        setPotValue( DPotPins[ 0 + ( bank * LEGS_PER_DPOT_STYLE_BRIDGE ) ], startpoint1 );
+        setPotValue( DPotPins[ 1 + ( bank * LEGS_PER_DPOT_STYLE_BRIDGE ) ], startpoint2 );
         stepsize >>= 1;
     }
-//Converge on BestGuessAnalogInputreading( 1 + ( bank * LEGS_PER_DPOT_PRESENT_BRIDGE ) ) in smaller steps
-    while( BestGuessAnalogInputreading( bank * LEGS_PER_DPOT_PRESENT_BRIDGE ) < BestGuessAnalogInputreading( 1 + ( bank * LEGS_PER_DPOT_PRESENT_BRIDGE ) ) + BIAS_IN_ANALOG_INPUT_BITS_TO_APPLY_TO_SIGNAL_LEG_TO_CENTER_THE_TRACE_BANK0 )
+//Converge on BestGuessAnalogInputreading( 1 + ( bank * LEGS_PER_DPOT_STYLE_BRIDGE ) ) in smaller steps
+    while( BestGuessAnalogInputreading( bank * LEGS_PER_DPOT_STYLE_BRIDGE ) < BestGuessAnalogInputreading( 1 + ( bank * LEGS_PER_DPOT_STYLE_BRIDGE ) ) + BIAS_IN_ANALOG_INPUT_BITS_TO_APPLY_TO_SIGNAL_LEG_TO_CENTER_THE_TRACE_BANK0 )
     {
 #ifdef DEBUG
     while( !Serial ) ; 
     Serial.println( F( "Looping line 1202" ) );
 #endif
-        stepAdjustDigipotsForThisLeg( DPotPins[ 0 + ( bank * LEGS_PER_DPOT_PRESENT_BRIDGE ) ], &DPotSettings[ 0 + ( bank * DPOTS_PER_LM334_BRIDGE ) ], DPotPins[ 1 + ( bank * LEGS_PER_DPOT_PRESENT_BRIDGE ) ], &DPotSettings[ 1 + ( bank * DPOTS_PER_LM334_BRIDGE ) ],  DPotPins[ 2 + ( bank * LEGS_PER_DPOT_PRESENT_BRIDGE ) ], &DPotSettings[ 2 + ( bank * DPOTS_PER_LM334_BRIDGE ) ], false );
+        stepAdjustDigipotsForThisLeg( DPotPins[ 0 + ( bank * LEGS_PER_DPOT_STYLE_BRIDGE ) ], &DPotSettings[ 0 + ( bank * DPOTS_PER_LM334_BRIDGE ) ], DPotPins[ 1 + ( bank * LEGS_PER_DPOT_STYLE_BRIDGE ) ], &DPotSettings[ 1 + ( bank * DPOTS_PER_LM334_BRIDGE ) ],  DPotPins[ 2 + ( bank * LEGS_PER_DPOT_STYLE_BRIDGE ) ], &DPotSettings[ 2 + ( bank * DPOTS_PER_LM334_BRIDGE ) ], false );
 //        Serial.print( PLOTTER_MAX_SCALE );
 //        Serial.print( F( " " ) );
         ReadAndPlotFromAllADCsInAndOutboard( PLOTTER_MAX_SCALE, true ); // I would think the operator would appreciate seeing something like this during calibration
@@ -1426,13 +1486,13 @@ int MatchBridgeLegSignalToReference( uint8_t bank, bool JustQuery = false )
     while( !Serial ) ; 
     Serial.println( F( "Line 1213" ) );
 #endif
-    while( ( BestGuessAnalogInputreading( bank * LEGS_PER_DPOT_PRESENT_BRIDGE ) > BestGuessAnalogInputreading( 1 + ( bank * LEGS_PER_DPOT_PRESENT_BRIDGE ) ) + BIAS_IN_ANALOG_INPUT_BITS_TO_APPLY_TO_SIGNAL_LEG_TO_CENTER_THE_TRACE_BANK0 ) && ( stepsize > 0 ) )
+    while( ( BestGuessAnalogInputreading( bank * LEGS_PER_DPOT_STYLE_BRIDGE ) > BestGuessAnalogInputreading( 1 + ( bank * LEGS_PER_DPOT_STYLE_BRIDGE ) ) + BIAS_IN_ANALOG_INPUT_BITS_TO_APPLY_TO_SIGNAL_LEG_TO_CENTER_THE_TRACE_BANK0 ) && ( stepsize > 0 ) )
     {
 #ifdef DEBUG
     while( !Serial ) ; 
     Serial.println( F( "Line 1219" ) );
 #endif
-        while( BestGuessAnalogInputreading( bank * LEGS_PER_DPOT_PRESENT_BRIDGE ) > BestGuessAnalogInputreading( 1 + ( bank * LEGS_PER_DPOT_PRESENT_BRIDGE ) ) + BIAS_IN_ANALOG_INPUT_BITS_TO_APPLY_TO_SIGNAL_LEG_TO_CENTER_THE_TRACE_BANK0 )
+        while( BestGuessAnalogInputreading( bank * LEGS_PER_DPOT_STYLE_BRIDGE ) > BestGuessAnalogInputreading( 1 + ( bank * LEGS_PER_DPOT_STYLE_BRIDGE ) ) + BIAS_IN_ANALOG_INPUT_BITS_TO_APPLY_TO_SIGNAL_LEG_TO_CENTER_THE_TRACE_BANK0 )
         {
 #ifdef DEBUG
     while( !Serial ) ; 
@@ -1484,23 +1544,23 @@ Line 1356
             startpoint2 = DPotSettings[ 1 + ( bank * DPOTS_PER_LM334_BRIDGE ) ];
             //Decrease digipot values as long as they respond right
             if( ( DPotSettings[ 0 + ( bank * DPOTS_PER_LM334_BRIDGE ) ] <= stepsize - 1 ) && ( DPotSettings[ 1 + ( bank * DPOTS_PER_LM334_BRIDGE ) ] <= stepsize - 1 ) ) break;
-            setPotValue( DPotPins[ 0 + ( bank * LEGS_PER_DPOT_PRESENT_BRIDGE ) ], DPotSettings[ 0 + ( bank * DPOTS_PER_LM334_BRIDGE ) ] + stepsize );
-            setPotValue( DPotPins[ 1 + ( bank * LEGS_PER_DPOT_PRESENT_BRIDGE ) ], DPotSettings[ 1 + ( bank * DPOTS_PER_LM334_BRIDGE ) ] + stepsize );
-            BestGuessAnalogInputreading( bank * LEGS_PER_DPOT_PRESENT_BRIDGE );
+            setPotValue( DPotPins[ 0 + ( bank * LEGS_PER_DPOT_STYLE_BRIDGE ) ], DPotSettings[ 0 + ( bank * DPOTS_PER_LM334_BRIDGE ) ] + stepsize );
+            setPotValue( DPotPins[ 1 + ( bank * LEGS_PER_DPOT_STYLE_BRIDGE ) ], DPotSettings[ 1 + ( bank * DPOTS_PER_LM334_BRIDGE ) ] + stepsize );
+            BestGuessAnalogInputreading( bank * LEGS_PER_DPOT_STYLE_BRIDGE );
         }
-        setPotValue( DPotPins[ 0 + ( bank * LEGS_PER_DPOT_PRESENT_BRIDGE ) ], startpoint1 );
-        setPotValue( DPotPins[ 1 + ( bank * LEGS_PER_DPOT_PRESENT_BRIDGE ) ], startpoint2 );
+        setPotValue( DPotPins[ 0 + ( bank * LEGS_PER_DPOT_STYLE_BRIDGE ) ], startpoint1 );
+        setPotValue( DPotPins[ 1 + ( bank * LEGS_PER_DPOT_STYLE_BRIDGE ) ], startpoint2 );
         stepsize >>= 1;
     }
 
-//Converge on BestGuessAnalogInputreading( 1 + ( bank * LEGS_PER_DPOT_PRESENT_BRIDGE ) ) in smaller steps
-    while( BestGuessAnalogInputreading( bank * LEGS_PER_DPOT_PRESENT_BRIDGE ) > BestGuessAnalogInputreading( 1 + ( bank * LEGS_PER_DPOT_PRESENT_BRIDGE ) ) + BIAS_IN_ANALOG_INPUT_BITS_TO_APPLY_TO_SIGNAL_LEG_TO_CENTER_THE_TRACE_BANK0 )
+//Converge on BestGuessAnalogInputreading( 1 + ( bank * LEGS_PER_DPOT_STYLE_BRIDGE ) ) in smaller steps
+    while( BestGuessAnalogInputreading( bank * LEGS_PER_DPOT_STYLE_BRIDGE ) > BestGuessAnalogInputreading( 1 + ( bank * LEGS_PER_DPOT_STYLE_BRIDGE ) ) + BIAS_IN_ANALOG_INPUT_BITS_TO_APPLY_TO_SIGNAL_LEG_TO_CENTER_THE_TRACE_BANK0 )
     {
 #ifdef DEBUG
     while( !Serial ) ; 
     Serial.println( F( "Looping line 1287" ) );
 #endif
-        stepAdjustDigipotsForThisLeg( DPotPins[ 0 + ( bank * LEGS_PER_DPOT_PRESENT_BRIDGE ) ], &DPotSettings[ 0 + ( bank * DPOTS_PER_LM334_BRIDGE ) ], DPotPins[ 1 + ( bank * LEGS_PER_DPOT_PRESENT_BRIDGE ) ], &DPotSettings[ 1 + ( bank * DPOTS_PER_LM334_BRIDGE ) ],  DPotPins[ 2 + ( bank * LEGS_PER_DPOT_PRESENT_BRIDGE ) ], &DPotSettings[ 2 + ( bank * DPOTS_PER_LM334_BRIDGE ) ], true );
+        stepAdjustDigipotsForThisLeg( DPotPins[ 0 + ( bank * LEGS_PER_DPOT_STYLE_BRIDGE ) ], &DPotSettings[ 0 + ( bank * DPOTS_PER_LM334_BRIDGE ) ], DPotPins[ 1 + ( bank * LEGS_PER_DPOT_STYLE_BRIDGE ) ], &DPotSettings[ 1 + ( bank * DPOTS_PER_LM334_BRIDGE ) ],  DPotPins[ 2 + ( bank * LEGS_PER_DPOT_STYLE_BRIDGE ) ], &DPotSettings[ 2 + ( bank * DPOTS_PER_LM334_BRIDGE ) ], true );
 //        Serial.print( PLOTTER_MAX_SCALE );
 //        Serial.print( F( " " ) );
         ReadAndPlotFromAllADCsInAndOutboard( PLOTTER_MAX_SCALE, true ); // I would think the operator would appreciate seeing something like this during calibration
@@ -1509,33 +1569,33 @@ Line 1356
 //Converge by one or two consecutive readings
     do
     {
-        if( BestGuessAnalogInputreading( bank * LEGS_PER_DPOT_PRESENT_BRIDGE ) > BestGuessAnalogInputreading( 1 + ( bank * LEGS_PER_DPOT_PRESENT_BRIDGE ) ) + BIAS_IN_ANALOG_INPUT_BITS_TO_APPLY_TO_SIGNAL_LEG_TO_CENTER_THE_TRACE_BANK0 )
+        if( BestGuessAnalogInputreading( bank * LEGS_PER_DPOT_STYLE_BRIDGE ) > BestGuessAnalogInputreading( 1 + ( bank * LEGS_PER_DPOT_STYLE_BRIDGE ) ) + BIAS_IN_ANALOG_INPUT_BITS_TO_APPLY_TO_SIGNAL_LEG_TO_CENTER_THE_TRACE_BANK0 )
         {
 #ifdef DEBUG
     while( !Serial ) ; 
     Serial.println( F( "Looping line 1302" ) );
 #endif
-            stepAdjustDigipotsForThisLeg( DPotPins[ 0 + ( bank * LEGS_PER_DPOT_PRESENT_BRIDGE ) ], &DPotSettings[ 0 + ( bank * DPOTS_PER_LM334_BRIDGE ) ], DPotPins[ 1 + ( bank * LEGS_PER_DPOT_PRESENT_BRIDGE ) ], &DPotSettings[ 1 + ( bank * DPOTS_PER_LM334_BRIDGE ) ],  DPotPins[ 2 + ( bank * LEGS_PER_DPOT_PRESENT_BRIDGE ) ], &DPotSettings[ 2 + ( bank * DPOTS_PER_LM334_BRIDGE ) ], true );
+            stepAdjustDigipotsForThisLeg( DPotPins[ 0 + ( bank * LEGS_PER_DPOT_STYLE_BRIDGE ) ], &DPotSettings[ 0 + ( bank * DPOTS_PER_LM334_BRIDGE ) ], DPotPins[ 1 + ( bank * LEGS_PER_DPOT_STYLE_BRIDGE ) ], &DPotSettings[ 1 + ( bank * DPOTS_PER_LM334_BRIDGE ) ],  DPotPins[ 2 + ( bank * LEGS_PER_DPOT_STYLE_BRIDGE ) ], &DPotSettings[ 2 + ( bank * DPOTS_PER_LM334_BRIDGE ) ], true );
 //            Serial.print( PLOTTER_MAX_SCALE );
 //            Serial.print( F( " " ) );
             ReadAndPlotFromAllADCsInAndOutboard( PLOTTER_MAX_SCALE, true ); // I would think the operator would appreciate seeing something like this during calibration
 //            Serial.println();
         }
-        else if( BestGuessAnalogInputreading( bank * LEGS_PER_DPOT_PRESENT_BRIDGE ) /*read it again*/ < BestGuessAnalogInputreading( 1 + ( bank * LEGS_PER_DPOT_PRESENT_BRIDGE ) ) + BIAS_IN_ANALOG_INPUT_BITS_TO_APPLY_TO_SIGNAL_LEG_TO_CENTER_THE_TRACE_BANK0 )
+        else if( BestGuessAnalogInputreading( bank * LEGS_PER_DPOT_STYLE_BRIDGE ) /*read it again*/ < BestGuessAnalogInputreading( 1 + ( bank * LEGS_PER_DPOT_STYLE_BRIDGE ) ) + BIAS_IN_ANALOG_INPUT_BITS_TO_APPLY_TO_SIGNAL_LEG_TO_CENTER_THE_TRACE_BANK0 )
         {
 #ifdef DEBUG
     while( !Serial ) ; 
     Serial.println( F( "Looping line 1314" ) );
 #endif
-            stepAdjustDigipotsForThisLeg( DPotPins[ 0 + ( bank * LEGS_PER_DPOT_PRESENT_BRIDGE ) ], &DPotSettings[ 0 + ( bank * DPOTS_PER_LM334_BRIDGE ) ], DPotPins[ 1 + ( bank * LEGS_PER_DPOT_PRESENT_BRIDGE ) ], &DPotSettings[ 1 + ( bank * DPOTS_PER_LM334_BRIDGE ) ],  DPotPins[ 2 + ( bank * LEGS_PER_DPOT_PRESENT_BRIDGE ) ], &DPotSettings[ 2 + ( bank * DPOTS_PER_LM334_BRIDGE ) ], false );
+            stepAdjustDigipotsForThisLeg( DPotPins[ 0 + ( bank * LEGS_PER_DPOT_STYLE_BRIDGE ) ], &DPotSettings[ 0 + ( bank * DPOTS_PER_LM334_BRIDGE ) ], DPotPins[ 1 + ( bank * LEGS_PER_DPOT_STYLE_BRIDGE ) ], &DPotSettings[ 1 + ( bank * DPOTS_PER_LM334_BRIDGE ) ],  DPotPins[ 2 + ( bank * LEGS_PER_DPOT_STYLE_BRIDGE ) ], &DPotSettings[ 2 + ( bank * DPOTS_PER_LM334_BRIDGE ) ], false );
 //            Serial.print( PLOTTER_MAX_SCALE );
 //            Serial.print( F( " " ) );
             ReadAndPlotFromAllADCsInAndOutboard( PLOTTER_MAX_SCALE, true ); // I would think the operator would appreciate seeing something like this during calibration
 //            Serial.println();
         }
-        if( BestGuessAnalogInputreading( bank * LEGS_PER_DPOT_PRESENT_BRIDGE ) /*read it again*/ != BestGuessAnalogInputreading( 1 + ( bank * LEGS_PER_DPOT_PRESENT_BRIDGE ) ) + BIAS_IN_ANALOG_INPUT_BITS_TO_APPLY_TO_SIGNAL_LEG_TO_CENTER_THE_TRACE_BANK0 ) continue;
+        if( BestGuessAnalogInputreading( bank * LEGS_PER_DPOT_STYLE_BRIDGE ) /*read it again*/ != BestGuessAnalogInputreading( 1 + ( bank * LEGS_PER_DPOT_STYLE_BRIDGE ) ) + BIAS_IN_ANALOG_INPUT_BITS_TO_APPLY_TO_SIGNAL_LEG_TO_CENTER_THE_TRACE_BANK0 ) continue;
         
-    }while( BestGuessAnalogInputreading( bank * LEGS_PER_DPOT_PRESENT_BRIDGE ) /*read it again*/ != BestGuessAnalogInputreading( 1 + ( bank * LEGS_PER_DPOT_PRESENT_BRIDGE ) ) + BIAS_IN_ANALOG_INPUT_BITS_TO_APPLY_TO_SIGNAL_LEG_TO_CENTER_THE_TRACE_BANK0 );
+    }while( BestGuessAnalogInputreading( bank * LEGS_PER_DPOT_STYLE_BRIDGE ) /*read it again*/ != BestGuessAnalogInputreading( 1 + ( bank * LEGS_PER_DPOT_STYLE_BRIDGE ) ) + BIAS_IN_ANALOG_INPUT_BITS_TO_APPLY_TO_SIGNAL_LEG_TO_CENTER_THE_TRACE_BANK0 );
 #ifdef DEBUG
     while( !Serial );
     Serial.println( F( "Line 1327" ) );
@@ -1561,7 +1621,7 @@ Line 1356
     Serial.print( F( ", ADDITIONAL_BIAS_IN_LSB_DPOT_SETTING_POSITION_TO_APPLY_TO_SIGNAL_TRACE_BANK0=" ) );
     Serial.println( ADDITIONAL_BIAS_IN_LSB_DPOT_SETTING_POSITION_TO_APPLY_TO_SIGNAL_TRACE_BANK0 );
 #endif
-            stepAdjustDigipotsForThisLeg( DPotPins[ 0 + ( bank * LEGS_PER_DPOT_PRESENT_BRIDGE ) ], &DPotSettings[ 0 + ( bank * DPOTS_PER_LM334_BRIDGE ) ], DPotPins[ 1 + ( bank * LEGS_PER_DPOT_PRESENT_BRIDGE ) ], &DPotSettings[ 1 + ( bank * DPOTS_PER_LM334_BRIDGE ) ],  DPotPins[ 2 + ( bank * LEGS_PER_DPOT_PRESENT_BRIDGE ) ], &DPotSettings[ 2 + ( bank * DPOTS_PER_LM334_BRIDGE ) ], ADDITIONAL_BIAS_IN_LSB_DPOT_SETTING_POSITION_TO_APPLY_TO_SIGNAL_TRACE_BANK0 > 0 ? false : true  );
+            stepAdjustDigipotsForThisLeg( DPotPins[ 0 + ( bank * LEGS_PER_DPOT_STYLE_BRIDGE ) ], &DPotSettings[ 0 + ( bank * DPOTS_PER_LM334_BRIDGE ) ], DPotPins[ 1 + ( bank * LEGS_PER_DPOT_STYLE_BRIDGE ) ], &DPotSettings[ 1 + ( bank * DPOTS_PER_LM334_BRIDGE ) ],  DPotPins[ 2 + ( bank * LEGS_PER_DPOT_STYLE_BRIDGE ) ], &DPotSettings[ 2 + ( bank * DPOTS_PER_LM334_BRIDGE ) ], ADDITIONAL_BIAS_IN_LSB_DPOT_SETTING_POSITION_TO_APPLY_TO_SIGNAL_TRACE_BANK0 > 0 ? false : true  );
 //            Serial.print( PLOTTER_MAX_SCALE );
 //            Serial.print( F( " " ) );
             ReadAndPlotFromAllADCsInAndOutboard( PLOTTER_MAX_SCALE, true ); // I would think the operator would appreciate seeing something like this during calibration
@@ -1580,24 +1640,24 @@ Line 1356
 //    bool stepAdjustDigipotsForThisLeg( uint8_t MSBpotPin, uint16_t* MSBpotValue, uint8_t MIDpotPin, uint16_t* MIDpotValue, uint8_t LSBpotPin, uint16_t* LSBpotValue, bool PosOrNeg = true ) //default direction will be positive
     //see what ADDON ADC affiliated with this bank reads avg
 #ifdef MAGNIFICATION_FACTOR
-    while( LastPlotPoints[ bank * LEGS_PER_DPOT_PRESENT_BRIDGE ] < 0 )// + LinespaceParameters[ channel ].ZeroOfThisPlotLinespace;
+    while( LastPlotPoints[ bank * LEGS_PER_DPOT_STYLE_BRIDGE ] < 0 )// + LinespaceParameters[ channel ].ZeroOfThisPlotLinespace;
 #else
     while( LastPlotPoints[ bank ] < 0 )// + LinespaceParameters[ channel ].ZeroOfThisPlotLinespace;
 #endif
     {//reading is too high, lower the leg
-        if( stepAdjustDigipotsForThisLeg( *( AnalogPinArray + 0 + ( bank * LEGS_PER_DPOT_PRESENT_BRIDGE ) ), &DPotSettings[ 0 + ( bank * DPOTS_PER_LM334_BRIDGE ) ], *( AnalogPinArray + 1 + ( bank * LEGS_PER_DPOT_PRESENT_BRIDGE ) ), &DPotSettings[ 1 + ( bank * DPOTS_PER_LM334_BRIDGE ) ], *( AnalogPinArray + 2 + ( bank * LEGS_PER_DPOT_PRESENT_BRIDGE ) ), &DPotSettings[ 2 + ( bank * DPOTS_PER_LM334_BRIDGE ) ], false ) == false ) break;
+        if( stepAdjustDigipotsForThisLeg( *( AnalogPinArray + 0 + ( bank * LEGS_PER_DPOT_STYLE_BRIDGE ) ), &DPotSettings[ 0 + ( bank * DPOTS_PER_LM334_BRIDGE ) ], *( AnalogPinArray + 1 + ( bank * LEGS_PER_DPOT_STYLE_BRIDGE ) ), &DPotSettings[ 1 + ( bank * DPOTS_PER_LM334_BRIDGE ) ], *( AnalogPinArray + 2 + ( bank * LEGS_PER_DPOT_STYLE_BRIDGE ) ), &DPotSettings[ 2 + ( bank * DPOTS_PER_LM334_BRIDGE ) ], false ) == false ) break;
 //        Serial.print( PLOTTER_MAX_SCALE );
 //        Serial.print( F( " " ) );
         ReadAndPlotFromAllADCsInAndOutboard( PLOTTER_MAX_SCALE, true ); // I would think the operator would appreciate seeing something like this during calibration
 //        Serial.println();
     }
 #ifdef MAGNIFICATION_FACTOR
-     while( LastPlotPoints[ bank * LEGS_PER_DPOT_PRESENT_BRIDGE ] > 0 )// + LinespaceParameters[ channel ].ZeroOfThisPlotLinespace;
+     while( LastPlotPoints[ bank * LEGS_PER_DPOT_STYLE_BRIDGE ] > 0 )// + LinespaceParameters[ channel ].ZeroOfThisPlotLinespace;
 #else
     while( LastPlotPoints[ bank ] > 0 )// + LinespaceParameters[ channel ].ZeroOfThisPlotLinespace;
 #endif
     {//reading is too low, raise the leg
-        if( stepAdjustDigipotsForThisLeg( *( AnalogPinArray + 0 + ( bank * LEGS_PER_DPOT_PRESENT_BRIDGE ) ), &DPotSettings[ 0 + ( bank * DPOTS_PER_LM334_BRIDGE ) ], *( AnalogPinArray + 1 + ( bank * LEGS_PER_DPOT_PRESENT_BRIDGE ) ), &DPotSettings[ 1 + ( bank * DPOTS_PER_LM334_BRIDGE ) ], *( AnalogPinArray + 2 + ( bank * LEGS_PER_DPOT_PRESENT_BRIDGE ) ), &DPotSettings[ 2 + ( bank * DPOTS_PER_LM334_BRIDGE ) ], true ) == false ) break;
+        if( stepAdjustDigipotsForThisLeg( *( AnalogPinArray + 0 + ( bank * LEGS_PER_DPOT_STYLE_BRIDGE ) ), &DPotSettings[ 0 + ( bank * DPOTS_PER_LM334_BRIDGE ) ], *( AnalogPinArray + 1 + ( bank * LEGS_PER_DPOT_STYLE_BRIDGE ) ), &DPotSettings[ 1 + ( bank * DPOTS_PER_LM334_BRIDGE ) ], *( AnalogPinArray + 2 + ( bank * LEGS_PER_DPOT_STYLE_BRIDGE ) ), &DPotSettings[ 2 + ( bank * DPOTS_PER_LM334_BRIDGE ) ], true ) == false ) break;
 //        Serial.print( PLOTTER_MAX_SCALE );
 //        Serial.print( F( " " ) );
         ReadAndPlotFromAllADCsInAndOutboard( PLOTTER_MAX_SCALE, true ); // I would think the operator would appreciate seeing something like this during calibration
@@ -1614,61 +1674,61 @@ void SetBridgeLegSignalInput( uint8_t bank )
     uint16_t stepsize = 10;    
     uint16_t startpoint1;
     uint16_t startpoint2;
-    while( ( BestGuessAnalogInputreading( bank * LEGS_PER_DPOT_PRESENT_BRIDGE ) < COMMON_MODE_LEVEL_FOR_MAX_GAIN_AS_READ_RAW_BY_INBOARD_ANALOG + BIAS_IN_ANALOG_INPUT_BITS_TO_APPLY_TO_SIGNAL_LEG_TO_CENTER_THE_TRACE_BANK0 ) && ( stepsize > 0 ) )
+    while( ( BestGuessAnalogInputreading( bank * LEGS_PER_DPOT_STYLE_BRIDGE ) < COMMON_MODE_LEVEL_FOR_MAX_GAIN_AS_READ_RAW_BY_INBOARD_ANALOG + BIAS_IN_ANALOG_INPUT_BITS_TO_APPLY_TO_SIGNAL_LEG_TO_CENTER_THE_TRACE_BANK0 ) && ( stepsize > 0 ) )
     {
-        while( BestGuessAnalogInputreading( bank * LEGS_PER_DPOT_PRESENT_BRIDGE ) < COMMON_MODE_LEVEL_FOR_MAX_GAIN_AS_READ_RAW_BY_INBOARD_ANALOG + BIAS_IN_ANALOG_INPUT_BITS_TO_APPLY_TO_SIGNAL_LEG_TO_CENTER_THE_TRACE_BANK0 )
+        while( BestGuessAnalogInputreading( bank * LEGS_PER_DPOT_STYLE_BRIDGE ) < COMMON_MODE_LEVEL_FOR_MAX_GAIN_AS_READ_RAW_BY_INBOARD_ANALOG + BIAS_IN_ANALOG_INPUT_BITS_TO_APPLY_TO_SIGNAL_LEG_TO_CENTER_THE_TRACE_BANK0 )
         {
             startpoint1 = DPotSettings[ 0 + ( bank * DPOTS_PER_LM334_BRIDGE ) ];
             startpoint2 = DPotSettings[ 1 + ( bank * DPOTS_PER_LM334_BRIDGE ) ];
             //Decrease digipot values as long as they respond right
             if( ( DPotSettings[ 0 + ( bank * DPOTS_PER_LM334_BRIDGE ) ] <= stepsize - 1 ) && ( DPotSettings[ 1 + ( bank * DPOTS_PER_LM334_BRIDGE ) ] <= stepsize - 1 ) ) break;
-            if( DPotSettings[ 0 + ( bank * DPOTS_PER_LM334_BRIDGE ) ] > stepsize - 1 ) setPotValue( DPotPins[ 0 + ( bank * LEGS_PER_DPOT_PRESENT_BRIDGE ) ], DPotSettings[ 0 + ( bank * DPOTS_PER_LM334_BRIDGE ) ] - stepsize );
-            if( DPotSettings[ 1 + ( bank * DPOTS_PER_LM334_BRIDGE ) ] > stepsize - 1 ) setPotValue( DPotPins[ 1 + ( bank * LEGS_PER_DPOT_PRESENT_BRIDGE ) ], DPotSettings[ 1 + ( bank * DPOTS_PER_LM334_BRIDGE ) ] - stepsize );
-            BestGuessAnalogInputreading( bank * LEGS_PER_DPOT_PRESENT_BRIDGE );
+            if( DPotSettings[ 0 + ( bank * DPOTS_PER_LM334_BRIDGE ) ] > stepsize - 1 ) setPotValue( DPotPins[ 0 + ( bank * LEGS_PER_DPOT_STYLE_BRIDGE ) ], DPotSettings[ 0 + ( bank * DPOTS_PER_LM334_BRIDGE ) ] - stepsize );
+            if( DPotSettings[ 1 + ( bank * DPOTS_PER_LM334_BRIDGE ) ] > stepsize - 1 ) setPotValue( DPotPins[ 1 + ( bank * LEGS_PER_DPOT_STYLE_BRIDGE ) ], DPotSettings[ 1 + ( bank * DPOTS_PER_LM334_BRIDGE ) ] - stepsize );
+            BestGuessAnalogInputreading( bank * LEGS_PER_DPOT_STYLE_BRIDGE );
         }
-        setPotValue( DPotPins[ 0 + ( bank * LEGS_PER_DPOT_PRESENT_BRIDGE ) ], startpoint1 );
-        setPotValue( DPotPins[ 1 + ( bank * LEGS_PER_DPOT_PRESENT_BRIDGE ) ], startpoint2 );
+        setPotValue( DPotPins[ 0 + ( bank * LEGS_PER_DPOT_STYLE_BRIDGE ) ], startpoint1 );
+        setPotValue( DPotPins[ 1 + ( bank * LEGS_PER_DPOT_STYLE_BRIDGE ) ], startpoint2 );
         stepsize >>= 1;
     }
 //Converge on COMMON_MODE_LEVEL_FOR_MAX_GAIN_AS_READ_RAW_BY_INBOARD_ANALOG in smaller steps
-    while( BestGuessAnalogInputreading( bank * LEGS_PER_DPOT_PRESENT_BRIDGE ) < COMMON_MODE_LEVEL_FOR_MAX_GAIN_AS_READ_RAW_BY_INBOARD_ANALOG + BIAS_IN_ANALOG_INPUT_BITS_TO_APPLY_TO_SIGNAL_LEG_TO_CENTER_THE_TRACE_BANK0 )
+    while( BestGuessAnalogInputreading( bank * LEGS_PER_DPOT_STYLE_BRIDGE ) < COMMON_MODE_LEVEL_FOR_MAX_GAIN_AS_READ_RAW_BY_INBOARD_ANALOG + BIAS_IN_ANALOG_INPUT_BITS_TO_APPLY_TO_SIGNAL_LEG_TO_CENTER_THE_TRACE_BANK0 )
     {
 #ifdef DEBUG
     while( !Serial ) ; 
     Serial.println( F( "Looping line 1275" ) );
 #endif
-        stepAdjustDigipotsForThisLeg( DPotPins[ 0 + ( bank * LEGS_PER_DPOT_PRESENT_BRIDGE ) ], &DPotSettings[ 0 + ( bank * DPOTS_PER_LM334_BRIDGE ) ], DPotPins[ 1 + ( bank * LEGS_PER_DPOT_PRESENT_BRIDGE ) ], &DPotSettings[ 1 + ( bank * DPOTS_PER_LM334_BRIDGE ) ],  DPotPins[ 2 + ( bank * LEGS_PER_DPOT_PRESENT_BRIDGE ) ], &DPotSettings[ 2 + ( bank * DPOTS_PER_LM334_BRIDGE ) ], false );
+        stepAdjustDigipotsForThisLeg( DPotPins[ 0 + ( bank * LEGS_PER_DPOT_STYLE_BRIDGE ) ], &DPotSettings[ 0 + ( bank * DPOTS_PER_LM334_BRIDGE ) ], DPotPins[ 1 + ( bank * LEGS_PER_DPOT_STYLE_BRIDGE ) ], &DPotSettings[ 1 + ( bank * DPOTS_PER_LM334_BRIDGE ) ],  DPotPins[ 2 + ( bank * LEGS_PER_DPOT_STYLE_BRIDGE ) ], &DPotSettings[ 2 + ( bank * DPOTS_PER_LM334_BRIDGE ) ], false );
 //        Serial.print( PLOTTER_MAX_SCALE );
 //        Serial.print( F( " " ) );
         ReadAndPlotFromAllADCsInAndOutboard( PLOTTER_MAX_SCALE, true ); // I would think the operator would appreciate seeing something like this during calibration
 //        Serial.println();
     }
     stepsize = 10;
-    while( ( BestGuessAnalogInputreading( bank * LEGS_PER_DPOT_PRESENT_BRIDGE ) > COMMON_MODE_LEVEL_FOR_MAX_GAIN_AS_READ_RAW_BY_INBOARD_ANALOG + BIAS_IN_ANALOG_INPUT_BITS_TO_APPLY_TO_SIGNAL_LEG_TO_CENTER_THE_TRACE_BANK0 ) && ( stepsize > 0 ) )
+    while( ( BestGuessAnalogInputreading( bank * LEGS_PER_DPOT_STYLE_BRIDGE ) > COMMON_MODE_LEVEL_FOR_MAX_GAIN_AS_READ_RAW_BY_INBOARD_ANALOG + BIAS_IN_ANALOG_INPUT_BITS_TO_APPLY_TO_SIGNAL_LEG_TO_CENTER_THE_TRACE_BANK0 ) && ( stepsize > 0 ) )
     {
-        while( BestGuessAnalogInputreading( bank * LEGS_PER_DPOT_PRESENT_BRIDGE ) > COMMON_MODE_LEVEL_FOR_MAX_GAIN_AS_READ_RAW_BY_INBOARD_ANALOG + BIAS_IN_ANALOG_INPUT_BITS_TO_APPLY_TO_SIGNAL_LEG_TO_CENTER_THE_TRACE_BANK0 )
+        while( BestGuessAnalogInputreading( bank * LEGS_PER_DPOT_STYLE_BRIDGE ) > COMMON_MODE_LEVEL_FOR_MAX_GAIN_AS_READ_RAW_BY_INBOARD_ANALOG + BIAS_IN_ANALOG_INPUT_BITS_TO_APPLY_TO_SIGNAL_LEG_TO_CENTER_THE_TRACE_BANK0 )
         {
             startpoint1 = DPotSettings[ 0 + ( bank * DPOTS_PER_LM334_BRIDGE ) ];
             startpoint2 = DPotSettings[ 1 + ( bank * DPOTS_PER_LM334_BRIDGE ) ];
             //Decrease digipot values as long as they respond right
             if( ( DPotSettings[ 0 + ( bank * DPOTS_PER_LM334_BRIDGE ) ] <= stepsize - 1 ) && ( DPotSettings[ 1 + ( bank * DPOTS_PER_LM334_BRIDGE ) ] <= stepsize - 1 ) ) break;
-            setPotValue( DPotPins[ 0 + ( bank * LEGS_PER_DPOT_PRESENT_BRIDGE ) ], DPotSettings[ 0 + ( bank * DPOTS_PER_LM334_BRIDGE ) ] + stepsize );
-            setPotValue( DPotPins[ 1 + ( bank * LEGS_PER_DPOT_PRESENT_BRIDGE ) ], DPotSettings[ 1 + ( bank * DPOTS_PER_LM334_BRIDGE ) ] + stepsize );
-            BestGuessAnalogInputreading( bank * LEGS_PER_DPOT_PRESENT_BRIDGE );
+            setPotValue( DPotPins[ 0 + ( bank * LEGS_PER_DPOT_STYLE_BRIDGE ) ], DPotSettings[ 0 + ( bank * DPOTS_PER_LM334_BRIDGE ) ] + stepsize );
+            setPotValue( DPotPins[ 1 + ( bank * LEGS_PER_DPOT_STYLE_BRIDGE ) ], DPotSettings[ 1 + ( bank * DPOTS_PER_LM334_BRIDGE ) ] + stepsize );
+            BestGuessAnalogInputreading( bank * LEGS_PER_DPOT_STYLE_BRIDGE );
         }
-        setPotValue( DPotPins[ 0 + ( bank * LEGS_PER_DPOT_PRESENT_BRIDGE ) ], startpoint1 );
-        setPotValue( DPotPins[ 1 + ( bank * LEGS_PER_DPOT_PRESENT_BRIDGE ) ], startpoint2 );
+        setPotValue( DPotPins[ 0 + ( bank * LEGS_PER_DPOT_STYLE_BRIDGE ) ], startpoint1 );
+        setPotValue( DPotPins[ 1 + ( bank * LEGS_PER_DPOT_STYLE_BRIDGE ) ], startpoint2 );
         stepsize >>= 1;
     }
 
 //Converge on COMMON_MODE_LEVEL_FOR_MAX_GAIN_AS_READ_RAW_BY_INBOARD_ANALOG in smaller steps
-    while( BestGuessAnalogInputreading( bank * LEGS_PER_DPOT_PRESENT_BRIDGE ) > COMMON_MODE_LEVEL_FOR_MAX_GAIN_AS_READ_RAW_BY_INBOARD_ANALOG + BIAS_IN_ANALOG_INPUT_BITS_TO_APPLY_TO_SIGNAL_LEG_TO_CENTER_THE_TRACE_BANK0 )
+    while( BestGuessAnalogInputreading( bank * LEGS_PER_DPOT_STYLE_BRIDGE ) > COMMON_MODE_LEVEL_FOR_MAX_GAIN_AS_READ_RAW_BY_INBOARD_ANALOG + BIAS_IN_ANALOG_INPUT_BITS_TO_APPLY_TO_SIGNAL_LEG_TO_CENTER_THE_TRACE_BANK0 )
     {
 #ifdef DEBUG
     while( !Serial ) ; 
     Serial.println( F( "Looping line 1302" ) );
 #endif
-        stepAdjustDigipotsForThisLeg( DPotPins[ 0 + ( bank * LEGS_PER_DPOT_PRESENT_BRIDGE ) ], &DPotSettings[ 0 + ( bank * DPOTS_PER_LM334_BRIDGE ) ], DPotPins[ 1 + ( bank * LEGS_PER_DPOT_PRESENT_BRIDGE ) ], &DPotSettings[ 1 + ( bank * DPOTS_PER_LM334_BRIDGE ) ],  DPotPins[ 2 + ( bank * LEGS_PER_DPOT_PRESENT_BRIDGE ) ], &DPotSettings[ 2 + ( bank * DPOTS_PER_LM334_BRIDGE ) ], true );
+        stepAdjustDigipotsForThisLeg( DPotPins[ 0 + ( bank * LEGS_PER_DPOT_STYLE_BRIDGE ) ], &DPotSettings[ 0 + ( bank * DPOTS_PER_LM334_BRIDGE ) ], DPotPins[ 1 + ( bank * LEGS_PER_DPOT_STYLE_BRIDGE ) ], &DPotSettings[ 1 + ( bank * DPOTS_PER_LM334_BRIDGE ) ],  DPotPins[ 2 + ( bank * LEGS_PER_DPOT_STYLE_BRIDGE ) ], &DPotSettings[ 2 + ( bank * DPOTS_PER_LM334_BRIDGE ) ], true );
 //        Serial.print( PLOTTER_MAX_SCALE );
 //        Serial.print( F( " " ) );
         ReadAndPlotFromAllADCsInAndOutboard( PLOTTER_MAX_SCALE, true ); // I would think the operator would appreciate seeing something like this during calibration
@@ -1677,33 +1737,33 @@ void SetBridgeLegSignalInput( uint8_t bank )
 //Converge by one or two consecutive readings
     do
     {
-        if( BestGuessAnalogInputreading( bank * LEGS_PER_DPOT_PRESENT_BRIDGE ) > COMMON_MODE_LEVEL_FOR_MAX_GAIN_AS_READ_RAW_BY_INBOARD_ANALOG + BIAS_IN_ANALOG_INPUT_BITS_TO_APPLY_TO_SIGNAL_LEG_TO_CENTER_THE_TRACE_BANK0 )
+        if( BestGuessAnalogInputreading( bank * LEGS_PER_DPOT_STYLE_BRIDGE ) > COMMON_MODE_LEVEL_FOR_MAX_GAIN_AS_READ_RAW_BY_INBOARD_ANALOG + BIAS_IN_ANALOG_INPUT_BITS_TO_APPLY_TO_SIGNAL_LEG_TO_CENTER_THE_TRACE_BANK0 )
         {
 #ifdef DEBUG
     while( !Serial ) ; 
     Serial.println( F( "Looping line 1313" ) );
 #endif
-            stepAdjustDigipotsForThisLeg( DPotPins[ 0 + ( bank * LEGS_PER_DPOT_PRESENT_BRIDGE ) ], &DPotSettings[ 0 + ( bank * DPOTS_PER_LM334_BRIDGE ) ], DPotPins[ 1 + ( bank * LEGS_PER_DPOT_PRESENT_BRIDGE ) ], &DPotSettings[ 1 + ( bank * DPOTS_PER_LM334_BRIDGE ) ],  DPotPins[ 2 + ( bank * LEGS_PER_DPOT_PRESENT_BRIDGE ) ], &DPotSettings[ 2 + ( bank * DPOTS_PER_LM334_BRIDGE ) ], true );
+            stepAdjustDigipotsForThisLeg( DPotPins[ 0 + ( bank * LEGS_PER_DPOT_STYLE_BRIDGE ) ], &DPotSettings[ 0 + ( bank * DPOTS_PER_LM334_BRIDGE ) ], DPotPins[ 1 + ( bank * LEGS_PER_DPOT_STYLE_BRIDGE ) ], &DPotSettings[ 1 + ( bank * DPOTS_PER_LM334_BRIDGE ) ],  DPotPins[ 2 + ( bank * LEGS_PER_DPOT_STYLE_BRIDGE ) ], &DPotSettings[ 2 + ( bank * DPOTS_PER_LM334_BRIDGE ) ], true );
 //            Serial.print( PLOTTER_MAX_SCALE );
 //            Serial.print( F( " " ) );
             ReadAndPlotFromAllADCsInAndOutboard( PLOTTER_MAX_SCALE, true ); // I would think the operator would appreciate seeing something like this during calibration
 //            Serial.println();
         }
-        else if( BestGuessAnalogInputreading( bank * LEGS_PER_DPOT_PRESENT_BRIDGE ) /*read it again*/ < COMMON_MODE_LEVEL_FOR_MAX_GAIN_AS_READ_RAW_BY_INBOARD_ANALOG + BIAS_IN_ANALOG_INPUT_BITS_TO_APPLY_TO_SIGNAL_LEG_TO_CENTER_THE_TRACE_BANK0 )
+        else if( BestGuessAnalogInputreading( bank * LEGS_PER_DPOT_STYLE_BRIDGE ) /*read it again*/ < COMMON_MODE_LEVEL_FOR_MAX_GAIN_AS_READ_RAW_BY_INBOARD_ANALOG + BIAS_IN_ANALOG_INPUT_BITS_TO_APPLY_TO_SIGNAL_LEG_TO_CENTER_THE_TRACE_BANK0 )
         {
 #ifdef DEBUG
     while( !Serial ) ; 
     Serial.println( F( "Looping line 1321" ) );
 #endif
-            stepAdjustDigipotsForThisLeg( DPotPins[ 0 + ( bank * LEGS_PER_DPOT_PRESENT_BRIDGE ) ], &DPotSettings[ 0 + ( bank * DPOTS_PER_LM334_BRIDGE ) ], DPotPins[ 1 + ( bank * LEGS_PER_DPOT_PRESENT_BRIDGE ) ], &DPotSettings[ 1 + ( bank * DPOTS_PER_LM334_BRIDGE ) ],  DPotPins[ 2 + ( bank * LEGS_PER_DPOT_PRESENT_BRIDGE ) ], &DPotSettings[ 2 + ( bank * DPOTS_PER_LM334_BRIDGE ) ], false );
+            stepAdjustDigipotsForThisLeg( DPotPins[ 0 + ( bank * LEGS_PER_DPOT_STYLE_BRIDGE ) ], &DPotSettings[ 0 + ( bank * DPOTS_PER_LM334_BRIDGE ) ], DPotPins[ 1 + ( bank * LEGS_PER_DPOT_STYLE_BRIDGE ) ], &DPotSettings[ 1 + ( bank * DPOTS_PER_LM334_BRIDGE ) ],  DPotPins[ 2 + ( bank * LEGS_PER_DPOT_STYLE_BRIDGE ) ], &DPotSettings[ 2 + ( bank * DPOTS_PER_LM334_BRIDGE ) ], false );
 //            Serial.print( PLOTTER_MAX_SCALE );
 //            Serial.print( F( " " ) );
             ReadAndPlotFromAllADCsInAndOutboard( PLOTTER_MAX_SCALE, true ); // I would think the operator would appreciate seeing something like this during calibration
 //            Serial.println();
         }
-        if( BestGuessAnalogInputreading( bank * LEGS_PER_DPOT_PRESENT_BRIDGE ) /*read it again*/ != COMMON_MODE_LEVEL_FOR_MAX_GAIN_AS_READ_RAW_BY_INBOARD_ANALOG + BIAS_IN_ANALOG_INPUT_BITS_TO_APPLY_TO_SIGNAL_LEG_TO_CENTER_THE_TRACE_BANK0 ) continue;
+        if( BestGuessAnalogInputreading( bank * LEGS_PER_DPOT_STYLE_BRIDGE ) /*read it again*/ != COMMON_MODE_LEVEL_FOR_MAX_GAIN_AS_READ_RAW_BY_INBOARD_ANALOG + BIAS_IN_ANALOG_INPUT_BITS_TO_APPLY_TO_SIGNAL_LEG_TO_CENTER_THE_TRACE_BANK0 ) continue;
         
-    }while( BestGuessAnalogInputreading( bank * LEGS_PER_DPOT_PRESENT_BRIDGE ) /*read it again*/ != COMMON_MODE_LEVEL_FOR_MAX_GAIN_AS_READ_RAW_BY_INBOARD_ANALOG + BIAS_IN_ANALOG_INPUT_BITS_TO_APPLY_TO_SIGNAL_LEG_TO_CENTER_THE_TRACE_BANK0 );
+    }while( BestGuessAnalogInputreading( bank * LEGS_PER_DPOT_STYLE_BRIDGE ) /*read it again*/ != COMMON_MODE_LEVEL_FOR_MAX_GAIN_AS_READ_RAW_BY_INBOARD_ANALOG + BIAS_IN_ANALOG_INPUT_BITS_TO_APPLY_TO_SIGNAL_LEG_TO_CENTER_THE_TRACE_BANK0 );
 }
 #endif
 
@@ -1712,8 +1772,8 @@ static uint32_t TracespaceToSkipWhenRepositioning, NegativeTracespaceToSkipWhenR
 #if ( NUM_OF_INBOARDS_PLOTTED > 0 )
     linespace_bounds_magnify_trace_offsets_and_previous_readings LinespaceParametersInboard[ NUM_OF_INBOARDS_PLOTTED ];
 #endif
-#if defined LM334_BRIDGES && defined SUPERIMPOSE_FIRST_INBOARDS_IN_PAIRS && ( NUM_OF_INBOARDS_PLOTTED < LM334_BRIDGES * LEGS_PER_DPOT_PRESENT_BRIDGE )
-    previous_readings_only DigipotLeg[ ( LM334_BRIDGES * LEGS_PER_DPOT_PRESENT_BRIDGE ) - NUM_OF_INBOARDS_PLOTTED ];
+#if defined LM334_BRIDGES && defined SUPERIMPOSE_FIRST_INBOARDS_IN_PAIRS && ( NUM_OF_INBOARDS_PLOTTED < LM334_BRIDGES * LEGS_PER_DPOT_STYLE_BRIDGE )
+    previous_readings_only DigipotLeg[ ( LM334_BRIDGES * LEGS_PER_DPOT_STYLE_BRIDGE ) - NUM_OF_INBOARDS_PLOTTED ];
 #endif
 #if ( NUM_OF_OUTBOARDS_PLOTTED > 0 )
     linespace_bounds_magnify_trace_offsets_and_previous_readings LinespaceParametersOutboard[ NUM_OF_OUTBOARDS_PLOTTED ];
@@ -1724,7 +1784,7 @@ How are LastSignalPinPlotPoint and PreviousUnmagnifiedReading differently used?
 LinespaceParameters[ MasterReadingsArray[ MasterReadingsArrayIndex ].IndexInLinespaceParametersArray ].LastSignalPinPlotPoint = MasterReadingsArray[ MasterReadingsArrayIndex ].CurrentUnmagnifiedReading;
 
 */
-void PlotTheNormalAndMagnifiedSignals( uint8_t MasterReadingsArrayIndex ) //Two indices per every non-magnified trace ifdef MAGNIFICATION_FACTOR, otherwise one per 
+void PlotTheNormalAndMagnifiedSignals( uint8_t MasterReadingsArrayIndex ) //LinespaceParameters[] has Two indices/elements per every non-magnified trace ifdef MAGNIFICATION_FACTOR, otherwise one per 
 {
 #ifdef DEBUG
     while( !Serial );
@@ -1733,8 +1793,13 @@ void PlotTheNormalAndMagnifiedSignals( uint8_t MasterReadingsArrayIndex ) //Two 
 #endif
     while ( !Serial ); // wait for serial port to connect. Needed for Leonardo's native USB
     Serial.print( F( " unmagnified value: " ) );
-    if( ( MasterReadingsArrayIndex < INDEX_OF_INBOARDS_NOT_SUPERIMPOSED ) && !( MasterReadingsArrayIndex % 2 ) ) //This is the case for those ADCs that have just had their current readings refreshed immediately prior to teh execution of this function, so use the stored readings.  Note also that the standard linespace is designed large enough to always accommodate plotting the full unmagnified reading
-    {//this case and the case of MasterReadingsArrayIndex < INDEX_OF_OUTBOARDS but not including the case of MasterReadingsArrayIndex < NUM_OF_INBOARDS_PLOTTED needs to return some values
+    if( ( MasterReadingsArrayIndex < INDEX_OF_INBOARDS_NOT_SUPERIMPOSED ) && !( MasterReadingsArrayIndex % 2 ) ) //This is the case for those ADCs that have just had their
+                                                                                                                 // current readings refreshed immediately prior to the 
+                                                                                                                 // execution of this function, so use the stored readings.
+                                                                                                                 //Note also that the standard linespace is designed large 
+                                                                                                                 // enough to always accommodate plotting the full unmagnified reading
+    {//this case and the case of MasterReadingsArrayIndex < INDEX_OF_OUTBOARDS but not including the case of MasterReadingsArrayIndex < NUM_OF_INBOARDS_PLOTTED 
+     // needs to return some values
         LinespaceParameters[ MasterReadingsArray[ MasterReadingsArrayIndex ].IndexInLinespaceParametersArray ].LastSignalPinPlotPoint = MasterReadingsArray[ MasterReadingsArrayIndex ].CurrentUnmagnifiedReading;
         Serial.print( MasterReadingsArray[ MasterReadingsArrayIndex ].CurrentUnmagnifiedReading + LinespaceParameters[ MasterReadingsArray[ MasterReadingsArrayIndex ].IndexInLinespaceParametersArray ].ZeroOfThisPlotLinespace ); //This is color one of pair
     #ifdef DEBUG
@@ -1745,17 +1810,22 @@ void PlotTheNormalAndMagnifiedSignals( uint8_t MasterReadingsArrayIndex ) //Two 
         goto AFTER_THE_MAGNIFIED_PLOTTED;
     #endif
     }
-    else if( MasterReadingsArrayIndex < INDEX_OF_INBOARDS_NOT_SUPERIMPOSED ) //This is still the case for those ADCs that have just had their current readings refreshed immediately prior to teh execution of this function, so use the stored readings.  Note also that the standard linespace is designed large enough to always accommodate plotting the full unmagnified reading
+    else if( MasterReadingsArrayIndex < INDEX_OF_INBOARDS_NOT_SUPERIMPOSED ) //This is still the case for those ADCs that have just had their current readings refreshed 
+                                                                             // immediately prior to the execution of this function, so use the stored readings.  
+                                                                             //Note also that the standard linespace is designed large enough to always accommodate plotting
+                                                                             // the full unmagnified reading
     {
         LinespaceParameters[ MasterReadingsArray[ MasterReadingsArrayIndex ].IndexInLinespaceParametersArray ].LastReferencePinPlotPointOrLastMagnifiedPlotPoint = MasterReadingsArray[ MasterReadingsArrayIndex ].CurrentUnmagnifiedReading;
+    #if not defined PLOT_ONLY_THE_SIGNAL_LEG_OF_SUPERIMPOSED_DPOT_LEG_BRIDGE_INBOARDS
         Serial.print( MasterReadingsArray[ MasterReadingsArrayIndex ].CurrentUnmagnifiedReading + LinespaceParameters[ MasterReadingsArray[ MasterReadingsArrayIndex ].IndexInLinespaceParametersArray ].ZeroOfThisPlotLinespace ); //This is color two of pair
+    #endif
     #ifdef DEBUG
         Serial.println();
         Serial.println( F( "Line 1298 reference" ) );
     #endif
     #ifdef MAGNIFICATION_FACTOR
         Serial.print( F( " " ) );
-        goto AFTER_THE_MAGNIFIED_PLOTTED;
+        goto AFTER_THE_MAGNIFIED_PLOTTED; // B/c this range is superimposed traces, no magnified plot is indicated
     #endif
     }
 /*
@@ -1839,28 +1909,28 @@ NUM_OF_OUTBOARDS_PLOTTED is taken at face value
     if( ThisReading > LinespaceParameters[ channel ].PreviousUnmagnifiedReading ) //new reading is higher than previous
     {
 #ifdef POT_WIPER_TO_THIS_ANALOG_INPUT_PIN_TO_ADJUST_MAGNIFICATION_FACTOR
-        ThisPlotPoint = LastPlotPoints[ ( channel * LEGS_PER_DPOT_PRESENT_BRIDGE ) + 1 ] + ( ( ThisReading - LinespaceParameters[ channel ].PreviousUnmagnifiedReading ) * ( uint32_t )( ( analogRead( POT_WIPER_TO_THIS_ANALOG_INPUT_PIN_TO_ADJUST_MAGNIFICATION_FACTOR ) / pow( 2, ANALOG_INPUT_BITS_OF_BOARD ) ) * MAGNIFICATION_FACTOR );//new reading was not lower, so correct new plot point
+        ThisPlotPoint = LastPlotPoints[ ( channel * LEGS_PER_DPOT_STYLE_BRIDGE ) + 1 ] + ( ( ThisReading - LinespaceParameters[ channel ].PreviousUnmagnifiedReading ) * ( uint32_t )( ( analogRead( POT_WIPER_TO_THIS_ANALOG_INPUT_PIN_TO_ADJUST_MAGNIFICATION_FACTOR ) / pow( 2, ANALOG_INPUT_BITS_OF_BOARD ) ) * MAGNIFICATION_FACTOR );//new reading was not lower, so correct new plot point
 #else
-        ThisPlotPoint = LastPlotPoints[ ( channel * LEGS_PER_DPOT_PRESENT_BRIDGE ) + 1 ] + ( ( ThisReading - LinespaceParameters[ channel ].PreviousUnmagnifiedReading ) * MAGNIFICATION_FACTOR );//new reading was not lower, so correct new plot point
+        ThisPlotPoint = LastPlotPoints[ ( channel * LEGS_PER_DPOT_STYLE_BRIDGE ) + 1 ] + ( ( ThisReading - LinespaceParameters[ channel ].PreviousUnmagnifiedReading ) * MAGNIFICATION_FACTOR );//new reading was not lower, so correct new plot point
 #endif
         if( ThisPlotPoint > HEIGHT_OF_A_PLOT_LINESPACE ) //new plot point is higher than upper limit
             ThisPlotPoint = TracespaceToSkipWhenRepositioning;
     }
 #ifdef POT_WIPER_TO_THIS_ANALOG_INPUT_PIN_TO_ADJUST_MAGNIFICATION_FACTOR
-    else if( ( LinespaceParameters[ channel ].PreviousUnmagnifiedReading - ThisReading ) * ( uint32_t )( ( analogRead( POT_WIPER_TO_THIS_ANALOG_INPUT_PIN_TO_ADJUST_MAGNIFICATION_FACTOR ) / pow( 2, ANALOG_INPUT_BITS_OF_BOARD ) ) * MAGNIFICATION_FACTOR ) > LastPlotPoints[ ( channel * LEGS_PER_DPOT_PRESENT_BRIDGE ) + 1 ] )
+    else if( ( LinespaceParameters[ channel ].PreviousUnmagnifiedReading - ThisReading ) * ( uint32_t )( ( analogRead( POT_WIPER_TO_THIS_ANALOG_INPUT_PIN_TO_ADJUST_MAGNIFICATION_FACTOR ) / pow( 2, ANALOG_INPUT_BITS_OF_BOARD ) ) * MAGNIFICATION_FACTOR ) > LastPlotPoints[ ( channel * LEGS_PER_DPOT_STYLE_BRIDGE ) + 1 ] )
 #else
-    else if( ( LinespaceParameters[ channel ].PreviousUnmagnifiedReading - ThisReading ) * MAGNIFICATION_FACTOR > LastPlotPoints[ ( channel * LEGS_PER_DPOT_PRESENT_BRIDGE ) + 1 ] )
+    else if( ( LinespaceParameters[ channel ].PreviousUnmagnifiedReading - ThisReading ) * MAGNIFICATION_FACTOR > LastPlotPoints[ ( channel * LEGS_PER_DPOT_STYLE_BRIDGE ) + 1 ] )
 #endif
         ThisPlotPoint = NegativeTracespaceToSkipWhenRepositioning;
     else
 #ifdef POT_WIPER_TO_THIS_ANALOG_INPUT_PIN_TO_ADJUST_MAGNIFICATION_FACTOR
-        ThisPlotPoint = LastPlotPoints[ ( channel * LEGS_PER_DPOT_PRESENT_BRIDGE ) + 1 ] - ( ( LinespaceParameters[ channel ].PreviousUnmagnifiedReading - ThisReading ) * ( uint32_t )( ( analogRead( POT_WIPER_TO_THIS_ANALOG_INPUT_PIN_TO_ADJUST_MAGNIFICATION_FACTOR ) / pow( 2, ANALOG_INPUT_BITS_OF_BOARD ) ) * MAGNIFICATION_FACTOR );//new reading was lower but not too much, so correct new plot point
+        ThisPlotPoint = LastPlotPoints[ ( channel * LEGS_PER_DPOT_STYLE_BRIDGE ) + 1 ] - ( ( LinespaceParameters[ channel ].PreviousUnmagnifiedReading - ThisReading ) * ( uint32_t )( ( analogRead( POT_WIPER_TO_THIS_ANALOG_INPUT_PIN_TO_ADJUST_MAGNIFICATION_FACTOR ) / pow( 2, ANALOG_INPUT_BITS_OF_BOARD ) ) * MAGNIFICATION_FACTOR );//new reading was lower but not too much, so correct new plot point
 #else
-        ThisPlotPoint = LastPlotPoints[ ( channel * LEGS_PER_DPOT_PRESENT_BRIDGE ) + 1 ] - ( ( LinespaceParameters[ channel ].PreviousUnmagnifiedReading - ThisReading ) * MAGNIFICATION_FACTOR );//new reading was lower but not too much, so correct new plot point
+        ThisPlotPoint = LastPlotPoints[ ( channel * LEGS_PER_DPOT_STYLE_BRIDGE ) + 1 ] - ( ( LinespaceParameters[ channel ].PreviousUnmagnifiedReading - ThisReading ) * MAGNIFICATION_FACTOR );//new reading was lower but not too much, so correct new plot point
 #endif
     Serial.print( LinespaceParameters[ channel ].ZeroOfThisPlotLinespace + ThisPlotPoint ); 
     Serial.print( F( " " ) );
-    LastPlotPoints[ ( channel * LEGS_PER_DPOT_PRESENT_BRIDGE ) + 1 ] = ThisPlotPoint;
+    LastPlotPoints[ ( channel * LEGS_PER_DPOT_STYLE_BRIDGE ) + 1 ] = ThisPlotPoint;
 
 
 */
@@ -1872,9 +1942,9 @@ MasterReadingsArray[ MasterReadingsArrayIndex ].PreviousUnmagnifiedReading = Mas
 #endif
 #ifdef AUTO_BRIDGE_BALANCING
     #ifdef MAGNIFICATION_FACTOR
-    if( MasterReadingsArrayIndex < INDEX_OF_OUTBOARDS ) return BestGuessAnalogInputreading( 1 + ( ( MasterReadingsArray[ MasterReadingsArrayIndex ].IndexInLinespaceParametersArray ) * LEGS_PER_DPOT_PRESENT_BRIDGE ) + BIAS_IN_ANALOG_INPUT_BITS_TO_APPLY_TO_SIGNAL_LEG_TO_CENTER_THE_TRACE_BANK0 - BestGuessAnalogInputreading( ( ( MasterReadingsArray[ MasterReadingsArrayIndex ].IndexInLinespaceParametersArray ) - 2 ) * LEGS_PER_DPOT_PRESENT_BRIDGE ) );
+    if( MasterReadingsArrayIndex < INDEX_OF_OUTBOARDS ) return BestGuessAnalogInputreading( 1 + ( ( MasterReadingsArray[ MasterReadingsArrayIndex ].IndexInLinespaceParametersArray ) * LEGS_PER_DPOT_STYLE_BRIDGE ) + BIAS_IN_ANALOG_INPUT_BITS_TO_APPLY_TO_SIGNAL_LEG_TO_CENTER_THE_TRACE_BANK0 - BestGuessAnalogInputreading( ( ( MasterReadingsArray[ MasterReadingsArrayIndex ].IndexInLinespaceParametersArray ) - 2 ) * LEGS_PER_DPOT_STYLE_BRIDGE ) );
     #else
-    if( MasterReadingsArrayIndex >= NUM_OF_INBOARDS_PLOTTED ) return BestGuessAnalogInputreading( 1 + ( MasterReadingsArray[ MasterReadingsArrayIndex ].IndexInLinespaceParametersArray ) ) + BIAS_IN_ANALOG_INPUT_BITS_TO_APPLY_TO_SIGNAL_LEG_TO_CENTER_THE_TRACE_BANK0 - BestGuessAnalogInputreading( ( ( MasterReadingsArray[ MasterReadingsArrayIndex ].IndexInLinespaceParametersArray ) - 2 ) * LEGS_PER_DPOT_PRESENT_BRIDGE );
+    if( MasterReadingsArrayIndex >= NUM_OF_INBOARDS_PLOTTED ) return BestGuessAnalogInputreading( 1 + ( MasterReadingsArray[ MasterReadingsArrayIndex ].IndexInLinespaceParametersArray ) ) + BIAS_IN_ANALOG_INPUT_BITS_TO_APPLY_TO_SIGNAL_LEG_TO_CENTER_THE_TRACE_BANK0 - BestGuessAnalogInputreading( ( ( MasterReadingsArray[ MasterReadingsArrayIndex ].IndexInLinespaceParametersArray ) - 2 ) * LEGS_PER_DPOT_STYLE_BRIDGE );
     #endif
 //BestGuessAnalogInputreading index argument is a bank...which doesn't exist except with the outboard ADCs
 #endif
@@ -1887,22 +1957,22 @@ static uint8_t wobbleloops = 0;
 void wobble( void )
 { //Adjust active code to amount of wobble you need at the moment
 #ifdef POT_TEST_WOBBLE_SIGNAL_ON_THIS_OUTBOARD_ADC
-//        offsetPotValue( DPotPins[ 0 + ( POT_TEST_WOBBLE_SIGNAL_ON_THIS_OUTBOARD_ADC * LEGS_PER_DPOT_PRESENT_BRIDGE ) ], potwobbledirection ? 1 : -1 );
-//        offsetPotValue( DPotPins[ 1 + ( POT_TEST_WOBBLE_SIGNAL_ON_THIS_OUTBOARD_ADC * LEGS_PER_DPOT_PRESENT_BRIDGE ) ], potwobbledirection ? 1 : -1 );
-        offsetPotValue( DPotPins[ 2 + ( POT_TEST_WOBBLE_SIGNAL_ON_THIS_OUTBOARD_ADC * LEGS_PER_DPOT_PRESENT_BRIDGE ) ], potwobbledirection ? 1 : -1 ); //digipot 2 of this bank is the third (0=first) and is the LSB digipot of the signal side
+//        offsetPotValue( DPotPins[ 0 + ( POT_TEST_WOBBLE_SIGNAL_ON_THIS_OUTBOARD_ADC * LEGS_PER_DPOT_STYLE_BRIDGE ) ], potwobbledirection ? 1 : -1 );
+//        offsetPotValue( DPotPins[ 1 + ( POT_TEST_WOBBLE_SIGNAL_ON_THIS_OUTBOARD_ADC * LEGS_PER_DPOT_STYLE_BRIDGE ) ], potwobbledirection ? 1 : -1 );
+        offsetPotValue( DPotPins[ 2 + ( POT_TEST_WOBBLE_SIGNAL_ON_THIS_OUTBOARD_ADC * LEGS_PER_DPOT_STYLE_BRIDGE ) ], potwobbledirection ? 1 : -1 ); //digipot 2 of this bank is the third (0=first) and is the LSB digipot of the signal side
 #endif
 #ifdef POT_TEST_WOBBLE_REFERENCE_ON_THIS_OUTBOARD_ADC
-//        offsetPotValue( DPotPins[ 3 + ( POT_TEST_WOBBLE_REFERENCE_ON_THIS_OUTBOARD_ADC * LEGS_PER_DPOT_PRESENT_BRIDGE ) ], potwobbledirection ? -1 : 1 );
-//        offsetPotValue( DPotPins[ 4 + ( POT_TEST_WOBBLE_REFERENCE_ON_THIS_OUTBOARD_ADC * LEGS_PER_DPOT_PRESENT_BRIDGE ) ], potwobbledirection ? -1 : 1 );
-        offsetPotValue( DPotPins[ 5 + ( POT_TEST_WOBBLE_REFERENCE_ON_THIS_OUTBOARD_ADC * LEGS_PER_DPOT_PRESENT_BRIDGE ) ], potwobbledirection ? -1 : 1 ); //digipot 5 of this bank is the sixth (0=first) and is the LSB digipot of the reference side
+//        offsetPotValue( DPotPins[ 3 + ( POT_TEST_WOBBLE_REFERENCE_ON_THIS_OUTBOARD_ADC * LEGS_PER_DPOT_STYLE_BRIDGE ) ], potwobbledirection ? -1 : 1 );
+//        offsetPotValue( DPotPins[ 4 + ( POT_TEST_WOBBLE_REFERENCE_ON_THIS_OUTBOARD_ADC * LEGS_PER_DPOT_STYLE_BRIDGE ) ], potwobbledirection ? -1 : 1 );
+        offsetPotValue( DPotPins[ 5 + ( POT_TEST_WOBBLE_REFERENCE_ON_THIS_OUTBOARD_ADC * LEGS_PER_DPOT_STYLE_BRIDGE ) ], potwobbledirection ? -1 : 1 ); //digipot 5 of this bank is the sixth (0=first) and is the LSB digipot of the reference side
 #endif
     potwobbledirection = !potwobbledirection;
 }
 #endif
 
-#ifdef AUTO_BRIDGE_BALANCING
-    static uint16_t CounterForTraceOutOfRangeTooLong[ NUM_OF_OUTBOARDS_PLOTTED ]; //This is to prevent infinite loop with AUTO_BRIDGE_BALANCING
-#endif
+//#ifdef AUTO_BRIDGE_BALANCING
+//    static uint16_t CounterForTraceOutOfRangeTooLong[ NUM_OF_OUTBOARDS_PLOTTED ]; //This is to prevent infinite loop with AUTO_BRIDGE_BALANCING
+//#endif
 
 uint32_t OneReadingFromThisOutboardADC( uint8_t whichOutboardADCindex )
 {
@@ -2005,9 +2075,9 @@ void ReadAndPlotFromAllADCsInAndOutboard( uint32_t TimingLineLevel, bool DuringS
 
 #if ( NUM_OF_INBOARDS_PLOTTED > 0 ) //plot the inboard analogs first and above from readings in MasterReadingsArray
     for( uint8_t InboardPinIndex = 0; InboardPinIndex < NUM_OF_INBOARDS_PLOTTED; InboardPinIndex++ )
-    {
-        PlotTheNormalAndMagnifiedSignals( InboardPinIndex ); //not permissible to plot the paired/superimposed traces except with odds below INDEX_OF_INBOARDS_NOT_SUPERIMPOSED
-        #ifdef DEBUG
+    {  //PLOT_ONLY_THE_SIGNAL_LEG_OF_SUPERIMPOSED_DPOT_LEG_BRIDGE_INBOARDS
+        PlotTheNormalAndMagnifiedSignals( InboardPinIndex ); // What was I thinking comment: "not permissible to plot the paired/superimposed traces except with odd indices below INDEX_OF_INBOARDS_NOT_SUPERIMPOSED" ?
+        #ifdef DEBUG                                         // Maybe a single array element holds both reference and signal plots?
             Serial.println();
         #endif
     }
@@ -2122,54 +2192,72 @@ Serial.print( F( "(C)" ) );
 Serial.print( COPYRIGHT_YEAR ); /*To prevent this numeric from becoming part of a plotline we must have a non whitespace character adjacent.  Don't try to whitespace-wrap this numeric or it will affect plotting*/
 Serial.println( F( ", Kenneth L. Anderson, Electronics Technician, BT, BGS, MCSE, RDH (ret'd)  d/b/a A Reviving Civility" ) );
 Serial.println();
+
 #ifdef LM334_BRIDGES   //This is important to put this first so LM334 get some resistance
+
     #if ( LM334_BRIDGES == 1 )
     pinMode( SS, OUTPUT );
     digitalWrite( SS, HIGH ); //Not needed by slave devices but rather by this board to make it configure itself to be master
 //
-    for( uint8_t bank = 0; bank < LM334_BRIDGES; bank++ )
-    { //This is not scaleable beyond a single bank of pots as far as pins, anyway, but at least it will initialize the digipot arrays.  To get valid values beyond the first bank, assign them non-looped below this loop for additional banks
-        DPotSettings[ 0 + bank ] = NON_LSB_DPOT_2_B0L0_STARTVALUE;  // Storing a copy of the digi pot values in sketch makes it possible to eliminate the MISO pin connection to the data out pins of all digi pots, besides the digi pots data out may not conform strictly to SPI since the MCP41X1 version has one bidirectional data pin
-        DPotSettings[ 1 + bank ] = NON_LSB_DPOT_1_B0L0_STARTVALUE;
-        DPotSettings[ 2 + bank ] = LSB_DPOT_B0L0_STARTVALUE;
-        DPotSettings[ 3 + bank ] = NON_LSB_DPOT_2_B0L1_STARTVALUE;
-        DPotSettings[ 4 + bank ] = NON_LSB_DPOT_1_B0L1_STARTVALUE;
-        DPotSettings[ 5 + bank ] = LSB_DPOT_B0L1_STARTVALUE;
+    for( uint8_t LM334_bridge = 0; LM334_bridge < LM334_BRIDGES; LM334_bridge++ )
+    { //This is not scaleable beyond a single LM334_bridge of pots as far as pins, anyway, but at least it will initialize the digipot arrays.  To get valid values beyond the first LM334_bridge, assign them non-looped below this loop for additional LM334_bridges
+//DPOTS_PER_LM334_BRIDGE ( DPOTS_PER_LM334_LEG * LEGS_PER_DPOT_STYLE_BRIDGE )
+goto oldstyle;
+//In process of changing to accommodate 1 or 2 DPots per LM334 leg
+        DPotSettings[ 0 + LM334_bridge ] = LSB_DPOT_B0L0_STARTVALUE;  // Storing a copy of the digi pot values in sketch makes it possible to eliminate the MISO pin connection to the data out pins of all digi pots, besides the digi pots data out may not conform strictly to SPI since the MCP41X1 version has one bidirectional data pin
+        DPotSettings[ 0 + DPOTS_PER_LM334_LEG + LM334_bridge ] = LSB_DPOT_B0L1_STARTVALUE;
+        #if ( DPOTS_PER_LM334_LEG > 1 )
+            DPotSettings[ 1 + LM334_bridge ] = LSB_DPOT_B0L0_STARTVALUE;
+            DPotSettings[ 1 + DPOTS_PER_LM334_LEG + LM334_bridge ] = NON_LSB_DPOT_2_B0L1_STARTVALUE;
+            #if ( DPOTS_PER_LM334_LEG > 2 ) 
+                DPotSettings[ 2 + LM334_bridge ] = NON_LSB_DPOT_1_B0L1_STARTVALUE;
+                DPotSettings[ 2 + DPOTS_PER_LM334_LEG + LM334_bridge ] = LSB_DPOT_B0L1_STARTVALUE;
+            #endif
+        #endif
+oldstyle:
+        DPotSettings[ 0 + LM334_bridge ] = NON_LSB_DPOT_2_B0L0_STARTVALUE;  // Storing a copy of the digi pot values in sketch makes it possible to eliminate the MISO pin connection to the data out pins of all digi pots, besides the digi pots data out may not conform strictly to SPI since the MCP41X1 version has one bidirectional data pin
+        DPotSettings[ 1 + LM334_bridge ] = NON_LSB_DPOT_1_B0L0_STARTVALUE;
+        DPotSettings[ 2 + LM334_bridge ] = LSB_DPOT_B0L0_STARTVALUE;
+        DPotSettings[ DPOTS_PER_LM334_LEG + 0 + LM334_bridge ] = NON_LSB_DPOT_2_B0L1_STARTVALUE;
+        DPotSettings[ DPOTS_PER_LM334_LEG + 1 + LM334_bridge ] = NON_LSB_DPOT_1_B0L1_STARTVALUE;
+        DPotSettings[ DPOTS_PER_LM334_LEG + 2 + LM334_bridge ] = LSB_DPOT_B0L1_STARTVALUE;
     
-        DPotPins[ 0 + bank ] = NON_LSB_DPOT_2_B0L0_PIN; 
-        DPotPins[ 1 + bank ] = NON_LSB_DPOT_1_B0L0_PIN;
-        DPotPins[ 2 + bank ] = LSB_DPOT_B0L0_PIN;
-        DPotPins[ 3 + bank ] = NON_LSB_DPOT_2_B0L1_PIN;
-        DPotPins[ 4 + bank ] = NON_LSB_DPOT_1_B0L1_PIN;
-        DPotPins[ 5 + bank ] = LSB_DPOT_B0L1_PIN;
+        DPotPins[ 0 + LM334_bridge ] = NON_LSB_DPOT_2_B0L0_PIN; 
+        DPotPins[ 1 + LM334_bridge ] = NON_LSB_DPOT_1_B0L0_PIN;
+        DPotPins[ 2 + LM334_bridge ] = LSB_DPOT_B0L0_PIN;
+        DPotPins[ DPOTS_PER_LM334_LEG + 0 + LM334_bridge ] = NON_LSB_DPOT_2_B0L1_PIN;
+        DPotPins[ DPOTS_PER_LM334_LEG + 1 + LM334_bridge ] = NON_LSB_DPOT_1_B0L1_PIN;
+        DPotPins[ DPOTS_PER_LM334_LEG + 2 + LM334_bridge ] = LSB_DPOT_B0L1_PIN;
     }
 //To increase capacity, follow the naming pattern above
+Serial.print( F( "DPot arrays filled " ) );
 
-    for( uint8_t bank = 0; bank < LM334_BRIDGES; bank++ )
+    for( uint8_t LM334_bridge = 0; LM334_bridge < LM334_BRIDGES; LM334_bridge++ )
     {
-        pinMode( DPotPins[ 0 + bank ], OUTPUT );
-        pinMode( DPotPins[ 1 + bank ], OUTPUT );
-        pinMode( DPotPins[ 2 + bank ], OUTPUT );
-        pinMode( DPotPins[ 3 + bank ], OUTPUT );
-        pinMode( DPotPins[ 4 + bank ], OUTPUT );
-        pinMode( DPotPins[ 5 + bank ], OUTPUT );
-        digitalWrite( DPotPins[ 0 + bank ], HIGH );
-        digitalWrite( DPotPins[ 1 + bank ], HIGH );
-        digitalWrite( DPotPins[ 2 + bank ], HIGH );
-        digitalWrite( DPotPins[ 3 + bank ], HIGH );
-        digitalWrite( DPotPins[ 4 + bank ], HIGH );
-        digitalWrite( DPotPins[ 5 + bank ], HIGH );
+        pinMode( DPotPins[ 0 + LM334_bridge ], OUTPUT );
+        pinMode( DPotPins[ 1 + LM334_bridge ], OUTPUT );
+        pinMode( DPotPins[ 2 + LM334_bridge ], OUTPUT );
+        pinMode( DPotPins[ 0 + DPOTS_PER_LM334_LEG + LM334_bridge ], OUTPUT );
+        pinMode( DPotPins[ 1 + DPOTS_PER_LM334_LEG + LM334_bridge ], OUTPUT );
+        pinMode( DPotPins[ 2 + DPOTS_PER_LM334_LEG + LM334_bridge ], OUTPUT );
+        digitalWrite( DPotPins[ 0 + LM334_bridge ], HIGH );
+        digitalWrite( DPotPins[ 1 + LM334_bridge ], HIGH );
+        digitalWrite( DPotPins[ 2 + LM334_bridge ], HIGH );
+        digitalWrite( DPotPins[ 0 + DPOTS_PER_LM334_LEG + LM334_bridge ], HIGH );
+        digitalWrite( DPotPins[ 1 + DPOTS_PER_LM334_LEG + LM334_bridge ], HIGH );
+        digitalWrite( DPotPins[ 2 + DPOTS_PER_LM334_LEG + LM334_bridge ], HIGH );
         SPI.begin();
         SPI.setBitOrder( MSBFIRST );
     #ifndef LEAVE_POT_VALUES_ALONE_DURING_SETUP //This causes digipot stored settings not to match digipots, but at least they stay put to what they were last set to
-        setPotValue( DPotPins[ 0 + bank ], DPotSettings[ 0 + bank ] );
-        setPotValue( DPotPins[ 1 + bank ], DPotSettings[ 1 + bank ] );
-        setPotValue( DPotPins[ 2 + bank ], DPotSettings[ 2 + bank ] );
-        setPotValue( DPotPins[ 3 + bank ], DPotSettings[ 3 + bank ] );
-        setPotValue( DPotPins[ 4 + bank ], DPotSettings[ 4 + bank ] );
-        setPotValue( DPotPins[ 5 + bank ], DPotSettings[ 5 + bank ] );
+        setPotValue( DPotPins[ 0 + LM334_bridge ], DPotSettings[ 0 + LM334_bridge ] );
+        setPotValue( DPotPins[ 1 + LM334_bridge ], DPotSettings[ 1 + LM334_bridge ] );
+        setPotValue( DPotPins[ 2 + LM334_bridge ], DPotSettings[ 2 + LM334_bridge ] );
+        setPotValue( DPotPins[ 0 + DPOTS_PER_LM334_LEG + LM334_bridge ], DPotSettings[ 0 + DPOTS_PER_LM334_LEG + LM334_bridge ] );
+        setPotValue( DPotPins[ 1 + DPOTS_PER_LM334_LEG + LM334_bridge ], DPotSettings[ 1 + DPOTS_PER_LM334_LEG + LM334_bridge ] );
+        setPotValue( DPotPins[ 2 + DPOTS_PER_LM334_LEG + LM334_bridge ], DPotSettings[ 2 + DPOTS_PER_LM334_LEG + LM334_bridge ] );
     #endif
     }
+    Serial.print( F( "DPot pins set up " ) );
     #else
         #error This sketch is not entirely able to handle multiple digipot banks at this revision level
     #endif
@@ -2385,24 +2473,23 @@ MillisStart = millis();
         if( LinespacesIndex < INDEX_OF_INBOARDS_NOT_SUPERIMPOSED / 2 ) MasterReadingsArrayIndex++; //skip the one we had to take care of in this linepsace iteration
     }
 //    Serial.println();
-    Serial.print( F( " plotting most a rising timing line: " ) );
+    Serial.print( F( "Plotting rising timing line: " ) );
     PlotTimingLineGoingUp( false ); //The false makes all traces originate at global zero.  It seems to look better that way
-
+//no calls using AnalogPinArray can be made prior to now.
 //Next the pin translation table is allocated then filled
-    #if defined LM334_BRIDGES /* && defined SUPERIMPOSE_FIRST_INBOARDS_IN_PAIRS */ && ( NUM_OF_INBOARDS_PLOTTED < LM334_BRIDGES * LEGS_PER_DPOT_PRESENT_BRIDGE )
-        AnalogPinArray = ( uint8_t * )malloc( 2 * LM334_BRIDGES );
-    #elif ( NUM_OF_INBOARDS_PLOTTED > 0 )
-        AnalogPinArray = ( uint8_t * )malloc( NUM_OF_INBOARDS_PLOTTED );
+    Serial.print( F( "malloc'd [" ) );
+    #if ( LM334_BRIDGE_LEGS_PER_ENTIRE_SYSTEM + BARE_BRIDGE_LEGS_PER_ENTIRE_SYSTEM + BARE_DPOT_LEGS_NOT_BRIDGED + NUM_OF_INBOARDS_PLOTTED > 0 )
+        AnalogPinArray = ( uint8_t * )malloc( max( NUM_OF_INBOARDS_PLOTTED, LM334_BRIDGE_LEGS_PER_ENTIRE_SYSTEM + BARE_BRIDGE_LEGS_PER_ENTIRE_SYSTEM + BARE_DPOT_LEGS_NOT_BRIDGED ) );
+        Serial.print( max( NUM_OF_INBOARDS_PLOTTED, LM334_BRIDGE_LEGS_PER_ENTIRE_SYSTEM + BARE_BRIDGE_LEGS_PER_ENTIRE_SYSTEM + BARE_DPOT_LEGS_NOT_BRIDGED ) );
+    #else
+        Serial.print( 0 );
     #endif
-        #if ( NUM_OF_INBOARDS_PLOTTED > 0 ) || ( defined LM334_BRIDGES /*&& defined SUPERIMPOSE_FIRST_INBOARDS_IN_PAIRS && defined AUTO_BRIDGE_BALANCING && not defined LEAVE_POT_VALUES_ALONE_DURING_SETUP*/ )
+    Serial.println( F( "] bytes ram" ) );
+        #if ( NUM_OF_INBOARDS_PLOTTED > 0 ) || ( defined NUM_OF_DPOTS )
         //Hereafter is the pattern.  If you have more analog pins, add them according to the pattern.
         #ifdef NUM_ANALOG_INPUTS
         #ifdef PIN_A0
-            #if defined LM334_BRIDGES /*&& defined SUPERIMPOSE_FIRST_INBOARDS_IN_PAIRS */ && ( NUM_OF_INBOARDS_PLOTTED < LM334_BRIDGES * LEGS_PER_DPOT_PRESENT_BRIDGE )
-            for( uint8_t i = 0; i < ( LM334_BRIDGES * LEGS_PER_DPOT_PRESENT_BRIDGE ); i++ )
-            #else
-            for( uint8_t i = 0; i < NUM_OF_INBOARDS_PLOTTED; i++ )
-            #endif
+            for( uint8_t i = 0; i < max( NUM_OF_INBOARDS_PLOTTED, LM334_BRIDGE_LEGS_PER_ENTIRE_SYSTEM + BARE_BRIDGE_LEGS_PER_ENTIRE_SYSTEM + BARE_DPOT_LEGS_NOT_BRIDGED ); i++ )
             {
                 if( i == 0 )
                     *(AnalogPinArray + i) = PIN_A0;
@@ -2501,12 +2588,8 @@ MillisStart = millis();
                     while ( !Serial ); // wait for serial port to connect. Needed for Leonardo's native USB
                     Serial.println( F( "Creating analog pin definitions" ) );
                 #endif
-            #if defined LM334_BRIDGES && defined SUPERIMPOSE_FIRST_INBOARDS_IN_PAIRS && ( NUM_OF_INBOARDS_PLOTTED < LM334_BRIDGES * LEGS_PER_DPOT_PRESENT_BRIDGE )
-                for( uint8_t i = 0; i < ( LM334_BRIDGES * LEGS_PER_DPOT_PRESENT_BRIDGE ); i++ )
-            #else
-                for( uint8_t i = 0; i < NUM_OF_INBOARDS_PLOTTED; i++ )
-            #endif
-                    *(AnalogPinArray + i) = i + FIRST_ANALOG_PIN_DIGITAL_NUMBER_FOR_BOARDS_NOT_HAVING_ANALOG_PINS_DEFINED_BY_PIN_A0_TYPE_DEFINES;
+                for( uint8_t i = 0; i < max( NUM_OF_INBOARDS_PLOTTED, LM334_BRIDGE_LEGS_PER_ENTIRE_SYSTEM + BARE_BRIDGE_LEGS_PER_ENTIRE_SYSTEM + BARE_DPOT_LEGS_NOT_BRIDGED ); i++ )
+                    *( AnalogPinArray + i ) = i + FIRST_ANALOG_PIN_DIGITAL_NUMBER_FOR_BOARDS_NOT_HAVING_ANALOG_PINS_DEFINED_BY_PIN_A0_TYPE_DEFINES;
             #endif //end of PIN_A0 check
         #endif
     #endif
@@ -2515,13 +2598,14 @@ MillisStart = millis();
         Serial.print( F( "Operator convenience delay so operator can prepare as needed..." ) );
         delay( 5000 );
     #endif
-    Serial.println( F( "done delaying for operator convenience or hardware init " ) );
+    Serial.println();
+    Serial.println( F( "Done delaying for operator convenience or hardware init " ) );
     #ifdef DEBUG
         Serial.println( F( "Some running parameters:" ) );
         Serial.print( F( "AnalogPinArray = " ) );
         Serial.println( (unsigned long)AnalogPinArray );
-        #if defined LM334_BRIDGES && defined SUPERIMPOSE_FIRST_INBOARDS_IN_PAIRS && ( NUM_OF_INBOARDS_PLOTTED < LM334_BRIDGES * LEGS_PER_DPOT_PRESENT_BRIDGE )
-            for( uint8_t i = 0; i < ( LM334_BRIDGES * LEGS_PER_DPOT_PRESENT_BRIDGE ); i++ )
+        #if defined LM334_BRIDGES && defined SUPERIMPOSE_FIRST_INBOARDS_IN_PAIRS && ( NUM_OF_INBOARDS_PLOTTED < LM334_BRIDGES * LEGS_PER_DPOT_STYLE_BRIDGE )
+            for( uint8_t i = 0; i < ( LM334_BRIDGES * LEGS_PER_DPOT_STYLE_BRIDGE ); i++ )
         #else
             for( uint8_t i = 0; i < NUM_OF_INBOARDS_PLOTTED; i++ )
         #endif
@@ -2536,8 +2620,8 @@ MillisStart = millis();
         Serial.print( F( "End of " ) );
     #endif //end of DEBUG
     #ifdef AUTO_BRIDGE_BALANCING
-        for( uint8_t index = 0; index < NUM_OF_OUTBOARDS_PLOTTED; index++ )
-            CounterForTraceOutOfRangeTooLong[ index ] = 0;
+        for( uint8_t bridgeIndex = 0; bridgeIndex < NUM_OF_OUTBOARDS_PLOTTED; bridgeIndex++ )
+            CounterForTraceOutOfRangeTooLong[ bridgeIndex ] = 0;
     #endif
 //#error this area below is where I'm at in development
     #if defined AUTO_BRIDGE_BALANCING && not defined LEAVE_POT_VALUES_ALONE_DURING_SETUP
@@ -2552,32 +2636,33 @@ MillisStart = millis();
         ReadAndPlotFromAllADCsInAndOutboard( PLOTTER_MAX_SCALE, true ); //Fills the arrays with valid values
         */
 /* Don't remember why following lines were there
-        uint32_t LastPlotPoints_temp[ LM334_BRIDGES * LEGS_PER_DPOT_PRESENT_BRIDGE ]; //2 legs/bank, each leg is one entry        
+        uint32_t LastPlotPoints_temp[ LM334_BRIDGES * LEGS_PER_DPOT_STYLE_BRIDGE ]; //2 legs/bank, each leg is one entry        
         Serial.println();
 //Then get the readings of desired legs from 
         for( uint8_t bank = 0; bank < LM334_BRIDGES; bank++ )
         {
 #ifdef MAGNIFICATION_FACTOR
-            LastPlotPoints_temp[ 0 + ( bank * LEGS_PER_DPOT_PRESENT_BRIDGE ) ] = LastPlotPoints[ bank * LEGS_PER_DPOT_PRESENT_BRIDGE ] >> SCALE_FACTOR_TO_PROMOTE_LOW_RES_ADC_TO_SAME_SCALE;
-            LastPlotPoints_temp[ 1 + ( bank * LEGS_PER_DPOT_PRESENT_BRIDGE ) ] = LastPlotPoints[ 2 + ( bank * LEGS_PER_DPOT_PRESENT_BRIDGE ) ] >> SCALE_FACTOR_TO_PROMOTE_LOW_RES_ADC_TO_SAME_SCALE;
+            LastPlotPoints_temp[ 0 + ( bank * LEGS_PER_DPOT_STYLE_BRIDGE ) ] = LastPlotPoints[ bank * LEGS_PER_DPOT_STYLE_BRIDGE ] >> SCALE_FACTOR_TO_PROMOTE_LOW_RES_ADC_TO_SAME_SCALE;
+            LastPlotPoints_temp[ 1 + ( bank * LEGS_PER_DPOT_STYLE_BRIDGE ) ] = LastPlotPoints[ 2 + ( bank * LEGS_PER_DPOT_STYLE_BRIDGE ) ] >> SCALE_FACTOR_TO_PROMOTE_LOW_RES_ADC_TO_SAME_SCALE;
 #else
-            LastPlotPoints_temp[ 0 + ( bank * LEGS_PER_DPOT_PRESENT_BRIDGE ) ] = LastPlotPoints[ bank * LEGS_PER_DPOT_PRESENT_BRIDGE ] >> SCALE_FACTOR_TO_PROMOTE_LOW_RES_ADC_TO_SAME_SCALE;
-            LastPlotPoints_temp[ 1 + ( bank * LEGS_PER_DPOT_PRESENT_BRIDGE ) ] = LastPlotPoints[ 1 + ( bank * LEGS_PER_DPOT_PRESENT_BRIDGE ) ] >> SCALE_FACTOR_TO_PROMOTE_LOW_RES_ADC_TO_SAME_SCALE;
+            LastPlotPoints_temp[ 0 + ( bank * LEGS_PER_DPOT_STYLE_BRIDGE ) ] = LastPlotPoints[ bank * LEGS_PER_DPOT_STYLE_BRIDGE ] >> SCALE_FACTOR_TO_PROMOTE_LOW_RES_ADC_TO_SAME_SCALE;
+            LastPlotPoints_temp[ 1 + ( bank * LEGS_PER_DPOT_STYLE_BRIDGE ) ] = LastPlotPoints[ 1 + ( bank * LEGS_PER_DPOT_STYLE_BRIDGE ) ] >> SCALE_FACTOR_TO_PROMOTE_LOW_RES_ADC_TO_SAME_SCALE;
 #endif
         }
 */
 //#ifdef MAGNIFICATION_FACTOR
-//        /*reading=*/LastPlotPoints[ bank * LEGS_PER_DPOT_PRESENT_BRIDGE ] >> SCALE_FACTOR_TO_PROMOTE_LOW_RES_ADC_TO_SAME_SCALE;// + LinespaceParameters[ channel ].ZeroOfThisPlotLinespace;
+//        /*reading=*/LastPlotPoints[ bank * LEGS_PER_DPOT_STYLE_BRIDGE ] >> SCALE_FACTOR_TO_PROMOTE_LOW_RES_ADC_TO_SAME_SCALE;// + LinespaceParameters[ channel ].ZeroOfThisPlotLinespace;
 //#else
 //        /*reading=*/LastPlotPoints[ bank ] >> SCALE_FACTOR_TO_PROMOTE_LOW_RES_ADC_TO_SAME_SCALE;// + LinespaceParameters[ channel ].ZeroOfThisPlotLinespace;
 //#endif
 //        }
 //bool SetDigipotsReferenceLeg( bool JustPerformOneStep = false, uint8_t bank = 0 )
 //#error SetDigipotsReferenceLeg() has a bug where it allows out of range setting values  
-        Serial.println( F( " setting up digipot bridge legs " ) );
-        for( uint8_t bank = 0; bank < LM334_BRIDGES; bank++ )
+//        PrintDPotSettings();
+        Serial.println( F( " Setting up LM334 and bare digipot bridge legs " ) );
+        for( uint8_t LM334_bridge = 0; LM334_bridge < LM334_BRIDGES; LM334_bridge++ )
         {
-            while( SetDigipotsReferenceLeg( true, bank ) == false ) //while false, the entire bank is being zeroed into the desired balance
+            while( SetDigipotsReferenceLeg( true, LM334_bridge ) == false ) //while false, the entire bank is being zeroed into the desired balance
             {
             #ifdef DEBUG
                 Serial.println( F( "Line 2374" ) );
@@ -2587,11 +2672,11 @@ MillisStart = millis();
 //                Serial.print( F( " " ) );
                 ReadAndPlotFromAllADCsInAndOutboard( PLOTTER_MAX_SCALE, true ); // I would think the operator would appreciate seeing something like this during calibration
 //                Serial.println();
-                if( CounterForTraceOutOfRangeTooLong[ bank ]++ > 80 ) break; //Limited to prevent endless looping here
+                if( CounterForTraceOutOfRangeTooLong[ LM334_bridge ]++ > 80 ) break; //Limited to prevent endless looping here
             }
-            CounterForTraceOutOfRangeTooLong[ bank ] = 0;
+            CounterForTraceOutOfRangeTooLong[ LM334_bridge ] = 0;
 /*            int SignalLineHighOrLow = \  */
-            MatchBridgeLegSignalToReference( bank ); //This will do the same on the signal leg
+            MatchBridgeLegSignalToReference( LM334_bridge ); //This will do the same on the signal leg
 /*            if( SignalLineHighOrLow < 0 ) ;
             else if( SignalLineHighOrLow > 0 ) ; */
         }
@@ -2600,7 +2685,7 @@ MillisStart = millis();
         Serial.println( F( " done setting up digipot bridge legs, now take very first readings since powering on: " ) );
         ReadAndPlotFromAllADCsInAndOutboard( 0, true ); //Fills the arrays with valid values
 /* Following line was some forgotten plan
-        uint32_t LastPlotPoints_temp[ LM334_BRIDGES * LEGS_PER_DPOT_PRESENT_BRIDGE ]; //2 legs/bank, each leg is one entry        */
+        uint32_t LastPlotPoints_temp[ LM334_BRIDGES * LEGS_PER_DPOT_STYLE_BRIDGE ]; //2 legs/bank, each leg is one entry        */
 //        Serial.println();
 
 //Now could turn on wobble and fine tune to find the common mode voltage to realize greatest gain of the outboard ADC BUT it's not that important!
@@ -2610,13 +2695,13 @@ MillisStart = millis();
         #endif
     #endif
 
-    for( uint8_t pin = 0; pin < 6; pin++ )
+    for( uint8_t CSIndex = 0; CSIndex < NUM_OF_DPOTS; CSIndex++ )
     {
         Serial.print( F( "DPotSettings[" ) );
-        Serial.print( DPotPins[ pin ] );
+        Serial.print( DPotPins[ CSIndex ] );
         Serial.print( F( "]=" ) );
-        Serial.print( DPotSettings[ pin ] );
-        if( pin < 5 )
+        Serial.print( DPotSettings[ CSIndex ] );
+        if( CSIndex < NUM_OF_DPOTS - 1 )
             Serial.print( F( ",. " ) );
         else
             Serial.print( F( ",. " ) );
@@ -2628,13 +2713,13 @@ MillisStart = millis();
 
 void loop() 
 {
-    for( uint8_t pin = 0; pin < 6; pin++ )
+    for( uint8_t CSIndex = 0; CSIndex < NUM_OF_DPOTS; CSIndex++ )
     {
         Serial.print( F( "DPotSettings[" ) );
-        Serial.print( DPotPins[ pin ] );
+        Serial.print( DPotPins[ CSIndex ] );
         Serial.print( F( "]=" ) );
-        Serial.print( DPotSettings[ pin ] );
-        if( pin < 5 )
+        Serial.print( DPotSettings[ CSIndex ] );
+        if( CSIndex < NUM_OF_DPOTS - 1 )
             Serial.print( F( ",. " ) );
         else
             Serial.print( F( ",. " ) );
@@ -2687,9 +2772,9 @@ void loop()
     {
         #if ( NUM_OF_OUTBOARDS_PLOTTED > 0 ) && defined AUTO_BRIDGE_BALANCING
             #ifdef MAGNIFICATION_FACTOR
-            if( MasterReadingsArrayIndex < INDEX_OF_OUTBOARDS )  BestGuessAnalogInputreading( 1 + ( channel * LEGS_PER_DPOT_PRESENT_BRIDGE ) + BIAS_IN_ANALOG_INPUT_BITS_TO_APPLY_TO_SIGNAL_LEG_TO_CENTER_THE_TRACE_BANK0 - BestGuessAnalogInputreading( ( channel - 2 ) * LEGS_PER_DPOT_PRESENT_BRIDGE ) );
+            if( MasterReadingsArrayIndex < INDEX_OF_OUTBOARDS )  BestGuessAnalogInputreading( 1 + ( channel * LEGS_PER_DPOT_STYLE_BRIDGE ) + BIAS_IN_ANALOG_INPUT_BITS_TO_APPLY_TO_SIGNAL_LEG_TO_CENTER_THE_TRACE_BANK0 - BestGuessAnalogInputreading( ( channel - 2 ) * LEGS_PER_DPOT_STYLE_BRIDGE ) );
             #else
-            if( MasterReadingsArrayIndex >= NUM_OF_INBOARDS_PLOTTED ) BestGuessAnalogInputreading( 1 + channel ) + BIAS_IN_ANALOG_INPUT_BITS_TO_APPLY_TO_SIGNAL_LEG_TO_CENTER_THE_TRACE_BANK0 - BestGuessAnalogInputreading( ( channel - 2 ) * LEGS_PER_DPOT_PRESENT_BRIDGE );
+            if( MasterReadingsArrayIndex >= NUM_OF_INBOARDS_PLOTTED ) BestGuessAnalogInputreading( 1 + channel ) + BIAS_IN_ANALOG_INPUT_BITS_TO_APPLY_TO_SIGNAL_LEG_TO_CENTER_THE_TRACE_BANK0 - BestGuessAnalogInputreading( ( channel - 2 ) * LEGS_PER_DPOT_STYLE_BRIDGE );
             #endif
         //BestGuessAnalogInputreading index argument is a bank...which doesn't exist except with the outboard ADCs
         #endif
