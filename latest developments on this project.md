@@ -1,3 +1,14 @@
+<dl><dt>22 Oct 2018</dt></dl>Using the 20 Sep version to regain functionality, I'm taking smaller, baby steps to expand the sketch.  My current goals are 
+
+- to allow for use of less than 3 and more than 3 DPots/leg
+- to allow for using DPots without LM334 in bridges
+- to allow for using unbridged DPots
+- to allow for multiple HX711s
+and, of course
+- to allow for faster conductance range changes when DUT conductance goes out of range.
+
+In the meantime, I have coded a new pre-processor macro PLOT_ONLY_THE_SIGNAL_LEG_OF_SUPERIMPOSED_DPOT_LEG_BRIDGE_INBOARDS to suppress the reference plotlines of superimposed traces.  Using this macro, however, may alter the intuition behind specifying how many inboard lines are to be plotted.  I'm not concerned at all about that probable disconnect from intuition, since it is only a matter of very little experimentation for you to determine how many inboards to plot if you use the new macro.  Specifically, if you define this new macro in your compilation while superimposing bridged traces, fewer traces will be plotted than specified by the NUM_OF_INBOARDS_PLOTTED is defined for.  If this becomes confusing to users, I can consider changing it in the future.  It works great as is, so I'm moving on to the other goals.
+
 <dl><dt>11 Oct 2018</dt></dl>There was something to be said for the 20 Sep 2018 version even though it auto-adjusted slow.  At least it auto-adjusted whereas changes since then have never worked as well.  Am reverting back to 20 Sep in the auto-adjust respect only and re-publishing with other modifications included that do work fine.  Hope to finish this publish goal today....
 <dl><dt>06 Oct 2018</dt></dl>Sketch versions dated today and later will now accommodate the dual pot version of MCP42xxx.  The way the second pot in the package is controlled to that its pin number will have the pin number of first pot in the package OR'd with a hex value of 40 (0x40) as being the pin number for the second digipot in the package in the defines section of the sketch right where the digipot pins are currently defined.  
 
