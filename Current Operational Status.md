@@ -18,7 +18,7 @@ The specific circuit configuration you'll need with this current sketch version 
 
 **One HX711** with some way to connect into the circuit.  In my early development work, I got the ADS1015 and ADS1115 working, but have not kept that functionality maintained.  Hopefully it still works.  I advise a unique connection into the ADS1x15 circuit ground as I describe on the page entitled "[More construction details.md](https://github.com/kenneth558/plant_resistance_primary_perception/blob/Free/More%20construction%20details.md)".
 
-**Power supply decoupling (low ESR) capacitors as needed** with some way to connect into the circuit.  At least .1uF in capacitance.  The digipots may need .5uF-2.0uF or more just for them in totality as I am seeing some artifact in my development circuit that I should investigate later before quitting my day job.
+**Power supply decoupling (low ESR) capacitors as needed** with some way to connect into the circuit.  At least .1uF in capacitance.  The digipots may need .5uF-2.0uF or more just for them in totality as I am seeing some possibly related artifact in my development circuit that I should investigate later before quitting my day job.
 
 **Arduino board with power/serial communications cable**.  I am doing my latest development work on a Leonardo, but my earlier work was done on the Uno.  I have written my code to accommodate the TTGO XI, but have never tried the sketch with it.
 
