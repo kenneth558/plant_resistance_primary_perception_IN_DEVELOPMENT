@@ -32,5 +32,6 @@ Why do I emphasize FULLY inserted?  Because the circuit is tracking potentially 
 
 **computer** placed near enough to provide Arduino connection and show the Arduino IDE Serial Plotter rendered on the monitor for the user to observe.
 
+---------------------
 The changes I am still developing are merely changes to #1) allow more flexibility in the circuit and #2) speed up resistance range changes during use.  Circuitry flexibility hopes are to allow both fewer and more digital potentiometers per bridge leg, to allow bridge legs to be made without LM334s, to allow non-LM334 legs to be unbridged, to accommodate outboard ADCs of types beyond the HX711, and to allow for use of more than just one outboard ADC.
 
