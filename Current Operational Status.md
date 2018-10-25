@@ -1,4 +1,4 @@
-Current Operational Status: **[this sketch](https://github.com/kenneth558/plant_resistance_primary_perception/blob/Free/sketch%20code/adc_for_plant_tissue.ino) is fully operational in a very specific circuit configuration**.  
+**Current Operational Status:** [this sketch](https://github.com/kenneth558/plant_resistance_primary_perception/blob/Free/sketch%20code/adc_for_plant_tissue.ino) is **fully operational** in a very specific circuit configuration.  
 
 The specific circuit configuration you'll need with this current sketch version can be described as follows.  The description is to some extent covert because this stage of development will require you to be or become conversant/knowledgeable about things electronic and Arduino, anyway.  Vendors I use to purchase these are shown in [this page](https://github.com/kenneth558/plant_resistance_primary_perception/blob/Free/More%20construction%20details.md) near the end of it.
 
