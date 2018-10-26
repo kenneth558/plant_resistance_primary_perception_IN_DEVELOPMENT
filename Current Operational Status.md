@@ -12,7 +12,7 @@ The specific circuit configuration you'll need with this current sketch version 
 
 **One minimal-wattage resistor** of similar resistance as the plant tissue with some way to connect into the circuit.  A resistance value of 1 Mohm works for me, and yes, I AM amazed that such a common value seems to work out fine.  The place this gets connected into the circuit is the reference leg of the Wheatstone bridge as the leg load resistance.  Note that the other Wheatstone bridge leg, the one used to balance the reference leg, is called the signal leg, and its load resistance is the plant tissue under test, AKA Device Under Test (DUT).
 
-**One AD8244** with the soldering where-with-all (including soldering skills) to match.  These tiny parts are microscopic in size, since they were evidently never intended for use by the hobbyist market.  Solder to the MSOP-10 PCB ADAPTER BOARD listed next or maybe you know of an inexpensive socket you can use instead.  I wish I knew of such a socket, but I don't.
+**One AD8244** with the soldering where-with-all (including soldering skills) to match.  These tiny parts, hyperbolically speaking, are microscopic in size, since they were evidently never intended for use by the hobbyist market.  Solder to the MSOP-10 PCB ADAPTER BOARD listed next or maybe you know of an inexpensive socket you can use instead.  I wish I knew of such a socket, but I don't.
 
 **One MSOP-10 PCB ADAPTER BOARD** with some way to connect into the circuit.
 
