@@ -30,7 +30,7 @@ Why do I emphasize FULLY inserted?  Because the circuit is tracking potentially 
 
 **length of insulated coaxial cable** with some way to connect into the circuit.  This connects the plant tissue via electrodes into the circuit's Wheatstone bridge signal leg as the load/DUT (Device Under Test).  The shield of the coax connects to circuit ground, the center conductor connects to the - lead of the LM334 on the signal side of the Wheatstone bridge.
 
-**optional 4-way light switch** if you want to experiment with polarity.  With some way to mount at the plant end of the coax as close to the electrodes as practical, connect, and insulate.  If such a 4-way switch is used, there is no reason to make the remainder of the wiring to the electrodes to be coaxial.  Just use twisted pair for it.
+**optional 4-way light switch** if you want to experiment with polarity.  With some way to mount at the plant end of the coax as close to the electrodes as practical, connect, and insulate.  If such a 4-way switch is used, there is no reason to make the remainder of the wiring to the electrodes to be coaxial.  Just use twisted pair for it.  Attach to the 4-way thusly: the two coax ends to the screw terminals at one END of the switch (END, NOT SIDE!) and the twisted pair ends to the screw terminals at the other END (END, NOT SIDE) of the 4-way.  If this will help clarify what I'm calling and end vs. what I'm calling a side, I'll go further to say that the captive screws used to mount the switch into an electrical box will be located one at each END of the switch, NOT each side of the switch.
 
 **insulated electrodes support (clamp/holder/stand/arm/goose neck/...)** with some means of fastening it between electrodes and floor/table/soil while applying a clamping force on the electrodes against opposing surfaces of the leaf or other plant part[s].  Please ensure that no part of this assembly that may possibly contact the plant is electrically conductive because interfering electrical path fluctuations will result from any such electrical contact.
 
@@ -38,4 +38,3 @@ Why do I emphasize FULLY inserted?  Because the circuit is tracking potentially 
 
 ---------------------
 The changes I am still developing are merely changes to #1) allow more flexibility in the circuit and #2) speed up resistance range changes during use.  Circuitry flexibility hopes are to allow both fewer and more digital potentiometers per bridge leg, to allow bridge legs to be made without LM334s, to allow non-LM334 legs to be unbridged, to accommodate outboard ADCs of types beyond the HX711, and to allow for use of more than just one outboard ADC.
-
