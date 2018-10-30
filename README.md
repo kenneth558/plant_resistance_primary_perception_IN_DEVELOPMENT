@@ -1,6 +1,7 @@
-# <p align="center">John 14:12 Agronomy - Promoting A Reviving Civility (TM)
+# <p align="center">GWAAM-Sea (Greater Works Agronomy and Mountain Casting) Training Aid(TM)
         Alternate title: Telempathic Gardening Traing Aid
         Alternate title: Husbandry of the Fig Tree and John 14:12 Training Aid
+        Alternate title: John 14:12 Agronomy - Promoting A Reviving Civility Training Aid
 [Click here to see what this title means](https://github.com/kenneth558/plant_resistance_primary_perception/blob/Free/what%20the%20title%20means.md)
 ### <p align="center">plans and Arduino sketch for the training aid
 -------------
