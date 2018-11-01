@@ -1,4 +1,4 @@
-# <p align="center">GWAAM-Sea (Greater Works Agronomy and Mountain Casting) Training Aid(TM)
+# <p align="center">GWAAM-Sea TPI (Greater Works Agronomy and Mountain Casting To Provoke Israel) Training Aid(TM)
         Alternate title: Telempathic Gardening Traing Aid
         Alternate title: Husbandry of the Fig Tree and John 14:12 Training Aid
         Alternate title: John 14:12 Agronomy - Promoting A Reviving Civility Training Aid
