@@ -1,3 +1,5 @@
+<dl><dt>2 Nov 2018</dt></dl>I'm rebuilding my prototype circuitry to improve robustness, considering that I'm traveling hither and yon with it.  I've made more progress with sketch transition, but there is still more to do with it.  The sketch posted in the base sketdch directory here on GitHub is still as far along in performance as any version I am working on locally.
+
 <dl><dt>22 Oct 2018</dt></dl>Using the 20 Sep version to regain functionality, I'm taking smaller, baby steps to expand the sketch.  My current goals are 
 
 - to allow for use of less than 3 and more than 3 DPots/leg
