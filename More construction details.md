@@ -19,9 +19,9 @@ Another note electronics-wise is that if you don't use an AD8244 the inputs of t
  ##### 4.  My reply to:
 "Your demo in Lincoln interests me and I would like to know all the details, schema and everything I need to know to replicate your idea!"
 
-As you know, I don't have the schematic in e-form, yet, but I can certainly describe the circuit verbally here.  You'll find the sketch under the "sketch code" folder in that GitHub location.  I'm keeping two sketches out there so one I call the nightly version.  "Weekly" is more accurate on that.
+You'll find the sketch under the "sketch code" folder in that GitHub location.  I'm keeping two sketches out there so one I call the nightly version.  "Weekly" is more accurate on that.
 
-Until the e-form schematic is done, here is a verbal description of the circuit:
+A verbal description follows the schematic: ![the circuit](https://github.com/kenneth558/plant_resistance_primary_perception/blob/Free/embeddeds/GWAAM-Sea%20Training%20Aid%20Schematic.png)
 The signal input is from a Wheatstone bridge circuit whose legs span the 5 VDC supply voltage.  My sketch is being written to accommodate more bridges to other DUTs, but I'll use the singular tense as I describe this to you.  Both legs of the bridge ("signal" and "reference" legs) are topped by one LM334 per leg, controlled by three (soon to be two) digipots making two LM334s and six (soon to be four) digipots per bridge.  "Topped" means each of the two LM334s connect to 5 VDC power with their (+) pin (lead).  Their (-) pin is the leg midpoint.  The controlling resistance formed by the digipots connects between the (R) pin and the (-) pin.  The (R) pin is called ADJ in some schematics.  
 
 The midpoint of the signal leg of the bridge connects to the DUT (device under test: the plant) with the signal electrode, while the other electrode is the ground electrode connecting from somewhere else on the plant near the signal electrode to signal ground of the circuit.  The two electrodes sandwich a leaf between them.  The load resistance in the reference leg has been a 1 MOhm resistor for all of the R&D time.  That value also seemed to work surprisingly well whenever I attached electrodes to an actual plant.  That's just one of those "God things", I'd say, but I'm sure different plants and electrode surface areas will result in that resistance value being adjusted in the future or for different circumstances.
@@ -51,6 +51,8 @@ DATA and CLK to the ADC are set by preprocessor macros PIN_FOR_DATA_TOFROM_HIGHE
 OPTIONAL:  Quick and dirty operation can be achieved with just the Arduino and the DUT with balancing resistor connected to +5 VDC...and electrodes  Just set the appropriate pre-processor macros:  disable the USING_LM334... macro, the NUM_OF_OUTBOARDS... macro [and maybe the SUPERIMPOSE_FIRST_INBOARDS... macro if you want two pins plotted magnified (superimposing disables the magnified view of a signal)].  IOW, the AD8244, digipots, and high sensitivity ADC are optional if you just want to see a plotline respond to your finger touching it.  The digipots also won't do anything for you if you use a rail-to-rail ADC like the ADS1X15.  
 
 You might be able to be notified of my changes to the project by GitHub settings, if you look around in GitHub, maybe...that's not a GitHub feature I've ever used, yet.
+
+Electrodes are vaporware as of yet: attached or soldered to each end of the electrode connecting wire is a silicone baby bottle nipple with an electric motor brush assembly (graphite brush and unterminated braided copper wire only) inside except for the braided copper wire that protrudes through the baby bottle nipple tip hole.  The connecting wires attach to the ends of the braided copper bruch wire.    The baby bottle nipple has to be trimmed perfectly flat from all protrusions where it needs to press flat against the leaf surface.  Inside the nipple will be mud (without bubbles) surrounding the graphite brush.  If needed, the mud can be contained inside by using plant-based (preferrably) fabric made from hemp, jute, etc.
 
 written as to a fellow Electronics Technician, hope you can fill in the rest of it.
 Ken
