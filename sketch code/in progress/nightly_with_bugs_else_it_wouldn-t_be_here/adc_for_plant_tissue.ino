@@ -24,8 +24,8 @@
 #define AUTO_BRIDGE_BALANCING                                              //increases setup time and during which the plot timing line stays high, then spikes low and high to indicate balancing complete //Turns on auto-balancing in setup(), significant time elapse for this to complete!
 #define CONTINUE_PLOTTING_DURING_AUTO_BRIDGE_BALANCE true                //Without predictive balancing, this takes too much time if true
 //#define DEBUG                                                            //Don't forget that DEBUG is not formatted for Serial plotter, but might work anyway if you'd never print numbers only any DEBUG print line
-#define POT_TEST_WOBBLE_SIGNAL_ON_FIRST_OUTBOARD_ADC 0                      //For testing - wobbles digipot settings on bridge index to impose a signal into Wheatstone bridge outputs. This imposes a signal on the signal leg
-#define POT_TEST_WOBBLE_REFERENCE_ON_FIRST_OUTBOARD_ADC 0                   //For testing - wobbles digipot settings on bridge index to impose a signal into Wheatstone bridge outputs. This imposes a signal on the reference leg
+#define POT_TEST_WOBBLE_SIGNAL_ON_SPECIFIED_OUTBOARD_ADC 0                      //For testing - wobbles digipot settings on bridge index to impose a signal into Wheatstone bridge outputs. This imposes a signal on the signal leg
+#define POT_TEST_WOBBLE_REFERENCE_ON_SPECIFIED_OUTBOARD_ADC 0                   //For testing - wobbles digipot settings on bridge index to impose a signal into Wheatstone bridge outputs. This imposes a signal on the reference leg
 #define WOBBLE_TIME_PERIOD  10
 //#define LEAVE_POT_VALUES_ALONE_DURING_SETUP                                               //First run should leave this undefined to load digi pots with some values
 #define BIAS_IN_ANALOG_INPUT_BITS_TO_APPLY_TO_SIGNAL_LEG_TO_CENTER_THE_TRACE_BANK0 0        //This offset will be applied to all signal lines of outboard ADCs, not just the first one, until further development.  Write some code yourself to expand.  Inboard Analog Inputs of 10 bits will make much change with little values, 12 bit inboard allows more flexibility here
@@ -405,8 +405,8 @@ If you only have the Arduino without an ADS1X15, then define NUM_OF_INBOARDS_PLO
 //
 //Here means there are no DPots in the system anywhere
 //
-#undef POT_TEST_WOBBLE_SIGNAL_ON_FIRST_OUTBOARD_ADC
-#undef POT_TEST_WOBBLE_REFERENCE_ON_FIRST_OUTBOARD_ADC
+#undef POT_TEST_WOBBLE_SIGNAL_ON_SPECIFIED_OUTBOARD_ADC
+#undef POT_TEST_WOBBLE_REFERENCE_ON_SPECIFIED_OUTBOARD_ADC
 #undef TEST_STEP_UP_DOWN
 #else
 /*
@@ -425,18 +425,25 @@ If you only have the Arduino without an ADS1X15, then define NUM_OF_INBOARDS_PLO
 */
 #include "SPI.h" //This is the hardware implementation of SPI with CS pin selectable devices, not addressable via data and unidirectional data in and data out pins.  The software implementation uses shiftIn() instead and is slower but flexible which pins get used and can be used adjunctive for cases where a chip has no CS pin.  Adafruit_ADS1015 uses the shiftIn() method, so those pins are user's choice.  Not data addressable as would be in I2C
 
-#ifdef POT_TEST_WOBBLE_SIGNAL_ON_FIRST_OUTBOARD_ADC
-#if ( 1 > POT_TEST_WOBBLE_SIGNAL_ON_FIRST_OUTBOARD_ADC + 0 )
-#undef POT_TEST_WOBBLE_SIGNAL_ON_FIRST_OUTBOARD_ADC
-#define POT_TEST_WOBBLE_SIGNAL_ON_FIRST_OUTBOARD_ADC 0 //make sure it contains a bridge index or leg for non-bridged legs, default is bridge 0
+#ifdef POT_TEST_WOBBLE_SIGNAL_ON_SPECIFIED_OUTBOARD_ADC
+#if ( 1 > POT_TEST_WOBBLE_SIGNAL_ON_SPECIFIED_OUTBOARD_ADC + 0 )
+#undef POT_TEST_WOBBLE_SIGNAL_ON_SPECIFIED_OUTBOARD_ADC
+#define POT_TEST_WOBBLE_SIGNAL_ON_SPECIFIED_OUTBOARD_ADC 0 //make sure it contains a bridge index or leg for non-bridged legs, default is bridge 0
+#endif
+#if ( POT_TEST_WOBBLE_SIGNAL_ON_SPECIFIED_OUTBOARD_ADC > 0 )
+#error SINCE THIS HOLDS WHICH BRIDGE IS OF INTEREST, MULTIPLY IT BY # OF DPOTS PER BRIDGE WHERE IT IS USED BUT YOU'LL ALSO HAVE TO ADAPT THE PREPROCESSOR MACRO'D PREFILL PIN NUMBERS BY HAND.  PRIORITIES DON'T ALLOW ME TO DO IT FOR YOU
 #endif
 #endif
-#ifdef POT_TEST_WOBBLE_REFERENCE_ON_FIRST_OUTBOARD_ADC
-#if ( 1 > POT_TEST_WOBBLE_REFERENCE_ON_FIRST_OUTBOARD_ADC + 0 )
-#undef POT_TEST_WOBBLE_REFERENCE_ON_FIRST_OUTBOARD_ADC
-#define POT_TEST_WOBBLE_REFERENCE_ON_FIRST_OUTBOARD_ADC 0 //make sure it contains a bridge index or leg for non-bridged legs, default is bridge 0
+#ifdef POT_TEST_WOBBLE_REFERENCE_ON_SPECIFIED_OUTBOARD_ADC
+#if ( 1 > POT_TEST_WOBBLE_REFERENCE_ON_SPECIFIED_OUTBOARD_ADC + 0 )
+#undef POT_TEST_WOBBLE_REFERENCE_ON_SPECIFIED_OUTBOARD_ADC
+#define POT_TEST_WOBBLE_REFERENCE_ON_SPECIFIED_OUTBOARD_ADC 0 //make sure it contains a bridge index or leg for non-bridged legs, default is bridge 0
+#endif
+#if ( POT_TEST_WOBBLE_REFERENCE_ON_SPECIFIED_OUTBOARD_ADC > 0 )
+#error SINCE THIS HOLDS WHICH BRIDGE IS OF INTEREST, MULTIPLY IT BY # OF DPOTS PER BRIDGE WHERE IT IS USED BUT YOU'LL ALSO HAVE TO ADAPT THE PREPROCESSOR MACRO'D PREFILL PIN NUMBERS BY HAND.  PRIORITIES DON'T ALLOW ME TO DO IT FOR YOU
 #endif
 #endif
+
 #define NUM_OF_DPOTS ( NUM_OF_DPOTS_IN_ALL_LM334_BRIDGES + NUM_OF_DPOTS_IN_ALL_BARE_LEG_BRIDGES + NUM_OF_DPOTS_IN_ALL_BARE_LEGS_UNBRIDGED )
 #define GO_IN_SMALL_STEPS true
 #define ADDRESS_THE_REFERENCE_LEG true
@@ -1222,7 +1229,7 @@ else
 }
 
 //#error The following function needs to get fixed next
-bool stepAdjustDPotsForThisLeg( bool voltsDown = TAKE_LEG_VOLTAGE_DOWN, bool justQueryingWhetherSettingsAreMaxedOut = false, bool dPotNamesReversed = false ) //default direction will be positive
+bool stepAdjustDPotsForThisLeg( bool voltsDown = TAKE_LEG_VOLTAGE_DOWN, bool justQueryingWhetherSettingsAreMaxedOut = false ) //default direction will be positive
 //    bool stepAdjustDPotsForThisLeg( uint8_t firstMSBInLeg, uint16_t* mSBpotValue, uint8_t mIDpotPinIndex, uint16_t* mIDpotValue, uint8_t lSBDPotOffsetThisLeg, uint16_t* lSBpotValue, \
 bool voltsDown = true, bool justQueryingWhetherSettingsAreMaxedOut = false, bool dPotNamesReversed = false, bool lSBFirstDPotOrder = false ) //defaults: direction will be positive, not justquerying, not reversed
 //If entering (calling) this function with !usingGlobalValueOfDPotLegForAnalogPinArrayIndex, ensure the globals for the signal leg of this bridge DID get configured, since they are consequently the reference point for in here
@@ -1987,7 +1994,7 @@ SetDPotsStep6:;
 #endif
       //We must prevent endless looping when out of range: if digipot settings are maxed out in the direction we're wanting them to go, return with setDPotsStep = 0 and failure
       Serial.print( F( "While loop L " ) );
-      if( !stepAdjustDPotsForThisLeg( TAKE_LEG_VOLTAGE_DOWN, true, true ) )
+      if( !stepAdjustDPotsForThisLeg( TAKE_LEG_VOLTAGE_DOWN, true ) )
       { //lsb
         setDPotsStep = 0;
         return false;
@@ -2003,7 +2010,7 @@ SetDPotsStep6:;
 #endif
       //We must prevent endless looping when out of range: if digipot settings are maxed out in the direction we're wanting them to go, return with setDPotsStep = 0 and failure
       Serial.print( F( "While loop J " ) );
-      if( !stepAdjustDPotsForThisLeg( TAKE_LEG_VOLTAGE_UP, false, true ) )
+      if( !stepAdjustDPotsForThisLeg( TAKE_LEG_VOLTAGE_UP, false ) )
       { //lsb
         setDPotsStep = 0;
         return false;
@@ -2240,7 +2247,7 @@ SetDPotsStep4:;
 #endif
       //We must prevent endless looping when out of range: if digipot settings are maxed out in the direction we're wanting them to go, return with setDPotsStep = 0 and failure
       Serial.print( F( "While loop L " ) );
-      if( !stepAdjustDPotsForThisLeg( TAKE_LEG_VOLTAGE_DOWN, true, true ) )
+      if( !stepAdjustDPotsForThisLeg( TAKE_LEG_VOLTAGE_DOWN, true ) )
       { //lsb
         setDPotsStep = 0;
         return false;
@@ -2256,7 +2263,7 @@ SetDPotsStep4:;
 #endif
       //We must prevent endless looping when out of range: if digipot settings are maxed out in the direction we're wanting them to go, return with setDPotsStep = 0 and failure
       Serial.print( F( "While loop J " ) );
-      if( !stepAdjustDPotsForThisLeg( TAKE_LEG_VOLTAGE_UP, false, true ) )
+      if( !stepAdjustDPotsForThisLeg( TAKE_LEG_VOLTAGE_UP, false ) )
       { //lsb
         setDPotsStep = 0;
         return false;
@@ -2628,35 +2635,35 @@ void plotTheNormalAndMagnifiedSignals( uint8_t masterReadingsArrayIndex ) //line
                     return;//only saving the reading, don't plot.  These are just LM334 non-plotted bridges
   }
 
-#if defined ( POT_TEST_WOBBLE_SIGNAL_ON_FIRST_OUTBOARD_ADC ) || defined ( POT_TEST_WOBBLE_REFERENCE_ON_FIRST_OUTBOARD_ADC )
-                static bool potWobbleDirection = true;
+#if defined ( POT_TEST_WOBBLE_SIGNAL_ON_SPECIFIED_OUTBOARD_ADC ) || defined ( POT_TEST_WOBBLE_REFERENCE_ON_SPECIFIED_OUTBOARD_ADC )
+static bool potWobbleDirection = true;
 static uint8_t wobbleLoops = 0;
 #define WOBBLE_AMPLITUDE 1
 void wobble( void )
 { //Adjust active code to amount of wobble you need at the moment
 uint8_t* analogPinArrayTemp = analogPinArray;
-analogPinArray = 0;
-#ifdef POT_TEST_WOBBLE_SIGNAL_ON_FIRST_OUTBOARD_ADC
-//        offsetDPotOrMSBGroupValue( NON_LSB_DPOT_1_B0SIG_PIN , dPotSettings[ 1 ] + ( potWobbleDirection ? WOBBLE_AMPLITUDE : ( 0 - WOBBLE_AMPLITUDE ) ) );
-    if( dPotSettings[ 0 ] < WOBBLE_AMPLITUDE ) 
-        setDPotOrMSBGroupValue( LSB_DPOT_B0SIG_PIN, WOBBLE_AMPLITUDE );
+analogPinArray = 0; //the setDPotOrMSBGroupValue functions check this for whether to consider their first argument as a real pin number or as an index to pin number within  analogPinArray[] for auto-carry/borrow (which we don't want right here until it gets perfected)
+#ifdef POT_TEST_WOBBLE_SIGNAL_ON_SPECIFIED_OUTBOARD_ADC  //SINCE THIS HOLDS WHICH BRIDGE IS OF INTEREST, MULTIPLY IT BY # OF DPOTS PER BRIDGE BUT YOU'LL ALSO HAVE TO ADAPT THE PREPROCESSOR MACRO'D PIN NUMBERS BY HAND
+    #ifdef NON_LSB_DPOT_1_B0SIG_PIN
+    if( dPotSettings[ 0 ] < WOBBLE_AMPLITUDE ) //then we need to borrow one unit from msb group and add DPOT_RATIO to this
+    {
+        setDPotOrMSBGroupValue( NON_LSB_DPOT_1_B0SIG_PIN, dPotSettings[ 1 ] - 1 );
+        setDPotOrMSBGroupValue( LSB_DPOT_B0SIG_PIN, dPotSettings[ 0 ] + DPOT_RATIO );
+    }
+    #endif
     setDPotOrMSBGroupValue( LSB_DPOT_B0SIG_PIN, dPotSettings[ 0 ] + ( potWobbleDirection ? WOBBLE_AMPLITUDE : ( 0 - WOBBLE_AMPLITUDE ) ) );
-
 #endif //trap the above if setting tries to go below zero
-#ifdef POT_TEST_WOBBLE_REFERENCE_ON_FIRST_OUTBOARD_ADC
-/*
-  //        offsetDPotOrMSBGroupValue( NON_LSB_DPOT_1_B0REF_PIN, dPotSettings[ 1 + ( ( DPOTS_PER_LM334_LEG > 0 ) ? DPOTS_PER_LM334_LEG : ( DPOTS_PER_BRIDGED_BARE_LEG > 0 ) ? DPOTS_PER_BRIDGED_BARE_LEG : DPOTS_PER_UNBRIDGED_BARE_LEG ) ] + ( ( potWobbleDirection ? ( 0 - WOBBLE_AMPLITUDE ) : WOBBLE_AMPLITUDE ) ) );
-if( dPotSettings[ \
-( DPOTS_PER_LM334_LEG > 0 ) ? DPOTS_PER_LM334_LEG : ( DPOTS_PER_BRIDGED_BARE_LEG > 0 ) ? DPOTS_PER_BRIDGED_BARE_LEG : DPOTS_PER_UNBRIDGED_BARE_LEG ]  < WOBBLE_AMPLITUDE )
-    dPotSettings[ \
-    ( DPOTS_PER_LM334_LEG > 0 ) ? DPOTS_PER_LM334_LEG : ( DPOTS_PER_BRIDGED_BARE_LEG > 0 ) ? DPOTS_PER_BRIDGED_BARE_LEG : DPOTS_PER_UNBRIDGED_BARE_LEG ] = WOBBLE_AMPLITUDE;
-setDPotOrMSBGroupValue( LSB_DPOT_B0REF_PIN, \
-dPotSettings[ \
-( DPOTS_PER_LM334_LEG > 0 ) ? DPOTS_PER_LM334_LEG : ( DPOTS_PER_BRIDGED_BARE_LEG > 0 ) ? DPOTS_PER_BRIDGED_BARE_LEG : DPOTS_PER_UNBRIDGED_BARE_LEG ] \
-+ potWobbleDirection ? ( 0 - WOBBLE_AMPLITUDE ) : WOBBLE_AMPLITUDE ); //TODO Debug 
-*/
+#ifdef POT_TEST_WOBBLE_REFERENCE_ON_SPECIFIED_OUTBOARD_ADC
+    #ifdef NON_LSB_DPOT_1_B0REF_PIN
+    if( dPotSettings[ ( NUM_OF_DPOTS_IN_ALL_LM334_BRIDGES > 0 ) ? DPOTS_PER_LM334_LEG : ( NUM_OF_DPOTS_IN_ALL_BARE_LEG_BRIDGES > 0 ) ? DPOTS_PER_BRIDGED_BARE_LEG : DPOTS_PER_UNBRIDGED_BARE_LEG ] < WOBBLE_AMPLITUDE )
+    {
+        setDPotOrMSBGroupValue( NON_LSB_DPOT_1_B0REF_PIN, dPotSettings[ ( ( NUM_OF_DPOTS_IN_ALL_LM334_BRIDGES > 0 ) ? DPOTS_PER_LM334_LEG : ( NUM_OF_DPOTS_IN_ALL_BARE_LEG_BRIDGES > 0 ) ? DPOTS_PER_BRIDGED_BARE_LEG : DPOTS_PER_UNBRIDGED_BARE_LEG ) + 1 ] - 1 );
+        setDPotOrMSBGroupValue( LSB_DPOT_B0REF_PIN, dPotSettings[ ( NUM_OF_DPOTS_IN_ALL_LM334_BRIDGES > 0 ) ? DPOTS_PER_LM334_LEG : ( NUM_OF_DPOTS_IN_ALL_BARE_LEG_BRIDGES > 0 ) ? DPOTS_PER_BRIDGED_BARE_LEG : DPOTS_PER_UNBRIDGED_BARE_LEG ] + DPOT_RATIO );
+    }
+    #endif 
+    setDPotOrMSBGroupValue( LSB_DPOT_B0REF_PIN, dPotSettings[ ( NUM_OF_DPOTS_IN_ALL_LM334_BRIDGES > 0 ) ? DPOTS_PER_LM334_LEG : ( NUM_OF_DPOTS_IN_ALL_BARE_LEG_BRIDGES > 0 ) ? DPOTS_PER_BRIDGED_BARE_LEG : DPOTS_PER_UNBRIDGED_BARE_LEG ] + ( !potWobbleDirection ? WOBBLE_AMPLITUDE : ( 0 - WOBBLE_AMPLITUDE ) ) );
 #endif //trap the above if setting tries to go below zero
-analogPinArray = analogPinArrayTemp;
+analogPinArray = analogPinArrayTemp; //restore proper value
   potWobbleDirection = !potWobbleDirection;
 }
 #endif
@@ -3604,7 +3611,7 @@ AutoAdjustNotWorkingYet:;
                 #endif
             }
     */
-#if defined ( POT_TEST_WOBBLE_SIGNAL_ON_FIRST_OUTBOARD_ADC ) || defined ( POT_TEST_WOBBLE_REFERENCE_ON_FIRST_OUTBOARD_ADC )
+#if defined ( POT_TEST_WOBBLE_SIGNAL_ON_SPECIFIED_OUTBOARD_ADC ) || defined ( POT_TEST_WOBBLE_REFERENCE_ON_SPECIFIED_OUTBOARD_ADC )
     wobbleLoops = ( wobbleLoops + 1 ) % WOBBLE_TIME_PERIOD;
 #ifdef DEBUG
     while( !Serial ); // wait for serial port to connect. Needed for Leonardo's native USB
