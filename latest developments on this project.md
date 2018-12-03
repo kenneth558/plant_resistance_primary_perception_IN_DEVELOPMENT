@@ -1,6 +1,10 @@
 <dl><dt>03 Dec 2018</dt></dl>A follow-up to the idea of wifi capability: I believe I mention somewhere that I am writing this sketch specifically for the Arduino IDE Serial Plotter, which I am.  Connection to that Serial Plotter is unidirectional data flow, making an inherently bidirectional wifi connection not only a level beyond the immediate scope of development but also incapable of connecting to the IDE plotter.  Wifi capability will be part of my planned client-side development that I've already started accommodating by means of extensive data now being included in the outgoing data stream.  The Arduino serial plotter ignores this additional data.  When I do get around to coding for the wifi, my current thinking is that it will utilize HTML5 SSE (preferred) or WebSockets (with the plant side being a web server), both of which I have not yet developed for.  Client-sent data would be via HTTP put() methods that would allow some means of operational adjustment at the plant end of the wifi connection.
 
+
 My current state of development is debugging the predictive auto-adjust.  I tripped over an attempted WEMOS XI compatibility effort and have to go back over those changes I made during that effort.  All for nought, it seems, b/c I discovered the WEMOS XI has been discontinued.<SIGH>
+
+
+UPDATE: Sollae Systems has developed Web Serial Plotter which uses WebSockets and integrates so well into the Arduino IDE that I would not have to code my own client-side renderer.  NICE!  That is what I'll get working just as soon as I get predictive balancing debugged.
 
 <dl><dt>30 Nov 2018</dt></dl>Thanks to Brook for suggesting that I add wifi connectivity, SD Card storage and a means of plotting plant growth.  On attempting to include to first two, I've found RAM limitations could be a serious challenge with boards only having 32K RAM or less.  The plant growth idea may not even need to connect into the Arduino, if it could be a standalone video camera.  Unidirectional growth upward might easily be included, though.  I don't plan on offering any of these enhancements in the free sketch version.
 
