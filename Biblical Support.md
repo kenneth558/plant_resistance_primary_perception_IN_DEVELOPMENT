@@ -20,3 +20,5 @@ In summary, Jesus accepted the fact that people would kill plants like fig trees
 ## 5 To redeem them that were under the law, that we might receive the adoption of sons.
 ## 6 And because ye are sons, God hath sent forth the Spirit of his Son into your hearts, crying, Abba, Father.
 ## 7 Wherefore thou art no more a servant, but a son; and if a son, then an heir of God through Christ.
+
+Notice in reading all this that the entirety of this project is Biblically based.  In fact, more specifically it is based in the words and lives of Jesus and His disciples.  God reserved these things to give to the believing Gentiles so they could make the nation of Israel jealous and know that they'll have to come back to God through Jesus.  Far be it from me to make it easy for anyone to short-circuit their way in without knowing that it was Jesus who started this whole agronomy-to-mountain-casting idea.  A mocker might posit that telempathic gardening probably came along well prior to Jesus' time, so Jesus didn't start it at all.  The fact is, Jesus actually was involved in started EVERYTHING well before He became a man, so He still knew first.
