@@ -36,7 +36,7 @@
 #else
     #define BAUD_TO_SERIAL 115200                                                           //YOU MAY SET THIS TO THE MAXIMUM VALUE THAT YOUR CONFIGURATION WILL FUNCTION WITH (UNLESS YOU'RE USING THE WeMos XI/TTGO XI, OF COURSE)
 #endif
-#define DPOT_RATIO 10 /* DPOT_RATIO: System-wide MSB/LSB.  Ex.: If the LSB digipot is 200 ohms/step and the MSB digipot is 2000 ohms/step, this value will be 10. (2000/200)
+#define DPOT_RATIO 20 /* DPOT_RATIO: System-wide MSB/LSB.  Ex.: If the LSB digipot is 200 ohms/step and the MSB digipot is 2000 ohms/step, this value will be 10. (2000/200)
                       It is only used relative to the LSB digipot, so there can only be that one digipot per leg allowed to have a smaller resistance 
                       per step than other digipots on the leg. All bridge legs in the system must be built with the same ratio scheme, and must always include one and
                       only one LSB digipot, with all non-LSB digipots matching each others' resistance/step values.  This macro limits LSB settings adjustments
