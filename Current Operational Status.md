@@ -1,4 +1,4 @@
-**Current Operational Status:** [This sketch](https://github.com/kenneth558/plant_resistance_primary_perception/blob/Free/sketch%20code/adc_for_plant_tissue.ino) is **fully operational** in the described circuit configuration.  
+**Current Operational Status:** [This sketch](https://github.com/kenneth558/plant_resistance_primary_perception/blob/Free/sketch%20code/adc_for_plant_tissue.ino) is **fully operational** in the described circuit configuration.  However, the internal construct layout in the only operational version has had to be changed to accommodate various enhancements which are not yet fully debugged. I am working diligently to finish debugging the sketch version with the requisite internal structure that conforms to project advancement ideals.
 
 ------------------------------------
 
