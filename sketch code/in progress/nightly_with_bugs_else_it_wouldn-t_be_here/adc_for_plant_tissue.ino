@@ -2523,8 +2523,20 @@ void setup()
   //To increase capacity, follow the naming pattern above
 #if not ( ( defined MINIMIZE_COMPILED_SKETCH_SIZE_LEVEL ) && ( MINIMIZE_COMPILED_SKETCH_SIZE_LEVEL == 0 ) )
   Serial.print( F( "DPot arrays filled " ) );
-
+#endif
+#ifndef LEAVE_POT_VALUES_ALONE_DURING_SETUP 
+    for( uint8_t dPotIndex = 0; dPotIndex < NUM_OF_DPOTS; dPotIndex++) //THIS ASSUMES THE ABOVE CONSTRUCT FILLS BOTH ARRAYS COMPLETELY
+    {
+#ifdef NUM_DIGITAL_PINS
+      if( ( dPotSettings[ dPotIndex ] > MAXPOTSETTG ) || ( dPotPins[ dPotIndex ] > NUM_DIGITAL_PINS ) ) break;  //The protection against arrays not fully set up
+#else
+      if( dPotSettings[ dPotIndex ] > MAXPOTSETTG ) break;  //The protection against arrays not fully set up
+#endif
+      writeSettingToAsingleDPot( dPotPins[ dPotIndex ], dPotSettings[ dPotIndex ] );  //b/c the analog pin array not set up, this needs pin numbers like this, not pin indexes
+    }
+#if not ( ( defined MINIMIZE_COMPILED_SKETCH_SIZE_LEVEL ) && ( MINIMIZE_COMPILED_SKETCH_SIZE_LEVEL == 0 ) )
   Serial.print( F( "DPot pins set up " ) );
+#endif
 #endif
 #elif ( LM334_BRIDGES > 1 )
 #error This sketch is not entirely able to handle multiple digipot bridges at this revision level
