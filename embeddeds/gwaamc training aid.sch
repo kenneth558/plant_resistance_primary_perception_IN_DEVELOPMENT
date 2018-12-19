@@ -515,7 +515,7 @@ GWAAMC Training Aid
 Text Notes 8200 7650 0    66   ~ 0
 18 Dec 2018
 Text Notes 7000 7050 0    63   ~ 0
-This system is shown using:                Shown but not in use:\n1 - LM334 bridge   1 - Uno Arduino      2 - 74LV138; useful with high DPot count\n1 - HX711 24-bit ADC\n1 - LSB DPot/leg            Non-LM334 configuration options include bridged and\n1 - MSB DPot/leg           single leg to replace or augment LM334 option.
+This system is shown using:                Shown not being used:\n1 - LM334 bridge   1 - Uno Arduino      2 - 74LV138; useful with high DPot count\n1 - HX711 24-bit ADC\n1 - LSB DPot/leg            Non-LM334 configuration options include bridged and\n1 - MSB DPot/leg           single leg to replace or augment LM334 option.
 $Comp
 L 74xx:74LS138 U4
 U 1 1 5C19BCAA
@@ -639,8 +639,8 @@ Text Notes 8700 2400 1    60   Italic 12
 *See note
 Text Notes 10750 5000 1    60   Italic 12
 *See note
-Text Notes 9200 6400 0    56   ~ 11
-NOTE FOR MCU ANALOG PINS:  User-\npreference allowed in preprocessor \nmacros for additional traces from \nunused Analog Pins.
+Text Notes 9150 6450 0    56   ~ 11
+NOTE FOR MCU ANALOG PINS:  Low-\nnumbered Analog Input pins are reserved \nfor all existing DPOT-controlled leg outputs.  \nUnused Analog Pins above them may be\nused to display additional plotter traces\nwhen so defined in preprocessor macros.  
 Text Notes 3650 3850 0    56   ~ 0
 NOTE: Decoupling C banks 1-2 each consist of a \n2-10 µF tantalum plus a low-ESR sub-µF capacitor \nwhich gets located in direct-as-practical path \nbetween + and GND pins of the active device \npaired with.
 Text Notes 650  1300 0    66   ~ 0
