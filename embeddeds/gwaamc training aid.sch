@@ -155,11 +155,11 @@ Wire Wire Line
 	4700 1600 4100 1600
 Wire Wire Line
 	6050 1600 6050 1500
-Text GLabel 7100 3850 2    48   Input ~ 0
+Text GLabel 7100 4000 2    48   Input ~ 0
 <From_MCU_Digital_Pin[s]_driving_this-these_CS[s]
-Text GLabel 6950 4250 2    48   Input ~ 0
+Text GLabel 6950 4400 2    48   Input ~ 0
 <From_MCU_Digital_Pins_driving_SCK_and_SDI_for_DPots
-Text GLabel 7550 4050 2    48   Input ~ 0
+Text GLabel 7550 4200 2    48   Input ~ 0
 <From_MCU_Digital_Pin_driving_this_CS
 Text Notes 3650 3050 0    59   ~ 0
 NOTE: Additional matching MSB-level DPots are\nallowed in this P0W-P0B loop.  Only a single \nLSB-level Dpot is allowed which must be of a\nresistance lower than or equal to MSB-level DPots.
@@ -284,11 +284,11 @@ Wire Wire Line
 	4000 6150 3400 6150
 Wire Wire Line
 	5350 6150 5350 6050
-Text GLabel 7100 4850 2    48   Input ~ 0
+Text GLabel 7100 5000 2    48   Input ~ 0
 <From_MCU_Digital_Pin[s]_driving_this-these_CS[s]
-Text GLabel 6950 5250 2    48   Input ~ 0
+Text GLabel 6950 5400 2    48   Input ~ 0
 <From_MCU_Digital_Pins_driving_SCK_and_SDI_for_DPots
-Text GLabel 7550 5050 2    48   Input ~ 0
+Text GLabel 7550 5200 2    48   Input ~ 0
 <From_MCU_Digital_Pin_driving_this_CS
 $Comp
 L Device:R_US R1
@@ -304,177 +304,177 @@ $EndComp
 $Comp
 L AD8244_B:AD8244ARMZ U3-B
 U 1 1 5C190291
-P 2700 4450
-F 0 "U3-B" H 2800 4600 50  0000 C CNN
-F 1 "U3_AD8244ARMZ" H 2100 4150 50  0000 C CNN
-F 2 "Package_MSOP_10" H 2700 4450 50  0001 C CNN
-F 3 "http://static6.arrow.com/aropdfconversion/427f47d0fc5e4caf484beffd27781384154f9c66/33171669476397452ad8244.pdf" H 2700 4450 50  0001 C CNN
-	1    2700 4450
+P 2700 4600
+F 0 "U3-B" H 2800 4750 50  0000 C CNN
+F 1 "U3_AD8244ARMZ" H 2100 4300 50  0000 C CNN
+F 2 "Package_MSOP_10" H 2700 4600 50  0001 C CNN
+F 3 "http://static6.arrow.com/aropdfconversion/427f47d0fc5e4caf484beffd27781384154f9c66/33171669476397452ad8244.pdf" H 2700 4600 50  0001 C CNN
+	1    2700 4600
 	1    0    0    -1  
 $EndComp
 $Comp
 L AD8244_C:AD8244ARMZ U3-C
 U 1 1 5C19037E
-P 2700 5100
-F 0 "U3-C" H 2750 5300 50  0000 C CNN
-F 1 "U3_AD8244ARMZ" H 2100 5450 50  0000 C CNN
-F 2 "Package_MSOP_10" H 2700 5100 50  0001 C CNN
-F 3 "http://static6.arrow.com/aropdfconversion/427f47d0fc5e4caf484beffd27781384154f9c66/33171669476397452ad8244.pdf" H 2700 5100 50  0001 C CNN
-	1    2700 5100
+P 2700 5250
+F 0 "U3-C" H 2750 5450 50  0000 C CNN
+F 1 "U3_AD8244ARMZ" H 2100 5600 50  0000 C CNN
+F 2 "Package_MSOP_10" H 2700 5250 50  0001 C CNN
+F 3 "http://static6.arrow.com/aropdfconversion/427f47d0fc5e4caf484beffd27781384154f9c66/33171669476397452ad8244.pdf" H 2700 5250 50  0001 C CNN
+	1    2700 5250
 	1    0    0    -1  
 $EndComp
 $Comp
 L AD8244_D:AD8244ARMZ U3-D
 U 1 1 5C190461
-P 2700 5550
-F 0 "U3-D" H 2800 5700 50  0000 C CNN
-F 1 "U3_AD8244ARMZ" H 2100 6350 50  0000 C CNN
-F 2 "Package_MSOP_10" H 2700 5550 50  0001 C CNN
-F 3 "http://static6.arrow.com/aropdfconversion/427f47d0fc5e4caf484beffd27781384154f9c66/33171669476397452ad8244.pdf" H 2700 5550 50  0001 C CNN
-	1    2700 5550
+P 2700 5700
+F 0 "U3-D" H 2800 5850 50  0000 C CNN
+F 1 "U3_AD8244ARMZ" H 2100 6500 50  0000 C CNN
+F 2 "Package_MSOP_10" H 2700 5700 50  0001 C CNN
+F 3 "http://static6.arrow.com/aropdfconversion/427f47d0fc5e4caf484beffd27781384154f9c66/33171669476397452ad8244.pdf" H 2700 5700 50  0001 C CNN
+	1    2700 5700
 	1    0    0    -1  
 $EndComp
 Wire Wire Line
-	2400 5100 2400 5550
-Connection ~ 2400 5550
+	2400 5250 2400 5700
+Connection ~ 2400 5700
 Wire Wire Line
-	2400 4450 2400 3850
+	2400 4600 2400 4000
 $Comp
 L AD8244_A:AD8244ARMZ U3-A
 U 1 1 5C1901B6
-P 2700 3850
-F 0 "U3-A" H 2700 4000 50  0000 L CNN
-F 1 " " H 1900 3650 50  0000 L CNN
-F 2 "Package_MSOP_10" H 2700 3850 50  0001 C CNN
-F 3 "http://static6.arrow.com/aropdfconversion/427f47d0fc5e4caf484beffd27781384154f9c66/33171669476397452ad8244.pdf" H 2700 3850 50  0001 C CNN
-	1    2700 3850
+P 2700 4000
+F 0 "U3-A" H 2700 4150 50  0000 L CNN
+F 1 " " H 1900 3800 50  0000 L CNN
+F 2 "Package_MSOP_10" H 2700 4000 50  0001 C CNN
+F 3 "http://static6.arrow.com/aropdfconversion/427f47d0fc5e4caf484beffd27781384154f9c66/33171669476397452ad8244.pdf" H 2700 4000 50  0001 C CNN
+	1    2700 4000
 	1    0    0    -1  
 $EndComp
 $Comp
 L power:VCC #PWR?
 U 1 1 5C193BB9
-P 2600 3450
-F 0 "#PWR?" H 2600 3300 50  0001 C CNN
-F 1 "VCC" H 2500 3600 50  0000 C CNN
-F 2 "" H 2600 3450 50  0001 C CNN
-F 3 "" H 2600 3450 50  0001 C CNN
-	1    2600 3450
+P 2600 3600
+F 0 "#PWR?" H 2600 3450 50  0001 C CNN
+F 1 "VCC" H 2500 3750 50  0000 C CNN
+F 2 "" H 2600 3600 50  0001 C CNN
+F 3 "" H 2600 3600 50  0001 C CNN
+	1    2600 3600
 	1    0    0    -1  
 $EndComp
 $Comp
 L power:GNDA #PWR?
 U 1 1 5C193F33
-P 3000 4050
-F 0 "#PWR?" H 3000 3800 50  0001 C CNN
-F 1 "GNDA" H 3200 3950 50  0000 C CNN
-F 2 "" H 3000 4050 50  0001 C CNN
-F 3 "" H 3000 4050 50  0001 C CNN
-	1    3000 4050
+P 3000 4200
+F 0 "#PWR?" H 3000 3950 50  0001 C CNN
+F 1 "GNDA" H 3200 4150 50  0000 C CNN
+F 2 "" H 3000 4200 50  0001 C CNN
+F 3 "" H 3000 4200 50  0001 C CNN
+	1    3000 4200
 	1    0    0    -1  
 $EndComp
 $Comp
 L hx711:HX711 ADC1
 U 1 1 5C19811F
-P 5350 4550
-F 0 "ADC1" H 5600 5000 50  0000 C CNN
-F 1 "HX711, etc." H 5700 4900 50  0000 C CNN
-F 2 "Package_TO_SOT_SMD:SOT-23-6" H 5800 4900 50  0001 L CNN
-F 3 "http://www.ti.com/lit/ds/symlink/ads1110.pdf" H 5050 4900 50  0001 C CNN
-	1    5350 4550
+P 5350 4700
+F 0 "ADC1" H 5600 5200 50  0000 C CNN
+F 1 "HX711, etc." H 5700 5100 50  0000 C CNN
+F 2 "Package_TO_SOT_SMD:SOT-23-6" H 5800 5050 50  0001 L CNN
+F 3 "http://www.ti.com/lit/ds/symlink/ads1110.pdf" H 5050 5050 50  0001 C CNN
+	1    5350 4700
 	1    0    0    -1  
 $EndComp
 $Comp
 L power:GNDA #PWR?
 U 1 1 5C19D658
-P 5250 4900
-F 0 "#PWR?" H 5250 4650 50  0001 C CNN
-F 1 "GNDA" H 5255 4727 50  0000 C CNN
-F 2 "" H 5250 4900 50  0001 C CNN
-F 3 "" H 5250 4900 50  0001 C CNN
-	1    5250 4900
+P 5250 5050
+F 0 "#PWR?" H 5250 4800 50  0001 C CNN
+F 1 "GNDA" H 5255 4877 50  0000 C CNN
+F 2 "" H 5250 5050 50  0001 C CNN
+F 3 "" H 5250 5050 50  0001 C CNN
+	1    5250 5050
 	1    0    0    -1  
 $EndComp
 $Comp
 L power:VCC #PWR?
 U 1 1 5C19D6AB
-P 5250 4150
-F 0 "#PWR?" H 5250 4000 50  0001 C CNN
-F 1 "VCC" H 5267 4323 50  0000 C CNN
-F 2 "" H 5250 4150 50  0001 C CNN
-F 3 "" H 5250 4150 50  0001 C CNN
-	1    5250 4150
+P 5250 4300
+F 0 "#PWR?" H 5250 4150 50  0001 C CNN
+F 1 "VCC" H 5267 4473 50  0000 C CNN
+F 2 "" H 5250 4300 50  0001 C CNN
+F 3 "" H 5250 4300 50  0001 C CNN
+	1    5250 4300
 	1    0    0    -1  
 $EndComp
-Text GLabel 7400 4450 2    48   Input ~ 0
+Text GLabel 7400 4600 2    48   Input ~ 0
 <From_MCU_Digital_Pin_driving_this_PD_SCK
-Text GLabel 7550 4650 2    48   Output ~ 0
+Text GLabel 7550 4800 2    48   Output ~ 0
 >To_MCU_Digital_Pin_receiving_this_data
-Connection ~ 2400 3850
+Connection ~ 2400 4000
 $Comp
 L MCU_Module:Arduino_UNO_R3 MCU
 U 1 1 5C1B3A00
-P 9850 4400
-F 0 "MCU" H 10450 5350 50  0000 C CNN
-F 1 "Some_Arduino_MCU" H 10700 5250 50  0000 C CNN
-F 2 "Module:Arduino_UNO_R3" H 10000 3350 50  0001 L CNN
-F 3 "https://www.arduino.cc/en/Main/arduinoBoardUno" H 9650 5450 50  0001 C CNN
-	1    9850 4400
+P 9850 4350
+F 0 "MCU" H 10450 5300 50  0000 C CNN
+F 1 "Some_Arduino_MCU" H 10700 5200 50  0000 C CNN
+F 2 "Module:Arduino_UNO_R3" H 10000 3300 50  0001 L CNN
+F 3 "https://www.arduino.cc/en/Main/arduinoBoardUno" H 9650 5400 50  0001 C CNN
+	1    9850 4350
 	1    0    0    -1  
 $EndComp
-Text Notes 9300 5850 0    56   ~ 0
+Text Notes 9150 5800 0    56   ~ 0
 NOTE: Arduino also gets power rails \nand a serial connection to a computer
-Text Notes 6650 6150 0    66   ~ 0
-NOTE: Unfortunately, the devices shown do \nnot all share common data protocols except \nthe DPots.  Define the Digital Pin functions \nin preprocessor macros for all the disparate\nprotocols.  Some flexibility thus remains for \ndriving an additional device or two that may \nhave inflexible pin assignments.
+Text Notes 6650 6400 0    66   ~ 0
+NOTE: Unfortunately, the devices shown do \nnot all share common data protocols except \nthe DPots.  Define the Digital Pin functions \nin preprocessor macros for all the disparate\nprotocols.  Thus, some flexibility remains for \ndriving an additional device or two that may \nhave inflexible pin assignments.
 $Comp
 L Device:C_Small C1_bank
 U 1 1 5C1C2A28
-P 4900 4150
-F 0 "C1_bank" V 4650 4100 50  0000 C CNN
-F 1 "2.05 µF total" V 4750 4100 50  0000 C CNN
-F 2 "" H 4900 4150 50  0001 C CNN
-F 3 "~" H 4900 4150 50  0001 C CNN
-	1    4900 4150
+P 4900 4300
+F 0 "C1_bank" V 4650 4250 50  0000 C CNN
+F 1 "2.05 µF total" V 4750 4250 50  0000 C CNN
+F 2 "" H 4900 4300 50  0001 C CNN
+F 3 "~" H 4900 4300 50  0001 C CNN
+	1    4900 4300
 	0    1    1    0   
 $EndComp
 $Comp
 L power:GNDD #PWR?
 U 1 1 5C1C4E62
-P 4700 4150
-F 0 "#PWR?" H 4700 3900 50  0001 C CNN
-F 1 "GNDD" H 4704 3995 50  0000 C CNN
-F 2 "" H 4700 4150 50  0001 C CNN
-F 3 "" H 4700 4150 50  0001 C CNN
-	1    4700 4150
+P 4700 4300
+F 0 "#PWR?" H 4700 4050 50  0001 C CNN
+F 1 "GNDD" H 4704 4145 50  0000 C CNN
+F 2 "" H 4700 4300 50  0001 C CNN
+F 3 "" H 4700 4300 50  0001 C CNN
+	1    4700 4300
 	1    0    0    -1  
 $EndComp
 $Comp
 L Device:C_Small C2_bank
 U 1 1 5C1C5AE4
-P 2400 3450
-F 0 "C2_bank" V 2350 3900 50  0000 C CNN
-F 1 "2.05 µF total" V 2450 4000 50  0000 C CNN
-F 2 "" H 2400 3450 50  0001 C CNN
-F 3 "~" H 2400 3450 50  0001 C CNN
-	1    2400 3450
+P 2400 3600
+F 0 "C2_bank" V 2350 4050 50  0000 C CNN
+F 1 "2.05 µF total" V 2450 4150 50  0000 C CNN
+F 2 "" H 2400 3600 50  0001 C CNN
+F 3 "~" H 2400 3600 50  0001 C CNN
+	1    2400 3600
 	0    1    1    0   
 $EndComp
 $Comp
 L power:GNDD #PWR?
 U 1 1 5C1C6E06
-P 2250 3550
-F 0 "#PWR?" H 2250 3300 50  0001 C CNN
-F 1 "GNDD" H 2300 3400 50  0000 C CNN
-F 2 "" H 2250 3550 50  0001 C CNN
-F 3 "" H 2250 3550 50  0001 C CNN
-	1    2250 3550
+P 2250 3700
+F 0 "#PWR?" H 2250 3450 50  0001 C CNN
+F 1 "GNDD" H 2250 3550 50  0000 C CNN
+F 2 "" H 2250 3700 50  0001 C CNN
+F 3 "" H 2250 3700 50  0001 C CNN
+	1    2250 3700
 	1    0    0    -1  
 $EndComp
 Wire Wire Line
-	10350 4500 10500 4500
+	10350 4450 10500 4450
 Wire Wire Line
-	10500 4500 10500 5650
+	10500 4450 10500 5550
 Wire Wire Line
-	10350 4400 10600 4400
+	10350 4350 10600 4350
 $Comp
 L 74xx:74LS138 U5...
 U 1 1 5C1F1B57
@@ -514,8 +514,8 @@ Text Notes 7450 7500 0    97   ~ 0
 GWAAMC Training Aid
 Text Notes 8200 7650 0    66   ~ 0
 18 Dec 2018
-Text Notes 8450 6900 0    89   ~ 0
-A Reviving Civility
+Text Notes 7000 7050 0    63   ~ 0
+This system is shown using:                Shown but not in use:\n1 - LM334 bridge   1 - Uno Arduino      2 - 74LV138; useful with high DPot count\n1 - HX711 24-bit ADC\n1 - LSB DPot/leg            Non-LM334 configuration options include bridged and\n1 - MSB DPot/leg           single leg to replace or augment LM334 option.
 $Comp
 L 74xx:74LS138 U4
 U 1 1 5C19BCAA
@@ -599,7 +599,7 @@ F 3 "" H 7500 2400 50  0001 C CNN
 	1    7500 2400
 	1    0    0    -1  
 $EndComp
-Text GLabel 8250 3400 0    48   Output ~ 0
+Text GLabel 8250 3450 0    48   Output ~ 0
 <Drives_DPot_CS_pins_when_required
 Entry Wire Line
 	9950 2600 10050 2500
@@ -633,48 +633,46 @@ Entry Wire Line
 	7400 2200 7500 2100
 Entry Wire Line
 	7400 2600 7500 2500
-Text GLabel 6800 3650 2    48   Input ~ 0
+Text GLabel 6800 3800 2    48   Input ~ 0
 <From_MCU_Digital_pins_alternate_method_to_DPot_CS_pins
 Text Notes 8700 2400 1    60   Italic 12
 *See note
-Text Notes 10750 5150 1    60   Italic 12
+Text Notes 10750 5000 1    60   Italic 12
 *See note
-Text Notes 9300 6400 0    56   ~ 11
+Text Notes 9200 6400 0    56   ~ 11
 NOTE FOR MCU ANALOG PINS:  User-\npreference allowed in preprocessor \nmacros for additional traces from \nunused Analog Pins.
-Text Notes 3650 3750 0    56   ~ 0
+Text Notes 3650 3850 0    56   ~ 0
 NOTE: Decoupling C banks 1-2 each consist of a \n2-10 µF tantalum plus a low-ESR sub-µF capacitor \nwhich gets located in direct-as-practical path \nbetween + and GND pins of the active device \npaired with.
 Text Notes 650  1300 0    66   ~ 0
 NOTE:  The LM334 devices must receive 5 VDC or greater due to their own operating voltage range.  \nTheir functional range will be substantially limited if powered by the 3 or 3.3 VDC of many MCUs.  \nProvide a dedicated positive power supply to them if 5 VDC is not otherwise available, and carefully \nensure the output levels from them are prevented from exceeding the input range of the remaining \ncircuitry.
 Text Notes 5450 7600 2    60   Italic 12
 *See note for the above DPot set
 Wire Wire Line
-	10600 4400 10600 5850
+	10600 4350 10600 5600
 Wire Wire Line
-	3000 4450 3400 4450
+	3000 4000 3400 4000
 Wire Wire Line
-	3000 3850 3400 3850
+	4250 5600 10600 5600
 Wire Wire Line
-	4250 5850 10600 5850
+	2750 4150 2750 4300
 Wire Wire Line
-	2750 4000 2750 4150
+	3000 5250 3400 5250
 Wire Wire Line
-	3000 5100 3400 5100
+	3000 5700 3400 5700
 Wire Wire Line
-	3000 5550 3400 5550
+	2600 3700 2600 3600
+Connection ~ 2600 3600
 Wire Wire Line
-	2600 3550 2600 3450
-Connection ~ 2600 3450
+	2250 3600 2250 3700
 Wire Wire Line
-	2250 3450 2250 3550
+	2300 3600 2250 3600
 Wire Wire Line
-	2300 3450 2250 3450
+	4800 4300 4700 4300
 Wire Wire Line
-	4800 4150 4700 4150
+	5250 4300 5250 4350
+Connection ~ 5250 4300
 Wire Wire Line
-	5250 4150 5250 4200
-Connection ~ 5250 4150
-Wire Wire Line
-	5000 4150 5250 4150
+	5000 4300 5250 4300
 Connection ~ 2900 6900
 Entry Wire Line
 	4700 2500 4800 2600
@@ -688,22 +686,14 @@ Entry Wire Line
 	4800 2400 4900 2500
 Text GLabel 2150 1750 0    67   UnSpc ~ 0
 Opt_SW
-Connection ~ 4250 4450
 Wire Wire Line
-	4250 4450 4250 5850
+	4250 4550 4250 4600
 Wire Wire Line
-	4250 4450 4800 4450
+	4250 4600 4800 4600
 Wire Wire Line
-	4450 5650 4450 4650
-Connection ~ 4450 4650
+	5750 4600 7400 4600
 Wire Wire Line
-	4450 4650 4800 4650
-Wire Wire Line
-	5750 4450 7800 4450
-Wire Wire Line
-	5750 4650 7950 4650
-Wire Bus Line
-	6700 3650 6800 3650
+	5750 4800 7550 4800
 Entry Wire Line
 	4000 7050 4100 7150
 Entry Wire Line
@@ -718,34 +708,18 @@ Wire Bus Line
 	5350 6950 6150 6950
 Wire Bus Line
 	6050 2400 6550 2400
-Wire Bus Line
-	6150 4850 7100 4850
 Wire Wire Line
-	6350 7050 6350 5050
+	6350 5200 7550 5200
 Wire Wire Line
-	6350 5050 7550 5050
-Wire Bus Line
-	6550 5250 6950 5250
+	2750 4300 2600 4300
 Wire Wire Line
-	2750 4150 2600 4150
+	3000 4200 3000 4150
 Wire Wire Line
-	3000 4050 3000 4000
+	2750 4150 3000 4150
 Wire Wire Line
-	2750 4000 3000 4000
-Wire Bus Line
-	6150 4850 6150 6950
+	6350 2500 6350 4200
 Wire Wire Line
-	6350 2500 6350 4050
-Wire Wire Line
-	6350 4050 7550 4050
-Wire Bus Line
-	6150 2600 6150 4250
-Wire Bus Line
-	6150 4250 6950 4250
-Wire Bus Line
-	6550 3850 6550 2400
-Wire Bus Line
-	6550 3850 7100 3850
+	6350 4200 7550 4200
 Wire Wire Line
 	4000 1750 4000 1500
 Wire Wire Line
@@ -753,34 +727,14 @@ Wire Wire Line
 Wire Wire Line
 	3600 1750 4000 1750
 Wire Wire Line
-	3400 3850 3400 4450
-Connection ~ 3400 4450
+	3400 4000 3400 4600
 Wire Wire Line
-	3400 4450 4250 4450
-Wire Wire Line
-	3400 5550 3400 5100
-Connection ~ 3400 5100
-Wire Wire Line
-	3400 5100 3400 4650
-Wire Wire Line
-	3400 4650 4450 4650
+	3400 5700 3400 5250
+Connection ~ 3400 5250
 Text GLabel 1400 1750 0    68   BiDi ~ 14
 -LEAF-
 Wire Bus Line
-	10400 1700 10400 3200
-Wire Bus Line
-	8850 3100 7400 3100
-Wire Bus Line
-	6700 3100 6700 3650
-Connection ~ 7400 3100
-Wire Bus Line
-	7400 3100 6700 3100
-Wire Bus Line
-	9200 3400 9200 3200
-Wire Bus Line
-	9200 3200 10400 3200
-Wire Bus Line
-	8250 3400 9200 3400
+	8250 3450 9100 3450
 Connection ~ 3500 2350
 Wire Wire Line
 	3500 2350 4100 2350
@@ -866,11 +820,7 @@ $EndComp
 Text GLabel 850  3100 0    32   BiDi ~ 0
 Unused_leaf
 Wire Wire Line
-	10500 5650 4450 5650
-Wire Wire Line
-	2350 3850 2400 3850
-Wire Bus Line
-	6550 5250 6550 7150
+	10500 5550 4450 5550
 Wire Wire Line
 	3400 6150 3400 6900
 Wire Wire Line
@@ -882,15 +832,13 @@ Wire Wire Line
 Wire Wire Line
 	3100 6400 3250 6400
 Wire Wire Line
-	2400 5550 2400 6900
+	2400 5700 2400 6900
 Wire Wire Line
 	2400 6900 2900 6900
 Wire Wire Line
-	2100 3850 2400 3850
-Wire Wire Line
 	2100 3200 3500 3200
 Wire Wire Line
-	2100 3200 2100 3850
+	2100 3200 2100 4000
 Wire Wire Line
 	3500 2350 3500 3200
 Wire Wire Line
@@ -938,7 +886,7 @@ Device Under Test \n(DUT)
 Wire Wire Line
 	2900 6900 2900 7150
 Wire Wire Line
-	2450 3450 2600 3450
+	2450 3600 2500 3600
 Wire Wire Line
 	2900 1550 2900 2150
 Wire Wire Line
@@ -947,6 +895,65 @@ Wire Wire Line
 	1250 2400 1250 2500
 Wire Wire Line
 	1300 2400 1300 2500
+Text Notes 2800 2150 2    39   Italic 0
+(Switch wiring overlaps straight-through \nwiring for drawing purposes only.  Do not \nwire both ways simultaneously, of course)
+Wire Wire Line
+	6350 7050 6350 5200
+Connection ~ 2500 3600
+Wire Wire Line
+	2500 3600 2600 3600
+Connection ~ 4250 4600
+Wire Wire Line
+	4250 4600 4250 5600
+Wire Wire Line
+	2350 4000 2400 4000
+Wire Wire Line
+	2100 4000 2400 4000
+Wire Wire Line
+	3000 4600 3400 4600
+Connection ~ 3400 4600
+Wire Wire Line
+	3400 4600 4250 4600
+Wire Wire Line
+	3400 4800 4450 4800
+Connection ~ 4450 4800
+Wire Wire Line
+	4450 4800 4800 4800
+Wire Wire Line
+	3400 4800 3400 5250
+Wire Wire Line
+	4450 4800 4450 5550
+Wire Bus Line
+	10400 1700 10400 3150
+Wire Bus Line
+	8850 3300 7400 3300
+Connection ~ 7400 3300
+Wire Bus Line
+	7400 3300 6700 3300
+Wire Bus Line
+	6950 5400 6550 5400
+Wire Bus Line
+	6550 5400 6550 7150
+Wire Bus Line
+	7100 5000 6150 5000
+Wire Bus Line
+	6150 5000 6150 6950
+Wire Bus Line
+	6950 4400 6150 4400
+Wire Bus Line
+	7100 4000 6550 4000
+Wire Bus Line
+	9100 3150 10400 3150
+Wire Bus Line
+	9100 3150 9100 3450
+Wire Bus Line
+	6550 2400 6550 4000
+Wire Bus Line
+	6800 3800 6700 3800
+Wire Bus Line
+	6700 3300 6700 3800
+Wire Bus Line
+	6150 2600 6150 4400
 Wire Wire Line
 	1300 5350 1300 7100
 Wire Wire Line
@@ -954,7 +961,7 @@ Wire Wire Line
 Wire Wire Line
 	4200 7050 6350 7050
 Wire Bus Line
-	8850 2000 8850 3100
+	8850 2000 8850 3300
 Wire Bus Line
 	4800 2600 6150 2600
 Wire Wire Line
@@ -962,11 +969,11 @@ Wire Wire Line
 Wire Wire Line
 	1450 1550 2900 1550
 Wire Bus Line
-	7400 2000 7400 3100
-Wire Bus Line
 	4100 7150 6550 7150
 Wire Bus Line
+	7400 2000 7400 3300
+Wire Bus Line
 	10050 1700 10050 2500
-Text Notes 2800 2150 2    39   Italic 0
-(Switch wiring overlaps straight-through \nwiring for drawing purposes only.  Do not \nwire both ways simultaneously, of course)
+Text Notes 7300 7250 0    58   ~ 0
+1 
 $EndSCHEMATC
