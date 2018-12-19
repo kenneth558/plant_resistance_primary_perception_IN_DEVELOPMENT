@@ -1,0 +1,9 @@
+EESchema-DOCLIB  Version 2.0
+#
+$CMP AD8244ARMZ
+D Low Noise, High Input Z, Unity Gain Buffer Amplifier, MSOP-10
+K Buffer
+F http://static6.arrow.com/aropdfconversion/427f47d0fc5e4caf484beffd27781384154f9c66/33171669476397452ad8244.pdf
+$ENDCMP
+#
+#End Doc Library

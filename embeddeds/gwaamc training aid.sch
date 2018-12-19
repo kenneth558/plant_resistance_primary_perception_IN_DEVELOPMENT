@@ -487,7 +487,7 @@ F 3 "http://www.ti.com/lit/gpn/sn74LS138" H 9450 2200 50  0001 C CNN
 	1    0    0    -1  
 $EndComp
 Text Notes 6250 1100 0    58   ~ 0
-NOTE: U5 only used for larger numbers of DPots.  U5's outputs drive DPot CS lines.  U4 only used for even \nlarger numbers of DPots.  U4's outputs drive E1 or E2 of U5, U6, U7, etc. See sketch preprocessor macros \nand comments for more complete pin assignments and requirements.\nU5 pin E1/E2 may be driven by an MCU Digital Pin.  Again, see sketch comments.
+*NOTE: U5 only used for larger numbers of DPots.  U5's outputs drive DPot CS lines.  U4 only used for even \nlarger numbers of DPots.  U4's outputs drive E1 or E2 of U5, U6, U7, etc. See sketch preprocessor macros \nand comments for more complete pin assignments and requirements.\nU5 pin E1/E2 may be driven by an MCU Digital Pin.  Again, see sketch comments.
 $Comp
 L power:GNDD #PWR?
 U 1 1 5C1F1C9A
@@ -639,8 +639,8 @@ Text Notes 8700 2400 1    60   Italic 12
 *See note
 Text Notes 10750 5000 1    60   Italic 12
 *See note
-Text Notes 9150 6450 0    56   ~ 11
-NOTE FOR MCU ANALOG PINS:  Low-\nnumbered Analog Input pins are reserved \nfor all existing DPOT-controlled leg outputs.  \nUnused Analog Pins above them may be\nused to display additional plotter traces\nwhen so defined in preprocessor macros.  
+Text Notes 9150 6450 0    56   ~ 0
+*NOTE FOR MCU ANALOG PINS:  Low-\nnumbered Analog Input pins are reserved \nfor all existing DPOT-controlled leg outputs.  \nUnused Analog Pins above them may be\nused to display additional plotter traces\nwhen so defined in preprocessor macros.  
 Text Notes 3650 3850 0    56   ~ 0
 NOTE: Decoupling C banks 1-2 each consist of a \n2-10 µF tantalum plus a low-ESR sub-µF capacitor \nwhich gets located in direct-as-practical path \nbetween + and GND pins of the active device \npaired with.
 Text Notes 650  1300 0    66   ~ 0
