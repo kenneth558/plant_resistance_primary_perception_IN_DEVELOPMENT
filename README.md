@@ -76,3 +76,5 @@ Add-on ADCs, especially the more affordable ones, tend to have inputs that are o
 
 To repeat myself for the sake of emphasis:
 Note to anyone wanting this device for tobacco, marijuana, coca, or similar uses: You'll not have ANY support from me for purposes not intended to make the world a better place.  Don't even try to get my support for those type purposes that make the world a worse place rather than better.  Notice the period at the end of that statement.
+
+TO PROSPECTIVE GITHUB CLONERS - Given my lack of knowledge how GitHub cloning works, I have no idea what you can expect from cloning anything of mine at this time.
