@@ -2,7 +2,13 @@
 
 ------------------------------------
 
-The specific circuit configuration you'll need with this current sketch version can be described as follows.  The description is to some extent covert because this stage of development requires you to be or become conversant/knowledgeable about things electronic and Arduino, anyway.  Vendors I use to purchase these are shown in [this page](https://github.com/kenneth558/plant_resistance_primary_perception/blob/Free/More%20construction%20details.md) near the end of it.  Hand-drawn [schematic here](https://github.com/kenneth558/plant_resistance_primary_perception/blob/Free/embeddeds/GWAAM-Sea%20Training%20Aid%20Schematic.png) with appreciation to Tony  for his help.  [KiCad schematic here](https://github.com/kenneth558/plant_resistance_primary_perception/blob/Free/embeddeds/gwaamc%20schematic%20quadrant%20A.png) that GitHub opens as ASCII.  
+The specific circuit configuration you'll need with this current sketch version can be described as follows.  The description is to some extent covert because this stage of development requires you to be or become conversant/knowledgeable about things electronic and Arduino, anyway.  Vendors I use to purchase these are shown in [this page](https://github.com/kenneth558/plant_resistance_primary_perception/blob/Free/More%20construction%20details.md) near the end of it.  
+
+
+Hand-drawn [schematic here](https://github.com/kenneth558/plant_resistance_primary_perception/blob/Free/embeddeds/GWAAM-Sea%20Training%20Aid%20Schematic.png) with appreciation to Tony  for his help.  
+
+
+[KiCad schematic here](https://github.com/kenneth558/plant_resistance_primary_perception/blob/Free/embeddeds/gwaamc%20schematic%20quadrant%20A.png) that GitHub opens as ASCII.  
 
 
 KiCad schematic .png screenshot files: [gwaamsea schematic quadrant A.png](https://github.com/kenneth558/plant_resistance_primary_perception/blob/Free/embeddeds/gwaamsea%20schematic%20quadrant%20A.png), [gwaamsea schematic quadrant B.png](https://github.com/kenneth558/plant_resistance_primary_perception/blob/Free/embeddeds/gwaamsea%20schematic%20quadrant%20B.png), [gwaamsea schematic quadrant C.png](https://github.com/kenneth558/plant_resistance_primary_perception/blob/Free/embeddeds/gwaamsea%20schematic%20quadrant%20C.png), [gwaamsea schematic quadrant D.png](https://github.com/kenneth558/plant_resistance_primary_perception/blob/Free/embeddeds/gwaamsea%20schematic%20quadrant%20D.png), [gwaamsea schematic quadrant E.png](https://github.com/kenneth558/plant_resistance_primary_perception/blob/Free/embeddeds/gwaamsea%20schematic%20quadrant%20E.png), [gwaamsea schematic quadrant F.png](https://github.com/kenneth558/plant_resistance_primary_perception/blob/Free/embeddeds/gwaamsea%20schematic%20quadrant%20F.png)
