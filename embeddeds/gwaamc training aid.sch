@@ -161,8 +161,8 @@ Text GLabel 6950 4400 2    48   Input ~ 0
 <From_MCU_Digital_Pins_driving_SCK_and_SDI_for_DPots
 Text GLabel 7550 4200 2    48   Input ~ 0
 <From_MCU_Digital_Pin_driving_this_CS
-Text Notes 3650 3050 0    59   ~ 0
-NOTE: Additional matching MSB-level DPots are\nallowed in this P0W-P0B loop.  Only a single \nLSB-level Dpot is allowed which must be of a\nresistance lower than or equal to MSB-level DPots.
+Text Notes 3650 3200 0    59   ~ 0
+NOTE: Additional matching MSB-level DPots are\nallowed in this P0W-P0B loop.  Only a single \nLSB-level Dpot is allowed which must be of a\nresistance lower than or equal to MSB-level DPots.\nPins 5 and 6 are interchangeable, so the actual\nbuild will best wire them for the layout.
 Text Notes 1000 3100 0    59   ~ 0
 NOTE: If convenient polarity flipping is desired,\n a 4-way house light switch  may be placed in \nthe electrode circuit between the electrodes and the \ncoaxial cable, assuming you hook it up correctly.
 $Comp
@@ -644,7 +644,7 @@ Text Notes 9150 6450 0    56   ~ 0
 Text Notes 3650 3850 0    56   ~ 0
 NOTE: Decoupling C banks 1-2 each consist of a \n2-10 µF tantalum plus a low-ESR sub-µF capacitor \nwhich gets located in direct-as-practical path \nbetween + and GND pins of the active device \npaired with.
 Text Notes 650  1300 0    66   ~ 0
-NOTE:  The LM334 devices must receive 5 VDC or greater due to their own operating voltage range.  \nTheir functional range will be substantially limited if powered by the 3 or 3.3 VDC of many MCUs.  \nProvide a dedicated positive power supply to them if 5 VDC is not otherwise available, and carefully \nensure the output levels from them are prevented from exceeding the input range of the remaining \ncircuitry.
+NOTE:  The LM334 devices must receive 5 VDC or greater due to their own operating voltage range.  \nTheir functional range will be substantially limited if powered by the 3 or 3.3 VDC of many MCUs.  \nProvide a dedicated positive power supply to them if 5 VDC is not otherwise available, then carefully \nensure the output levels from them are prevented from exceeding the input range of the remaining \ncircuitry.
 Text Notes 5450 7600 2    60   Italic 12
 *See note for the above DPot set
 Wire Wire Line
@@ -954,6 +954,8 @@ Wire Bus Line
 	6700 3300 6700 3800
 Wire Bus Line
 	6150 2600 6150 4400
+Text Notes 7300 7250 0    58   ~ 0
+1 
 Wire Wire Line
 	1300 5350 1300 7100
 Wire Wire Line
@@ -974,6 +976,4 @@ Wire Bus Line
 	7400 2000 7400 3300
 Wire Bus Line
 	10050 1700 10050 2500
-Text Notes 7300 7250 0    58   ~ 0
-1 
 $EndSCHEMATC
