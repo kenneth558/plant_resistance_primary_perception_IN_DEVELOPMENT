@@ -162,7 +162,7 @@ Text GLabel 6950 4400 2    48   Input ~ 0
 Text GLabel 7550 4200 2    48   Input ~ 0
 <From_MCU_Digital_Pin_driving_this_CS
 Text Notes 3650 3200 0    59   ~ 0
-NOTE: Additional matching MSB-level DPots are\nallowed in this P0W-P0B loop.  Only a single \nLSB-level Dpot is allowed which must be of a\nresistance lower than or equal to MSB-level DPots.\nPins 5 and 6 are interchangeable, so the actual\nbuild will best wire them for the layout.
+NOTE: Additional matching MSB-level DPots are\nallowed in this P0W-P0B loop.  Only a single \nLSB-level Dpot is allowed which must be of a\nresistance lower than or equal to MSB-level DPots.\nPins 5 and 6 are interchangeable, so the actual\nconnect order will be layout-dependent.
 Text Notes 1000 3100 0    59   ~ 0
 NOTE: If convenient polarity flipping is desired,\n a 4-way house light switch  may be placed in \nthe electrode circuit between the electrodes and the \ncoaxial cable, assuming you hook it up correctly.
 $Comp
@@ -364,12 +364,12 @@ $EndComp
 $Comp
 L power:GNDA #PWR?
 U 1 1 5C193F33
-P 3000 4200
-F 0 "#PWR?" H 3000 3950 50  0001 C CNN
-F 1 "GNDA" H 3200 4150 50  0000 C CNN
-F 2 "" H 3000 4200 50  0001 C CNN
-F 3 "" H 3000 4200 50  0001 C CNN
-	1    3000 4200
+P 2250 3700
+F 0 "#PWR?" H 2250 3450 50  0001 C CNN
+F 1 "GNDA" H 2250 3550 50  0000 C CNN
+F 2 "" H 2250 3700 50  0001 C CNN
+F 3 "" H 2250 3700 50  0001 C CNN
+	1    2250 3700
 	1    0    0    -1  
 $EndComp
 $Comp
@@ -397,12 +397,12 @@ $EndComp
 $Comp
 L power:VCC #PWR?
 U 1 1 5C19D6AB
-P 5250 4300
-F 0 "#PWR?" H 5250 4150 50  0001 C CNN
-F 1 "VCC" H 5267 4473 50  0000 C CNN
-F 2 "" H 5250 4300 50  0001 C CNN
-F 3 "" H 5250 4300 50  0001 C CNN
-	1    5250 4300
+P 5250 4200
+F 0 "#PWR?" H 5250 4050 50  0001 C CNN
+F 1 "VCC" H 5267 4373 50  0000 C CNN
+F 2 "" H 5250 4200 50  0001 C CNN
+F 3 "" H 5250 4200 50  0001 C CNN
+	1    5250 4200
 	1    0    0    -1  
 $EndComp
 Text GLabel 7400 4600 2    48   Input ~ 0
@@ -437,17 +437,6 @@ F 3 "~" H 4900 4300 50  0001 C CNN
 	0    1    1    0   
 $EndComp
 $Comp
-L power:GNDD #PWR?
-U 1 1 5C1C4E62
-P 4700 4300
-F 0 "#PWR?" H 4700 4050 50  0001 C CNN
-F 1 "GNDD" H 4704 4145 50  0000 C CNN
-F 2 "" H 4700 4300 50  0001 C CNN
-F 3 "" H 4700 4300 50  0001 C CNN
-	1    4700 4300
-	1    0    0    -1  
-$EndComp
-$Comp
 L Device:C_Small C2_bank
 U 1 1 5C1C5AE4
 P 2400 3600
@@ -457,17 +446,6 @@ F 2 "" H 2400 3600 50  0001 C CNN
 F 3 "~" H 2400 3600 50  0001 C CNN
 	1    2400 3600
 	0    1    1    0   
-$EndComp
-$Comp
-L power:GNDD #PWR?
-U 1 1 5C1C6E06
-P 2250 3700
-F 0 "#PWR?" H 2250 3450 50  0001 C CNN
-F 1 "GNDD" H 2250 3550 50  0000 C CNN
-F 2 "" H 2250 3700 50  0001 C CNN
-F 3 "" H 2250 3700 50  0001 C CNN
-	1    2250 3700
-	1    0    0    -1  
 $EndComp
 Wire Wire Line
 	10350 4450 10500 4450
@@ -641,8 +619,8 @@ Text Notes 10750 5000 1    60   Italic 12
 *See note
 Text Notes 9150 6450 0    56   ~ 0
 *NOTE FOR MCU ANALOG PINS:  Low-\nnumbered Analog Input pins are reserved \nfor all existing DPOT-controlled leg outputs.  \nUnused Analog Pins above them may be\nused to display additional plotter traces\nwhen so defined in preprocessor macros.  
-Text Notes 3650 3850 0    56   ~ 0
-NOTE: Decoupling C banks 1-2 each consist of a \n2-10 µF tantalum plus a low-ESR sub-µF capacitor \nwhich gets located in direct-as-practical path \nbetween + and GND pins of the active device \npaired with.
+Text Notes 3650 3950 0    56   ~ 0
+NOTE: Capacitor banks 1 & 2 each consist of a \n2-10 µF tantalum plus a low-ESR sub-µF capacitor \nwhich gets located in direct-as-practical path be-\ntween Vcc of one device to GND of the other device.  \nNOT SHOWN: One decoupling capacitor bank of same \nvalues for all digital parts combined.
 Text Notes 650  1300 0    66   ~ 0
 NOTE:  The LM334 devices must receive 5 VDC or greater due to their own operating voltage range.  \nTheir functional range will be substantially limited if powered by the 3 or 3.3 VDC of many MCUs.  \nProvide a dedicated positive power supply to them if 5 VDC is not otherwise available, then carefully \nensure the output levels from them are prevented from exceeding the input range of the remaining \ncircuitry.
 Text Notes 5450 7600 2    60   Italic 12
@@ -668,11 +646,6 @@ Wire Wire Line
 	2300 3600 2250 3600
 Wire Wire Line
 	4800 4300 4700 4300
-Wire Wire Line
-	5250 4300 5250 4350
-Connection ~ 5250 4300
-Wire Wire Line
-	5000 4300 5250 4300
 Connection ~ 2900 6900
 Entry Wire Line
 	4700 2500 4800 2600
@@ -886,8 +859,6 @@ Device Under Test \n(DUT)
 Wire Wire Line
 	2900 6900 2900 7150
 Wire Wire Line
-	2450 3600 2500 3600
-Wire Wire Line
 	2900 1550 2900 2150
 Wire Wire Line
 	2850 1950 2850 2150
@@ -899,14 +870,9 @@ Text Notes 2800 2150 2    39   Italic 0
 (Switch wiring overlaps straight-through \nwiring for drawing purposes only.  Do not \nwire both ways simultaneously, of course)
 Wire Wire Line
 	6350 7050 6350 5200
-Connection ~ 2500 3600
-Wire Wire Line
-	2500 3600 2600 3600
 Connection ~ 4250 4600
 Wire Wire Line
 	4250 4600 4250 5600
-Wire Wire Line
-	2350 4000 2400 4000
 Wire Wire Line
 	2100 4000 2400 4000
 Wire Wire Line
@@ -956,6 +922,35 @@ Wire Bus Line
 	6150 2600 6150 4400
 Text Notes 7300 7250 0    58   ~ 0
 1 
+Wire Wire Line
+	2500 3600 2600 3600
+Wire Wire Line
+	5250 4200 5250 4300
+Wire Wire Line
+	5000 4300 5250 4300
+Connection ~ 5250 4300
+$Comp
+L power:GNDA #PWR?
+U 1 1 5C1E5690
+P 3000 4200
+F 0 "#PWR?" H 3000 3950 50  0001 C CNN
+F 1 "GNDA" H 3150 4100 50  0000 C CNN
+F 2 "" H 3000 4200 50  0001 C CNN
+F 3 "" H 3000 4200 50  0001 C CNN
+	1    3000 4200
+	1    0    0    -1  
+$EndComp
+$Comp
+L power:GNDA #PWR?
+U 1 1 5C1E56EB
+P 4700 4300
+F 0 "#PWR?" H 4700 4050 50  0001 C CNN
+F 1 "GNDA" H 4705 4127 50  0000 C CNN
+F 2 "" H 4700 4300 50  0001 C CNN
+F 3 "" H 4700 4300 50  0001 C CNN
+	1    4700 4300
+	1    0    0    -1  
+$EndComp
 Wire Wire Line
 	1300 5350 1300 7100
 Wire Wire Line
