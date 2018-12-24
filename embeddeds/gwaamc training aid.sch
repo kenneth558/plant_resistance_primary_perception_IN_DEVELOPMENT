@@ -465,7 +465,7 @@ F 3 "http://www.ti.com/lit/gpn/sn74LS138" H 9450 2200 50  0001 C CNN
 	1    0    0    -1  
 $EndComp
 Text Notes 6250 1100 0    58   ~ 0
-*NOTE: U5 only used for larger numbers of DPots.  U5's outputs drive DPot CS lines.  U4 only used for even \nlarger numbers of DPots.  U4's outputs drive E1 or E2 of U5, U6, U7, etc. See sketch preprocessor macros \nand comments for more complete pin assignments and requirements.\nU5 pin E1/E2 may be driven by an MCU Digital Pin.  Again, see sketch comments.
+*NOTE: U5 only used for larger numbers of DPots, useful with "bare" legs or part availability limitations.  \nU5's outputs drive DPot CS lines.  U4 only used for even larger numbers of DPots.  U4's outputs drive E1 \nor E2 of U5, U6, U7, etc. See sketch preprocessor macros and comments for more complete pin assignments \nand requirements.\nU5 pin E1/E2 may instead be driven by an MCU Digital Pin.  Again, see sketch comments.
 $Comp
 L power:GNDD #PWR?
 U 1 1 5C1F1C9A
@@ -622,7 +622,7 @@ Text Notes 9150 6450 0    56   ~ 0
 Text Notes 3650 3950 0    56   ~ 0
 NOTE: Capacitor banks 1 & 2 each consist of a \n2-10 µF tantalum plus a low-ESR sub-µF capacitor \nwhich gets located in direct-as-practical path be-\ntween Vcc of one device to GND of the other device.  \nNOT SHOWN: One decoupling capacitor bank of same \nvalues for all digital parts combined.
 Text Notes 650  1300 0    66   ~ 0
-NOTE:  The LM334 devices must receive 5 VDC or greater due to their own operating voltage range.  \nTheir functional range will be substantially limited if powered by the 3 or 3.3 VDC of many MCUs.  \nProvide a dedicated positive power supply to them if 5 VDC is not otherwise available, then carefully \nensure the output levels from them are prevented from exceeding the input range of the remaining \ncircuitry.
+NOTE:  The LM334 devices must receive 5 VDC or greater due to their own operating voltage range.  \nTheir functional range will be substantially limited if powered by the 3 or 3.3 VDC of many MCUs.  \nProvide a dedicated positive power supply to them if 5 VDC is not otherwise available, then carefully \nensure the output levels from them are prevented from exceeding the input range of the remaining \ncircuitry.  Alternative: use non-LM334 legs (AKA "bare" legs) & adjust macros
 Text Notes 5450 7600 2    60   Italic 12
 *See note for the above DPot set
 Wire Wire Line
