@@ -72,97 +72,91 @@ $EndComp
 $Comp
 L MCP4162-104:MCP4162-104(0-100KΩ) DPot1-MSBs...
 U 1 1 5C1815C9
-P 5950 2000
-F 0 "DPot1-MSBs..." V 6600 2200 50  0000 R CNN
-F 1 "MCP4162-104(0-100KΩ)" V 6500 2450 50  0000 R CNN
-F 2 "" H 5950 2000 50  0001 C CNN
-F 3 "http://ww1.microchip.com/downloads/en/DeviceDoc/11195c.pdf" H 5950 2000 50  0001 C CNN
-	1    5950 2000
+P 6000 2000
+F 0 "DPot1-MSBs..." V 6650 2200 50  0000 R CNN
+F 1 "MCP4162-104(0-100KΩ)" V 6550 2450 50  0000 R CNN
+F 2 "" H 6000 2000 50  0001 C CNN
+F 3 "http://ww1.microchip.com/downloads/en/DeviceDoc/11195c.pdf" H 6000 2000 50  0001 C CNN
+	1    6000 2000
 	0    -1   -1   0   
 $EndComp
 $Comp
 L power:GNDD #PWR?
 U 1 1 5C1816AC
-P 5100 2000
-F 0 "#PWR?" H 5100 1800 50  0001 C CNN
-F 1 "GNDD" H 5150 1850 50  0000 C CNN
-F 2 "" H 5100 1950 50  0001 C CNN
-F 3 "" H 5100 1950 50  0001 C CNN
-	1    5100 2000
+P 5150 2000
+F 0 "#PWR?" H 5150 1800 50  0001 C CNN
+F 1 "GNDD" H 5200 1850 50  0000 C CNN
+F 2 "" H 5150 1950 50  0001 C CNN
+F 3 "" H 5150 1950 50  0001 C CNN
+	1    5150 2000
 	1    0    0    -1  
 $EndComp
 $Comp
 L MCP4162-502:MCP4162-502(0-5KΩ) DPot1-LSB
 U 1 1 5C18203C
-P 4700 2000
-F 0 "DPot1-LSB" V 5350 2150 50  0000 R CNN
-F 1 "MCP4162-502(0-5KΩ)" V 5250 2450 50  0000 R CNN
-F 2 "" H 4700 2000 50  0001 C CNN
-F 3 "http://ww1.microchip.com/downloads/en/DeviceDoc/11195c.pdf" H 4700 2000 50  0001 C CNN
-	1    4700 2000
+P 4750 2000
+F 0 "DPot1-LSB" V 5400 2150 50  0000 R CNN
+F 1 "MCP4162-502(0-5KΩ)" V 5300 2450 50  0000 R CNN
+F 2 "" H 4750 2000 50  0001 C CNN
+F 3 "http://ww1.microchip.com/downloads/en/DeviceDoc/11195c.pdf" H 4750 2000 50  0001 C CNN
+	1    4750 2000
 	0    -1   -1   0   
 $EndComp
 $Comp
 L power:GNDD #PWR?
 U 1 1 5C1823DA
-P 6350 2000
-F 0 "#PWR?" H 6350 1750 50  0001 C CNN
-F 1 "GNDD" H 6400 1850 50  0000 C CNN
-F 2 "" H 6350 2000 50  0001 C CNN
-F 3 "" H 6350 2000 50  0001 C CNN
-	1    6350 2000
+P 6400 2000
+F 0 "#PWR?" H 6400 1750 50  0001 C CNN
+F 1 "GNDD" H 6450 1850 50  0000 C CNN
+F 2 "" H 6400 2000 50  0001 C CNN
+F 3 "" H 6400 2000 50  0001 C CNN
+	1    6400 2000
 	1    0    0    -1  
 $EndComp
 $Comp
 L power:VCC #PWR?
 U 1 1 5C1825F8
-P 4300 2000
-F 0 "#PWR?" H 4300 1850 50  0001 C CNN
-F 1 "VCC" H 4250 2150 50  0000 C CNN
-F 2 "" H 4300 2000 50  0001 C CNN
-F 3 "" H 4300 2000 50  0001 C CNN
-	1    4300 2000
+P 4350 2000
+F 0 "#PWR?" H 4350 1850 50  0001 C CNN
+F 1 "VCC" H 4300 2150 50  0000 C CNN
+F 2 "" H 4350 2000 50  0001 C CNN
+F 3 "" H 4350 2000 50  0001 C CNN
+	1    4350 2000
 	1    0    0    -1  
 $EndComp
 $Comp
 L power:VCC #PWR?
 U 1 1 5C182632
-P 5550 2000
-F 0 "#PWR?" H 5550 1850 50  0001 C CNN
-F 1 "VCC" H 5500 2150 50  0000 C CNN
-F 2 "" H 5550 2000 50  0001 C CNN
-F 3 "" H 5550 2000 50  0001 C CNN
-	1    5550 2000
+P 5600 2000
+F 0 "#PWR?" H 5600 1850 50  0001 C CNN
+F 1 "VCC" H 5550 2150 50  0000 C CNN
+F 2 "" H 5600 2000 50  0001 C CNN
+F 3 "" H 5600 2000 50  0001 C CNN
+	1    5600 2000
 	1    0    0    -1  
 $EndComp
-Wire Wire Line
-	4800 2400 4800 2350
-Wire Wire Line
-	6050 2400 6050 2350
 Text Label 1500 2600 0    50   ~ 0
-coaxial_cable
-Wire Wire Line
-	4800 1600 5950 1600
+Off-board_coaxial_cable
 Entry Wire Line
 	4600 2400 4700 2500
 Entry Wire Line
-	4700 2400 4800 2500
+	4800 2400 4900 2500
 Entry Wire Line
 	5850 2400 5950 2500
 Entry Wire Line
-	5950 2400 6050 2500
+	6050 2400 6150 2500
 Wire Wire Line
-	4700 1600 4100 1600
+	4750 1600 4100 1600
 Wire Wire Line
-	6050 1600 6050 1500
+	6100 1600 6100 1500
 Text GLabel 7100 4000 2    48   Input ~ 0
 <From_MCU_Digital_Pin[s]_driving_this-these_CS[s]
 Text GLabel 6950 4400 2    48   Input ~ 0
 <From_MCU_Digital_Pins_driving_SCK_and_SDI_for_DPots
 Text GLabel 7550 4200 2    48   Input ~ 0
 <From_MCU_Digital_Pin_driving_this_CS
-Text Notes 3650 3200 0    59   ~ 0
-NOTE: Additional matching MSB-level DPots are\nallowed in this P0W-P0B loop.  Only a single \nLSB-level Dpot is allowed which must be of a\nresistance lower than or equal to MSB-level DPots.\nPins 5 and 6 are interchangeable, so the actual\nconnect order will be layout-dependent.
+Text Notes 3650 3300 0    59   ~ 0
+NOTE: Additional matching MSB-level DPots are\nallowed in this P0W-P0B loop.  Only a single \nLSB-level Dpot is allowed which must be of a\nresistance lower than or equal to MSB-level DPots.\nPins 5 and 6 are interchangeable, so the actual\nconnect order will be layout-dependent.  SDO\ncurrently unused by sketch to save MCU pins.
 Text Notes 1000 3100 0    59   ~ 0
 NOTE: If convenient polarity flipping is desired,\n a 4-way house light switch  may be placed in \nthe electrode circuit between the electrodes and the \ncoaxial cable, assuming you hook it up correctly.
 $Comp
@@ -201,23 +195,23 @@ $EndComp
 $Comp
 L MCP4162-104:MCP4162-104(0-100KΩ) DPot2-MSBs...
 U 1 1 5C18CADD
-P 5250 6550
-F 0 "DPot2-MSBs..." V 4500 6650 50  0000 R CNN
-F 1 "MCP4162-104(0-100KΩ)" V 4400 7000 50  0000 R CNN
-F 2 "" H 5250 6550 50  0001 C CNN
-F 3 "http://ww1.microchip.com/downloads/en/DeviceDoc/11195c.pdf" H 5250 6550 50  0001 C CNN
-	1    5250 6550
+P 5300 6550
+F 0 "DPot2-MSBs..." V 4550 6650 50  0000 R CNN
+F 1 "MCP4162-104(0-100KΩ)" V 4450 7000 50  0000 R CNN
+F 2 "" H 5300 6550 50  0001 C CNN
+F 3 "http://ww1.microchip.com/downloads/en/DeviceDoc/11195c.pdf" H 5300 6550 50  0001 C CNN
+	1    5300 6550
 	0    -1   -1   0   
 $EndComp
 $Comp
 L power:GNDD #PWR?
 U 1 1 5C18CAE4
-P 4400 6550
-F 0 "#PWR?" H 4400 6350 50  0001 C CNN
-F 1 "GNDD" H 4450 6400 50  0000 C CNN
-F 2 "" H 4400 6500 50  0001 C CNN
-F 3 "" H 4400 6500 50  0001 C CNN
-	1    4400 6550
+P 4450 6550
+F 0 "#PWR?" H 4450 6350 50  0001 C CNN
+F 1 "GNDD" H 4500 6400 50  0000 C CNN
+F 2 "" H 4450 6500 50  0001 C CNN
+F 3 "" H 4450 6500 50  0001 C CNN
+	1    4450 6550
 	1    0    0    -1  
 $EndComp
 Wire Wire Line
@@ -225,65 +219,63 @@ Wire Wire Line
 $Comp
 L MCP4162-502:MCP4162-502(0-5KΩ) DPot2-LSB
 U 1 1 5C18CAEB
-P 4000 6550
-F 0 "DPot2-LSB" V 3250 6650 50  0000 R CNN
-F 1 "MCP4162-502(0-5KΩ)" V 3150 7000 50  0000 R CNN
-F 2 "" H 4000 6550 50  0001 C CNN
-F 3 "http://ww1.microchip.com/downloads/en/DeviceDoc/11195c.pdf" H 4000 6550 50  0001 C CNN
-	1    4000 6550
+P 4050 6550
+F 0 "DPot2-LSB" V 3300 6650 50  0000 R CNN
+F 1 "MCP4162-502(0-5KΩ)" V 3200 7000 50  0000 R CNN
+F 2 "" H 4050 6550 50  0001 C CNN
+F 3 "http://ww1.microchip.com/downloads/en/DeviceDoc/11195c.pdf" H 4050 6550 50  0001 C CNN
+	1    4050 6550
 	0    -1   -1   0   
 $EndComp
 $Comp
 L power:GNDD #PWR?
 U 1 1 5C18CAF2
-P 5650 6550
-F 0 "#PWR?" H 5650 6300 50  0001 C CNN
-F 1 "GNDD" H 5700 6400 50  0000 C CNN
-F 2 "" H 5650 6550 50  0001 C CNN
-F 3 "" H 5650 6550 50  0001 C CNN
-	1    5650 6550
+P 5700 6550
+F 0 "#PWR?" H 5700 6300 50  0001 C CNN
+F 1 "GNDD" H 5750 6400 50  0000 C CNN
+F 2 "" H 5700 6550 50  0001 C CNN
+F 3 "" H 5700 6550 50  0001 C CNN
+	1    5700 6550
 	1    0    0    -1  
 $EndComp
 $Comp
 L power:VCC #PWR?
 U 1 1 5C18CAF8
-P 3600 6550
-F 0 "#PWR?" H 3600 6400 50  0001 C CNN
-F 1 "VCC" H 3617 6723 50  0000 C CNN
-F 2 "" H 3600 6550 50  0001 C CNN
-F 3 "" H 3600 6550 50  0001 C CNN
-	1    3600 6550
+P 3650 6550
+F 0 "#PWR?" H 3650 6400 50  0001 C CNN
+F 1 "VCC" H 3667 6723 50  0000 C CNN
+F 2 "" H 3650 6550 50  0001 C CNN
+F 3 "" H 3650 6550 50  0001 C CNN
+	1    3650 6550
 	1    0    0    -1  
 $EndComp
 $Comp
 L power:VCC #PWR?
 U 1 1 5C18CAFE
-P 4850 6550
-F 0 "#PWR?" H 4850 6400 50  0001 C CNN
-F 1 "VCC" H 4867 6723 50  0000 C CNN
-F 2 "" H 4850 6550 50  0001 C CNN
-F 3 "" H 4850 6550 50  0001 C CNN
-	1    4850 6550
+P 4900 6550
+F 0 "#PWR?" H 4900 6400 50  0001 C CNN
+F 1 "VCC" H 4917 6723 50  0000 C CNN
+F 2 "" H 4900 6550 50  0001 C CNN
+F 3 "" H 4900 6550 50  0001 C CNN
+	1    4900 6550
 	1    0    0    -1  
 $EndComp
 Wire Wire Line
 	4100 6950 4100 6900
 Wire Wire Line
 	5350 6950 5350 6900
-Wire Wire Line
-	4100 6150 5250 6150
 Entry Wire Line
 	3900 6950 4000 7050
 Entry Wire Line
-	4000 6950 4100 7050
+	4100 6950 4200 7050
 Entry Wire Line
 	5150 6950 5250 7050
 Entry Wire Line
-	5250 6950 5350 7050
+	5350 6950 5450 7050
 Wire Wire Line
-	4000 6150 3400 6150
+	4050 6150 3400 6150
 Wire Wire Line
-	5350 6150 5350 6050
+	5400 6150 5400 6050
 Text GLabel 7100 5000 2    48   Input ~ 0
 <From_MCU_Digital_Pin[s]_driving_this-these_CS[s]
 Text GLabel 6950 5400 2    48   Input ~ 0
@@ -650,13 +642,11 @@ Connection ~ 2900 6900
 Entry Wire Line
 	4700 2500 4800 2600
 Entry Wire Line
-	4800 2500 4900 2600
+	4900 2500 5000 2600
 Entry Wire Line
 	5950 2500 6050 2600
 Entry Wire Line
-	6050 2500 6150 2600
-Entry Wire Line
-	4800 2400 4900 2500
+	6150 2500 6250 2600
 Text GLabel 2150 1750 0    67   UnSpc ~ 0
 Opt_SW
 Wire Wire Line
@@ -670,17 +660,13 @@ Wire Wire Line
 Entry Wire Line
 	4000 7050 4100 7150
 Entry Wire Line
-	4100 7050 4200 7150
+	4200 7050 4300 7150
 Entry Wire Line
 	5250 7050 5350 7150
 Entry Wire Line
-	5350 7050 5450 7150
+	5450 7050 5550 7150
 Entry Wire Line
-	4100 6950 4200 7050
-Wire Bus Line
-	5350 6950 6150 6950
-Wire Bus Line
-	6050 2400 6550 2400
+	4250 6950 4350 7050
 Wire Wire Line
 	6350 5200 7550 5200
 Wire Wire Line
@@ -695,8 +681,6 @@ Wire Wire Line
 	6350 4200 7550 4200
 Wire Wire Line
 	4000 1750 4000 1500
-Wire Wire Line
-	4000 1500 6050 1500
 Wire Wire Line
 	3600 1750 4000 1750
 Wire Wire Line
@@ -801,7 +785,7 @@ Wire Wire Line
 Wire Wire Line
 	3250 6050 3250 6400
 Wire Wire Line
-	3250 6050 5350 6050
+	3250 6050 5400 6050
 Wire Wire Line
 	3100 6400 3250 6400
 Wire Wire Line
@@ -903,8 +887,6 @@ Wire Bus Line
 Wire Bus Line
 	7100 5000 6150 5000
 Wire Bus Line
-	6150 5000 6150 6950
-Wire Bus Line
 	6950 4400 6150 4400
 Wire Bus Line
 	7100 4000 6550 4000
@@ -952,11 +934,28 @@ F 3 "" H 4700 4300 50  0001 C CNN
 	1    0    0    -1  
 $EndComp
 Wire Wire Line
+	4850 1600 6000 1600
+Wire Wire Line
+	4000 1500 6100 1500
+Wire Bus Line
+	6550 2400 6200 2400
+Entry Wire Line
+	4950 2400 5050 2500
+Wire Bus Line
+	6150 2600 6250 2600
+Connection ~ 6150 2600
+Wire Wire Line
+	4150 6150 5300 6150
+Wire Bus Line
+	5500 6950 6150 6950
+Wire Bus Line
+	6150 5000 6150 6950
+Wire Wire Line
 	1300 5350 1300 7100
 Wire Wire Line
-	4900 2500 6350 2500
+	5050 2500 6350 2500
 Wire Wire Line
-	4200 7050 6350 7050
+	4350 7050 6350 7050
 Wire Bus Line
 	8850 2000 8850 3300
 Wire Bus Line
