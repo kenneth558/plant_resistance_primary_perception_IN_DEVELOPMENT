@@ -4,8 +4,8 @@
 //FUTURE #define BARE_DPOT_LEG_BRIDGES                         //(after LM334 bridges in terms of pin number order) Subject to change NOT CODED FOR YET, but this makes effects of DPot settings be reversed from when LM334s are used.  Note that higher values of DPot leg resistances are expected to be required.  This could mean more DPots per leg increasing the likelihood 74LV138 decoding will be necessary.
 //FUTURE #define BARE_DPOT_LEGS_UNBRIDGED                    //(after active bridges in terms of pin number order, passive bridges using manual pots might include these legs)Subject to change NOT CODED FOR YET, but this makes effects of DPot settings be reversed from when LM334s are used.  Note that higher values of DPot leg resistances are expected to be required.  This could mean more DPots per leg.
 #define INBOARDS_PLOTTED 2                              //The number of consecutive analog pins to plot, beginning with PIN_A0
-#define OUTBOARDS_PLOTTED 1                             //The number of consecutive "highest-sensitivity ADC" pins to plot, beginning with A0 and, if double-ended, A1.  OUTBOARD ADC ONLY - DOES _NOT_ INCLUDE INBOARD ANALOG INPUT PINS
-#define MAGNIFICATION_FACTOR 5                                 //Activates the plotting of magnified traces in all ADC linespaces; upper limit somewhere less than 4,294,967,295. Note: you can disable displaying magnified traces altogether by not defined this macro at all. Proper use of SUPERIMPOSE_FIRST_INBOARDS_IN_PAIRS will also disable magnified traces of the first two analog inputs
+//#define OUTBOARDS_PLOTTED 1                             //The number of consecutive "highest-sensitivity ADC" pins to plot, beginning with A0 and, if double-ended, A1.  OUTBOARD ADC ONLY - DOES _NOT_ INCLUDE INBOARD ANALOG INPUT PINS
+//#define MAGNIFICATION_FACTOR 5                                 //Activates the plotting of magnified traces in all ADC linespaces; upper limit somewhere less than 4,294,967,295. Note: you can disable displaying magnified traces altogether by not defined this macro at all. Proper use of SUPERIMPOSE_FIRST_INBOARDS_IN_PAIRS will also disable magnified traces of the first two analog inputs
 #define HIGHEST_SENSI_OUTBOARD_ADC_TYPE HX711                  //Proposing that "ADS1231" covers ADS1231; could make this "ADS1232" ( ADS1232), "ADS1242" ( ADS1242), "AD779x" ( AD779x), "AD7780" ( AD7780), "HX711" (HX711), "ADS1X15" ( ADS1015 or ADS1115), "MAX112x0" (MAX112X0...) or "LTC2400" (LTC2400) but code not included in v.FREE; ONLY ONE TYPE ALLOWED
 #define HIGHEST_BIT_RES_FROM_HIGHEST_SENSI_OUTBOARD_ADC 24     //All ADC values will get scaled to the single-ended aspect of this,  15 is ADS1115 single-ended, 16 for double-ended when two LM334s are used.  change to 11 for ADS1015 single-ended or 12 with two LM334s, (future: change to 24 for HX711--NO b/c there is the ADS1231 at 24 bits)
 #define SAMPLE_TIMES 2                                         //To better average out artifacts we over-sample and average.  This value can be tweaked by you to ensure neutralization of power line noise or harmonics of power supplies, etc.....
@@ -18,19 +18,20 @@
 #define ANALOG_INPUT_BITS_OF_BOARD 10                                        //Most Arduino boards are 10-bit resolution, but some can be 12 bits.  For known 12 bit boards (SAM, SAMD and TTGO XI architectures), this gets re-defined below, so generally this can be left as 10 even for those boards
 #define SECONDS_THAT_A_LGT8FX8E_HARDWARE_SERIAL_NEEDS_TO_COME_UP_WORKING 9   //8 works only usually
 #define HIGHEST_SENSI_PGA_GAIN_FACTOR 128                                    //For HX711 a gain of 128 gets applied to channel A. Available to you for your own use PGA=Programmable Gain Amplifier: many ADCs will correlate a gain of one with full-scale being rail-to-rail, while a gain of anything higher correlates to full-scale being in the mV range (most sensitive and most noise-susceptible).
-#define MIN_WAIT_TIME_BETWEEN_PLOT_POINTS_MS 70                              //Sets a maximum speed limit, but actual speed may be further limited by other factors
+#define MIN_WAIT_TIME_BETWEEN_PLOT_POINTS_MS 1                              //Sets a maximum speed limit, but actual speed may be further limited by other factors
 #define SUPERIMPOSE_FIRST_INBOARDS_IN_PAIRS 1                                //If defined allows the rail-to-rail inboard Analog Inputs to be used to adjust digipots, but mainly causes first inboard Analog Inputs to be paired (superimposed in pairs sharing plot-line spaces) so even manual pots can be adjusted easily.
 //#define PLOT_ONLY_THE_SIGNAL_LEG_OF_SUPERIMPOSED_DPOT_LEG_BRIDGE_INBOARDS  //By defining this macro comparison between signal and reference is no longer possible but it could be less confusing this way since user doesn't need to manually adjust anything with DPots and especially with AUTO_BRIDGE_BALANCING. ADVISE without AUTO_BRIDGE_BALANCING in effect, this macro probably should not be defined either. But regardless for greatest flexibility, that macro won't affect this.
 //#define AUTO_BRIDGE_BALANCING                                                //increases setup time and during which the plot timing line stays high, then spikes low and high to indicate balancing complete //Turns on auto-balancing in setup(), significant time elapse for this to complete!
 #define CONTINUE_PLOTTING_DURING_AUTO_BRIDGE_BALANCE true                    //Without predictive balancing, this takes too much time if true
 //#define DEBUG                                                              //Don't forget that DEBUG is not formatted for Serial plotter, but might work anyway if you'd never print numbers only any DEBUG print line
+#define SHOW_LINEARITY_USING_THIS_BRIDGE_INDEX 0                                    //Can be a single bridge index or the word "ALL"
 #define INJECT_DIAGNOSTIC_SQUARE_WAVE_ON_SIGNAL_PIN_OF_SPECIFIED_OUTBOARD_ADC 0       //For testing - wobbles digipot settings on bridge index to impose a signal into Wheatstone bridge outputs. This imposes a signal on the signal leg
-//#define INJECT_DIAGNOSTIC_SQUARE_WAVE_ON_REFERENCE_PIN_OF_SPECIFIED_OUTBOARD_ADC 0    //For testing - wobbles digipot settings on bridge index to impose a signal into Wheatstone bridge outputs. This imposes a signal on the reference leg
+#define INJECT_DIAGNOSTIC_SQUARE_WAVE_ON_REFERENCE_PIN_OF_SPECIFIED_OUTBOARD_ADC 0    //For testing - wobbles digipot settings on bridge index to impose a signal into Wheatstone bridge outputs. This imposes a signal on the reference leg
 #define DIAGNOSTIC_SQUARE_WAVE_TIME_PERIOD  10
 //#define LEAVE_POT_VALUES_ALONE_DURING_SETUP                                         //First run should leave this undefined to load digi pots with some values
 #define BIAS_IN_ANALOG_INPUT_BITS_TO_APPLY_TO_SIGNAL_LEG_TO_CENTER_THE_TRACE_BRIDGE0 0  //This offset will be applied to all signal lines of outboard ADCs, not just the first one, until further development.  Write some code yourself to expand.  Inboard Analog Inputs of 10 bits will make much change with little values, 12 bit inboard allows more flexibility here
 #ifdef BIAS_IN_ANALOG_INPUT_BITS_TO_APPLY_TO_SIGNAL_LEG_TO_CENTER_THE_TRACE_BRIDGE0
-#define ADDITIONAL_BIAS_IN_LSB_DPOT_SETTING_POSITION_TO_APPLY_TO_SIGNAL_TRACE_BRIDGE0 0 //To maintain consistent effect with the above, associated macro, this gets applied inverted. This is in lieu of setting by reading the ADCs and zeroing them.
+#define ADDITIONAL_BIAS_IN_LSB_DPOT_SETTING_POSITION_TO_APPLY_TO_SIGNAL_TRACE_BRIDGE0 2 //To maintain consistent effect with the above, associated macro, this gets applied inverted. This is in lieu of setting by reading the ADCs and zeroing them.
 #endif
 #ifdef __LGT8FX8E__
 #define BAUD_TO_SERIAL 19200                                                          //This speed is what works best with WeMos XI/TTGO XI board.  Experiment as desired.
@@ -41,8 +42,8 @@
                       It is only used relative to the LSB digipot, so there can only be that one digipot per leg allowed to have a smaller resistance
                       per step than other digipots on the leg. All bridge legs in the system must be built with the same ratio scheme, and must always include one and
                       only one LSB digipot, with all non-LSB digipots matching each others' resistance/step values.  This macro limits LSB settings adjustments
-                      when another digipot in the leg is set to less than MAXPOTSETTG, but not otherwise, allowing LSB to reach MAXPOTSETTG when non-LSBs are all at MAXPOTSETTG.
-                      As far as MAXPOTSETTG, all digipots in the system are bound by the same MAXPOTSETTG value. */
+                      when another digipot in the leg is set to less than MAX_DPOT_SETTG, but not otherwise, allowing LSB to reach MAX_DPOT_SETTG when non-LSBs are all at MAX_DPOT_SETTG.
+                      As far as MAX_DPOT_SETTG, all digipots in the system are bound by the same MAX_DPOT_SETTG value. */
 //#define MINIMIZE_COMPILED_SKETCH_SIZE_LEVEL 0      somehow this does the opposite!!!   //Number 0 produces smallest sketch giving least data output functionality
 //#define LOOP_COUNTER_LIMIT_THAT_TRACE_IS_ALLOWED_TO_BE_OFF_CENTER 3                   //sets how soon run-time auto-balancing kicks in when trace goes off scale
 
@@ -121,7 +122,7 @@
   Bachelor of General Studies majoring in General Sciences
 ********************************************************************************
 
-   Changelog:  30 April 2018 :  Final inboard 10 bit operation and ADS1X15 operation has been achieved.  Future work on free version will be for 12 bit boards only
+   Changelog:  30 April 2018 :  Final inboard 10 bit operation and ADS1X15 operation has been achieved.
                04 May   2018 :  Some 12 bit tweaking so that TTGO/WeMos XI, SAM and SAMD architectures compile with inboard analog inputs to computed at 12 bit even though ANALOG_INPUT_BITS_OF_BOARD is set at default.
                18 May   2018 :  Anti-aliasing code
                29 May   2018 :  Differential use of ADS1x15 to allow LM334 temperature comp to negative inputs so LM334 can be used on positive inputs
@@ -152,7 +153,9 @@
                16 Nov   2018 :  Scalability rewrite.  DO NOT USE PREDATED VERSIONS TO ADVANCE DEVELOPMENT!!!!!!!  Many changes have been made as of this date to accommodate future scalability
                17 Nov   2018 :  Functionalities restored that were present before scalability rewrite.
                28 Nov   2018 :  Begin development on SD card storage + wifi connectivity so training aid can be powered through the power connector and store the data onboard and transmit it online
-               12 Dec   2018 :  Working on Predictive DPot setting, sketch is published  for the purpose of establishing code flow to best support project advancement               NEXT          :  Predictive DPot setting by tracking +/- Inboard and Outboard ADC bits per +LSB bit
+               12 Dec   2018 :  Working on Predictive DPot setting, sketch is published  for the purpose of establishing code flow to best support project advancement. 
+               29 Dec   2018 :  Not debugged yet but added a linearity test as last thing in setup()
+               NEXT          :  Predictive DPot setting by tracking +/- Inboard and Outboard ADC bits per +LSB bit
                NEXT          :  Allow using dual digital potentiometers (MCP42XXX) for more lower parts count than when using single pot MCP41XXX
                NEXT          :  Allow DigiPots without LM334: the direction of effect will be opposite.  New macro:
                NEXT          :  EEPROM storage of things like ADC sweet spot, initial digipot settings, etc.  Hardware configs like DPot types & ADC types & other upgradeable hardware version possiblities needs to be able to be set in the hat board rather than EEPROM
@@ -306,9 +309,9 @@
         #undef HIGHEST_BIT_RES_FROM_HIGHEST_SENSI_OUTBOARD_ADC
     #endif
     #define HIGHEST_BIT_RES_FROM_HIGHEST_SENSI_OUTBOARD_ADC ANALOG_INPUT_BITS_OF_BOARD
-    #ifdef HIGHEST_SENSI_OUTBOARD_ADC_TYPE
-        #undef HIGHEST_SENSI_OUTBOARD_ADC_TYPE
-    #endif
+//    #ifdef HIGHEST_SENSI_OUTBOARD_ADC_TYPE
+//        #undef HIGHEST_SENSI_OUTBOARD_ADC_TYPE //this would prevent setup from finding linearity unless outboard ADC was operating: undesireable limitation
+//    #endif
     #ifdef HIGHEST_SENSI_PGA_GAIN_FACTOR
         #undef HIGHEST_SENSI_PGA_GAIN_FACTOR
     #endif
@@ -493,53 +496,46 @@ If you only have the Arduino without an ADS1X15, then define INBOARDS_PLOTTED.  
     #define DPOTS ( DPOTS_IN_ALL_LM334_BRIDGES + DPOTS_IN_ALL_BARE_LEG_BRIDGES + DPOTS_IN_ALL_BARE_LEGS_UNBRIDGED )
     #define READ_AND_PLOT_IN_EACH_LAP true
     #define WORK_ON_THE_REFERENCE_LEG true
-    /*
+/*
       The following are globals since their contents can only be calculated at run-time and necessarily must remain accessible by every function without loss or recalculation, or are essential to the calculation of another global
       and we don't want to waste the CPU time of making them into preprocessor macros which would get calculated every single time the macro is used instead of just a single time when the DPotLeg of interest is changed
-    */
+*/
     //The following variable is intended to be stored in EEPROM once calculated
-//    static int32_t referenceLSBSettingUnitsPerAnalogInputUnit[ LM334_BRIDGES + BARE_DPOT_LEG_BRIDGES + BARE_DPOT_LEGS_UNBRIDGED ]; //Notice this is signed - it will work both for LM334-types and otherwise
-//    static int32_t analogInputUnitsPerReferenceMSBSettingUnit[ LM334_BRIDGES + BARE_DPOT_LEG_BRIDGES + BARE_DPOT_LEGS_UNBRIDGED ]; //Notice this is signed - it will work both for LM334-types and otherwise
-    static int32_t legLSBSettingUnitsPerAnalogInputUnitTimes100[ DPOT_LEGS ]; //Notice this is signed - it will work for LM334-types and otherwise.  If it could have been unsigned we would probably have it be ...Times256.  Can use in conjunction with DPOT_RATIO to convert to MSB units
-    static int32_t analogInputUnitsPerMSBLegSettingUnitTimes100[ DPOT_LEGS ]; //Notice this is signed - it will work for LM334-types and otherwise.  If it could have been unsigned we would probably have it be ...Times256   Can use in conjunction with DPOT_RATIO to convert to LSB units
-    #if ( DPOT_LEGS > 1 )
-        #define NUM_ELEMENTS_PER_LEG_IN_dPotLegMSBUsedAndAvailables_ARRAY 2
-        static uint16_t dPotLegMSBUsedAndAvailables[ NUM_ELEMENTS_PER_LEG_IN_dPotLegMSBUsedAndAvailables_ARRAY * DPOT_LEGS ]; //This will only be needed on legs with > 1 Dpots: each leg can store totalAllMSBsThisLeg availableAllMSBsThisLeg
-        #define MSB_SETTINGS_TOTAL_THIS_LEG ( dPotLegMSBUsedAndAvailables[ NUM_ELEMENTS_PER_LEG_IN_dPotLegMSBUsedAndAvailables_ARRAY * dPotLeg ] )
-        #define MSB_SETTINGS_AVAILABLE_THIS_LEG ( dPotLegMSBUsedAndAvailables[ ( NUM_ELEMENTS_PER_LEG_IN_dPotLegMSBUsedAndAvailables_ARRAY * dPotLeg ) + 1 ] )
-        #define MSB_SETTINGS_TOTAL_THIS_REFERENCE_LEG ( dPotLegMSBUsedAndAvailables[ NUM_ELEMENTS_PER_LEG_IN_dPotLegMSBUsedAndAvailables_ARRAY * ( dPotLeg + 1 ) ] )
-        #define MSB_SETTINGS_AVAILABLE_THIS_REFERENCE_LEG ( dPotLegMSBUsedAndAvailables[ ( NUM_ELEMENTS_PER_LEG_IN_dPotLegMSBUsedAndAvailables_ARRAY * ( dPotLeg + 1 ) ) + 1 ] )
-    #endif    
-    /*
+    #define NUM_ELEMENTS_PER_LEG_IN_dPotLegMSBUsedAndAvailables_ARRAY 2
+    static uint16_t dPotLegMSBUsedAndAvailables[ NUM_ELEMENTS_PER_LEG_IN_dPotLegMSBUsedAndAvailables_ARRAY * DPOT_LEGS ]; //This will only be needed on legs with > 1 Dpots: each leg can store totalAllMSBsThisLeg availableAllMSBsThisLeg
+    #define MSB_SETTINGS_TOTAL_THIS_LEG ( dPotLegMSBUsedAndAvailables[ NUM_ELEMENTS_PER_LEG_IN_dPotLegMSBUsedAndAvailables_ARRAY * dPotLeg ] )
+    #define MSB_SETTINGS_AVAILABLE_THIS_LEG ( dPotLegMSBUsedAndAvailables[ ( NUM_ELEMENTS_PER_LEG_IN_dPotLegMSBUsedAndAvailables_ARRAY * dPotLeg ) + 1 ] )
+    #define MSB_SETTINGS_TOTAL_THIS_REFERENCE_LEG ( dPotLegMSBUsedAndAvailables[ ( NUM_ELEMENTS_PER_LEG_IN_dPotLegMSBUsedAndAvailables_ARRAY * dPotLeg ) + 2 ] )
+    #define MSB_SETTINGS_AVAILABLE_THIS_REFERENCE_LEG ( dPotLegMSBUsedAndAvailables[ ( NUM_ELEMENTS_PER_LEG_IN_dPotLegMSBUsedAndAvailables_ARRAY * dPotLeg ) + 3 ] )
+/*
     WHY WE DON'T GLOBALLY STORE THE BRIDGE IN CONTEXT LIKE WE DO THESE OTHER VARS:
     Because sending the bridge as an argument instead is never inconvenient as
     it is always handy from where functions are called that need to know it.
     These globals are here b/c otherwise they would have to be recalculated
     multiple times within the same bridge or leg context or else clutter 
     function argument lists into too much ugliness.  Not so with bridge.
-    */
-    static uint8_t indexOfThisDPotCSPinInDPotArrays = 0;
-    static uint8_t dPotLeg;
-    static uint8_t dPotsPerThisLeg;
-    
-    static uint8_t lSBDPotOffsetIndexThisLeg;
-    static uint8_t lSBDPotOffsetIndexThisLegReference;
-    
-    static uint8_t firstMSBIndexThisLeg;
-    static uint8_t firstMSBIndexThisLegReference;
-    
-    static uint16_t mSBsGroupSize; //casted to 16 bits b/c it will be used to divide settingValue which is 16 bits
-    
-    static uint8_t whichBridgeOrOutboardADCindex;
-    
-    void configureFromDPotLeg() //Note that the way the dPotPins array is ordered allows the following to work even with unbridged legs in the system
+*/
+uint8_t whichBridgeOrOutboardADCindex = 0;
+uint16_t indexOfThisDPotCSPinInDPotArrays = 0;
+uint8_t dPotLeg;
+uint8_t dPotsPerThisLeg;
+uint8_t dPotsPerThisBridge;
+uint8_t mSBsGroupSize;
+uint8_t lSBDPotOffsetIndexThisLeg;
+uint8_t lSBDPotOffsetIndexThisLegReference;
+uint8_t firstMSBIndexThisLeg;
+uint8_t firstMSBIndexThisLegReference;
+    void configureFromDPotLeg( void ) //Note that the way the dPotPins array is ordered allows the following to work even with unbridged legs in the system
     { //checking whether this got executed for the signal leg when the current context is for the reference leg: indexOfThisDPotCSPinInDPotArrays < lSBDPotInLegReference ? <signal leg value> : <reference leg value>
     //If the leg has only a single DPot, the mSBsGroupSize will be one and both lSBDPotOffsetIndexThisLeg and firstMSBIndexThisLeg will equate as firstDPotInLeg in signal leg - the reference leg acts similarly.
       dPotsPerThisLeg = ( dPotLeg < LM334_BRIDGE_LEGS ) ? \
                         DPOTS_PER_LM334_LEG : \
-                        ( dPotLeg < ( LM334_BRIDGE_LEGS + BARE_BRIDGE_LEGS ) ? \
+                        ( dPotLeg < ( LM334_BRIDGE_LEGS + BARE_BRIDGE_LEGS ) ) ? \
                           DPOTS_PER_BRIDGED_BARE_LEG : \
-                          DPOTS_PER_UNBRIDGED_BARE_LEG );
+                          DPOTS_PER_UNBRIDGED_BARE_LEG;
+      dPotsPerThisBridge = ( dPotLeg < ( LM334_BRIDGE_LEGS + BARE_BRIDGE_LEGS ) ) ? \
+                          ( dPotsPerThisLeg << 1 ) : \
+                          dPotsPerThisLeg;
     
       mSBsGroupSize = dPotsPerThisLeg - ( ( dPotsPerThisLeg > 1 ) ? 1 : 0 );
     
@@ -548,13 +544,11 @@ If you only have the Arduino without an ADS1X15, then define INBOARDS_PLOTTED.  
                        ( dPotLeg < ( LM334_BRIDGE_LEGS + BARE_BRIDGE_LEGS ) ) ? \
                        ( DPOTS_IN_ALL_LM334_BRIDGES + ( ( dPotLeg - LM334_BRIDGE_LEGS ) * DPOTS_PER_BRIDGED_BARE_LEG ) ) : \
                        ( DPOTS_IN_ALL_LM334_BRIDGES + DPOTS_IN_ALL_BARE_LEG_BRIDGES + ( ( dPotLeg - ( LM334_BRIDGE_LEGS + DPOTS_IN_ALL_BARE_LEG_BRIDGES ) * DPOTS_PER_UNBRIDGED_BARE_LEG ) ) );
-      lSBDPotOffsetIndexThisLegReference = lSBDPotOffsetIndexThisLeg + dPotsPerThisLeg;
+      lSBDPotOffsetIndexThisLegReference = ( dPotLeg < ( LM334_BRIDGE_LEGS + BARE_BRIDGE_LEGS ) ) ? lSBDPotOffsetIndexThisLeg + dPotsPerThisLeg : lSBDPotOffsetIndexThisLeg;
     
 
       firstMSBIndexThisLeg = lSBDPotOffsetIndexThisLeg + ( ( dPotsPerThisLeg > 1 ) ? 1 : 0 );
-
-      firstMSBIndexThisLegReference = firstMSBIndexThisLeg + dPotsPerThisLeg;
-    
+      firstMSBIndexThisLegReference = ( dPotLeg < ( LM334_BRIDGE_LEGS + BARE_BRIDGE_LEGS ) ) ? firstMSBIndexThisLeg + dPotsPerThisLeg : firstMSBIndexThisLeg;
     }
     
     void configureFromDPotIndex()
@@ -580,7 +574,7 @@ If you only have the Arduino without an ADS1X15, then define INBOARDS_PLOTTED.  
       dPotLeg = ( whichBridgeOrOutboardADCindex * LEGS_PER_DPOT_STYLE_BRIDGE ) + 1;
       configureFromDPotLeg();
     }
-    #define MAXPOTSETTG 256 //This settingValue is 1 less than the actual number of steps b/c the lowest setting is 0 - zero indexed, but since it equates to practical zero resistance this works fine
+    #define MAX_DPOT_SETTG 256 //This settingValue is 1 less than the actual number of steps b/c the lowest setting is 0 - zero indexed, but since it equates to practical zero resistance this works fine
     
     //    #if ( LM334_BRIDGES > 0 ) Just b/c this conforms to the pattern
     //When using one or two 3:8 decoders, note that these pins numbers must be greater than 127
@@ -598,29 +592,35 @@ If you only have the Arduino without an ADS1X15, then define INBOARDS_PLOTTED.  
     //If a digipot is the second in a pkg, you will OR that digipot's pin number with B0100000 (add 64) like so: #define LSB_DPOT_B0SIG_PIN ( 7 + 64 ) would be for when pin 7 is the physical Arduino Digital pin
     //If you find that you don't understand that, I'd encourage you to learn the topics of converting between hexadecimal, decimal, and binary and to learn bitwise boolean operations
     #define LSB_DPOT_B0SIG_PIN 5         // Signal LSB fine adjust digital pot's CS line connected to here
-    #define LSB_DPOT_B0SIG_STARTVALUE 83 //52 - 54 or ( MAXPOTSETTG / 2 )   //this settingValue in digipots and with 1 MOhm resistors for the LM334 loads put the LM334 output voltage at closest: with three DPots per leg
+//    #define LSB_DPOT_B0SIG_STARTVALUE 0 //309 52 - 54 or ( MAX_DPOT_SETTG / 2 )   //this settingValue in digipots and with 1 MOhm resistors for the LM334 loads put the LM334 output voltage at closest: with three DPots per leg
+    #define LSB_DPOT_B0SIG_STARTVALUE 38 //304 52 - 54 or ( MAX_DPOT_SETTG / 2 )   //this settingValue in digipots and with 1 MOhm resistors for the LM334 loads put the LM334 output voltage at closest: with three DPots per leg
+//    #define LSB_DPOT_B0SIG_STARTVALUE 83 //52 - 54 or ( MAX_DPOT_SETTG / 2 )   //this settingValue in digipots and with 1 MOhm resistors for the LM334 loads put the LM334 output voltage at closest: with three DPots per leg
     
     #if ( ( DPOTS_PER_LM334_LEG > 0 ) || ( DPOTS_PER_BRIDGED_BARE_LEG > 0 ) )
         #define LSB_DPOT_B0REF_PIN 8        // Reference LSB fine adjust digital pot's CS line connected to here
-        #define LSB_DPOT_B0REF_STARTVALUE 87 //or ( MAXPOTSETTG / 2 )   //this settingValue in digipots and with 1 MOhm resistors for the LM334 loads put the LM334 output voltage at closest: with three DPots per leg
-    //        #define LSB_DPOT_B0REF_STARTVALUE 18 //or ( MAXPOTSETTG / 2 )   //this settingValue in digipots and with 1 MOhm resistors for the LM334 loads put the LM334 output voltage at closest: with two DPots per leg
+//        #define LSB_DPOT_B0REF_STARTVALUE 0 //310 or ( MAX_DPOT_SETTG / 2 )   //this settingValue in digipots and with 1 MOhm resistors for the LM334 loads put the LM334 output voltage at closest: with three DPots per leg
+        #define LSB_DPOT_B0REF_STARTVALUE 50 //305 or ( MAX_DPOT_SETTG / 2 )   //this settingValue in digipots and with 1 MOhm resistors for the LM334 loads put the LM334 output voltage at closest: with three DPots per leg
+//        #define LSB_DPOT_B0REF_STARTVALUE 87 //or ( MAX_DPOT_SETTG / 2 )   //this settingValue in digipots and with 1 MOhm resistors for the LM334 loads put the LM334 output voltage at closest: with three DPots per leg
+    //        #define LSB_DPOT_B0REF_STARTVALUE 18 //or ( MAX_DPOT_SETTG / 2 )   //this settingValue in digipots and with 1 MOhm resistors for the LM334 loads put the LM334 output voltage at closest: with two DPots per leg
     #endif
     #if ( ( DPOTS_PER_LM334_LEG > 1 ) || ( DPOTS_PER_BRIDGED_BARE_LEG > 1 ) || ( DPOTS_PER_UNBRIDGED_BARE_LEG > 1 ) )
         #define NON_LSB_DPOT_1_B0SIG_PIN 6          // second digital pot of signal leg CS line connected to here.  coarse adjust B positive (signal) leg
-        #define NON_LSB_DPOT_1_B0SIG_STARTVALUE 124 //or ( MAXPOTSETTG / 2 )  //this settingValue in digipots and with 1 MOhm resistors for the LM334 loads put the LM334 output voltage at closest: with two or three DPots per leg
+//        #define NON_LSB_DPOT_1_B0SIG_STARTVALUE ( MAX_DPOT_SETTG / 4 ) //or ( MAX_DPOT_SETTG / 2 )  //this settingValue in digipots and with 1 MOhm resistors for the LM334 loads put the LM334 output voltage at closest: with two or three DPots per leg
+        #define NON_LSB_DPOT_1_B0SIG_STARTVALUE 125 //or ( MAX_DPOT_SETTG / 2 )  //this settingValue in digipots and with 1 MOhm resistors for the LM334 loads put the LM334 output voltage at closest: with two or three DPots per leg
     #endif
     #if ( ( DPOTS_PER_LM334_LEG > 1 ) || ( DPOTS_PER_BRIDGED_BARE_LEG > 1 ) )
         #define NON_LSB_DPOT_1_B0REF_PIN 9          // second digital pot of reference leg CS line connected to here.  coarse adjust B negative (reference) leg
-        #define NON_LSB_DPOT_1_B0REF_STARTVALUE 124 //or ( MAXPOTSETTG / 2 )   //this settingValue in digipots and with 1 MOhm resistors for the LM334 loads put the LM334 output voltage at closest: with three DPots per leg
-    //        #define NON_LSB_DPOT_1_B0REF_STARTVALUE 117 //or ( MAXPOTSETTG / 2 )   //this settingValue in digipots and with 1 MOhm resistors for the LM334 loads put the LM334 output voltage at closest: with two DPots per leg
+//        #define NON_LSB_DPOT_1_B0REF_STARTVALUE ( MAX_DPOT_SETTG / 4 ) //or ( MAX_DPOT_SETTG / 2 )   //this settingValue in digipots and with 1 MOhm resistors for the LM334 loads put the LM334 output voltage at closest: with three DPots per leg
+        #define NON_LSB_DPOT_1_B0REF_STARTVALUE 125 //or ( MAX_DPOT_SETTG / 2 )   //this settingValue in digipots and with 1 MOhm resistors for the LM334 loads put the LM334 output voltage at closest: with three DPots per leg
+    //        #define NON_LSB_DPOT_1_B0REF_STARTVALUE 117 //or ( MAX_DPOT_SETTG / 2 )   //this settingValue in digipots and with 1 MOhm resistors for the LM334 loads put the LM334 output voltage at closest: with two DPots per leg
     #endif
     #if ( ( DPOTS_PER_LM334_LEG > 2 ) || ( DPOTS_PER_BRIDGED_BARE_LEG > 2 ) || ( DPOTS_PER_UNBRIDGED_BARE_LEG > 2 ) )
         #define NON_LSB_DPOT_2_B0SIG_PIN 7         // third digital pot of signal leg CS line connected to here.  coarse adjust B positive (signal) leg
-        #define NON_LSB_DPOT_2_B0SIG_STARTVALUE 0  //or ( MAXPOTSETTG / 2 )  //this settingValue in digipots and with 1 MOhm resistors for the LM334 loads put the LM334 output voltage at closest
+        #define NON_LSB_DPOT_2_B0SIG_STARTVALUE 0  //or ( MAX_DPOT_SETTG / 2 )  //this settingValue in digipots and with 1 MOhm resistors for the LM334 loads put the LM334 output voltage at closest
     #endif
     #if ( ( DPOTS_PER_LM334_LEG > 2 ) || ( DPOTS_PER_BRIDGED_BARE_LEG > 2 ) )
         #define NON_LSB_DPOT_2_B0REF_PIN 10         // third digital pot of reference leg CS line connected to here.  coarse adjust B negative (reference) leg
-        #define NON_LSB_DPOT_2_B0REF_STARTVALUE 0  //or ( MAXPOTSETTG / 2 )   //this settingValue in digipots and with 1 MOhm resistors for the LM334 loads put the LM334 output voltage at closest
+        #define NON_LSB_DPOT_2_B0REF_STARTVALUE 0  //or ( MAX_DPOT_SETTG / 2 )   //this settingValue in digipots and with 1 MOhm resistors for the LM334 loads put the LM334 output voltage at closest
     #endif
     
     #if ( ( defined ARDUINO_AVR_LEONARDO ) \
@@ -873,7 +873,7 @@ static uint8_t* analogPinArray = 0; //Initializing to 0 allows functions that wo
         Serial.print( lSBDPotOffsetIndexThisLeg );
         Serial.print( F( "> " ) );
 
-        thisIsReferenceWhenConfigureWasForSignal = ( indexOfThisDPotCSPinInDPotArrays > ( lSBDPotOffsetIndexThisLeg + dPotsPerThisLeg ) );
+        thisIsReferenceWhenConfigureWasForSignal = ( indexOfThisDPotCSPinInDPotArrays >= ( lSBDPotOffsetIndexThisLeg + dPotsPerThisLeg ) );
 
     #if ( ( not defined MINIMIZE_COMMUNICATIONS_CLUTTER_FOR_HIGHER_MAX_SPEED_ONLY_COMPATIBLE_FOR_OFFICIAL_ARDUINO_IDE ) || ( MINIMIZE_COMMUNICATIONS_CLUTTER_FOR_HIGHER_MAX_SPEED_ONLY_COMPATIBLE_FOR_OFFICIAL_ARDUINO_IDE == false ) )
         if( analogPinArray )
@@ -913,7 +913,7 @@ static uint8_t* analogPinArray = 0; //Initializing to 0 allows functions that wo
             ;//TODO: finish this thought
         }
         ( thisIsReferenceWhenConfigureWasForSignal ? MSB_SETTINGS_TOTAL_THIS_REFERENCE_LEG : MSB_SETTINGS_TOTAL_THIS_LEG ) = settingValue; //This makes individual MSB settings not accessible for modifying after analogPinArray is assigned unless you save it's setting, make it zero momentarily while this functions is called
-        ( thisIsReferenceWhenConfigureWasForSignal ? MSB_SETTINGS_AVAILABLE_THIS_REFERENCE_LEG : MSB_SETTINGS_AVAILABLE_THIS_LEG ) = ( mSBsGroupSize * MAXPOTSETTG ) - settingValue;
+        ( thisIsReferenceWhenConfigureWasForSignal ? MSB_SETTINGS_AVAILABLE_THIS_REFERENCE_LEG : MSB_SETTINGS_AVAILABLE_THIS_LEG ) = ( mSBsGroupSize * MAX_DPOT_SETTG ) - settingValue;
         Serial.flush();
         return;
     #if ( ( not defined MINIMIZE_COMMUNICATIONS_CLUTTER_FOR_HIGHER_MAX_SPEED_ONLY_COMPATIBLE_FOR_OFFICIAL_ARDUINO_IDE ) || ( MINIMIZE_COMMUNICATIONS_CLUTTER_FOR_HIGHER_MAX_SPEED_ONLY_COMPATIBLE_FOR_OFFICIAL_ARDUINO_IDE == false ) )
@@ -921,7 +921,7 @@ static uint8_t* analogPinArray = 0; //Initializing to 0 allows functions that wo
     #endif
 AfterMSBCombining:
       //LSB pins get fastracked to here
-      if( settingValue > MAXPOTSETTG ) settingValue = MAXPOTSETTG;
+      if( settingValue > MAX_DPOT_SETTG ) settingValue = MAX_DPOT_SETTG;
       else if( settingValue < 0 ) settingValue = 0;
       if( analogPinArray )
       {
@@ -934,7 +934,7 @@ AfterMSBCombining:
         Serial.print( settingValue );
         Serial.print( F( ">, " ) );
     #endif
-        dPotSettings[ indexOfThisDPotCSPinInDPotArrays ] = settingValue < MAXPOTSETTG ? settingValue : MAXPOTSETTG; //make to accommodate MSB groups
+        dPotSettings[ indexOfThisDPotCSPinInDPotArrays ] = settingValue < MAX_DPOT_SETTG ? settingValue : MAX_DPOT_SETTG; //make to accommodate MSB groups
         settingValue = dPotSettings[ indexOfThisDPotCSPinInDPotArrays ]; //setting settingValue but it's existence is only until end of function (transient)
       }
     #if ( ( not defined MINIMIZE_COMMUNICATIONS_CLUTTER_FOR_HIGHER_MAX_SPEED_ONLY_COMPATIBLE_FOR_OFFICIAL_ARDUINO_IDE ) || ( MINIMIZE_COMMUNICATIONS_CLUTTER_FOR_HIGHER_MAX_SPEED_ONLY_COMPATIBLE_FOR_OFFICIAL_ARDUINO_IDE == false ) )
@@ -955,7 +955,7 @@ AfterMSBCombining:
             //Pins numbered above 127 are outboard pins provided through the dual 74LV138 decoding circuitry
             //The two 74LV138 each have three enable pins but we only use one.
             //It would require 7 pins to address the two devices simultaneously.
-            //Use 'em since we have them...it'll save a part for latch
+            //Use 'em since we have 'em...it'll save a part for latch
             digitalWrite( FIRST_STAGE_3_TO_8_DECODER_A0_PIN1,  ( analogPinArray ? dPotPins[ indexOfThisDPotCSPinInDPotArrays ] : indexOfThisDPotCSPinInDPotArrays ) & B1 );  //These address bits are always necessary
         #ifdef FIRST_STAGE_3_TO_8_DECODER_A1_PIN2
             digitalWrite( FIRST_STAGE_3_TO_8_DECODER_A1_PIN2,  ( analogPinArray ? dPotPins[ indexOfThisDPotCSPinInDPotArrays ] : indexOfThisDPotCSPinInDPotArrays ) & B10 ); //These address bits are always necessary
@@ -976,7 +976,7 @@ AfterMSBCombining:
             digitalWrite( FINAL_STAGE_3_TO_8_DECODER_A2_PIN3, ( analogPinArray ? dPotPins[ indexOfThisDPotCSPinInDPotArrays ] : indexOfThisDPotCSPinInDPotArrays ) & B100000 );  //This decoder might not be present
         #endif
             //bit B1000000 is reserved for virtualizing the second DPot in a dual DPot pkg MCP42xxx
-            //Never use bit 6 of dPotPins[ indexOfThisDPotCSPinInDPotArrays ] for anything except to designate the second pot in a dual pkg MCP42xxx
+            //Never have bit 6 set in elements of dPotPins[ indexOfThisDPotCSPinInDPotArrays ] for anything except to designate the second pot in a dual pkg MCP42xxx
         #ifdef FINAL_STAGE_3_TO_8_DECODER_ENABLE_PIN4
             digitalWrite( FINAL_STAGE_3_TO_8_DECODER_ENABLE_PIN4, LOW ); // In prep for next instruction.
         #endif
@@ -1041,7 +1041,7 @@ AfterMSBCombining:
       if( analogPinArray ) return ( dPotSettings[ indexOfThisDPotCSPinInDPotArrays ] - settingPrevious );
       return 0;
     }
-    void offsetDPotOrMSBGroupValue( uint8_t indexOfThisDPotCSPinInDPotArrays, int16_t/*has to be signed*/ offsetValue )
+    void offsetDPotOrMSBGroupValue( uint8_t indexOfThisDPotCSPinInDPotArrays, int16_t offsetValue )
     { //configureFrom...() and configureFor...() must already be ran 
     #if ( ( not defined MINIMIZE_COMMUNICATIONS_CLUTTER_FOR_HIGHER_MAX_SPEED_ONLY_COMPATIBLE_FOR_OFFICIAL_ARDUINO_IDE ) || ( MINIMIZE_COMMUNICATIONS_CLUTTER_FOR_HIGHER_MAX_SPEED_ONLY_COMPATIBLE_FOR_OFFICIAL_ARDUINO_IDE == false ) )
       Serial.print( F( " Entering offsetDPotOrMSBGroupValue=<" ) );
@@ -1059,6 +1059,7 @@ AfterMSBCombining:
       Serial.print( offsetValue );
       Serial.print( F( " for Digi pot on pin " ) );
     #endif
+//#error The next instruction is part of the problem
         bool thisIsReferenceWhenConfigureWasForSignal = !( indexOfThisDPotCSPinInDPotArrays < lSBDPotOffsetIndexThisLegReference );
       Serial.print( F( ">, thisIsReferenceWhenConfigureWasForSignal<" ) );
       Serial.print( thisIsReferenceWhenConfigureWasForSignal );
@@ -1073,28 +1074,28 @@ AfterMSBCombining:
         int16_t borrowOrCarryNeededToPreventBreakingLimitDividedByDPOT_RATIO = ( \
         ( offsetValue < 0 ) ? \
             0 - ( ( ( signed )abs( min( ( offsetValue + ( signed )dPotSettings[ indexOfThisDPotCSPinInDPotArrays ]), 0 ) ) + ( signed )DPOT_RATIO - 1 ) / ( signed )DPOT_RATIO ) : \
-        ( ( ( ( signed )offsetValue + dPotSettings[ indexOfThisDPotCSPinInDPotArrays ] ) - ( signed )MAXPOTSETTG ) / ( signed )DPOT_RATIO ) );
+        ( ( ( ( signed )offsetValue + dPotSettings[ indexOfThisDPotCSPinInDPotArrays ] ) - ( signed )MAX_DPOT_SETTG ) / ( signed )DPOT_RATIO ) );
         
-//should be a borrow, not a carry anyway: if will go negative, borrow beyond amount needed: ( offsetValue < 0 ) ? ( offsetValue + ( signed )dPotSettings[ indexOfThisDPotCSPinInDPotArrays ]) / ( signed )DPOT_RATIO : ( ( ( ( signed )offsetValue+dPotSettings[ indexOfThisDPotCSPinInDPotArrays ] ) - ( signed )MAXPOTSETTG ) / ( signed )DPOT_RATIO ) );
+//should be a borrow, not a carry anyway: if will go negative, borrow beyond amount needed: ( offsetValue < 0 ) ? ( offsetValue + ( signed )dPotSettings[ indexOfThisDPotCSPinInDPotArrays ]) / ( signed )DPOT_RATIO : ( ( ( ( signed )offsetValue+dPotSettings[ indexOfThisDPotCSPinInDPotArrays ] ) - ( signed )MAX_DPOT_SETTG ) / ( signed )DPOT_RATIO ) );
 
         //recursive call for borrow/carry against the MSB group
-//#error This is where we are: carrying should only happen when lsb setting would go over MAXPOTSETTG, borrowing only when would go under zero
+//#error This is where we are: carrying should only happen when lsb setting would go over MAX_DPOT_SETTG, borrowing only when would go under zero
       Serial.print( F( ">, making a recursive call with borrowOrCarryNeededToPreventBreakingLimitDividedByDPOT_RATIO=<" ) );
       Serial.print( borrowOrCarryNeededToPreventBreakingLimitDividedByDPOT_RATIO );
-      Serial.print( F( ">, ( offsetValue + ( signed )dPotSettings[ indexOfThisDPotCSPinInDPotArrays ])=<" ) );
-      Serial.print( ( offsetValue + ( signed )dPotSettings[ indexOfThisDPotCSPinInDPotArrays ]) );
+      Serial.print( F( ">, ( offsetValue + ( signed )dPotSettings[ indexOfThisDPotCSPinInDPotArrays ] )=<" ) );
+      Serial.print( ( offsetValue + ( signed )dPotSettings[ indexOfThisDPotCSPinInDPotArrays ] ) );
       Serial.print( F( ">, offsetValue=<" ) );
       Serial.print( offsetValue );
       Serial.print( F( ">, min( ( offsetValue + ( signed )dPotSettings[ indexOfThisDPotCSPinInDPotArrays ]), <0> )=<" ) );
-      Serial.print( min( ( offsetValue + ( signed )dPotSettings[ indexOfThisDPotCSPinInDPotArrays ]), 0 ) );
+      Serial.print( min( ( offsetValue + ( signed )dPotSettings[ indexOfThisDPotCSPinInDPotArrays ] ), 0 ) );
       Serial.print( F( ">, ( signed )DPOT_RATIO - <1> )=<" ) );
       Serial.print( ( signed )DPOT_RATIO - 1 );
-      Serial.print( F( ">, <0> - ( ( ( signed )abs( min( ( offsetValue + ( signed )dPotSettings[ indexOfThisDPotCSPinInDPotArrays ]), <0> ) ) + ( signed )DPOT_RATIO - <1> ) / ( signed )DPOT_RATIO )=<" ) );
-      Serial.print( 0 - ( ( ( signed )abs( min( ( offsetValue + ( signed )dPotSettings[ indexOfThisDPotCSPinInDPotArrays ]), 0 ) ) + ( signed )DPOT_RATIO - 1 ) / ( signed )DPOT_RATIO ) );
-      Serial.print( F( ">, ( ( ( signed )offsetValue + dPotSettings[ indexOfThisDPotCSPinInDPotArrays ] ) - ( signed )MAXPOTSETTG )=<" ) );
-      Serial.print( ( ( ( signed )offsetValue + dPotSettings[ indexOfThisDPotCSPinInDPotArrays ] ) - ( signed )MAXPOTSETTG ) );
-      Serial.print( F( ">, ( ( ( signed )offsetValue + dPotSettings[ indexOfThisDPotCSPinInDPotArrays ] ) - ( signed )MAXPOTSETTG ) / ( signed )DPOT_RATIO )=<" ) );
-      Serial.print( ( ( ( signed )offsetValue + dPotSettings[ indexOfThisDPotCSPinInDPotArrays ] ) - ( signed )MAXPOTSETTG ) / ( signed )DPOT_RATIO );
+      Serial.print( F( ">, <0> - ( ( ( signed )abs( min( ( offsetValue + ( signed )dPotSettings[ indexOfThisDPotCSPinInDPotArrays ] ), <0> ) ) + ( signed )DPOT_RATIO - <1> ) / ( signed )DPOT_RATIO )=<" ) );
+      Serial.print( 0 - ( ( ( signed )abs( min( ( offsetValue + ( signed )dPotSettings[ indexOfThisDPotCSPinInDPotArrays ] ), 0 ) ) + ( signed )DPOT_RATIO - 1 ) / ( signed )DPOT_RATIO ) );
+      Serial.print( F( ">, ( ( ( signed )offsetValue + dPotSettings[ indexOfThisDPotCSPinInDPotArrays ] ) - ( signed )MAX_DPOT_SETTG )=<" ) );
+      Serial.print( ( ( ( signed )offsetValue + dPotSettings[ indexOfThisDPotCSPinInDPotArrays ] ) - ( signed )MAX_DPOT_SETTG ) );
+      Serial.print( F( ">, ( ( ( signed )offsetValue + dPotSettings[ indexOfThisDPotCSPinInDPotArrays ] ) - ( signed )MAX_DPOT_SETTG ) / ( signed )DPOT_RATIO )=<" ) );
+      Serial.print( ( ( ( signed )offsetValue + dPotSettings[ indexOfThisDPotCSPinInDPotArrays ] ) - ( signed )MAX_DPOT_SETTG ) / ( signed )DPOT_RATIO );
 //      Serial.print( F( ">, offsetValue=<" ) );
 //      Serial.print( offsetValue );
 
@@ -1120,7 +1121,7 @@ AfterMSBCombining:
       Serial.print( F( "> " ) );
     
     if( ( offsetValue < 0 ) && ( ( 0 - offsetValue ) > ( ( indexOfThisDPotCSPinInDPotArrays == ( thisIsReferenceWhenConfigureWasForSignal ? lSBDPotOffsetIndexThisLegReference : lSBDPotOffsetIndexThisLeg ) ? dPotSettings[ indexOfThisDPotCSPinInDPotArrays ] : ( thisIsReferenceWhenConfigureWasForSignal ? MSB_SETTINGS_TOTAL_THIS_REFERENCE_LEG : MSB_SETTINGS_TOTAL_THIS_LEG ) ) ) ) || \
-        ( ( offsetValue > 0 ) && ( offsetValue > ( ( indexOfThisDPotCSPinInDPotArrays == ( thisIsReferenceWhenConfigureWasForSignal ? lSBDPotOffsetIndexThisLegReference : lSBDPotOffsetIndexThisLeg ) ? ( offsetValue > ( MAXPOTSETTG - dPotSettings[ indexOfThisDPotCSPinInDPotArrays ] ) ) : ( thisIsReferenceWhenConfigureWasForSignal ? MSB_SETTINGS_AVAILABLE_THIS_REFERENCE_LEG : MSB_SETTINGS_AVAILABLE_THIS_LEG ) ) ) ) ) )
+        ( ( offsetValue > 0 ) && ( offsetValue > ( ( indexOfThisDPotCSPinInDPotArrays == ( thisIsReferenceWhenConfigureWasForSignal ? lSBDPotOffsetIndexThisLegReference : lSBDPotOffsetIndexThisLeg ) ? ( offsetValue > ( MAX_DPOT_SETTG - dPotSettings[ indexOfThisDPotCSPinInDPotArrays ] ) ) : ( thisIsReferenceWhenConfigureWasForSignal ? MSB_SETTINGS_AVAILABLE_THIS_REFERENCE_LEG : MSB_SETTINGS_AVAILABLE_THIS_LEG ) ) ) ) ) )
     { //Beyond limit being asked for.  This location is where to add carrying/borrowing feature
         Serial.print( F( "Beyond limit, limiting offset request of <" ) );
         Serial.print( offsetValue );
@@ -1133,7 +1134,7 @@ AfterMSBCombining:
             else // : ( thisIsReferenceWhenConfigureWasForSignal ? MSB_SETTINGS_TOTAL_THIS_REFERENCE_LEG : MSB_SETTINGS_TOTAL_THIS_LEG ) ) ) ) )
                 offsetValue = 0 - ( signed )( thisIsReferenceWhenConfigureWasForSignal ? ( signed )MSB_SETTINGS_TOTAL_THIS_REFERENCE_LEG : ( signed )MSB_SETTINGS_TOTAL_THIS_LEG );/*a negative MSB value equaling zero minus the current total*/
         }
-        else //if( ( offsetValue < 0 ) && ( offsetValue > ( ( indexOfThisDPotCSPinInDPotArrays == ( thisIsReferenceWhenConfigureWasForSignal ? lSBDPotOffsetIndexThisLegReference : lSBDPotOffsetIndexThisLeg ) ? ( offsetValue > ( MAXPOTSETTG - dPotSettings[ indexOfThisDPotCSPinInDPotArrays ] ) ) : ( thisIsReferenceWhenConfigureWasForSignal ? MSB_SETTINGS_AVAILABLE_THIS_REFERENCE_LEG : MSB_SETTINGS_AVAILABLE_THIS_LEG ) ) ) ) )
+        else //if( ( offsetValue < 0 ) && ( offsetValue > ( ( indexOfThisDPotCSPinInDPotArrays == ( thisIsReferenceWhenConfigureWasForSignal ? lSBDPotOffsetIndexThisLegReference : lSBDPotOffsetIndexThisLeg ) ? ( offsetValue > ( MAX_DPOT_SETTG - dPotSettings[ indexOfThisDPotCSPinInDPotArrays ] ) ) : ( thisIsReferenceWhenConfigureWasForSignal ? MSB_SETTINGS_AVAILABLE_THIS_REFERENCE_LEG : MSB_SETTINGS_AVAILABLE_THIS_LEG ) ) ) ) )
             if( indexOfThisDPotCSPinInDPotArrays == ( thisIsReferenceWhenConfigureWasForSignal ? lSBDPotOffsetIndexThisLegReference : lSBDPotOffsetIndexThisLeg ) ) //( ( indexOfThisDPotCSPinInDPotArrays == ( thisIsReferenceWhenConfigureWasForSignal ? lSBDPotOffsetIndexThisLegReference : lSBDPotOffsetIndexThisLeg ) ? dPotSettings[ indexOfThisDPotCSPinInDPotArrays ] 
                 offsetValue = dPotSettings[ indexOfThisDPotCSPinInDPotArrays ];/*a negative LSB value equaling the current setting*/
             else // : ( thisIsReferenceWhenConfigureWasForSignal ? MSB_SETTINGS_TOTAL_THIS_REFERENCE_LEG : MSB_SETTINGS_TOTAL_THIS_LEG ) ) ) ) )
@@ -1158,16 +1159,17 @@ AfterMSBCombining:
       //setDPotOrMSBGroupValue( const uint8_t DPotPin, uint16_t settingValue ) or writeSettingToAsingleDPot()
       setDPotOrMSBGroupValue( indexOfThisDPotCSPinInDPotArrays, ( uint16_t )offsetValue );
     }
-    static uint16_t startMSBSettingForCalculatingSettingUnitsPerAnalogUnit, startLSBSettingForCalculatingSettingUnitsPerAnalogUnit;
-    uint16_t bestOfFour( uint8_t );
+    static int32_t analogInputUnitsTimes100PerMSBLegSettingUnit[ DPOT_LEGS ];
+    static int32_t legLSBSettingUnitsTimes100PerAnalogInputUnit[ DPOT_LEGS ];
+    static int32_t startMSBSettingForCalculatingSettingUnitsPerAnalogInputUnit = 0; //As of now, I foresee only one leg at a time needing the setting saved except in the setup() which will use a local var for the other leg
+    static int16_t startLSBSettingForCalculatingSettingUnitsPerAnalogInputUnit = 0; //signed b/c we need to do subtraction with it and save sign
+    int16_t bestOfFour( uint8_t ); //signed b/c we need to do subtraction with it and save sign
     #define MOST_ACCURATE true  //This belongs with the following function declare
-    uint16_t bestGuessAnalogInputReading( uint8_t = dPotLeg, bool = !MOST_ACCURATE, bool = true );
+    int16_t bestGuessAnalogInputReading( uint8_t = dPotLeg, bool = !MOST_ACCURATE, bool = true ); //signed b/c we need to do subtraction with it and save sign
     #define TARGET_LEVEL_DUMMY_VALUE 0
     #define USE_OPPOSING_LEGS_LEVEL_AS_TARGET_LEVEL true
-    bool thisIsTheMSBPass;
-    int16_t settingStepSize, endLevel;
-    uint16_t incomingInboardAnalogLevel;
-    uint16_t targetLevel;
+    static bool thisIsTheMSBPass;
+    static int16_t settingStepSize, endLevel, incomingInboardAnalogLevel, targetLevel; //signed b/c we need to do subtraction with it and save sign
     #define END_LEVEL_VALID true
 //#error Next step: reconcile setDPotLegMidPoint() with dPotLegSetpointing()
 
@@ -1177,22 +1179,22 @@ AfterMSBCombining:
         if( endLevelValid && ( ( signed )( ( signed )endLevel - ( signed )incomingInboardAnalogLevel ) ) ) //so we don't divide by the wrong value or by zero in here
         {/*HOPING THIS INSTRUCTION UP HERE FIRST WORKS BUT I SUSPECT IT WON'T
             */
-            legLSBSettingUnitsPerAnalogInputUnitTimes100[ dPotLeg ] = ( int32_t )( ( signed )100 * ( ( ( signed )( ( signed )DPOT_RATIO * ( signed ) MSB_SETTINGS_TOTAL_THIS_LEG ) + ( signed )dPotSettings[ lSBDPotOffsetIndexThisLeg ] ) - ( ( signed )DPOT_RATIO * ( signed )startMSBSettingForCalculatingSettingUnitsPerAnalogUnit + startLSBSettingForCalculatingSettingUnitsPerAnalogUnit ) ) / ( signed )( ( signed )endLevel - ( signed )incomingInboardAnalogLevel ) );
+            legLSBSettingUnitsTimes100PerAnalogInputUnit[ dPotLeg ] = ( int32_t )( ( signed )100 * ( ( ( signed )( ( signed )DPOT_RATIO * ( signed ) MSB_SETTINGS_TOTAL_THIS_LEG ) + ( signed )dPotSettings[ lSBDPotOffsetIndexThisLeg ] ) - ( ( signed )DPOT_RATIO * ( signed )startMSBSettingForCalculatingSettingUnitsPerAnalogInputUnit + startLSBSettingForCalculatingSettingUnitsPerAnalogInputUnit ) ) / ( signed )( ( signed )endLevel - ( signed )incomingInboardAnalogLevel ) );
             Serial.print( F( "Entered theNewSettingStepSizeInLSBUnits() with level difference=<" ) );
             Serial.print( ( ( signed )endLevel - ( signed )incomingInboardAnalogLevel ) );
             Serial.print( F( "> and step difference=<" ) );
-            Serial.print( ( ( signed )( ( signed )DPOT_RATIO * ( signed ) MSB_SETTINGS_TOTAL_THIS_LEG ) + ( signed )dPotSettings[ lSBDPotOffsetIndexThisLeg ] ) - ( ( signed )DPOT_RATIO * ( signed )startMSBSettingForCalculatingSettingUnitsPerAnalogUnit + startLSBSettingForCalculatingSettingUnitsPerAnalogUnit ) );
+            Serial.print( ( ( signed )( ( signed )DPOT_RATIO * ( signed ) MSB_SETTINGS_TOTAL_THIS_LEG ) + ( signed )dPotSettings[ lSBDPotOffsetIndexThisLeg ] ) - ( ( signed )DPOT_RATIO * ( signed )startMSBSettingForCalculatingSettingUnitsPerAnalogInputUnit + startLSBSettingForCalculatingSettingUnitsPerAnalogInputUnit ) );
             Serial.print( F( "> and calculated from ( ( signed )DPOT_RATIO * ( signed ) MSB_SETTINGS_TOTAL_THIS_LEG ) + ( signed )dPotSettings[ lSBDPotOffsetIndexThisLeg ] ) =<" ) );
             Serial.print( ( signed )( ( signed )DPOT_RATIO * ( signed ) MSB_SETTINGS_TOTAL_THIS_LEG ) + ( signed )dPotSettings[ lSBDPotOffsetIndexThisLeg ] );
 //            Serial.print( F( ">, =<" ) );
 //            Serial.print(  );
-            Serial.print( F( "> legLSBSettingUnitsPerAnalogInputUnitTimes100=<" ) );
-            Serial.print( legLSBSettingUnitsPerAnalogInputUnitTimes100[ dPotLeg ] );
+            Serial.print( F( "> legLSBSettingUnitsTimes100PerAnalogInputUnit=<" ) );
+            Serial.print( legLSBSettingUnitsTimes100PerAnalogInputUnit[ dPotLeg ] );
             Serial.print( F( ">. Calculated settingStepSize=<" ) );
-            settingStepSize = ( ( signed )( ( signed )endLevel - ( signed )targetLevel ) * legLSBSettingUnitsPerAnalogInputUnitTimes100[ dPotLeg ] ) / 100;
+            settingStepSize = ( ( signed )( ( signed )endLevel - ( signed )targetLevel ) * legLSBSettingUnitsTimes100PerAnalogInputUnit[ dPotLeg ] ) / 100;
             Serial.print( settingStepSize );
             Serial.print( F( "> divd by DPOT_RATIO=<" ) );
-            Serial.print( ( ( ( signed )( ( signed )endLevel - ( signed )targetLevel ) * legLSBSettingUnitsPerAnalogInputUnitTimes100[ dPotLeg ] ) / 100 ) / ( signed )DPOT_RATIO );
+            Serial.print( ( ( ( signed )( ( signed )endLevel - ( signed )targetLevel ) * legLSBSettingUnitsTimes100PerAnalogInputUnit[ dPotLeg ] ) / 100 ) / ( signed )DPOT_RATIO );
             Serial.print( F( ">. " ) );
         }
         else
@@ -1215,8 +1217,8 @@ AfterMSBCombining:
         Serial.print( F( "Calculated or not settingStepSize=<" ) );
         Serial.print( settingStepSize );
         Serial.print( F( ">. " ) );
-//        analogInputUnitsPerMSBLegSettingUnitTimes100[ dPotLeg ] = ( 100 * ( signed )( endLevel - incomingInboardAnalogLevel ) ) / ( signed )( startMSBSettingForCalculatingSettingUnitsPerAnalogUnit - MSB_SETTINGS_TOTAL_THIS_LEG );
-    //not good yet        legLSBSettingUnitsPerAnalogInputUnitTimes100[ dPotLeg ] = ( 100 * ( signed )( endLevel - incomingBestGuessAnalogInputreading ) ) / ( signed )( startLSBSettingForCalculatingSettingUnitsPerAnalogUnit - dPotSettings[ lSBDPotOffsetIndexThisLeg ] );
+//        analogInputUnitsTimes100PerMSBLegSettingUnit[ dPotLeg ] = ( 100 * ( signed )( endLevel - incomingInboardAnalogLevel ) ) / ( signed )( startMSBSettingForCalculatingSettingUnitsPerAnalogInputUnit - MSB_SETTINGS_TOTAL_THIS_LEG );
+    //not good yet        legLSBSettingUnitsTimes100PerAnalogInputUnit[ dPotLeg ] = ( 100 * ( signed )( endLevel - incomingBestGuessAnalogInputreading ) ) / ( signed )( startLSBSettingForCalculatingSettingUnitsPerAnalogInputUnit - dPotSettings[ lSBDPotOffsetIndexThisLeg ] );
     //DON'T ALLOW A new STEP SIZE CHANGE to less THAN 1/6 of current IF TARGET HASN'T BEEN ACQUIRED: FROM 20 CAN ONLY GO DOWN TO 3 or -3
     }
     #define REFERENCE_LEG_LEVEL_IS_HIGH 1
@@ -1232,13 +1234,14 @@ AfterMSBCombining:
         if( useOpposingLegLevelAsTargetLevel && ( dPotLeg < ( LM334_BRIDGE_LEGS + BARE_BRIDGE_LEGS ) ) )
             targetLevel = bestGuessAnalogInputReading( dPotLeg + ( ( dPotLeg % 2 ) ? -1 : 1 ), MOST_ACCURATE );
         if( incomingInboardAnalogLevel == targetLevel && bestGuessAnalogInputReading( dPotLeg, MOST_ACCURATE ) == targetLevel ) return true; //if already there
-        startMSBSettingForCalculatingSettingUnitsPerAnalogUnit = MSB_SETTINGS_TOTAL_THIS_LEG;
-        startLSBSettingForCalculatingSettingUnitsPerAnalogUnit = dPotSettings[ lSBDPotOffsetIndexThisLeg ];
+        startMSBSettingForCalculatingSettingUnitsPerAnalogInputUnit = MSB_SETTINGS_TOTAL_THIS_LEG;
+        startLSBSettingForCalculatingSettingUnitsPerAnalogInputUnit = dPotSettings[ lSBDPotOffsetIndexThisLeg ];
+        
 
 CalculateNewStepSize:
         theNewSettingStepSizeInLSBUnits( !END_LEVEL_VALID );
-//        settingStepSize = analogInputUnitsPerMSBLegSettingUnitTimes100[ dPotLeg ] ? \
-//            ( 100 * ( signed )( targetLevel - incomingInboardAnalogLevel ) ) / analogInputUnitsPerMSBLegSettingUnitTimes100[ dPotLeg ] : \
+//        settingStepSize = analogInputUnitsTimes100PerMSBLegSettingUnit[ dPotLeg ] ? \
+//            ( 100 * ( signed )( targetLevel - incomingInboardAnalogLevel ) ) / analogInputUnitsTimes100PerMSBLegSettingUnit[ dPotLeg ] : \
 //             theNewSettingStepSizeInLSBUnits();
 //#error Next step: reconcile aqll the different stepsize calculations, then the borrow/carry problem
         endLevel = incomingInboardAnalogLevel;
@@ -1255,10 +1258,10 @@ CalculateNewStepSize:
         Serial.print( readAndPlotInEachLap );
         Serial.print( F( ">, useOpposingLegLevelAsTargetLevel=<" ) );
         Serial.print( useOpposingLegLevelAsTargetLevel );
-        Serial.print( F( ">, analogInputUnitsPerMSBLegSettingUnitTimes100[ dPotLeg ]=<" ) );
-        Serial.print( analogInputUnitsPerMSBLegSettingUnitTimes100[ dPotLeg ] );
-        Serial.print( F( ">, ( 100 * ( signed )( targetLevel - incomingInboardAnalogLevel ) ) / ( analogInputUnitsPerMSBLegSettingUnitTimes100[ dPotLeg ] )=<" ) );
-        Serial.print( ( 100 * ( signed )( ( signed )targetLevel - ( signed )incomingInboardAnalogLevel ) ) / ( analogInputUnitsPerMSBLegSettingUnitTimes100[ dPotLeg ] ) );
+        Serial.print( F( ">, analogInputUnitsTimes100PerMSBLegSettingUnit[ dPotLeg ]=<" ) );
+        Serial.print( analogInputUnitsTimes100PerMSBLegSettingUnit[ dPotLeg ] );
+        Serial.print( F( ">, ( 100 * ( signed )( targetLevel - incomingInboardAnalogLevel ) ) / ( analogInputUnitsTimes100PerMSBLegSettingUnit[ dPotLeg ] )=<" ) );
+        Serial.print( ( 100 * ( signed )( ( signed )targetLevel - ( signed )incomingInboardAnalogLevel ) ) / ( analogInputUnitsTimes100PerMSBLegSettingUnit[ dPotLeg ] ) );
         Serial.print( F( ">, ( dPotLeg < LM334_BRIDGE_LEGS )=<" ) );
         Serial.print( ( dPotLeg < LM334_BRIDGE_LEGS ) );
         Serial.print( F( ">, ( targetLevel > incomingInboardAnalogLevel )=<" ) );
@@ -1268,10 +1271,10 @@ CalculateNewStepSize:
         Serial.print( F( ">, ( incomingInboardAnalogLevel - targetLevel ) / 2=<" ) );
         Serial.print( ( signed )( ( signed )incomingInboardAnalogLevel - ( signed )targetLevel ) / ( signed )2 );
         Serial.print( F( "> " ) );
-        do //has to be able to loop b/c the legLSBSettingUnitsPerAnalogInputUnitTimes100[ dPotLeg ] might be way off or not set
+        do //has to be able to loop b/c the legLSBSettingUnitsTimes100PerAnalogInputUnit[ dPotLeg ] might be way off or not set
         { //checked reference leg
             firstPass = true;
-            do //has to be able to loop b/c the legLSBSettingUnitsPerAnalogInputUnitTimes100[ dPotLeg ] might be way off or not set
+            do //has to be able to loop b/c the legLSBSettingUnitsTimes100PerAnalogInputUnit[ dPotLeg ] might be way off or not set
             { //checked reference leg
                 if( thisIsTheMSBPass )
                 {
@@ -1303,7 +1306,7 @@ CalculateNewStepSize:
 //                    }
                 }
 
-                if( !thisIsTheMSBPass && ( signed )( ( settingStepSize < 0 ) ?  dPotSettings[ lSBDPotOffsetIndexThisLeg ] : MAXPOTSETTG - dPotSettings[ lSBDPotOffsetIndexThisLeg ] ) < abs( settingStepSize ) )
+                if( !thisIsTheMSBPass && ( signed )( ( settingStepSize < 0 ) ?  dPotSettings[ lSBDPotOffsetIndexThisLeg ] : MAX_DPOT_SETTG - dPotSettings[ lSBDPotOffsetIndexThisLeg ] ) < abs( settingStepSize ) )
                 {
                         theNewSettingStepSizeInLSBUnits();
 //                    settingStepSize = ( settingStepSize < 0 ) ? \
@@ -1388,7 +1391,7 @@ CalculateNewStepSize:
         Serial.print( newStepSize );
         Serial.print( F( "> Line <1222> settingStepSize=<" ) );
         Serial.print( settingStepSize );
-        Serial.print( F( "> legLSBSettingUnitsPerAnalogInputUnitTimes100[ dPotLeg ]=<" ) );
+        Serial.print( F( "> legLSBSettingUnitsTimes100PerAnalogInputUnit[ dPotLeg ]=<" ) );
         referenceLegLevelFromLastSettingIt[ dPotLeg / 2 /*equates to bridge index from either leg index*/ ] = ( ( masterReadingsArray[ dPotLeg ].CurrentUnmagnifiedReading >> SCALE_FACTOR_TO_PROMOTE_LOW_RES_ADC_TO_SAME_SCALE ) == COMMON_MODE_LEVEL_FOR_MAX_GAIN_AS_READ_RAW_BY_INBOARD_ANALOG ) ? REFERENCE_LEG_LEVEL_IS_OPTIMAL : ( ( masterReadingsArray[ dPotLeg ].CurrentUnmagnifiedReading >> SCALE_FACTOR_TO_PROMOTE_LOW_RES_ADC_TO_SAME_SCALE ) > COMMON_MODE_LEVEL_FOR_MAX_GAIN_AS_READ_RAW_BY_INBOARD_ANALOG ) ? \
         REFERENCE_LEG_LEVEL_IS_HIGH : REFERENCE_LEG_LEVEL_IS_LOW;
         return ( originalDirectionToTargetLevel ? ( bestGuessAnalogInputReading( dPotLeg, MOST_ACCURATE ) >= targetLevel ) : ( bestGuessAnalogInputReading( dPotLeg, MOST_ACCURATE ) < targetLevel ) );
@@ -1441,9 +1444,9 @@ CalculateNewStepSize:
       Serial.print( dPotPins[ firstMSBIndexThisLeg ] );
       Serial.print( F( "> DPOTS_PER_LM334_LEG=<" ) );
       Serial.print( DPOTS_PER_LM334_LEG );
-        if( dPotSettings[ lSBDPotOffsetIndexThisLeg ] > MAXPOTSETTG )
+        if( dPotSettings[ lSBDPotOffsetIndexThisLeg ] > MAX_DPOT_SETTG )
         { //This is an invalid condition - put the setting at half scale
-            setDPotOrMSBGroupValue( lSBDPotOffsetIndexThisLeg, MAXPOTSETTG >> 1 ); 
+            setDPotOrMSBGroupValue( lSBDPotOffsetIndexThisLeg, MAX_DPOT_SETTG >> 1 ); 
           return false;
         }
         uint8_t oneAboveLastDPotIndexThisLeg = lSBDPotOffsetIndexThisLeg + dPotsPerThisLeg;
@@ -1462,7 +1465,7 @@ CalculateNewStepSize:
       if( voltsDown ) //This means querying whether the settings are maxed high and the voltage will be minimium low
       {
         Serial.print( F( "Line <1066> " ) );
-        if( ( dPotSettings[ lSBDPotOffsetIndexThisLeg ] >= MAXPOTSETTG ) && ( MSB_SETTINGS_AVAILABLE_THIS_LEG == 0 ) )
+        if( ( dPotSettings[ lSBDPotOffsetIndexThisLeg ] >= MAX_DPOT_SETTG ) && ( MSB_SETTINGS_AVAILABLE_THIS_LEG == 0 ) )
           return false;
       }
       else
@@ -1514,9 +1517,9 @@ CalculateNewStepSize:
         {
             Serial.print( F( " Entered with voltsDown as true " ) );
 //Being told to increment so the voltage goes down
-            if( ( int16_t )( dPotSettings[ lSBDPotOffsetIndexThisLeg ] == MAXPOTSETTG ) && ( MSB_SETTINGS_AVAILABLE_THIS_LEG > 0 ) )
+            if( ( int16_t )( dPotSettings[ lSBDPotOffsetIndexThisLeg ] == MAX_DPOT_SETTG ) && ( MSB_SETTINGS_AVAILABLE_THIS_LEG > 0 ) )
             {
-                setDPotOrMSBGroupValue( lSBDPotOffsetIndexThisLeg, MAXPOTSETTG + 1 - DPOT_RATIO ); //We do it this way so we normally only deal with a single carry or borrow
+                setDPotOrMSBGroupValue( lSBDPotOffsetIndexThisLeg, MAX_DPOT_SETTG + 1 - DPOT_RATIO ); //We do it this way so we normally only deal with a single carry or borrow
                 setDPotOrMSBGroupValue( firstMSBIndexThisLeg, MSB_SETTINGS_TOTAL_THIS_LEG + 1 );
             }
             else
@@ -1534,7 +1537,7 @@ CalculateNewStepSize:
         }
         else
         {
-            dPotSettings[ lSBDPotOffsetIndexThisLeg ] += ( dPotSettings[ lSBDPotOffsetIndexThisLeg ] == MAXPOTSETTG ) ? 0 : 1;
+            dPotSettings[ lSBDPotOffsetIndexThisLeg ] += ( dPotSettings[ lSBDPotOffsetIndexThisLeg ] == MAX_DPOT_SETTG ) ? 0 : 1;
             setDPotOrMSBGroupValue( lSBDPotOffsetIndexThisLeg, dPotSettings[ lSBDPotOffsetIndexThisLeg ] );
         }
     }
@@ -1602,7 +1605,7 @@ We need to come up with a state variable to know whether the reference leg level
     Serial.print( F( "Line <1411> targetLevel=<" ) );
   }
     Serial.print( F( "Line <1413>. Settings not maxed out and will allow raising the bridge output level." ) );
-  //uint16_t bestOfFour( uint8_t dPotLegOrIndexedInboardAnalogInput = 0 )
+  //int16_t bestOfFour( uint8_t dPotLegOrIndexedInboardAnalogInput = 0 )
 
   if( bridge < LM334_BRIDGES + BARE_DPOT_LEG_BRIDGES )
     { //These are all the bridged so there is a reference leg in these
@@ -1913,7 +1916,7 @@ void plotTimingLineGoingUp( bool tracesAlreadyInitializedToValidReadings = true 
 #endif
 }
 
-uint16_t bestOfFour( uint8_t dPotLegOrIndexedInboardAnalogInput = 0 ) //returns an INBOARD Analog Input pin reading, dPotLegOrIndexedInboardAnalogInput is also equal to bridge leg indices
+int16_t bestOfFour( uint8_t dPotLegOrIndexedInboardAnalogInput = 0 ) //returns an INBOARD Analog Input pin reading, dPotLegOrIndexedInboardAnalogInput is also equal to bridge leg indices
 { //remove from consideration the max and min, then return avg of remaining two  //Re-suse some variables not otherwise in use right now
     uint16_t value1, value2, value3, value4;
     do
@@ -1935,7 +1938,7 @@ uint16_t bestOfFour( uint8_t dPotLegOrIndexedInboardAnalogInput = 0 ) //returns 
 }
 
 #if ( ( defined DPOT_LEGS ) && ( DPOT_LEGS > 0 ) )
-    uint16_t bestGuessAnalogInputReading( uint8_t dPotLegOrIndexedInboardAnalogInput, bool mostAccurate, bool usingGlobalValueOfDPotLegForAnalogPinArrayIndex )
+    int16_t bestGuessAnalogInputReading( uint8_t dPotLegOrIndexedInboardAnalogInput, bool mostAccurate, bool usingGlobalValueOfDPotLegForAnalogPinArrayIndex )
     {
         dPotLegOrIndexedInboardAnalogInput = ( ( dPotLegOrIndexedInboardAnalogInput > 0 ) || ( !usingGlobalValueOfDPotLegForAnalogPinArrayIndex ) ) ? dPotLegOrIndexedInboardAnalogInput : dPotLeg;
         uint16_t value;
@@ -2190,33 +2193,44 @@ static uint8_t diagnostSquareWavePlotCycleLoops = 0;
 #define DIAGNOSTIC_SQUARE_WAVE_AMPLITUDE 1
 void diagnostSquareWave( void )
 { //Adjust active code to amplitude of diagnostSquareWave you need at the moment
-uint8_t* analogPinArrayTemp = analogPinArray;
-analogPinArray = 0; //the setDPotOrMSBGroupValue functions check this for whether to consider their first argument as a real pin number or as an index to pin number within  analogPinArray[] for auto-carry/borrow (which we don't want right here until it gets perfected)
-//TODO: change all this to simple call to offsetDPotOrMSBGroupValue()
-#ifdef INJECT_DIAGNOSTIC_SQUARE_WAVE_ON_SIGNAL_PIN_OF_SPECIFIED_OUTBOARD_ADC  //SINCE THIS HOLDS WHICH BRIDGE IS OF INTEREST, MULTIPLY IT BY # OF DPOTS PER BRIDGE BUT YOU'LL ALSO HAVE TO ADAPT THE PREPROCESSOR MACRO'D PIN NUMBERS BY HAND
-    #ifdef NON_LSB_DPOT_1_B0SIG_PIN
-    while( dPotSettings[ 0 ] < DIAGNOSTIC_SQUARE_WAVE_AMPLITUDE ) //then we need to borrow one unit from msb group and add DPOT_RATIO to this
+    diagnostSquareWavePlotCycleLoops = ( diagnostSquareWavePlotCycleLoops + 1 ) % DIAGNOSTIC_SQUARE_WAVE_TIME_PERIOD;
+#ifdef DEBUG
+    while( !Serial ); // wait for serial port to connect. Needed for Leonardo's native USB
+    Serial.print( F( "Line 2203, diagnostSquareWavePlotCycleLoops = " ) );
+    Serial.println( diagnostSquareWavePlotCycleLoops );
+#endif
+    if( diagnostSquareWavePlotCycleLoops == 0 )
     {
-        setDPotOrMSBGroupValue( NON_LSB_DPOT_1_B0SIG_PIN, dPotSettings[ 1 ] - 1 ); dPotSettings[ 1 ]--;
-        setDPotOrMSBGroupValue( LSB_DPOT_B0SIG_PIN, dPotSettings[ 0 ] + DPOT_RATIO ); dPotSettings[ 0 ] += DPOT_RATIO;
+    uint8_t* analogPinArrayTemp = analogPinArray;
+    analogPinArray = 0; //the setDPotOrMSBGroupValue functions check this for whether to consider their first argument as a real pin number or as an index to pin number within  analogPinArray[] for auto-carry/borrow (which we don't want right here until it gets perfected)
+    //TODO: change all this to simple call to offsetDPotOrMSBGroupValue() and allow change of which ADC
+    #ifdef INJECT_DIAGNOSTIC_SQUARE_WAVE_ON_SIGNAL_PIN_OF_SPECIFIED_OUTBOARD_ADC  //SINCE THIS HOLDS WHICH BRIDGE IS OF INTEREST, MULTIPLY IT BY # OF DPOTS PER BRIDGE BUT YOU'LL ALSO HAVE TO ADAPT THE PREPROCESSOR MACRO'D PIN NUMBERS BY HAND
+        #ifdef NON_LSB_DPOT_1_B0SIG_PIN
+        while( dPotSettings[ 0 ] < DIAGNOSTIC_SQUARE_WAVE_AMPLITUDE ) //then we need to borrow one unit from msb group and add DPOT_RATIO to this
+        {
+            setDPotOrMSBGroupValue( NON_LSB_DPOT_1_B0SIG_PIN, dPotSettings[ 1 ] - 1 ); dPotSettings[ 1 ]--;
+            setDPotOrMSBGroupValue( LSB_DPOT_B0SIG_PIN, dPotSettings[ 0 ] + DPOT_RATIO ); dPotSettings[ 0 ] += DPOT_RATIO;
+        }
+        #endif
+//NOTE: LINEARITY CHECKING IS NOT COMPATIBLE WITH USING A NON-LSB DPOT FOR THIS UNLESS YOU WANT TO RE-CODE FOR IT
+        setDPotOrMSBGroupValue( LSB_DPOT_B0SIG_PIN, dPotSettings[ 0 ] + ( potSquareWaveHighLevel ? DIAGNOSTIC_SQUARE_WAVE_AMPLITUDE : ( 0 - DIAGNOSTIC_SQUARE_WAVE_AMPLITUDE ) ) ); dPotSettings[ 0 ] += ( potSquareWaveHighLevel ? DIAGNOSTIC_SQUARE_WAVE_AMPLITUDE : ( 0 - DIAGNOSTIC_SQUARE_WAVE_AMPLITUDE ) );
+    #endif //trap the above if setting tries to go below zero.  goes down first diagnostSquareWave tick
+    
+    #ifdef INJECT_DIAGNOSTIC_SQUARE_WAVE_ON_REFERENCE_PIN_OF_SPECIFIED_OUTBOARD_ADC
+        #ifdef NON_LSB_DPOT_1_B0REF_PIN
+        while( dPotSettings[ ( DPOTS_IN_ALL_LM334_BRIDGES > 0 ) ? DPOTS_PER_LM334_LEG : ( DPOTS_IN_ALL_BARE_LEG_BRIDGES > 0 ) ? DPOTS_PER_BRIDGED_BARE_LEG : DPOTS_PER_UNBRIDGED_BARE_LEG ] < DIAGNOSTIC_SQUARE_WAVE_AMPLITUDE )
+        {
+            setDPotOrMSBGroupValue( NON_LSB_DPOT_1_B0REF_PIN, dPotSettings[ ( ( DPOTS_IN_ALL_LM334_BRIDGES > 0 ) ? DPOTS_PER_LM334_LEG : ( DPOTS_IN_ALL_BARE_LEG_BRIDGES > 0 ) ? DPOTS_PER_BRIDGED_BARE_LEG : DPOTS_PER_UNBRIDGED_BARE_LEG ) + 1 ] - 1 ); dPotSettings[ ( ( DPOTS_IN_ALL_LM334_BRIDGES > 0 ) ? DPOTS_PER_LM334_LEG : ( DPOTS_IN_ALL_BARE_LEG_BRIDGES > 0 ) ? DPOTS_PER_BRIDGED_BARE_LEG : DPOTS_PER_UNBRIDGED_BARE_LEG ) + 1 ]--;
+            setDPotOrMSBGroupValue( LSB_DPOT_B0REF_PIN, dPotSettings[ ( DPOTS_IN_ALL_LM334_BRIDGES > 0 ) ? DPOTS_PER_LM334_LEG : ( DPOTS_IN_ALL_BARE_LEG_BRIDGES > 0 ) ? DPOTS_PER_BRIDGED_BARE_LEG : DPOTS_PER_UNBRIDGED_BARE_LEG ] + DPOT_RATIO ); dPotSettings[ ( DPOTS_IN_ALL_LM334_BRIDGES > 0 ) ? DPOTS_PER_LM334_LEG : ( DPOTS_IN_ALL_BARE_LEG_BRIDGES > 0 ) ? DPOTS_PER_BRIDGED_BARE_LEG : DPOTS_PER_UNBRIDGED_BARE_LEG ] += DPOT_RATIO;
+        }
+        #endif 
+//NOTE: LINEARITY CHECKING IS NOT COMPATIBLE WITH USING A NON-LSB DPOT FOR THIS UNLESS YOU WANT TO RE-CODE FOR IT
+        setDPotOrMSBGroupValue( LSB_DPOT_B0REF_PIN, dPotSettings[ ( DPOTS_IN_ALL_LM334_BRIDGES > 0 ) ? DPOTS_PER_LM334_LEG : ( DPOTS_IN_ALL_BARE_LEG_BRIDGES > 0 ) ? DPOTS_PER_BRIDGED_BARE_LEG : DPOTS_PER_UNBRIDGED_BARE_LEG ] + ( !potSquareWaveHighLevel ? DIAGNOSTIC_SQUARE_WAVE_AMPLITUDE : ( 0 - DIAGNOSTIC_SQUARE_WAVE_AMPLITUDE ) ) ); dPotSettings[ ( DPOTS_IN_ALL_LM334_BRIDGES > 0 ) ? DPOTS_PER_LM334_LEG : ( DPOTS_IN_ALL_BARE_LEG_BRIDGES > 0 ) ? DPOTS_PER_BRIDGED_BARE_LEG : DPOTS_PER_UNBRIDGED_BARE_LEG ] += ( !potSquareWaveHighLevel ? DIAGNOSTIC_SQUARE_WAVE_AMPLITUDE : ( 0 - DIAGNOSTIC_SQUARE_WAVE_AMPLITUDE ) );
+    #endif //trap the above if setting tries to go below zero
+    
+    analogPinArray = analogPinArrayTemp; //restore proper value
+      potSquareWaveHighLevel = !potSquareWaveHighLevel;
     }
-    #endif
-    setDPotOrMSBGroupValue( LSB_DPOT_B0SIG_PIN, dPotSettings[ 0 ] + ( potSquareWaveHighLevel ? DIAGNOSTIC_SQUARE_WAVE_AMPLITUDE : ( 0 - DIAGNOSTIC_SQUARE_WAVE_AMPLITUDE ) ) ); dPotSettings[ 0 ] += ( potSquareWaveHighLevel ? DIAGNOSTIC_SQUARE_WAVE_AMPLITUDE : ( 0 - DIAGNOSTIC_SQUARE_WAVE_AMPLITUDE ) );
-#endif //trap the above if setting tries to go below zero.  goes down first diagnostSquareWave tick
-
-#ifdef INJECT_DIAGNOSTIC_SQUARE_WAVE_ON_REFERENCE_PIN_OF_SPECIFIED_OUTBOARD_ADC
-    #ifdef NON_LSB_DPOT_1_B0REF_PIN
-    while( dPotSettings[ ( DPOTS_IN_ALL_LM334_BRIDGES > 0 ) ? DPOTS_PER_LM334_LEG : ( DPOTS_IN_ALL_BARE_LEG_BRIDGES > 0 ) ? DPOTS_PER_BRIDGED_BARE_LEG : DPOTS_PER_UNBRIDGED_BARE_LEG ] < DIAGNOSTIC_SQUARE_WAVE_AMPLITUDE )
-    {
-        setDPotOrMSBGroupValue( NON_LSB_DPOT_1_B0REF_PIN, dPotSettings[ ( ( DPOTS_IN_ALL_LM334_BRIDGES > 0 ) ? DPOTS_PER_LM334_LEG : ( DPOTS_IN_ALL_BARE_LEG_BRIDGES > 0 ) ? DPOTS_PER_BRIDGED_BARE_LEG : DPOTS_PER_UNBRIDGED_BARE_LEG ) + 1 ] - 1 ); dPotSettings[ ( ( DPOTS_IN_ALL_LM334_BRIDGES > 0 ) ? DPOTS_PER_LM334_LEG : ( DPOTS_IN_ALL_BARE_LEG_BRIDGES > 0 ) ? DPOTS_PER_BRIDGED_BARE_LEG : DPOTS_PER_UNBRIDGED_BARE_LEG ) + 1 ]--;
-        setDPotOrMSBGroupValue( LSB_DPOT_B0REF_PIN, dPotSettings[ ( DPOTS_IN_ALL_LM334_BRIDGES > 0 ) ? DPOTS_PER_LM334_LEG : ( DPOTS_IN_ALL_BARE_LEG_BRIDGES > 0 ) ? DPOTS_PER_BRIDGED_BARE_LEG : DPOTS_PER_UNBRIDGED_BARE_LEG ] + DPOT_RATIO ); dPotSettings[ ( DPOTS_IN_ALL_LM334_BRIDGES > 0 ) ? DPOTS_PER_LM334_LEG : ( DPOTS_IN_ALL_BARE_LEG_BRIDGES > 0 ) ? DPOTS_PER_BRIDGED_BARE_LEG : DPOTS_PER_UNBRIDGED_BARE_LEG ] += DPOT_RATIO;
-    }
-    #endif 
-    setDPotOrMSBGroupValue( LSB_DPOT_B0REF_PIN, dPotSettings[ ( DPOTS_IN_ALL_LM334_BRIDGES > 0 ) ? DPOTS_PER_LM334_LEG : ( DPOTS_IN_ALL_BARE_LEG_BRIDGES > 0 ) ? DPOTS_PER_BRIDGED_BARE_LEG : DPOTS_PER_UNBRIDGED_BARE_LEG ] + ( !potSquareWaveHighLevel ? DIAGNOSTIC_SQUARE_WAVE_AMPLITUDE : ( 0 - DIAGNOSTIC_SQUARE_WAVE_AMPLITUDE ) ) ); dPotSettings[ ( DPOTS_IN_ALL_LM334_BRIDGES > 0 ) ? DPOTS_PER_LM334_LEG : ( DPOTS_IN_ALL_BARE_LEG_BRIDGES > 0 ) ? DPOTS_PER_BRIDGED_BARE_LEG : DPOTS_PER_UNBRIDGED_BARE_LEG ] += ( !potSquareWaveHighLevel ? DIAGNOSTIC_SQUARE_WAVE_AMPLITUDE : ( 0 - DIAGNOSTIC_SQUARE_WAVE_AMPLITUDE ) );
-#endif //trap the above if setting tries to go below zero
-
-analogPinArray = analogPinArrayTemp; //restore proper value
-  potSquareWaveHighLevel = !potSquareWaveHighLevel;
 }
 #endif
 
@@ -2270,6 +2284,9 @@ uint32_t oneReadingFromThisOutboardADC( uint8_t whichOutboardADCindex )
 
 void readAndPlotFromAllADCsInAndOutboard( uint32_t timingLineLevel, bool duringSetup )
 {
+#if defined ( INJECT_DIAGNOSTIC_SQUARE_WAVE_ON_SIGNAL_PIN_OF_SPECIFIED_OUTBOARD_ADC ) || defined ( INJECT_DIAGNOSTIC_SQUARE_WAVE_ON_REFERENCE_PIN_OF_SPECIFIED_OUTBOARD_ADC )
+    diagnostSquareWave();
+#endif
 #if ( ( not defined MINIMIZE_COMMUNICATIONS_CLUTTER_FOR_HIGHER_MAX_SPEED_ONLY_COMPATIBLE_FOR_OFFICIAL_ARDUINO_IDE ) || ( MINIMIZE_COMMUNICATIONS_CLUTTER_FOR_HIGHER_MAX_SPEED_ONLY_COMPATIBLE_FOR_OFFICIAL_ARDUINO_IDE == false ) )
   Serial.print( F( " timing line value:" ) );
 #endif
@@ -2352,8 +2369,6 @@ Start_of_addon_ADC_acquisition:
         Serial.print( F( ", it being " ) );
         Serial.println( masterReadingsArray[ INDEX_OF_OUTBOARDS + whichOutboardADCindex ].CurrentUnmagnifiedReading );
     #endif
-#endif
-
 #if defined LEGS_PER_DPOT_STYLE_BRIDGE
       break;
     }
@@ -2387,6 +2402,7 @@ Start_of_addon_ADC_acquisition:
 #endif
     plotTheNormalAndMagnifiedSignals( INDEX_OF_OUTBOARDS + whichOutboardADCindex );
   }
+#endif
   Serial.println();
 }
 
@@ -2416,6 +2432,63 @@ void blinkMorseCode( char* symbol, uint8_t chars )
         delay( letterSpace );
     }
 }
+#if ( DPOT_LEGS > 0 )
+void fixMSB_SETTINGSarraysAndMayDistribute( bool mayDistribute = ( bool )analogPinArray )
+{
+    uint8_t dPotLegBak = dPotLeg;
+    Serial.print( F( "Entered inside fixMSB_SETTINGSarraysAndMayDistribute()," ) );
+  for( dPotLeg = 0; dPotLeg < DPOT_LEGS; dPotLeg++ )
+  {
+    Serial.print( F( " Line <2437>calling configureFromDPotLeg for leg<" ) );
+    configureFromDPotLeg( ); //Req'd before using MSB_SETTINGS_ macros if dPotLeg ever changes in this scope
+    Serial.print( dPotLeg );
+    Serial.print( F( "> " ) );
+
+//#if not ( ( defined MINIMIZE_COMPILED_SKETCH_SIZE_LEVEL ) && ( MINIMIZE_COMPILED_SKETCH_SIZE_LEVEL == 0 ) )
+    Serial.print( F( ". inside fixMSB_SETTINGSarraysAndMayDistribute(), Prefilling Used and Availables for leg<" ) );
+    Serial.print( dPotLeg );
+    Serial.print( F( "> firstMSBIndexThisLeg=<" ) );
+    Serial.print( firstMSBIndexThisLeg );
+    Serial.print( F( ">." ) );
+    
+//#endif
+    MSB_SETTINGS_TOTAL_THIS_LEG = 0;
+    //prefill MSB_SETTINGS_TOTAL_THIS_LEG and MSB_SETTINGS_AVAILABLE_THIS_LEG
+    for( uint8_t mSBDPot = 0; mSBDPot < mSBsGroupSize; mSBDPot++ )
+    { //This loop and its followup instruction merely conforms the afore-cleared two struct elements to reality
+        MSB_SETTINGS_TOTAL_THIS_LEG += dPotSettings[ firstMSBIndexThisLeg + mSBDPot ]; //dPotSettings[ firstMSBIndexThisLeg ] not current unless ????
+        Serial.print( F( "total this MSB group=<" ) );
+        Serial.print( MSB_SETTINGS_TOTAL_THIS_LEG );
+        Serial.print( F( "> " ) );
+    }
+    MSB_SETTINGS_AVAILABLE_THIS_LEG = ( mSBsGroupSize * MAX_DPOT_SETTG ) - MSB_SETTINGS_TOTAL_THIS_LEG;
+    Serial.print( F( "MSB_SETTINGS_AVAILABLE_THIS_LEG=<" ) );
+    Serial.print( MSB_SETTINGS_AVAILABLE_THIS_LEG );
+    Serial.print( F( "> " ) );
+    Serial.print( F( "Next line distributes MSB DPot settings evenly amongst entire MSB group DPots, so should only be used once per leg and not on LSB DPots. dPotLeg=<" ) );
+    Serial.print( dPotLeg );
+    Serial.print( F( ">." ) );
+    if( mayDistribute )
+    {
+        setDPotOrMSBGroupValue( firstMSBIndexThisLeg, MSB_SETTINGS_TOTAL_THIS_LEG );
+    }
+//#if not ( ( defined MINIMIZE_COMPILED_SKETCH_SIZE_LEVEL ) && ( MINIMIZE_COMPILED_SKETCH_SIZE_LEVEL == 0 ) )
+    Serial.print( F( "exitted from setDPotOrMSBGroupValue DPOT_LEGS=<" ) );
+    Serial.print( DPOT_LEGS );
+    Serial.print( F( "> leg<" ) );
+    Serial.print( dPotLeg );
+    Serial.print( F( "> " ) );
+    readAndPlotFromAllADCsInAndOutboard( graphLine ? 0 : PLOTTER_MAX_SCALE );    
+    Serial.print( F( " Line <2516> another check of dPotLeg=<" ) );
+    Serial.print( dPotLeg );
+    Serial.print( F( "> " ) );
+  }
+//#endif
+    dPotLeg = dPotLegBak;
+    configureFromDPotLeg( );
+    Serial.print( F( "Exitting fixMSB_SETTINGSarraysAndMayDistribute()." ) );
+}
+#endif
 
 void setup()
 {
@@ -2485,8 +2558,8 @@ void setup()
 #endif
 #ifdef LM334_BRIDGES   //This is important to put this first so LM334 get some resistance, but not super important b/c they default to half-setting at power-up, so the only time they MIGHT need this is when the ckt was just merely reset after a previous session that left them setting at zero resistance, but hey...
 #if ( LM334_BRIDGES == 1 )
-  pinMode( SS, OUTPUT );
   digitalWrite( SS, HIGH ); //Not needed by slave devices but rather by this board to make it configure itself to be master
+  pinMode( SS, OUTPUT );
   for( uint8_t LM334Bridge = 0; LM334Bridge < LM334_BRIDGES; LM334Bridge++ )
   { //This is not scaleable beyond a single LM334_bridge of pots as far as pins, anyway, but at least it will initialize the LM334 digipot arrays to protect the LM334s.  To get valid settingValues beyond the first LM334_bridge, assign them non-looped below this loop for additional LM334_bridges
     dPotPins[ 0 + LM334Bridge ] = LSB_DPOT_B0SIG_PIN;
@@ -2569,9 +2642,9 @@ void setup()
     for( uint8_t dPotIndex = 0; dPotIndex < DPOTS; dPotIndex++) //THIS ASSUMES THE ABOVE CONSTRUCT FILLS BOTH ARRAYS COMPLETELY
     {
 #ifdef NUM_DIGITAL_PINS
-      if( ( dPotSettings[ dPotIndex ] > MAXPOTSETTG ) || ( dPotPins[ dPotIndex ] > NUM_DIGITAL_PINS ) ) break;  //The protection against arrays not fully set up
+      if( ( dPotSettings[ dPotIndex ] > MAX_DPOT_SETTG ) || ( dPotPins[ dPotIndex ] > NUM_DIGITAL_PINS ) ) break;  //The protection against arrays not fully set up
 #else
-      if( dPotSettings[ dPotIndex ] > MAXPOTSETTG ) break;  //The protection against arrays not fully set up
+      if( dPotSettings[ dPotIndex ] > MAX_DPOT_SETTG ) break;  //The protection against arrays not fully set up
 #endif
         writeSettingToAsingleDPot( dPotPins[ dPotIndex ], dPotSettings[ dPotIndex ] );  //b/c the analog pin array not set up, this needs pin numbers like this, not pin indexes
     }
@@ -2943,12 +3016,12 @@ void setup()
         Serial.print( F( ">" ) );
   }
 #endif
-//static uint32_t legLSBSettingUnitsPerAnalogInputUnitTimes100[ DPOT_LEGS ];
+
 #if ( DPOTS_IN_ALL_LM334_BRIDGES + DPOTS_IN_ALL_BARE_LEG_BRIDGES + DPOTS_IN_ALL_BARE_LEGS_UNBRIDGED > 0 )
     for( uint8_t legIndex = 0; legIndex < DPOT_LEGS; legIndex++ )
     {
-        legLSBSettingUnitsPerAnalogInputUnitTimes100[ legIndex ] = 0; //Will have to remain this way until EEPROM is untilized  //TODO: start with the EEPROM stored legLSBSettingUnitsPerAnalogInputUnitTimes100
-        analogInputUnitsPerMSBLegSettingUnitTimes100[ legIndex ] = 0; //Will have to remain this way until EEPROM is untilized  //TODO: start with the EEPROM stored legLSBSettingUnitsPerAnalogInputUnitTimes100
+        legLSBSettingUnitsTimes100PerAnalogInputUnit[ legIndex ] = 0; //Will have to remain this way until EEPROM is untilized  //TODO: start with the EEPROM stored legLSBSettingUnitsTimes100PerAnalogInputUnit
+        analogInputUnitsTimes100PerMSBLegSettingUnit[ legIndex ] = 0; //Will have to remain this way until EEPROM is untilized  //TODO: start with the EEPROM stored legLSBSettingUnitsTimes100PerAnalogInputUnit
     }
 #endif
 #ifdef SD_CARD_STORAGE_CS_PIN
@@ -3014,8 +3087,8 @@ void setup()
     
       Serial.print( F( "PLOTTER_MAX_SCALE=<" ) );
       Serial.print( PLOTTER_MAX_SCALE );
-      Serial.print( F( "> legLSBSettingUnitsPerAnalogInputUnitTimes100[ i ]=<" ) );
-      Serial.print( legLSBSettingUnitsPerAnalogInputUnitTimes100[ i ] );
+      Serial.print( F( "> legLSBSettingUnitsTimes100PerAnalogInputUnit[ i ]=<" ) );
+      Serial.print( legLSBSettingUnitsTimes100PerAnalogInputUnit[ i ] );
       Serial.print( F( "> and ( uint32_t )( OUTBOARDS_PLOTTED + INBOARDS_PLOTTED )=<" ) );
       Serial.print( ( uint32_t )( OUTBOARDS_PLOTTED + INBOARDS_PLOTTED ) );
         Serial.println( F( ">" ) );
@@ -3027,56 +3100,17 @@ void setup()
 #endif //end of DEBUG
   //Start of DPot MSB group settings storing for each DPot leg
 
+#if ( DPOT_LEGS > 0 )
 #if not ( ( defined MINIMIZE_COMPILED_SKETCH_SIZE_LEVEL ) && ( MINIMIZE_COMPILED_SKETCH_SIZE_LEVEL == 0 ) )
-  Serial.print( F( "Entering prefill construct " ) );
-  Serial.print( F( "DPOT_LEGS=<" ) );
+  Serial.print( F( "Entering prefill construct DPOT_LEGS=<" ) );
     Serial.print( DPOT_LEGS );
     Serial.print( F( "> DPOTS_PER_BRIDGED_BARE_LEG=<" ) );
     Serial.print( DPOTS_PER_BRIDGED_BARE_LEG );
     Serial.print( F( "> " ) );
 #endif
-
-#if ( DPOT_LEGS > 0 )
-  for( dPotLeg = 0; dPotLeg < DPOT_LEGS; dPotLeg++ )
-  {
-    Serial.print( F( "Calling configureFromDPotLeg for leg<" ) );
-    configureFromDPotLeg(); //Req'd before using MSB_SETTINGS_ macros if dPotLeg ever changes in this scope
-    Serial.print( dPotLeg );
-    Serial.print( F( "> " ) );
-
-//#if not ( ( defined MINIMIZE_COMPILED_SKETCH_SIZE_LEVEL ) && ( MINIMIZE_COMPILED_SKETCH_SIZE_LEVEL == 0 ) )
-    Serial.print( F( "Prefilling Used and Availables for leg<" ) );
-    Serial.print( dPotLeg );
-    Serial.print( F( "> firstMSBIndexThisLeg=<" ) );
-    Serial.print( firstMSBIndexThisLeg );
-    Serial.print( F( ">." ) );
-    
-//#endif
-    MSB_SETTINGS_TOTAL_THIS_LEG = 0;
-    MSB_SETTINGS_AVAILABLE_THIS_LEG = 0;
-    //prefill MSB_SETTINGS_TOTAL_THIS_LEG and MSB_SETTINGS_AVAILABLE_THIS_LEG
-    for( uint8_t mSBDPot = 0; mSBDPot < mSBsGroupSize; mSBDPot++ )
-    { //This loop and its followup instruction merely conforms the afore-cleared two struct elements to reality
-      MSB_SETTINGS_TOTAL_THIS_LEG += dPotSettings[ firstMSBIndexThisLeg + mSBDPot ];
-      Serial.print( F( "total this MSB group=<" ) );
-      Serial.print( MSB_SETTINGS_TOTAL_THIS_LEG );
-      Serial.print( F( "> " ) );
-    }
-    MSB_SETTINGS_AVAILABLE_THIS_LEG = ( mSBsGroupSize * MAXPOTSETTG ) - MSB_SETTINGS_TOTAL_THIS_LEG;
-    Serial.print( F( "available this MSB group=<" ) );
-    Serial.print( MSB_SETTINGS_AVAILABLE_THIS_LEG );
-    Serial.print( F( "> Next line distributes MSB DPot settings evenly amongst entire MSB group DPots, so should only be used once per leg and not on LSB DPots " ) );
-    //Next line distributes MSB DPot settings evenly amongst entire MSB group DPots, so should only be used once per leg and not on LSB DPots
-    setDPotOrMSBGroupValue( firstMSBIndexThisLeg, MSB_SETTINGS_TOTAL_THIS_LEG );
-//#if not ( ( defined MINIMIZE_COMPILED_SKETCH_SIZE_LEVEL ) && ( MINIMIZE_COMPILED_SKETCH_SIZE_LEVEL == 0 ) )
-    Serial.print( F( "exitted from setDPotOrMSBGroupValue DPOT_LEGS=<" ) );
-    Serial.print( DPOT_LEGS );
-    Serial.print( F( "> leg<" ) );
-    Serial.print( dPotLeg );
-    Serial.print( F( "> " ) );
-      readAndPlotFromAllADCsInAndOutboard( 0, true );
-//#endif
-  }
+  Serial.print( F( "Line<3109>." ) );
+    fixMSB_SETTINGSarraysAndMayDistribute();
+  Serial.print( F( "Line<3111>." ) );
 #endif
 #if ( ( defined AUTO_BRIDGE_BALANCING ) && ( defined DIFFERENTIAL ) && ( defined LOOP_COUNTER_LIMIT_THAT_TRACE_IS_ALLOWED_TO_BE_OFF_CENTER ) )
   for( uint8_t bridgeIndex = 0; bridgeIndex < OUTBOARDS_PLOTTED; bridgeIndex++ )
@@ -3110,10 +3144,10 @@ Serial.print( F( ">. " ) );
 #if ( DPOTS_IN_ALL_LM334_BRIDGES + DPOTS_IN_ALL_BARE_LEG_BRIDGES + DPOTS_IN_ALL_BARE_LEGS_UNBRIDGED > 0 )
     for( uint8_t legIndex = 0; legIndex < DPOT_LEGS; legIndex++ )
     {
-        Serial.print( F( " legLSBSettingUnitsPerAnalogInputUnitTimes100[" ) );
+        Serial.print( F( " legLSBSettingUnitsTimes100PerAnalogInputUnit[" ) );
         Serial.print( legIndex );
         Serial.print( F( "]=<" ) );
-        Serial.print( legLSBSettingUnitsPerAnalogInputUnitTimes100[ legIndex ] );
+        Serial.print( legLSBSettingUnitsTimes100PerAnalogInputUnit[ legIndex ] );
         Serial.print( F( ">. " ) );
     }
 #endif
@@ -3238,6 +3272,317 @@ Serial.print( F( ">. " ) );
     else
       Serial.print( F( ">,. " ) );
   }
+
+
+#if ( ( defined SHOW_LINEARITY_USING_THIS_BRIDGE_INDEX ) && (not defined LEAVE_POT_VALUES_ALONE_DURING_SETUP ) )
+    Serial.print( F( "Line<3290>Starting linearity diags." ) );
+    uint8_t* analogPinArrayTemp = analogPinArray;
+    startMSBSettingForCalculatingSettingUnitsPerAnalogInputUnit = 0;
+    startLSBSettingForCalculatingSettingUnitsPerAnalogInputUnit = 0;
+    static int32_t startMSBSettingForCalculatingSettingUnitsPerAnalogInputUnitReference = 0;
+    static int16_t startLSBSettingForCalculatingSettingUnitsPerAnalogInputUnitReference = 0; //I think just making this a local var is adequate...if not, make it a global later
+#if ( SHOW_LINEARITY_USING_THIS_BRIDGE_INDEX == ALL )
+    uint8_t bridge = 0;
+    uint8_t bridgeLinearityTopBoundary = ( LM334_BRIDGES + BARE_DPOT_LEG_BRIDGES + BARE_DPOT_LEGS_UNBRIDGED );
+#elif ( 0 < SHOW_LINEARITY_USING_THIS_BRIDGE_INDEX + 0 )
+    uint8_t bridge = SHOW_LINEARITY_USING_THIS_BRIDGE_INDEX;
+    uint8_t bridgeLinearityTopBoundary = SHOW_LINEARITY_USING_THIS_BRIDGE_INDEX + 1;
+#else   
+    uint8_t bridge = 0;
+    uint8_t bridgeLinearityTopBoundary = 1;
+#endif
+#ifdef COMMON_MODE_LEVEL_FOR_MAX_GAIN_AS_READ_RAW_BY_INBOARD_ANALOG
+    int16_t incomingInboardAnalogLevelReference = 0;
+#endif
+    for( ; bridge < bridgeLinearityTopBoundary; bridge++ )
+    {
+        configureForSignalLegWithBridgeIndexIncludingNonBridgedLegs( bridge );
+        uint8_t lSBDPotOffsetIndexThisLegBak = lSBDPotOffsetIndexThisLeg;
+        uint16_t lSBSettings[ 2 ];
+        uint16_t lsbSetting = 0;
+        lSBSettings[ 0 ] = dPotSettings[ lSBDPotOffsetIndexThisLeg /*LSB of signal leg*/];
+        lSBSettings[ 1 ] = dPotSettings[ lSBDPotOffsetIndexThisLegReference /*LSB of reference leg*/];
+    #if ( defined INJECT_DIAGNOSTIC_SQUARE_WAVE_ON_SIGNAL_PIN_OF_SPECIFIED_OUTBOARD_ADC ) || ( defined INJECT_DIAGNOSTIC_SQUARE_WAVE_ON_REFERENCE_PIN_OF_SPECIFIED_OUTBOARD_ADC ) //to avoid a carry or borrow being generated
+        setDPotOrMSBGroupValue( lSBDPotOffsetIndexThisLeg, ++lsbSetting );           //effect signal leg settings
+        setDPotOrMSBGroupValue( lSBDPotOffsetIndexThisLegReference, lsbSetting );  //effect reference leg settings        
+    #else
+        setDPotOrMSBGroupValue( lSBDPotOffsetIndexThisLeg, lsbSetting );           //effect signal leg settings
+        setDPotOrMSBGroupValue( lSBDPotOffsetIndexThisLegReference, lsbSetting );  //effect reference leg settings        
+    #endif
+        uint32_t mSBStartSettingForLinearityTest = 0;
+        uint32_t mSBGroupSettings[ 2 ];
+        mSBGroupSettings[ 0 ] = MSB_SETTINGS_TOTAL_THIS_LEG;                //store signal leg settings 
+        mSBGroupSettings[ 1 ] = MSB_SETTINGS_TOTAL_THIS_REFERENCE_LEG;       //store reference leg settings
+        analogPinArray = 0; //Doing this prevents the MSB settings from getting distributed throughout the entire MSB group
+        uint32_t maxMSBSetting = 200;//MSB_SETTINGS_AVAILABLE_THIS_LEG;
+        setDPotOrMSBGroupValue( dPotPins[ firstMSBIndexThisLeg ], mSBStartSettingForLinearityTest );
+        dPotSettings[ firstMSBIndexThisLeg ] = mSBStartSettingForLinearityTest;
+        setDPotOrMSBGroupValue( dPotPins[ firstMSBIndexThisLegReference ], mSBStartSettingForLinearityTest );
+        dPotSettings[ firstMSBIndexThisLegReference ] = mSBStartSettingForLinearityTest;
+        for( uint16_t whichMSBindex = 1; whichMSBindex < mSBsGroupSize; whichMSBindex++ )
+        {
+            setDPotOrMSBGroupValue( dPotPins[ firstMSBIndexThisLeg + whichMSBindex ], 0 );
+            dPotSettings[ firstMSBIndexThisLeg + whichMSBindex ] = 0; //manually here so that we avoid the distribution of settings
+            setDPotOrMSBGroupValue( dPotPins[ firstMSBIndexThisLegReference + whichMSBindex ], 0 );
+            dPotSettings[ firstMSBIndexThisLegReference + whichMSBindex ] = 0;
+        }
+        Serial.print( F( "Line<3317>" ) );
+        fixMSB_SETTINGSarraysAndMayDistribute();
+        Serial.print( F( "Line<3319>" ) );
+        uint16_t j = mSBStartSettingForLinearityTest;
+        for( uint16_t whichMSBindex = 0; whichMSBindex < mSBsGroupSize; whichMSBindex++ )
+        {
+            for( ; j <= MAX_DPOT_SETTG; j++ )
+            {
+                Serial.print( F( " Line <3346> linearity dPot settings:" ) );
+                Serial.print( F( " MSB_SETTINGS_TOTAL_THIS_LEG=<" ) );
+                Serial.print( MSB_SETTINGS_TOTAL_THIS_LEG );
+                Serial.print( F( "> MSB_SETTINGS_TOTAL_THIS_REFERENCE_LEG=<" ) );
+                Serial.print( MSB_SETTINGS_TOTAL_THIS_REFERENCE_LEG );
+                Serial.print( F( ">, " ) );
+                setDPotOrMSBGroupValue( dPotPins[ firstMSBIndexThisLeg + whichMSBindex ], j );        
+                dPotSettings[ firstMSBIndexThisLeg + whichMSBindex ] = j;        
+                setDPotOrMSBGroupValue( dPotPins[ firstMSBIndexThisLegReference + whichMSBindex ], j );        
+                dPotSettings[ firstMSBIndexThisLegReference + whichMSBindex ] = j;        
+                fixMSB_SETTINGSarraysAndMayDistribute( false );
+                readAndPlotFromAllADCsInAndOutboard( graphLine ? 0 : PLOTTER_MAX_SCALE );
+    //            settingStepSize, endLevel, incomingInboardAnalogLevel, targetLevel
+    //            ( masterReadingsArray[ dPotLeg ].CurrentUnmagnifiedReading >> SCALE_FACTOR_TO_PROMOTE_LOW_RES_ADC_TO_SAME_SCALE )
+    #ifdef COMMON_MODE_LEVEL_FOR_MAX_GAIN_AS_READ_RAW_BY_INBOARD_ANALOG
+            //compare leg reading to COMMON_MODE_LEVEL_FOR_MAX_GAIN_AS_READ_RAW_BY_INBOARD_ANALOG and capture the first reading making it go lower
+                if( !startMSBSettingForCalculatingSettingUnitsPerAnalogInputUnit )
+                {
+        #if( ( defined HIGHEST_SENSI_OUTBOARD_ADC_TYPE ) && ( HIGHEST_SENSI_OUTBOARD_ADC_TYPE == HX711 ) ) //Notice we don't care if it is actually operating
+                    if( ( ( bridge < LM334_BRIDGES ) && \
+                    ( masterReadingsArray[ dPotLeg ].CurrentUnmagnifiedReading >> SCALE_FACTOR_TO_PROMOTE_LOW_RES_ADC_TO_SAME_SCALE ) < 306 ) || \
+                    ( ( bridge >= LM334_BRIDGES ) && \
+                    ( ( masterReadingsArray[ dPotLeg ].CurrentUnmagnifiedReading >> SCALE_FACTOR_TO_PROMOTE_LOW_RES_ADC_TO_SAME_SCALE ) > 306 ) ) )
+        #else
+                    if( ( ( bridge < LM334_BRIDGES ) && \
+                    ( masterReadingsArray[ dPotLeg ].CurrentUnmagnifiedReading >> SCALE_FACTOR_TO_PROMOTE_LOW_RES_ADC_TO_SAME_SCALE ) < COMMON_MODE_LEVEL_FOR_MAX_GAIN_AS_READ_RAW_BY_INBOARD_ANALOG ) || \
+                    ( ( bridge >= LM334_BRIDGES ) && \
+                    ( ( masterReadingsArray[ dPotLeg ].CurrentUnmagnifiedReading >> SCALE_FACTOR_TO_PROMOTE_LOW_RES_ADC_TO_SAME_SCALE ) > COMMON_MODE_LEVEL_FOR_MAX_GAIN_AS_READ_RAW_BY_INBOARD_ANALOG ) ) )
+        #endif
+                    {
+    //Save this setting to calculate settingSteps/levelUnits ratios
+                        startMSBSettingForCalculatingSettingUnitsPerAnalogInputUnit = MSB_SETTINGS_TOTAL_THIS_LEG;
+                        Serial.print( F( "Line<3372>first msb setting to hit desired CM level=<" ) );
+                        Serial.print( j );
+                        Serial.print( F( "> dPotLeg=<" ) );
+                        Serial.print( dPotLeg );
+                        Serial.print( F( "> ( masterReadingsArray[ dPotLeg ].CurrentUnmagnifiedReading >> SCALE_FACTOR_TO_PROMOTE_LOW_RES_ADC_TO_SAME_SCALE )=<" ) );
+                        Serial.print( ( masterReadingsArray[ dPotLeg ].CurrentUnmagnifiedReading >> SCALE_FACTOR_TO_PROMOTE_LOW_RES_ADC_TO_SAME_SCALE ) );
+                        Serial.print( F( "> startMSBSettingForCalculatingSettingUnitsPerAnalogInputUnit=<" ) );
+                        Serial.print( startMSBSettingForCalculatingSettingUnitsPerAnalogInputUnit );
+                        Serial.print( F( "> MSB_SETTINGS_TOTAL_THIS_LEG=<" ) );
+                        Serial.print( MSB_SETTINGS_TOTAL_THIS_LEG );
+                        Serial.print( F( "> MSB_SETTINGS_TOTAL_THIS_REFERENCE_LEG=<" ) );
+                        Serial.print( MSB_SETTINGS_TOTAL_THIS_REFERENCE_LEG );
+                        Serial.print( F( ">, " ) );
+                    }
+                }
+                if( !startMSBSettingForCalculatingSettingUnitsPerAnalogInputUnitReference && ( bridge < ( LM334_BRIDGES + BARE_DPOT_LEG_BRIDGES ) ) )
+                {
+        #if( ( defined HIGHEST_SENSI_OUTBOARD_ADC_TYPE ) && ( HIGHEST_SENSI_OUTBOARD_ADC_TYPE == HX711 ) ) //Notice we don't care if it is actually operating
+                    if( ( ( bridge < LM334_BRIDGES ) && \
+                    ( masterReadingsArray[ dPotLeg + 1 ].CurrentUnmagnifiedReading >> SCALE_FACTOR_TO_PROMOTE_LOW_RES_ADC_TO_SAME_SCALE ) < 306 ) || \
+                    ( ( bridge >= LM334_BRIDGES ) && \
+                    ( ( masterReadingsArray[ dPotLeg + 1 ].CurrentUnmagnifiedReading >> SCALE_FACTOR_TO_PROMOTE_LOW_RES_ADC_TO_SAME_SCALE ) > 306 ) ) )
+        #else
+                    if( ( ( bridge < LM334_BRIDGES ) && \
+                    ( masterReadingsArray[ dPotLeg + 1 ].CurrentUnmagnifiedReading >> SCALE_FACTOR_TO_PROMOTE_LOW_RES_ADC_TO_SAME_SCALE ) < COMMON_MODE_LEVEL_FOR_MAX_GAIN_AS_READ_RAW_BY_INBOARD_ANALOG ) || \
+                    ( ( bridge >= LM334_BRIDGES ) && \
+                    ( ( masterReadingsArray[ dPotLeg + 1 ].CurrentUnmagnifiedReading >> SCALE_FACTOR_TO_PROMOTE_LOW_RES_ADC_TO_SAME_SCALE ) > COMMON_MODE_LEVEL_FOR_MAX_GAIN_AS_READ_RAW_BY_INBOARD_ANALOG ) ) )
+        #endif
+                    {
+    //Save this setting to calculate settingSteps/levelUnits ratios
+                        startMSBSettingForCalculatingSettingUnitsPerAnalogInputUnitReference = MSB_SETTINGS_TOTAL_THIS_REFERENCE_LEG;
+                        Serial.print( F( "Line<3372>first msb setting to hit desired CM level=<" ) );
+                        Serial.print( j );
+                        Serial.print( F( "> dPotLeg=<" ) );
+                        Serial.print( dPotLeg );
+                        Serial.print( F( "> ( masterReadingsArray[ dPotLeg ].CurrentUnmagnifiedReading >> SCALE_FACTOR_TO_PROMOTE_LOW_RES_ADC_TO_SAME_SCALE )=<" ) );
+                        Serial.print( ( masterReadingsArray[ dPotLeg ].CurrentUnmagnifiedReading >> SCALE_FACTOR_TO_PROMOTE_LOW_RES_ADC_TO_SAME_SCALE ) );
+                        Serial.print( F( "> startMSBSettingForCalculatingSettingUnitsPerAnalogInputUnit=<" ) );
+                        Serial.print( startMSBSettingForCalculatingSettingUnitsPerAnalogInputUnit );
+                        Serial.print( F( "> MSB_SETTINGS_TOTAL_THIS_LEG=<" ) );
+                        Serial.print( MSB_SETTINGS_TOTAL_THIS_LEG );
+                        Serial.print( F( "> MSB_SETTINGS_TOTAL_THIS_REFERENCE_LEG=<" ) );
+                        Serial.print( MSB_SETTINGS_TOTAL_THIS_REFERENCE_LEG );
+                        Serial.print( F( ">, " ) );
+                    }
+                }
+                if( startMSBSettingForCalculatingSettingUnitsPerAnalogInputUnit && ( startMSBSettingForCalculatingSettingUnitsPerAnalogInputUnitReference || bridge >= ( LM334_BRIDGES + BARE_DPOT_LEG_BRIDGES ) ) )
+                { //Since we don't know which will be found first, this breaking construct needs to be outside both or in both above constructs
+                    break;
+                }
+    #endif
+                Serial.print( F( " Line <3394> linearity dPot settings:" ) );
+                for( uint8_t dpotIndex = lSBDPotOffsetIndexThisLeg; dpotIndex < lSBDPotOffsetIndexThisLeg + dPotsPerThisBridge; dpotIndex++)
+                { //the limits are mixing bridge and leg limits b/c lSBDPotOffsetIndexThisLeg is referring to the reference leg FIXME
+                    Serial.print( F( "dpotIndex<" ) );
+                    Serial.print( dpotIndex );
+                    Serial.print( F( ">=<" ) );
+                    Serial.print( dPotSettings[ dpotIndex ] );
+                    Serial.print( F( ">, " ) );
+                }
+                j = 0; //This was intended to only happen when the loop enters the first time for the second MSB dpot in the group
+            } //This loops through the MSB group setting range
+        
+            analogPinArray = analogPinArrayTemp; //Goes back to normal: Doing this will cause any subsequent setDPotOrMSBGroupValue() on  firstMSBIndexThisLeg... to distribute settings throughout the entire MSB group
+            if( startMSBSettingForCalculatingSettingUnitsPerAnalogInputUnitReference )
+            {
+               setDPotOrMSBGroupValue( firstMSBIndexThisLegReference, ( startMSBSettingForCalculatingSettingUnitsPerAnalogInputUnitReference - ( ( MAX_DPOT_SETTG / DPOT_RATIO ) / 4 ) ) ); //Division by 4 will place the expected lsb pinpointing in the upper range so as to best minimize the effect of the inconsistent by one starting point
+            }
+            else
+            {
+                setDPotOrMSBGroupValue( firstMSBIndexThisLegReference, mSBGroupSettings[ 1 ] );       //reference leg. First in case unbridged
+            }
+            if( startMSBSettingForCalculatingSettingUnitsPerAnalogInputUnit )
+            {
+               setDPotOrMSBGroupValue( firstMSBIndexThisLeg, ( startMSBSettingForCalculatingSettingUnitsPerAnalogInputUnit - ( ( MAX_DPOT_SETTG / DPOT_RATIO ) / 4 ) ) ); //Division by 4 will place the expected lsb pinpointing in the upper range so as to best minimize the effect of the inconsistent by one starting point
+            }
+            else
+            {
+                setDPotOrMSBGroupValue( firstMSBIndexThisLeg, mSBGroupSettings[ 0 ] );                //signal leg
+            }
+        //Save this analogLevel to calculate settingSteps/levelUnits ratios
+            delay( 20 ); //Let level settle
+            readAndPlotFromAllADCsInAndOutboard( graphLine ? 0 : PLOTTER_MAX_SCALE );
+            incomingInboardAnalogLevel = masterReadingsArray[ dPotLeg ].CurrentUnmagnifiedReading >> SCALE_FACTOR_TO_PROMOTE_LOW_RES_ADC_TO_SAME_SCALE;
+#ifdef COMMON_MODE_LEVEL_FOR_MAX_GAIN_AS_READ_RAW_BY_INBOARD_ANALOG
+            if( bridge < ( LM334_BRIDGES + BARE_DPOT_LEG_BRIDGES + BARE_DPOT_LEGS_UNBRIDGED ) )
+                incomingInboardAnalogLevelReference = masterReadingsArray[ dPotLeg + 1 ].CurrentUnmagnifiedReading >> SCALE_FACTOR_TO_PROMOTE_LOW_RES_ADC_TO_SAME_SCALE;
+#endif
+        //Done stepping MSB group
+        
+            Serial.print( F( " MSB_SETTINGS_TOTAL_THIS_LEG=<" ) );
+            Serial.print( MSB_SETTINGS_TOTAL_THIS_LEG );
+            Serial.print( F( "> MSB_SETTINGS_TOTAL_THIS_REFERENCE_LEG=<" ) );
+            Serial.print( MSB_SETTINGS_TOTAL_THIS_REFERENCE_LEG );
+            Serial.print( F( ">, " ) );
+        
+        //Proceed to step up on LSB
+        
+        #if ( defined INJECT_DIAGNOSTIC_SQUARE_WAVE_ON_SIGNAL_PIN_OF_SPECIFIED_OUTBOARD_ADC ) || ( defined INJECT_DIAGNOSTIC_SQUARE_WAVE_ON_REFERENCE_PIN_OF_SPECIFIED_OUTBOARD_ADC ) //to avoid a carry or borrow being generated
+            for( uint16_t i = abs( DIAGNOSTIC_SQUARE_WAVE_AMPLITUDE ); i < MAX_DPOT_SETTG - abs( DIAGNOSTIC_SQUARE_WAVE_AMPLITUDE ); i++ ) //allow margin for square wave to decrement and increment since we can't deal with that inject code changing MSB group settings
+        #else
+            for( uint16_t i = 0; i < MAX_DPOT_SETTG; i++ )
+        #endif
+            {
+        //#if ( ( defined ADDITIONAL_BIAS_IN_LSB_DPOT_SETTING_POSITION_TO_APPLY_TO_SIGNAL_TRACE_BRIDGE0 ) && ( ADDITIONAL_BIAS_IN_LSB_DPOT_SETTING_POSITION_TO_APPLY_TO_SIGNAL_TRACE_BRIDGE0 != 0 ) )
+        //        setDPotOrMSBGroupValue( lSBDPotOffsetIndexThisLeg, i + ADDITIONAL_BIAS_IN_LSB_DPOT_SETTING_POSITION_TO_APPLY_TO_SIGNAL_TRACE_BRIDGE0 ); //
+        //#else
+                setDPotOrMSBGroupValue( lSBDPotOffsetIndexThisLeg, i );
+        //#endif
+                setDPotOrMSBGroupValue( lSBDPotOffsetIndexThisLegReference, i );
+                Serial.print( F( " Line<3423>lSBDPotOffsetIndexThisLeg=<" ) );
+                Serial.print( lSBDPotOffsetIndexThisLeg );
+                Serial.print( F( "> lSBDPotOffsetIndexThisLegReference=<" ) );
+                Serial.print( lSBDPotOffsetIndexThisLegReference );
+                Serial.print( F( ">, " ) );
+                readAndPlotFromAllADCsInAndOutboard( graphLine ? 0 : PLOTTER_MAX_SCALE );
+        #ifdef COMMON_MODE_LEVEL_FOR_MAX_GAIN_AS_READ_RAW_BY_INBOARD_ANALOG
+                if( startMSBSettingForCalculatingSettingUnitsPerAnalogInputUnit )
+                {
+            #if( ( defined HIGHEST_SENSI_OUTBOARD_ADC_TYPE ) && ( HIGHEST_SENSI_OUTBOARD_ADC_TYPE == HX711 ) )
+                    if( ( ( masterReadingsArray[ dPotLeg ].CurrentUnmagnifiedReading >> SCALE_FACTOR_TO_PROMOTE_LOW_RES_ADC_TO_SAME_SCALE ) == 306 ) && \
+                    !startLSBSettingForCalculatingSettingUnitsPerAnalogInputUnit )
+            #else
+                    if( ( ( masterReadingsArray[ dPotLeg ].CurrentUnmagnifiedReading >> SCALE_FACTOR_TO_PROMOTE_LOW_RES_ADC_TO_SAME_SCALE ) == COMMON_MODE_LEVEL_FOR_MAX_GAIN_AS_READ_RAW_BY_INBOARD_ANALOG ) && \
+                    !startLSBSettingForCalculatingSettingUnitsPerAnalogInputUnit )
+            #endif
+                    {
+                        startLSBSettingForCalculatingSettingUnitsPerAnalogInputUnit = i; //Stores this first find to be later averaged with first miss
+                        startMSBSettingForCalculatingSettingUnitsPerAnalogInputUnit = 0; //Stops this check
+                    }
+                }
+                else if( startLSBSettingForCalculatingSettingUnitsPerAnalogInputUnit )
+                {
+            #if( ( defined HIGHEST_SENSI_OUTBOARD_ADC_TYPE ) && ( HIGHEST_SENSI_OUTBOARD_ADC_TYPE == HX711 ) )
+                    if( ( masterReadingsArray[ dPotLeg ].CurrentUnmagnifiedReading >> SCALE_FACTOR_TO_PROMOTE_LOW_RES_ADC_TO_SAME_SCALE ) != 306 )
+            #else
+                    if( ( masterReadingsArray[ dPotLeg ].CurrentUnmagnifiedReading >> SCALE_FACTOR_TO_PROMOTE_LOW_RES_ADC_TO_SAME_SCALE ) != COMMON_MODE_LEVEL_FOR_MAX_GAIN_AS_READ_RAW_BY_INBOARD_ANALOG )
+            #endif
+                    {
+            #if ( 0 < SHOW_LINEARITY_USING_THIS_BRIDGE_INDEX + 0 )
+                        legLSBSettingUnitsTimes100PerAnalogInputUnit[ ( SHOW_LINEARITY_USING_THIS_BRIDGE_INDEX * 2 ) - \
+                        ( ( dPotLeg < ( LM334_BRIDGE_LEGS + BARE_BRIDGE_LEGS ) ) ? 0 : ( dPotLeg - ( LM334_BRIDGE_LEGS + BARE_BRIDGE_LEGS ) ) ) ] = \
+                        ( 100 * ( ( dPotSettings[ lSBDPotOffsetIndexThisLeg ] - startLSBSettingForCalculatingSettingUnitsPerAnalogInputUnit ) / 2 ) ) / ( incomingInboardAnalogLevel - ( masterReadingsArray[ dPotLeg ].CurrentUnmagnifiedReading >> SCALE_FACTOR_TO_PROMOTE_LOW_RES_ADC_TO_SAME_SCALE ) );
+            #else
+                        legLSBSettingUnitsTimes100PerAnalogInputUnit[ 0 ] = ( 100 * ( ( dPotSettings[ lSBDPotOffsetIndexThisLeg ] - startLSBSettingForCalculatingSettingUnitsPerAnalogInputUnit ) / 2 ) ) / ( incomingInboardAnalogLevel - ( masterReadingsArray[ dPotLeg ].CurrentUnmagnifiedReading >> SCALE_FACTOR_TO_PROMOTE_LOW_RES_ADC_TO_SAME_SCALE ) );
+            #endif
+                        Serial.print( F( "startLSBSettingForCalculatingSettingUnitsPerAnalogInputUnit=<" ) );
+                        Serial.print( startLSBSettingForCalculatingSettingUnitsPerAnalogInputUnit );
+                        Serial.print( F( "> MSB_SETTINGS_TOTAL_THIS_LEG=<" ) );
+                        Serial.print( MSB_SETTINGS_TOTAL_THIS_LEG );
+                        Serial.print( F( "> MSB_SETTINGS_TOTAL_THIS_REFERENCE_LEG=<" ) );
+                        Serial.print( MSB_SETTINGS_TOTAL_THIS_REFERENCE_LEG );
+                        Serial.print( F( ">, " ) );
+                        startLSBSettingForCalculatingSettingUnitsPerAnalogInputUnit = 0; //do only after calculating all ratios
+                    }
+                }
+                if( startMSBSettingForCalculatingSettingUnitsPerAnalogInputUnitReference ) //assumed && bridge < ( LM334_BRIDGES + BARE_DPOT_LEG_BRIDGES ) )
+                {
+            #if( ( defined HIGHEST_SENSI_OUTBOARD_ADC_TYPE ) && ( HIGHEST_SENSI_OUTBOARD_ADC_TYPE == HX711 ) )
+                    if( ( ( masterReadingsArray[ dPotLeg + 1 ].CurrentUnmagnifiedReading >> SCALE_FACTOR_TO_PROMOTE_LOW_RES_ADC_TO_SAME_SCALE ) == 306 ) && \
+                    !startLSBSettingForCalculatingSettingUnitsPerAnalogInputUnitReference )
+            #else
+                    if( ( ( masterReadingsArray[ dPotLeg + 1 ].CurrentUnmagnifiedReading >> SCALE_FACTOR_TO_PROMOTE_LOW_RES_ADC_TO_SAME_SCALE ) == COMMON_MODE_LEVEL_FOR_MAX_GAIN_AS_READ_RAW_BY_INBOARD_ANALOG ) && \
+                    !startLSBSettingForCalculatingSettingUnitsPerAnalogInputUnitReference )
+            #endif
+                    {
+                        startLSBSettingForCalculatingSettingUnitsPerAnalogInputUnitReference = i; //Stores this first find to be later averaged with first miss
+                        startMSBSettingForCalculatingSettingUnitsPerAnalogInputUnitReference = 0; //Stops this check
+                    }
+                }
+                else if( startLSBSettingForCalculatingSettingUnitsPerAnalogInputUnitReference )
+                {
+            #if( ( defined HIGHEST_SENSI_OUTBOARD_ADC_TYPE ) && ( HIGHEST_SENSI_OUTBOARD_ADC_TYPE == HX711 ) )
+                    if( ( masterReadingsArray[ dPotLeg + 1 ].CurrentUnmagnifiedReading >> SCALE_FACTOR_TO_PROMOTE_LOW_RES_ADC_TO_SAME_SCALE ) != 306 )
+            #else
+                    if( ( masterReadingsArray[ dPotLeg + 1 ].CurrentUnmagnifiedReading >> SCALE_FACTOR_TO_PROMOTE_LOW_RES_ADC_TO_SAME_SCALE ) != COMMON_MODE_LEVEL_FOR_MAX_GAIN_AS_READ_RAW_BY_INBOARD_ANALOG )
+            #endif
+                    {
+            #if ( 0 < SHOW_LINEARITY_USING_THIS_BRIDGE_INDEX + 0 )
+                        legLSBSettingUnitsTimes100PerAnalogInputUnit[ /*reference leg is offset by one like this*/1 + ( SHOW_LINEARITY_USING_THIS_BRIDGE_INDEX * 2 ) - \
+                        ( ( bridge < ( LM334_BRIDGES + BARE_DPOT_LEG_BRIDGES ) ) ? 0 : ( dPotLeg - ( LM334_BRIDGE_LEGS + BARE_BRIDGE_LEGS ) ) ) ] = \
+                        ( 100 * ( ( dPotSettings[ lSBDPotOffsetIndexThisLegReference ] - startLSBSettingForCalculatingSettingUnitsPerAnalogInputUnitReference ) / 2 ) ) / ( incomingInboardAnalogLevelReference - \
+                        ( masterReadingsArray[ dPotLeg + 1 /*reference leg is offset by one like this*/].CurrentUnmagnifiedReading >> SCALE_FACTOR_TO_PROMOTE_LOW_RES_ADC_TO_SAME_SCALE ) );
+            #else
+                        legLSBSettingUnitsTimes100PerAnalogInputUnit[ 1 /*reference leg is offset by one like this*/] = ( 100 * ( ( dPotSettings[ lSBDPotOffsetIndexThisLegReference ] - startLSBSettingForCalculatingSettingUnitsPerAnalogInputUnitReference ) / 2 ) ) / ( incomingInboardAnalogLevelReference /*change to what for a reference leg?*/- \
+                        ( masterReadingsArray[ dPotLeg + 1 /*reference leg is offset by one like this*/].CurrentUnmagnifiedReading >> SCALE_FACTOR_TO_PROMOTE_LOW_RES_ADC_TO_SAME_SCALE ) );
+            #endif
+                        Serial.print( F( "startLSBSettingForCalculatingSettingUnitsPerAnalogInputUnitReference=<" ) );
+                        Serial.print( startLSBSettingForCalculatingSettingUnitsPerAnalogInputUnitReference );
+                        Serial.print( F( "> MSB_SETTINGS_TOTAL_THIS_LEG=<" ) );
+                        Serial.print( MSB_SETTINGS_TOTAL_THIS_LEG );
+                        Serial.print( F( "> MSB_SETTINGS_TOTAL_THIS_REFERENCE_LEG=<" ) );
+                        Serial.print( MSB_SETTINGS_TOTAL_THIS_REFERENCE_LEG );
+                        Serial.print( F( ">, " ) );
+                        startLSBSettingForCalculatingSettingUnitsPerAnalogInputUnitReference = 0; //do only after calculating all ratios
+                    }
+                }
+        #endif
+              Serial.print( F( " Line <3502> linearity dPot settings:" ) );
+              for( uint8_t dpotIndex = lSBDPotOffsetIndexThisLeg; dpotIndex < lSBDPotOffsetIndexThisLeg + dPotsPerThisBridge; dpotIndex++)
+              {
+                    Serial.print( F( "dpotIndex<" ) );
+                    Serial.print( dpotIndex );
+                    Serial.print( F( ">=<" ) );
+                    Serial.print( dPotSettings[ dpotIndex ] );
+                    Serial.print( F( ">, " ) );
+              }
+            } //Line 3465
+        //Next, reset all of them back to their stored settings
+            setDPotOrMSBGroupValue( lSBDPotOffsetIndexThisLeg, lSBSettings[ 0 ] );           //signal leg
+            setDPotOrMSBGroupValue( lSBDPotOffsetIndexThisLegReference, lSBSettings[ 1 ] );  //reference leg         
+        
+            readAndPlotFromAllADCsInAndOutboard( graphLine ? 0 : PLOTTER_MAX_SCALE );
+        } //Line 3328
+    }
+#endif
+
   while( !Serial ); // wait for serial port to connect. Needed for Leonardo's native USB
   Serial.print( F( " End of setup() " ) );
 #endif
@@ -3320,7 +3665,8 @@ void loop()
     }
 #endif
     //        Serial.println();
-    /* The following commented code can be used for keyboard input 
+    /* The following commented code can be used for keyboard input */
+#ifdef DEBUG
             char nextChar;
             nextChar = 0;
             while( Serial.available() )
@@ -3367,7 +3713,7 @@ void loop()
                         offset_integer = atoi( &szFull[ 2 ] );
                 }
                 else goto NoPotChange;
-                if( offset_integer > MAXPOTSETTG || offset_integer < 0 - MAXPOTSETTG ) goto NoPotChange;
+                if( offset_integer > MAX_DPOT_SETTG || offset_integer < 0 - MAX_DPOT_SETTG ) goto NoPotChange;
                 if( szFull[ 0 ] == '1' ) DIGITAL_POT_ = dPotPins[ 0 ];
                 else if( szFull[ 0 ] == '2' ) DIGITAL_POT_ = dPotPins[ 1 ];
                 else if( szFull[ 0 ] == '3' ) DIGITAL_POT_ = dPotPins[ 2 ];
@@ -3375,28 +3721,23 @@ void loop()
                 else if( szFull[ 0 ] == '5' ) DIGITAL_POT_ = dPotPins[ 4 ];
                 else if( szFull[ 0 ] == '6' ) DIGITAL_POT_ = dPotPins[ 5 ];
                 else goto NoPotChange;
-                offsetDPotOrMSBGroupValue( DIGITAL_POT_, offset_integer );
+                indexOfThisDPotCSPinInDPotArrays = atoi( &szFull[ 0 ] ) - 1;
+                configureFromDPotIndex();
+                offsetDPotOrMSBGroupValue( DIGITAL_POT_, offset_integer ); //configureFrom...() and configureFor...() must already be ran
+                Serial.print( F( "Dpot " ) );
+                Serial.print( DIGITAL_POT_ );
+                Serial.print( F( " now set to " ) );
+                Serial.println( dPotSettings[ atoi( &szFull[ 0 ] ) ] );
       NoPotChange:
         #endif
                 szFull[ 0 ] = 0;
-                #ifdef DEBUG
+//                #ifdef DEBUG
                     while( !Serial ); // wait for serial port to connect. Needed for Leonardo's native USB
                     Serial.println();
-                #endif
+//                #endif
             }
-    */
-#if defined ( INJECT_DIAGNOSTIC_SQUARE_WAVE_ON_SIGNAL_PIN_OF_SPECIFIED_OUTBOARD_ADC ) || defined ( INJECT_DIAGNOSTIC_SQUARE_WAVE_ON_REFERENCE_PIN_OF_SPECIFIED_OUTBOARD_ADC )
-    diagnostSquareWavePlotCycleLoops = ( diagnostSquareWavePlotCycleLoops + 1 ) % DIAGNOSTIC_SQUARE_WAVE_TIME_PERIOD;
-#ifdef DEBUG
-    while( !Serial ); // wait for serial port to connect. Needed for Leonardo's native USB
-    Serial.print( F( "Line 1687, diagnostSquareWavePlotCycleLoops = " ) );
-    Serial.println( diagnostSquareWavePlotCycleLoops );
 #endif
-    if( diagnostSquareWavePlotCycleLoops == 0 )
-    {
-      diagnostSquareWave();
-    }
-#endif
+/*    */
 #if defined ( TEST_STEP_UP_DOWN )
     for( uint8_t bridge = 0; bridge < LM334_BRIDGES; bridge++ )
     {
@@ -3424,6 +3765,15 @@ void loop()
 #endif
     }
 #endif
+    for( uint8_t dPotIndex = 0; dPotIndex < DPOTS; dPotIndex++) //THIS ASSUMES THE ABOVE CONSTRUCT FILLS BOTH ARRAYS COMPLETELY
+    {
+#ifdef NUM_DIGITAL_PINS
+      if( ( dPotSettings[ dPotIndex ] > MAX_DPOT_SETTG ) || ( dPotPins[ dPotIndex ] > NUM_DIGITAL_PINS ) ) break;  //The protection against arrays not fully set up
+#else
+      if( dPotSettings[ dPotIndex ] > MAX_DPOT_SETTG ) break;  //The protection against arrays not fully set up
+#endif
+        writeSettingToAsingleDPot( dPotPins[ dPotIndex ], dPotSettings[ dPotIndex ] );  //b/c the analog pin array not set up, this needs pin numbers like this, not pin indexes
+    }
     while( millis() - millisStart < MIN_WAIT_TIME_BETWEEN_PLOT_POINTS_MS )
     { //acquire and process not-plotted readings of inboard analog pins that get used for digipot auto-balancing FUTURE TODO
       ;//or just wait.
