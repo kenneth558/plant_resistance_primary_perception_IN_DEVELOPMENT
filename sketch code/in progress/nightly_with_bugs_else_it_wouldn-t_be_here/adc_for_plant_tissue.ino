@@ -750,12 +750,12 @@ If you only have the Arduino without an ADS1X15, then define INBOARDS_PLOTTED.  
     #define MATCHING_TO_SIGNAL_LEG true
 #endif
 
-//#if ( ARDUINO_ARCH_XI-ORIGINAL || ARDUINO_ARCH_XI || ARDUINO_ARCH_SAM || ARDUINO_ARCH_SAMD ) //These are the boards known to have 12 bit analog inputs
-//#ifdef ANALOG_INPUT_BITS_OF_BOARD
-//#undef ANALOG_INPUT_BITS_OF_BOARD
-//#endif
-//#define ANALOG_INPUT_BITS_OF_BOARD 12  //These boards have 12 bit
-//#endif
+#if ( ( defined ARDUINO_ARCH_XI-ORIGINAL ) || ( defined ARDUINO_ARCH_XI ) || ( defined ARDUINO_ARCH_SAM ) || ( defined ARDUINO_ARCH_SAMD ) ) //These are the boards known to have 12 bit analog inputs
+    #ifdef ANALOG_INPUT_BITS_OF_BOARD
+        #undef ANALOG_INPUT_BITS_OF_BOARD
+    #endif
+    #define ANALOG_INPUT_BITS_OF_BOARD 12  //These boards have 12 bit
+#endif
 
 #if ( OUTBOARDS_PLOTTED > 0 )
 #define SCALE_FACTOR_TO_PROMOTE_LOW_RES_ADC_TO_SAME_SCALE ( HIGHEST_BIT_RES_FROM_HIGHEST_SENSI_OUTBOARD_ADC - ANALOG_INPUT_BITS_OF_BOARD )
@@ -2572,7 +2572,7 @@ void fixMSB_SETTINGSarraysAndMayDistribute( bool mayDistribute = ( bool )analogP
     {
         setMSBDPotOrGroupValueUsingIndicesOnly( firstMSBIndexThisLeg, MSB_SETTINGS_TOTAL_THIS_LEG( dPotLeg ) );
     }
-//#if not ( ( defined MINIMIZE_COMPILED_SKETCH_SIZE_LEVEL ) && ( MINIMIZE_COMPILED_SKETCH_SIZE_LEVEL == 0 ) )
+//#if not ( ( defined //MINIMIZE_COMPILED_SKETCH_SIZE_LEVEL ) && ( MINIMIZE_COMPILED_SKETCH_SIZE_LEVEL == 0 ) )
     Serial.print( F( "exitted from setMSBDPotOrGroupValueUsingIndicesOnly DPOT_LEGS=<" ) );
     Serial.print( DPOT_LEGS );
     Serial.print( F( "> leg<" ) );
