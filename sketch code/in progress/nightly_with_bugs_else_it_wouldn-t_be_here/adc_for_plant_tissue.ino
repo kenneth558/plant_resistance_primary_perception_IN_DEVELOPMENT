@@ -79,7 +79,7 @@
 #define CONVERT_TWOS_COMP_TO_SINGLE_ENDED( value_read_from_the_differential_ADC, mask, xorvalue ) ((value_read_from_the_differential_ADC & mask)^xorvalue)
 //A FEW OF THE OTHER MACROS (DEFINES OR RE-DEFINES) ELSEWHERE: VERSION, NON_LSB_DPOT_2_B0SIG_STARTVALUE - LSB_DPOT_B0REF_STARTVALUE, HALFHIGHEST_BIT_RES_FROM_HIGHEST_SENSI_OUTBOARD_ADC, DIFFERENTIAL, PIN_FOR_DATA_TOFROM_HIGHEST_SENSI_ADC, PIN_FOR_CLK_TO_HIGHEST_SENSI_ADC, PLOTTER_MAX_SCALE, HUNDREDTHPLOTTER_MAX_SCALE, SAMPLE_TIMES, SCALE_FACTOR_TO_PROMOTE_LOW_RES_ADC_TO_SAME_SCALE, COMMON_MODE_LEVEL_FOR_MAX_GAIN_AS_READ_RAW_BY_INBOARD_ANALOG, HEIGHT_OF_A_PLOT_LINESPACE
 #define COPYRIGHT_YEAR 2019
-/*******************(C)  COPYRIGHT 2018 KENNETH L ANDERSON *********************
+/*******************(C)  COPYRIGHT 2019 KENNETH L ANDERSON *********************
 
        ARDUINO ELECTRICAL RESISTANCE/CONDUCTANCE MONITORING SKETCH
 
@@ -511,15 +511,16 @@ If you only have the Arduino without an ADS1X15, then define INBOARDS_PLOTTED.  
     //The following variable is intended to be stored in EEPROM once calculated
     #define NUM_ELEMENTS_PER_LEG_IN_dPotLegMSBUsedAndAvailables_ARRAY 2
     static uint16_t dPotLegMSBUsedAndAvailables[ NUM_ELEMENTS_PER_LEG_IN_dPotLegMSBUsedAndAvailables_ARRAY * DPOT_LEGS ]; //This will only be needed on legs with > 1 Dpots: each leg can store totalAllMSBsThisLeg availableAllMSBsThisLeg
+//Since the following defines take up no space in compiled rendering unless they get used, leave them here even if never used
     #define MSB_SETTINGS_TOTAL_THIS_LEG( dPotLeg )                         ( dPotLegMSBUsedAndAvailables[   NUM_ELEMENTS_PER_LEG_IN_dPotLegMSBUsedAndAvailables_ARRAY * dPotLeg       ] )
     #define MSB_SETTINGS_AVAILABLE_THIS_LEG( dPotLeg )                     ( dPotLegMSBUsedAndAvailables[ ( NUM_ELEMENTS_PER_LEG_IN_dPotLegMSBUsedAndAvailables_ARRAY * dPotLeg ) + 1 ] )
-    #define MSB_SETTINGS_TOTAL_REFERENCE_TO_THIS_SIGNAL_LEG( dPotLeg )     ( dPotLegMSBUsedAndAvailables[ ( NUM_ELEMENTS_PER_LEG_IN_dPotLegMSBUsedAndAvailables_ARRAY * dPotLeg ) + 2 ] )
-    #define MSB_SETTINGS_AVAILABLE_REFERENCE_TO_THIS_SIGNAL_LEG( dPotLeg ) ( dPotLegMSBUsedAndAvailables[ ( NUM_ELEMENTS_PER_LEG_IN_dPotLegMSBUsedAndAvailables_ARRAY * dPotLeg ) + 3 ] )
+    #define MSB_SETTINGS_TOTAL_REFERENCE_TO_THIS_SIGNAL_LEG( dPotLeg )     ( dPotLegMSBUsedAndAvailables[ ( dPotLeg < ( LM334_BRIDGE_LEGS + BARE_BRIDGE_LEGS ) ) ? ( ( NUM_ELEMENTS_PER_LEG_IN_dPotLegMSBUsedAndAvailables_ARRAY * dPotLeg ) + 2 ) : ( NUM_ELEMENTS_PER_LEG_IN_dPotLegMSBUsedAndAvailables_ARRAY * dPotLeg ) ] )
+    #define MSB_SETTINGS_AVAILABLE_REFERENCE_TO_THIS_SIGNAL_LEG( dPotLeg ) ( dPotLegMSBUsedAndAvailables[ ( dPotLeg < ( LM334_BRIDGE_LEGS + BARE_BRIDGE_LEGS ) ) ? ( ( NUM_ELEMENTS_PER_LEG_IN_dPotLegMSBUsedAndAvailables_ARRAY * dPotLeg ) + 3 ) : ( ( NUM_ELEMENTS_PER_LEG_IN_dPotLegMSBUsedAndAvailables_ARRAY * dPotLeg ) + 1 ) ] )
 
     #define MSB_SETTINGS_TOTAL_SIGNAL_THIS_BRIDGE( bridge )        ( dPotLegMSBUsedAndAvailables[ bridge < ( LM334_BRIDGES + BARE_DPOT_LEG_BRIDGES ) ?   NUM_ELEMENTS_PER_LEG_IN_dPotLegMSBUsedAndAvailables_ARRAY * bridge * LEGS_PER_DPOT_STYLE_BRIDGE       : ( ( ( LM334_BRIDGES + BARE_DPOT_LEG_BRIDGES ) * LEGS_PER_DPOT_STYLE_BRIDGE * NUM_ELEMENTS_PER_LEG_IN_dPotLegMSBUsedAndAvailables_ARRAY ) + ( NUM_ELEMENTS_PER_LEG_IN_dPotLegMSBUsedAndAvailables_ARRAY * ( bridge - ( LM334_BRIDGES + BARE_DPOT_LEG_BRIDGES ) ) ) )     ] )
     #define MSB_SETTINGS_AVAILABLE_SIGNAL_THIS_BRIDGE( bridge )    ( dPotLegMSBUsedAndAvailables[ bridge < ( LM334_BRIDGES + BARE_DPOT_LEG_BRIDGES ) ? ( NUM_ELEMENTS_PER_LEG_IN_dPotLegMSBUsedAndAvailables_ARRAY * bridge * LEGS_PER_DPOT_STYLE_BRIDGE ) + 1 : ( ( ( LM334_BRIDGES + BARE_DPOT_LEG_BRIDGES ) * LEGS_PER_DPOT_STYLE_BRIDGE * NUM_ELEMENTS_PER_LEG_IN_dPotLegMSBUsedAndAvailables_ARRAY ) + ( NUM_ELEMENTS_PER_LEG_IN_dPotLegMSBUsedAndAvailables_ARRAY * ( bridge - ( LM334_BRIDGES + BARE_DPOT_LEG_BRIDGES ) ) ) + 1 ) ] )
-    #define MSB_SETTINGS_TOTAL_REFERENCE_THIS_BRIDGE( bridge )     ( dPotLegMSBUsedAndAvailables[ bridge < ( LM334_BRIDGES + BARE_DPOT_LEG_BRIDGES ) ? ( NUM_ELEMENTS_PER_LEG_IN_dPotLegMSBUsedAndAvailables_ARRAY * bridge * LEGS_PER_DPOT_STYLE_BRIDGE ) + 2 : ( ( ( LM334_BRIDGES + BARE_DPOT_LEG_BRIDGES ) * LEGS_PER_DPOT_STYLE_BRIDGE * NUM_ELEMENTS_PER_LEG_IN_dPotLegMSBUsedAndAvailables_ARRAY ) + ( NUM_ELEMENTS_PER_LEG_IN_dPotLegMSBUsedAndAvailables_ARRAY * ( bridge - ( LM334_BRIDGES + BARE_DPOT_LEG_BRIDGES ) ) ) + 2 ) ] )
-    #define MSB_SETTINGS_AVAILABLE_REFERENCE_THIS_BRIDGE( bridge ) ( dPotLegMSBUsedAndAvailables[ bridge < ( LM334_BRIDGES + BARE_DPOT_LEG_BRIDGES ) ? ( NUM_ELEMENTS_PER_LEG_IN_dPotLegMSBUsedAndAvailables_ARRAY * bridge * LEGS_PER_DPOT_STYLE_BRIDGE ) + 3 : ( ( ( LM334_BRIDGES + BARE_DPOT_LEG_BRIDGES ) * LEGS_PER_DPOT_STYLE_BRIDGE * NUM_ELEMENTS_PER_LEG_IN_dPotLegMSBUsedAndAvailables_ARRAY ) + ( NUM_ELEMENTS_PER_LEG_IN_dPotLegMSBUsedAndAvailables_ARRAY * ( bridge - ( LM334_BRIDGES + BARE_DPOT_LEG_BRIDGES ) ) ) + 3 ) ] )
+    #define MSB_SETTINGS_TOTAL_REFERENCE_THIS_BRIDGE( bridge )     ( dPotLegMSBUsedAndAvailables[ bridge < ( LM334_BRIDGES + BARE_DPOT_LEG_BRIDGES ) ? ( NUM_ELEMENTS_PER_LEG_IN_dPotLegMSBUsedAndAvailables_ARRAY * bridge * LEGS_PER_DPOT_STYLE_BRIDGE ) + 2 : ( ( ( LM334_BRIDGES + BARE_DPOT_LEG_BRIDGES ) * LEGS_PER_DPOT_STYLE_BRIDGE * NUM_ELEMENTS_PER_LEG_IN_dPotLegMSBUsedAndAvailables_ARRAY ) + ( NUM_ELEMENTS_PER_LEG_IN_dPotLegMSBUsedAndAvailables_ARRAY * ( bridge - ( LM334_BRIDGES + BARE_DPOT_LEG_BRIDGES ) ) ) )     ] )
+    #define MSB_SETTINGS_AVAILABLE_REFERENCE_THIS_BRIDGE( bridge ) ( dPotLegMSBUsedAndAvailables[ bridge < ( LM334_BRIDGES + BARE_DPOT_LEG_BRIDGES ) ? ( NUM_ELEMENTS_PER_LEG_IN_dPotLegMSBUsedAndAvailables_ARRAY * bridge * LEGS_PER_DPOT_STYLE_BRIDGE ) + 3 : ( ( ( LM334_BRIDGES + BARE_DPOT_LEG_BRIDGES ) * LEGS_PER_DPOT_STYLE_BRIDGE * NUM_ELEMENTS_PER_LEG_IN_dPotLegMSBUsedAndAvailables_ARRAY ) + ( NUM_ELEMENTS_PER_LEG_IN_dPotLegMSBUsedAndAvailables_ARRAY * ( bridge - ( LM334_BRIDGES + BARE_DPOT_LEG_BRIDGES ) ) ) + 1 ) ] )
 
 /*
     WHY WE DON'T GLOBALLY STORE THE BRIDGE IN CONTEXT LIKE WE DO THESE OTHER VARS:
@@ -1007,15 +1008,13 @@ void readAndPlotFromAllADCsInAndOutboard( uint32_t, bool = !( ( bool )analogPinA
             {
                 writeSettingToAsingleDPot( indexOfThisDPotCSPinInDPotArrays, settingValue );
             }
-    
-    //recalculate MSB_SETTINGS_ arrays
-            for( uint8_t counter = 0; counter < mSBGroupSize - 1; counter++ )
+        //Update MSB_SETTINGS_ arrays
+            MSB_SETTINGS_TOTAL_THIS_LEG( dPotLeg ) = 0;
+            for( uint8_t mSBindexOffset = 0; mSBindexOffset < mSBGroupSize - 1; mSBindexOffset++ )
             {
-                settingValueTmp += dPotSettings[ mSBDPotIndex + counter ];
+                MSB_SETTINGS_TOTAL_THIS_LEG( dPotLeg ) += dPotSettings[ mSBDPotIndex + mSBindexOffset ];
             }
-    
-    //Update  MSB_SETTINGS_ arrays
-            MSB_SETTINGS_TOTAL_THIS_LEG( dPotLeg ) = settingValueTmp; //This makes individual MSB settings not accessible for modifying after analogPinArray is assigned unless you save it's setting, make it zero momentarily while this functions is called
+    //Update MSB_SETTINGS_AVAILABLE_THIS_LEG arrays to match
             MSB_SETTINGS_AVAILABLE_THIS_LEG( dPotLeg ) = ( mSBGroupSize * MAX_DPOT_SETTG ) - settingValueTmp;
         }
     }
@@ -2533,55 +2532,22 @@ void blinkMorseCode( char* symbol, uint8_t chars )
 }
 #if ( DPOT_LEGS > 0 )
 //#error Fix all calls to this to utilize correctly mayDistribute then fix all calls to setMSBDPotOrGroupValueUsingIndicesOnly to utilize 
-void fixMSB_SETTINGSarraysAndMayDistribute( bool mayDistribute = ( bool )analogPinArray, bool readAndPlot = true )
+void MAKEOBSOLETEfixMSB_SETTINGSarraysAndMayDistribute( bool mayDistribute = ( bool )analogPinArray, bool readAndPlot = true )
 {
     uint8_t dPotLegBak = dPotLeg;
     Serial.print( F( "Entered inside fixMSB_SETTINGSarraysAndMayDistribute()," ) );
   for( dPotLeg = 0; dPotLeg < DPOT_LEGS; dPotLeg++ )
   {
-    Serial.print( F( " Line <2437>calling configureFromDPotLeg for leg<" ) );
-    configureFromDPotLeg( ); //Req'd before using MSB_SETTINGS_ macros if dPotLeg ever changes in this scope
-    Serial.print( dPotLeg );
-    Serial.print( F( "> " ) );
-
-//#if not ( ( defined MINIMIZE_COMPILED_SKETCH_SIZE_LEVEL ) && ( MINIMIZE_COMPILED_SKETCH_SIZE_LEVEL == 0 ) )
-    Serial.print( F( ". inside fixMSB_SETTINGSarraysAndMayDistribute(), Prefilling Used and Availables for leg<" ) );
-    Serial.print( dPotLeg );
-    Serial.print( F( "> firstMSBIndexThisLeg=<" ) );
-    Serial.print( firstMSBIndexThisLeg );
-    Serial.print( F( ">." ) );
-    
-//#endif
+    uint8_t mSBDPotIndex = whatIsFirstMSBIndexThisLeg( dPotLeg );
+    uint8_t mSBGroupSize = whatIsMSBGroupSizeInThisDPotLeg( dPotLeg );
     MSB_SETTINGS_TOTAL_THIS_LEG( dPotLeg ) = 0;
-    //prefill MSB_SETTINGS_TOTAL_THIS_LEG and MSB_SETTINGS_AVAILABLE_THIS_LEG
-    for( uint8_t mSBDPotIndex = 0; mSBDPotIndex < mSBGroupSize - 1; mSBDPotIndex++ )
-    { //This loop and its followup instruction merely conforms the afore-cleared two struct elements to reality
-        MSB_SETTINGS_TOTAL_THIS_LEG( dPotLeg ) += dPotSettings[ firstMSBIndexThisLeg + mSBDPotIndex ]; //dPotSettings[ firstMSBIndexThisLeg ] not current unless ????
-        Serial.print( F( "total this MSB group=<" ) );
-        Serial.print( MSB_SETTINGS_TOTAL_THIS_LEG( dPotLeg ) );
-        Serial.print( F( "> " ) );
+//recalculate MSB_SETTINGS_ arrays
+    for( uint8_t mSBindexOffset = 0; mSBindexOffset < mSBGroupSize - 1; mSBindexOffset++ )
+    {
+        if( dPotSettings[ mSBDPotIndex + mSBindexOffset ] > MAX_DPOT_SETTG ) dPotSettings[ mSBDPotIndex + mSBindexOffset ] = MAX_DPOT_SETTG;
+        MSB_SETTINGS_TOTAL_THIS_LEG( dPotLeg ) += dPotSettings[ mSBDPotIndex + mSBindexOffset ];
     }
     MSB_SETTINGS_AVAILABLE_THIS_LEG( dPotLeg ) = ( mSBGroupSize * MAX_DPOT_SETTG ) - MSB_SETTINGS_TOTAL_THIS_LEG( dPotLeg );
-    Serial.print( F( "MSB_SETTINGS_AVAILABLE_THIS_LEG=<" ) );
-    Serial.print( MSB_SETTINGS_AVAILABLE_THIS_LEG( dPotLeg ) );
-    Serial.print( F( "> " ) );
-    Serial.print( F( "Next line distributes MSB DPot settings evenly amongst entire MSB group DPots, so should only be used once per leg and not on LSB DPots. dPotLeg=<" ) );
-    Serial.print( dPotLeg );
-    Serial.print( F( ">." ) );
-    if( mayDistribute )
-    {
-        setMSBDPotOrGroupValueUsingIndicesOnly( firstMSBIndexThisLeg, MSB_SETTINGS_TOTAL_THIS_LEG( dPotLeg ) );
-    }
-//#if not ( ( defined //MINIMIZE_COMPILED_SKETCH_SIZE_LEVEL ) && ( MINIMIZE_COMPILED_SKETCH_SIZE_LEVEL == 0 ) )
-    Serial.print( F( "exitted from setMSBDPotOrGroupValueUsingIndicesOnly DPOT_LEGS=<" ) );
-    Serial.print( DPOT_LEGS );
-    Serial.print( F( "> leg<" ) );
-    Serial.print( dPotLeg );
-    Serial.print( F( "> " ) );
-    if( readAndPlot ) readAndPlotFromAllADCsInAndOutboard( graphLine ? 0 : PLOTTER_MAX_SCALE ); //This is too superfluous during linearity diags
-    Serial.print( F( " Line <2516> another check of dPotLeg=<" ) );
-    Serial.print( dPotLeg );
-    Serial.print( F( "> " ) );
   }
 //#endif
     dPotLeg = dPotLegBak;
@@ -3171,18 +3137,18 @@ arrays and/or set the unused DPots to desired settings:*/
     #endif
                 goto SDCardFailMsg;
        }
-       sdcardFile.close();
+        sdcardFile.close();
 #endif
 #if ( not defined __LGT8FX8E__ ) && ( defined DEBUG )
-  Serial.print( F( "   Operator convenience delay so operator can prepare as needed..." ) );
-  delay( 5000 );
+    Serial.print( F( "   Operator convenience delay so operator can prepare as needed..." ) );
+    delay( 5000 );
 #endif
 #ifdef DEBUG
-  Serial.println();
-  Serial.println( F( "Done delaying for operator convenience or hardware init " ) );
-  Serial.println( F( "Some running parameters:" ) );
-  Serial.print( F( "analogPinArray=<" ) );
-  Serial.print( (unsigned long)analogPinArray );
+    Serial.println();
+    Serial.println( F( "Done delaying for operator convenience or hardware init " ) );
+    Serial.println( F( "Some running parameters:" ) );
+    Serial.print( F( "analogPinArray=<" ) );
+    Serial.print( (unsigned long)analogPinArray );
     Serial.println( F( ">" ) );
 #if defined LEGS_PER_DPOT_STYLE_BRIDGE && defined SUPERIMPOSE_FIRST_INBOARDS_IN_PAIRS && ( INBOARDS_PLOTTED < DPOT_LEGS )
   for( uint8_t i = 0; i < DPOT_LEGS; i++ )
@@ -3195,33 +3161,45 @@ arrays and/or set the unused DPots to desired settings:*/
         Serial.print( F( "<" ) );
         Serial.print( *( analogPinArray + i ) );
         Serial.println( F( ">" ) );
-    
-      Serial.print( F( "PLOTTER_MAX_SCALE=<" ) );
-      Serial.print( PLOTTER_MAX_SCALE );
-      Serial.print( F( "> legLSBSettingUnitsTimes100PerAnalogInputUnit[ i ]=<" ) );
-      Serial.print( legLSBSettingUnitsTimes100PerAnalogInputUnit[ i ] );
-      Serial.print( F( "> and ( uint32_t )( OUTBOARDS_PLOTTED + INBOARDS_PLOTTED )=<" ) );
-      Serial.print( ( uint32_t )( OUTBOARDS_PLOTTED + INBOARDS_PLOTTED ) );
+        
+        Serial.print( F( "PLOTTER_MAX_SCALE=<" ) );
+        Serial.print( PLOTTER_MAX_SCALE );
+        Serial.print( F( "> legLSBSettingUnitsTimes100PerAnalogInputUnit[ i ]=<" ) );
+        Serial.print( legLSBSettingUnitsTimes100PerAnalogInputUnit[ i ] );
+        Serial.print( F( "> and ( uint32_t )( OUTBOARDS_PLOTTED + INBOARDS_PLOTTED )=<" ) );
+        Serial.print( ( uint32_t )( OUTBOARDS_PLOTTED + INBOARDS_PLOTTED ) );
         Serial.println( F( ">" ) );
     }
   
 
   //add other prints here to your liking
-  Serial.print( F( "End of " ) );
+    Serial.print( F( "End of " ) );
 #endif //end of DEBUG
   //Start of DPot MSB group settings storing for each DPot leg
 
 #if ( DPOT_LEGS > 0 )
 #if not ( ( defined MINIMIZE_COMPILED_SKETCH_SIZE_LEVEL ) && ( MINIMIZE_COMPILED_SKETCH_SIZE_LEVEL == 0 ) )
-  Serial.print( F( "Entering prefill construct DPOT_LEGS=<" ) );
+    Serial.print( F( "Entering prefill construct DPOT_LEGS=<" ) );
     Serial.print( DPOT_LEGS );
     Serial.print( F( "> DPOTS_PER_BRIDGED_BARE_LEG=<" ) );
     Serial.print( DPOTS_PER_BRIDGED_BARE_LEG );
     Serial.print( F( "> " ) );
+//Next is filling fast lookup arrays for MSB_SETTINGS_
 #endif
-  Serial.print( F( "Line<3109>." ) );
-    fixMSB_SETTINGSarraysAndMayDistribute();
-  Serial.print( F( "Line<3111>." ) );
+    Serial.print( F( "Line<3189>." ) );
+    for( dPotLeg = 0; dPotLeg < DPOT_LEGS; dPotLeg++ )
+    {
+        uint8_t firstMSBDPotIndex = whatIsFirstMSBIndexThisLeg( dPotLeg );
+        uint8_t mSBGroupSize = whatIsMSBGroupSizeInThisDPotLeg( dPotLeg );
+        MSB_SETTINGS_TOTAL_THIS_LEG( dPotLeg ) = 0;
+        for( uint8_t mSBindexOffset = 0; mSBindexOffset < mSBGroupSize - 1; mSBindexOffset++ )
+        {
+            if( dPotSettings[ firstMSBDPotIndex + mSBindexOffset ] > MAX_DPOT_SETTG ) dPotSettings[ firstMSBDPotIndex + mSBindexOffset ] = MAX_DPOT_SETTG;
+            MSB_SETTINGS_TOTAL_THIS_LEG( dPotLeg ) += dPotSettings[ firstMSBDPotIndex + mSBindexOffset ];
+        }
+        MSB_SETTINGS_AVAILABLE_THIS_LEG( dPotLeg ) = ( mSBGroupSize * MAX_DPOT_SETTG ) - MSB_SETTINGS_TOTAL_THIS_LEG( dPotLeg );
+    }
+    Serial.print( F( "Line<3210>." ) );
 #endif
 #if ( ( defined AUTO_BRIDGE_BALANCING ) && ( defined DIFFERENTIAL ) && ( defined LOOP_COUNTER_LIMIT_THAT_TRACE_IS_ALLOWED_TO_BE_OFF_CENTER ) )
   for( uint8_t bridgeIndex = 0; bridgeIndex < OUTBOARDS_PLOTTED; bridgeIndex++ )
@@ -3436,7 +3414,7 @@ Serial.print( F( ">. " ) );
         for( uint8_t leg_0_IsSignal_1_IsReference = 0; leg_0_IsSignal_1_IsReference <= 1; leg_0_IsSignal_1_IsReference++ )
         {
             uint16_t j;
-            fixMSB_SETTINGSarraysAndMayDistribute( false, false ); //TODO Is this really necessary?
+//            fixMSB_SETTINGSarraysAndMayDistribute( false, false ); //TODO Is this really necessary?
             Serial.print( F( "Line<3364>" ) );
             j = mSBStartSettingForLinearityTest;
             for( uint16_t whichMSBindex = 0; whichMSBindex < mSBGroupSize; whichMSBindex++ )
@@ -3470,7 +3448,7 @@ Serial.print( F( ">. " ) );
                         Serial.print( F( " Line<3395> breaking. " ) );
                         break;
                     }
-                    fixMSB_SETTINGSarraysAndMayDistribute( false, false );
+//                    fixMSB_SETTINGSarraysAndMayDistribute( false, false );
                     readAndPlotFromAllADCsInAndOutboard( graphLine ? 0 : PLOTTER_MAX_SCALE );
         //            settingStepSize, endLevel, incomingInboardAnalogLevel, targetLevel
         //            ( masterReadingsArray[ dPotLeg ].CurrentUnmagnifiedReading >> SCALE_FACTOR_TO_PROMOTE_LOW_RES_ADC_TO_SAME_SCALE )
