@@ -2532,7 +2532,7 @@ void blinkMorseCode( char* symbol, uint8_t chars )
     }
 }
 #if ( DPOT_LEGS > 0 )
-//#error Fix all calls to this to utilize correctly mayDistribute then fix all calls to setneDPotOrMSBGroupValue to utilize 
+//#error Fix all calls to this to utilize correctly mayDistribute then fix all calls to setMSBDPotOrGroupValueUsingIndicesOnly to utilize 
 void fixMSB_SETTINGSarraysAndMayDistribute( bool mayDistribute = ( bool )analogPinArray, bool readAndPlot = true )
 {
     uint8_t dPotLegBak = dPotLeg;
@@ -2554,7 +2554,7 @@ void fixMSB_SETTINGSarraysAndMayDistribute( bool mayDistribute = ( bool )analogP
 //#endif
     MSB_SETTINGS_TOTAL_THIS_LEG( dPotLeg ) = 0;
     //prefill MSB_SETTINGS_TOTAL_THIS_LEG and MSB_SETTINGS_AVAILABLE_THIS_LEG
-    for( uint8_t mSBDPotIndex = 0; mSBDPotIndex < mSBGroupSize; mSBDPotIndex++ )
+    for( uint8_t mSBDPotIndex = 0; mSBDPotIndex < mSBGroupSize - 1; mSBDPotIndex++ )
     { //This loop and its followup instruction merely conforms the afore-cleared two struct elements to reality
         MSB_SETTINGS_TOTAL_THIS_LEG( dPotLeg ) += dPotSettings[ firstMSBIndexThisLeg + mSBDPotIndex ]; //dPotSettings[ firstMSBIndexThisLeg ] not current unless ????
         Serial.print( F( "total this MSB group=<" ) );
@@ -2752,7 +2752,7 @@ arrays and/or set the unused DPots to desired settings:*/
 #else
       if( dPotSettings[ dPotIndex ] > MAX_DPOT_SETTG ) break;  //The protection against arrays not fully set up
 #endif
-        writeSettingToAsingleDPot( dPotPins[ dPotIndex ], dPotSettings[ dPotIndex ] );  //b/c the analog pin array not set up, this needs pin numbers like this, not pin indexes
+        writeSettingToAsingleDPot( dPotPins[ dPotIndex ], dPotSettings[ dPotIndex ], THIS_IS_OVERT_PIN_NUMBER_INSTEAD_OF_INDEX );  //b/c the analog pin array not set up, this needs pin numbers like this, not pin indexes
     }
 // more calls to writeSettingToAsingleDPot( , , )
 #if not ( ( defined MINIMIZE_COMPILED_SKETCH_SIZE_LEVEL ) && ( MINIMIZE_COMPILED_SKETCH_SIZE_LEVEL == 0 ) )
