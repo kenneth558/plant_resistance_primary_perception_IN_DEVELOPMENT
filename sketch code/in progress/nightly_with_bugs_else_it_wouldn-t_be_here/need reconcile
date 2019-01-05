@@ -1,12 +1,9 @@
-NOW: line 3128 VERIFYING MSB_SETTINGS_  ARRAYS AND CALLS TO fixMSB_SETTINGSarraysAndMayDistribute()
-fixing stored settings once their indices are determined
 //#error Fix all calls to this to utilize correctly mayDistribute then fix all calls to setMSBDPotOrGroupValueUsingIndicesOnly() to utilize
-lINE 1011:
+lINE 1014:
 
     uint8_t mSBDPotIndex = whatIsFirstMSBIndexThisLeg( dPotLeg );
     uint8_t mSBGroupSize = whatIsMSBGroupSizeInThisDPotLeg( dPotLeg );
     MSB_SETTINGS_TOTAL_THIS_LEG( dPotLeg ) = 0;
-//recalculate MSB_SETTINGS_ arrays
     for( uint8_t counter = 0; counter < mSBGroupSize - 1; counter++ )
     {
         if( dPotSettings[ mSBDPotIndex + counter ] > MAX_DPOT_SETTG ) dPotSettings[ mSBDPotIndex + counter ] = MAX_DPOT_SETTG;
@@ -78,6 +75,5 @@ dPotLeg = LM334_BRIDGES + BARE_DPOT_LEG_BRIDGES + ( ( whichBridgeOrOutboardADCin
     static bool pinIsArrayed = true;
     #define THIS_IS_OVERT_PIN_NUMBER_INSTEAD_OF_INDEX false
     static bool consolidateMSBSettings = true;
-
 
 
