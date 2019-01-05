@@ -1,0 +1,138 @@
+    static uint8_t whichBridgeOrOutboardADCindex = 0;
+    static uint16_t indexOfThisDPotCSPinInDPotArrays = 0;
+    static uint8_t dPotLeg;
+    static uint8_t dPotsPerThisLeg;
+    static uint8_t dPotsPerThisBridge;
+    static uint8_t mSBGroupSize;
+    static uint8_t lSBDPotIndexThisLeg;
+    static uint8_t lSBDPotIndexThisLegReference;
+    static uint8_t referenceLSBDPotIndexThisBridge;
+    static uint8_t firstMSBIndexThisLeg;
+    static uint8_t firstMSBIndexThisLegReference;
+    static uint8_t firstReferenceMSBIndexThisBridge;
+    uint8_t whatIsBridgeOfThisDPotLeg( uint8_t dPotLeg )
+    { //returns the value of whichBridgeOrOutboardADCindex
+        return ( dPotLeg < ( LM334_BRIDGE_LEGS + BARE_BRIDGE_LEGS ) ? \
+        dPotLeg >> 1 : ( LM334_BRIDGES + BARE_DPOT_LEG_BRIDGES + dPotLeg - ( LM334_BRIDGE_LEGS + BARE_BRIDGE_LEGS ) ) );
+    }
+    uint8_t whatIsDPotsPerThisLeg( uint8_t dPotLeg )
+    { //returns the value of dPotsPerThisLeg
+        return ( dPotLeg < LM334_BRIDGE_LEGS ? \
+                DPOTS_PER_LM334_LEG : \
+                ( dPotLeg < ( LM334_BRIDGE_LEGS + BARE_BRIDGE_LEGS ) ) ? \
+                DPOTS_PER_BRIDGED_BARE_LEG : \
+                DPOTS_PER_UNBRIDGED_BARE_LEG );
+    }
+    uint8_t whatIsDPotsPerThisBridge( uint8_t whichBridgeOrOutboardADCindex )
+    { //returns the value of dPotsPerThisBridge
+        return ( whichBridgeOrOutboardADCindex < LM334_BRIDGES ? \
+                ( DPOTS_PER_LM334_LEG << 1 ) : \
+                ( whichBridgeOrOutboardADCindex < ( LM334_BRIDGES + BARE_DPOT_LEG_BRIDGES ) ? \
+                ( DPOTS_PER_BRIDGED_BARE_LEG << 1 ) : \
+                DPOTS_PER_UNBRIDGED_BARE_LEG ) );
+    }
+    uint8_t whatIsMSBGroupSizeInThisDPotLeg( uint8_t dPotLeg )
+    { //returns the value of mSBGroupSize
+        return ( dPotLeg < LM334_BRIDGE_LEGS ? \
+                ( DPOTS_PER_LM334_LEG > 2 ? ( DPOTS_PER_LM334_LEG - 1 ): 1 ): \
+                ( dPotLeg < ( LM334_BRIDGE_LEGS + BARE_BRIDGE_LEGS ) ? \
+                ( DPOTS_PER_BRIDGED_BARE_LEG > 2 ? ( DPOTS_PER_BRIDGED_BARE_LEG - 1 ): 1 ): \
+                ( DPOTS_PER_UNBRIDGED_BARE_LEG > 2 ? ( DPOTS_PER_UNBRIDGED_BARE_LEG - 1 ) : 1 ) ) );
+    }
+    uint8_t whatIsMSBgroupSizeInThisBridge( uint8_t whichBridgeOrOutboardADCindex )
+    { //returns the value of mSBgroupSize
+        return ( whichBridgeOrOutboardADCindex < LM334_BRIDGES ? \
+                ( DPOTS_PER_LM334_LEG > 2 ? ( DPOTS_PER_LM334_LEG - 1 ): 1 ): \
+                ( whichBridgeOrOutboardADCindex < ( LM334_BRIDGES + BARE_DPOT_LEG_BRIDGES ) ? \
+                ( DPOTS_PER_BRIDGED_BARE_LEG > 2 ? ( DPOTS_PER_BRIDGED_BARE_LEG - 1 ): 1 ): \
+                ( DPOTS_PER_UNBRIDGED_BARE_LEG > 2 ? ( DPOTS_PER_UNBRIDGED_BARE_LEG - 1 ) : 1 ) ) );
+    }
+    uint8_t whatIsLSBDPotIndexThisLeg( uint8_t dPotLeg )
+    { //returns the value of lSBDPotIndexThisLeg
+        return ( dPotLeg < LM334_BRIDGE_LEGS ? \
+                ( dPotLeg * DPOTS_PER_LM334_LEG ) : \
+                ( dPotLeg < ( LM334_BRIDGE_LEGS + BARE_BRIDGE_LEGS ) ) ? \
+                ( DPOTS_IN_ALL_LM334_BRIDGES + ( ( dPotLeg - LM334_BRIDGE_LEGS ) * DPOTS_PER_BRIDGED_BARE_LEG ) ) : \
+                ( DPOTS_IN_ALL_LM334_BRIDGES + DPOTS_IN_ALL_BARE_LEG_BRIDGES + ( ( dPotLeg - ( LM334_BRIDGE_LEGS + DPOTS_IN_ALL_BARE_LEG_BRIDGES ) * DPOTS_PER_UNBRIDGED_BARE_LEG ) ) ) );
+    }
+    uint8_t whatIsSignalLSBDPotIndexThisBridge( uint8_t whichBridgeOrOutboardADCindex )
+    { //returns the value of lSBDPotIndexThisLeg
+        return ( whichBridgeOrOutboardADCindex < LM334_BRIDGES ? \
+                ( whichBridgeOrOutboardADCindex * DPOTS_PER_LM334_LEG * LEGS_PER_DPOT_STYLE_BRIDGE ) : \
+                ( whichBridgeOrOutboardADCindex < ( LM334_BRIDGES + BARE_DPOT_LEG_BRIDGES ) ? \
+                ( DPOTS_IN_ALL_LM334_BRIDGES + ( ( ( whichBridgeOrOutboardADCindex - LM334_BRIDGES ) * LEGS_PER_DPOT_STYLE_BRIDGE ) * DPOTS_PER_BRIDGED_BARE_LEG ) ) : \
+                ( DPOTS_IN_ALL_LM334_BRIDGES + DPOTS_IN_ALL_BARE_LEG_BRIDGES + ( ( ( whichBridgeOrOutboardADCindex - ( LM334_BRIDGES + BARE_DPOT_LEG_BRIDGES ) ) * LEGS_PER_DPOT_STYLE_BRIDGE ) * DPOTS_PER_UNBRIDGED_BARE_LEG ) ) ) );
+    }
+    uint8_t whatIsReferenceLSBDPotIndexThisBridge255IfNone( uint8_t whichBridgeOrOutboardADCindex )
+    { //returns the value of lSBDPotIndexThisLeg
+        return ( whichBridgeOrOutboardADCindex < LM334_BRIDGES ? \
+                ( ( whichBridgeOrOutboardADCindex * DPOTS_PER_LM334_LEG * LEGS_PER_DPOT_STYLE_BRIDGE ) + DPOTS_PER_LM334_LEG ): \
+                ( whichBridgeOrOutboardADCindex < ( LM334_BRIDGES + BARE_DPOT_LEG_BRIDGES ) ? \
+                ( ( DPOTS_IN_ALL_LM334_BRIDGES + ( ( ( whichBridgeOrOutboardADCindex - LM334_BRIDGES ) * LEGS_PER_DPOT_STYLE_BRIDGE ) * DPOTS_PER_BRIDGED_BARE_LEG ) ) + DPOTS_PER_BRIDGED_BARE_LEG ) : \
+                255 /*special value for whenever there isn't even a reference leg in this bridge, let alone such a DPot*/) );
+    }
+    uint8_t whatIsFirstMSBIndexThisLeg( uint8_t dPotLeg )
+    {
+        return ( dPotLeg < LM334_BRIDGE_LEGS ? \
+                ( dPotLeg * DPOTS_PER_LM334_LEG ) + ( ( DPOTS_PER_LM334_LEG > 1 ) ? 1 : 0 ) : \
+                ( dPotLeg < ( LM334_BRIDGE_LEGS + BARE_BRIDGE_LEGS ) ) ? \
+                ( DPOTS_IN_ALL_LM334_BRIDGES + ( ( dPotLeg - LM334_BRIDGE_LEGS ) * DPOTS_PER_BRIDGED_BARE_LEG ) + ( ( DPOTS_PER_BRIDGED_BARE_LEG > 1 ) ? 1 : 0 ) ) : \
+                ( DPOTS_IN_ALL_LM334_BRIDGES + DPOTS_IN_ALL_BARE_LEG_BRIDGES + ( ( dPotLeg - ( LM334_BRIDGE_LEGS + DPOTS_IN_ALL_BARE_LEG_BRIDGES ) * DPOTS_PER_UNBRIDGED_BARE_LEG ) ) + ( ( DPOTS_PER_UNBRIDGED_BARE_LEG > 1 ) ? 1 : 0 ) ) );
+    }
+    uint8_t whatIsFirstSignalMSBIndexThisBridge( uint8_t whichBridgeOrOutboardADCindex )
+    {
+        return ( whichBridgeOrOutboardADCindex < LM334_BRIDGES ? \
+                ( whichBridgeOrOutboardADCindex * DPOTS_PER_LM334_LEG * LEGS_PER_DPOT_STYLE_BRIDGE ) + ( ( DPOTS_PER_LM334_LEG > 1 ) ? 1 : 0 ) : \
+                ( whichBridgeOrOutboardADCindex < ( LM334_BRIDGES + BARE_DPOT_LEG_BRIDGES ) ? \
+                ( DPOTS_IN_ALL_LM334_BRIDGES + ( ( ( whichBridgeOrOutboardADCindex - LM334_BRIDGES ) * LEGS_PER_DPOT_STYLE_BRIDGE ) * DPOTS_PER_BRIDGED_BARE_LEG ) + ( ( DPOTS_PER_BRIDGED_BARE_LEG > 1 ) ? 1 : 0 ) ) : \
+                ( DPOTS_IN_ALL_LM334_BRIDGES + DPOTS_IN_ALL_BARE_LEG_BRIDGES + ( ( ( whichBridgeOrOutboardADCindex - ( LM334_BRIDGES + BARE_DPOT_LEG_BRIDGES ) ) * LEGS_PER_DPOT_STYLE_BRIDGE ) * DPOTS_PER_UNBRIDGED_BARE_LEG ) + ( ( DPOTS_PER_UNBRIDGED_BARE_LEG > 1 ) ? 1 : 0 ) ) ) );
+    }
+    uint8_t whatIsFirstReferenceMSBIndexThisBridge255IfNone( uint8_t whichBridgeOrOutboardADCindex )
+    {
+        return ( whichBridgeOrOutboardADCindex < LM334_BRIDGES ? \
+                ( ( whichBridgeOrOutboardADCindex * DPOTS_PER_LM334_LEG * LEGS_PER_DPOT_STYLE_BRIDGE ) + DPOTS_PER_LM334_LEG + ( ( DPOTS_PER_LM334_LEG > 1 ) ? 1 : 0 ) ): \
+                ( whichBridgeOrOutboardADCindex < ( LM334_BRIDGES + BARE_DPOT_LEG_BRIDGES ) ? \
+                ( ( DPOTS_IN_ALL_LM334_BRIDGES + ( ( ( whichBridgeOrOutboardADCindex - LM334_BRIDGES ) * LEGS_PER_DPOT_STYLE_BRIDGE ) * DPOTS_PER_BRIDGED_BARE_LEG ) ) + DPOTS_PER_BRIDGED_BARE_LEG + ( ( DPOTS_PER_BRIDGED_BARE_LEG > 1 ) ? 1 : 0 ) ) : \
+                255 /*special value for whenever there isn't even a reference leg in this bridge, let alone such a DPot*/) );
+    }
+    void configureFromDPotLeg( void ) //Note that the way the dPotPins array is ordered allows the following to work even with unbridged legs in the system
+    { //checking whether this got executed for the signal leg when the current context is for the reference leg: indexOfThisDPotCSPinInDPotArrays < lSBDPotInLegReference ? <signal leg value> : <reference leg value>
+    //If the leg has only a single DPot, the mSBGroupSize will be one and both lSBDPotIndexThisLeg and firstMSBIndexThisLeg will equate as firstDPotInLeg in signal leg - the reference leg acts similarly.
+        dPotsPerThisLeg = whatIsDPotsPerThisLeg( dPotLeg );
+        dPotsPerThisBridge = whatIsDPotsPerThisBridge( whatIsBridgeOfThisDPotLeg( dPotLeg ) );
+
+        mSBGroupSize = whatIsMSBgroupSizeInThisBridge( whatIsBridgeOfThisDPotLeg( dPotLeg ) );
+
+        lSBDPotIndexThisLeg = whatIsLSBDPotIndexThisLeg( dPotLeg );
+        lSBDPotIndexThisLegReference = ( dPotLeg < ( LM334_BRIDGE_LEGS + BARE_BRIDGE_LEGS ) ) ? lSBDPotIndexThisLeg + dPotsPerThisLeg : lSBDPotIndexThisLeg;
+        referenceLSBDPotIndexThisBridge = whatIsReferenceLSBDPotIndexThisBridge255IfNone( whichBridgeOrOutboardADCindex );
+
+        firstMSBIndexThisLeg = lSBDPotIndexThisLeg + ( ( dPotsPerThisLeg > 1 ) ? 1 : 0 );
+        firstMSBIndexThisLegReference = ( dPotLeg < ( LM334_BRIDGE_LEGS + BARE_BRIDGE_LEGS ) ) ? firstMSBIndexThisLeg + dPotsPerThisLeg : firstMSBIndexThisLeg;
+        firstReferenceMSBIndexThisBridge = whatIsFirstReferenceMSBIndexThisBridge255IfNone( whichBridgeOrOutboardADCindex );
+    }
+
+    void configureFromDPotIndex()
+    {
+      dPotLeg = indexOfThisDPotCSPinInDPotArrays < DPOTS_IN_ALL_LM334_BRIDGES ? \
+                ( indexOfThisDPotCSPinInDPotArrays / DPOTS_PER_LM334_LEG ) : \
+                indexOfThisDPotCSPinInDPotArrays < DPOTS_IN_ALL_LM334_BRIDGES + DPOTS_IN_ALL_BARE_LEG_BRIDGES ? \
+                ( LM334_BRIDGE_LEGS + ( ( indexOfThisDPotCSPinInDPotArrays - DPOTS_IN_ALL_LM334_BRIDGES ) / DPOTS_PER_BRIDGED_BARE_LEG ) ) : \
+                LM334_BRIDGE_LEGS + BARE_BRIDGE_LEGS + ( ( indexOfThisDPotCSPinInDPotArrays - ( LM334_BRIDGE_LEGS + BARE_BRIDGE_LEGS ) ) / DPOTS_IN_ALL_BARE_LEGS_UNBRIDGED );
+      configureFromDPotLeg();
+    }
+
+    void configureForSignalLegWithBridgeIndexIncludingNonBridgedLegs( uint8_t bridge )
+    {
+        whichBridgeOrOutboardADCindex = bridge;
+changed      dPotLeg = ( whichBridgeOrOutboardADCindex < LM334_BRIDGES + BARE_DPOT_LEG_BRIDGES ) ? ( whichBridgeOrOutboardADCindex * LEGS_PER_DPOT_STYLE_BRIDGE ) :  LM334_BRIDGES + BARE_DPOT_LEG_BRIDGES + ( ( whichBridgeOrOutboardADCindex - ( LM334_BRIDGES + BARE_DPOT_LEG_BRIDGES ) ) * LEGS_PER_DPOT_STYLE_BRIDGE ); //doesn't look right for unbridged ones
+      configureFromDPotLeg();
+    }
+
+    void configureForReferenceLegWithBridgeIndex( uint8_t bridge )
+    { //Not using configureForSignalLegWithBridgeIndexIncludingNonBridgedLegs b/c would be too wasteful of CPU
+        whichBridgeOrOutboardADCindex = bridge;
+changed      dPotLeg = ( whichBridgeOrOutboardADCindex * LEGS_PER_DPOT_STYLE_BRIDGE ) + 1; //doesn't look right this simple
+      configureFromDPotLeg();
+    }
+

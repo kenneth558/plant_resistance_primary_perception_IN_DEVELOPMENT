@@ -1,0 +1,83 @@
+NOW: line 3128 VERIFYING MSB_SETTINGS_  ARRAYS AND CALLS TO fixMSB_SETTINGSarraysAndMayDistribute()
+fixing stored settings once their indices are determined
+//#error Fix all calls to this to utilize correctly mayDistribute then fix all calls to setMSBDPotOrGroupValueUsingIndicesOnly() to utilize
+lINE 1011:
+
+    uint8_t mSBDPotIndex = whatIsFirstMSBIndexThisLeg( dPotLeg );
+    uint8_t mSBGroupSize = whatIsMSBGroupSizeInThisDPotLeg( dPotLeg );
+    MSB_SETTINGS_TOTAL_THIS_LEG( dPotLeg ) = 0;
+//recalculate MSB_SETTINGS_ arrays
+    for( uint8_t counter = 0; counter < mSBGroupSize - 1; counter++ )
+    {
+        if( dPotSettings[ mSBDPotIndex + counter ] > MAX_DPOT_SETTG ) dPotSettings[ mSBDPotIndex + counter ] = MAX_DPOT_SETTG;
+        MSB_SETTINGS_TOTAL_THIS_LEG( dPotLeg ) += dPotSettings[ mSBDPotIndex + counter ];
+    }
+    MSB_SETTINGS_AVAILABLE_THIS_LEG( dPotLeg ) = ( mSBGroupSize * MAX_DPOT_SETTG ) - MSB_SETTINGS_TOTAL_THIS_LEG( dPotLeg );
+
+
+
+
+VS. LINE 2536 fixMSB_SETTINGSarraysAndMayDistribute()
+
+    uint8_t firstMSBIndexThisLeg = whatIsFirstMSBIndexThisLeg( dPotLeg );
+    uint8_t mSBGroupSize = whatIsMSBGroupSizeInThisDPotLeg( dPotLeg );
+    MSB_SETTINGS_TOTAL_THIS_LEG( dPotLeg ) = 0;
+    for( uint8_t mSBDPotIndex = 0; mSBDPotIndex < mSBGroupSize - 1; mSBDPotIndex++ )
+    {
+        if( dPotSettings[ firstMSBIndexThisLeg + mSBDPotIndex ] > MAX_DPOT_SETTG ) dPotSettings[ firstMSBIndexThisLeg + mSBDPotIndex ] = MAX_DPOT_SETTG;
+        MSB_SETTINGS_TOTAL_THIS_LEG( dPotLeg ) += dPotSettings[ firstMSBIndexThisLeg + mSBDPotIndex ];
+    }
+    MSB_SETTINGS_AVAILABLE_THIS_LEG( dPotLeg ) = ( mSBGroupSize * MAX_DPOT_SETTG ) - MSB_SETTINGS_TOTAL_THIS_LEG( dPotLeg );
+
+
+
+with SIGNAL AND REFERENCE LEGS of bridge instead of leg:
+
+    uint8_t firstSignalMSBIndexThisBridge = whatIsFirstSignalMSBIndexThisBridge( whichBridgeOrOutboardADCindex )
+    uint8_t mSBGroupSize = whatIsMSBgroupSizeInThisBridge( whichBridgeOrOutboardADCindex );
+    MSB_SETTINGS_TOTAL_SIGNAL_THIS_BRIDGE( whichBridgeOrOutboardADCindex ) = 0;
+    MSB_SETTINGS_TOTAL_REFERENCE_THIS_BRIDGE( whichBridgeOrOutboardADCindex ) = 0;
+    for( uint8_t mSBDPotIndex = 0; mSBDPotIndex < mSBGroupSize - 1; mSBDPotIndex++ )
+    {
+        if( dPotSettings[ firstSignalMSBIndexThisBridge + mSBDPotIndex ] > MAX_DPOT_SETTG ) dPotSettings[ firstSignalMSBIndexThisBridge + mSBDPotIndex ] = MAX_DPOT_SETTG;
+        if( dPotSettings[ firstSignalMSBIndexThisBridge + mSBDPotIndex + mSBGroupSize ] > MAX_DPOT_SETTG ) dPotSettings[ firstSignalMSBIndexThisBridge + mSBDPotIndex + mSBGroupSize ] = MAX_DPOT_SETTG;
+        MSB_SETTINGS_TOTAL_SIGNAL_THIS_BRIDGE( whichBridgeOrOutboardADCindex ) += dPotSettings[ firstSignalMSBIndexThisBridge + mSBDPotIndex ];
+        MSB_SETTINGS_TOTAL_REFERENCE_THIS_BRIDGE( whichBridgeOrOutboardADCindex ) += dPotSettings[ firstSignalMSBIndexThisBridge + mSBDPotIndex + mSBGroupSize ];
+    }
+    MSB_SETTINGS_AVAILABLE_SIGNAL_THIS_BRIDGE( whichBridgeOrOutboardADCindex ) = ( mSBGroupSize * MAX_DPOT_SETTG ) - MSB_SETTINGS_TOTAL_SIGNAL_THIS_BRIDGE( whichBridgeOrOutboardADCindex );
+    MSB_SETTINGS_AVAILABLE_REFERENCE_THIS_BRIDGE( whichBridgeOrOutboardADCindex ) = ( mSBGroupSize * MAX_DPOT_SETTG ) - MSB_SETTINGS_TOTAL_REFERENCE_THIS_BRIDGE( whichBridgeOrOutboardADCindex );
+
+
+reconcile:
+
+MINIMIZE_COMPILED_SKETCH_SIZE_LEVEL
+verbose level
+debug
+
+now:3434
+fixme: 2299-2301
+
+
+can fixMSB_SETTINGSarraysAndMayDistribute() be integrated into setDPotOrMSBGroupValue() and the calls changed?
+
+LM334_BRIDGES + BARE_DPOT_LEG_BRIDGES + BARE_DPOT_LEGS_UNBRIDGED
+
+#define MSB_SETTINGS_TOTAL_THIS_BRIDGE( bridge ) ( dPotLegMSBUsedAndAvailables[ bridge < ( LM334_BRIDGES + BARE_DPOT_LEG_BRIDGES ) ? \
+NUM_ELEMENTS_PER_LEG_IN_dPotLegMSBUsedAndAvailables_ARRAY * bridge * LEGS_PER_DPOT_STYLE_BRIDGE : \
+( ( LM334_BRIDGES + BARE_DPOT_LEG_BRIDGES ) * LEGS_PER_DPOT_STYLE_BRIDGE * NUM_ELEMENTS_PER_LEG_IN_dPotLegMSBUsedAndAvailables_ARRAY ) + ( NUM_ELEMENTS_PER_LEG_IN_dPotLegMSBUsedAndAvailables_ARRAY * ( bridge - ( LM334_BRIDGES + BARE_DPOT_LEG_BRIDGES ) ) ) ] )
+
+TODO make sure arrays get updated every msb write
+TODO all references to arrays must now have been configured first - VERIFY IT IS SO
+
+signal when unbridged:
+
+dPotLeg = LM334_BRIDGES + BARE_DPOT_LEG_BRIDGES + ( ( whichBridgeOrOutboardADCindex - ( LM334_BRIDGES + BARE_DPOT_LEG_BRIDGES ) ) * LEGS_PER_DPOT_STYLE_BRIDGE )
+
+      = ( ( LM334_BRIDGES + BARE_DPOT_LEG_BRIDGES ) * LEGS_PER_DPOT_STYLE_BRIDGE ) + ( whichBridgeOrOutboardADCindex - ( LM334_BRIDGES + BARE_DPOT_LEG_BRIDGES ) )
+
+    static bool pinIsArrayed = true;
+    #define THIS_IS_OVERT_PIN_NUMBER_INSTEAD_OF_INDEX false
+    static bool consolidateMSBSettings = true;
+
+
+
