@@ -1,3 +1,6 @@
+
+<dl><dt>08 Jan 2019</dt></dl>I've been working hard at this, which is due to several structuring changes that needed to be made in order to allow for various enhancements.  The new structure is now complete.  Bug track-downs are next.  None of the remaing bugs should necessitate the whole scale re-writes that have taken so much time.  They should be simple fixes, but I'll take a few hours of leisure right now.
+
 <dl><dt>17 Dec 2018</dt></dl>Taking time from sketch development in order to beef up the prototype circuit from residing on breadboard to more residing on perfboard.  I wish I had a fiberglass perfboard lying around, but all I find is phenolic.  That will have to do for now...
 
 <dl><dt>11 Dec 2018</dt></dl>A person could wonder why I'm not providing updates more often.  There seem to be several reasons for that, one of which is that when I am in the process of investigating hinderance with the project, it may take several days for me to accurately discover down the cause.  Such is the case for the latest hinderance.  I thought I had it characterized correctly, but am having already to correct my post of a minute ago and I know better now than to even say what my initial incorrect posting was.  SIGH.
