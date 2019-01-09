@@ -750,7 +750,7 @@ If you only have the Arduino without an ADS1X15, then define INBOARDS_PLOTTED.  
         #error "The pins being used for clock and data of the ADC conflict with the I2C pins used by ADS1x15.  See https://www.arduino.cc/en/reference/wire and the Adafruit_ADS1X15-master README.md.  Remove this warning once you are satisfied one way or another"
     #endif
     static uint8_t dPotPins[ DPOTS ]; //If I could just figure out how to fill this array here it would sure make for less code clutter
-    static uint16_t dPotSettings[ DPOTS ];
+    static int16_t dPotSettings[ DPOTS ];
     static bool pinIsArrayed = true;
     #define THIS_IS_OVERT_PIN_NUMBER_INSTEAD_OF_INDEX false
     #define DONT_CONSOLIDATE_MSB_GROUP_SETTINGS_THIS_TIME false
@@ -1150,33 +1150,32 @@ void readAndPlotFromAllADCsInAndOutboard( uint32_t, bool = !( ( bool )analogPinA
 
         
         
-//A truncate error below makes a 1 out of what should equate to 0
-#error Fix "offsetValue<3266>"
+//A truncate error below makes a 1 out of what should equate to 0?
         int16_t borrowOrCarryNeededToPreventBreakingLimitDividedByDPOT_RATIO = ( \
         ( offsetValue < 0 ) ? \
-            0 - ( ( ( signed )abs( min( ( offsetValue + ( signed )dPotSettings[ indexOfThisDPotCSpinInDPotArrays ]), 0 ) ) + ( signed )DPOT_RATIO - 1 ) / ( signed )DPOT_RATIO ) : \
-        ( ( ( ( signed )offsetValue + dPotSettings[ indexOfThisDPotCSpinInDPotArrays ] ) - ( signed )MAX_DPOT_SETTG ) / ( signed )DPOT_RATIO ) );
+            0 - ( ( ( signed )abs( min( ( offsetValue + dPotSettings[ indexOfThisDPotCSpinInDPotArrays ] ), 0 ) ) + ( signed )DPOT_RATIO - 1 ) / ( signed )DPOT_RATIO ) : \
+        ( ( ( offsetValue + dPotSettings[ indexOfThisDPotCSpinInDPotArrays ] ) - ( signed )MAX_DPOT_SETTG ) / ( signed )DPOT_RATIO ) );
         
-//should be a borrow, not a carry anyway: if will go negative, borrow beyond amount needed: ( offsetValue < 0 ) ? ( offsetValue + ( signed )dPotSettings[ indexOfThisDPotCSpinInDPotArrays ]) / ( signed )DPOT_RATIO : ( ( ( ( signed )offsetValue+dPotSettings[ indexOfThisDPotCSpinInDPotArrays ] ) - ( signed )MAX_DPOT_SETTG ) / ( signed )DPOT_RATIO ) );
+//should be a borrow, not a carry anyway: if will go negative, borrow beyond amount needed: ( offsetValue < 0 ) ? ( offsetValue + dPotSettings[ indexOfThisDPotCSpinInDPotArrays ]) / ( signed )DPOT_RATIO : ( ( ( offsetValue+dPotSettings[ indexOfThisDPotCSpinInDPotArrays ] ) - ( signed )MAX_DPOT_SETTG ) / ( signed )DPOT_RATIO ) );
 
         //recursive call for borrow/carry against the MSB group
-#error This is where we are: carrying should only happen when lsb setting would go over MAX_DPOT_SETTG, borrowing only when would go under zero
+//#error This is where we are: carrying should only happen when lsb setting would go over MAX_DPOT_SETTG, borrowing only when would go under zero
       Serial.print( F( ">, making a recursive call with borrowOrCarryNeededToPreventBreakingLimitDividedByDPOT_RATIO=<" ) );
       Serial.print( borrowOrCarryNeededToPreventBreakingLimitDividedByDPOT_RATIO );
-      Serial.print( F( ">, ( offsetValue + ( signed )dPotSettings[ indexOfThisDPotCSpinInDPotArrays ] )=<" ) );
-      Serial.print( ( offsetValue + ( signed )dPotSettings[ indexOfThisDPotCSpinInDPotArrays ] ) );
+      Serial.print( F( ">, ( offsetValue + dPotSettings[ indexOfThisDPotCSpinInDPotArrays ] )=<" ) );
+      Serial.print( ( offsetValue + dPotSettings[ indexOfThisDPotCSpinInDPotArrays ] ) );
       Serial.print( F( ">, offsetValue=<" ) );
       Serial.print( offsetValue );
-      Serial.print( F( ">, min( ( offsetValue + ( signed )dPotSettings[ indexOfThisDPotCSpinInDPotArrays ]), <0> )=<" ) );
-      Serial.print( min( ( offsetValue + ( signed )dPotSettings[ indexOfThisDPotCSpinInDPotArrays ] ), 0 ) );
+      Serial.print( F( ">, min( ( offsetValue + dPotSettings[ indexOfThisDPotCSpinInDPotArrays ]), <0> )=<" ) );
+      Serial.print( min( ( offsetValue + dPotSettings[ indexOfThisDPotCSpinInDPotArrays ] ), 0 ) );
       Serial.print( F( ">, ( signed )DPOT_RATIO - <1> )=<" ) );
       Serial.print( ( signed )DPOT_RATIO - 1 );
-      Serial.print( F( ">, <0> - ( ( ( signed )abs( min( ( offsetValue + ( signed )dPotSettings[ indexOfThisDPotCSpinInDPotArrays ] ), <0> ) ) + ( signed )DPOT_RATIO - <1> ) / ( signed )DPOT_RATIO )=<" ) );
-      Serial.print( 0 - ( ( ( signed )abs( min( ( offsetValue + ( signed )dPotSettings[ indexOfThisDPotCSpinInDPotArrays ] ), 0 ) ) + ( signed )DPOT_RATIO - 1 ) / ( signed )DPOT_RATIO ) );
-      Serial.print( F( ">, ( ( ( signed )offsetValue + dPotSettings[ indexOfThisDPotCSpinInDPotArrays ] ) - ( signed )MAX_DPOT_SETTG )=<" ) );
-      Serial.print( ( ( ( signed )offsetValue + dPotSettings[ indexOfThisDPotCSpinInDPotArrays ] ) - ( signed )MAX_DPOT_SETTG ) );
-      Serial.print( F( ">, ( ( ( signed )offsetValue + dPotSettings[ indexOfThisDPotCSpinInDPotArrays ] ) - ( signed )MAX_DPOT_SETTG ) / ( signed )DPOT_RATIO )=<" ) );
-      Serial.print( ( ( ( signed )offsetValue + dPotSettings[ indexOfThisDPotCSpinInDPotArrays ] ) - ( signed )MAX_DPOT_SETTG ) / ( signed )DPOT_RATIO );
+      Serial.print( F( ">, <0> - ( ( ( signed )abs( min( ( offsetValue + dPotSettings[ indexOfThisDPotCSpinInDPotArrays ] ), <0> ) ) + ( signed )DPOT_RATIO - <1> ) / ( signed )DPOT_RATIO )=<" ) );
+      Serial.print( 0 - ( ( ( signed )abs( min( ( offsetValue + dPotSettings[ indexOfThisDPotCSpinInDPotArrays ] ), 0 ) ) + ( signed )DPOT_RATIO - 1 ) / ( signed )DPOT_RATIO ) );
+      Serial.print( F( ">, ( ( offsetValue + dPotSettings[ indexOfThisDPotCSpinInDPotArrays ] ) - ( signed )MAX_DPOT_SETTG )=<" ) );
+      Serial.print( ( ( offsetValue + dPotSettings[ indexOfThisDPotCSpinInDPotArrays ] ) - ( signed )MAX_DPOT_SETTG ) );
+      Serial.print( F( ">, ( ( offsetValue + dPotSettings[ indexOfThisDPotCSpinInDPotArrays ] ) - ( signed )MAX_DPOT_SETTG ) / ( signed )DPOT_RATIO )=<" ) );
+      Serial.print( ( ( offsetValue + dPotSettings[ indexOfThisDPotCSpinInDPotArrays ] ) - ( signed )MAX_DPOT_SETTG ) / ( signed )DPOT_RATIO );
       Serial.print( F( ">, " ) );//offsetValue=<" ) );
 //      Serial.print( offsetValue );
 
@@ -1184,7 +1183,7 @@ void readAndPlotFromAllADCsInAndOutboard( uint32_t, bool = !( ( bool )analogPinA
 
       if( borrowOrCarryNeededToPreventBreakingLimitDividedByDPOT_RATIO ) offsetMSBdPotOrGroupValueUsingIndicesOnly( thisIsReferenceWhenConfigureWasForSignal ? dPotsPerThisLeg + firstMSBindexThisLeg : firstMSBindexThisLeg, borrowOrCarryNeededToPreventBreakingLimitDividedByDPOT_RATIO );
       Serial.print( F( "back after recursive call " ) );
-        offsetValue -= ( signed )borrowOrCarryNeededToPreventBreakingLimitDividedByDPOT_RATIO * ( signed )DPOT_RATIO;
+        offsetValue -= borrowOrCarryNeededToPreventBreakingLimitDividedByDPOT_RATIO * ( signed )DPOT_RATIO;
         if( !offsetValue ) return;
       Serial.print( F( ", offsetValue now<" ) );//offsetValue now<220>
       Serial.print( offsetValue );
@@ -1211,7 +1210,7 @@ void readAndPlotFromAllADCsInAndOutboard( uint32_t, bool = !( ( bool )analogPinA
         if( offsetValue < 0 )
         {
             if( indexOfThisDPotCSpinInDPotArrays == ( thisIsReferenceWhenConfigureWasForSignal ? lSBdPotIndexThisLegReference : lSBdPotIndexThisLeg ) ) //( ( indexOfThisDPotCSpinInDPotArrays == ( thisIsReferenceWhenConfigureWasForSignal ? lSBdPotIndexThisLegReference : lSBdPotIndexThisLeg ) ? dPotSettings[ indexOfThisDPotCSpinInDPotArrays ] 
-                offsetValue = 0 - ( signed )dPotSettings[ indexOfThisDPotCSpinInDPotArrays ];/*a negative LSB value equaling zero minus the current setting*/
+                offsetValue = 0 - dPotSettings[ indexOfThisDPotCSpinInDPotArrays ];/*a negative LSB value equaling zero minus the current setting*/
             else // : ( thisIsReferenceWhenConfigureWasForSignal ? MSB_SETTINGS_TOTAL_REFERENCE_TO_THIS_SIGNAL_LEG : MSB_SETTINGS_TOTAL_THIS_LEG ) ) ) ) )
                 offsetValue = 0 - ( signed )( thisIsReferenceWhenConfigureWasForSignal ? ( signed )MSB_SETTINGS_TOTAL_REFERENCE_TO_THIS_SIGNAL_LEG( dPotLeg ) : ( signed )MSB_SETTINGS_TOTAL_THIS_LEG( dPotLeg ) );/*a negative MSB value equaling zero minus the current total*/
         }
@@ -1261,13 +1260,13 @@ void readAndPlotFromAllADCsInAndOutboard( uint32_t, bool = !( ( bool )analogPinA
         if( endLevelValid && ( ( endLevel - incomingInboardAnalogLevelSignal ) ) ) //so we don't divide by the wrong value or by zero in here
         {/*HOPING THIS INSTRUCTION UP HERE FIRST WORKS BUT I SUSPECT IT WON'T
             */
-            legLSBsettingUnitsTimes100PerAnalogInputUnit[ dPotLeg ] = ( int32_t )( ( signed )100 * ( ( ( signed )( ( signed )DPOT_RATIO * ( signed )MSB_SETTINGS_TOTAL_THIS_LEG( dPotLeg ) ) + ( signed )dPotSettings[ lSBdPotIndexThisLeg ] ) - ( ( signed )DPOT_RATIO * ( signed )startMSBsettingForCalculatingSettingUnitsPerAnalogInputUnit + startLSBsettingForCalculatingSettingUnitsPerAnalogInputUnit ) ) / ( signed )( ( signed )endLevel - ( signed )incomingInboardAnalogLevelSignal ) );
+            legLSBsettingUnitsTimes100PerAnalogInputUnit[ dPotLeg ] = ( int32_t )( ( signed )100 * ( ( ( signed )( ( signed )DPOT_RATIO * ( signed )MSB_SETTINGS_TOTAL_THIS_LEG( dPotLeg ) ) + dPotSettings[ lSBdPotIndexThisLeg ] ) - ( ( signed )DPOT_RATIO * ( signed )startMSBsettingForCalculatingSettingUnitsPerAnalogInputUnit + startLSBsettingForCalculatingSettingUnitsPerAnalogInputUnit ) ) / ( signed )( ( signed )endLevel - ( signed )incomingInboardAnalogLevelSignal ) );
             Serial.print( F( "Entered theNewSettingStepSizeInLSBUnits() with level difference=<" ) );
             Serial.print( ( endLevel - incomingInboardAnalogLevelSignal ) );
             Serial.print( F( "> and step difference=<" ) );
-            Serial.print( ( ( signed )( ( signed )DPOT_RATIO * ( signed )MSB_SETTINGS_TOTAL_THIS_LEG( dPotLeg ) ) + ( signed )dPotSettings[ lSBdPotIndexThisLeg ] ) - ( ( signed )DPOT_RATIO * ( signed )startMSBsettingForCalculatingSettingUnitsPerAnalogInputUnit + startLSBsettingForCalculatingSettingUnitsPerAnalogInputUnit ) );
-            Serial.print( F( "> and calculated from ( ( signed )DPOT_RATIO * ( signed )MSB_SETTINGS_TOTAL_THIS_LEG ) + ( signed )dPotSettings[ lSBdPotIndexThisLeg ] ) =<" ) );
-            Serial.print( ( signed )( ( signed )DPOT_RATIO * ( signed )MSB_SETTINGS_TOTAL_THIS_LEG( dPotLeg ) ) + ( signed )dPotSettings[ lSBdPotIndexThisLeg ] );
+            Serial.print( ( ( signed )( ( signed )DPOT_RATIO * ( signed )MSB_SETTINGS_TOTAL_THIS_LEG( dPotLeg ) ) + dPotSettings[ lSBdPotIndexThisLeg ] ) - ( ( signed )DPOT_RATIO * ( signed )startMSBsettingForCalculatingSettingUnitsPerAnalogInputUnit + startLSBsettingForCalculatingSettingUnitsPerAnalogInputUnit ) );
+            Serial.print( F( "> and calculated from ( ( signed )DPOT_RATIO * ( signed )MSB_SETTINGS_TOTAL_THIS_LEG ) + dPotSettings[ lSBdPotIndexThisLeg ] ) =<" ) );
+            Serial.print( ( signed )( ( signed )DPOT_RATIO * ( signed )MSB_SETTINGS_TOTAL_THIS_LEG( dPotLeg ) ) + dPotSettings[ lSBdPotIndexThisLeg ] );
 //            Serial.print( F( ">, =<" ) );
 //            Serial.print(  );
             Serial.print( F( "> legLSBsettingUnitsTimes100PerAnalogInputUnit=<" ) );
@@ -1300,7 +1299,7 @@ void readAndPlotFromAllADCsInAndOutboard( uint32_t, bool = !( ( bool )analogPinA
         Serial.print( settingStepSize );
         Serial.print( F( ">. " ) );
 //        analogInputUnitsTimes100PerMSBLegSettingUnit[ dPotLeg ] = ( 100 * ( signed )( endLevel - incomingInboardAnalogLevelSignal ) ) / ( signed )( startMSBsettingForCalculatingSettingUnitsPerAnalogInputUnit -( signed )MSB_SETTINGS_TOTAL_THIS_LEG );
-    //not good yet        legLSBsettingUnitsTimes100PerAnalogInputUnit[ dPotLeg ] = ( 100 * ( signed )( endLevel - incomingBestGuessAnalogInputreading ) ) / ( signed )( startLSBsettingForCalculatingSettingUnitsPerAnalogInputUnit - ( signed )dPotSettings[ lSBdPotIndexThisLeg ] );
+    //not good yet        legLSBsettingUnitsTimes100PerAnalogInputUnit[ dPotLeg ] = ( 100 * ( signed )( endLevel - incomingBestGuessAnalogInputreading ) ) / ( signed )( startLSBsettingForCalculatingSettingUnitsPerAnalogInputUnit - dPotSettings[ lSBdPotIndexThisLeg ] );
     //DON'T ALLOW A new STEP SIZE CHANGE to less THAN 1/6 of current IF TARGET HASN'T BEEN ACQUIRED: FROM 20 CAN ONLY GO DOWN TO 3 or -3
     }
     #define REFERENCE_LEG_LEVEL_IS_HIGH 1
@@ -1392,7 +1391,7 @@ CalculateNewStepSize:
                 {
                         theNewSettingStepSizeInLSBUnits();
 //                    settingStepSize = ( settingStepSize < 0 ) ? \
-//                    0 - ( signed )dPotSettings[ lSBdPotIndexThisLeg ] : \
+//                    0 - dPotSettings[ lSBdPotIndexThisLeg ] : \
 //                    dPotSettings[ lSBdPotIndexThisLeg ];
                 }
 
