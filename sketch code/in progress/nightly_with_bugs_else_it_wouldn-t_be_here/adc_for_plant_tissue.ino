@@ -5,7 +5,7 @@
 //FUTURE #define BARE_DPOT_LEGS_UNBRIDGED                    //(after active bridges in terms of pin number order, passive bridges using manual pots might include these legs)Subject to change NOT CODED FOR YET, but this makes effects of DPot settings be reversed from when LM334s are used.  Note that higher values of DPot leg resistances are expected to be required.  This could mean more DPots per leg.
 #define INBOARDS_PLOTTED 2                              //The number of consecutive analog pins to plot, beginning with PIN_A0
 #define OUTBOARDS_PLOTTED 1                             //The number of consecutive "highest-sensitivity ADC" pins to plot, beginning with A0 and, if double-ended, A1.  OUTBOARD ADC ONLY - DOES _NOT_ INCLUDE INBOARD ANALOG INPUT PINS
-//#define MAGNIFICATION_FACTOR 5                                 //Activates the plotting of magnified traces in all ADC linespaces; upper limit somewhere less than 4,294,967,295. Note: you can disable displaying magnified traces altogether by not defined this macro at all. Proper use of SUPERIMPOSE_FIRST_INBOARDS_IN_PAIRS will also disable magnified traces of the first two analog inputs
+#define MAGNIFICATION_FACTOR 5                                 //Activates the plotting of magnified traces in all ADC linespaces; upper limit somewhere less than 4,294,967,295. Note: you can disable displaying magnified traces altogether by not defined this macro at all. Proper use of SUPERIMPOSE_FIRST_INBOARDS_IN_PAIRS will also disable magnified traces of the first two analog inputs
 #define HIGHEST_SENSI_OUTBOARD_ADC_TYPE HX711                  //Proposing that "ADS1231" covers ADS1231; could make this "ADS1232" ( ADS1232), "ADS1242" ( ADS1242), "AD779x" ( AD779x), "AD7780" ( AD7780), "HX711" (HX711), "ADS1X15" ( ADS1015 or ADS1115), "MAX112x0" (MAX112X0...) or "LTC2400" (LTC2400) but code not included in v.FREE; ONLY ONE TYPE ALLOWED
 #define HIGHEST_BIT_RES_FROM_HIGHEST_SENSI_OUTBOARD_ADC 24     //All ADC values will get scaled to the single-ended aspect of this,  15 is ADS1115 single-ended, 16 for double-ended when two LM334s are used.  change to 11 for ADS1015 single-ended or 12 with two LM334s, (future: change to 24 for HX711--NO b/c there is the ADS1231 at 24 bits)
 #define SAMPLE_TIMES 2                                         //To better average out artifacts we over-sample and average.  This value can be tweaked by you to ensure neutralization of power line noise or harmonics of power supplies, etc.....
@@ -44,8 +44,8 @@
                       only one LSB digipot, with all non-LSB digipots matching each others' resistance/step values.  This macro limits LSB settings adjustments
                       when another digipot in the leg is set to less than MAX_DPOT_SETTG, but not otherwise, allowing LSB to reach MAX_DPOT_SETTG when non-LSBs are all at MAX_DPOT_SETTG.
                       As far as MAX_DPOT_SETTG, all digipots in the system are bound by the same MAX_DPOT_SETTG value. */
-//#define MINIMIZE_COMPILED_SKETCH_SIZE_LEVEL 0      somehow this does the opposite!!!   //Number 0 produces smallest sketch giving least data output functionality
-//#define LOOP_COUNTER_LIMIT_THAT_TRACE_IS_ALLOWED_TO_BE_OFF_CENTER 3                   //sets how soon run-time auto-balancing kicks in when trace goes off scale
+#define MINIMIZE_COMPILED_SKETCH_SIZE_LEVEL 0                                //Number 0 produces smallest sketch giving least data output functionality
+#define LOOP_COUNTER_LIMIT_THAT_TRACE_IS_ALLOWED_TO_BE_OFF_CENTER 3                   //sets how soon run-time auto-balancing kicks in when trace goes off scale
 
 //#define SD_CARD_STORAGE_CS_PIN 4                                           //The free version does not contain the code to utilize SD card storage.  SD card storage only available in the priced ($20) sketch version.
 //#define WIFI true                                                          //The free version does not contain the code to utilize wifi.  Wifi only available in the priced ($20) sketch version.  Buy online at 
@@ -326,9 +326,9 @@ Elsewhere
         #undef HIGHEST_SENSI_PGA_GAIN_FACTOR
     #endif
 #endif
-//#ifndef LOOP_COUNTER_LIMIT_THAT_TRACE_IS_ALLOWED_TO_BE_OFF_CENTER
-//    #define LOOP_COUNTER_LIMIT_THAT_TRACE_IS_ALLOWED_TO_BE_OFF_CENTER 65536 //really bad idea, will crash at some point
-//#endif
+#ifndef LOOP_COUNTER_LIMIT_THAT_TRACE_IS_ALLOWED_TO_BE_OFF_CENTER
+    #define LOOP_COUNTER_LIMIT_THAT_TRACE_IS_ALLOWED_TO_BE_OFF_CENTER 65536 //really bad idea, will crash at some point
+#endif
 #ifndef BIAS_IN_ANALOG_INPUT_BITS_TO_APPLY_TO_SIGNAL_LEG_TO_CENTER_THE_TRACE_BRIDGE0
     #define BIAS_IN_ANALOG_INPUT_BITS_TO_APPLY_TO_SIGNAL_LEG_TO_CENTER_THE_TRACE_BRIDGE0 0
 #endif
@@ -1323,15 +1323,17 @@ MSB_SETTINGS_AVAILABLE_REFERENCE_TO_THIS_SIGNAL_LEG( dPotLeg ) : MSB_SETTINGS_AV
     static int8_t referenceLegLevelFromLastSettingIt[ LM334_BRIDGE_LEGS + BARE_BRIDGE_LEGS ];
     int16_t dPotLegSetpointing( bool readAndPlotInEachLap = !READ_AND_PLOT_IN_EACH_LAP, bool useOpposingLegLevelAsTargetLevel = !USE_OPPOSING_LEGS_LEVEL_AS_TARGET_LEVEL )
     { //returns the resulting single-try reading of the leg, making it negative if the direction to target level changed?   int16_t value = bestOfFour( dPotLeg )
-        thisIsTheMSBPass = true;
         bool originalDirectionToTargetLevel, directionToTargetLevel;
-        int16_t startSettings, startLevel;
-        int16_t newStepSize, oldStepSizeDivdBy6;
         if( useOpposingLegLevelAsTargetLevel && ( dPotLeg < ( LM334_BRIDGE_LEGS + BARE_BRIDGE_LEGS ) ) )
             targetLevel = bestGuessAnalogInputReading( dPotLeg + ( ( dPotLeg % 2 ) ? -1 : 1 ), MOST_ACCURATE );
-        if( incomingInboardAnalogLevelSignal == targetLevel && bestGuessAnalogInputReading( dPotLeg, MOST_ACCURATE ) == targetLevel ) return true; //if already there
+        incomingInboardAnalogLevelSignal = bestGuessAnalogInputReading( dPotLeg, MOST_ACCURATE );
+        if( incomingInboardAnalogLevelSignal == targetLevel ) return true; //if already there
+        originalDirectionToTargetLevel = targetLevel > incomingInboardAnalogLevelSignal;
         startMSBsettingForCalculatingSettingUnitsPerAnalogInputUnit = MSB_SETTINGS_TOTAL_THIS_LEG( dPotLeg );
         startLSBsettingForCalculatingSettingUnitsPerAnalogInputUnit = dPotSettings[ lSBdPotIndexThisLeg ];
+        thisIsTheMSBPass = true;
+        int16_t startSettings, startLevel;
+        int16_t newStepSize, oldStepSizeDivdBy6;
         
 
 CalculateNewStepSize:
@@ -1490,7 +1492,7 @@ CalculateNewStepSize:
         Serial.print( F( "> legLSBsettingUnitsTimes100PerAnalogInputUnit[ dPotLeg ]=<" ) );
         referenceLegLevelFromLastSettingIt[ dPotLeg / 2 /*equates to bridge index from either leg index*/ ] = ( ( masterReadingsArray[ dPotLeg ].CurrentUnmagnifiedReading >> SCALE_FACTOR_TO_PROMOTE_LOW_RES_ADC_TO_SAME_SCALE ) == COMMON_MODE_LEVEL_FOR_MAX_GAIN_AS_READ_RAW_BY_INBOARD_ANALOG ) ? REFERENCE_LEG_LEVEL_IS_OPTIMAL : ( ( masterReadingsArray[ dPotLeg ].CurrentUnmagnifiedReading >> SCALE_FACTOR_TO_PROMOTE_LOW_RES_ADC_TO_SAME_SCALE ) > COMMON_MODE_LEVEL_FOR_MAX_GAIN_AS_READ_RAW_BY_INBOARD_ANALOG ) ? \
         REFERENCE_LEG_LEVEL_IS_HIGH : REFERENCE_LEG_LEVEL_IS_LOW;
-        return ( originalDirectionToTargetLevel ? ( bestGuessAnalogInputReading( dPotLeg, MOST_ACCURATE ) >= targetLevel ) : ( bestGuessAnalogInputReading( dPotLeg, MOST_ACCURATE ) < targetLevel ) );
+        return ( originalDirectionToTargetLevel ? !( targetLevel > bestGuessAnalogInputReading( dPotLeg, MOST_ACCURATE ) ) : !( targetLevel < bestGuessAnalogInputReading( dPotLeg, MOST_ACCURATE ) ) );
     }
 
     bool stepAdjustDPotsForThisLeg( bool = TAKE_LEG_VOLTAGE_DOWN, bool = false ); //default direction will be positive
@@ -1511,7 +1513,7 @@ CalculateNewStepSize:
         while( oneReadingFromThisOutboardADC( OutboardADCindex ) < HALF_HEIGHT_OF_A_PLOT_LINESPACE )
         {
             if( counterForTraceOutOfRangeTooLong[ OutboardADCindex ]++ > limit ) break; //Limited to prevent endless looping here
-            stepAdjustDPotsForThisLeg( !TAKE_LEG_VOLTAGE_DOWN );
+            stepAdjustDPotsForThisLeg( TAKE_LEG_VOLTAGE_UP );
             Serial.print( F( "Line <1401>" ) );
             readAndPlotFromAllADCsInAndOutboard( PLOTTER_MAX_SCALE, true ); // I would think the operator would appreciate seeing something like this during calibration
         }
@@ -1677,90 +1679,92 @@ We need to come up with a state variable to know whether the reference leg level
 
   //?to read values from analog pins: use IndexInlinespaceParametersArray and add one (reference) or not (signal)?
   // If all are maxed out, return false to signify reference leg maxed negative, signal leg maxed positive
-
-
-    configureForSignalLegWithBridgeIndexIncludingNonBridgedLegs( bridge );
-
-  if( !stepAdjustDPotsForThisLeg( !TAKE_LEG_VOLTAGE_DOWN, JUST_QUERYING_WHETHER_SETTINGS_ARE_MAXED_OUT ) ) //This only CHECKS to see if there is any settings headroom to take the bridge up signal leg first.  Does this do a recursive call?  That would be horrible!
-  {
-    Serial.print( F( "Line <1581>." ) );
-    configureForReferenceLegWithBridgeIndex( bridge );
-    Serial.print( F( "Line <1583>." ) );
-    if( !stepAdjustDPotsForThisLeg( TAKE_LEG_VOLTAGE_DOWN, JUST_QUERYING_WHETHER_SETTINGS_ARE_MAXED_OUT ) ) //This only CHECKS to see if there is any settings headroom to take the bridge up reference leg now.  Does this do a recursive call?  That would be horrible!
-    { 
-        Serial.print( F( "Line <1583>." ) );
-    #if ( ( not defined MINIMIZE_COMMUNICATIONS_CLUTTER_FOR_HIGHER_MAX_SPEED_ONLY_COMPATIBLE_FOR_OFFICIAL_ARDUINO_IDE ) || ( MINIMIZE_COMMUNICATIONS_CLUTTER_FOR_HIGHER_MAX_SPEED_ONLY_COMPATIBLE_FOR_OFFICIAL_ARDUINO_IDE == false ) )
-        while( !Serial );
-        Serial.print( F( " Leaving adjustBridgeOutputPositive unable to change" ) );
-        Serial.print( F( " LABOP " ) );
-        Serial.print( F( "with bridge=" ) );
-        Serial.print( bridge );
-        Serial.print( F( ",." ) );
-    #endif
-        return false;
-    }
-    Serial.print( F( "Line <1411> targetLevel=<" ) );
-  }
-    Serial.print( F( "Line <1413>. Settings not maxed out and will allow raising the bridge output level." ) );
-  //int16_t bestOfFour( uint8_t dPotLegOrIndexedInboardAnalogInput = 0 )
-
-  if( bridge < LM334_BRIDGES + BARE_DPOT_LEG_BRIDGES )
-    { //These are all the bridged so there is a reference leg in these
+    if( masterReadingsArray[ whatIsSignalLegThisBridge( bridge) + 1 ].CurrentUnmagnifiedReading >> SCALE_FACTOR_TO_PROMOTE_LOW_RES_ADC_TO_SAME_SCALE != COMMON_MODE_LEVEL_FOR_MAX_GAIN_AS_READ_RAW_BY_INBOARD_ANALOG )
+    {
+    
+        configureForSignalLegWithBridgeIndexIncludingNonBridgedLegs( bridge );
+    
+      if( !stepAdjustDPotsForThisLeg( TAKE_LEG_VOLTAGE_UP, JUST_QUERYING_WHETHER_SETTINGS_ARE_MAXED_OUT ) ) //This only CHECKS to see if there is any settings headroom to take the bridge up signal leg first.  Does this do a recursive call?  That would be horrible!
+      {
+        Serial.print( F( "Line <1581>." ) );
         configureForReferenceLegWithBridgeIndex( bridge );
-
-//bool setDPotLegMidPoint( uint8_t bridge, bool thisIsReferenceLegOfBridge, bool readAndPlotInEachLap, /* = !READ_AND_PLOT_IN_EACH_LAP,*/ bool useOpposingLegLevelAsTargetLevel = !USE_OPPOSING_LEGS_LEVEL_AS_TARGET_LEVEL ) //All this does without the third argument is set the reference leg to COMMON_MODE_LEVEL_FOR_MAX_GAIN_AS_READ_RAW_BY_INBOARD_ANALOG.
-//#error read the following and finish development with it in the interest of coming up with a state variable to know whether the reference leg level is optimal, supra-optimal or sub-optimal.
-//Need to account for why wouldn't reference leg be able to be lowered to optimal.  It will be able to be but the question is 
-//    whether the signal leg can be raised to COMMON_MODE_LEVEL_FOR_MAX_GAIN_AS_READ_RAW_BY_INBOARD_ANALOG - BIAS_IN_ANALOG_INPUT_BITS_TO_APPLY_TO_SIGNAL_LEG_TO_CENTER_THE_TRACE_BRIDGE0
-
-//    Essentially, manipulate signal level while reference level sits at COMMON_MODE_LEVEL_FOR_MAX_GAIN_AS_READ_RAW_BY_INBOARD_ANALOG 
-//    until it maxes out, then resort to manipulating reference level with the signal level maxed either high or low, so when bridge out needs to
-//    go up check if referenceLegLevelFromLastSettingIt[ bridge ] == REFERENCE_LEG_LEVEL_IS_OPTIMAL
-        incomingInboardAnalogLevelSignal = bestOfFour( dPotLeg );
-
-        if( !setDPotLegMidPoint( bridge, WORK_ON_THE_REFERENCE_LEG ) && ( incomingInboardAnalogLevelSignal /*this is still reference leg*/ > COMMON_MODE_LEVEL_FOR_MAX_GAIN_AS_READ_RAW_BY_INBOARD_ANALOG  ) )
-            referenceLegLevelFromLastSettingIt[ bridge ] = REFERENCE_LEG_LEVEL_IS_HIGH;
-            if( ( bestOfFour( dPotLeg + 1 ) + BIAS_IN_ANALOG_INPUT_BITS_TO_APPLY_TO_SIGNAL_LEG_TO_CENTER_THE_TRACE_BRIDGE0 < incomingInboardAnalogLevelSignal ) )
-            {
-                return false;
-            }
+        Serial.print( F( "Line <1583>." ) );
+        if( !stepAdjustDPotsForThisLeg( TAKE_LEG_VOLTAGE_DOWN, JUST_QUERYING_WHETHER_SETTINGS_ARE_MAXED_OUT ) ) //This only CHECKS to see if there is any settings headroom to take the bridge up reference leg now.  Does this do a recursive call?  That would be horrible!
+        { 
+            Serial.print( F( "Line <1583>." ) );
+        #if ( ( not defined MINIMIZE_COMMUNICATIONS_CLUTTER_FOR_HIGHER_MAX_SPEED_ONLY_COMPATIBLE_FOR_OFFICIAL_ARDUINO_IDE ) || ( MINIMIZE_COMMUNICATIONS_CLUTTER_FOR_HIGHER_MAX_SPEED_ONLY_COMPATIBLE_FOR_OFFICIAL_ARDUINO_IDE == false ) )
+            while( !Serial );
+            Serial.print( F( " Leaving adjustBridgeOutputPositive unable to change" ) );
+            Serial.print( F( " LABOP " ) );
+            Serial.print( F( "with bridge=" ) );
+            Serial.print( bridge );
+            Serial.print( F( ",." ) );
+        #endif
+            return false;
+        }
+        Serial.print( F( "Line <1411> targetLevel=<" ) );
+      }
+        Serial.print( F( "Line <1413>. Settings not maxed out and will allow raising the bridge output level." ) );
+      //int16_t bestOfFour( uint8_t dPotLegOrIndexedInboardAnalogInput = 0 )
+      if( bridge < LM334_BRIDGES + BARE_DPOT_LEG_BRIDGES )
+        { //These are all the bridged so there is a reference leg in these
+            configureForReferenceLegWithBridgeIndex( bridge );
+    
+    //bool setDPotLegMidPoint( uint8_t bridge, bool thisIsReferenceLegOfBridge, bool readAndPlotInEachLap, /* = !READ_AND_PLOT_IN_EACH_LAP,*/ bool useOpposingLegLevelAsTargetLevel = !USE_OPPOSING_LEGS_LEVEL_AS_TARGET_LEVEL ) //All this does without the third argument is set the reference leg to COMMON_MODE_LEVEL_FOR_MAX_GAIN_AS_READ_RAW_BY_INBOARD_ANALOG.
+    //#error read the following and finish development with it in the interest of coming up with a state variable to know whether the reference leg level is optimal, supra-optimal or sub-optimal.
+    //Need to account for why wouldn't reference leg be able to be lowered to optimal.  It will be able to be but the question is 
+    //    whether the signal leg can be raised to COMMON_MODE_LEVEL_FOR_MAX_GAIN_AS_READ_RAW_BY_INBOARD_ANALOG - BIAS_IN_ANALOG_INPUT_BITS_TO_APPLY_TO_SIGNAL_LEG_TO_CENTER_THE_TRACE_BRIDGE0
+    
+    //    Essentially, manipulate signal level while reference level sits at COMMON_MODE_LEVEL_FOR_MAX_GAIN_AS_READ_RAW_BY_INBOARD_ANALOG 
+    //    until it maxes out, then resort to manipulating reference level with the signal level maxed either high or low, so when bridge out needs to
+    //    go up check if referenceLegLevelFromLastSettingIt[ bridge ] == REFERENCE_LEG_LEVEL_IS_OPTIMAL
+            incomingInboardAnalogLevelSignal = bestOfFour( dPotLeg );
+    
+            if( !setDPotLegMidPoint( bridge, WORK_ON_THE_REFERENCE_LEG ) && ( incomingInboardAnalogLevelSignal /*this is still reference leg*/ > COMMON_MODE_LEVEL_FOR_MAX_GAIN_AS_READ_RAW_BY_INBOARD_ANALOG  ) )
+                referenceLegLevelFromLastSettingIt[ bridge ] = REFERENCE_LEG_LEVEL_IS_HIGH;
+                if( ( bestOfFour( dPotLeg + 1 ) + BIAS_IN_ANALOG_INPUT_BITS_TO_APPLY_TO_SIGNAL_LEG_TO_CENTER_THE_TRACE_BRIDGE0 < incomingInboardAnalogLevelSignal ) )
+                {
+                    return false;
+                }
+        }
     }
 
     configureForSignalLegWithBridgeIndexIncludingNonBridgedLegs( bridge );
     incomingInboardAnalogLevelSignal = bestOfFour( dPotLeg );
     targetLevel = COMMON_MODE_LEVEL_FOR_MAX_GAIN_AS_READ_RAW_BY_INBOARD_ANALOG; 
- while( !dPotLegSetpointing() )
+    //masterReadingsArray[ whatIsSignalLegThisBridge( bridge) + 1 ].CurrentUnmagnifiedReading >> SCALE_FACTOR_TO_PROMOTE_LOW_RES_ADC_TO_SAME_SCALE
+    do
   {
                 Serial.print( F( " raising the signal leg settings since the reference leg voltage is optimal " ) );
                 Serial.print( F( " ltslsstrlvio " ) );
                 Serial.flush();
 /*
-     if( bestOfFour( dPotLeg ) < COMMON_MODE_LEVEL_FOR_MAX_GAIN_AS_READ_RAW_BY_INBOARD_ANALOG )
-     {
-       if( !stepAdjustDPotsForThisLeg( !TAKE_LEG_VOLTAGE_DOWN ) )
-        {
-            if( bridge < LM334_BRIDGES + BARE_DPOT_LEG_BRIDGES )                
-                break; 
-            else return false; //these bridges are actually unbridged legs so they have no reference leg to keep trying with
-        }
-     }
-     else
-     {
-        perfectlyBalanceBridgeByTweakingSignalLeg();
-         break;
-     }
-*/
-    #if defined CONTINUE_PLOTTING_DURING_AUTO_BRIDGE_BALANCE && CONTINUE_PLOTTING_DURING_AUTO_BRIDGE_BALANCE
-        readAndPlotFromAllADCsInAndOutboard( graphLine ? 0 : PLOTTER_MAX_SCALE );
-    #endif
-    }
+         if( bestOfFour( dPotLeg ) < COMMON_MODE_LEVEL_FOR_MAX_GAIN_AS_READ_RAW_BY_INBOARD_ANALOG )
+         {
+           if( !stepAdjustDPotsForThisLeg( TAKE_LEG_VOLTAGE_UP ) )
+            {
+                if( bridge < LM334_BRIDGES + BARE_DPOT_LEG_BRIDGES )                
+                    break; 
+                else return false; //these bridges are actually unbridged legs so they have no reference leg to keep trying with
+            }
+         }
+         else
+         {
+            perfectlyBalanceBridgeByTweakingSignalLeg();
+             break;
+         }
+    */
+        #if defined CONTINUE_PLOTTING_DURING_AUTO_BRIDGE_BALANCE && CONTINUE_PLOTTING_DURING_AUTO_BRIDGE_BALANCE
+            readAndPlotFromAllADCsInAndOutboard( graphLine ? 0 : PLOTTER_MAX_SCALE );
+        #endif
+    } while( !dPotLegSetpointing() );
 
       while( oneReadingFromThisOutboardADC( bridge ) < ( HALF_HEIGHT_OF_A_PLOT_LINESPACE ) )
       {
                     Serial.print( F( " raising the reference leg settings since the signal leg settings are maxed low " ) );
                     Serial.print( F( " rtrlsstslsaml " ) );
                     Serial.flush();
-        if( !stepAdjustDPotsForThisLeg( !TAKE_LEG_VOLTAGE_DOWN ) )
+        if( !stepAdjustDPotsForThisLeg( TAKE_LEG_VOLTAGE_UP ) )
         {
         #if ( ( not defined MINIMIZE_COMMUNICATIONS_CLUTTER_FOR_HIGHER_MAX_SPEED_ONLY_COMPATIBLE_FOR_OFFICIAL_ARDUINO_IDE ) || ( MINIMIZE_COMMUNICATIONS_CLUTTER_FOR_HIGHER_MAX_SPEED_ONLY_COMPATIBLE_FOR_OFFICIAL_ARDUINO_IDE == false ) )
               while( !Serial );
@@ -1801,7 +1805,7 @@ We need to come up with a state variable to know whether the reference leg level
       if( !stepAdjustDPotsForThisLeg( TAKE_LEG_VOLTAGE_DOWN, JUST_QUERYING_WHETHER_SETTINGS_ARE_MAXED_OUT ) )
       {
         configureForReferenceLegWithBridgeIndex( bridge );
-           if( !stepAdjustDPotsForThisLeg( !TAKE_LEG_VOLTAGE_DOWN, JUST_QUERYING_WHETHER_SETTINGS_ARE_MAXED_OUT ) )
+           if( !stepAdjustDPotsForThisLeg( TAKE_LEG_VOLTAGE_UP, JUST_QUERYING_WHETHER_SETTINGS_ARE_MAXED_OUT ) )
           {
     #if ( ( not defined MINIMIZE_COMMUNICATIONS_CLUTTER_FOR_HIGHER_MAX_SPEED_ONLY_COMPATIBLE_FOR_OFFICIAL_ARDUINO_IDE ) || ( MINIMIZE_COMMUNICATIONS_CLUTTER_FOR_HIGHER_MAX_SPEED_ONLY_COMPATIBLE_FOR_OFFICIAL_ARDUINO_IDE == false ) )
         while( !Serial );
@@ -1818,20 +1822,20 @@ We need to come up with a state variable to know whether the reference leg level
         {
                 configureForReferenceLegWithBridgeIndex( bridge );
     
-      while( bestOfFour( dPotLeg ) > COMMON_MODE_LEVEL_FOR_MAX_GAIN_AS_READ_RAW_BY_INBOARD_ANALOG )
-      {
-                            Serial.print( F( " making sure reference voltage is not too high " ) );
-                if( !stepAdjustDPotsForThisLeg( !TAKE_LEG_VOLTAGE_DOWN ) ) break;
-    #if defined CONTINUE_PLOTTING_DURING_AUTO_BRIDGE_BALANCE && CONTINUE_PLOTTING_DURING_AUTO_BRIDGE_BALANCE
-        readAndPlotFromAllADCsInAndOutboard( graphLine ? 0 : PLOTTER_MAX_SCALE );
-    #endif
+              while( bestOfFour( dPotLeg ) > COMMON_MODE_LEVEL_FOR_MAX_GAIN_AS_READ_RAW_BY_INBOARD_ANALOG )
+              {
+                                    Serial.print( F( " making sure reference voltage is not too high " ) );
+                        if( !stepAdjustDPotsForThisLeg( TAKE_LEG_VOLTAGE_UP ) ) break;
+            #if defined CONTINUE_PLOTTING_DURING_AUTO_BRIDGE_BALANCE && CONTINUE_PLOTTING_DURING_AUTO_BRIDGE_BALANCE
+                readAndPlotFromAllADCsInAndOutboard( graphLine ? 0 : PLOTTER_MAX_SCALE );
+            #endif
               }
               while( bestOfFour( dPotLeg ) < COMMON_MODE_LEVEL_FOR_MAX_GAIN_AS_READ_RAW_BY_INBOARD_ANALOG )
               {
                             Serial.print( F( " raising the reference leg since that voltage is lower than optimal " ) );
                             Serial.print( F( " rtrlsstvilto " ) );
                             Serial.flush();
-                if( !stepAdjustDPotsForThisLeg( !TAKE_LEG_VOLTAGE_DOWN ) ) break;
+                if( !stepAdjustDPotsForThisLeg( TAKE_LEG_VOLTAGE_UP ) ) break;
             #if defined CONTINUE_PLOTTING_DURING_AUTO_BRIDGE_BALANCE && CONTINUE_PLOTTING_DURING_AUTO_BRIDGE_BALANCE
                 readAndPlotFromAllADCsInAndOutboard( graphLine ? 0 : PLOTTER_MAX_SCALE );
             #endif
@@ -1840,23 +1844,23 @@ We need to come up with a state variable to know whether the reference leg level
      configureForSignalLegWithBridgeIndexIncludingNonBridgedLegs( bridge );
      while( bestOfFour( dPotLeg ) > COMMON_MODE_LEVEL_FOR_MAX_GAIN_AS_READ_RAW_BY_INBOARD_ANALOG )
       {
-                    Serial.print( F( " raising the signal leg settings since the reference leg voltage is optimal " ) );
-                    Serial.print( F( " ltslsstrlvio " ) );
-                    Serial.flush();
-                if( !stepAdjustDPotsForThisLeg( TAKE_LEG_VOLTAGE_DOWN ) )
-                {
-                    if( bridge < LM334_BRIDGES + BARE_DPOT_LEG_BRIDGES )                
-                        break; 
-                    else return false; //these bridges are actually unbridged legs so they have no reference leg to keep trying with
-                }
+            Serial.print( F( " lowering the signal leg voltage since the reference leg voltage is optimal " ) );
+            Serial.print( F( " ltslsstrlvio " ) );
+            Serial.flush();
+            if( !stepAdjustDPotsForThisLeg( TAKE_LEG_VOLTAGE_DOWN ) )
+            {
+                if( bridge < LM334_BRIDGES + BARE_DPOT_LEG_BRIDGES )                
+                    break; 
+                else return false; //these bridges are actually unbridged legs so they have no reference leg to keep trying with
+            }
     #if defined CONTINUE_PLOTTING_DURING_AUTO_BRIDGE_BALANCE && CONTINUE_PLOTTING_DURING_AUTO_BRIDGE_BALANCE
         readAndPlotFromAllADCsInAndOutboard( graphLine ? 0 : PLOTTER_MAX_SCALE );
     #endif
       } //must determine here if success b/c leg may be not bridged
-         configureForReferenceLegWithBridgeIndex( bridge );
+     configureForReferenceLegWithBridgeIndex( bridge );
       while( oneReadingFromThisOutboardADC( bridge ) > ( HALF_HEIGHT_OF_A_PLOT_LINESPACE ) )
       {
-                    Serial.print( F( " raising the reference leg settings since the signal leg settings are maxed low " ) );
+                    Serial.print( F( " lowering the reference leg voltage since the signal leg settings are maxed low " ) );
                     Serial.print( F( " rtrlsstslsaml " ) );
                     Serial.flush();
         if( !stepAdjustDPotsForThisLeg( TAKE_LEG_VOLTAGE_DOWN ) )
@@ -3855,44 +3859,20 @@ void loop()
 #ifdef AUTO_BRIDGE_BALANCING //Unsure of how to relate this macro and macro DIFFERENTIAL
     for( uint8_t whichOutboardADCindex = 0; whichOutboardADCindex < OUTBOARDS_PLOTTED; whichOutboardADCindex++ )
     {
-      if( masterReadingsArray[ INDEX_OF_OUTBOARDS + whichOutboardADCindex ].CurrentUnmagnifiedReading >= HEIGHT_OF_A_PLOT_LINESPACE - 1 ) //means signal leg is higher
-      { ;
+
+          if( ( ( masterReadingsArray[ INDEX_OF_OUTBOARDS + whichOutboardADCindex ].CurrentUnmagnifiedReading >= HEIGHT_OF_A_PLOT_LINESPACE - 1 ) && ( --counterForTraceOutOfRangeTooLong[ whichOutboardADCindex ] < -LOOP_COUNTER_LIMIT_THAT_TRACE_IS_ALLOWED_TO_BE_OFF_CENTER ) ) || \
+          ( ( masterReadingsArray[ INDEX_OF_OUTBOARDS + whichOutboardADCindex ].CurrentUnmagnifiedReading == 0 ) && ( ++counterForTraceOutOfRangeTooLong[ whichOutboardADCindex ] > LOOP_COUNTER_LIMIT_THAT_TRACE_IS_ALLOWED_TO_BE_OFF_CENTER ) ) )
+          {
     #if ( ( not defined MINIMIZE_COMMUNICATIONS_CLUTTER_FOR_HIGHER_MAX_SPEED_ONLY_COMPATIBLE_FOR_OFFICIAL_ARDUINO_IDE ) || ( MINIMIZE_COMMUNICATIONS_CLUTTER_FOR_HIGHER_MAX_SPEED_ONLY_COMPATIBLE_FOR_OFFICIAL_ARDUINO_IDE == false ) )
-            Serial.print( F( " reading maxed out " ) );
+                Serial.print( F( " reading apparently maxed or zeroed outfor longer than allowed  " ) );
     #endif
-    #if ( defined DIFFERENTIAL ) && ( defined LOOP_COUNTER_LIMIT_THAT_TRACE_IS_ALLOWED_TO_BE_OFF_CENTER )
-            if( --counterForTraceOutOfRangeTooLong[ whichOutboardADCindex ] < -LOOP_COUNTER_LIMIT_THAT_TRACE_IS_ALLOWED_TO_BE_OFF_CENTER )
-            {
-              //Process: raise reference leg if it is lower than commonmode... level until it reaches commonmode..., then lower signal leg until can't lower it any more, then resume to raise reference leg until can't raise it any more
-              //                setSignalBridgeLegInput( whichOutboardADCindex ); // Instead maybe use AdjustBridgeOutput ative( bridge );
-        #if ( ( not defined MINIMIZE_COMMUNICATIONS_CLUTTER_FOR_HIGHER_MAX_SPEED_ONLY_COMPATIBLE_FOR_OFFICIAL_ARDUINO_IDE ) || ( MINIMIZE_COMMUNICATIONS_CLUTTER_FOR_HIGHER_MAX_SPEED_ONLY_COMPATIBLE_FOR_OFFICIAL_ARDUINO_IDE == false ) )
-                  Serial.print( F( "for longer than allowed " ) );
-        #endif
-                configureForSignalLegWithBridgeIndexIncludingNonBridgedLegs( whichOutboardADCindex );
-              adjustBridgeOutputNegative( whichOutboardADCindex );
-              plotterLoops = 0;
-            }
-    #endif
-      }
-      else if( masterReadingsArray[ INDEX_OF_OUTBOARDS + whichOutboardADCindex ].CurrentUnmagnifiedReading == 0 ) //means reference leg is higher
-      { ;
-    #if ( ( not defined MINIMIZE_COMMUNICATIONS_CLUTTER_FOR_HIGHER_MAX_SPEED_ONLY_COMPATIBLE_FOR_OFFICIAL_ARDUINO_IDE ) || ( MINIMIZE_COMMUNICATIONS_CLUTTER_FOR_HIGHER_MAX_SPEED_ONLY_COMPATIBLE_FOR_OFFICIAL_ARDUINO_IDE == false ) )
-            Serial.print( F( " reading zeroed out " ) );
-    #endif
-    #if ( defined DIFFERENTIAL ) && ( defined LOOP_COUNTER_LIMIT_THAT_TRACE_IS_ALLOWED_TO_BE_OFF_CENTER )
-            if( ++counterForTraceOutOfRangeTooLong[ whichOutboardADCindex ] > LOOP_COUNTER_LIMIT_THAT_TRACE_IS_ALLOWED_TO_BE_OFF_CENTER )
-            {
-              //Process: lower reference leg if it is higher than commonmode... level until it reaches commonmode..., then raise signal leg until can't raise it any more, then resume to lower reference leg until can't lower it any more
-              //                setSignalBridgeLegInput( whichOutboardADCindex ); // Instead maybe use AdjustBridgeOutput ative( bridge );
-        #if ( ( not defined MINIMIZE_COMMUNICATIONS_CLUTTER_FOR_HIGHER_MAX_SPEED_ONLY_COMPATIBLE_FOR_OFFICIAL_ARDUINO_IDE ) || ( MINIMIZE_COMMUNICATIONS_CLUTTER_FOR_HIGHER_MAX_SPEED_ONLY_COMPATIBLE_FOR_OFFICIAL_ARDUINO_IDE == false ) )
-                  Serial.print( F( "for longer than allowed " ) );
-        #endif
-                configureForSignalLegWithBridgeIndexIncludingNonBridgedLegs( whichOutboardADCindex );
-              adjustBridgeOutputPositive( whichOutboardADCindex );
-              plotterLoops = 0;
-            }
-    #endif
-      }
+            configureForSignalLegWithBridgeIndexIncludingNonBridgedLegs( whichOutboardADCindex );
+            if( masterReadingsArray[ INDEX_OF_OUTBOARDS + whichOutboardADCindex ].CurrentUnmagnifiedReading >> SCALE_FACTOR_TO_PROMOTE_LOW_RES_ADC_TO_SAME_SCALE >  masterReadingsArray[ INDEX_OF_OUTBOARDS + whichOutboardADCindex + 1 ].CurrentUnmagnifiedReading >> SCALE_FACTOR_TO_PROMOTE_LOW_RES_ADC_TO_SAME_SCALE )
+                adjustBridgeOutputNegative( whichOutboardADCindex );
+            else
+                adjustBridgeOutputPositive( whichOutboardADCindex );
+            plotterLoops = 0;
+        }
     #ifdef DIFFERENTIAL
           else
           {
