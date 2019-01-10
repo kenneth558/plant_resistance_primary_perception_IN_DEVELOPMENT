@@ -357,8 +357,8 @@ If you only have the Arduino without an ADS1X15, then define INBOARDS_PLOTTED.  
     #elif ( LM334_BRIDGES == 0 )
         #undef LM334_BRIDGES     //Zero value means same as undefined so undef it to minimize variations
     #endif
-    #define TAKE_LEG_VOLTAGE_UP false
-    #define TAKE_LEG_VOLTAGE_DOWN true
+    #define TAKE_LEG_VOLTAGE_UP true
+    #define TAKE_LEG_VOLTAGE_DOWN false
     #define TIMES_LIMIT ( 3 * DPOT_RATIO )
 #endif
 #if ( INBOARDS_PLOTTED < 2 ) && defined SUPERIMPOSE_FIRST_INBOARDS_IN_PAIRS
@@ -1021,7 +1021,7 @@ void readAndPlotFromAllADCsInAndOutboard( uint32_t, bool = !( ( bool )analogPinA
                 MSB_SETTINGS_TOTAL_THIS_LEG( dPotLeg ) += dPotSettings[ mSBdPotIndex + mSBindexOffset ];
             }
     //Update MSB_SETTINGS_AVAILABLE_THIS_LEG arrays to match
-            MSB_SETTINGS_AVAILABLE_THIS_LEG( dPotLeg ) = ( mSBgroupSize * MAX_DPOT_SETTG ) - settingValueTmp;
+            MSB_SETTINGS_AVAILABLE_THIS_LEG( dPotLeg ) = ( mSBgroupSize * MAX_DPOT_SETTG ) - MSB_SETTINGS_TOTAL_THIS_LEG( dPotLeg );
         }
     }
     
@@ -1151,39 +1151,47 @@ void readAndPlotFromAllADCsInAndOutboard( uint32_t, bool = !( ( bool )analogPinA
         
         
 //A truncate error below makes a 1 out of what should equate to 0?
-        int16_t borrowOrCarryNeededToPreventBreakingLimitDividedByDPOT_RATIO = ( \
-        ( offsetValue < 0 ) ? \
-            0 - ( ( ( signed )abs( min( ( offsetValue + dPotSettings[ indexOfThisDPotCSpinInDPotArrays ] ), 0 ) ) + ( signed )DPOT_RATIO - 1 ) / ( signed )DPOT_RATIO ) : \
-        ( ( ( offsetValue + dPotSettings[ indexOfThisDPotCSpinInDPotArrays ] ) - ( signed )MAX_DPOT_SETTG ) / ( signed )DPOT_RATIO ) );
+//#error FIX next instruction:
+        int16_t borrowOrCarryNeededToPreventBreakingLimitDividedByDPOT_RATIO = ( offsetValue < 0 ) ? \
+            ( ( 0 - ( ( signed )abs( min( ( offsetValue + dPotSettings[ indexOfThisDPotCSpinInDPotArrays ] ), 0 ) ) ) ) + \
+            ( signed )DPOT_RATIO - 1 ) / ( signed )DPOT_RATIO : \
+        ( ( max( ( ( offsetValue + dPotSettings[ indexOfThisDPotCSpinInDPotArrays ] ) - ( signed )MAX_DPOT_SETTG ), 0 ) + ( signed )DPOT_RATIO - 1 ) / \
+        ( signed )DPOT_RATIO );
         
 //should be a borrow, not a carry anyway: if will go negative, borrow beyond amount needed: ( offsetValue < 0 ) ? ( offsetValue + dPotSettings[ indexOfThisDPotCSpinInDPotArrays ]) / ( signed )DPOT_RATIO : ( ( ( offsetValue+dPotSettings[ indexOfThisDPotCSpinInDPotArrays ] ) - ( signed )MAX_DPOT_SETTG ) / ( signed )DPOT_RATIO ) );
 
         //recursive call for borrow/carry against the MSB group
 //#error This is where we are: carrying should only happen when lsb setting would go over MAX_DPOT_SETTG, borrowing only when would go under zero
-      Serial.print( F( ">, making a recursive call with borrowOrCarryNeededToPreventBreakingLimitDividedByDPOT_RATIO=<" ) );
+      Serial.print( F( ">, " ) );
+      if( borrowOrCarryNeededToPreventBreakingLimitDividedByDPOT_RATIO ) 
+          Serial.print( F( "making a recursive call with " ) );
+      Serial.print( F( "borrowOrCarryNeededToPreventBreakingLimitDividedByDPOT_RATIO=<" ) );
       Serial.print( borrowOrCarryNeededToPreventBreakingLimitDividedByDPOT_RATIO );
-      Serial.print( F( ">, ( offsetValue + dPotSettings[ indexOfThisDPotCSpinInDPotArrays ] )=<" ) );
-      Serial.print( ( offsetValue + dPotSettings[ indexOfThisDPotCSpinInDPotArrays ] ) );
+      Serial.print( F( ">, max( ( ( offsetValue + dPotSettings[ indexOfThisDPotCSpinInDPotArrays ] ) - ( signed )MAX_DPOT_SETTG ), <0> )=<" ) );
+      Serial.print( max( ( ( offsetValue + dPotSettings[ indexOfThisDPotCSpinInDPotArrays ] ) - ( signed )MAX_DPOT_SETTG ), 0 ) );
       Serial.print( F( ">, offsetValue=<" ) );
       Serial.print( offsetValue );
-      Serial.print( F( ">, min( ( offsetValue + dPotSettings[ indexOfThisDPotCSpinInDPotArrays ]), <0> )=<" ) );
-      Serial.print( min( ( offsetValue + dPotSettings[ indexOfThisDPotCSpinInDPotArrays ] ), 0 ) );
-      Serial.print( F( ">, ( signed )DPOT_RATIO - <1> )=<" ) );
-      Serial.print( ( signed )DPOT_RATIO - 1 );
-      Serial.print( F( ">, <0> - ( ( ( signed )abs( min( ( offsetValue + dPotSettings[ indexOfThisDPotCSpinInDPotArrays ] ), <0> ) ) + ( signed )DPOT_RATIO - <1> ) / ( signed )DPOT_RATIO )=<" ) );
-      Serial.print( 0 - ( ( ( signed )abs( min( ( offsetValue + dPotSettings[ indexOfThisDPotCSpinInDPotArrays ] ), 0 ) ) + ( signed )DPOT_RATIO - 1 ) / ( signed )DPOT_RATIO ) );
-      Serial.print( F( ">, ( ( offsetValue + dPotSettings[ indexOfThisDPotCSpinInDPotArrays ] ) - ( signed )MAX_DPOT_SETTG )=<" ) );
-      Serial.print( ( ( offsetValue + dPotSettings[ indexOfThisDPotCSpinInDPotArrays ] ) - ( signed )MAX_DPOT_SETTG ) );
-      Serial.print( F( ">, ( ( offsetValue + dPotSettings[ indexOfThisDPotCSpinInDPotArrays ] ) - ( signed )MAX_DPOT_SETTG ) / ( signed )DPOT_RATIO )=<" ) );
-      Serial.print( ( ( offsetValue + dPotSettings[ indexOfThisDPotCSpinInDPotArrays ] ) - ( signed )MAX_DPOT_SETTG ) / ( signed )DPOT_RATIO );
+      Serial.print( F( ">, ( max( ( ( offsetValue + dPotSettings[ indexOfThisDPotCSpinInDPotArrays ] ) - ( signed )MAX_DPOT_SETTG ), <0> ) + ( signed )DPOT_RATIO - <1> )=<" ) );
+      Serial.print( ( max( ( ( offsetValue + dPotSettings[ indexOfThisDPotCSpinInDPotArrays ] ) - ( signed )MAX_DPOT_SETTG ), 0 ) + ( signed )DPOT_RATIO - 1 ) );
+//      Serial.print( F( ">, ( signed )DPOT_RATIO - <1> )=<" ) );
+//      Serial.print( ( signed )DPOT_RATIO - 1 );
+//      Serial.print( F( ">, <0> - ( ( ( signed )abs( min( ( offsetValue + dPotSettings[ indexOfThisDPotCSpinInDPotArrays ] ), <0> ) ) + ( signed )DPOT_RATIO - <1> ) / ( signed )DPOT_RATIO )=<" ) );
+//      Serial.print( 0 - ( ( ( signed )abs( min( ( offsetValue + dPotSettings[ indexOfThisDPotCSpinInDPotArrays ] ), 0 ) ) + ( signed )DPOT_RATIO - 1 ) / ( signed )DPOT_RATIO ) );
+//      Serial.print( F( ">, ( ( offsetValue + dPotSettings[ indexOfThisDPotCSpinInDPotArrays ] ) - ( signed )MAX_DPOT_SETTG )=<" ) );
+//      Serial.print( ( ( offsetValue + dPotSettings[ indexOfThisDPotCSpinInDPotArrays ] ) - ( signed )MAX_DPOT_SETTG ) );
+//      Serial.print( F( ">, ( ( offsetValue + dPotSettings[ indexOfThisDPotCSpinInDPotArrays ] ) - ( signed )MAX_DPOT_SETTG ) / ( signed )DPOT_RATIO )=<" ) );
+//      Serial.print( ( ( offsetValue + dPotSettings[ indexOfThisDPotCSpinInDPotArrays ] ) - ( signed )MAX_DPOT_SETTG ) / ( signed )DPOT_RATIO );
       Serial.print( F( ">, " ) );//offsetValue=<" ) );
 //      Serial.print( offsetValue );
 
 
 
-      if( borrowOrCarryNeededToPreventBreakingLimitDividedByDPOT_RATIO ) offsetMSBdPotOrGroupValueUsingIndicesOnly( thisIsReferenceWhenConfigureWasForSignal ? dPotsPerThisLeg + firstMSBindexThisLeg : firstMSBindexThisLeg, borrowOrCarryNeededToPreventBreakingLimitDividedByDPOT_RATIO );
-      Serial.print( F( "back after recursive call " ) );
+      if( borrowOrCarryNeededToPreventBreakingLimitDividedByDPOT_RATIO ) 
+      {
+        offsetMSBdPotOrGroupValueUsingIndicesOnly( thisIsReferenceWhenConfigureWasForSignal ? dPotsPerThisLeg + firstMSBindexThisLeg : firstMSBindexThisLeg, borrowOrCarryNeededToPreventBreakingLimitDividedByDPOT_RATIO );
+        Serial.print( F( "back after recursive call " ) );
         offsetValue -= borrowOrCarryNeededToPreventBreakingLimitDividedByDPOT_RATIO * ( signed )DPOT_RATIO;
+      }
         if( !offsetValue ) return;
       Serial.print( F( ", offsetValue now<" ) );//offsetValue now<220>
       Serial.print( offsetValue );
@@ -1195,15 +1203,27 @@ void readAndPlotFromAllADCsInAndOutboard( uint32_t, bool = !( ( bool )analogPinA
       Serial.print( F( ">, MSB_SETTINGS_TOTAL_THIS_LEG<" ) );
       Serial.print( MSB_SETTINGS_TOTAL_THIS_LEG( dPotLeg ) );
       Serial.print( F( ">, MSB_SETTINGS_AVAILABLE_THIS_LEG<" ) );
-      Serial.print( MSB_SETTINGS_AVAILABLE_THIS_LEG( dPotLeg ) );
+      Serial.print( MSB_SETTINGS_AVAILABLE_THIS_LEG( dPotLeg ) ); //This value not right FIXME
       Serial.print( F( ">, dPotSettings[ indexOfThisDPotCSpinInDPotArrays ]<" ) );
       Serial.print( dPotSettings[ indexOfThisDPotCSpinInDPotArrays ] );
       Serial.print( F( "> " ) );
     
-    if( ( offsetValue < 0 ) && ( ( 0 - offsetValue ) > ( ( indexOfThisDPotCSpinInDPotArrays == ( thisIsReferenceWhenConfigureWasForSignal ? lSBdPotIndexThisLegReference : lSBdPotIndexThisLeg ) ? dPotSettings[ indexOfThisDPotCSpinInDPotArrays ] : ( thisIsReferenceWhenConfigureWasForSignal ? MSB_SETTINGS_TOTAL_REFERENCE_TO_THIS_SIGNAL_LEG( dPotLeg ) : MSB_SETTINGS_TOTAL_THIS_LEG( dPotLeg ) ) ) ) ) || \
-        ( ( offsetValue > 0 ) && ( offsetValue > ( ( indexOfThisDPotCSpinInDPotArrays == ( thisIsReferenceWhenConfigureWasForSignal ? lSBdPotIndexThisLegReference : lSBdPotIndexThisLeg ) ? ( offsetValue > ( MAX_DPOT_SETTG - dPotSettings[ indexOfThisDPotCSpinInDPotArrays ] ) ) : ( thisIsReferenceWhenConfigureWasForSignal ? MSB_SETTINGS_AVAILABLE_REFERENCE_TO_THIS_SIGNAL_LEG( dPotLeg ) : MSB_SETTINGS_AVAILABLE_THIS_LEG( dPotLeg ) ) ) ) ) ) )
+    if( ( ( offsetValue < 0 ) && \
+        ( ( 0 - offsetValue ) > ( ( indexOfThisDPotCSpinInDPotArrays == ( thisIsReferenceWhenConfigureWasForSignal ? lSBdPotIndexThisLegReference : lSBdPotIndexThisLeg ) ? \
+        dPotSettings[ indexOfThisDPotCSpinInDPotArrays ] : ( thisIsReferenceWhenConfigureWasForSignal ? MSB_SETTINGS_TOTAL_REFERENCE_TO_THIS_SIGNAL_LEG( dPotLeg ) : MSB_SETTINGS_TOTAL_THIS_LEG( dPotLeg ) ) ) ) ) ) || \
+        ( ( offsetValue > 0 ) && ( offsetValue > ( ( indexOfThisDPotCSpinInDPotArrays == ( thisIsReferenceWhenConfigureWasForSignal ? lSBdPotIndexThisLegReference : lSBdPotIndexThisLeg ) ) ? \
+        ( MAX_DPOT_SETTG - dPotSettings[ indexOfThisDPotCSpinInDPotArrays ] ) \
+        : ( thisIsReferenceWhenConfigureWasForSignal ? \
+        MSB_SETTINGS_AVAILABLE_REFERENCE_TO_THIS_SIGNAL_LEG( dPotLeg ) : MSB_SETTINGS_AVAILABLE_THIS_LEG( dPotLeg ) ) ) ) ) )
     { //Beyond limit being asked for.  This location is where to add carrying/borrowing feature
-        Serial.print( F( "Beyond limit, limiting offset request of <" ) );
+        Serial.print( F( "Beyond limit of<" ) );
+        Serial.print( thisIsReferenceWhenConfigureWasForSignal ? \
+MSB_SETTINGS_AVAILABLE_REFERENCE_TO_THIS_SIGNAL_LEG( dPotLeg ) : MSB_SETTINGS_AVAILABLE_THIS_LEG( dPotLeg ) );
+        Serial.print( F( ">, MSB_SETTINGS_AVAILABLE_REFERENCE_TO_THIS_SIGNAL_LEG=<" ) );
+        Serial.print( MSB_SETTINGS_AVAILABLE_REFERENCE_TO_THIS_SIGNAL_LEG( dPotLeg ) );
+        Serial.print( F( ">, MSB_SETTINGS_AVAILABLE_THIS_LEG=<" ) );
+        Serial.print( MSB_SETTINGS_AVAILABLE_THIS_LEG( dPotLeg ) );
+        Serial.print( F( ">, limiting offset request of <" ) );
         Serial.print( offsetValue );
         Serial.print( F( "> to <" ) );
     
