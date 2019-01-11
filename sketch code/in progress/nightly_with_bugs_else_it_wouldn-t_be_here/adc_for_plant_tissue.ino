@@ -1735,6 +1735,13 @@ We need to come up with a state variable to know whether the reference leg level
     incomingInboardAnalogLevelSignal = bestOfFour( dPotLeg );
     targetLevel = COMMON_MODE_LEVEL_FOR_MAX_GAIN_AS_READ_RAW_BY_INBOARD_ANALOG; 
     //masterReadingsArray[ whatIsSignalLegThisBridge( bridge) + 1 ].CurrentUnmagnifiedReading >> SCALE_FACTOR_TO_PROMOTE_LOW_RES_ADC_TO_SAME_SCALE
+/***********************************************************************
+
+
+THIS WHOLE ALGORITHM BELOW NEEDS TO BE REDONE
+
+
+************************************************************************/
     do
   {
                 Serial.print( F( " raising the signal leg voltage since the reference leg voltage is optimal " ) );
