@@ -1,12 +1,8 @@
-**Current Operational Status:** As of 30 April 2018, [this sketch](https://github.com/kenneth558/plant_resistance_primary_perception/blob/Free/sketch%20code/adc_for_plant_tissue.ino) is **fully operational in the described circuit configuration and if auto-adjust (AUTO_BRIDGE_BALANCING) is turned off in preprocessor macros**.  However, the internal construct layout in the only operational version has had to be changed to accommodate various enhancements which are not yet fully debugged. I am working diligently to finish debugging the sketch version with the requisite internal structure that conforms to project advancement ideals.
+**Current Operational Status:** As of 15 January 2019, [this sketch](https://github.com/kenneth558/plant_resistance_primary_perception/blob/Free/sketch%20code/adc_for_plant_tissue.ino) is **fully operational in the described circuit configuration** sans wifi and SD card storage.
 
 ------------------------------------
 
 The specific circuit configuration you'll need with this current sketch version can be described as follows.  The description is to some extent covert because this stage of development requires you to be or become conversant/knowledgeable about things electronic and Arduino, anyway.  Vendors I use to purchase these are shown in [this page](https://github.com/kenneth558/plant_resistance_primary_perception/blob/Free/More%20construction%20details.md) near the end of it.  
-
-
-Hand-drawn [schematic here](https://github.com/kenneth558/plant_resistance_primary_perception/blob/Free/embeddeds/GWAAM-Sea%20Training%20Aid%20Schematic.png) with appreciation to Tony  for his help.  
-
 
 [KiCad schematic here](https://github.com/kenneth558/plant_resistance_primary_perception/blob/Free/embeddeds/gwaamc%20schematic%20quadrant%20A.png) that GitHub opens as ASCII.  
 
