@@ -1,3 +1,4 @@
+<dl><dt>15 Jan 2019</dt></dl>HAVE PUBLISHED VERSION v.Free, DATED 15 JAN 2019 THAT IS FUNCTIONAL TO THE EXTENT I RAN IT.  Tests have not been done to locate all bugs.  Many defunct and obsolete remnants and printed messages remain.  I do intend to add wifi connectivity and SD Card local storage in the future.  I do expect bugs to be found, but they should be very easy ones to fix.  THANK YOU, LORD!
 
 <dl><dt>08 Jan 2019</dt></dl>I've been working hard at this, which is due to several structuring changes that needed to be made in order to allow for various enhancements.  The new structure is now complete.  Bug track-downs are next.  None of the remaing bugs should necessitate the whole scale re-writes that have taken so much time.  They should be simple fixes, but I'll take a few hours of leisure right now.
 
