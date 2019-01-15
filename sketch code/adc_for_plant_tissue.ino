@@ -45,7 +45,7 @@
                       when another digipot in the leg is set to less than MAX_DPOT_SETTG, but not otherwise, allowing LSB to reach MAX_DPOT_SETTG when non-LSBs are all at MAX_DPOT_SETTG.
                       As far as MAX_DPOT_SETTG, all digipots in the system are bound by the same MAX_DPOT_SETTG value. */
 #define MINIMIZE_COMPILED_SKETCH_SIZE_LEVEL 0                                //Number 0 produces smallest sketch giving least data output functionality
-#define LOOP_COUNTER_LIMIT_THAT_TRACE_IS_ALLOWED_TO_BE_OFF_CENTER 12                   //sets how soon run-time auto-balancing kicks in when trace goes off scale
+#define LOOP_COUNTER_LIMIT_THAT_TRACE_IS_ALLOWED_TO_BE_OFF_CENTER 2                   //sets how soon run-time auto-balancing kicks in when trace goes off scale
 
 //#define SD_CARD_STORAGE_CS_PIN 4                                           //The free version does not contain the code to utilize SD card storage.  SD card storage only available in the priced ($20) sketch version.
 //#define WIFI true                                                          //The free version does not contain the code to utilize wifi.  Wifi only available in the priced ($20) sketch version.  Buy online at 
