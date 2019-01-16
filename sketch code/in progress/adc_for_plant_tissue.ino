@@ -4121,10 +4121,15 @@ offsetMSBdPotOrGroupValueUsingIndicesOnly( whatIsSignalLSBdPotIndexThisBridge( w
     #endif
       }
     #ifdef DIFFERENTIAL
-          else
-          {
-            counterForTraceOutOfRangeTooLong[ whichOutboardADCindex ] = 0;
-          }
+          else /*if( counterForTraceOutOfRangeTooLong ) //Trace has been out of range but now back in.  Stick it where we want it
+          { //TODO: FIXME Debug why this quarrantined code does not work properly
+            potentialLSBoffset = ( legLSBsettingUnitsTimes64PerAnalogInputUnit[ whatIsSignalLegThisBridge( whichOutboardADCindex ) ] * \
+            ( ( signed )( HALF_HEIGHT_OF_A_PLOT_LINESPACE >> SCALE_FACTOR_TO_PROMOTE_LOW_RES_ADC_TO_SAME_SCALE ) - \
+            ( masterReadingsArray[ INDEX_OF_OUTBOARDS + whichOutboardADCindex ].CurrentUnmagnifiedReading >> SCALE_FACTOR_TO_PROMOTE_LOW_RES_ADC_TO_SAME_SCALE ) ) ) / ( signed )pow( 2, BITS_TO_LEFT_SHIFT_TO_KEEP_HIGH_RESOLUTION );
+            offsetMSBdPotOrGroupValueUsingIndicesOnly( whatIsSignalLSBdPotIndexThisBridge( whichOutboardADCindex ), potentialLSBoffset );
+*/            counterForTraceOutOfRangeTooLong[ whichOutboardADCindex ] = 0;
+/*          }*/
+
     #endif
     }
 #endif
