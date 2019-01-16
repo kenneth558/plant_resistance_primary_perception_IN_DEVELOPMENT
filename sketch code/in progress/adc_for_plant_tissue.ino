@@ -4047,7 +4047,7 @@ void loop()
             Serial.print( F( " reading apparently maxed out " ) );
     #endif
     #if ( defined DIFFERENTIAL ) && ( defined LOOP_COUNTER_LIMIT_THAT_TRACE_IS_ALLOWED_TO_BE_OFF_CENTER )
-            if( --counterForTraceOutOfRangeTooLong[ whichOutboardADCindex ] < -LOOP_COUNTER_LIMIT_THAT_TRACE_IS_ALLOWED_TO_BE_OFF_CENTER )
+            if( ++counterForTraceOutOfRangeTooLong[ whichOutboardADCindex ] > LOOP_COUNTER_LIMIT_THAT_TRACE_IS_ALLOWED_TO_BE_OFF_CENTER )
                 goto NeedsAdjustment;
     #else
         ;
@@ -4102,7 +4102,7 @@ NeedsAdjustment:;
               else
               {
 /*savedLSBsettingsThisLeg = */
-startLSBsettingForCalculatingSettingUnitsPerAnalogInputUnit = \
+/*FUTURE: recalculate setting units per analog unit*/startLSBsettingForCalculatingSettingUnitsPerAnalogInputUnit = \
 dPotSettings[ whatIsSignalLSBdPotIndexThisBridge( whichOutboardADCindex ) ];
 
 potentialLSBoffset = ( legLSBsettingUnitsTimes64PerAnalogInputUnit[ whatIsSignalLegThisBridge( whichOutboardADCindex ) ] * \
@@ -4121,15 +4121,14 @@ offsetMSBdPotOrGroupValueUsingIndicesOnly( whatIsSignalLSBdPotIndexThisBridge( w
     #endif
       }
     #ifdef DIFFERENTIAL
-          else /*if( counterForTraceOutOfRangeTooLong ) //Trace has been out of range but now back in.  Stick it where we want it
+          else/* if( counterForTraceOutOfRangeTooLong ) //Trace has been out of range but now back in.  Stick it where we want it
           { //TODO: FIXME Debug why this quarrantined code does not work properly
             potentialLSBoffset = ( legLSBsettingUnitsTimes64PerAnalogInputUnit[ whatIsSignalLegThisBridge( whichOutboardADCindex ) ] * \
             ( ( signed )( HALF_HEIGHT_OF_A_PLOT_LINESPACE >> SCALE_FACTOR_TO_PROMOTE_LOW_RES_ADC_TO_SAME_SCALE ) - \
             ( masterReadingsArray[ INDEX_OF_OUTBOARDS + whichOutboardADCindex ].CurrentUnmagnifiedReading >> SCALE_FACTOR_TO_PROMOTE_LOW_RES_ADC_TO_SAME_SCALE ) ) ) / ( signed )pow( 2, BITS_TO_LEFT_SHIFT_TO_KEEP_HIGH_RESOLUTION );
-            offsetMSBdPotOrGroupValueUsingIndicesOnly( whatIsSignalLSBdPotIndexThisBridge( whichOutboardADCindex ), potentialLSBoffset );
+            offsetMSBdPotOrGroupValueUsingIndicesOnly( whatIsSignalLSBdPotIndexThisBridge( whichOutboardADCindex ), potentialLSBoffset / HIGHEST_SENSI_PGA_GAIN_FACTOR );
 */            counterForTraceOutOfRangeTooLong[ whichOutboardADCindex ] = 0;
 /*          }*/
-
     #endif
     }
 #endif
