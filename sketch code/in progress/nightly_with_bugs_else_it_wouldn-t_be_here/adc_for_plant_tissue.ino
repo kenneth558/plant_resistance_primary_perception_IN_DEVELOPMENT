@@ -1797,7 +1797,7 @@ We need to come up with a state variable to know whether the reference leg level
     }
 
     bool adjustBridgeOutput( uint8_t bridge )
-    { return;//This is not debugged yet, so until later completion of debugging it does nothing
+    { return true;//This is not debugged yet, so until later completion of debugging it does nothing
 /**********************************************************************************
 Original thought was something like:
 If needing to lower bridge voltage, -
