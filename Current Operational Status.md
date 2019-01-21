@@ -11,7 +11,7 @@ KiCad schematic .png screenshot files: [gwaamsea schematic quadrant A.png](https
 
 **Two MCP4162-503** with some way to connect into the circuit.  The sketch code refers to these as LSB.
 
-**Two or Four MCP4162-104** with some way to connect into the circuit.  (Confused how many? My development circuit is built with four, but two of those four never impact operation.  The sketch thinks there are four.  I believe having only two will work fine.)  The sketch code refers to these as MID and MSB.  Only the MID impacts operation.
+**Two or Four MCP4162-104** with some way to connect into the circuit.  (Confused how many? My development circuit is built with four, but two of those four never impact operation.  The two LM334 of any bridge may be substituted by several of these MCP digipots if you can drive their CS pins.  The sketch is set up to drive 74LV138 decoders directly which can then drive the increased number of dpots.
 
 **Two LM334** ICs with some way to connect into the circuit - each need their + pins connected to Arduino 5v power.  Each also needs one MCP4162-503 digipot resistor and half the amount of MCP4162-104 digipot resistors connected in series between their current programming pins and their - pins.  Connect each digipot CS pin to the appropriate Arduino Digital pin based on comments in the sketch code.  *Alternate to using LM334s: Several more digipots each leg and one or more 74LV138 to drive the digipot CS lines.  See sketch and schematic notes for details*
 
