@@ -37,7 +37,7 @@ KiCad schematic .png screenshot files: [gwaamsea schematic quadrant A.png](https
 
 Make two of these electrode assemblies because each of the two sides of the leaf gets an electrode applied. 
 
-There a numerous advantages to using a dry method of leaf contact, including better maintaining the long-term function and health of the stomata, thus the leaf as a whole, in my guesstimation.  Nonetheless, conductive gel for the TENS machine should work as well.  Search for "Conductive Gel TENS ECG salt-free".
+There a numerous advantages to using a dry method of leaf contact, including better maintaining the long-term function and health of the stomata, thus the leaf as a whole, in my guesstimation.  Nonetheless, conductive gel for the TENS machine should work as well.  Search for "Conductive Gel TENS ECG [salt-free]".
 
 **length of insulated coaxial cable** with some way to connect into the circuit.  This connects the plant tissue via electrodes into the circuit's Wheatstone bridge signal leg as the load/DUT (Device Under Test).  The shield of the coax connects to circuit ground, the center conductor connects to the - lead of the LM334 on the signal side of the Wheatstone bridge.
 
