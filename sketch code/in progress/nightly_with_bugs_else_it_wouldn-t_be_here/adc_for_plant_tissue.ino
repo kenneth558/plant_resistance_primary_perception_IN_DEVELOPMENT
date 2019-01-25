@@ -84,8 +84,8 @@
   File Name          : adc_for_plant_tissue.ino
   Author             : KENNETH L ANDERSON
   Version            : v.Free
-  Date               : 21-JAN-2019
-  Description        : To replicate Cleve Backster's findings that he attributed to a phenomenon he called "Primary Perception".  Basically, this sketch turns an Arduino MCU and optional (recommended) ADS1115 into a nicely functional poor man's polygraph in order to learn/demonstrate telempathic gardening.
+  Date               : 24-JAN-2019
+  Description        : To replicate Cleve Backster's findings that he attributed to a phenomenon he called "Primary Perception".  Basically, this sketch turns an Arduino MCU and optional (recommended) ADS1115 into a nicely functional GSR (Galvanic Skin Response) device or poor man's polygraph) in order to learn/demonstrate telempathic gardening.
   Boards tested on   : Uno using both ADS1115 and inboard analog inputs.
                      : TTGO XI using ADS1115 in an early version
                      : Many other configurations should work fine.
@@ -117,7 +117,8 @@
   developer by limited practical experience, and being formally degreed with 
   Bachelor of General Studies majoring in General Sciences
 ********************************************************************************
-   Changelog:  21 Jan   2019 :  In process of reversing the order of traces plotted so that the outboard ADC is in the top group.
+   Changelog:  24 Jan   2019 :  In process of modifying linearity diags to accommodate far higher resistances than I originally expected.  Hopefully the circuit itself won't need any modifications.
+               21 Jan   2019 :  Reversed the order of traces plotted so that the outboard ADC is in the top group.
                18 Jan   2019 :  Predictive auto-balance working great by adding a fudge factor rather than fixing the formula the rational way
                15 Jan   2019 :  Auto-adjust working pretty fair, but haven't done thorough testing
                14 Jan   2019 :  Auto-adjust working crudely
@@ -3460,18 +3461,16 @@ to fill out the arrays and/or set the unused DPots to desired settings:*/
             lSBsettingsBakReferenceSetupScopeOnly[ bridge - LINEARITY_BRIDGE_RANGE_START ] = dPotSettings[ whatIsReferenceLSBdPotIndexThisBridge255IfNone( bridge ) /*LSB of reference leg*/];
             writeSettingToAsingleDPot( whatIsReferenceLSBdPotIndexThisBridge255IfNone( bridge ), steppingLSBallLegsSetting );  //effect reference leg settings        
             mSBgroupSettingsBakReferenceSetupScopeOnly[ bridge - LINEARITY_BRIDGE_RANGE_START ] = MSB_SETTINGS_TOTAL_REFERENCE_THIS_BRIDGE( bridge );       //store reference leg settings
-            setMSBdPotOrGroupValueUsingIndicesOnly( whatIsFirstReferenceMSBindexThisBridge255IfNone( bridge ), mSBstartSettingForLinearityTest, DONT_CONSOLIDATE_MSB_GROUP_SETTINGS_THIS_TIME );
-            for( uint16_t whichMSBindex = 1; whichMSBindex < whatIsMSBgroupSizeInThisBridge( bridge ); whichMSBindex++ )
+            for( uint16_t whichMSBindex = 0; whichMSBindex < whatIsMSBgroupSizeInThisBridge( bridge ); whichMSBindex++ )
             {
-                setMSBdPotOrGroupValueUsingIndicesOnly( whatIsFirstReferenceMSBindexThisBridge255IfNone( bridge ) + whichMSBindex, 0, DONT_CONSOLIDATE_MSB_GROUP_SETTINGS_THIS_TIME );
+                setMSBdPotOrGroupValueUsingIndicesOnly( whatIsFirstReferenceMSBindexThisBridge255IfNone( bridge ) + whichMSBindex, MAX_DPOT_SETTG, DONT_CONSOLIDATE_MSB_GROUP_SETTINGS_THIS_TIME );
             }
         }
         writeSettingToAsingleDPot( whatIsSignalLSBdPotIndexThisBridge( bridge ), steppingLSBallLegsSetting );           //effect signal leg settings
         mSBgroupSettingsBakSignalSetupScopeOnly[ bridge - LINEARITY_BRIDGE_RANGE_START ] = MSB_SETTINGS_TOTAL_SIGNAL_THIS_BRIDGE( bridge );                //store signal leg settings 
-        setMSBdPotOrGroupValueUsingIndicesOnly( whatIsFirstSignalMSBindexThisBridge( bridge ), mSBstartSettingForLinearityTest, DONT_CONSOLIDATE_MSB_GROUP_SETTINGS_THIS_TIME );
-        for( uint16_t whichMSBindex = 1; whichMSBindex < whatIsMSBgroupSizeInThisBridge( bridge ); whichMSBindex++ )
+        for( uint16_t whichMSBindex = 0; whichMSBindex < whatIsMSBgroupSizeInThisBridge( bridge ); whichMSBindex++ )
         {
-            setMSBdPotOrGroupValueUsingIndicesOnly( whatIsFirstSignalMSBindexThisBridge( bridge ) + whichMSBindex, 0, DONT_CONSOLIDATE_MSB_GROUP_SETTINGS_THIS_TIME );
+            setMSBdPotOrGroupValueUsingIndicesOnly( whatIsFirstSignalMSBindexThisBridge( bridge ) + whichMSBindex, MAX_DPOT_SETTG, DONT_CONSOLIDATE_MSB_GROUP_SETTINGS_THIS_TIME );
         }
 //        Serial.print( F( "Line<3459>" ) );
     }
@@ -3488,9 +3487,10 @@ to fill out the arrays and/or set the unused DPots to desired settings:*/
         Serial.print( maxMSBgroupSizeInThisRange );
         Serial.print( F( ">." ) );
 */
-        for( ; j >= 0; j-- )
+        for( j = MAX_DPOT_SETTG; j >= 0; j-- )
         {
             Serial.print( F( "Line<3473>" ) );
+//This for loop simply adjusts the "whichMSBindex" dpot resistance setting downward in all bridges needing it (voltage goes positive b/c dpots are all in the positive half of their leg)
             for( uint8_t bridge = LINEARITY_BRIDGE_RANGE_START; bridge < BRIDGE_LINEARITY_RANGE_END; bridge++ )
             {//exit this loop when no more bridges have whichMSBindex MSB dpots
                 if( whatIsMSBgroupSizeInThisBridge( bridge ) > maxMSBgroupSizeInThisRange ) maxMSBgroupSizeInThisRange = whatIsMSBgroupSizeInThisBridge( bridge );
@@ -3505,10 +3505,9 @@ to fill out the arrays and/or set the unused DPots to desired settings:*/
                 Serial.print( startMSBsettingForCalculatingSettingUnitsPerAnalogInputUnitReferenceSetupScopeOnly[ bridge - LINEARITY_BRIDGE_RANGE_START ] );
                 Serial.print( F( ">, " ) );
 
-                if( whichMSBindex == ( maxMSBgroupSizeInThisRange - 1 ) && j == mSBcurrentLimitSettingForLinearityTest ) 
-                {
-                    incomingInboardAnalogLevelSignalSetupScopeOnly[ bridge - LINEARITY_BRIDGE_RANGE_START ] = masterReadingsArray[ ( bridge * 2 ) ].CurrentUnmagnifiedReading >> SCALE_FACTOR_TO_PROMOTE_LOW_RES_ADC_TO_SAME_SCALE;
-                    if( bridge < ( LM334_BRIDGES + BARE_DPOT_LEG_BRIDGES ) ) incomingInboardAnalogLevelReferenceSetupScopeOnly[ bridge - LINEARITY_BRIDGE_RANGE_START ] = masterReadingsArray[ ( bridge * 2 ) + 1 ].CurrentUnmagnifiedReading >> SCALE_FACTOR_TO_PROMOTE_LOW_RES_ADC_TO_SAME_SCALE;
+                if( ( whichMSBindex == ( whatIsMSBgroupSizeInThisBridge - 1 ) && j < mSBcurrentLimitSettingForLinearityTest ) || whichMSBindex > ( whatIsMSBgroupSizeInThisBridge - 1 ) )
+                { //This entire bridge has no setting margin left
+                    continue;//go to next bridge
                 }
                 if( !startMSBsettingForCalculatingSettingUnitsPerAnalogInputUnitSignalSetupScopeOnly[ bridge - LINEARITY_BRIDGE_RANGE_START ] )// && !leg_0_IsSignal_1_IsReference )
                 {
@@ -3528,6 +3527,10 @@ to fill out the arrays and/or set the unused DPots to desired settings:*/
             readAndPlotFromAllADCsInAndOutboard( graphLine ? 0 : PLOTTER_MAX_SCALE );
             for( uint8_t bridge = LINEARITY_BRIDGE_RANGE_START; bridge < BRIDGE_LINEARITY_RANGE_END; bridge++ )
             {
+                if( ( whichMSBindex == ( whatIsMSBgroupSizeInThisBridge - 1 ) && j < mSBcurrentLimitSettingForLinearityTest ) || whichMSBindex > ( whatIsMSBgroupSizeInThisBridge - 1 ) )
+                { //This entire bridge is done with this aspect of diags
+                    continue;//go to next bridge
+                }
     #ifdef COMMON_MODE_LEVEL_FOR_MAX_GAIN_AS_READ_RAW_BY_INBOARD_ANALOG
             //compare leg reading to COMMON_MODE_LEVEL_FOR_MAX_GAIN_AS_READ_RAW_BY_INBOARD_ANALOG and capture the first reading making it go lower
                 if( !startMSBsettingForCalculatingSettingUnitsPerAnalogInputUnitSignalSetupScopeOnly[ bridge - LINEARITY_BRIDGE_RANGE_START ] )
@@ -3593,7 +3596,6 @@ to fill out the arrays and/or set the unused DPots to desired settings:*/
             if( !stillSomeBridgesLeft ) break;
         } //This loops through the MSB group setting range
         if( !stillSomeBridgesLeft ) break;
-        j = 0; //This happens after this loop got launched with firstMSBindexThisLeg set for the j of some desired value b/c j does not get reset to 0 otherwise
     }
     Serial.print( F( "Line<3495>" ) );
 //Done stepping both legs' MSB groups, now put them where they belong for LSB stepping or back to original if no LSB stepping indicated
