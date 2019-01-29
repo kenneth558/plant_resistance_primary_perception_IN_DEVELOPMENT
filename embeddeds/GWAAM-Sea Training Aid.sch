@@ -1,5 +1,5 @@
 EESchema Schematic File Version 4
-LIBS:gwaamc training aid-cache
+LIBS:GWAAM-Sea Training Aid-cache
 EELAYER 26 0
 EELAYER END
 $Descr A4 11693 8268
@@ -17,23 +17,23 @@ $EndDescr
 $Comp
 L Connector:Conn_Coaxial J1
 U 1 1 5C1789B3
-P 3300 2350
-F 0 "J1" H 3200 2600 50  0000 L CNN
-F 1 "Conn_Coaxial" H 2950 2500 50  0000 L CNN
-F 2 "" H 3300 2350 50  0001 C CNN
-F 3 " ~" H 3300 2350 50  0001 C CNN
-	1    3300 2350
+P 3300 1900
+F 0 "J1" H 3200 2150 50  0000 L CNN
+F 1 "Conn_Coaxial" H 2950 2050 50  0000 L CNN
+F 2 "" H 3300 1900 50  0001 C CNN
+F 3 " ~" H 3300 1900 50  0001 C CNN
+	1    3300 1900
 	1    0    0    -1  
 $EndComp
 $Comp
 L power:GNDA #PWR?
 U 1 1 5C178B6D
-P 3300 2550
-F 0 "#PWR?" H 3300 2300 50  0001 C CNN
-F 1 "GNDA" H 3305 2377 50  0000 C CNN
-F 2 "" H 3300 2550 50  0001 C CNN
-F 3 "" H 3300 2550 50  0001 C CNN
-	1    3300 2550
+P 3300 2100
+F 0 "#PWR?" H 3300 1850 50  0001 C CNN
+F 1 "GNDA" H 3250 1950 50  0000 C CNN
+F 2 "" H 3300 2100 50  0001 C CNN
+F 3 "" H 3300 2100 50  0001 C CNN
+	1    3300 2100
 	1    0    0    -1  
 $EndComp
 $Comp
@@ -46,17 +46,6 @@ F 2 "" H 1650 1750 50  0001 C CNN
 F 3 "~" H 1650 1750 50  0001 C CNN
 	1    1450 1750
 	0    1    1    0   
-$EndComp
-$Comp
-L Reference_Current:LM334Z U1
-U 1 1 5C17E87B
-P 3500 1750
-F 0 "U1" H 3350 2050 50  0000 R CNN
-F 1 "LM334Z" H 3400 1950 50  0000 R CNN
-F 2 "Package_TO_SOT_THT:TO-92_Inline" H 3525 1575 50  0001 L CIN
-F 3 "http://www.ti.com/lit/ds/symlink/lm134.pdf" H 3500 1750 50  0001 C CIN
-	1    3500 1750
-	1    0    0    -1  
 $EndComp
 $Comp
 L power:+5V #PWR?
@@ -136,7 +125,7 @@ F 3 "" H 5600 2000 50  0001 C CNN
 	1    0    0    -1  
 $EndComp
 Text Label 1500 2600 0    50   ~ 0
-Off-board_coaxial_cable
+Off-board_coaxial_cables_x2
 Entry Wire Line
 	4600 2400 4700 2500
 Entry Wire Line
@@ -146,9 +135,7 @@ Entry Wire Line
 Entry Wire Line
 	6050 2400 6150 2500
 Wire Wire Line
-	4750 1600 4100 1600
-Wire Wire Line
-	6100 1600 6100 1500
+	4750 1600 4200 1600
 Text GLabel 7100 4000 2    48   Input ~ 0
 <From_MCU_Digital_Pin[s]_driving_this-these_CS[s]
 Text GLabel 7350 4400 2    48   Input ~ 0
@@ -158,7 +145,7 @@ Text GLabel 7550 4200 2    48   Input ~ 0
 Text Notes 3650 3300 0    59   ~ 0
 NOTE: Additional matching MSB-level DPots are\nallowed in this P0W-P0B loop.  Only a single \nLSB-level Dpot is allowed which must be of a\nresistance lower than or equal to MSB-level DPots.\nPins 5 and 6 are interchangeable, so the actual\nconnect order will be layout-dependent.  SDO\ncurrently unused by sketch to save MCU pins.
 Text Notes 1000 3100 0    59   ~ 0
-NOTE: If convenient polarity flipping is desired,\n a 4-way house light switch  may be placed in \nthe electrode circuit between the electrodes and the \ncoaxial cable, assuming you hook it up correctly.
+NOTE: If convenient polarity flipping is desired,\n a 4-way house light switch may be placed \nin the electrode circuit between the electrodes and \nthe coaxial cable, assuming you hook it up correctly.
 $Comp
 L power:GNDA #PWR?
 U 1 1 5C18CACA
@@ -283,10 +270,10 @@ Text GLabel 6950 5400 2    48   Input ~ 0
 Text GLabel 7550 5200 2    48   Input ~ 0
 <From_MCU_Digital_Pin_driving_this_CS
 $Comp
-L Device:R_US R1
+L Device:R_US R2
 U 1 1 5C18E912
 P 2900 7250
-F 0 "R1" H 2968 7296 50  0000 L CNN
+F 0 "R2" H 2968 7296 50  0000 L CNN
 F 1 "1 MΩ" H 2968 7205 50  0000 L CNN
 F 2 "" V 2940 7240 50  0001 C CNN
 F 3 "~" H 2900 7250 50  0001 C CNN
@@ -358,7 +345,7 @@ L power:GNDA #PWR?
 U 1 1 5C193F33
 P 2250 3700
 F 0 "#PWR?" H 2250 3450 50  0001 C CNN
-F 1 "GNDA" H 2250 3550 50  0000 C CNN
+F 1 "GNDA" H 2300 3550 50  0000 C CNN
 F 2 "" H 2250 3700 50  0001 C CNN
 F 3 "" H 2250 3700 50  0001 C CNN
 	1    2250 3700
@@ -450,7 +437,7 @@ L 74xx:74LS138 U5...
 U 1 1 5C1F1B57
 P 9450 2200
 F 0 "U5..." H 9450 3200 50  0000 C CNN
-F 1 "74LV138 only for large numbers of DPots" H 9700 3100 50  0000 C CNN
+F 1 "74LV138 only for large numbers of DPots" H 9850 3100 50  0000 C CNN
 F 2 "" H 9450 2200 50  0001 C CNN
 F 3 "http://www.ti.com/lit/gpn/sn74LS138" H 9450 2200 50  0001 C CNN
 	1    9450 2200
@@ -481,9 +468,9 @@ F 3 "" H 9450 1600 50  0001 C CNN
 	1    0    0    -1  
 $EndComp
 Text Notes 7450 7500 0    97   ~ 0
-GWAAMC Training Aid
-Text Notes 8200 7650 0    66   ~ 0
-18 Dec 2018
+GWAAMC Training Aid - System Diagram
+Text Notes 8100 7650 0    66   ~ 0
+15 Jan 2019  (C) Copyright Kenneth L. Anderson 2019
 Text Notes 7000 7050 0    63   ~ 0
 This system is shown using:                Shown not being used:\n1 - LM334 bridge   1 - Uno Arduino      2 - 74LV138; useful with high DPot count\n1 - HX711 24-bit ADC\n1 - LSB DPot/leg            Non-LM334 configuration options include bridged and\n1 - MSB DPot/leg           single leg to replace or augment LM334 option.
 $Comp
@@ -491,7 +478,7 @@ L 74xx:74LS138 U4
 U 1 1 5C19BCAA
 P 8000 2200
 F 0 "U4" H 7950 3200 50  0000 C CNN
-F 1 "74LV138 only needed with larger numbers of DPots" H 6550 3100 50  0000 L CNN
+F 1 "74LV138 only needed with larger numbers of DPots" H 6900 3100 50  0000 L CNN
 F 2 "" H 8000 2200 50  0001 C CNN
 F 3 "http://www.ti.com/lit/gpn/sn74LS138" H 8000 2200 50  0001 C CNN
 	1    8000 2200
@@ -613,8 +600,8 @@ Text Notes 9150 6450 0    56   ~ 0
 *NOTE FOR MCU ANALOG PINS:  Low-\nnumbered Analog Input pins are reserved \nfor all existing DPOT-controlled leg outputs.  \nUnused Analog Pins above them may be\nused to display additional plotter traces\nwhen so defined in preprocessor macros.  
 Text Notes 3650 3950 0    56   ~ 0
 NOTE: Capacitor banks 1 & 2 each consist of a \n2-10 µF tantalum plus a low-ESR sub-µF capacitor \nwhich gets located in direct-as-practical path be-\ntween Vcc of one device to GND of the other device.  \nNOT SHOWN: One decoupling capacitor bank of same \nvalues for all digital parts combined.
-Text Notes 650  1300 0    66   ~ 0
-NOTE:  The LM334 devices must receive 5 VDC or greater due to their own operating voltage range.  \nTheir functional range will be substantially limited if powered by the 3 or 3.3 VDC of many MCUs.  \nProvide a dedicated positive power supply to them if 5 VDC is not otherwise available, then carefully \nensure the output levels from them are prevented from exceeding the input range of the remaining \ncircuitry.  Alternative: use non-LM334 legs (AKA "bare" legs) & adjust macros
+Text Notes 500  1150 0    66   ~ 0
+NOTE:  The LM334 devices must receive 5 VDC or greater due to their own operating voltage range.  Their \nfunctional range will be substantially limited if powered by the 3 or 3.3 VDC of many MCUs.  Provide a \ndedicated positive power supply to them if 5 VDC is not otherwise available, then carefully ensure the output \nlevels from them are prevented from exceeding the input range of the remaining circuitry.  Alternative: use \nnon-LM334 legs (AKA "bare" legs) & adjust macros - P0W/B will then connect +5V to DUT or R1
 Text Notes 5450 7600 2    60   Italic 12
 *See note for the above DPot set
 Wire Wire Line
@@ -680,10 +667,6 @@ Wire Wire Line
 Wire Wire Line
 	6350 4200 7550 4200
 Wire Wire Line
-	4000 1750 4000 1500
-Wire Wire Line
-	3600 1750 4000 1750
-Wire Wire Line
 	3400 4000 3400 4600
 Wire Wire Line
 	3400 5700 3400 5250
@@ -692,23 +675,8 @@ Text GLabel 1400 1750 0    68   BiDi ~ 14
 -LEAF-
 Wire Bus Line
 	8250 3450 9100 3450
-Connection ~ 3500 2350
-Wire Wire Line
-	3500 2350 4100 2350
-Wire Wire Line
-	3500 1850 3500 2350
-Wire Wire Line
-	4100 1600 4100 2350
 Entry Wire Line
 	3000 2450 3100 2350
-Entry Wire Line
-	3000 2500 3100 2400
-Entry Wire Line
-	2900 2600 3000 2500
-Wire Wire Line
-	3300 2400 3100 2400
-Wire Wire Line
-	3100 2350 3500 2350
 Entry Wire Line
 	2850 2650 2950 2550
 Entry Wire Line
@@ -793,11 +761,7 @@ Wire Wire Line
 Wire Wire Line
 	2400 6900 2900 6900
 Wire Wire Line
-	2100 3200 3500 3200
-Wire Wire Line
-	2100 3200 2100 4000
-Wire Wire Line
-	3500 2350 3500 3200
+	2150 3200 3500 3200
 Wire Wire Line
 	900  2400 950  3600
 Text Notes 1200 6800 1    81   ~ 0
@@ -806,19 +770,15 @@ Wire Wire Line
 	900  2400 800  1900
 Wire Wire Line
 	800  1900 850  1600
-Text GLabel 1400 3450 0    32   BiDi ~ 0
-Unused_leaf
 Text GLabel 1300 2100 0    32   BiDi ~ 0
 Unused_leaf
-Entry Wire Line
-	950  3550 1050 3450
 Entry Wire Line
 	850  2200 950  2100
 Wire Wire Line
 	1300 5350 950  3600
-Text GLabel 850  4200 0    32   BiDi ~ 0
+Text GLabel 900  4200 0    32   BiDi ~ 0
 Unused_leaf
-Text GLabel 1600 4550 0    32   BiDi ~ 0
+Text GLabel 1600 4650 0    32   BiDi ~ 0
 Unused_leaf
 Text GLabel 1100 5000 0    32   BiDi ~ 0
 Unused_leaf
@@ -827,7 +787,7 @@ Unused_leaf
 Entry Wire Line
 	1300 6100 1400 6000
 Entry Wire Line
-	1150 4650 1250 4550
+	1200 4750 1300 4650
 Entry Wire Line
 	1000 4300 1100 4400
 Entry Wire Line
@@ -858,7 +818,7 @@ Connection ~ 4250 4600
 Wire Wire Line
 	4250 4600 4250 5600
 Wire Wire Line
-	2100 4000 2400 4000
+	2150 4000 2400 4000
 Wire Wire Line
 	3000 4600 3400 4600
 Connection ~ 3400 4600
@@ -933,8 +893,6 @@ F 3 "" H 4700 4300 50  0001 C CNN
 $EndComp
 Wire Wire Line
 	4850 1600 6000 1600
-Wire Wire Line
-	4000 1500 6100 1500
 Wire Bus Line
 	6550 2400 6200 2400
 Entry Wire Line
@@ -951,7 +909,131 @@ Wire Bus Line
 Wire Bus Line
 	6150 4400 7350 4400
 Wire Wire Line
+	6100 1600 6100 1500
+$Comp
+L Device:R_US R1
+U 1 1 5C515B89
+P 3500 1700
+F 0 "R1" H 3600 1800 50  0000 L CNN
+F 1 "22KΩ" H 3600 1700 50  0000 L CNN
+F 2 "" V 3540 1690 50  0001 C CNN
+F 3 "~" H 3500 1700 50  0001 C CNN
+	1    3500 1700
+	1    0    0    -1  
+$EndComp
+$Comp
+L Device:C C1
+U 1 1 5C516176
+P 3650 1900
+F 0 "C1" V 3800 1900 50  0000 C CNN
+F 1 "0.1 µF" V 3900 1850 50  0000 C CNN
+F 2 "" H 3688 1750 50  0001 C CNN
+F 3 "~" H 3650 1900 50  0001 C CNN
+	1    3650 1900
+	0    1    1    0   
+$EndComp
+Wire Wire Line
+	3500 1850 3500 1900
+Connection ~ 3500 1900
+$Comp
+L power:GNDA #PWR?
+U 1 1 5C521433
+P 3900 2000
+F 0 "#PWR?" H 3900 1750 50  0001 C CNN
+F 1 "GNDA" H 3950 1850 50  0000 C CNN
+F 2 "" H 3900 2000 50  0001 C CNN
+F 3 "" H 3900 2000 50  0001 C CNN
+	1    3900 2000
+	1    0    0    -1  
+$EndComp
+Wire Wire Line
+	3100 1900 3100 2350
+Wire Wire Line
+	3300 1900 3500 1900
+Wire Wire Line
+	3800 1900 3900 1900
+Wire Wire Line
+	3900 1900 3900 2000
+$Comp
+L Connector:Conn_Coaxial J2
+U 1 1 5C536746
+P 3350 2550
+F 0 "J2" H 3450 2800 50  0000 L CNN
+F 1 "Conn_Coaxial" H 3200 2700 50  0000 L CNN
+F 2 "" H 3350 2550 50  0001 C CNN
+F 3 " ~" H 3350 2550 50  0001 C CNN
+	1    3350 2550
+	1    0    0    -1  
+$EndComp
+$Comp
+L power:GNDA #PWR?
+U 1 1 5C5367C8
+P 3350 2750
+F 0 "#PWR?" H 3350 2500 50  0001 C CNN
+F 1 "GNDA" H 3200 2650 50  0000 C CNN
+F 2 "" H 3350 2750 50  0001 C CNN
+F 3 "" H 3350 2750 50  0001 C CNN
+	1    3350 2750
+	1    0    0    -1  
+$EndComp
+Wire Wire Line
+	3150 2550 2950 2550
+Wire Wire Line
+	3500 3200 3500 2550
+Wire Wire Line
+	3500 2550 3350 2550
+Wire Wire Line
+	2150 3200 2150 3250
+Wire Notes Line
+	1050 3200 1050 4000
+Wire Notes Line
+	1050 4000 1200 4000
+Wire Notes Line
+	1200 4000 1200 4500
+Wire Notes Line
+	1200 4500 2100 4500
+Wire Notes Line
+	2100 4500 2100 3200
+Wire Notes Line
+	2100 3200 1050 3200
+Wire Wire Line
+	2150 3250 2100 3250
+Connection ~ 2150 3250
+Wire Wire Line
+	2150 3250 2150 4000
+Text Notes 1150 4400 0    50   ~ 0
+To-be-determined: \nhigh impedance, \nadjustable, constant \ncurrent sink which can \nutilize the DPot1 bank \nleftover from previous \ndesign that used \nLM334.  \n\n\n     1.5-2.5 Vdc high \n     impedance range\n\n     .15-2.5 µA adj.
+Text Notes 1350 5400 0    50   ~ 0
+NOTE: Sketch-adjustable to \nccommodate sweet-spot \nreference level specific to \nselected ADC
+$Comp
+L power:GNDA #PWR?
+U 1 1 5C54F6AF
+P 1900 4500
+F 0 "#PWR?" H 1900 4250 50  0001 C CNN
+F 1 "GNDA" H 1905 4327 50  0000 C CNN
+F 2 "" H 1900 4500 50  0001 C CNN
+F 3 "" H 1900 4500 50  0001 C CNN
+	1    1900 4500
+	1    0    0    -1  
+$EndComp
+Wire Wire Line
+	4200 1600 4200 2450
+Wire Wire Line
+	4100 1500 4100 2450
+Wire Wire Line
+	4100 1500 6100 1500
+Entry Wire Line
+	4000 2550 4100 2450
+Entry Wire Line
+	4100 2550 4200 2450
+Wire Bus Line
+	3600 2550 3600 3350
+Wire Bus Line
+	3600 3350 2100 3350
+Wire Wire Line
 	1300 5350 1300 7100
+Wire Bus Line
+	3600 2550 4100 2550
 Wire Wire Line
 	5050 2500 6350 2500
 Wire Wire Line
