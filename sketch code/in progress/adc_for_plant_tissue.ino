@@ -15,11 +15,11 @@
 #define PERCENT_OF_LINESPACE_MAGNIFIED_VIEW_SKIPS_WHEN_REPOSITIONED_WHEN_LINESPACE_LIMITS_GET_EXCEEDED 85   //BETWEEN 0 AND 100 indicating how much of the display region in percent to skip when magnified view trace has to get repositioned because trace would be outside region bounds; NO BOUNDS CHECKING IS PROVIDED!!!
 #define ANALOG_INPUT_BITS_OF_BOARD 10                                        //Most Arduino boards are 10-bit resolution, but some can be 12 bits.  For known 12 bit boards (SAM, SAMD and TTGO XI architectures), this gets re-defined below, so generally this can be left as 10 even for those boards
 #define SECONDS_THAT_A_LGT8FX8E_HARDWARE_SERIAL_NEEDS_TO_COME_UP_WORKING 9   //8 works only usually
-#define HIGHEST_SENSI_PGA_GAIN_FACTOR 64                                    //PGA=Programmable Gain Amplifier: many ADCs will correlate a gain of one with full-scale being rail-to-rail, while a gain of anything higher correlates to full-scale being in the mV range (most sensitive and most noise-susceptible).  Set of allowable values: 64 and 128 will cause INA+/- to be read.  32 will cause INB+/- to be read.
-#define MIN_WAIT_TIME_BETWEEN_PLOT_POINTS_MS 1                              //Sets a maximum speed limit, but actual speed may be further limited by other factors
+#define HIGHEST_SENSI_PGA_GAIN_FACTOR 64                                     //PGA=Programmable Gain Amplifier: many ADCs will correlate a gain of one with full-scale being rail-to-rail, while a gain of anything higher correlates to full-scale being in the mV range (most sensitive and most noise-susceptible).  Set of allowable values: 64 and 128 will cause INA+/- to be read.  32 will cause INB+/- to be read. Defining POT_WIPER_TO_THIS_ANALOG_INPUT_PIN_TO_ADJUST_PGA_GAIN_FACTOR will override this macro
+#define MIN_WAIT_TIME_BETWEEN_PLOT_POINTS_MS 1                               //Sets a maximum speed limit, but actual speed may be further limited by other factors
 #define SUPERIMPOSE_FIRST_INBOARDS_IN_PAIRS 1                                //If defined allows the rail-to-rail inboard Analog Inputs to be used to adjust digipots, but mainly causes first inboard Analog Inputs to be paired (superimposed in pairs sharing plot-line spaces) so even manual pots can be adjusted easily.
 //#define PLOT_ONLY_THE_SIGNAL_LEG_OF_SUPERIMPOSED_DPOT_LEG_BRIDGE_INBOARDS  //By defining this macro comparison between signal and reference is no longer possible but it could be less confusing this way since user doesn't need to manually adjust anything with DPots and especially with AUTO_BRIDGE_BALANCING. ADVISE without AUTO_BRIDGE_BALANCING in effect, this macro probably should not be defined either. But regardless for greatest flexibility, that macro won't affect this.
-#define AUTO_BRIDGE_BALANCING  //is not perfectly robust yet in extremes and circuit faults, but will allow starting at a balanced level //increases setup time and during which the plot timing line stays high, then spikes low and high to indicate balancing complete //Turns on auto-balancing in setup(), significant time elapse for this to complete!
+#define AUTO_BRIDGE_BALANCING                                                //is not perfectly robust yet in extremes and circuit faults, but will allow starting at a balanced level //increases setup time and during which the plot timing line stays high, then spikes low and high to indicate balancing complete //Turns on auto-balancing in setup(), significant time elapse for this to complete!
 #define CONTINUE_PLOTTING_DURING_AUTO_BRIDGE_BALANCE true                    //Without predictive balancing, this takes too much time if true
 //#define DEBUG                                                              //Don't forget that DEBUG is not formatted for Serial plotter, but might work anyway if you'd never print numbers only any DEBUG print line
 #define SHOW_LINEARITY_USING_THIS_BRIDGE_INDEX 0                                    //Can be a single bridge index or the word "ALL"
@@ -44,7 +44,7 @@
                       As far as MAX_DPOT_SETTG, all digipots in the system are bound by the same MAX_DPOT_SETTG value. */
 #define MINIMIZE_COMPILED_SKETCH_SIZE_LEVEL 0                                //Number 0 produces smallest sketch giving least data output functionality
 #define LOOP_COUNTER_LIMIT_THAT_TRACE_IS_ALLOWED_TO_BE_OFF_CENTER 2          //sets how soon run-time auto-balancing kicks in when trace goes off scale
-//#define POT_WIPER_TO_THIS_ANALOG_INPUT_PIN_TO_ADJUST_PGA_GAIN_FACTOR 3         //NOT the digital number for pins! Is more like the leg index //Can use a spare analog input for gain adjustment by connecting wiper of a pot (100K or greater, please) that voltage-divides 0-5 vdc.  //Arduino pin only unless a dedicated ADS1115 is used
+//#define POT_WIPER_TO_THIS_ANALOG_INPUT_PIN_TO_ADJUST_PGA_GAIN_FACTOR 3     //Overrides HIGHEST_SENSI_PGA_GAIN_FACTOR. NOT the digital number for pins! Is more like the leg index //Can use a spare analog input for gain adjustment by connecting wiper of a pot (100K or greater, please) that voltage-divides 0-5 vdc.  //Arduino pin only unless a dedicated ADS1115 is used
 
 //FUTURE
 //FUTURE #define BARE_DPOT_LEG_BRIDGES                       //(after LM334 bridges in terms of pin number order) Subject to change NOT CODED FOR YET, but this makes effects of DPot settings be reversed from when LM334s are used.  Note that higher values of DPot leg resistances are expected to be required.  This could mean more DPots per leg increasing the likelihood 74LV138 decoding will be necessary.
@@ -85,7 +85,7 @@
   File Name          : adc_for_plant_tissue.ino
   Author             : KENNETH L ANDERSON
   Version            : v.Free
-  Date               : 24-JAN-2019
+  Date               : 15-FEB-2019
   Description        : To replicate Cleve Backster's findings that he attributed to a phenomenon he called "Primary Perception".  Basically, this sketch turns an Arduino MCU and optional (recommended) ADS1115 into a nicely functional GSR (Galvanic Skin Response) device or poor man's polygraph) in order to learn/demonstrate telempathic gardening.
   Boards tested on   : Uno using both ADS1115 and inboard analog inputs.
                      : TTGO XI using ADS1115 in an early version
@@ -118,7 +118,8 @@
   developer by limited practical experience, and being formally degreed with 
   Bachelor of General Studies majoring in General Sciences
 ********************************************************************************
-   Changelog:  24 Jan   2019 :  In process of modifying linearity diags to accommodate far higher resistances than I originally expected.  Hopefully the circuit itself won't need any modifications.
+   Changelog:  15 Feb   2019 :  Incorporates run-time gain adjustment with potentiometer wiper connected to Analog Input pin POT_WIPER_TO_THIS_ANALOG_INPUT_PIN_TO_ADJUST_PGA_GAIN_FACTOR when HX711 is used.  ADC inputs channel A will need to be wired parallel with channel B inputs.  Manufacturer will use 3-position switch with two 470K resistors in series between Vcc and GND and the middle switch position connects to middle of the resistor network, other two switch positions connect to Vcc and GND.
+               24 Jan   2019 :  In process of modifying linearity diags to accommodate far higher resistances than I originally expected.  Hopefully the circuit itself won't need any modifications.
                21 Jan   2019 :  Reversed the order of traces plotted so that the outboard ADC is in the top group.
                18 Jan   2019 :  Predictive auto-balance working great by adding a fudge factor rather than fixing the formula the rational way
                15 Jan   2019 :  Auto-adjust working pretty fair, but haven't done thorough testing
