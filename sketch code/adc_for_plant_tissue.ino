@@ -2449,6 +2449,7 @@ int32_t oneReadingFromThisOutboardADC( uint8_t whichOutboardADCindex )
 #else
 #if ( HIGHEST_SENSI_OUTBOARD_ADC_TYPE == HX711 )
   //                                            hx711.power_up();
+  //  hx711.set_gain( "in here belongs a means of reading a designated, otherwise unused Analog Input pin and determining which gain of 32, 64, or 128 is being called for.  This allows an operator-manipulated control (potentiometer) to allow the gain to be changed during run-time");
   return CONVERT_TWOS_COMP_TO_SINGLE_ENDED( hx711.read(), HEIGHT_OF_A_PLOT_LINESPACE - 1/*mask of significant bits 24 or 32, etc*/, HEIGHT_OF_A_PLOT_LINESPACE >> 1 /*0x800000 which bit is sign bit*/ );
   //                                            thisReadingTemp = 0xFFFFFF; //hx711.read_average( 9 );
   //                                            hx711.power_down();
