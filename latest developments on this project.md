@@ -1,8 +1,6 @@
 <dl><dt>15 Feb 2019</dt></dl>In studying the HX711 datasheet better, I understand how INA and INB (channel A and channel B inputs) are selected to be read from.  To read at a gain of 32 I simply parallel INA+/- with INB+/-.  That is nice because the plant I attached to needed a substantially lower gain than the 128 I used for it.  Since I left channel B inputs at NC (no connection), I will have to so some soldering and schematic modifying.  Where the AD8244 buffers where paralleled, I will change to have one pair of buffers drive the INA and the other pair drive INB.  Simple as that.
 
-
-
-One single challenge remains to me: configuring the electrodes so as to acquire high enough conductivity for the LM334 circuit to work by surface contact electrodes.  Right now, I can only achieve high enough conductance when I pierce the leaf membrane.
+One single challenge remains to me: configuring the electrodes so as to acquire high enough conductivity for the LM334 circuit to work by surface contact electrodes.  Right now, I can only achieve high enough conductance for meaningful operationwhen I pierce the leaf membrane.
 
 <dl><dt>31 Jan 2019</dt></dl>I've been considering what the best electrode design is to be, and I've discovered a company named ERG Aerospace Corp. that makes what they call Reticulated Vitreous Carbon (RVC) that I believe would be a fine active electrode surface. I've ordered a sample from their U.S.A. distributor, Duocel.  I'm sure hoping to obtain all subassemblies and parts from Judeo-Christian friendly economy sources, so I'm happy that this source qualifies.
 
