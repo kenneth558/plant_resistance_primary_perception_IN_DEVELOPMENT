@@ -1,3 +1,5 @@
+<dl><dt>15 Feb 2019</dt></dl>One single challenge remains to me: configuring the electrodes so as to acquire high enough conductivity for the LM334 circuit to work.
+
 <dl><dt>31 Jan 2019</dt></dl>I've been considering what the best electrode design is to be, and I've discovered a company named ERG Aerospace Corp. that makes what they call Reticulated Vitreous Carbon (RVC) that I believe would be a fine active electrode surface. I've ordered a sample from their U.S.A. distributor, Duocel.  I'm sure hoping to obtain all subassemblies and parts from Judeo-Christian friendly economy sources, so I'm happy that this source qualifies.
 
 <dl><dt>30 Jan 2019</dt></dl>With the higher than anticipated resistance, my plan is that one electrode will be put into the ground and the other will be placed onto leaf surfaces (multiple, if needed) so that a much greater contact area can result in a lower resistance.
