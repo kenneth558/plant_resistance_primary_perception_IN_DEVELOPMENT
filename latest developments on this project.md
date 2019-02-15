@@ -2,7 +2,7 @@
 
 
 
-One single challenge remains to me: configuring the electrodes so as to acquire high enough conductivity for the LM334 circuit to work.
+One single challenge remains to me: configuring the electrodes so as to acquire high enough conductivity for the LM334 circuit to work by surface contact electrodes.  Right now, I can only achieve high enough conductance when I pierce the leaf membrane.
 
 <dl><dt>31 Jan 2019</dt></dl>I've been considering what the best electrode design is to be, and I've discovered a company named ERG Aerospace Corp. that makes what they call Reticulated Vitreous Carbon (RVC) that I believe would be a fine active electrode surface. I've ordered a sample from their U.S.A. distributor, Duocel.  I'm sure hoping to obtain all subassemblies and parts from Judeo-Christian friendly economy sources, so I'm happy that this source qualifies.
 
