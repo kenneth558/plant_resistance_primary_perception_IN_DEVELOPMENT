@@ -101,9 +101,10 @@ Buy from one of the mentioned vendors or Jameco, Digi-Key, Mouser, Newark or sho
 Buy from one of the mentioned vendors or Jameco, Digi-Key, Mouser, Newark or shop from list: https://www.google.com/search?q=mcd+led+efficiency+t-1&client=firefox-b-1-d&biw=810&bih=1361&tbm=shop&tbs=p_ord:p&ei=SZd8XKXcC43SsAXcpqaQBQ&ved=0ahUKEwjlpMLbwefgAhUNKawKHVyTCVIQuw0ItgMoAQ
 
  ##### 2   - Potentiometer 50 KOhm or other high value, rotary operation, linear taper, single turn w/knob or cap and mounting means or PCB mount (AKA top adjust)
-Example: https://www.jameco.com/z/18STS105-3-8-Inch-Square-Cermet-Potentiometer-1MEG-Ohms-1-2-Watt-1-Turn-Thru-Hole_2161422.html?CID=MERCH
+Examples: https://www.jameco.com/z/18STS105-3-8-Inch-Square-Cermet-Potentiometer-1MEG-Ohms-1-2-Watt-1-Turn-Thru-Hole_2161422.html?CID=MERCH
 or
 https://www.digikey.com/product-detail/en/bourns-inc/PTV09A-4030U-B204/PTV09A-4030U-B204-ND/3781141
+or formulate your own search
 
  ##### 1   - ULN2004A
 Buy from one of the mentioned vendors or Jameco, Digi-Key, Mouser, Newark or shop from list: https://www.google.com/search?q=buy+ULN2004A&client=firefox-b-1-d&sa=X&biw=810&bih=1361&tbm=shop&tbs=p_ord:p&ei=T4d8XLKWGuKYjwTjh4mQBw&ved=0ahUKEwjy-a69sufgAhVizIMKHeNDAnIQuw0IlAgoAQ
