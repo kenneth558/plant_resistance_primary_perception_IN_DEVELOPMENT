@@ -100,6 +100,9 @@ Buy from one of the mentioned vendors or Jameco, Digi-Key, Mouser, Newark or sho
  ##### 2   - two color (Bicolor, RGB, Multicolor will also work OK) LED or two different colored LEDs.  T-1 3/4 (5mm) size.  High efficiency (high mcd per mA) is best due to little power available
 Buy from one of the mentioned vendors or Jameco, Digi-Key, Mouser, Newark or shop from list: https://www.google.com/search?q=mcd+led+efficiency+t-1&client=firefox-b-1-d&biw=810&bih=1361&tbm=shop&tbs=p_ord:p&ei=SZd8XKXcC43SsAXcpqaQBQ&ved=0ahUKEwjlpMLbwefgAhUNKawKHVyTCVIQuw0ItgMoAQ
 
+ ##### 2   - Potentiometer 50 KOhm or other high value, rotary operation, linear taper, single turn w/knob or cap and mounting means or PCB mount (AKA top adjust)
+Example: https://www.jameco.com/z/18STS105-3-8-Inch-Square-Cermet-Potentiometer-1MEG-Ohms-1-2-Watt-1-Turn-Thru-Hole_2161422.html?CID=MERCH
+
  ##### 1   - ULN2004A
 Buy from one of the mentioned vendors or Jameco, Digi-Key, Mouser, Newark or shop from list: https://www.google.com/search?q=buy+ULN2004A&client=firefox-b-1-d&sa=X&biw=810&bih=1361&tbm=shop&tbs=p_ord:p&ei=T4d8XLKWGuKYjwTjh4mQBw&ved=0ahUKEwjy-a69sufgAhVizIMKHeNDAnIQuw0IlAgoAQ
 
@@ -112,20 +115,3 @@ AlliExpress   https://www.aliexpress.com/item/Free-shipping-Goose-electronic-HX7
 or 1 - ADS1X15 ADC (not recommended due to far lower resolution, so only if it's all that you can come up with...and favor the ADS1115), or code for your own ADC
 
 Interconnects and soldering equipment, wiring, circuit substrate, piece of coaxial cable from plant leaf to circuit, electrode assemblies attached to that coax, 4-way light switch at the plant end of that coax (can give you the flexibility to reverse the electrical polarity to the plant), mounting brackets and the like...
-
-[Click here for a snapshot of my price-shopping spreadsheet to get you started](https://github.com/kenneth558/plant_resistance_primary_perception/blob/Free/embeddeds/Parts%20shopping%20list.ods)
-
-Below is a copy-pasteable from the "raw" display of it (see button above and right side a little), spreadsheet-compatible price tracking version of the parts list for you to compare prices when you do your ordering.  I've used the ^ (top keyboard row shifted 6) symbol to separate the columns and ideally your spreadsheet application will ask you as you are pasting into it what separator I used.  Without that miracle, you'll just replace each ^ with a tab character in whatever way you can in a text editor capable of doing that (I don't know of one but you might).  After that try just selecting the whole thing at once within that editor and copying from there into a spreadsheet sheet, perhaps while the entire empty spreadsheet sheet is selected:
-
-Part #^Qty^Arrow Price^Arrow URL^AlliExpress Price^AlliExpress URL^Mouser Price^Mouser URL^DigiKey Price^DigiKey URL
-AD8244^1^^https://www.arrow.com/en/products/ad8244armz-r7/analog-devices						
-MSOP-10 PCB ADAPTER BOARDS^1^^^^https://www.aliexpress.com/item/50PCS-SOT23-MSOP10-UMAX-to-DIP10-Transfer-Board-DIP-Pin-Board-Pitch-Adapter-NEW/32902829277.html?spm=2114.search0204.3.2.602e4baddaQg2A&s=p&ws_ab_test=searchweb0_0,searchweb201602_2_10065_10068_10130_5726815_10547_10546_10059_10884_10548_315_10545_10887_10696_100031_531_10084_10083_5726915_10103_10618_10307_449,searchweb201603_60,ppcSwitch_5_ppcChannel&priceBeautifyAB=0				
-LM334^2^^https://www.arrow.com/en/products/lm334znopb/texas-instruments^		https://www.aliexpress.com/item/5PCS-NSC-LM334Z-LM334-TO-92-3-Terminal-Adjustable-Current-Source-IC/32662487264.html?spm=2114.search0204.3.2.26cb47c7S8iZma&ws_ab_test=searchweb0_0,searchweb201602_2_10065_10068_10130_5726815_10547_10546_10059_10884_10548_315_10545_10887_10696_100031_531_10084_10083_5726915_10103_10618_10307_449,searchweb201603_60,ppcSwitch_5_ppcChannel&algo_expid=9d9e9270-c9bd-414c-9cd4-0bc1886ba5d3-0&algo_pvid=9d9e9270-c9bd-414c-9cd4-0bc1886ba5d3&priceBeautifyAB=0				
-MCP4162-502^2^^https://www.arrow.com/en/products/mcp4162-502ep/microchip-technology						
-alt MCP4262-502 soon^1								
-MCP4162-104^2^^https://www.arrow.com/en/products/mcp4162-104ep/microchip-technology						
-alt MCP4262-104 soon^1^^https://www.arrow.com/en/products/mcp4262-104eun/microchip-technology								
-HX711^1^^^^https://www.aliexpress.com/item/Dual-Channel-HX711-Weighing-Pressure-Sensor-24-bit-Precision-A-D-Module-for-arduino-DIY-Electronic/32878181081.html?spm=2114.search0204.3.2.5f8a7264S5dDtV&ws_ab_test=searchweb0_0,searchweb201602_2_10065_10068_10130_5726815_10547_10546_10059_10884_10548_315_10545_10887_10696_100031_531_10084_10083_5726915_10103_10618_10307_449,searchweb201603_60,ppcSwitch_5_ppcChannel&algo_expid=719ad9df-13c6-42bc-adff-e19814e28dae-0&algo_pvid=719ad9df-13c6-42bc-adff-e19814e28dae&priceBeautifyAB=0				
-alt HX711 NewerVersion^1^^^^https://www.aliexpress.com/item/Free-shipping-Goose-electronic-HX711-module-weighing-sensor-24-AD-module-pressure-sensor-AD-module-SCM/32441222056.html?spm=2114.search0204.3.31.5f8a7264S5dDtV&ws_ab_test=searchweb0_0,searchweb201602_2_10065_10068_10130_5726815_10547_10546_10059_10884_10548_315_10545_10887_10696_100031_531_10084_10083_5726915_10103_10618_10307_449,searchweb201603_60,ppcSwitch_5_ppcChannel&algo_expid=719ad9df-13c6-42bc-adff-e19814e28dae-4&algo_pvid=719ad9df-13c6-42bc-adff-e19814e28dae&priceBeautifyAB=0				
-alt ADS1X151^1								
-1MOhm resistor^1								
