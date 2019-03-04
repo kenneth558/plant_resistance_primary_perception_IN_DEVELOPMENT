@@ -74,12 +74,34 @@ Arrow      https://www.arrow.com/en/products/lm334znopb/texas-instruments
 AlliExpress   https://www.aliexpress.com/item/5PCS-LM334Z-TO-92-LM334-3-Terminal-Adjustable-Current-Source-new-and-original-IC/32856893079.html?spm=2114.search0204.3.36.129324fersybG8&ws_ab_test=searchweb0_0,searchweb201602_2_10065_10068_10130_5727215_318_10547_10546_10059_10884_10548_5727315_10545_10887_10696_100031_10084_10083_10103_10618_452_10307_532,searchweb201603_60,ppcSwitch_0_ppcChannel&algo_expid=a3c22483-ce93-4647-bbe5-d1b3482d0749-5&algo_pvid=a3c22483-ce93-4647-bbe5-d1b3482d0749&priceBeautifyAB=0
 
  ##### 2   - MCP4162-502
- Arrow     https://www.arrow.com/en/products/mcp4162-502ep/microchip-technology
+Arrow     https://www.arrow.com/en/products/mcp4162-502ep/microchip-technology
 
  ##### 2   - MCP4162-104
 Arrow      https://www.arrow.com/en/products/mcp4162-104ep/microchip-technology
       
- ##### 1   - 1 MOhm resistor
+ ##### 2   - 22 Ohm +-20% resistor, axial leads unless you are a good solderer
+Buy from one of the mentioned vendors or Jameco, Digi-Key, Mouser, Newark or shop from list: https://www.google.com/search?q=22+ohm+%220.25w%22+axial+resistor&client=firefox-b-1-d&biw=810&bih=1361&tbm=shop&tbs=p_ord:p&ei=sY58XMDxFoXXjwTf0KyQAw&ved=0ahUKEwiAjsjCuefgAhWF64MKHV8oCzIQuw0IwQQoAQ
+
+ ##### 3   - 680 Ohm +-20% resistor, axial leads unless you are a good solderer.  Qty 2 if buying 2 color LED
+Buy from one of the mentioned vendors or Jameco, Digi-Key, Mouser, Newark or shop from list: https://www.google.com/search?q=680+ohm+"0.25w"+axial+resistor&client=firefox-b-1-d&biw=810&bih=1361&tbm=shop&tbs=p_ord:p&ei=sY58XMDxFoXXjwTf0KyQAw&ved=0ahUKEwiAjsjCuefgAhWF64MKHV8oCzIQuw0IwQQoAQ
+
+ ##### 1   - 3.3 KOhm +-20% resistor, axial leads unless you are a good solderer
+Buy from one of the mentioned vendors or Jameco, Digi-Key, Mouser, or Newark shop from list similar to above 
+
+ ##### 1   - 1 MOhm +-20% resistor, axial leads unless you are a good solderer
+Buy from one of the mentioned vendors or Jameco, Digi-Key, Mouser, Newark or shop from list similar to above
+
+ ##### 2   - 2.0 µF 16 volt+ tantalum capacitor radial
+Buy from one of the mentioned vendors or Jameco, Digi-Key, Mouser, Newark or shop from list being careful for adequate voltage: https://www.google.com/search?q=buy+2.2+%C2%B5F+tantalum+capacitor+radial&client=firefox-b-1-d&biw=810&bih=1361&tbm=shop&tbs=p_ord:p&ei=4o18XKHyNaG0jwTpoK2wBg&ved=0ahUKEwih64zguOfgAhUh2oMKHWlQC2YQuw0I0QgoAQ
+
+ ##### 2   - 0.01 µF ceramic capacitor radial
+Buy from one of the mentioned vendors or Jameco, Digi-Key, Mouser, Newark or shop from list: https://www.google.com/search?q=buy+.01+%C2%B5F+ceramic+capacitor+radial&client=firefox-b-1-d&biw=810&bih=1361&tbm=shop&tbs=p_ord:p&ei=so18XKXjG4GMjwTx8ZjAAw&ved=0ahUKEwilhIHJuOfgAhUBxoMKHfE4BjgQuw0I7wgoAg
+
+ ##### 2   - two color (Bicolor, RGB, Multicolor will also work OK) LED or two different colored LEDs.  T-1 3/4 (5mm) size.  High efficiency (high mcd per mA) is best due to little power available
+Buy from one of the mentioned vendors or Jameco, Digi-Key, Mouser, Newark or shop from list: https://www.google.com/search?q=mcd+led+efficiency+t-1&client=firefox-b-1-d&biw=810&bih=1361&tbm=shop&tbs=p_ord:p&ei=SZd8XKXcC43SsAXcpqaQBQ&ved=0ahUKEwjlpMLbwefgAhUNKawKHVyTCVIQuw0ItgMoAQ
+
+ ##### 1   - ULN2004A
+Buy from one of the mentioned vendors or Jameco, Digi-Key, Mouser, Newark or shop from list: https://www.google.com/search?q=buy+ULN2004A&client=firefox-b-1-d&sa=X&biw=810&bih=1361&tbm=shop&tbs=p_ord:p&ei=T4d8XLKWGuKYjwTjh4mQBw&ved=0ahUKEwjy-a69sufgAhVizIMKHeNDAnIQuw0IlAgoAQ
 
  ##### 1   - HX711 ADC (recommended unless you can code for own ADC)
 AlliExpress   https://www.aliexpress.com/item/Dual-Channel-HX711-Weighing-Pressure-Sensor-24-bit-Precision-A-D-Module-for-arduino-DIY-Electronic/32878181081.html?spm=2114.search0204.3.2.5f8a7264S5dDtV&ws_ab_test=searchweb0_0,searchweb201602_2_10065_10068_10130_5726815_10547_10546_10059_10884_10548_315_10545_10887_10696_100031_531_10084_10083_5726915_10103_10618_10307_449,searchweb201603_60,ppcSwitch_5_ppcChannel&algo_expid=719ad9df-13c6-42bc-adff-e19814e28dae-0&algo_pvid=719ad9df-13c6-42bc-adff-e19814e28dae&priceBeautifyAB=0
