@@ -101,7 +101,9 @@ Buy from one of the mentioned vendors or Jameco, Digi-Key, Mouser, Newark or sho
 Buy from one of the mentioned vendors or Jameco, Digi-Key, Mouser, Newark or shop from list: https://www.google.com/search?q=mcd+led+efficiency+t-1&client=firefox-b-1-d&biw=810&bih=1361&tbm=shop&tbs=p_ord:p&ei=SZd8XKXcC43SsAXcpqaQBQ&ved=0ahUKEwjlpMLbwefgAhUNKawKHVyTCVIQuw0ItgMoAQ
 
  ##### 2   - Potentiometer 50 KOhm or other high value, rotary operation, linear taper, single turn w/knob or cap and mounting means or PCB mount (AKA top adjust)
-Examples: https://www.jameco.com/z/RV09AF-40-20K-B500K-Taiwan-Alpha-Electronic-500K-Ohm-50-mW-9-mm-20-0-787-Inch-Knurl-Shaft-Solder-Lugs-Linear-Taper-Potentiometer_2272231.html
+Examples: https://www.arrow.com/en/products/ptv09a-4020f-b105/bourns
+or
+https://www.jameco.com/z/RV09AF-40-20K-B500K-Taiwan-Alpha-Electronic-500K-Ohm-50-mW-9-mm-20-0-787-Inch-Knurl-Shaft-Solder-Lugs-Linear-Taper-Potentiometer_2272231.html
 or
 https://www.digikey.com/product-detail/en/bourns-inc/PTV09A-4030U-B204/PTV09A-4030U-B204-ND/3781141
 or formulate your own search
