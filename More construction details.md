@@ -119,4 +119,4 @@ AlliExpress   https://www.aliexpress.com/item/Free-shipping-Goose-electronic-HX7
 
 or 1 - ADS1X15 ADC (not recommended due to far lower resolution, so only if it's all that you can come up with...and favor the ADS1115), or code for your own ADC
 
-Interconnects and soldering equipment, wiring, circuit substrate, piece of coaxial cable from plant leaf to circuit, electrode assemblies attached to that coax, 4-way light switch at the plant end of that coax (can give you the flexibility to reverse the electrical polarity to the plant), mounting brackets and the like...
+Interconnects and soldering equipment, wiring, circuit substrate, piece of coaxial cable from plant leaf to circuit, electrode assemblies attached to that coax, 4-way light switch at the plant end of that coax (can give you the flexibility to reverse the electrical polarity to the plant), mounting brackets and the like...  If desoldering for repurposing parts, consider doing so with low melt point desoldering solder: https://www.ebay.com/itm/Solder-wire-low-melting-point-124C-1m-1mm-Bi55-5-Pb44-5-alloy-good-desoldering/171173385076?epid=1531599266&hash=item27daba9374:g:JpIAAOSwq19XBnVh
