@@ -1,6 +1,5 @@
 EESchema Schematic File Version 4
 LIBS:uno shield-cache
-LIBS:Arduino_Uno-cache
 EELAYER 26 0
 EELAYER END
 $Descr A4 11693 8268
@@ -1049,7 +1048,7 @@ U 1 1 5C7F64AC
 P 9650 1500
 F 0 "P1" H 9650 1950 50  0000 C CNN
 F 1 "Power" V 9750 1500 50  0000 C CNN
-F 2 "Connector_PinSocket_2.54mm:PinSocket_1x08_P2.54mm_Vertical" V 9800 1500 20  0001 C CNN
+F 2 "Connector_PinSocket_2.54mm:PinSocket_1x08_P2.54mm_Vertical" H 9800 1500 20  0001 C CNN
 F 3 "" H 9650 1500 50  0000 C CNN
 	1    9650 1500
 	1    0    0    -1  
@@ -1084,7 +1083,7 @@ U 1 1 5C7F64C0
 P 9650 2300
 F 0 "P2" H 9650 1900 50  0000 C CNN
 F 1 "Analog" V 9750 2300 50  0000 C CNN
-F 2 "Connector_PinSocket_2.54mm:PinSocket_1x06_P2.54mm_Vertical" V 9800 2350 20  0001 C CNN
+F 2 "Connector_PinSocket_2.54mm:PinSocket_1x06_P2.54mm_Vertical" H 9800 2350 20  0001 C CNN
 F 3 "" H 9650 2300 50  0000 C CNN
 	1    9650 2300
 	1    0    0    -1  
@@ -1143,7 +1142,7 @@ U 1 1 5C7F64E7
 P 10050 2500
 F 0 "P4" H 10050 2000 50  0000 C CNN
 F 1 "Digital" V 10150 2500 50  0000 C CNN
-F 2 "Connector_PinSocket_2.54mm:PinSocket_1x08_P2.54mm_Vertical" V 10200 2450 20  0001 C CNN
+F 2 "Connector_PinSocket_2.54mm:PinSocket_1x08_P2.54mm_Vertical" H 10200 2450 20  0001 C CNN
 F 3 "" H 10050 2500 50  0000 C CNN
 	1    10050 2500
 	-1   0    0    -1  
@@ -1184,7 +1183,7 @@ U 1 1 5C7F64FD
 P 10050 1500
 F 0 "P3" H 10050 2050 50  0000 C CNN
 F 1 "Digital" V 10150 1500 50  0000 C CNN
-F 2 "Connector_PinSocket_2.54mm:PinSocket_1x10_P2.54mm_Vertical" V 10200 1500 20  0001 C CNN
+F 2 "Connector_PinSocket_2.54mm:PinSocket_1x10_P2.54mm_Vertical" H 10200 1500 20  0001 C CNN
 F 3 "" H 10050 1500 50  0000 C CNN
 	1    10050 1500
 	-1   0    0    -1  
