@@ -52,10 +52,8 @@ OPTIONAL:  Quick and dirty operation can be achieved with just the Arduino and t
 
 You might be able to be notified of my changes to the project by GitHub settings, if you look around in GitHub, maybe...that's not a GitHub feature I've ever used, yet.
 
-Electrodes are vaporware as of yet: attached or soldered to each end of the electrode connecting wire is a silicone baby bottle nipple with an electric motor brush assembly (graphite brush and unterminated braided copper wire only) inside except for the braided copper wire that protrudes through the baby bottle nipple tip hole.  The connecting wires attach to the ends of the braided copper bruch wire.    The baby bottle nipple has to be trimmed perfectly flat from all protrusions where it needs to press flat and watertight against the leaf surface.  Inside the nipple will be mud (without bubbles) surrounding the graphite brush.  If needed, the mud can be contained inside by using plant-based (preferrably) fabric made from hemp, jute, etc.
+Electrodes are vaporware as of yet: I'm trying conductive foam or conductive sheet plastic.
 
-written as to a fellow Electronics Technician, hope you can fill in the rest of it.
-Ken
 
  ##### 5.  Tony provides this parts list, which doesn't include the Arduino and its cable to your computer:  
  
@@ -119,4 +117,4 @@ AlliExpress   https://www.aliexpress.com/item/Free-shipping-Goose-electronic-HX7
 
 or 1 - ADS1X15 ADC (not recommended due to far lower resolution, so only if it's all that you can come up with...and favor the ADS1115), or code for your own ADC
 
-Coaxial connectors with coaxial breakout adapter (since I used F-type style for my prototype I had to build mine from a balun I disassembled, and if you go with type-F just because you have the spare parts, you'll have to jerry-rig a breakout, too.  Use BNC coax cable if you want a ready-built breakout), Interconnects and soldering equipment, wiring, circuit substrate, piece of coaxial cable from plant leaf to circuit, electrode assemblies attached to that coax, 4-way light switch at the plant end of that coax (can give you the flexibility to reverse the electrical polarity to the plant), mounting brackets and the like...  If desoldering for repurposing parts, consider doing so with low melt point desoldering solder: https://www.ebay.com/itm/Solder-wire-low-melting-point-124C-1m-1mm-Bi55-5-Pb44-5-alloy-good-desoldering/171173385076?epid=1531599266&hash=item27daba9374:g:JpIAAOSwq19XBnVh
+Microphone cabling will be in the for-sale version.  Coaxial option: connectors with coaxial breakout adapter (since I used F-type style for my prototype I had to build mine from a balun I disassembled, and if you go with type-F just because you have the spare parts, you'll have to jerry-rig a breakout, too.  Use BNC coax cable if you want a ready-built breakout), Interconnects and soldering equipment, wiring, circuit substrate, piece of coaxial cable from plant leaf to circuit, electrode assemblies attached to that coax, 4-way light switch at the plant end of that coax (can give you the flexibility to reverse the electrical polarity to the plant), mounting brackets and the like...  If desoldering for repurposing parts, consider doing so with low melt point desoldering solder: https://www.ebay.com/itm/Solder-wire-low-melting-point-124C-1m-1mm-Bi55-5-Pb44-5-alloy-good-desoldering/171173385076?epid=1531599266&hash=item27daba9374:g:JpIAAOSwq19XBnVh
