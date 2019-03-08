@@ -72,7 +72,7 @@ Arrow      https://www.arrow.com/en/products/lm334znopb/texas-instruments
 AlliExpress   https://www.aliexpress.com/item/5PCS-LM334Z-TO-92-LM334-3-Terminal-Adjustable-Current-Source-new-and-original-IC/32856893079.html?spm=2114.search0204.3.36.129324fersybG8&ws_ab_test=searchweb0_0,searchweb201602_2_10065_10068_10130_5727215_318_10547_10546_10059_10884_10548_5727315_10545_10887_10696_100031_10084_10083_10103_10618_452_10307_532,searchweb201603_60,ppcSwitch_0_ppcChannel&algo_expid=a3c22483-ce93-4647-bbe5-d1b3482d0749-5&algo_pvid=a3c22483-ce93-4647-bbe5-d1b3482d0749&priceBeautifyAB=0
 
  ##### 1   - MCP4262-502
-Arrow     https://www.arrow.com/en/products/mcp4262-502ep/microchip-technology
+Arrow     https://www.arrow.com/en/products/mcp4262-502eun/microchip-technology
 
 ### OR
 
@@ -80,7 +80,7 @@ Arrow     https://www.arrow.com/en/products/mcp4262-502ep/microchip-technology
 Arrow     https://www.arrow.com/en/products/mcp4162-502ep/microchip-technology
 
  ##### 1   - MCP4262-104
-Arrow      https://www.arrow.com/en/products/mcp4262-104ep/microchip-technology
+Arrow      https://www.arrow.com/en/products/mcp4262-104eun/microchip-technology
 
 ### OR
 
