@@ -76,12 +76,14 @@ Arrow     https://www.arrow.com/en/products/mcp4262-502eun/microchip-technology
  ##### OR
  ##### 2   - MCP4162-502
 Arrow     https://www.arrow.com/en/products/mcp4162-502ep/microchip-technology
- ####
- ##### 1   - MCP4262-104
+ #####.
+
+##### 1   - MCP4262-104
 Arrow      https://www.arrow.com/en/products/mcp4262-104eun/microchip-technology
  ##### OR
  ##### 2   - MCP4162-104
 Arrow      https://www.arrow.com/en/products/mcp4162-104ep/microchip-technology
+ #####.
       
  ##### 2   - 22 Ohm +-20% resistor, axial leads unless you are a good solderer
 Buy from one of the mentioned vendors or Jameco, Digi-Key, Mouser, Newark or shop from list: https://www.google.com/search?q=22+ohm+%220.25w%22+axial+resistor&client=firefox-b-1-d&biw=810&bih=1361&tbm=shop&tbs=p_ord:p&ei=sY58XMDxFoXXjwTf0KyQAw&ved=0ahUKEwiAjsjCuefgAhWF64MKHV8oCzIQuw0IwQQoAQ
