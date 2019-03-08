@@ -88,7 +88,7 @@ Buy from one of the mentioned vendors or Jameco, Digi-Key, Mouser, Newark or sho
 Buy from one of the mentioned vendors or Jameco, Digi-Key, Mouser, Newark or shop from list: https://www.google.com/search?q=680+ohm+"0.25w"+axial+resistor&client=firefox-b-1-d&biw=810&bih=1361&tbm=shop&tbs=p_ord:p&ei=sY58XMDxFoXXjwTf0KyQAw&ved=0ahUKEwiAjsjCuefgAhWF64MKHV8oCzIQuw0IwQQoAQ
 
  ##### 1   - 3.3 KOhm +-20% resistor, axial leads unless you are a good solderer
-Buy from one of the mentioned vendors or Jameco, Digi-Key, Mouser, or Newark shop from list similar to above 
+Buy from one of the mentioned vendors or Jameco, Digi-Key, Mouser, Newark or shop from list similar to above 
 
  ##### 1   - 1 MOhm +-20% resistor, axial leads unless you are a good solderer
 Buy from one of the mentioned vendors or Jameco, Digi-Key, Mouser, Newark or shop from list similar to above
