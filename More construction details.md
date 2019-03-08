@@ -73,13 +73,13 @@ AlliExpress   https://www.aliexpress.com/item/5PCS-LM334Z-TO-92-LM334-3-Terminal
 
  ##### 1   - MCP4262-502
 Arrow     https://www.arrow.com/en/products/mcp4262-502eun/microchip-technology
-### OR
+ ##### OR
  ##### 2   - MCP4162-502
 Arrow     https://www.arrow.com/en/products/mcp4162-502ep/microchip-technology
-
+ ####
  ##### 1   - MCP4262-104
 Arrow      https://www.arrow.com/en/products/mcp4262-104eun/microchip-technology
-### OR
+ ##### OR
  ##### 2   - MCP4162-104
 Arrow      https://www.arrow.com/en/products/mcp4162-104ep/microchip-technology
       
