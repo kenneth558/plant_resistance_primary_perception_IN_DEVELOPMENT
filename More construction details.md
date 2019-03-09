@@ -81,17 +81,17 @@ Arrow      https://www.arrow.com/en/products/mcp4262-104eun/microchip-technology
  ##### or 2   - MCP4162-104
 Arrow      https://www.arrow.com/en/products/mcp4162-104ep/microchip-technology
       
- ##### 2   - 22 Ohm +-20% resistor, axial leads unless you are a good solderer
-Buy from one of the mentioned vendors or Jameco, Digi-Key, Mouser, Newark or shop from list: https://www.google.com/search?q=22+ohm+%220.25w%22+axial+resistor&client=firefox-b-1-d&biw=810&bih=1361&tbm=shop&tbs=p_ord:p&ei=sY58XMDxFoXXjwTf0KyQAw&ved=0ahUKEwiAjsjCuefgAhWF64MKHV8oCzIQuw0IwQQoAQ
+ ##### 2   - 27 Ohm +-20% resistor, axial leads unless you are a good solderer
+Buy from one of the mentioned vendors or Jameco, Digi-Key, Mouser, Newark or shop from list: https://www.google.com/search?q=22+ohm+%220.25w%22+axial+resistor&client=firefox-b-1-d&biw=810&bih=1361&tbm=shop&tbs=p_ord:p&ei=sY58XMDxFoXXjwTf0KyQAw&ved=0ahUKEwiAjsjCuefgAhWF64MKHV8oCzIQuw0IwQQoAQ  color code = red violet black
 
  ##### 3   - 680 Ohm +-20% resistor, axial leads unless you are a good solderer.  Qty 2 if buying 2 color LED
-Buy from one of the mentioned vendors or Jameco, Digi-Key, Mouser, Newark or shop from list: https://www.google.com/search?q=680+ohm+"0.25w"+axial+resistor&client=firefox-b-1-d&biw=810&bih=1361&tbm=shop&tbs=p_ord:p&ei=sY58XMDxFoXXjwTf0KyQAw&ved=0ahUKEwiAjsjCuefgAhWF64MKHV8oCzIQuw0IwQQoAQ
+Buy from one of the mentioned vendors or Jameco, Digi-Key, Mouser, Newark or shop from list: https://www.google.com/search?q=680+ohm+"0.25w"+axial+resistor&client=firefox-b-1-d&biw=810&bih=1361&tbm=shop&tbs=p_ord:p&ei=sY58XMDxFoXXjwTf0KyQAw&ved=0ahUKEwiAjsjCuefgAhWF64MKHV8oCzIQuw0IwQQoAQ  color code = blue gray brown
 
  ##### 1   - 3.3 KOhm +-20% resistor, axial leads unless you are a good solderer
-Buy from one of the mentioned vendors or Jameco, Digi-Key, Mouser, Newark or shop from list similar to above 
+Buy from one of the mentioned vendors or Jameco, Digi-Key, Mouser, Newark or shop from list similar to above.  Color code = orange orange red
 
  ##### 1   - 1 MOhm +-20% resistor, axial leads unless you are a good solderer
-Buy from one of the mentioned vendors or Jameco, Digi-Key, Mouser, Newark or shop from list similar to above
+Buy from one of the mentioned vendors or Jameco, Digi-Key, Mouser, Newark or shop from list similar to above.  Color code = brown black green 
 
  ##### 2   - 2.0 µF 16 volt+ tantalum capacitor radial
 Buy from one of the mentioned vendors or Jameco, Digi-Key, Mouser, Newark or shop from list being careful for adequate voltage: https://www.google.com/search?q=buy+2.2+%C2%B5F+tantalum+capacitor+radial&client=firefox-b-1-d&biw=810&bih=1361&tbm=shop&tbs=p_ord:p&ei=4o18XKHyNaG0jwTpoK2wBg&ved=0ahUKEwih64zguOfgAhUh2oMKHWlQC2YQuw0I0QgoAQ
