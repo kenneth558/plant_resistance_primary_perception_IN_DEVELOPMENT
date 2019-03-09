@@ -56,7 +56,7 @@ Electrodes are vaporware as of yet: I'm trying conductive foam or conductive she
 
 
  ##### 5.  Tony provides this parts list, which doesn't include the Arduino and its cable to your computer:  
- ### TIP: If you are cost-sensitive, decide where you'll buy everything from before placing any order.
+ #### TIP: If you are cost-sensitive, decide where you'll buy everything from before placing any order.
 
 qty - part number, then one or two sources for purchase
 ##### 1   - AD8244
