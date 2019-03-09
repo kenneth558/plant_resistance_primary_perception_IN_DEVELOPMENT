@@ -93,10 +93,10 @@ Buy from one of the mentioned vendors or Jameco, Digi-Key, Mouser, Newark or sho
  ##### 1   - 1 MOhm +-20% resistor, axial leads unless you are a good solderer
 Buy from one of the mentioned vendors or Jameco, Digi-Key, Mouser, Newark or shop from list similar to above.  Color code = brown black green 
 
- ##### 2   - 2.0 µF 16 volt+ tantalum capacitor radial
+ ##### 2   - 2.0 µF 16 volt+ tantalum capacitor, radial, low ESR
 Buy from one of the mentioned vendors or Jameco, Digi-Key, Mouser, Newark or shop from list being careful for adequate voltage: https://www.google.com/search?q=buy+2.2+%C2%B5F+tantalum+capacitor+radial&client=firefox-b-1-d&biw=810&bih=1361&tbm=shop&tbs=p_ord:p&ei=4o18XKHyNaG0jwTpoK2wBg&ved=0ahUKEwih64zguOfgAhUh2oMKHWlQC2YQuw0I0QgoAQ
 
- ##### 2   - 0.01 µF ceramic capacitor radial
+ ##### 2   - 0.01 µF ceramic capacitor, radial, low ESR
 Buy from one of the mentioned vendors or Jameco, Digi-Key, Mouser, Newark or shop from list: https://www.google.com/search?q=buy+.01+%C2%B5F+ceramic+capacitor+radial&client=firefox-b-1-d&biw=810&bih=1361&tbm=shop&tbs=p_ord:p&ei=so18XKXjG4GMjwTx8ZjAAw&ved=0ahUKEwilhIHJuOfgAhUBxoMKHfE4BjgQuw0I7wgoAg
 
  ##### 2   - two color (Bicolor, RGB, Multicolor will also work OK) LED or two different colored LEDs.  T-1 3/4 (5mm) size.  High efficiency (high mcd per mA) is best due to little power available
