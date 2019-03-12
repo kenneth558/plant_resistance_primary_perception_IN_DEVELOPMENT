@@ -111,6 +111,9 @@ Example: Yellow - https://www.arrow.com/en/products/ssl-lx2573yd/lumex,
          Red - https://www.arrow.com/en/products/ssl-lx2573id/lumex
 Buy from one of the mentioned vendors or Jameco, Digi-Key, Mouser, Newark or shop from list: https://www.google.com/search?q=mcd+led+efficiency+t-1&client=firefox-b-1-d&biw=810&bih=1361&tbm=shop&tbs=p_ord:p&ei=SZd8XKXcC43SsAXcpqaQBQ&ved=0ahUKEwjlpMLbwefgAhUNKawKHVyTCVIQuw0ItgMoAQ
 
+ ##### 2 MOSFETs to drive the LEDs:
+ Example: https://www.arrow.com/en/products/vn2106n3-g/microchip-technology
+ 
  ##### 2   - Potentiometer 50 KOhm or other high value, rotary operation, linear taper, single turn w/knob or cap and mounting means or PCB mount (AKA top adjust)
 Examples: https://www.arrow.com/en/products/ptv09a-4030u-b204/bourns
 or
