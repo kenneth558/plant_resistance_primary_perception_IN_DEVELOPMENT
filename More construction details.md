@@ -87,7 +87,7 @@ Buy from one of the mentioned vendors or Jameco, Digi-Key, Mouser, Newark or sho
 
  ##### 3   - 470 Ohm +-20% resistor, axial leads unless you are a good solderer.  Qty 2 if buying 2 color LED
 Example: https://www.digikey.com/product-detail/en/stackpole-electronics-inc/CF14JT470R/CF14JT470RCT-ND/1830342
-Buy from one of the mentioned vendors or Jameco, Digi-Key, Mouser, Newark or shop from list: https://www.google.com/search?q=680+ohm+"0.25w"+axial+resistor&client=firefox-b-1-d&biw=810&bih=1361&tbm=shop&tbs=p_ord:p&ei=sY58XMDxFoXXjwTf0KyQAw&ved=0ahUKEwiAjsjCuefgAhWF64MKHV8oCzIQuw0IwQQoAQ  color code = blue gray brown
+Buy from one of the mentioned vendors or Jameco, Digi-Key, Mouser, Newark or shop from list: https://www.google.com/search?q=680+ohm+"0.25w"+axial+resistor&client=firefox-b-1-d&biw=810&bih=1361&tbm=shop&tbs=p_ord:p&ei=sY58XMDxFoXXjwTf0KyQAw&ved=0ahUKEwiAjsjCuefgAhWF64MKHV8oCzIQuw0IwQQoAQ  color code = yellow violet brown
 
  ##### 1   - 3.3 KOhm +-20% resistor, axial leads unless you are a good solderer
  Example: https://www.digikey.com/product-detail/en/stackpole-electronics-inc/CF14JT3K30/CF14JT3K30CT-ND/1830362
