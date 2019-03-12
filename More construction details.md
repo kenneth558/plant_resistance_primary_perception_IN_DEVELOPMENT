@@ -106,7 +106,7 @@ Example: https://www.arrow.com/en/products/t356a225k016at/kemet-corporation or b
  ##### 1   - 0.01 µF ceramic capacitor, radial
  Example: https://www.arrow.com/en/products/ncd103m100z5uf/nic-components or buy from one of the mentioned vendors or Jameco, Digi-Key, Mouser, Newark or shop from list: https://www.google.com/search?q=buy+.01+%C2%B5F+ceramic+capacitor+radial&client=firefox-b-1-d&biw=810&bih=1361&tbm=shop&tbs=p_ord:p&ei=so18XKXjG4GMjwTx8ZjAAw&ved=0ahUKEwilhIHJuOfgAhUBxoMKHfE4BjgQuw0I7wgoAg
 
- ##### 2   - two color (Bicolor, RGB, Multicolor will also work OK) LED or two different colored LEDs.  T-1 3/4 (5mm) size.  High efficiency (high mcd per mA) is best due to little power available
+ ##### 2   - two color (Bicolor, RGB, Multicolor will also work OK) LED or two different colored LEDs.  Rectangular (2mm x 5mm) size, but at last check, the red one following mistakenly shows the wrong shape in the picture.  High efficiency (high mcd per mA) is best due to little power available
 Example: Yellow - https://www.arrow.com/en/products/ssl-lx2573yd/lumex, Red - https://www.arrow.com/en/products/ssl-lx2573id/lumex
 Buy from one of the mentioned vendors or Jameco, Digi-Key, Mouser, Newark or shop from list: https://www.google.com/search?q=mcd+led+efficiency+t-1&client=firefox-b-1-d&biw=810&bih=1361&tbm=shop&tbs=p_ord:p&ei=SZd8XKXcC43SsAXcpqaQBQ&ved=0ahUKEwjlpMLbwefgAhUNKawKHVyTCVIQuw0ItgMoAQ
 
