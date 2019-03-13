@@ -94,7 +94,7 @@ Buy from one of the mentioned vendors or Jameco, Digi-Key, Mouser, Newark or sho
 Buy from one of the mentioned vendors or Jameco, Digi-Key, Mouser, Newark or shop from list similar to above.  Color code = orange orange red
 
  ##### 1   - 1 MOhm +-20% resistor, axial leads unless you are a good solderer
- Example: https://www.digikey.com/product-detail/en/stackpole-electronics-inc/CF14JT1M00/CF14JT1M00CT-ND/1830423
+ Example: https://www.digikey.com/product-detail/en/stackpole-electronics-inc/CF18JT1M00/CF18JT1M00CT-ND/2022814
 Buy from one of the mentioned vendors or Jameco, Digi-Key, Mouser, Newark or shop from list similar to above.  Color code = brown black green 
 
  ##### 2   - 2.0 µF 16 volt+ tantalum capacitor, radial, low ESR
