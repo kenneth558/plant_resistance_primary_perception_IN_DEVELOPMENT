@@ -115,7 +115,7 @@ Buy from one of the mentioned vendors or Jameco, Digi-Key, Mouser, Newark or sho
  Example: https://www.arrow.com/en/products/vn2106n3-g/microchip-technology
  
  ##### 2   - Potentiometer 50 KOhm or other high value, rotary operation, linear taper, single turn w/knob or cap and mounting means or PCB mount (AKA top adjust)
-Examples: https://www.arrow.com/en/products/ptv09a-4030u-a204/bourns
+Examples: https://www.arrow.com/en/products/ptv09a-4030u-b204/bourns
 or
 https://www.jameco.com/z/RV09AF-40-20K-B500K-Taiwan-Alpha-Electronic-500K-Ohm-50-mW-9-mm-20-0-787-Inch-Knurl-Shaft-Solder-Lugs-Linear-Taper-Potentiometer_2272231.html
 or
