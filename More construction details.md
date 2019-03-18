@@ -127,6 +127,8 @@ or formulate your own search
  ##### 1   - HX711 ADC (recommended unless you can code for own ADC)
 AlliExpress   https://www.aliexpress.com/item/Dual-Channel-HX711-Weighing-Pressure-Sensor-24-bit-Precision-A-D-Module-for-arduino-DIY-Electronic/32878181081.html?spm=2114.search0204.3.2.5f8a7264S5dDtV&ws_ab_test=searchweb0_0,searchweb201602_2_10065_10068_10130_5726815_10547_10546_10059_10884_10548_315_10545_10887_10696_100031_531_10084_10083_5726915_10103_10618_10307_449,searchweb201603_60,ppcSwitch_5_ppcChannel&algo_expid=719ad9df-13c6-42bc-adff-e19814e28dae-0&algo_pvid=719ad9df-13c6-42bc-adff-e19814e28dae&priceBeautifyAB=0
 
+ ##### Repeat tip: If you're not satisfied with any of the sourcing links I've provided, search https://www.findchips.com/search/ for the part.
+
 Newer Version of the HX711 is available instead, but not yet tested:
 AlliExpress   https://www.aliexpress.com/item/Free-shipping-Goose-electronic-HX711-module-weighing-sensor-24-AD-module-pressure-sensor-AD-module-SCM/32441222056.html?spm=2114.search0204.3.31.5f8a7264S5dDtV&ws_ab_test=searchweb0_0,searchweb201602_2_10065_10068_10130_5726815_10547_10546_10059_10884_10548_315_10545_10887_10696_100031_531_10084_10083_5726915_10103_10618_10307_449,searchweb201603_60,ppcSwitch_5_ppcChannel&algo_expid=719ad9df-13c6-42bc-adff-e19814e28dae-4&algo_pvid=719ad9df-13c6-42bc-adff-e19814e28dae&priceBeautifyAB=0
 
