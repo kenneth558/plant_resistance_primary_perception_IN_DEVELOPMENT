@@ -6,7 +6,7 @@ If for some odd reason you are stuck using the "not recommended due to far lower
  ##### 2.  An RC filter to each used ADS1X15 analog input is advised by the manufacturer.  From the datasheet:
 >...any noise pick-up along the sensor wiring or the application circuitry can potentially alias into the pass-band. Power line-cycle frequency and harmonics are one common noise source. External noise can also be generated from electromagnetic interference (EMI) or radio frequency interference (RFI) sources, such as nearby motors and cellular phones. Another noise source typically exists on the printed-circuit-board (PCB) itself in the form of clocks and other digital signals. Analog input filtering helps remove unwanted signals from affecting the measurement result...
 
- ##### 3.  Unused analog input pins of the ADS1X15 should not be connected to GND or more power cupply current will be drawn than is necessary.  From the datasheet:
+ ##### 3.  Unused analog input pins of the ADS1X15 should not be connected to GND or more power supply current will be drawn than is necessary.  From the datasheet:
 >Either float unused analog inputs, or tie the unused analog inputs to midsupply or VDD. Connecting unused analog inputs to GND is possible, but may yield higher leakage currents than the previous options.
 
 
