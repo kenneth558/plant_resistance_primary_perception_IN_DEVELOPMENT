@@ -145,5 +145,5 @@ OUR MANY YEARS OF EXPERIENCE DATA ACCUMULATION INDICATE
 THAT SOLDER HEAT IS A MAJOR CAUSE OF EARLY AND FUTURE
 FAILURE.  PLEASE PAY ATTENTION TO YOUR SOLDERING PROCESS.
 
-Despite the grammar fail, you'll do well to take to heart its meaning.
+Despite the grammar fail, you'll do well to take to heart its meaning, both for components and the printed circuit board.
 
