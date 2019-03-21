@@ -121,7 +121,7 @@ or
 https://www.digikey.com/product-detail/en/bourns-inc/PTV09A-4030U-B204/PTV09A-4030U-B204-ND/3781141
 or formulate your own search
 
- ##### 1 ICSP Header
+ ##### 1 ICSP 6 contact socket header
   Example: https://www.mouser.com/ProductDetail/Samtec/SSW-102-01-T-D?qs=sGAEpiMZZMs%252BGHln7q6pm%252BteH15HsL84m6dgkbzsxJE%3D
 
  ##### 1   - HX711 ADC (recommended unless you can code for own ADC)
