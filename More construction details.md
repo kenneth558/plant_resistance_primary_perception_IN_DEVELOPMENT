@@ -92,9 +92,13 @@ Buy from one of the mentioned vendors or Jameco, Digi-Key, Mouser, Newark or sho
  Example: https://www.digikey.com/product-detail/en/stackpole-electronics-inc/CF18JT3K30/CF18JT3K30CT-ND/2022754
 Buy from one of the mentioned vendors or Jameco, Digi-Key, Mouser, Newark or shop from list similar to above.  Color code = orange orange red
 
- ##### 3   - 1 MOhm +-20% resistor, axial leads unless you are a good solderer
+ ##### 2   - 1 MOhm +-20% resistor, axial leads unless you are a good solderer
  Example: https://www.digikey.com/products/en?keywords=CF18JT1M00CT-ND
 Buy from one of the mentioned vendors or Jameco, Digi-Key, Mouser, Newark or shop from list similar to above.  Color code = brown black green 
+
+ ##### 1   - 2.2 MOhm +-20% resistor, axial leads unless you are a good solderer
+ Example: https://www.digikey.com/products/en?keywords=CF18JT2M20CT-ND
+Buy from one of the mentioned vendors or Jameco, Digi-Key, Mouser, Newark or shop from list similar to above.  Color code = red red green 
 
  ##### 2   - 2.0 µF 16 volt+ tantalum capacitor, radial, low ESR
 Example: https://www.arrow.com/en/products/t356a225k016at/kemet-corporation or buy from one of the mentioned vendors or Jameco, Digi-Key, Mouser, Newark or shop from list being careful for adequate voltage: https://www.google.com/search?q=buy+2.2+%C2%B5F+tantalum+capacitor+radial&client=firefox-b-1-d&biw=810&bih=1361&tbm=shop&tbs=p_ord:p&ei=4o18XKHyNaG0jwTpoK2wBg&ved=0ahUKEwih64zguOfgAhUh2oMKHWlQC2YQuw0I0QgoAQ
