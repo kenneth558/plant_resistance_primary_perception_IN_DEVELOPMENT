@@ -154,4 +154,6 @@ FAILURE.  PLEASE PAY ATTENTION TO YOUR SOLDERING PROCESS.
 
 Despite the grammar fail, you'll do well to take to heart its meaning, both for components and the printed circuit board.
 
-Printed circuit boards can be ordered from any one of a multitude of fabricators.  Compare between fabricators by visiting one or more of the fabricator comparison sites like https://www.pcbdirectory.com/get-quotations or https://pcbshopper.com
+Printed circuit boards can be ordered from any one of a multitude of fabricators.  Compare between fabricators by visiting one or more of the fabricator comparison sites like https://www.pcbdirectory.com/get-quotations or https://pcbshopper.com or read the fabricator site collection list at https://www.eevblog.com/wiki/index.php?title=PCB_Manufacturers.
+
+Here is a link to the gerber files of my PCB design: 
