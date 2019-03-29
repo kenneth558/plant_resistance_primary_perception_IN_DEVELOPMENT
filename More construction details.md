@@ -158,6 +158,6 @@ Despite the grammar fail, you'll do well to take to heart its meaning, both for 
 
  ##### Printed circuit boards can be ordered from any one of a multitude of fabricators.  Compare between fabricators by visiting one or more of the fabricator comparison sites like https://www.pcbdirectory.com/get-quotations or https://pcbshopper.com or read the fabricator site collection list at https://www.eevblog.com/wiki/index.php?title=PCB_Manufacturers or search "online pcb quote".
  
- I would appreciate if you ordered everything RoHS, paying a little extra to do so.
+ I would appreciate if you ordered everything RoHS, paying a very slight extra to do so.  Especially if you plan to send me your excess.
  
  If you end up ordering excess parts and circuit boards and you appreciate my efforts at making these plans available for free to you, I would appreciate donations of your excess.  Please open an "Issue" to contact me for address.
