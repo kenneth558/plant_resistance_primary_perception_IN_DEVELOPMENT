@@ -139,11 +139,11 @@ AlliExpress   https://www.aliexpress.com/item/Free-shipping-Goose-electronic-HX7
 
 or 1 - ADS1X15 ADC (not recommended due to far lower resolution, so only if it's all that you can come up with...and favor the ADS1115), or code for your own ADC
 
-Hard-soldered piece of 2-wire cable (shielded or coax advised) from electrodes to circuit   
+ ##### Hard-soldered piece of 2-wire cable (shielded or coax advised) from electrodes to circuit   
 OR   
 3.5mm stereo audio PCB mount jack (https://www.arrow.com/en/products/sj1-3523ng/cui-inc), related extender cable (.5m = https://www.arrow.com/en/products/770-10040-00050/cnc-tech-llc 1m = https://www.arrow.com/en/products/770-10040-00100/cnc-tech-llc 1.5m = https://www.arrow.com/en/products/770-10040-00150/cnc-tech-llc), and 3.5mm stereo audio cable mount jack (https://www.arrow.com/en/products/152001/lumberg);   
 
-electrode assemblies with enough wiring to attach to the above 2-wire cable, optional 4-way light switch at the plant end of that coax (can give you the flexibility easily to reverse the electrical polarity through the plant),  Interconnects and soldering equipment, wiring, circuit substrate, mounting brackets and the like...  If desoldering for repurposing parts, consider doing so with low melt point desoldering solder: https://www.ebay.com/itm/Solder-wire-low-melting-point-124C-1m-1mm-Bi55-5-Pb44-5-alloy-good-desoldering/171173385076?epid=1531599266&hash=item27daba9374:g:JpIAAOSwq19XBnVh_trksid=p2047675.c100005.m1851
+ ##### electrode assemblies with enough wiring to attach to the above 2-wire cable, optional 4-way light switch at the plant end of that coax (can give you the flexibility easily to reverse the electrical polarity through the plant),  Interconnects and soldering equipment, wiring, circuit substrate, mounting brackets and the like...  If desoldering for repurposing parts, consider doing so with low melt point desoldering solder: https://www.ebay.com/itm/Solder-wire-low-melting-point-124C-1m-1mm-Bi55-5-Pb44-5-alloy-good-desoldering/171173385076?epid=1531599266&hash=item27daba9374:g:JpIAAOSwq19XBnVh_trksid=p2047675.c100005.m1851
 
 The order of soldering components to the flat circuit board is that the flattest components are placed first, the tallest last, except that no component can cover unused-as-yet solder pads that will need to be soldered to later for a component on the opposite side.  Solder to those pads first of all.  At least one of the semi-conductor components above is engineered with this Oriental-originating caution:
 
@@ -154,6 +154,6 @@ FAILURE.  PLEASE PAY ATTENTION TO YOUR SOLDERING PROCESS.
 
 Despite the grammar fail, you'll do well to take to heart its meaning, both for components and the printed circuit board.
 
-Printed circuit boards can be ordered from any one of a multitude of fabricators.  Compare between fabricators by visiting one or more of the fabricator comparison sites like https://www.pcbdirectory.com/get-quotations or https://pcbshopper.com or read the fabricator site collection list at https://www.eevblog.com/wiki/index.php?title=PCB_Manufacturers.
+ ##### Here is a link to the gerber files of my PCB design: https://github.com/kenneth558/plant_resistance_primary_perception/blob/Free/embeddeds/v.2%20training%20aid%20board.zip
 
-Here is a link to the gerber files of my PCB design: https://github.com/kenneth558/plant_resistance_primary_perception/blob/Free/embeddeds/v.2%20training%20aid%20board.zip
+ ##### Printed circuit boards can be ordered from any one of a multitude of fabricators.  Compare between fabricators by visiting one or more of the fabricator comparison sites like https://www.pcbdirectory.com/get-quotations or https://pcbshopper.com or read the fabricator site collection list at https://www.eevblog.com/wiki/index.php?title=PCB_Manufacturers.
