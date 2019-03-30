@@ -114,5 +114,5 @@ eevblog Wiki article https://www.eevblog.com/wiki/index.php?title=Component_Sear
  
  I would appreciate if you ordered everything RoHS, paying a very slight extra to do so.  Especially if you plan to send me your excess.
  
- If you end up ordering excess parts and circuit boards and you appreciate my efforts at making these plans available for free to you, I would appreciate donations of your excess.  Please open an "Issue" to contact me for address.
+###  If you end up ordering excess parts and circuit boards and you appreciate my efforts at making these plans available for free to you, I would appreciate donations of your excess.  Please open an "Issue" to ask me for address.
 
