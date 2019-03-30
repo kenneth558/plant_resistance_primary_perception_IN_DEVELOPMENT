@@ -1,4 +1,3 @@
-
 ### PCB Gerber files
 ##### Here is a link to the gerber files of my PCB design: https://github.com/kenneth558/plant_resistance_primary_perception/blob/Free/embeddeds/v.2%20training%20aid%20board.zip
 
