@@ -11,7 +11,7 @@ qty - part number, then one or two sources for purchase
 ##### 1   - AD8244
 Arrow      https://www.arrow.com/en/products/ad8244armz-r7/analog-devices
 
- ##### 1   -  MSOP-10 PCB ADAPTER BOARD FOR THE AD8244
+ ##### 1   -  MSOP-10 PCB ADAPTER BOARD FOR THE AD8244 (unless you use my PCB design)
 AlliExpress   https://www.aliexpress.com/item/50PCS-SOT23-MSOP10-UMAX-to-DIP10-Transfer-Board-DIP-Pin-Board-Pitch-Adapter-NEW/32902829277.html?spm=2114.search0204.3.2.602e4baddaQg2A&s=p&ws_ab_test=searchweb0_0,searchweb201602_2_10065_10068_10130_5726815_10547_10546_10059_10884_10548_315_10545_10887_10696_100031_531_10084_10083_5726915_10103_10618_10307_449,searchweb201603_60,ppcSwitch_5_ppcChannel&priceBeautifyAB=0
  I encourage you to support this project by mailing me your leftover adapter boards, if you appreciate my information-sharing efforts.  Address available if you'll open an "issue" to ask for it.  Thank you!
 
