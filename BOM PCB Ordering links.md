@@ -22,7 +22,6 @@ Try https://www.digikey.com/product-detail/en/microchip-technology/MCP4262-502E-
 Arrow      https://www.arrow.com/en/products/mcp4262-104eun/microchip-technology
 
 
-
  ##### 2   - 27 Ohm +-20% resistor, axial leads unless you are a good solderer
 Example: https://www.digikey.com/product-detail/en/stackpole-electronics-inc/CF18JT27R0/CF18JT27R0CT-ND/2022704
 Buy from one of the mentioned vendors or Jameco, Digi-Key, Mouser, Newark or shop from list: https://www.google.com/search?q=22+ohm+%220.25w%22+axial+resistor&client=firefox-b-1-d&biw=810&bih=1361&tbm=shop&tbs=p_ord:p&ei=sY58XMDxFoXXjwTf0KyQAw&ved=0ahUKEwiAjsjCuefgAhWF64MKHV8oCzIQuw0IwQQoAQ  color code = red violet black
