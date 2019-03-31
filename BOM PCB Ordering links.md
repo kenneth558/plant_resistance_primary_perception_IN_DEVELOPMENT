@@ -23,7 +23,6 @@ AlliExpress   https://www.aliexpress.com/item/5PCS-LM334Z-TO-92-LM334-3-Terminal
  ##### 1   - MCP4262-502
 Try https://www.digikey.com/product-detail/en/microchip-technology/MCP4262-502E-UN/MCP4262-502E-UN-ND/1635819 or https://www.mouser.com/ProductDetail/Microchip-Technology/MCP4262-502E-UN?qs=sGAEpiMZZMuD%2F7PTYBwKqUWe8PKqoc794Kb1a2FsZsY%3D or https://www.microchipdirect.com/product/MCP4262?keywords=MCP4262-502E%2FUN
 
-
  ##### 1   - MCP4262-104
 Arrow      https://www.arrow.com/en/products/mcp4262-104eun/microchip-technology
 
