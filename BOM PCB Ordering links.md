@@ -40,11 +40,11 @@ Buy from one of the mentioned vendors or Jameco, Digi-Key, Mouser, Newark or sho
  Example: https://www.digikey.com/product-detail/en/stackpole-electronics-inc/CF18JT3K30/CF18JT3K30CT-ND/2022754
 Buy from one of the mentioned vendors or Jameco, Digi-Key, Mouser, Newark or shop from list similar to above.  Color code = orange orange red
 
- ##### 2   - 1 MOhm +-20% resistor, axial leads unless you are a good solderer
+ ##### 1   - 1 MOhm +-20% resistor, axial leads unless you are a good solderer
  Example: https://www.digikey.com/products/en?keywords=CF18JT1M00CT-ND
 Buy from one of the mentioned vendors or Jameco, Digi-Key, Mouser, Newark or shop from list similar to above.  Color code = brown black green 
 
- ##### 1   - 2.2 MOhm +-20% resistor, axial leads unless you are a good solderer
+ ##### 2   - 2.2 MOhm +-20% resistor, axial leads unless you are a good solderer
  Example: https://www.digikey.com/products/en?keywords=CF18JT2M20CT-ND
 Buy from one of the mentioned vendors or Jameco, Digi-Key, Mouser, Newark or shop from list similar to above.  Color code = red red green 
 
