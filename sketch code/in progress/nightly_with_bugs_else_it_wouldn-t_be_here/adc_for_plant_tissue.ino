@@ -85,7 +85,7 @@
   File Name          : adc_for_plant_tissue.ino
   Author             : KENNETH L ANDERSON
   Version            : v.Free
-  Date               : 15-FEB-2019
+  Date               : 30-MAR-2019
   Description        : To replicate Cleve Backster's findings that he attributed to a phenomenon he called "Primary Perception".  Basically, this sketch turns an Arduino MCU and optional (recommended) ADS1115 into a nicely functional GSR (Galvanic Skin Response) device or poor man's polygraph) in order to learn/demonstrate telempathic gardening.
   Boards tested on   : Uno using both ADS1115 and inboard analog inputs.
                      : TTGO XI using ADS1115 in an early version
@@ -118,7 +118,8 @@
   developer by limited practical experience, and being formally degreed with 
   Bachelor of General Studies majoring in General Sciences
 ********************************************************************************
-   Changelog:  15 Feb   2019 :  Incorporates run-time gain adjustment with potentiometer wiper connected to Analog Input pin POT_WIPER_TO_THIS_ANALOG_INPUT_PIN_TO_ADJUST_PGA_GAIN_FACTOR when HX711 is used.  ADC inputs channel A will need to be wired parallel with channel B inputs.  Manufacturer will use 3-position switch with two 470K resistors in series between Vcc and GND and the middle switch position connects to middle of the resistor network, other two switch positions connect to Vcc and GND.
+   Changelog:  30 MAR   2019 :  Further fixes to allow MCP42xx dual digi-pots
+               15 Feb   2019 :  Incorporates run-time gain adjustment with potentiometer wiper connected to Analog Input pin POT_WIPER_TO_THIS_ANALOG_INPUT_PIN_TO_ADJUST_PGA_GAIN_FACTOR when HX711 is used.  ADC inputs channel A will need to be wired parallel with channel B inputs.  Manufacturer will use 3-position switch with two 470K resistors in series between Vcc and GND and the middle switch position connects to middle of the resistor network, other two switch positions connect to Vcc and GND.
                24 Jan   2019 :  In process of modifying linearity diags to accommodate far higher resistances than I originally expected.  Hopefully the circuit itself won't need any modifications.
                21 Jan   2019 :  Reversed the order of traces plotted so that the outboard ADC is in the top group.
                18 Jan   2019 :  Predictive auto-balance working great by adding a fudge factor rather than fixing the formula the rational way
@@ -2817,8 +2818,8 @@ void setup()
     Serial.print( dPotPins[ 0 + LM334Bridge ] );
     Serial.print( F( "> " ) );
 #endif
-    pinMode( dPotPins[ 0 + LM334Bridge ], OUTPUT );
-    digitalWrite( dPotPins[ 0 + LM334Bridge ], HIGH );
+    pinMode( dPotPins[ 0 + LM334Bridge ] & 0x3F, OUTPUT );
+    digitalWrite( dPotPins[ 0 + LM334Bridge ] & 0x3F, HIGH );
     dPotPins[ DPOTS_PER_LM334_LEG + 0 + LM334Bridge ] = LSB_DPOT_B0REF_PIN;
     dPotSettings[ DPOTS_PER_LM334_LEG + 0 + LM334Bridge ] = LSB_DPOT_B0REF_STARTVALUE;
 #if not ( ( defined MINIMIZE_COMPILED_SKETCH_SIZE_LEVEL ) && ( MINIMIZE_COMPILED_SKETCH_SIZE_LEVEL == 0 ) )
@@ -2828,8 +2829,8 @@ void setup()
     Serial.print( dPotPins[ DPOTS_PER_LM334_LEG + 0 + LM334Bridge ] );
     Serial.print( F( "> " ) );
 #endif
-    pinMode( dPotPins[ 0 + DPOTS_PER_LM334_LEG + LM334Bridge ], OUTPUT );
-    digitalWrite( dPotPins[ 0 + DPOTS_PER_LM334_LEG + LM334Bridge ], HIGH );
+    pinMode( dPotPins[ 0 + DPOTS_PER_LM334_LEG + LM334Bridge ] & 0x3F, OUTPUT );
+    digitalWrite( dPotPins[ 0 + DPOTS_PER_LM334_LEG + LM334Bridge ] & 0x3F, HIGH );
 #if ( DPOTS_PER_LM334_LEG > 1 )
     dPotPins[ 1 + LM334Bridge ] = NON_LSB_DPOT_1_B0SIG_PIN;
     dPotSettings[ 1 + LM334Bridge ] = NON_LSB_DPOT_1_B0SIG_STARTVALUE;
@@ -2840,8 +2841,8 @@ void setup()
     Serial.print( dPotPins[ 1 + LM334Bridge ] );
     Serial.print( F( "> " ) );
 #endif
-    pinMode( dPotPins[ 1 + LM334Bridge ], OUTPUT );
-    digitalWrite( dPotPins[ 1 + LM334Bridge ], HIGH );
+    pinMode( dPotPins[ 1 + LM334Bridge ] & 0x3F, OUTPUT );
+    digitalWrite( dPotPins[ 1 + LM334Bridge ] & 0x3F, HIGH );
     dPotPins[ DPOTS_PER_LM334_LEG + 1 + LM334Bridge ] = NON_LSB_DPOT_1_B0REF_PIN;
     dPotSettings[ DPOTS_PER_LM334_LEG + 1 + LM334Bridge ] = NON_LSB_DPOT_1_B0REF_STARTVALUE;
 #if not ( ( defined MINIMIZE_COMPILED_SKETCH_SIZE_LEVEL ) && ( MINIMIZE_COMPILED_SKETCH_SIZE_LEVEL == 0 ) )
@@ -2851,8 +2852,8 @@ void setup()
     Serial.print( dPotPins[ DPOTS_PER_LM334_LEG + 1 + LM334Bridge ] );
     Serial.print( F( "> " ) );
 #endif
-    pinMode( dPotPins[ 1 + DPOTS_PER_LM334_LEG + LM334Bridge ], OUTPUT );
-    digitalWrite( dPotPins[ 1 + DPOTS_PER_LM334_LEG + LM334Bridge ], HIGH );
+    pinMode( dPotPins[ 1 + DPOTS_PER_LM334_LEG + LM334Bridge ] & 0x3F, OUTPUT );
+    digitalWrite( dPotPins[ 1 + DPOTS_PER_LM334_LEG + LM334Bridge ] & 0x3F, HIGH );
 #if ( DPOTS_PER_LM334_LEG > 2 )
     dPotPins[ 2 + LM334Bridge ] = NON_LSB_DPOT_2_B0SIG_PIN;
     dPotSettings[ 2 + LM334Bridge ] = NON_LSB_DPOT_2_B0SIG_STARTVALUE;
@@ -2863,8 +2864,8 @@ void setup()
     Serial.print( dPotPins[ 2 + LM334Bridge ] );
     Serial.print( F( "> " ) );
 #endif
-    pinMode( dPotPins[ 2 + LM334Bridge ], OUTPUT );
-    digitalWrite( dPotPins[ 2 + LM334Bridge ], HIGH );
+    pinMode( dPotPins[ 2 + LM334Bridge ] & 0x3F, OUTPUT );
+    digitalWrite( dPotPins[ 2 + LM334Bridge ] & 0x3F, HIGH );
     dPotPins[ DPOTS_PER_LM334_LEG + 2 + LM334Bridge ] = NON_LSB_DPOT_2_B0REF_PIN;
     dPotSettings[ DPOTS_PER_LM334_LEG + 2 + LM334Bridge ] = NON_LSB_DPOT_2_B0REF_STARTVALUE;
 #if not ( ( defined MINIMIZE_COMPILED_SKETCH_SIZE_LEVEL ) && ( MINIMIZE_COMPILED_SKETCH_SIZE_LEVEL == 0 ) )
@@ -2876,8 +2877,8 @@ void setup()
 #endif
 #endif
 #endif
-   pinMode( dPotPins[ 2 + DPOTS_PER_LM334_LEG + LM334Bridge ], OUTPUT );
-    digitalWrite( dPotPins[ 2 + DPOTS_PER_LM334_LEG + LM334Bridge ], HIGH );
+   pinMode( dPotPins[ 2 + DPOTS_PER_LM334_LEG + LM334Bridge ] & 0x3F, OUTPUT );
+    digitalWrite( dPotPins[ 2 + DPOTS_PER_LM334_LEG + LM334Bridge ] & 0x3F, HIGH );
     //  The way this is built makes the DPots get initialized in reverse order from intuitive
   }
   //To increase capacity, follow the naming pattern above
