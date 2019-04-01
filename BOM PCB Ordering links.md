@@ -5,7 +5,7 @@
 ##### Printed circuit boards can be ordered from any one of a multitude of fabricators.  Compare between fabricators by visiting one or more of the fabricator comparison sites like https://www.pcbdirectory.com/get-quotations or https://pcbshopper.com or read the fabricator site collection list at https://www.eevblog.com/wiki/index.php?title=PCB_Manufacturers or search "online pcb quote".
  
  I would appreciate if you ordered everything RoHS, paying a very slight extra to do so.  Especially if you appreciate me making these plans freely available and you plan to send me your excess.
-### BOM
+### BOM https://github.com/kenneth558/plant_resistance_primary_perception/blob/Free/ibom.html or as follows
 
 qty - part number, then one or two sources for purchase
 ##### 1   - AD8244
