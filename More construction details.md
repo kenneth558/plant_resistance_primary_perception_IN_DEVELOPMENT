@@ -149,7 +149,9 @@ OR
 
  ##### electrode assemblies with enough wiring to attach to the above 2-wire cable, optional 4-way light switch at the plant end of that coax (can give you the flexibility easily to reverse the electrical polarity through the plant),  Interconnects and soldering equipment, wiring, circuit substrate, mounting brackets and the like...  If desoldering for repurposing parts, consider doing so with low melt point desoldering solder: https://www.ebay.com/itm/Solder-wire-low-melting-point-124C-1m-1mm-Bi55-5-Pb44-5-alloy-good-desoldering/171173385076?epid=1531599266&hash=item27daba9374:g:JpIAAOSwq19XBnVh_trksid=p2047675.c100005.m1851
 
-The order of soldering components to the flat circuit board is that the flattest components are placed first, the tallest last, except that no component can cover unused-as-yet solder pads that will need to be soldered to later for a component on the opposite side.  Solder to those pads first of all.  At least one of the semi-conductor components above is engineered with this Oriental-originating caution:
+The order of soldering components to the flat circuit board is that the flattest components are placed first, the tallest last, except that no component can cover unused-as-yet solder pads that will need to be soldered to later for a component on the opposite side.  Solder to those pads first of all.  VERY IMPORTANT: IMMEDIATELY FOLLOWING SOLDERING EACH AND EVERY COMPONENT, CONTINUITY CHECK FOR SHORTS.  Why? Because shorts are the hardest circuit fault to locate and the easiest to make at this step, and if you delay locating them you'll have to remove ALL components, not just the last one soldered.
+
+At least one of the semi-conductor components above is engineered with this Oriental-originating caution:
 
 RELIABILITY NOTE:
 OUR MANY YEARS OF EXPERIENCE DATA ACCUMULATION INDICATE
