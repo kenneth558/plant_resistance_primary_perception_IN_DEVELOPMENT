@@ -1,5 +1,5 @@
 ### PCB Gerber files
-##### Here is a link to the gerber files of my PCB design: https://github.com/kenneth558/plant_resistance_primary_perception/blob/Free/embeddeds/v.2%20training%20aid%20board.zip
+##### Here is a link to the gerber files of my PCB design: https://github.com/kenneth558/plant_resistance_primary_perception/blob/Free/embeddeds/uno%20shield%20v.3%20board.zip
 
 ### PCB Comparison sites
 ##### Printed circuit boards can be ordered from any one of a multitude of fabricators.  Compare between fabricators by visiting one or more of the fabricator comparison sites like https://www.pcbdirectory.com/get-quotations or https://pcbshopper.com or read the fabricator site collection list at https://www.eevblog.com/wiki/index.php?title=PCB_Manufacturers or search "online pcb quote".
