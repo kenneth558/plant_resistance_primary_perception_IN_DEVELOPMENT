@@ -76,7 +76,7 @@ https://www.digikey.com/product-detail/en/bourns-inc/PTV09A-4030U-B204/PTV09A-40
 or formulate your own search
 
  ##### 1 ICSP 6 contact socket header
-  Example: https://www.mouser.com/ProductDetail/Samtec/SSW-102-01-T-D?qs=sGAEpiMZZMs%252BGHln7q6pm%252BteH15HsL84m6dgkbzsxJE%3D
+  Example: long pins: https://www.arrow.com/en/products/ssq-103-03-t-d/samtec shorter: https://www.arrow.com/en/products/bl206g/fischer-elektronik or https://www.mouser.com/ProductDetail/Samtec/SSW-102-01-T-D?qs=sGAEpiMZZMs%252BGHln7q6pm%252BteH15HsL84m6dgkbzsxJE%3D
 
  ##### 1   - HX711 ADC (recommended unless you can code for own ADC)
 AliExpress   https://www.aliexpress.com/item/Dual-Channel-HX711-Weighing-Pressure-Sensor-24-bit-Precision-A-D-Module-for-arduino-DIY-Electronic/32878181081.html?spm=2114.search0204.3.2.5f8a7264S5dDtV&ws_ab_test=searchweb0_0,searchweb201602_2_10065_10068_10130_5726815_10547_10546_10059_10884_10548_315_10545_10887_10696_100031_531_10084_10083_5726915_10103_10618_10307_449,searchweb201603_60,ppcSwitch_5_ppcChannel&algo_expid=719ad9df-13c6-42bc-adff-e19814e28dae-0&algo_pvid=719ad9df-13c6-42bc-adff-e19814e28dae&priceBeautifyAB=0
