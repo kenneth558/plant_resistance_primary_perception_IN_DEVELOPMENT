@@ -74,11 +74,8 @@ AlliExpress   https://www.aliexpress.com/item/5PCS-LM334Z-TO-92-LM334-3-Terminal
  ##### 1   - MCP4262-502
 Try https://www.digikey.com/product-detail/en/microchip-technology/MCP4262-502E-UN/MCP4262-502E-UN-ND/1635819 or https://www.mouser.com/ProductDetail/Microchip-Technology/MCP4262-502E-UN?qs=sGAEpiMZZMuD%2F7PTYBwKqUWe8PKqoc794Kb1a2FsZsY%3D or https://www.microchipdirect.com/product/MCP4262?keywords=MCP4262-502E%2FUN
 
-
  ##### 1   - MCP4262-104
 Arrow      https://www.arrow.com/en/products/mcp4262-104eun/microchip-technology
-
-
 
  ##### 2   - 27 Ohm +-20% resistor, axial leads unless you are a good solderer
 Example: https://www.digikey.com/product-detail/en/stackpole-electronics-inc/CF18JT27R0/CF18JT27R0CT-ND/2022704
@@ -133,7 +130,7 @@ https://www.digikey.com/product-detail/en/bourns-inc/PTV09A-4030U-B204/PTV09A-40
 or formulate your own search
 
  ##### 1 ICSP 6 contact socket header
-  Example: https://www.mouser.com/ProductDetail/Samtec/SSW-102-01-T-D?qs=sGAEpiMZZMs%252BGHln7q6pm%252BteH15HsL84m6dgkbzsxJE%3D
+  Example: https://www.mouser.com/ProductDetail/Samtec/SSW-103-01-T-D?qs=sGAEpiMZZMvffgRu4KC1R5Idk0xWU0s0Ld%252B52Hf5l5s%3D
 
  ##### 1   - HX711 ADC (recommended unless you can code for own ADC)
 AlliExpress   https://www.aliexpress.com/item/Dual-Channel-HX711-Weighing-Pressure-Sensor-24-bit-Precision-A-D-Module-for-arduino-DIY-Electronic/32878181081.html?spm=2114.search0204.3.2.5f8a7264S5dDtV&ws_ab_test=searchweb0_0,searchweb201602_2_10065_10068_10130_5726815_10547_10546_10059_10884_10548_315_10545_10887_10696_100031_531_10084_10083_5726915_10103_10618_10307_449,searchweb201603_60,ppcSwitch_5_ppcChannel&algo_expid=719ad9df-13c6-42bc-adff-e19814e28dae-0&algo_pvid=719ad9df-13c6-42bc-adff-e19814e28dae&priceBeautifyAB=0
