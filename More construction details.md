@@ -1,3 +1,5 @@
+The hardest aspect of construction will be soldering the three MSOP packaged components.  It will be easier for you if you use leaded solder due to the lower soldering iron temperature you'll be allowed to use.  Higher temperatures than that tend to causes delamination of the PCB.  Another idea instead might be to use [very precisely] the solder paste that contains actual solder powder.
+
 If for some odd reason you are stuck using the "not recommended due to far lower resolution" ADS1X15, observe the following 3 points:
 
  ##### 1.  A decoupling capacitor is required at the ADS1X15 device VDD to GND.  From the datasheet:
