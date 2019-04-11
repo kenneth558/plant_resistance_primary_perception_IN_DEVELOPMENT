@@ -39,7 +39,7 @@ Digi-Key   https://www.digikey.com/product-detail/en/stackpole-electronics-inc/C
 Buy from one of the mentioned vendors or Jameco, Mouser, Newark or shop from list: https://www.google.com/search?q=680+ohm+"0.25w"+axial+resistor&client=firefox-b-1-d&biw=810&bih=1361&tbm=shop&tbs=p_ord:p&ei=sY58XMDxFoXXjwTf0KyQAw&ved=0ahUKEwiAjsjCuefgAhWF64MKHV8oCzIQuw0IwQQoAQ  color code = yellow violet brown
 
  ##### 1   - 3.3 KOhm +-20% resistor, axial leads unless you are a good solderer
-Arrow      https://www.arrow.com/en/products/cf18jt3k30/stackpole-electronics
+Arrow      https://www.arrow.com/en/products/cf14jt3k30/stackpole-electronics
 Digi-Key   https://www.digikey.com/product-detail/en/stackpole-electronics-inc/CF18JT3K30/CF18JT3K30CT-ND/2022754
 Buy from one of the mentioned vendors or Jameco, Mouser, Newark or shop from list similar to above.  Color code = orange orange red
 
@@ -49,7 +49,7 @@ Digi-Key   https://www.digikey.com/products/en?keywords=CF18JT1M00CT-ND
 Buy from one of the mentioned vendors or Jameco, Mouser, Newark or shop from list similar to above.  Color code = brown black green 
 
  ##### 1   - 1.5 MOhm +-20% resistor, axial leads unless you are a good solderer
- Arrow      https://www.arrow.com/en/products/cf18jt1m50/stackpole-electronics
+ Arrow      https://www.arrow.com/en/products/cf14jt1m50/stackpole-electronics
  Digi-Key   https://www.digikey.com/products/en?keywords=CF18JT1M50CT-ND
 Buy from one of the mentioned vendors or Jameco, Mouser, Newark or shop from list similar to above.  Color code = brown green green 
 
