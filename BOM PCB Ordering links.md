@@ -23,6 +23,7 @@ AlliExpress   https://www.aliexpress.com/item/5PCS-LM334Z-TO-92-LM334-3-Terminal
 
  ##### 1   - MCP4262-502
 Digi-Key     https://www.digikey.com/product-detail/en/microchip-technology/MCP4262-502E-UN/MCP4262-502E-UN-ND/1635819 
+
 Mouser       https://www.mouser.com/ProductDetail/Microchip-Technology/MCP4262-502E-UN?qs=sGAEpiMZZMuD%2F7PTYBwKqUWe8PKqoc794Kb1a2FsZsY%3D or https://www.microchipdirect.com/product/MCP4262?keywords=MCP4262-502E%2FUN
 
  ##### 1   - MCP4262-104
@@ -30,48 +31,70 @@ Arrow      https://www.arrow.com/en/products/mcp4262-104eun/microchip-technology
 
  ##### 2   - 27 Ohm +-20% resistor, axial leads unless you are a good solderer
 Arrow      https://www.arrow.com/en/products/cf14jt27r0/stackpole-electronics
+
 Digi-Key   https://www.digikey.com/product-detail/en/stackpole-electronics-inc/CF18JT27R0/CF18JT27R0CT-ND/2022704
+
 Buy from one of the mentioned vendors or Jameco, Mouser, Newark or shop from list: https://www.google.com/search?q=22+ohm+%220.25w%22+axial+resistor&client=firefox-b-1-d&biw=810&bih=1361&tbm=shop&tbs=p_ord:p&ei=sY58XMDxFoXXjwTf0KyQAw&ved=0ahUKEwiAjsjCuefgAhWF64MKHV8oCzIQuw0IwQQoAQ  color code = red violet black
 
  ##### 3   - 470 Ohm +-20% resistor, axial leads unless you are a good solderer. 
 Arrow      https://www.arrow.com/en/products/cf14jt470r/stackpole-electronics
+
 Digi-Key   https://www.digikey.com/product-detail/en/stackpole-electronics-inc/CF14JT470R/CF14JT470RCT-ND/1830342
+
 Buy from one of the mentioned vendors or Jameco, Mouser, Newark or shop from list: https://www.google.com/search?q=680+ohm+"0.25w"+axial+resistor&client=firefox-b-1-d&biw=810&bih=1361&tbm=shop&tbs=p_ord:p&ei=sY58XMDxFoXXjwTf0KyQAw&ved=0ahUKEwiAjsjCuefgAhWF64MKHV8oCzIQuw0IwQQoAQ  color code = yellow violet brown
 
  ##### 1   - 3.3 KOhm +-20% resistor, axial leads unless you are a good solderer
 Arrow      https://www.arrow.com/en/products/cf14jt3k30/stackpole-electronics
+
 Digi-Key   https://www.digikey.com/product-detail/en/stackpole-electronics-inc/CF18JT3K30/CF18JT3K30CT-ND/2022754
+
 Buy from one of the mentioned vendors or Jameco, Mouser, Newark or shop from list similar to above.  Color code = orange orange red
 
  ##### 2   - 1 MOhm +-20% resistor, axial leads unless you are a good solderer
 Arrow      https://www.arrow.com/en/products/cf14jt1m00/stackpole-electronics
+
 Digi-Key   https://www.digikey.com/products/en?keywords=CF18JT1M00CT-ND
+
 Buy from one of the mentioned vendors or Jameco, Mouser, Newark or shop from list similar to above.  Color code = brown black green 
 
  ##### 1   - 1.5 MOhm +-20% resistor, axial leads unless you are a good solderer
  Arrow      https://www.arrow.com/en/products/cf14jt1m50/stackpole-electronics
- Digi-Key   https://www.digikey.com/products/en?keywords=CF18JT1M50CT-ND
+
+Digi-Key   https://www.digikey.com/products/en?keywords=CF18JT1M50CT-ND
+
 Buy from one of the mentioned vendors or Jameco, Mouser, Newark or shop from list similar to above.  Color code = brown green green ...
+
 For the purist, a low-noise (metal film) resistor here does make some sense, but most likely you'll need to place two in series to obtain the correct resistance value.  The shopping exercise is left up to you.
 
  ##### 1   - 2.2 MOhm +-20% resistor, axial leads unless you are a good solderer
 Arrow      https://www.arrow.com/en/products/cf14jt2m20/stackpole-electronics
+
 Digi-Key   https://www.digikey.com/products/en?keywords=CF18JT2M20CT-ND
+
 Buy from one of the mentioned vendors or Jameco, Mouser, Newark or shop from list similar to above.  Color code = red red green 
 
  ##### 2   - 2.0 µF 16 volt+ tantalum capacitor, radial, low ESR
-Arrow      https://www.arrow.com/en/products/t356a225k016at/kemet-corporation or buy from one of the mentioned vendors or Jameco, Digi-Key, Mouser, Newark or shop from list being careful for adequate voltage: https://www.google.com/search?q=buy+2.2+%C2%B5F+tantalum+capacitor+radial&client=firefox-b-1-d&biw=810&bih=1361&tbm=shop&tbs=p_ord:p&ei=4o18XKHyNaG0jwTpoK2wBg&ved=0ahUKEwih64zguOfgAhUh2oMKHWlQC2YQuw0I0QgoAQ
+Arrow      https://www.arrow.com/en/products/t356a225k016at/kemet-corporation 
+
+or buy from one of the mentioned vendors or Jameco, Digi-Key, Mouser, Newark or shop from list being careful for adequate voltage: https://www.google.com/search?q=buy+2.2+%C2%B5F+tantalum+capacitor+radial&client=firefox-b-1-d&biw=810&bih=1361&tbm=shop&tbs=p_ord:p&ei=4o18XKHyNaG0jwTpoK2wBg&ved=0ahUKEwih64zguOfgAhUh2oMKHWlQC2YQuw0I0QgoAQ
 
  ##### 2   - 0.1 µF ceramic capacitor, radial, low dissipation factor
-Arrow      https://www.arrow.com/en/products/c323c104m5r5ta/kemet-corporation or buy from one of the mentioned vendors or Jameco, Digi-Key, Mouser, Newark or shop from list: https://www.google.com/search?q=buy+.01+%C2%B5F+ceramic+capacitor+radial&client=firefox-b-1-d&biw=810&bih=1361&tbm=shop&tbs=p_ord:p&ei=so18XKXjG4GMjwTx8ZjAAw&ved=0ahUKEwilhIHJuOfgAhUBxoMKHfE4BjgQuw0I7wgoAg
+Arrow      https://www.arrow.com/en/products/c323c104m5r5ta/kemet-corporation 
+
+or buy from one of the mentioned vendors or Jameco, Digi-Key, Mouser, Newark or shop from list: https://www.google.com/search?q=buy+.01+%C2%B5F+ceramic+capacitor+radial&client=firefox-b-1-d&biw=810&bih=1361&tbm=shop&tbs=p_ord:p&ei=so18XKXjG4GMjwTx8ZjAAw&ved=0ahUKEwilhIHJuOfgAhUBxoMKHfE4BjgQuw0I7wgoAg
 
  ##### 1   - 0.01 µF ceramic capacitor, radial
-Arrow      https://www.arrow.com/en/products/ncd103m100z5uf/nic-components or buy from one of the mentioned vendors or Jameco, Digi-Key, Mouser, Newark or shop from list: https://www.google.com/search?q=buy+.01+%C2%B5F+ceramic+capacitor+radial&client=firefox-b-1-d&biw=810&bih=1361&tbm=shop&tbs=p_ord:p&ei=so18XKXjG4GMjwTx8ZjAAw&ved=0ahUKEwilhIHJuOfgAhUBxoMKHfE4BjgQuw0I7wgoAg
+Arrow      https://www.arrow.com/en/products/ncd103m100z5uf/nic-components 
+
+or buy from one of the mentioned vendors or Jameco, Digi-Key, Mouser, Newark or shop from list: https://www.google.com/search?q=buy+.01+%C2%B5F+ceramic+capacitor+radial&client=firefox-b-1-d&biw=810&bih=1361&tbm=shop&tbs=p_ord:p&ei=so18XKXjG4GMjwTx8ZjAAw&ved=0ahUKEwilhIHJuOfgAhUBxoMKHfE4BjgQuw0I7wgoAg
 
  ##### 3   - tri color LED or three different colored LEDs: Red, Amber, and Green.  Rectangular (2mm x 5mm) size.  High efficiency (high mcd per mA) is best due to little power available
 Arrow    Yellow - https://www.arrow.com/en/products/ssl-lx2573yd/lumex,
-         Red - https://www.arrow.com/en/products/ssl-lx2573id/lumex, and
-         Green - https://www.arrow.com/en/products/ssl-lx2573gd/lumex
+
+Red - https://www.arrow.com/en/products/ssl-lx2573id/lumex, and
+
+Green - https://www.arrow.com/en/products/ssl-lx2573gd/lumex
+
 Buy from one of the mentioned vendors or Jameco, Digi-Key, Mouser, Newark or shop from list: https://www.google.com/search?q=mcd+led+efficiency+t-1&client=firefox-b-1-d&biw=810&bih=1361&tbm=shop&tbs=p_ord:p&ei=SZd8XKXcC43SsAXcpqaQBQ&ved=0ahUKEwjlpMLbwefgAhUNKawKHVyTCVIQuw0ItgMoAQ
 
  ##### 3 MOSFETs to drive the LEDs:
@@ -79,26 +102,42 @@ Arrow      https://www.arrow.com/en/products/vn2106n3-g/microchip-technology
  
  ##### 2   - Potentiometer 50 KOhm or other high value, rotary operation, linear taper, single turn w/knob or cap and mounting means or PCB mount (AKA top adjust)
 Arrow      https://www.arrow.com/en/products/ptv09a-4030u-b204/bourns
+
 or
+
 https://www.arrow.com/en/products/ptv09a-4020u-b504/bourns
+
 or
+
 https://www.jameco.com/z/RV09AF-40-20K-B500K-Taiwan-Alpha-Electronic-500K-Ohm-50-mW-9-mm-20-0-787-Inch-Knurl-Shaft-Solder-Lugs-Linear-Taper-Potentiometer_2272231.html
+
 or
+
 https://www.digikey.com/product-detail/en/bourns-inc/PTV09A-4030U-B204/PTV09A-4030U-B204-ND/3781141
+
 or formulate your own search
 
  ##### 1 ICSP 6 contact socket header
-Arrow  long pins: https://www.arrow.com/en/products/ssq-103-03-t-d/samtec or shorter: https://www.arrow.com/en/products/bl206g/fischer-elektronik or https://www.mouser.com/ProductDetail/Samtec/SSW-103-01-T-D?qs=sGAEpiMZZMvffgRu4KC1R5Idk0xWU0s0Ld%252B52Hf5l5s%3D.    The length of pins matters when you might decide to use long pins for the other four inter-board header connectors to space the boards farther apart.
+Arrow  long pins: https://www.arrow.com/en/products/ssq-103-03-t-d/samtec 
+
+or shorter: https://www.arrow.com/en/products/bl206g/fischer-elektronik 
+
+or https://www.mouser.com/ProductDetail/Samtec/SSW-103-01-T-D?qs=sGAEpiMZZMvffgRu4KC1R5Idk0xWU0s0Ld%252B52Hf5l5s%3D.    
+
+The length of pins matters when you might decide to use long pins for the other four inter-board header connectors to space the boards farther apart.
 
  ##### 1   - HX711 ADC (recommended unless you can code for own ADC)
 AlliExpress   https://www.aliexpress.com/item/Dual-Channel-HX711-Weighing-Pressure-Sensor-24-bit-Precision-A-D-Module-for-arduino-DIY-Electronic/32878181081.html?spm=2114.search0204.3.2.5f8a7264S5dDtV&ws_ab_test=searchweb0_0,searchweb201602_2_10065_10068_10130_5726815_10547_10546_10059_10884_10548_315_10545_10887_10696_100031_531_10084_10083_5726915_10103_10618_10307_449,searchweb201603_60,ppcSwitch_5_ppcChannel&algo_expid=719ad9df-13c6-42bc-adff-e19814e28dae-0&algo_pvid=719ad9df-13c6-42bc-adff-e19814e28dae&priceBeautifyAB=0
 
  ##### 1  header strip with at least 32 pins if it is a breakaway type
-Arrow  short pins:    https://www.arrow.com/en/products/77311-802-36lf/amphenol-fci or, if not a breakaway, 4 different strips of lengths 6, 8, 8, and 10.  You might have leftover header strips with longer pins, in which case the ICSP 6 contact socket header will need to be the longer pin version or else trim all the long pins down to a suitable length.
+Arrow  short pins:    https://www.arrow.com/en/products/77311-802-36lf/amphenol-fci 
+
+or, if not a breakaway, 4 different strips of lengths 6, 8, 8, and 10.  You might have leftover header strips with longer pins, in which case the ICSP 6 contact socket header will need to be the longer pin version or else trim all the long pins down to a suitable length.
    
  ##### Repeat tip: If you're not satisfied with any of the sourcing links I've provided, search https://www.findchips.com/search/ for the part.
 
 Newer Version of the HX711 is available instead, but not yet tested:
+
 AlliExpress   https://www.aliexpress.com/item/Free-shipping-Goose-electronic-HX711-module-weighing-sensor-24-AD-module-pressure-sensor-AD-module-SCM/32441222056.html?spm=2114.search0204.3.31.5f8a7264S5dDtV&ws_ab_test=searchweb0_0,searchweb201602_2_10065_10068_10130_5726815_10547_10546_10059_10884_10548_315_10545_10887_10696_100031_531_10084_10083_5726915_10103_10618_10307_449,searchweb201603_60,ppcSwitch_5_ppcChannel&algo_expid=719ad9df-13c6-42bc-adff-e19814e28dae-4&algo_pvid=719ad9df-13c6-42bc-adff-e19814e28dae&priceBeautifyAB=0
 
 or 1 - ADS1X15 ADC (not recommended due to far lower resolution, so only if it's all that you can come up with...and favor the ADS1115), or code for your own ADC
