@@ -51,7 +51,7 @@ Buy from one of the mentioned vendors or Jameco, Mouser, Newark or shop from lis
  ##### 1   - 1.5 MOhm +-20% resistor, axial leads unless you are a good solderer
  Arrow      https://www.arrow.com/en/products/cf14jt1m50/stackpole-electronics
  Digi-Key   https://www.digikey.com/products/en?keywords=CF18JT1M50CT-ND
-Buy from one of the mentioned vendors or Jameco, Mouser, Newark or shop from list similar to above.  Color code = brown green green 
+Buy from one of the mentioned vendors or Jameco, Mouser, Newark or shop from list similar to above.  Color code = brown green green ...
 For the purist, a low-noise (metal film) resistor here does make some sense, but most likely you'll need to place two in series to obtain the correct resistance value.  The shopping exercise is left up to you.
 
  ##### 1   - 2.2 MOhm +-20% resistor, axial leads unless you are a good solderer
