@@ -54,7 +54,7 @@ Buy from one of the mentioned vendors or Jameco, Mouser, Newark or shop from lis
 Buy from one of the mentioned vendors or Jameco, Mouser, Newark or shop from list similar to above.  Color code = brown green green 
 
  ##### 1   - 2.2 MOhm +-20% resistor, axial leads unless you are a good solderer
-Arrow      https://www.arrow.com/en/products/cf18jt2m20/stackpole-electronics
+Arrow      https://www.arrow.com/en/products/cf14jt2m20/stackpole-electronics
 Digi-Key   https://www.digikey.com/products/en?keywords=CF18JT2M20CT-ND
 Buy from one of the mentioned vendors or Jameco, Mouser, Newark or shop from list similar to above.  Color code = red red green 
 
