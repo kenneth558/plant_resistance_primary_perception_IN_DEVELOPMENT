@@ -101,11 +101,11 @@ Buy from one of the mentioned vendors or Jameco, Digi-Key, Mouser, Newark or sho
 Arrow      https://www.arrow.com/en/products/vn2106n3-g/microchip-technology
  
  ##### 2   - Potentiometer 50 KOhm or other high value, rotary operation, linear taper, single turn w/knob or cap and mounting means or PCB mount (AKA top adjust)
-Arrow      https://www.arrow.com/en/products/ptv09a-4030u-b204/bourns
+Arrow      https://www.arrow.com/en/products/ptv09a-4015f-b503/bourns
 
 or
 
-https://www.arrow.com/en/products/ptv09a-4020u-b504/bourns
+https://www.arrow.com/en/products/ptv09a-4030u-b203/bourns
 
 or
 
