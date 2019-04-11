@@ -115,7 +115,7 @@ or
 
 https://www.digikey.com/product-detail/en/bourns-inc/PTV09A-4030U-B204/PTV09A-4030U-B204-ND/3781141
 
-or formulate your own search
+or formulate your own search.  Shorten the shaft you're shopping for (i.e. - take the 4030 in the part number down to 4025, 4020 or 4015) to obtain a wider variety of shopping results, keep the taper to be linear (stay away from ordering audio tapers where that "B" in the part number becomes an "A".
 
  ##### 1 ICSP 6 contact socket header
 Arrow  long pins: https://www.arrow.com/en/products/ssq-103-03-t-d/samtec 
