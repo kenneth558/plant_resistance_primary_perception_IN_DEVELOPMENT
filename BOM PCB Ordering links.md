@@ -88,13 +88,13 @@ https://www.digikey.com/product-detail/en/bourns-inc/PTV09A-4030U-B204/PTV09A-40
 or formulate your own search
 
  ##### 1 ICSP 6 contact socket header
-Arrow  long pins: https://www.arrow.com/en/products/ssq-103-03-t-d/samtec or shorter: https://www.arrow.com/en/products/bl206g/fischer-elektronik or https://www.mouser.com/ProductDetail/Samtec/SSW-103-01-T-D?qs=sGAEpiMZZMvffgRu4KC1R5Idk0xWU0s0Ld%252B52Hf5l5s%3D
+Arrow  long pins: https://www.arrow.com/en/products/ssq-103-03-t-d/samtec or shorter: https://www.arrow.com/en/products/bl206g/fischer-elektronik or https://www.mouser.com/ProductDetail/Samtec/SSW-103-01-T-D?qs=sGAEpiMZZMvffgRu4KC1R5Idk0xWU0s0Ld%252B52Hf5l5s%3D.    The length of pins matters when you might decide to use long pins for the other four inter-board header connectors to space the boards farther apart.
 
  ##### 1   - HX711 ADC (recommended unless you can code for own ADC)
 AlliExpress   https://www.aliexpress.com/item/Dual-Channel-HX711-Weighing-Pressure-Sensor-24-bit-Precision-A-D-Module-for-arduino-DIY-Electronic/32878181081.html?spm=2114.search0204.3.2.5f8a7264S5dDtV&ws_ab_test=searchweb0_0,searchweb201602_2_10065_10068_10130_5726815_10547_10546_10059_10884_10548_315_10545_10887_10696_100031_531_10084_10083_5726915_10103_10618_10307_449,searchweb201603_60,ppcSwitch_5_ppcChannel&algo_expid=719ad9df-13c6-42bc-adff-e19814e28dae-0&algo_pvid=719ad9df-13c6-42bc-adff-e19814e28dae&priceBeautifyAB=0
 
  ##### 1  header strip with at least 32 pins if it is a breakaway type
-Arrow      https://www.arrow.com/en/products/77311-802-36lf/amphenol-fci or, if not a breakaway, 4 different strips of lengths 6, 8, 8, and 10.
+Arrow  short pins:    https://www.arrow.com/en/products/77311-802-36lf/amphenol-fci or, if not a breakaway, 4 different strips of lengths 6, 8, 8, and 10.  You might have leftover header strips with longer pins, in which case the ICSP 6 contact socket header will need to be the longer pin version or else trim all the long pins down to a suitable length.
    
  ##### Repeat tip: If you're not satisfied with any of the sourcing links I've provided, search https://www.findchips.com/search/ for the part.
 
