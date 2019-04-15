@@ -4,14 +4,12 @@
 
 The specific circuit configuration you'll need with this current sketch version can be described as follows.  The description is to some extent covert because this stage of development requires you to be or become conversant/knowledgeable about things electronic and Arduino, anyway.  Vendors I use to purchase these are shown in [this page](https://github.com/kenneth558/plant_resistance_primary_perception/blob/Free/More%20construction%20details.md) near the end of it.  
 
-[KiCad schematic here](https://github.com/kenneth558/plant_resistance_primary_perception/blob/Free/embeddeds/gwaamc%20schematic%20quadrant%20A.png) that GitHub opens as ASCII.  [System schematic](https://github.com/kenneth558/plant_resistance_primary_perception/blob/Free/embeddeds/GWAAMC%20System%20single%20page.png) .png on a single screen.
+[KiCad schematic here](https://github.com/kenneth558/plant_resistance_primary_perception/blob/Free/schematic.pdf). 
 
 
-KiCad schematic .png screenshot files: [gwaamsea schematic quadrant A.png](https://github.com/kenneth558/plant_resistance_primary_perception/blob/Free/embeddeds/GWAAM-Sea%20schematic%20quadrant%20A.png), [gwaamsea schematic quadrant B.png](https://github.com/kenneth558/plant_resistance_primary_perception/blob/Free/embeddeds/GWAAM-Sea%20schematic%20quadrant%20B.png), [gwaamsea schematic quadrant C.png](https://github.com/kenneth558/plant_resistance_primary_perception/blob/Free/embeddeds/GWAAM-Sea%20schematic%20quadrant%20C.png), [gwaamsea schematic quadrant D.png](https://github.com/kenneth558/plant_resistance_primary_perception/blob/Free/embeddeds/GWAAM-Sea%20schematic%20quadrant%20D.png), [gwaamsea schematic quadrant E.png](https://github.com/kenneth558/plant_resistance_primary_perception/blob/Free/embeddeds/GWAAM-Sea%20schematic%20quadrant%20E.png), [gwaamsea schematic quadrant F.png](https://github.com/kenneth558/plant_resistance_primary_perception/blob/Free/embeddeds/GWAAM-Sea%20schematic%20quadrant%20F.png)
+**One MCP4262-502** with some way to connect into the circuit.  The sketch code refers to these as LSB.
 
-**Two MCP4162-503** with some way to connect into the circuit.  The sketch code refers to these as LSB.
-
-**Two or Four MCP4162-104** with some way to connect into the circuit.  (Confused how many? My development circuit is built with four, but two of those four never impact operation.  The two LM334 of any bridge may be substituted by several of these MCP digipots if you can drive their CS pins.  The sketch is set up to drive 74LV138 decoders directly which can then drive the increased number of dpots.
+**One MCP4262-104** with some way to connect into the circuit.  The sketch code refers to these as MSB.
 
 **Two LM334** ICs with some way to connect into the circuit - each need their + pins connected to Arduino 5v power.  Each also needs one MCP4162-503 digipot resistor and half the amount of MCP4162-104 digipot resistors connected in series between their current programming pins and their - pins.  Connect each digipot CS pin to the appropriate Arduino Digital pin based on comments in the sketch code.  *Alternate to using LM334s: Several more digipots each leg and one or more 74LV138 to drive the digipot CS lines.  See sketch and schematic notes for details*
 
