@@ -1,4 +1,4 @@
-**Current Operational Status:** As of 15 January 2019, [this sketch](https://github.com/kenneth558/plant_resistance_primary_perception/blob/Free/sketch%20code/adc_for_plant_tissue.ino) is **fully operational in the described circuit configuration** sans wifi and SD card storage.  One single challenge remains to me: configuring the electrodes so as to acquire high enough conductivity for the LM334 circuit to work.
+**Current Operational Status:** As of 15 January 2019, [this sketch](https://github.com/kenneth558/plant_resistance_primary_perception/blob/Free/sketch%20code/adc_for_plant_tissue.ino) can be made with appropriate macro defines **fully operational in the described circuit configuration** sans wifi and SD card storage.  One single challenge remains to me: configuring the electrodes so as to acquire high enough conductivity for the LM334 circuit to work.
 
 ------------------------------------
 
