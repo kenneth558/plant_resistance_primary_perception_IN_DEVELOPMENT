@@ -1,6 +1,6 @@
 //        BEFORE COMPILING THIS SKETCH you must set or confirm the following preprocessor macros appropriately for your configuration and preferences !!!
 #define LM334_BRIDGES 1                                        //Number of digipot Wheatstones you have topped with LM334s each leg, (schematically wired before bare DPot bridges) but this sketch revision level not tested beyond 1.  Remove if using Wheatstone bridge with only standard or DPot resistors.  make this the number of bridges with upper resistive elements being LM334s controllable with the MCP4162-104 pots
-#define DPOTS_PER_LM334_LEG 3                                  //Not yet tested for any setting except 3, so verify it before trusting fully.  Due to their significant temperature coefficient, LM334s need to be used in pairs so their tempco offsets each other's; i.e., LM334 legs are invalid unless bridged with both legs topped by a LM334
+#define DPOTS_PER_LM334_LEG 2                                  //Not yet tested for any setting except 3, so verify it before trusting fully.  Due to their significant temperature coefficient, LM334s need to be used in pairs so their tempco offsets each other's; i.e., LM334 legs are invalid unless bridged with both legs topped by a LM334
 //#define INBOARDS_PLOTTED 2                              //The number of consecutive analog pins to plot, beginning with PIN_A0
 #define OUTBOARDS_PLOTTED 1                             //The number of consecutive "highest-sensitivity ADC" pins to plot, beginning with A0 and, if double-ended, A1.  OUTBOARD ADC ONLY - DOES _NOT_ INCLUDE INBOARD ANALOG INPUT PINS
 //#define MAGNIFICATION_FACTOR 5                                 //Activates the plotting of magnified traces in all ADC linespaces; upper limit somewhere less than 4,294,967,295. Note: you can disable displaying magnified traces altogether by not defined this macro at all. Proper use of SUPERIMPOSE_FIRST_INBOARDS_IN_PAIRS will also disable magnified traces of the first two analog inputs
@@ -15,7 +15,7 @@
 #define PERCENT_OF_LINESPACE_MAGNIFIED_VIEW_SKIPS_WHEN_REPOSITIONED_WHEN_LINESPACE_LIMITS_GET_EXCEEDED 85   //BETWEEN 0 AND 100 indicating how much of the display region in percent to skip when magnified view trace has to get repositioned because trace would be outside region bounds; NO BOUNDS CHECKING IS PROVIDED!!!
 #define ANALOG_INPUT_BITS_OF_BOARD 10                                        //Most Arduino boards are 10-bit resolution, but some can be 12 bits.  For known 12 bit boards (SAM, SAMD and TTGO XI architectures), this gets re-defined below, so generally this can be left as 10 even for those boards
 #define SECONDS_THAT_A_LGT8FX8E_HARDWARE_SERIAL_NEEDS_TO_COME_UP_WORKING 9   //8 works only usually
-#define HIGHEST_SENSI_PGA_GAIN_FACTOR 64                                     //PGA=Programmable Gain Amplifier: many ADCs will correlate a gain of one with full-scale being rail-to-rail, while a gain of anything higher correlates to full-scale being in the mV range (most sensitive and most noise-susceptible).  Set of allowable values: 64 and 128 will cause INA+/- to be read.  32 will cause INB+/- to be read. Defining POT_WIPER_TO_THIS_ANALOG_INPUT_PIN_TO_ADJUST_PGA_GAIN_FACTOR will override this macro
+#define HIGHEST_SENSI_PGA_GAIN_FACTOR 128                                     //PGA=Programmable Gain Amplifier: many ADCs will correlate a gain of one with full-scale being rail-to-rail, while a gain of anything higher correlates to full-scale being in the mV range (most sensitive and most noise-susceptible).  Set of allowable values: 64 and 128 will cause INA+/- to be read.  32 will cause INB+/- to be read. Defining POT_WIPER_TO_THIS_ANALOG_INPUT_PIN_TO_ADJUST_PGA_GAIN_FACTOR will override this macro
 #define MIN_WAIT_TIME_BETWEEN_PLOT_POINTS_MS 1                               //Sets a maximum speed limit, but actual speed may be further limited by other factors
 #define SUPERIMPOSE_FIRST_INBOARDS_IN_PAIRS 1                                //If defined allows the rail-to-rail inboard Analog Inputs to be used to adjust digipots, but mainly causes first inboard Analog Inputs to be paired (superimposed in pairs sharing plot-line spaces) so even manual pots can be adjusted easily.
 //#define PLOT_ONLY_THE_SIGNAL_LEG_OF_SUPERIMPOSED_DPOT_LEG_BRIDGE_INBOARDS  //By defining this macro comparison between signal and reference is no longer possible but it could be less confusing this way since user doesn't need to manually adjust anything with DPots and especially with AUTO_BRIDGE_BALANCING. ADVISE without AUTO_BRIDGE_BALANCING in effect, this macro probably should not be defined either. But regardless for greatest flexibility, that macro won't affect this.
@@ -51,7 +51,7 @@
 //FUTURE #define BARE_DPOT_LEGS_UNBRIDGED                    //(after active bridges in terms of pin number order, passive bridges using manual pots might include these legs)Subject to change NOT CODED FOR YET, but this makes effects of DPot settings be reversed from when LM334s are used.  Note that higher values of DPot leg resistances are expected to be required.  This could mean more DPots per leg.
 //FUTURE #define DPOTS_PER_BRIDGED_BARE_LEG 3                //Might work now but not yet tested for any setting, so verify it before trusting fully
 //FUTURE #define DPOTS_PER_UNBRIDGED_BARE_LEG 3              //Might work now but not yet tested for any setting, so verify it before trusting fully
-//FUTURE #define SD_CARD_STORAGE_CS_PIN 4                    //The free version does not contain the code to utilize SD card storage.  SD card storage only available in the priced ($20) sketch version.
+//FUTURE #define SD_CHIP_SELECT_PIN 4                    //The free version does not contain the code to utilize SD card storage.  SD card storage only available in the priced ($20) sketch version.
 //FUTURE #define WIFI true                                   //The free version does not contain the code to utilize wifi.  Wifi only available in the priced ($20) sketch version.  Buy online at 
 //FUTURE #define POT_WIPER_TO_THIS_ANALOG_INPUT_PIN_TO_ADJUST_MAGNIFICATION_FACTOR 4    //NOT the digital number for pins! Is more like the leg index //Can use a spare analog input as magnification attenuator by connecting wiper of a pot (100K or greater, please) that voltage-divides 0-5 vdc.  //Arduino pin only unless a dedicated ADS1115 is used
 //FUTURE #define USING_DUAL_74LV138_DECODERS_FOR_DPOT_CS_LINES
@@ -85,7 +85,7 @@
   File Name          : adc_for_plant_tissue.ino
   Author             : KENNETH L ANDERSON
   Version            : v.Free
-  Date               : 30-MAR-2019
+  Date               : 17-APR-2019
   Description        : To replicate Cleve Backster's findings that he attributed to a phenomenon he called "Primary Perception".  Basically, this sketch turns an Arduino MCU and optional (recommended) ADS1115 into a nicely functional GSR (Galvanic Skin Response) device or poor man's polygraph) in order to learn/demonstrate telempathic gardening.
   Boards tested on   : Uno using both ADS1115 and inboard analog inputs.
                      : TTGO XI using ADS1115 in an early version
@@ -119,6 +119,7 @@
   Bachelor of General Studies majoring in General Sciences
 ********************************************************************************
    Changelog:  17 Apr   2019 :  Further fixes to allow MCP42xx dual digi-pots - lines 1048 and 1050 pin check changed to 0x40 from 0x400
+               15 Apr   2019 :  First use of MCP4262s (instead of MCP4162s) and electrode connect indicator LEDs
                30 Mar   2019 :  Further fixes to allow MCP42xx dual digi-pots
                15 Feb   2019 :  Incorporates run-time gain adjustment with potentiometer wiper connected to Analog Input pin POT_WIPER_TO_THIS_ANALOG_INPUT_PIN_TO_ADJUST_PGA_GAIN_FACTOR when HX711 is used.  ADC inputs channel A will need to be wired parallel with channel B inputs.  Manufacturer will use 3-position switch with two 470K resistors in series between Vcc and GND and the middle switch position connects to middle of the resistor network, other two switch positions connect to Vcc and GND.
                24 Jan   2019 :  In process of modifying linearity diags to accommodate far higher resistances than I originally expected.  Hopefully the circuit itself won't need any modifications.
@@ -206,7 +207,7 @@ Elsewhere
     #include <PhpocExpansion.h>
 //Object gets instantiated during setup() for greatest flexibility
 #endif
-#ifdef SD_CARD_STORAGE_CS_PIN  //The free version does not contain the code to utilize SD card storage.  SD card storage only available in the priced ($20) sketch version.
+#ifdef SD_CHIP_SELECT_PIN  //The free version does not contain the code to utilize SD card storage.  SD card storage only available in the priced ($20) sketch version.
     #error  The free version does not contain the code to utilize SD card storage.  SD card storage only available in the priced ($20) sketch version.
     #ifndef SPIINCLUDED
         #include "SPI.h" //This is the hardware implementation of SPI with CS pin addressable devices (instead of devices with unidirectional data in and data out pins needing addressed via data).  The software implementation uses shiftIn() instead and is slower but frees up otherwise-CS pins and can be used adjunctive for cases where a chip has no CS pin.  Adafruit_ADS1015 uses the shiftIn() method, so those pins are user's choice.  Not data addressable as would be in I2C
@@ -318,6 +319,8 @@ Elsewhere
         #undef HIGHEST_SENSI_PGA_GAIN_FACTOR
     #endif
 #endif
+#define RED_LED_PIN 7 //ALL LED pins must be in a contiguous block that begins with both LED pins for ADC(0)
+#define YELLOW_LED_PIN 6 //ALL LED pins must be in a contiguous block that begins with both LED pins for ADC(0)
 #ifndef LOOP_COUNTER_LIMIT_THAT_TRACE_IS_ALLOWED_TO_BE_OFF_CENTER
     #define LOOP_COUNTER_LIMIT_THAT_TRACE_IS_ALLOWED_TO_BE_OFF_CENTER 65536 //really bad idea, will crash at some point
 #endif
@@ -676,27 +679,27 @@ If you only have the Arduino without an ADS1X15, then define INBOARDS_PLOTTED.  
       Never use bit 6 of DPotPin for anything except to designate the second pot in a dual pkg
     
     */
-    //If a digipot is the second in a pkg, you will OR that digipot's pin number with B01000000 (add 64) like so: #define LSB_DPOT_B0SIG_PIN ( 7 + 64 ) would be for when pin 7 is the physical Arduino Digital pin
+    //If a digipot is the second in a MCP42xx pkg, you will OR that digipot's pin number with B01000000 (add 64) like so: #define LSB_DPOT_B0SIG_PIN ( 7 + 64 ) would be for when pin 7 is the physical Arduino Digital pin.  MCP41xx packages need no such consideration
     //If you find that you don't understand that, I'd encourage you to learn the topics of converting between hexadecimal, decimal, and binary and to learn bitwise boolean operations
-    #define LSB_DPOT_B0SIG_PIN 5         // Signal LSB fine adjust digital pot's CS line connected to here
+    #define LSB_DPOT_B0SIG_PIN 4         // Signal LSB fine adjust digital pot's CS line connected to here
 //    #define LSB_DPOT_B0SIG_STARTVALUE 0 //309 52 - 54 or ( MAX_DPOT_SETTG / 2 )   //this settingValue in digipots and with 1 MOhm resistors for the LM334 loads put the LM334 output voltage at closest: with three DPots per leg
     #define LSB_DPOT_B0SIG_STARTVALUE 38 //304 52 - 54 or ( MAX_DPOT_SETTG / 2 )   //this settingValue in digipots and with 1 MOhm resistors for the LM334 loads put the LM334 output voltage at closest: with three DPots per leg
 //    #define LSB_DPOT_B0SIG_STARTVALUE 83 //52 - 54 or ( MAX_DPOT_SETTG / 2 )   //this settingValue in digipots and with 1 MOhm resistors for the LM334 loads put the LM334 output voltage at closest: with three DPots per leg
     
     #if ( ( DPOTS_PER_LM334_LEG > 0 ) || ( DPOTS_PER_BRIDGED_BARE_LEG > 0 ) )
-        #define LSB_DPOT_B0REF_PIN 8        // Reference LSB fine adjust digital pot's CS line connected to here
+        #define LSB_DPOT_B0REF_PIN ( 4 + 64 )        // Reference LSB fine adjust digital pot's CS line connected to here
 //        #define LSB_DPOT_B0REF_STARTVALUE 0 //310 or ( MAX_DPOT_SETTG / 2 )   //this settingValue in digipots and with 1 MOhm resistors for the LM334 loads put the LM334 output voltage at closest: with three DPots per leg
         #define LSB_DPOT_B0REF_STARTVALUE 50 //305 or ( MAX_DPOT_SETTG / 2 )   //this settingValue in digipots and with 1 MOhm resistors for the LM334 loads put the LM334 output voltage at closest: with three DPots per leg
 //        #define LSB_DPOT_B0REF_STARTVALUE 87 //or ( MAX_DPOT_SETTG / 2 )   //this settingValue in digipots and with 1 MOhm resistors for the LM334 loads put the LM334 output voltage at closest: with three DPots per leg
     //        #define LSB_DPOT_B0REF_STARTVALUE 18 //or ( MAX_DPOT_SETTG / 2 )   //this settingValue in digipots and with 1 MOhm resistors for the LM334 loads put the LM334 output voltage at closest: with two DPots per leg
     #endif
     #if ( ( DPOTS_PER_LM334_LEG > 1 ) || ( DPOTS_PER_BRIDGED_BARE_LEG > 1 ) || ( DPOTS_PER_UNBRIDGED_BARE_LEG > 1 ) )
-        #define NON_LSB_DPOT_1_B0SIG_PIN 6          // second digital pot of signal leg CS line connected to here.  coarse adjust B positive (signal) leg
+        #define NON_LSB_DPOT_1_B0SIG_PIN 5          // second digital pot of signal leg CS line connected to here.  coarse adjust B positive (signal) leg
 //        #define NON_LSB_DPOT_1_B0SIG_STARTVALUE ( MAX_DPOT_SETTG / 4 ) //or ( MAX_DPOT_SETTG / 2 )  //this settingValue in digipots and with 1 MOhm resistors for the LM334 loads put the LM334 output voltage at closest: with two or three DPots per leg
         #define NON_LSB_DPOT_1_B0SIG_STARTVALUE 125 //or ( MAX_DPOT_SETTG / 2 )  //this settingValue in digipots and with 1 MOhm resistors for the LM334 loads put the LM334 output voltage at closest: with two or three DPots per leg
     #endif
     #if ( ( DPOTS_PER_LM334_LEG > 1 ) || ( DPOTS_PER_BRIDGED_BARE_LEG > 1 ) )
-        #define NON_LSB_DPOT_1_B0REF_PIN 9          // second digital pot of reference leg CS line connected to here.  coarse adjust B negative (reference) leg
+        #define NON_LSB_DPOT_1_B0REF_PIN ( 5 + 64 )         // second digital pot of reference leg CS line connected to here.  coarse adjust B negative (reference) leg
 //        #define NON_LSB_DPOT_1_B0REF_STARTVALUE ( MAX_DPOT_SETTG / 4 ) //or ( MAX_DPOT_SETTG / 2 )   //this settingValue in digipots and with 1 MOhm resistors for the LM334 loads put the LM334 output voltage at closest: with three DPots per leg
         #define NON_LSB_DPOT_1_B0REF_STARTVALUE 125 //or ( MAX_DPOT_SETTG / 2 )   //this settingValue in digipots and with 1 MOhm resistors for the LM334 loads put the LM334 output voltage at closest: with three DPots per leg
     //        #define NON_LSB_DPOT_1_B0REF_STARTVALUE 117 //or ( MAX_DPOT_SETTG / 2 )   //this settingValue in digipots and with 1 MOhm resistors for the LM334 loads put the LM334 output voltage at closest: with two DPots per leg
@@ -742,6 +745,8 @@ If you only have the Arduino without an ADS1X15, then define INBOARDS_PLOTTED.  
     /* EEPROM and nonvolatile settings are only available with >8.5, <12.5 Vdc applied to CS pins of MCP4162, which we don't have with mere Arduino: */
     #define MATCHING_TO_SIGNAL_LEG true
 #endif
+
+
 
 #if ( ( defined ARDUINO_ARCH_XI-ORIGINAL ) || ( defined ARDUINO_ARCH_XI ) || ( defined ARDUINO_ARCH_SAM ) || ( defined ARDUINO_ARCH_SAMD ) ) //These are the boards known to have 12 bit analog inputs
     #ifdef ANALOG_INPUT_BITS_OF_BOARD
@@ -1044,11 +1049,12 @@ void readAndPlotFromAllADCsInAndOutboard( uint32_t, bool = !( ( bool )analogPinA
         #endif
           }
     #endif
-      digitalWrite( ( thisIsIndexForPinNotPinNumberDirectly ? dPotPins[ indexOfThisDPotCSpinInDPotArrays ] : indexOfThisDPotCSpinInDPotArrays ) & 0x3FF, LOW );
-      SPI.transfer( ( settingValue & 0x100 ) ? ( ( thisIsIndexForPinNotPinNumberDirectly ? dPotPins[ indexOfThisDPotCSpinInDPotArrays ] : \
-                    indexOfThisDPotCSpinInDPotArrays ) & 0x40 ? 0x11 : 1 ) : \
-                    ( ( thisIsIndexForPinNotPinNumberDirectly ? dPotPins[ indexOfThisDPotCSpinInDPotArrays ] : \
-                        indexOfThisDPotCSpinInDPotArrays ) & 0x40 ? 0x10 : 0 ) ); //This is the way we allow dual dpot devices MCP42xxx
+      digitalWrite( ( thisIsIndexForPinNotPinNumberDirectly ? dPotPins[ indexOfThisDPotCSpinInDPotArrays ] : indexOfThisDPotCSpinInDPotArrays ) & 0x3FF, LOW ); //activates the bar-CS pin
+
+      SPI.transfer( ( settingValue & 0x100 ) ? /*will the second data byte be one or zero?*/\
+( ( thisIsIndexForPinNotPinNumberDirectly ? dPotPins[ indexOfThisDPotCSpinInDPotArrays ] : indexOfThisDPotCSpinInDPotArrays ) & 0x40 ? 0x11 : 1 ) : \
+( ( thisIsIndexForPinNotPinNumberDirectly ? dPotPins[ indexOfThisDPotCSpinInDPotArrays ] : indexOfThisDPotCSpinInDPotArrays ) & 0x40 ? 0x10 : 0 ) ); //This is the way we allow dual dpot devices MCP42xxx
+
       SPI.transfer( settingValue & 0xFF ); // send settingValue (0~255)
       /**********************************************************************************************************************************************************
         When dual pots are employed (MCP42XXX) this is the way to control the second DPOT in the pkg:  the first digi pot of a pkg is addressed with true pin number,
@@ -2655,6 +2661,25 @@ Start_of_addon_ADC_acquisition:
     masterReadingsArray[ INDEX_OF_OUTBOARDS + whichOutboardADCindex ].CurrentUnmagnifiedReading /= SAMPLE_TIMES;
 #endif
     masterReadingsArray[ INDEX_OF_OUTBOARDS + whichOutboardADCindex ].CurrentUnmagnifiedReading = ( masterReadingsArray[ INDEX_OF_OUTBOARDS + whichOutboardADCindex ].CurrentUnmagnifiedReading < HEIGHT_OF_A_PLOT_LINESPACE ) ? masterReadingsArray[ INDEX_OF_OUTBOARDS + whichOutboardADCindex ].CurrentUnmagnifiedReading : HEIGHT_OF_A_PLOT_LINESPACE;
+
+//Here set the indicator LEDs whether shorted or open
+#if ( defined RED_LED_PIN && defined YELLOW_LED_PIN )
+    if( masterReadingsArray[ INDEX_OF_OUTBOARDS + whichOutboardADCindex ].CurrentUnmagnifiedReading == HEIGHT_OF_A_PLOT_LINESPACE )
+    {
+        digitalWrite( RED_LED_PIN + ( 2 * whichOutboardADCindex /*allows multiple ADCs*/), HIGH );
+        digitalWrite( YELLOW_LED_PIN + ( 2 * whichOutboardADCindex ), LOW );
+    }
+    else if( !masterReadingsArray[ INDEX_OF_OUTBOARDS + whichOutboardADCindex ].CurrentUnmagnifiedReading )
+    {
+        digitalWrite( RED_LED_PIN + ( 2 * whichOutboardADCindex ), LOW );
+        digitalWrite( YELLOW_LED_PIN + ( 2 * whichOutboardADCindex ), HIGH );
+    }
+    else
+    {
+        digitalWrite( RED_LED_PIN + ( 2 * whichOutboardADCindex ), LOW );
+        digitalWrite( YELLOW_LED_PIN + ( 2 * whichOutboardADCindex ), LOW );
+    }
+#endif
 #ifdef DEBUG
     while( !Serial ); // wait for serial port to connect. Needed for Leonardo's native USB
     Serial.print( F( "Line 1687 INDEX_OF_OUTBOARDS = " ) );
@@ -2773,7 +2798,7 @@ void setup()
       Serial.println();
   }
 #endif
-#if ( DPOTS > 0 )
+#if ( ( DPOTS > 0 ) || ( defined __SD_H__ ) )
   SPI.begin(); //The CS pin gets specified in the SPI.transfer( CS_pin ) instruction
   SPI.setBitOrder( MSBFIRST );
 #endif
@@ -2890,7 +2915,7 @@ void setup()
     for( uint8_t dPotIndex = 0; dPotIndex < DPOTS; dPotIndex++) //THIS ASSUMES THE ABOVE CONSTRUCT FILLS BOTH ARRAYS COMPLETELY
     {
 #ifdef NUM_DIGITAL_PINS
-      if( ( dPotSettings[ dPotIndex ] > MAX_DPOT_SETTG ) || ( dPotPins[ dPotIndex ] > NUM_DIGITAL_PINS ) ) break;  //The protection against arrays not fully set up
+      if( ( dPotSettings[ dPotIndex ] > MAX_DPOT_SETTG ) || ( dPotPins[ dPotIndex ] & 0x3F > NUM_DIGITAL_PINS ) ) break;  //The protection against arrays not fully set up
 #else
       if( dPotSettings[ dPotIndex ] > MAX_DPOT_SETTG ) break;  //The protection against arrays not fully set up
 #endif
@@ -2918,6 +2943,15 @@ to fill out the arrays and/or set the unused DPots to desired settings:*/
 #endif
 #endif
 #if ( OUTBOARDS_PLOTTED > 0 )
+#if ( RED_LED_PIN && YELLOW_LED_PIN )
+    for( uint8_t whichOutboardADCindex = 0; whichOutboardADCindex < OUTBOARDS_PLOTTED; whichOutboardADCindex++)
+    {
+        pinMode( RED_LED_PIN + ( 2 * whichOutboardADCindex ), OUTPUT );
+        digitalWrite( RED_LED_PIN + ( 2 * whichOutboardADCindex ), LOW);
+        pinMode( YELLOW_LED_PIN + ( 2 * whichOutboardADCindex ), OUTPUT );
+        digitalWrite( YELLOW_LED_PIN + ( 2 * whichOutboardADCindex ), LOW);
+    }
+#endif
 #if !( ARDUINO_ARCH_SAM || ARDUINO_ARCH_SAMD )
   analogReference( DEFAULT ); //This is the voltage level of max bit value on analog input
 #else
@@ -3290,13 +3324,13 @@ to fill out the arrays and/or set the unused DPots to desired settings:*/
         startLSBsettingForCalculatingSettingUnitsPerAnalogInputUnit[ legIndex ] = 0; //Will have to remain this way until EEPROM is untilized  //TODO: start with the EEPROM stored legLSBsettingUnitsTimes64PerAnalogInputUnit
     }
 #endif
-#ifdef SD_CARD_STORAGE_CS_PIN
+#ifdef SD_CHIP_SELECT_PIN
     #define SDCARD_FILE_NAME "gwaamc.dat"
-   if( !SD.begin( SD_CARD_STORAGE_CS_PIN ) )
+   if( !SD.begin( SD_CHIP_SELECT_PIN ) )
    {
     #if not ( ( defined MINIMIZE_COMPILED_SKETCH_SIZE_LEVEL ) && ( MINIMIZE_COMPILED_SKETCH_SIZE_LEVEL == 0 ) )
             Serial.print( F( "Failed SD card initialize code=<" ) );
-            Serial.print( SD.begin( SD_CARD_STORAGE_CS_PIN ) );
+            Serial.print( SD.begin( SD_CHIP_SELECT_PIN ) );
     #endif
     SDCardFailMsg:
     #if not ( ( defined MINIMIZE_COMPILED_SKETCH_SIZE_LEVEL ) && ( MINIMIZE_COMPILED_SKETCH_SIZE_LEVEL == 0 ) )
