@@ -118,7 +118,8 @@
   developer by limited practical experience, and being formally degreed with 
   Bachelor of General Studies majoring in General Sciences
 ********************************************************************************
-   Changelog:  30 MAR   2019 :  Further fixes to allow MCP42xx dual digi-pots
+   Changelog:  17 Apr   2019 :  Further fixes to allow MCP42xx dual digi-pots - lines 1048 and 1050 pin check changed to 0x40 from 0x400
+               30 Mar   2019 :  Further fixes to allow MCP42xx dual digi-pots
                15 Feb   2019 :  Incorporates run-time gain adjustment with potentiometer wiper connected to Analog Input pin POT_WIPER_TO_THIS_ANALOG_INPUT_PIN_TO_ADJUST_PGA_GAIN_FACTOR when HX711 is used.  ADC inputs channel A will need to be wired parallel with channel B inputs.  Manufacturer will use 3-position switch with two 470K resistors in series between Vcc and GND and the middle switch position connects to middle of the resistor network, other two switch positions connect to Vcc and GND.
                24 Jan   2019 :  In process of modifying linearity diags to accommodate far higher resistances than I originally expected.  Hopefully the circuit itself won't need any modifications.
                21 Jan   2019 :  Reversed the order of traces plotted so that the outboard ADC is in the top group.
@@ -1045,9 +1046,9 @@ void readAndPlotFromAllADCsInAndOutboard( uint32_t, bool = !( ( bool )analogPinA
     #endif
       digitalWrite( ( thisIsIndexForPinNotPinNumberDirectly ? dPotPins[ indexOfThisDPotCSpinInDPotArrays ] : indexOfThisDPotCSpinInDPotArrays ) & 0x3FF, LOW );
       SPI.transfer( ( settingValue & 0x100 ) ? ( ( thisIsIndexForPinNotPinNumberDirectly ? dPotPins[ indexOfThisDPotCSpinInDPotArrays ] : \
-                    indexOfThisDPotCSpinInDPotArrays ) & 0x400 ? 0x11 : 1 ) : \
+                    indexOfThisDPotCSpinInDPotArrays ) & 0x40 ? 0x11 : 1 ) : \
                     ( ( thisIsIndexForPinNotPinNumberDirectly ? dPotPins[ indexOfThisDPotCSpinInDPotArrays ] : \
-                        indexOfThisDPotCSpinInDPotArrays ) & 0x400 ? 0x10 : 0 ) ); //This is the way we allow dual dpot devices MCP42xxx
+                        indexOfThisDPotCSpinInDPotArrays ) & 0x40 ? 0x10 : 0 ) ); //This is the way we allow dual dpot devices MCP42xxx
       SPI.transfer( settingValue & 0xFF ); // send settingValue (0~255)
       /**********************************************************************************************************************************************************
         When dual pots are employed (MCP42XXX) this is the way to control the second DPOT in the pkg:  the first digi pot of a pkg is addressed with true pin number,
