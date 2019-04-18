@@ -1,3 +1,5 @@
+<dl><dt>17 Apr 2019</dt></dl>My first try with MCP4262 dual dPots and a real printed circuit board is not working.  Am troubleshooting....
+
 <dl><dt>08 Apr 2019</dt></dl>I have corrected the known errors in the printed circuit board design.  These errors were: Q1-3 body shown in silkscreen was backwards and VR1-2 adjustment directions were backwards.  I also spread apart the leads for Q1-3 and for U1-2.  The new board is designated v.3 in the file name.
 
 <dl><dt>07 Apr 2019</dt></dl>After trying unsuccessfully to place components on my first three boards, I offer this word of advice: use leaded solder on the MSOP packages.  I delaminated those traces on two boards while the third board is left with shorts who knows where.  Though I know the boards were subjected to higher soldering temperatures than my previous soldering jobs, I feel just the same that by paying the highest price in the world for this batch, I should have received more durable boards...thank you for bearing with the complaint.
