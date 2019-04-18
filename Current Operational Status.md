@@ -11,7 +11,7 @@ The specific circuit configuration you'll need with this current sketch version 
 
 **Two MCP4162-104** with some way to connect into the circuit.  The sketch code refers to these as MSB.
 
-I'm currently developing for MCP4262 devices (dual dPots).  So far they aren't working for me.
+I'm currently developing for MCP4262 devices (dual dPots).  So far they aren't working for me, or the professionally printed circuit board is the problem.  Am troubleshooting...
 
 **Two LM334** ICs with some way to connect into the circuit - each need their + pins connected to Arduino 5v power.  Each also needs one MCP4162-503 digipot resistor and half the amount of MCP4162-104 digipot resistors connected in series between their current programming pins and their - pins.  Connect each digipot CS pin to the appropriate Arduino Digital pin based on comments in the sketch code.  *Alternate to using LM334s: Several more digipots each leg and one or more 74LV138 to drive the digipot CS lines.  See sketch and schematic notes for details*
 
