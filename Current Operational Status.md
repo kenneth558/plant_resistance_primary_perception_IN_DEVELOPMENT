@@ -11,6 +11,8 @@ The specific circuit configuration you'll need with this current sketch version 
 
 **Two MCP4162-104** with some way to connect into the circuit.  The sketch code refers to these as MSB.
 
+I'm currently developing for MCP4262 devices (dual dPots).  So far they aren't working for me.
+
 **Two LM334** ICs with some way to connect into the circuit - each need their + pins connected to Arduino 5v power.  Each also needs one MCP4162-503 digipot resistor and half the amount of MCP4162-104 digipot resistors connected in series between their current programming pins and their - pins.  Connect each digipot CS pin to the appropriate Arduino Digital pin based on comments in the sketch code.  *Alternate to using LM334s: Several more digipots each leg and one or more 74LV138 to drive the digipot CS lines.  See sketch and schematic notes for details*
 
 **One minimal-wattage resistor** of similar resistance as the plant tissue with some way to connect into the circuit.  A resistance value of 1 Mohm works for me, and yes, I AM amazed that such a common value seems to work out fine.  The place this gets connected into the circuit is the reference leg of the Wheatstone bridge as the leg load resistance.  Note that the other Wheatstone bridge leg, the one used to balance the reference leg, is called the signal leg, and its load resistance is the plant tissue under test, AKA Device Under Test (DUT).
