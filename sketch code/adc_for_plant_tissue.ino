@@ -675,7 +675,7 @@ If you only have the Arduino without an ADS1X15, then define INBOARDS_PLOTTED.  
       Never use bit 6 of DPotPin for anything except to designate the second pot in a dual pkg
     
     */
-    //If a digipot is the second in a pkg, you will OR that digipot's pin number with B0100000 (add 64) like so: #define LSB_DPOT_B0SIG_PIN ( 7 + 64 ) would be for when pin 7 is the physical Arduino Digital pin
+    //If a digipot is the second in a pkg, you will OR that digipot's pin number with B01000000 (add 64) like so: #define LSB_DPOT_B0SIG_PIN ( 7 + 64 ) would be for when pin 7 is the physical Arduino Digital pin
     //If you find that you don't understand that, I'd encourage you to learn the topics of converting between hexadecimal, decimal, and binary and to learn bitwise boolean operations
     #define LSB_DPOT_B0SIG_PIN 5         // Signal LSB fine adjust digital pot's CS line connected to here
 //    #define LSB_DPOT_B0SIG_STARTVALUE 0 //309 52 - 54 or ( MAX_DPOT_SETTG / 2 )   //this settingValue in digipots and with 1 MOhm resistors for the LM334 loads put the LM334 output voltage at closest: with three DPots per leg
