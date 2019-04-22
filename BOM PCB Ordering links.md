@@ -18,23 +18,23 @@ qty | part number | one or two sources for purchase
  1   | MCP4262-502|Digi-Key     https://www.digikey.com/product-detail/en/microchip-technology/MCP4262-502E-UN/MCP4262-502E-UN-ND/1635819 
 .|"|Mouser       https://www.mouser.com/ProductDetail/Microchip-Technology/MCP4262-502E-UN?qs=sGAEpiMZZMuD%2F7PTYBwKqUWe8PKqoc794Kb1a2FsZsY%3D or https://www.microchipdirect.com/product/MCP4262?keywords=MCP4262-502E%2FUN
 1|MCP4262-104|Arrow      https://www.arrow.com/en/products/mcp4262-104eun/microchip-technology
-2|27 Ohm +-20% resistor, axial leads unless you are a good solderer|Arrow      https://www.arrow.com/en/products/cf14jt27r0/stackpole-electronics
+2|27 Ohm +-20% resistor, axial leads unless you are a good SMD solderer|Arrow      https://www.arrow.com/en/products/cf14jt27r0/stackpole-electronics
 .|"|Digi-Key   https://www.digikey.com/product-detail/en/stackpole-electronics-inc/CF18JT27R0/CF18JT27R0CT-ND/2022704
 .|"|Buy from one of the mentioned vendors or Jameco, Mouser, Newark or shop from list: https://www.google.com/search?q=22+ohm+%220.25w%22+axial+resistor&client=firefox-b-1-d&biw=810&bih=1361&tbm=shop&tbs=p_ord:p&ei=sY58XMDxFoXXjwTf0KyQAw&ved=0ahUKEwiAjsjCuefgAhWF64MKHV8oCzIQuw0IwQQoAQ  color code = red violet black
-3|470 Ohm +-20% resistor, axial leads unless you are a good solderer. |Arrow      https://www.arrow.com/en/products/cf14jt470r/stackpole-electronics
+3|470 Ohm +-20% resistor, axial leads unless you are a good SMD solderer. |Arrow      https://www.arrow.com/en/products/cf14jt470r/stackpole-electronics
 .|"|Digi-Key   https://www.digikey.com/product-detail/en/stackpole-electronics-inc/CF14JT470R/CF14JT470RCT-ND/1830342
 .|"|Buy from one of the mentioned vendors or Jameco, Mouser, Newark or shop from list: https://www.google.com/search?q=680+ohm+"0.25w"+axial+resistor&client=firefox-b-1-d&biw=810&bih=1361&tbm=shop&tbs=p_ord:p&ei=sY58XMDxFoXXjwTf0KyQAw&ved=0ahUKEwiAjsjCuefgAhWF64MKHV8oCzIQuw0IwQQoAQ  color code = yellow violet brown
-1|3.3 KOhm +-20% resistor, axial leads unless you are a good solderer|Arrow      https://www.arrow.com/en/products/cf14jt3k30/stackpole-electronics
+1|3.3 KOhm +-20% resistor, axial leads unless you are a good SMD solderer|Arrow      https://www.arrow.com/en/products/cf14jt3k30/stackpole-electronics
 .|"|Digi-Key   https://www.digikey.com/product-detail/en/stackpole-electronics-inc/CF18JT3K30/CF18JT3K30CT-ND/2022754
 .|"|Buy from one of the mentioned vendors or Jameco, Mouser, Newark or shop from list similar to above.  Color code = orange orange red
-2|1 MOhm +-20% resistor, axial leads unless you are a good solderer|Arrow      https://www.arrow.com/en/products/cf14jt1m00/stackpole-electronics
+2|1 MOhm +-20% resistor, axial leads unless you are a good SMD solderer|Arrow      https://www.arrow.com/en/products/cf14jt1m00/stackpole-electronics
 .|"|Digi-Key   https://www.digikey.com/products/en?keywords=CF18JT1M00CT-ND
 .|"|Buy from one of the mentioned vendors or Jameco, Mouser, Newark or shop from list similar to above.  Color code = brown black green 
-1|1.5 MOhm +-20% resistor, axial leads unless you are a good solderer|Arrow      https://www.arrow.com/en/products/cf14jt1m50/stackpole-electronics
+1|1.5 MOhm +-20% resistor, axial leads unless you are a good SMD solderer|Arrow      https://www.arrow.com/en/products/cf14jt1m50/stackpole-electronics
 .|"|Digi-Key   https://www.digikey.com/products/en?keywords=CF18JT1M50CT-ND
 .|"|Buy from one of the mentioned vendors or Jameco, Mouser, Newark or shop from list similar to above.  Color code = brown green green ...
 .|"|For the purist, a low-noise (metal film) resistor here does make some sense, but most likely you'll need to place two in series to obtain the correct resistance value.  The shopping exercise is left up to you.
-1|2.2 MOhm +-20% resistor, axial leads unless you are a good solderer|Arrow      https://www.arrow.com/en/products/cf14jt2m20/stackpole-electronics
+1|2.2 MOhm +-20% resistor, axial leads unless you are a good SMD solderer|Arrow      https://www.arrow.com/en/products/cf14jt2m20/stackpole-electronics
 .|"|Digi-Key   https://www.digikey.com/products/en?keywords=CF18JT2M20CT-ND
 .|"|Buy from one of the mentioned vendors or Jameco, Mouser, Newark or shop from list similar to above.  Color code = red red green 
 2|2.0 µF 16 volt+ tantalum capacitor, radial, low ESR|Arrow      https://www.arrow.com/en/products/t356a225k016at/kemet-corporation
