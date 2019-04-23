@@ -217,6 +217,12 @@ Elsewhere
 //Object gets instantiated during setup() for greatest flexibility
 #endif
 //global variables are declared static to prevent them from being seen by any later user-added compilation units that would try, presumeably inadvertently, through the use of the "extern" cast.  Feel free to change if not inadvertent access is helpful
+#if ( ( defined ARDUINO_ARCH_XI-ORIGINAL ) || ( defined ARDUINO_ARCH_XI ) || ( defined ARDUINO_ARCH_SAM ) || ( defined ARDUINO_ARCH_SAMD ) ) //These are the boards known to have 12 bit analog inputs
+    #ifdef ANALOG_INPUT_BITS_OF_BOARD
+        #undef ANALOG_INPUT_BITS_OF_BOARD
+    #endif
+    #define ANALOG_INPUT_BITS_OF_BOARD 12  //These boards have 12 bit
+#endif
 #define COMMON_MODE_LEVEL_FOR_MAX_GAIN_AS_READ_RAW_BY_INBOARD_ANALOG ( 1 << ( ANALOG_INPUT_BITS_OF_BOARD - 1 ) ) // Needed if HIGHEST_SENSI_OUTBOARD_ADC_TYPE has a sweet spot of max sensitivity, unlike true op-amp.  (HX711 == 306; normal op-amp, which has none == Vcc/2 == 512)
 //Next, force all macros to be coherent with each other
 #ifndef OUTBOARDS_PLOTTED
@@ -744,15 +750,6 @@ If you only have the Arduino without an ADS1X15, then define INBOARDS_PLOTTED.  
     #define DONT_CONSOLIDATE_MSB_GROUP_SETTINGS_THIS_TIME false
     /* EEPROM and nonvolatile settings are only available with >8.5, <12.5 Vdc applied to CS pins of MCP4162, which we don't have with mere Arduino: */
     #define MATCHING_TO_SIGNAL_LEG true
-#endif
-
-
-
-#if ( ( defined ARDUINO_ARCH_XI-ORIGINAL ) || ( defined ARDUINO_ARCH_XI ) || ( defined ARDUINO_ARCH_SAM ) || ( defined ARDUINO_ARCH_SAMD ) ) //These are the boards known to have 12 bit analog inputs
-    #ifdef ANALOG_INPUT_BITS_OF_BOARD
-        #undef ANALOG_INPUT_BITS_OF_BOARD
-    #endif
-    #define ANALOG_INPUT_BITS_OF_BOARD 12  //These boards have 12 bit
 #endif
 
 #if ( OUTBOARDS_PLOTTED > 0 )
