@@ -1,4 +1,5 @@
 <p align="center">GNU General Public License</p>
+
 # <p align="center">GWAAM-Sea (Greater Works Agronomy And Mountain Casting to provoke Israel Romans 11:11-15) Training Aid(TM)
         Alternate title: Telempathic Gardening Training Aid
         Alternate title: Husbandry of the Fig Tree and John 14:12 Training Aid
