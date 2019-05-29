@@ -3,6 +3,8 @@
 
 ### PCB Comparison sites
 ##### Printed circuit boards can be ordered from any one of a multitude of fabricators.  Compare between fabricators by visiting one or more of the fabricator comparison sites like https://www.pcbdirectory.com/get-quotations or https://pcbshopper.com or read the fabricator site collection list at https://www.eevblog.com/wiki/index.php?title=PCB_Manufacturers or search "online pcb quote".
+
+The PCB project is also published by OSH Park PCB fabrication here: https://oshpark.com/projects/UHm82RXw.  They would appreciate your business if you'll buy the board only.
  
  I would encourage you to order RoHS (environmental friendly) wherever you're given that option, paying a very slight extra to do so.  Especially if you appreciate me making these plans freely available and so plan to send me your excess.
 ### BOM https://github.com/kenneth558/plant_resistance_primary_perception/blob/Free/ibom.html or as follows
