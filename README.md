@@ -7,6 +7,24 @@
 [Click here to see what this title means](https://github.com/kenneth558/plant_resistance_primary_perception/blob/Free/what%20the%20title%20means.md)
 ### <p align="center">plans and Arduino sketch for the training aid
 -------------
+
+
+By applying 4 volts DC across a plant, this device allows REAL-TIME observation of a plant’s electrical response to stimuli. That stimuli is expected to be telempathic while an observer learns to utilize telempathy and develop energetic faith (Jas. 5:16), but may be any other non-electric stimuli as well.
+
+A recent enhancement of the circuit now allows electric current through the plant tissue of less than a nano ampere to be detected and observed.
+
+The advantage of using a plant’s electrical response rather than its physical response is that electrical response is far more easily magnified and displayed to provide instantaneous feedback during stimuli application. This takes the otherwise virtually impossible learning process down to a child’s level. Jesus said we would [“not only”] do this very thing [that He did to the fig tree] (Matt. 21:21), but we’ve never had a means to learn how to before this device was developed.
+
+BEFORE COMMITTING TO THIS BOARD LAYOUT, VERIFY I’VE GOTTEN IT TO WORK BY READING “LATEST DEVELOPMENTS” FOR THIS PROJECT AT GWAAMC.COM (https://github.com/kenneth558/plant_resistance_primary_perception)
+
+Used to observe plant tissue conductance while applying a stimulus normally consisting of telempathy as found in Mk 11:14,20 but instead of needing to wait to observe the plant’s physical response, this method renders the plant electrical response (therefore in real time!) with an Arduino MCU plot.
+
+Purchase the components from the vendors suggested (I’ve done the price shopping for you), and build the board in the suggested component order. SMD soldering ability required with SMD packages including MSOP10 and SOT-0201. Those packages require advanced soldering ability. If you need to acquire that level of soldering skill, you may readily do so using SMD solder practice kits and soldering equipment commonly available. I suggest low-temperature paste solder, PCB oven (makeshift can work), and hot air + tip soldering iron.
+
+BOM: https://github.com/kenneth558/plant_resistance_primary_perception/blob/Free/ibom.html
+
+For those who won’t be able to build their own, their projected cost for us to build each training aid device, test it, and sell it will be in the range of $2000 USD…far more expensive than you might first think. But in the case of DIY'ers, we are not in their vendor circle to make a dime. DIY'ers building their own GWAAM-Sea training aid will pay for the components the same price that we would pay from the same vendors we buy from. In making such an arrangement, we are trying to be as consistent as possible to the hallmark of the Kingdom of God: “the Gospel is preached to the poor. ” (Matt. 11:5)
+
 ## So why in the world would you want to observe a plant's electrical conductivity?  Here's the fascinating story:
 
 In the 1960's, a polygraph expert named Cleve Backster (perhaps in a moment of feeling impulsively experimental) attached polygraph electrodes to a plant in his office to see what polygraph results would come from watering the plant.  Note that polygraph electrodes are used to monitor electrical conductance changes of what they are attached to.  Note also that electrical conductance is mathematically inversely related to electrical resistance, so resistance and conductance are two ways of referring to the exact same electrical property, as caveated following, which is examined by quantifying a resultant electrical current that an applied voltage produces.  This is in stark contrast to using electrodes to measure or determine if a voltage (signal) [is] produced by a subject-under-test or device-under-test ("DUT"; the plant, in this case), which would require voltmeter or EEG instrumentation.  This project works according to polygraph and GSR (Galvanic Skin Response) principles.  I am well aware of the possibility that the electrical property being monitored may not precisely be conductance but rather the appearance of conductance due to something akin to dynamic polarization, electrically speaking, of plant tissues.  This could be a vitally important factor to consider in electrode "placement-ology", if you will.  See [this YouTube video](https://youtu.be/0lK9nYZC6ak) for some info that might relate to this notion.
