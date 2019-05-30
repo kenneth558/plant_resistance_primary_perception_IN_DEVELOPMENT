@@ -13,7 +13,7 @@ By applying 4 volts DC across a plant, this device allows REAL-TIME observation 
 
 A recent enhancement of the circuit now allows electric current through the plant tissue of less than a nano ampere to be detected and observed.
 
-The advantage of using a plant’s electrical response rather than its physical response is that electrical response is far more easily magnified and displayed to provide instantaneous feedback during stimuli application. This takes the otherwise virtually impossible learning process down to a child’s level. Jesus said we would [“not only”] do this very thing [that He did to the fig tree] (Matt. 21:21), but we’ve never had a means to learn how to before this device was developed.
+The advantage of using a plant’s electrical response rather than its physical response is that electrical response is far more easily magnified and displayed to provide instantaneous feedback to the student or researcher during stimuli application. This takes the otherwise virtually impossible learning process down to a child’s level. Jesus said we would [“not only”] do this very thing [that He did to the fig tree] (Matt. 21:21), but we’ve never had a means to learn how to before this device was developed.
 
 BEFORE COMMITTING TO THIS BOARD LAYOUT, VERIFY I’VE GOTTEN IT TO WORK BY READING “LATEST DEVELOPMENTS” FOR THIS PROJECT AT GWAAMC.COM (https://github.com/kenneth558/plant_resistance_primary_perception)
 
