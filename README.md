@@ -5,7 +5,7 @@
         Alternate title: Husbandry of the Fig Tree and John 14:12 Training Aid
         Alternate title: John 14:12 Agronomy - Promoting A Reviving Civility Training Aid
 [Click here to see what this title means](https://github.com/kenneth558/plant_resistance_primary_perception/blob/Free/what%20the%20title%20means.md)
-##### <p align="center">FINAL DESIGN STILL UNDER DEVELOPMENT: As of Fall 2018 or so, I have focused development of this project on the hardware without corresponding updates to the software.  I'm sure the latest revision of each do not work together during this phase of development.
+##### <p align="center">FINAL DESIGN STILL UNDER DEVELOPMENT: As of Fall 2018 or so, development of this project has focused on the circuit without corresponding updates to the software.  I'm sure the latest revision of each do not work together during this phase of development.
 -------------
 
 
