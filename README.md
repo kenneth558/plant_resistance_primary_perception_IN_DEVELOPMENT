@@ -1,11 +1,12 @@
-<p align="center">GNU General Public License</p>
+<p align="center">GNU General Public License
+        plans and Arduino sketch for the training aid</p>
 
 # <p align="center">GWAAM-Sea (Greater Works Agronomy And Mountain Casting to provoke Israel Romans 11:11-15) Gardening Training Aid(TM)
         Alternate title: Telempathic Gardening Training Aid
         Alternate title: Husbandry of the Fig Tree and John 14:12 Training Aid
         Alternate title: John 14:12 Agronomy - Promoting A Reviving Civility Training Aid
 [Click here to see what this title means](https://github.com/kenneth558/plant_resistance_primary_perception/blob/Free/what%20the%20title%20means.md)
-### <p align="center">FINAL DESIGN STILL UNDER DEVELOPMENT: plans and Arduino sketch for the training aid
+##### <p align="center">FINAL DESIGN STILL UNDER DEVELOPMENT: As of Fall 2018 or so, I have focused development of this project on the hardware without corresponding updates to the software.  I'm sure the latest revision of each do not work together during this phase of development.
 -------------
 
 
