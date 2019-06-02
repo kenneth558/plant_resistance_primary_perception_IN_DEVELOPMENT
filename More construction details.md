@@ -2,39 +2,6 @@ The hardest aspect of construction will be soldering the 390 pF capacitor and fo
 
 For anyone searching sites that give soldering tips, just remember that most boards are single sided while this project provides the design for a two sided board with components on both sides.  So remember that you'll be soldering components to the second side while the first side's components must not fall off from getting their solder re-flowed.  Decide how you'll keep that first side cool while soldering the second side.
 
-
- ##### 4.  My reply to:
-"Your demo in Lincoln interests me and I would like to know all the details, schema and everything I need to know to replicate your idea!"
-
-You'll find the sketch under the "sketch code" folder in that GitHub location.  I'm keeping two sketches out there so one I call the nightly version.  "Weekly" is more accurate on that.
-
-A verbal description follows the schematic: ![the circuit](https://github.com/kenneth558/plant_resistance_primary_perception/blob/Free/schematic.pdf)
-The signal input is from a Wheatstone bridge circuit whose legs span the 5 VDC supply voltage.  My sketch is being written to accommodate more bridges to other DUTs, but I'll use the singular tense as I describe this to you.  Both legs of the bridge ("signal" and "reference" legs) are topped by one LM334 per leg, controlled by three (soon to be two) digipots making two LM334s and six (soon to be four) digipots per bridge.  "Topped" means each of the two LM334s connect to 5 VDC power with their (+) pin (lead).  Their (-) pin is the leg midpoint.  The controlling resistance formed by the digipots connects between the (R) pin and the (-) pin.  The (R) pin is called ADJ in some references.  
-
-The midpoint of the signal leg of the bridge connects to the DUT (device under test: the plant) with the signal electrode, while the other electrode is the ground electrode connecting from somewhere else on the plant near the signal electrode to signal ground of the circuit.  The two electrodes sandwich a leaf between them.  The load resistance in the reference leg has been a 1 MOhm resistor for all of the R&D time.  That value also seemed to work surprisingly well whenever I attached electrodes to an actual plant.  I'm sure different plants and electrode surface areas will result in that resistance value being adjusted upward in the future or for different circumstances.
-
-The digipots need to be low-noise; i.e., you should not use the popular X9Cxxx digipots because they have internal charge pumps that generate noise.  Charge pumps are needed in digipots to save settings to EEPROM, so you'll be stuck using pots that can't save their settings in order to have low noise.  The digipots I've successfully tested are the MCP4162-104 and MCP4162-502 (two of each will handle one bridge).  Those values are 100 KOhm and 5 KOhm, and you would control each LM334 with one 100K pot and one 5K pot in series with each other. I intend to specify 4262 dual devices but haven't got them working, yet.  Please note that in my development circuit I actually use more 100K pots thinking I would get greater range but since 68K puts the LM334 down to its 1 µA spec'd limit, you could save yourself a couple parts from what the sketch during development is capable of if you just use one of the 100K pots in series with the 5K pot per LM334.  By using the MCP4262-x0x instead you would save one package of each value because that part is a dual digipot, but in such a tiny package (MSOP-10) that they are FAR more difficult to handle and solder.  Alas, the AD8244 is only available in that MSOP-10, so we are forced to deal with it anyway.  The PCB design I offer you uses MSOP-10 for all those.
-
-Other pin assignments:  
-
-SS – digital 10 to CS of a single digital pot, not abstracted by library call, so can be any pin as determined within main function 
-      unidirectional NOT PIN 10 ON LEONARDO - IS FOUND ON LED_BUILTIN_RX (PIN 17) ONLY
-
-MOSI – digital 11 to inputs of all digital pots unidirectional NOT PIN 11 ON LEONARDO - IS FOUND ON 1CSP ONLY.  REQ'D IN ALL CASES.
-
-MISO – digital 12 to outputs of all digital pots unidirectional NOT PIN 12 ON LEONARDO - IS FOUND ON 1CSP ONLY.  NOT USED 
-      CURRENTLY BECAUSE WITHOUT 8 TO 12 VDC EEPROM VOLTAGE, SETTINGS CAN'T BE SAVED INSIDE THE DIGPOTS, SO OF COURSE THEY CAN'T BE 
-      READ BACK OUT FROM THE DIGIPOTS.
-
-SCK – digital 13 to CLK of all digital pots unidirectional NOT PIN 13 ON LEONARDO - IS FOUND ON 1CSP ONLY
-
-
-As I describe in the sentence above, I use an extra, unnecessary 100K pot per LM334, so the CS pin numbers in early sketches are wasting two pins, if you care to shift the digital pins for the CS line down in the sketch.  The Arduino Digital pins are set in the sketch to preprocessor macros called "BANK_0_LEG_0_DIGITAL_POT_0" and similar.  If you use the two digipot per leg design, the MSB namesaked digipots need to be skipped in favor of only the MID and LSB namesaked ones; hence, the MSB pins are wasted if you don't shift the others down.  If the sketch version you obtained does not have MID pots, then your sketch is "two pot per leg ready".
-
-A wire from the signal leg midpoint of the bridge and a wire from the reference leg midpoint connect to input pins of an AD8244 quad unity-gain buffer.  The two unused buffers must have their inputs connected to something - it is perfectly within design ratings to parallel the buffers together to ensure no floating inputs, so I do that.  The two buffered outputs from that AD8244 go to analog to digital (A-to-D) pins of the first two Arduino Analog Input pins AND (i.e., "in parallel with") the two input pins of some higher sensitivity ADC of your choice (only HX711 and ADS1X15 supported now).  Use power decoupling capacitors where power wires run any distance.
-
-DATA and CLK to the ADC are set by preprocessor macros PIN_FOR_DATA_TOFROM_HIGHEST_SENSI_ADC and PIN_FOR_CLK_TO_HIGHEST_SENSI_ADC to pins 2 and 3 unless you change them.  Remember to set HIGHEST_BIT_RES_FROM_HIGHEST_SENSI_OUTBOARD_ADC and HIGHEST_SENSI_OUTBOARD_ADC_TYPE to the appropriate value for the ADC you might use.
-
 OPTIONAL:  Quick and dirty operation can be achieved with just the Arduino and the DUT with balancing resistor connected to +5 VDC...and electrodes  Just set the appropriate pre-processor macros:  disable the USING_LM334... macro, the NUM_OF_OUTBOARDS... macro [and maybe the SUPERIMPOSE_FIRST_INBOARDS... macro if you want two pins plotted magnified (superimposing disables the magnified view of a signal)].  IOW, the AD8244, digipots, and high sensitivity ADC are optional if you just want to see a plotline respond to your finger touching it.  The digipots also won't do anything for you if you use a rail-to-rail ADC, as the ADS1X15 is.  
 
 You might be able to be notified of my changes to the project by GitHub settings, if you look around in GitHub, maybe...that's not a GitHub feature I've ever used, yet.
