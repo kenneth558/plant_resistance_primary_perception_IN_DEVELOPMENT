@@ -1,3 +1,5 @@
+<dl><dt>06 June 2019</dt></dl>My ultimate design has been put into PCB design and three PCBs have been ordered.  Once those are built up, I'll test this latest and final circuit design.  Note that I haven't tested this design due to the breadboarding challenges I didn't want to deal with.
+
 <dl><dt>31 May 2019</dt></dl>With the recent sub-nano scale enhancement, I realized I'll have to add shielding and more extreme guard tracing to gain the full benefit.  Back to work on the PCB design, and I've cancelled the PCB order until the new one is designed...
 
 <dl><dt>25 May 2019</dt></dl>The annotation numbering was changed today for the components, and the signal input 4K stabilizing resistor was changed to two resistors in series: a 3900 and a 100.  AND silk screen adjustments for better presentations.  Newest files uploaded for you.
