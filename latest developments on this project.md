@@ -1,3 +1,5 @@
+It won't be too much longer before I get my PCB (bare) I have on order. I have enough components to build it out. Depending on how many build mistakes I make I could have it built by July week 1. After that my guess is another 3 weeks sketch development time.
+
 <dl><dt>06 June 2019</dt></dl>My ultimate design has been put into PCB design and three PCBs have been ordered.  Once those are built up, I'll test this latest and final circuit design.  Note that I haven't tested this design due to the breadboarding challenges I didn't want to deal with.
 
 <dl><dt>31 May 2019</dt></dl>With the recent sub-nano scale enhancement, I realized I'll have to add shielding and more extreme guard tracing to gain the full benefit.  Back to work on the PCB design, and I've cancelled the PCB order until the new one is designed...
