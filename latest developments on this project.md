@@ -1,4 +1,4 @@
-<dl><dt>09 June 2019</dt></dl>It won't be too much longer before I get my PCB (bare) I have on order. I have enough components to build it out. Depending on how many build mistakes I make I could have it built by July week 1. After that my guess is another 3 weeks sketch development time.  In hopes that the PCB has no errors, the link to order more is: https://oshpark.com/shared_projects/FX60KBpQ
+<dl><dt>09 June 2019</dt></dl>It won't be too much longer before I get my PCB (bare) I have on order. I have enough components to build it out. Depending on how many build mistakes I make I could have it built by July week 1. After that my guess is another 3 weeks sketch development time.  In hopes that the PCB has no errors, the link to order more is: https://oshpark.com/shared_projects/gzd7kenf
 
 
 <dl><dt>06 June 2019</dt></dl>My ultimate design has been put into PCB design and three PCBs have been ordered.  Once those are built up, I'll test this latest and final circuit design.  Note that I haven't tested this design due to the breadboarding challenges I didn't want to deal with.
