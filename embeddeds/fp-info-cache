@@ -1,4 +1,4 @@
-15727526206977045
+15729088151159045
 ARDUINO_SHIELD
 ARDUINO_SHIELD
 http://www.thingiverse.com/thing:9630
@@ -49755,6 +49755,13 @@ net tie
 0
 5
 5
+multipackage
+PinHeader_1x09_P2.54mm_Vertical
+Through hole straight pin header, 1x09, 2.54mm pitch, single row
+Through hole pin header THT 1x09 2.54mm single row
+0
+9
+9
 multipackage
 Potentiometer_Bourns_PTV09A-1_Single_Vertical
 Potentiometer, vertical, Bourns PTV09A-1 Single, http://www.bourns.com/docs/Product-Datasheets/ptv09.pdf
