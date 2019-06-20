@@ -15,10 +15,10 @@ Comment3 ""
 Comment4 ""
 $EndDescr
 $Comp
-L power:GNDA #PWR013
+L power:GNDA #PWR014
 U 1 1 5C19D658
 P 14800 3375
-F 0 "#PWR013" H 14800 3125 50  0001 C CNN
+F 0 "#PWR014" H 14800 3125 50  0001 C CNN
 F 1 "GNDA" H 14805 3202 50  0000 C CNN
 F 2 "" H 14800 3375 50  0001 C CNN
 F 3 "" H 14800 3375 50  0001 C CNN
@@ -46,10 +46,10 @@ F 6 "http://Arrow.com" H 1500 2375 50  0001 C CNN "Source"
 	1    0    0    1   
 $EndComp
 $Comp
-L power:GNDD #PWR015
+L power:GNDD #PWR016
 U 1 1 5C5C35A0
 P 15700 3375
-F 0 "#PWR015" H 15700 3125 50  0001 C CNN
+F 0 "#PWR016" H 15700 3125 50  0001 C CNN
 F 1 "GNDD" H 15700 3225 50  0000 C CNN
 F 2 "" H 15700 3375 50  0001 C CNN
 F 3 "" H 15700 3375 50  0001 C CNN
@@ -66,17 +66,17 @@ F 2 "Package_SO:MSOP-10_3x3mm_P0.5mm" H 12800 3975 50  0001 C CNN
 F 3 "http://static6.arrow.com/aropdfconversion/427f47d0fc5e4caf484beffd27781384154f9c66/33171669476397452ad8244.pdf" H 12800 3975 50  0001 C CNN
 F 4 "01" H 10100 -1825 50  0001 C CNN "PlacementOrder"
 F 5 "01" H 10100 -1675 50  0001 C CNN "SortForPlacement"
-F 6 "00 00 !Assembly instructions  not complete - do not trust this yet for assembly order!  Place (always means solder herein), then check work for inadvertent shorts and opens" H 10100 -1675 50  0001 C CNN "ClickToSortForPlacement"
-F 7 "AD8244ARMZ-R7" H 12800 3975 50  0001 C CNN "Part_number"
-F 8 "http://Arrow.com" H 12800 3975 50  0001 C CNN "Source"
+F 6 "AD8244ARMZ-R7" H 12800 3975 50  0001 C CNN "Part_number"
+F 7 "http://Arrow.com" H 12800 3975 50  0001 C CNN "Source"
+F 8 "02 Place (always means solder herein), then check work for inadvertent shorts and opens. " H 12800 3975 50  0001 C CNN "ClickToSortForPlacement"
 	4    12800 3975
 	1    0    0    -1  
 $EndComp
 $Comp
-L power:VCC #PWR019
+L power:VCC #PWR020
 U 1 1 5C764394
 P 20525 1125
-F 0 "#PWR019" H 20525 975 50  0001 C CNN
+F 0 "#PWR020" H 20525 975 50  0001 C CNN
 F 1 "VCC" V 20543 1298 50  0000 C CNN
 F 2 "" H 20525 1125 50  0001 C CNN
 F 3 "" H 20525 1125 50  0001 C CNN
@@ -84,10 +84,10 @@ F 3 "" H 20525 1125 50  0001 C CNN
 	1    0    0    -1  
 $EndComp
 $Comp
-L power:VCC #PWR027
+L power:VCC #PWR032
 U 1 1 5C76F5BF
 P 21900 8772
-F 0 "#PWR027" H 21900 8622 50  0001 C CNN
+F 0 "#PWR032" H 21900 8622 50  0001 C CNN
 F 1 "VCC" H 21917 8945 50  0000 C CNN
 F 2 "" H 21900 8772 50  0001 C CNN
 F 3 "" H 21900 8772 50  0001 C CNN
@@ -106,10 +106,10 @@ F 3 "~" H 15700 3375 50  0001 C CNN
 	1    0    0    -1  
 $EndComp
 $Comp
-L power:GNDD #PWR020
+L power:GNDD #PWR021
 U 1 1 5C7E6F1E
 P 21000 9772
-F 0 "#PWR020" H 21000 9522 50  0001 C CNN
+F 0 "#PWR021" H 21000 9522 50  0001 C CNN
 F 1 "GNDD" H 21004 9617 50  0000 C CNN
 F 2 "" H 21000 9772 50  0001 C CNN
 F 3 "" H 21000 9772 50  0001 C CNN
@@ -273,10 +273,10 @@ NoConn ~ 22250 2800
 NoConn ~ 20650 3100
 NoConn ~ 20650 3300
 $Comp
-L power:VCC #PWR023
+L power:VCC #PWR026
 U 1 1 5CAAC3A7
 P 21150 3100
-F 0 "#PWR023" H 21150 2950 50  0001 C CNN
+F 0 "#PWR026" H 21150 2950 50  0001 C CNN
 F 1 "VCC" H 21167 3273 50  0000 C CNN
 F 2 "" H 21150 3100 50  0001 C CNN
 F 3 "" H 21150 3100 50  0001 C CNN
@@ -285,10 +285,10 @@ F 3 "" H 21150 3100 50  0001 C CNN
 $EndComp
 NoConn ~ 1700 2375
 $Comp
-L power:GNDD #PWR024
+L power:GNDD #PWR027
 U 1 1 5CB66292
 P 21150 3300
-F 0 "#PWR024" H 21150 3050 50  0001 C CNN
+F 0 "#PWR027" H 21150 3050 50  0001 C CNN
 F 1 "GNDD" H 21154 3145 50  0000 C CNN
 F 2 "" H 21150 3300 50  0001 C CNN
 F 3 "" H 21150 3300 50  0001 C CNN
@@ -296,10 +296,10 @@ F 3 "" H 21150 3300 50  0001 C CNN
 	1    0    0    -1  
 $EndComp
 $Comp
-L power:GNDD #PWR018
+L power:GNDD #PWR019
 U 1 1 5CB8B72F
 P 20400 1500
-F 0 "#PWR018" H 20400 1250 50  0001 C CNN
+F 0 "#PWR019" H 20400 1250 50  0001 C CNN
 F 1 "GNDD" H 20404 1345 50  0000 C CNN
 F 2 "" H 20400 1500 50  0001 C CNN
 F 3 "" H 20400 1500 50  0001 C CNN
@@ -307,10 +307,10 @@ F 3 "" H 20400 1500 50  0001 C CNN
 	1    0    0    -1  
 $EndComp
 $Comp
-L power:GNDD #PWR028
+L power:GNDD #PWR033
 U 1 1 5CB9E79B
 P 22825 1225
-F 0 "#PWR028" H 22825 975 50  0001 C CNN
+F 0 "#PWR033" H 22825 975 50  0001 C CNN
 F 1 "GNDD" H 22775 1075 50  0000 C CNN
 F 2 "" H 22825 1225 50  0001 C CNN
 F 3 "" H 22825 1225 50  0001 C CNN
@@ -364,10 +364,10 @@ F 8 "http://Arrow.com" H 21000 9222 50  0001 C CNN "Source"
 	0    -1   -1   0   
 $EndComp
 $Comp
-L power:+5V #PWR016
+L power:+5V #PWR017
 U 1 1 5CF1EA3B
 P 20100 1097
-F 0 "#PWR016" H 20100 947 50  0001 C CNN
+F 0 "#PWR017" H 20100 947 50  0001 C CNN
 F 1 "+5V" H 20115 1270 50  0000 C CNN
 F 2 "" H 20100 1097 50  0001 C CNN
 F 3 "" H 20100 1097 50  0001 C CNN
@@ -383,10 +383,10 @@ Wire Notes Line
 Wire Notes Line
 	20250 2797 21600 2797
 $Comp
-L power:VCC #PWR017
+L power:VCC #PWR018
 U 1 1 5D53A604
 P 20100 1097
-F 0 "#PWR017" H 20100 947 50  0001 C CNN
+F 0 "#PWR018" H 20100 947 50  0001 C CNN
 F 1 "VCC" H 20100 1247 50  0000 C CNN
 F 2 "" H 20100 1097 50  0001 C CNN
 F 3 "" H 20100 1097 50  0001 C CNN
@@ -463,10 +463,10 @@ Magnification \namplitude
 Text Notes 21835 4132 0    50   ~ 0
 Gain\nadjust\n3 settings
 $Comp
-L power:GNDD #PWR026
+L power:GNDD #PWR029
 U 1 1 5C90D427
 P 21675 4475
-F 0 "#PWR026" H 21675 4225 50  0001 C CNN
+F 0 "#PWR029" H 21675 4225 50  0001 C CNN
 F 1 "GNDD" H 21679 4320 50  0000 C CNN
 F 2 "" H 21675 4475 50  0001 C CNN
 F 3 "" H 21675 4475 50  0001 C CNN
@@ -488,10 +488,10 @@ F 6 "http://Arrow.com" H 21675 4325 50  0001 C CNN "Source"
 	-1   0    0    1   
 $EndComp
 $Comp
-L power:VCC #PWR025
+L power:VCC #PWR028
 U 1 1 5C90D42E
 P 21675 4175
-F 0 "#PWR025" H 21675 4025 50  0001 C CNN
+F 0 "#PWR028" H 21675 4025 50  0001 C CNN
 F 1 "VCC" H 21692 4348 50  0000 C CNN
 F 2 "" H 21675 4175 50  0001 C CNN
 F 3 "" H 21675 4175 50  0001 C CNN
@@ -513,10 +513,10 @@ F 6 "http://Arrow.com" H 21025 4325 50  0001 C CNN "Source"
 	-1   0    0    1   
 $EndComp
 $Comp
-L power:GNDD #PWR022
+L power:GNDD #PWR023
 U 1 1 5DD017AA
 P 21025 4475
-F 0 "#PWR022" H 21025 4225 50  0001 C CNN
+F 0 "#PWR023" H 21025 4225 50  0001 C CNN
 F 1 "GNDD" H 21029 4320 50  0000 C CNN
 F 2 "" H 21025 4475 50  0001 C CNN
 F 3 "" H 21025 4475 50  0001 C CNN
@@ -524,10 +524,10 @@ F 3 "" H 21025 4475 50  0001 C CNN
 	1    0    0    -1  
 $EndComp
 $Comp
-L power:VCC #PWR021
+L power:VCC #PWR022
 U 1 1 5DD0CD99
 P 21025 4175
-F 0 "#PWR021" H 21025 4025 50  0001 C CNN
+F 0 "#PWR022" H 21025 4025 50  0001 C CNN
 F 1 "VCC" H 21042 4348 50  0000 C CNN
 F 2 "" H 21025 4175 50  0001 C CNN
 F 3 "" H 21025 4175 50  0001 C CNN
@@ -578,7 +578,7 @@ F 2 "Package_SO:MSOP-10_3x3mm_P0.5mm" H 12800 2350 50  0001 C CNN
 F 3 "http://static6.arrow.com/aropdfconversion/427f47d0fc5e4caf484beffd27781384154f9c66/33171669476397452ad8244.pdf" H 12800 2350 50  0001 C CNN
 F 4 "AD8244ARMZ-R7" H 12800 2350 50  0001 C CNN "Part_number"
 F 5 "http://Arrow.com" H 12800 2350 50  0001 C CNN "Source"
-F 6 "00 00 !Assembly instructions  not complete - do not trust this yet for assembly order!  Place (always means solder herein), then check work for inadvertent shorts and opens" H 12800 2350 50  0001 C CNN "ClickToSortForPlacement"
+F 6 "02 Place (always means solder herein), then check work for inadvertent shorts and opens. " H 12800 2350 50  0001 C CNN "ClickToSortForPlacement"
 	2    12800 2350
 	1    0    0    -1  
 $EndComp
@@ -634,10 +634,10 @@ F 6 "cheapest CN1501541594; fast arrival Dual Channel HX711" H 15350 2675 50  00
 	1    0    0    -1  
 $EndComp
 $Comp
-L power:VCC #PWR014
+L power:VCC #PWR015
 U 1 1 5C19D6AB
 P 15450 2125
-F 0 "#PWR014" H 15450 1975 50  0001 C CNN
+F 0 "#PWR015" H 15450 1975 50  0001 C CNN
 F 1 "VCC" V 15375 2300 50  0000 C CNN
 F 2 "" H 15450 2125 50  0001 C CNN
 F 3 "" H 15450 2125 50  0001 C CNN
@@ -697,7 +697,7 @@ F 2 "Package_SO:MSOP-10_3x3mm_P0.5mm" H 12800 1725 50  0001 C CNN
 F 3 "http://static6.arrow.com/aropdfconversion/427f47d0fc5e4caf484beffd27781384154f9c66/33171669476397452ad8244.pdf" H 12800 1725 50  0001 C CNN
 F 4 "AD8244ARMZ-R7" H 12800 1725 50  0001 C CNN "Part_number"
 F 5 "http://Arrow.com" H 12800 1725 50  0001 C CNN "Source"
-F 6 "00 00 !Assembly instructions  not complete - do not trust this yet for assembly order!  Place (always means solder herein), then check work for inadvertent shorts and opens" H 12800 1725 50  0001 C CNN "ClickToSortForPlacement"
+F 6 "02 Place (always means solder herein), then check work for inadvertent shorts and opens. " H 12800 1725 50  0001 C CNN "ClickToSortForPlacement"
 	1    12800 1725
 	1    0    0    -1  
 $EndComp
@@ -766,10 +766,10 @@ $EndComp
 Wire Wire Line
 	8250 2350 9400 2350
 $Comp
-L power:VCC #PWR06
+L power:VCC #PWR07
 U 1 1 5D6F12A4
 P 8375 3275
-F 0 "#PWR06" H 8375 3125 50  0001 C CNN
+F 0 "#PWR07" H 8375 3125 50  0001 C CNN
 F 1 "VCC" H 8325 3425 50  0000 C CNN
 F 2 "" H 8375 3275 50  0001 C CNN
 F 3 "" H 8375 3275 50  0001 C CNN
@@ -779,10 +779,10 @@ $EndComp
 NoConn ~ 7875 3025
 NoConn ~ 8475 3875
 $Comp
-L power:GNDA #PWR05
+L power:GNDA #PWR06
 U 1 1 5D6610C1
 P 7775 3025
-F 0 "#PWR05" H 7775 2775 50  0001 C CNN
+F 0 "#PWR06" H 7775 2775 50  0001 C CNN
 F 1 "GNDA" H 7780 2852 50  0000 C CNN
 F 2 "" H 7775 3025 50  0001 C CNN
 F 3 "" H 7775 3025 50  0001 C CNN
@@ -802,10 +802,10 @@ Wire Wire Line
 Wire Wire Line
 	10000 1650 9850 1650
 $Comp
-L power:GNDD #PWR010
+L power:GNDD #PWR011
 U 1 1 5D5FFC74
 P 10000 1650
-F 0 "#PWR010" H 10000 1400 50  0001 C CNN
+F 0 "#PWR011" H 10000 1400 50  0001 C CNN
 F 1 "GNDD" H 10004 1495 50  0000 C CNN
 F 2 "" H 10000 1650 50  0001 C CNN
 F 3 "" H 10000 1650 50  0001 C CNN
@@ -813,10 +813,10 @@ F 3 "" H 10000 1650 50  0001 C CNN
 	1    0    0    -1  
 $EndComp
 $Comp
-L power:GNDD #PWR012
+L power:GNDD #PWR013
 U 1 1 5D5FF76B
 P 11275 1600
-F 0 "#PWR012" H 11275 1350 50  0001 C CNN
+F 0 "#PWR013" H 11275 1350 50  0001 C CNN
 F 1 "GNDD" H 11279 1445 50  0000 C CNN
 F 2 "" H 11275 1600 50  0001 C CNN
 F 3 "" H 11275 1600 50  0001 C CNN
@@ -824,10 +824,10 @@ F 3 "" H 11275 1600 50  0001 C CNN
 	1    0    0    -1  
 $EndComp
 $Comp
-L power:GNDA #PWR07
+L power:GNDA #PWR08
 U 1 1 5D5FE8B7
 P 8375 4175
-F 0 "#PWR07" H 8375 3925 50  0001 C CNN
+F 0 "#PWR08" H 8375 3925 50  0001 C CNN
 F 1 "GNDA" H 8380 4002 50  0000 C CNN
 F 2 "" H 8375 4175 50  0001 C CNN
 F 3 "" H 8375 4175 50  0001 C CNN
@@ -867,20 +867,17 @@ L Device:Q_PJFET_SDG Q1
 U 1 1 5D3CA4B3
 P 7675 1925
 F 0 "Q1" H 7575 2075 50  0000 L CNN
-F 1 "MMBF5462 (2N5462)" H 7350 1725 50  0000 L CNN
+F 1 "MMBF5462 (2N5462)" H 6625 2025 50  0000 L CNN
 F 2 "Package_TO_SOT_SMD:SOT-23_Handsoldering" H 7875 2025 50  0001 C CNN
 F 3 "~" H 7675 1925 50  0001 C CNN
-F 4 "00 Not component, only use temporary solder bridge on board's back side between pin 1 (D) & 2 (S)." H 7675 1925 50  0001 C CNN "ClickToSortForPlacement"
-F 5 "MMBF5462" H 7675 1925 50  0001 C CNN "Part_number"
-F 6 "http://Arrow.com" H 7675 1925 50  0001 C CNN "Source"
+F 4 "MMBF5462" H 7675 1925 50  0001 C CNN "Part_number"
+F 5 "http://Arrow.com" H 7675 1925 50  0001 C CNN "Source"
 	1    7675 1925
 	1    0    0    -1  
 $EndComp
 Wire Wire Line
 	7775 2225 7775 2425
 Connection ~ 7775 2225
-Wire Wire Line
-	6200 2225 7775 2225
 $Comp
 L Device:R_Small_US R7
 U 1 1 5D3506B3
@@ -912,9 +909,8 @@ F 0 "Q2" H 8650 2075 50  0000 L CNN
 F 1 "MMBF5462 (2N5462)" H 8450 1700 50  0000 L CNN
 F 2 "Package_TO_SOT_SMD:SOT-23_Handsoldering" H 8975 2025 50  0001 C CNN
 F 3 "~" H 8775 1925 50  0001 C CNN
-F 4 "00 Not component, only use temporary solder bridge on board's back side between pin 1 (D) & 2 (S)." H 8775 1925 50  0001 C CNN "ClickToSortForPlacement"
-F 5 "MMBF5462" H 8775 1925 50  0001 C CNN "Part_number"
-F 6 "http://Arrow.com" H 8775 1925 50  0001 C CNN "Source"
+F 4 "MMBF5462" H 8775 1925 50  0001 C CNN "Part_number"
+F 5 "http://Arrow.com" H 8775 1925 50  0001 C CNN "Source"
 	1    8775 1925
 	1    0    0    -1  
 $EndComp
@@ -928,7 +924,7 @@ F 1 "REF200AU" H 8155 2680 50  0000 L CIN
 F 2 "Package_SO:SOIC-8_3.9x4.9mm_P1.27mm" H 7650 2750 50  0001 R CIN
 F 3 "www.ti.com/lit/ds/symlink/ref200.pdf" H 8075 2725 50  0001 C CIN
 F 4 "http://Arrow.com" H 7775 2725 50  0001 C CNN "Source"
-F 5 "REF200AU" H 7775 2725 50  0001 C CNN "Part_number"
+F 5 "REF200AU (will contain dessicant you'll need to place under SHLD1)" H 7775 2725 50  0001 C CNN "Part_number"
 	3    7775 2725
 	1    0    0    -1  
 $EndComp
@@ -941,7 +937,7 @@ F 1 "REF200AU" H 8555 3530 50  0000 L CIN
 F 2 "Package_SO:SOIC-8_3.9x4.9mm_P1.27mm" H 8250 3600 50  0001 R CIN
 F 3 "www.ti.com/lit/ds/symlink/ref200.pdf" H 8675 3575 50  0001 C CIN
 F 4 "http://Arrow.com" H 8375 3575 50  0001 C CNN "Source"
-F 5 "REF200AU" H 8375 3575 50  0001 C CNN "Part_number"
+F 5 "REF200AU (will contain dessicant you'll need to place under SHLD1)" H 8375 3575 50  0001 C CNN "Part_number"
 	2    8375 3575
 	1    0    0    -1  
 $EndComp
@@ -954,7 +950,7 @@ F 1 "REF200AU" H 6330 1055 50  0000 L CIN
 F 2 "Package_SO:SOIC-8_3.9x4.9mm_P1.27mm" H 6025 1125 50  0001 R CIN
 F 3 "www.ti.com/lit/ds/symlink/ref200.pdf" H 6450 1100 50  0001 C CIN
 F 4 "http://Arrow.com" H 6150 1100 50  0001 C CNN "Source"
-F 5 "REF200AU" H 6150 1100 50  0001 C CNN "Part_number"
+F 5 "REF200AU (will contain dessicant you'll need to place under SHLD1)" H 6150 1100 50  0001 C CNN "Part_number"
 	1    6150 1100
 	1    0    0    -1  
 $EndComp
@@ -968,6 +964,7 @@ F 2 "multipackage:ADL5315ACPZ-R7" H 5000 2465 60  0001 C CNN
 F 3 "" H 3800 2225 60  0000 C CNN
 F 4 "http://Arrow.com" H 3800 2225 50  0001 C CNN "Source"
 F 5 "ADL5315ACPZ-R7" H 3800 2225 50  0001 C CNN "Part_number"
+F 6 "00 00 !Assembly instructions  are not yet complete - do not trust this yet for assembly order!  Solder center (lead 9) first and ensure attachment to board, then solder remaining leads and check work for inadvertent shorts and opens. " H 3800 2225 50  0001 C CNN "ClickToSortForPlacement"
 	1    3800 2225
 	1    0    0    -1  
 $EndComp
@@ -1012,13 +1009,11 @@ F 5 "http://Arrow.com" H 3850 1650 50  0001 C CNN "Source"
 $EndComp
 Wire Wire Line
 	6400 2525 6400 2425
-Wire Wire Line
-	6400 2425 6200 2425
 $Comp
-L power:VCC #PWR011
+L power:VCC #PWR012
 U 1 1 5C182632
 P 11100 2550
-F 0 "#PWR011" H 11100 2400 50  0001 C CNN
+F 0 "#PWR012" H 11100 2400 50  0001 C CNN
 F 1 "VCC" H 11050 2700 50  0000 C CNN
 F 2 "" H 11100 2550 50  0001 C CNN
 F 3 "" H 11100 2550 50  0001 C CNN
@@ -1087,10 +1082,10 @@ F 6 "06 Then check work for inadvertent shorts and opens" H 8875 1525 50  0001 C
 $EndComp
 Connection ~ 7775 1325
 $Comp
-L power:VCC #PWR09
+L power:VCC #PWR010
 U 1 1 5C1825F8
 P 9850 2550
-F 0 "#PWR09" H 9850 2400 50  0001 C CNN
+F 0 "#PWR010" H 9850 2400 50  0001 C CNN
 F 1 "VCC" H 9800 2700 50  0000 C CNN
 F 2 "" H 9850 2550 50  0001 C CNN
 F 3 "" H 9850 2550 50  0001 C CNN
@@ -1127,9 +1122,6 @@ Wire Wire Line
 	11750 2000 11750 2875
 Wire Wire Line
 	8375 4175 8875 4175
-Connection ~ 3800 3025
-Wire Wire Line
-	3800 2525 3800 3025
 Wire Wire Line
 	3800 2425 3750 2425
 Wire Wire Line
@@ -1207,10 +1199,10 @@ Connection ~ 12775 2025
 Wire Wire Line
 	12775 2025 14225 2025
 $Comp
-L power:VCC #PWR08
+L power:VCC #PWR09
 U 1 1 5D58A5AC
 P 8575 1325
-F 0 "#PWR08" H 8575 1175 50  0001 C CNN
+F 0 "#PWR09" H 8575 1175 50  0001 C CNN
 F 1 "VCC" V 8500 1500 50  0000 C CNN
 F 2 "" H 8575 1325 50  0001 C CNN
 F 3 "" H 8575 1325 50  0001 C CNN
@@ -1256,9 +1248,9 @@ Wire Wire Line
 	16475 3975 14500 3975
 Connection ~ 14500 3975
 Wire Wire Line
-	11950 5075 19475 5075
+	11950 5075 17550 5075
 Wire Wire Line
-	12050 4975 19375 4975
+	12050 4975 17425 4975
 Wire Wire Line
 	22650 5450 22550 5450
 Wire Wire Line
@@ -1282,11 +1274,7 @@ Wire Wire Line
 Wire Wire Line
 	22500 2500 22500 4850
 Wire Wire Line
-	12150 4850 22500 4850
-Wire Wire Line
 	22550 2400 22550 4725
-Wire Wire Line
-	12250 4725 22550 4725
 Text Notes 19750 10275 0    50   ~ 0
 NOTE:  Check sketch macros for which LED is controlled by which MCU pin.
 Text Notes 22775 9975 1    50   ~ 0
@@ -1298,17 +1286,17 @@ Connection ~ 8875 3975
 Wire Wire Line
 	8375 3975 8875 3975
 $Comp
-L Jumper:Jumper_2_Bridged JP2
+L Jumper:Jumper_2_Bridged JP3
 U 1 1 5CE78051
 P 9275 1800
-F 0 "JP2" H 9275 1900 50  0000 C CNN
+F 0 "JP3" H 9275 1900 50  0000 C CNN
 F 1 "Effect reducer" H 9175 1700 50  0000 C CNN
 F 2 "Connector_PinHeader_2.54mm:PinHeader_1x02_P2.54mm_Vertical" H 9275 1800 50  0001 C CNN
 F 3 "~" H 9275 1800 50  0001 C CNN
 F 4 "part of MSB-T plus part of a second TSW-150-05-T-S/4-103327-0" H 9275 1800 50  0001 C CNN "Part_number"
 F 5 "http://Arrow.com" H 9275 1800 50  0001 C CNN "Source"
 	1    9275 1800
-	0    -1   -1   0   
+	0    1    1    0   
 $EndComp
 Wire Wire Line
 	9725 1575 10525 1575
@@ -1333,8 +1321,8 @@ $Comp
 L Device:R_Small_US R3
 U 1 1 5CED190D
 P 3475 2225
-F 0 "R3" V 3375 2175 50  0000 L CNN
-F 1 "100 Ω" V 3300 2050 50  0000 L CNN
+F 0 "R3" V 3375 2300 50  0000 L CNN
+F 1 "100 Ω" V 3375 2025 50  0000 L CNN
 F 2 "Resistor_SMD:R_0603_1608Metric" H 3475 2225 50  0001 C CNN
 F 3 "~" H 3475 2225 50  0001 C CNN
 F 4 "http://Arrow.com" H 3475 2225 50  0001 C CNN "Source"
@@ -1356,8 +1344,6 @@ F 3 "~" H 14800 3375 50  0001 C CNN
 $EndComp
 Text Notes 525  15750 0    500  ~ 100
 NOTE: Except where indicated otherwise, \ncomponent part numbers and vendors are \nsuggested based on likely imperfect research\nof pricing and availability for the USA in the \nspring of 2019.
-Wire Notes Line
-	1850 2175 4100 2175
 Wire Notes Line
 	5900 2175 7775 2175
 Wire Notes Line
@@ -1393,25 +1379,25 @@ Wire Wire Line
 $Comp
 L Device:R_Small_US R4
 U 1 1 5CFBF015
-P 6150 1500
-F 0 "R4" H 5875 1600 50  0000 L CNN
-F 1 "10 KΩ" H 5800 1475 50  0000 L CNN
-F 2 "Resistor_SMD:R_0603_1608Metric" H 6150 1500 50  0001 C CNN
-F 3 "~" H 6150 1500 50  0001 C CNN
-F 4 "http://Arrow.com" H 6150 1500 50  0001 C CNN "Source"
-F 5 "NRC06J103TRF" H 6150 1500 50  0001 C CNN "Part_number"
-	1    6150 1500
+P 6150 1600
+F 0 "R4" H 5875 1700 50  0000 L CNN
+F 1 "10 KΩ" H 5800 1575 50  0000 L CNN
+F 2 "Resistor_SMD:R_0603_1608Metric" H 6150 1600 50  0001 C CNN
+F 3 "~" H 6150 1600 50  0001 C CNN
+F 4 "http://Arrow.com" H 6150 1600 50  0001 C CNN "Source"
+F 5 "NRC06J103TRF" H 6150 1600 50  0001 C CNN "Part_number"
+	1    6150 1600
 	1    0    0    -1  
 $EndComp
 $Comp
-L power:GNDA #PWR04
+L power:GNDA #PWR05
 U 1 1 5CFC03A8
-P 6150 1600
-F 0 "#PWR04" H 6150 1350 50  0001 C CNN
-F 1 "GNDA" H 6155 1427 50  0000 C CNN
-F 2 "" H 6150 1600 50  0001 C CNN
-F 3 "" H 6150 1600 50  0001 C CNN
-	1    6150 1600
+P 6150 1700
+F 0 "#PWR05" H 6150 1450 50  0001 C CNN
+F 1 "GNDA" H 6155 1527 50  0000 C CNN
+F 2 "" H 6150 1700 50  0001 C CNN
+F 3 "" H 6150 1700 50  0001 C CNN
+	1    6150 1700
 	1    0    0    -1  
 $EndComp
 Text Notes 4400 1075 0    70   ~ 0
@@ -1424,9 +1410,9 @@ Wire Wire Line
 	7225 2425 6400 2425
 Connection ~ 7475 1925
 Connection ~ 6400 2425
-Text Notes 6175 2150 0    60   ~ 0
+Text Notes 6100 2150 0    60   ~ 0
 2nd stage guard trace route
-Text Notes 1800 2150 0    60   ~ 0
+Text Notes 1825 2100 0    60   ~ 0
 1st stage guard trace route
 Text Notes 8650 3225 0    60   ~ 0
 3rd stage guard trace route (A0)
@@ -1446,8 +1432,6 @@ F 8 "http://Arrow.com" H 19025 9575 50  0001 C CNN "Source"
 	1    19025 9575
 	1    0    0    -1  
 $EndComp
-Wire Wire Line
-	3800 3025 7775 3025
 $Comp
 L Device:Q_NMOS_SGD Q4
 U 1 1 5CEFAE8D
@@ -1546,7 +1530,7 @@ F 2 "Package_SO:MSOP-10_3x3mm_P0.5mm" H 3450 1650 50  0001 C CNN
 F 3 "http://static6.arrow.com/aropdfconversion/427f47d0fc5e4caf484beffd27781384154f9c66/33171669476397452ad8244.pdf" H 3450 1650 50  0001 C CNN
 F 4 "AD8244ARMZ-R7" H 3450 1650 50  0001 C CNN "Part_number"
 F 5 "http://Arrow.com" H 3450 1650 50  0001 C CNN "Source"
-F 6 "00 00 !Assembly instructions  not complete - do not trust this yet for assembly order!  Place (always means solder herein), then check work for inadvertent shorts and opens" H 3450 1650 50  0001 C CNN "ClickToSortForPlacement"
+F 6 "02 Place (always means solder herein), then check work for inadvertent shorts and opens. " H 3450 1650 50  0001 C CNN "ClickToSortForPlacement"
 	3    3450 1650
 	-1   0    0    1   
 $EndComp
@@ -1566,45 +1550,45 @@ Wire Notes Line
 $Comp
 L Device:RF_Shield_Two_Pieces SHLD1
 U 1 1 5D39733F
-P 1450 3350
-F 0 "SHLD1" H 2180 3414 50  0000 L CNN
-F 1 "Device_RF_Shield_Two_Pieces" H 2180 3323 50  0000 L CNN
-F 2 "multipackage:Masach_Tech_MS26320_26x19.50mm" H 1450 3250 50  0001 C CNN
-F 3 "~" H 1450 3250 50  0001 C CNN
-F 4 "MS263-20 (just the cover)" H 1450 3350 50  0001 C CNN "Part_number"
-F 5 "http://Arrow.com" H 1450 3350 50  0001 C CNN "Source"
-	1    1450 3350
+P 3025 4425
+F 0 "SHLD1" H 3755 4489 50  0000 L CNN
+F 1 "Device_RF_Shield_Two_Pieces" H 3755 4398 50  0000 L CNN
+F 2 "multipackage:Masach_Tech_MS26320_26x19.50mm" H 3025 4325 50  0001 C CNN
+F 3 "~" H 3025 4325 50  0001 C CNN
+F 4 "MS263-20 (will only use the cover to keep hermetic sealed)" H 3025 4425 50  0001 C CNN "Part_number"
+F 5 "http://Arrow.com" H 3025 4425 50  0001 C CNN "Source"
+	1    3025 4425
 	1    0    0    -1  
 $EndComp
 $Comp
 L Device:R_Small_US R1
 U 1 1 5D398C0C
-P 2150 2425
-F 0 "R1" V 2075 2400 50  0000 L CNN
-F 1 "100 Ω" V 2250 2300 50  0000 L CNN
-F 2 "Resistor_SMD:R_0603_1608Metric" H 2150 2425 50  0001 C CNN
-F 3 "~" H 2150 2425 50  0001 C CNN
-F 4 "http://Arrow.com" H 2150 2425 50  0001 C CNN "Source"
-F 5 "RMCF0603FT100R" H 2150 2425 50  0001 C CNN "Part_number"
-	1    2150 2425
+P 2150 2475
+F 0 "R1" V 2250 2500 50  0000 L CNN
+F 1 "100 Ω" V 2250 2675 50  0000 L CNN
+F 2 "Resistor_SMD:R_0603_1608Metric" H 2150 2475 50  0001 C CNN
+F 3 "~" H 2150 2475 50  0001 C CNN
+F 4 "http://Arrow.com" H 2150 2475 50  0001 C CNN "Source"
+F 5 "RMCF0603FT100R" H 2150 2475 50  0001 C CNN "Part_number"
+	1    2150 2475
 	0    1    1    0   
 $EndComp
 $Comp
-L power:GNDD #PWR01
+L power:GNDD #PWR03
 U 1 1 5D4815B2
-P 1450 3750
-F 0 "#PWR01" H 1450 3500 50  0001 C CNN
-F 1 "GNDD" H 1454 3595 50  0000 C CNN
-F 2 "" H 1450 3750 50  0001 C CNN
-F 3 "" H 1450 3750 50  0001 C CNN
-	1    1450 3750
+P 3025 4825
+F 0 "#PWR03" H 3025 4575 50  0001 C CNN
+F 1 "GNDD" H 3029 4670 50  0000 C CNN
+F 2 "" H 3025 4825 50  0001 C CNN
+F 3 "" H 3025 4825 50  0001 C CNN
+	1    3025 4825
 	1    0    0    -1  
 $EndComp
 $Comp
-L power:GNDD #PWR02
+L power:GNDD #PWR01
 U 1 1 5D4F4A1E
 P 1675 1775
-F 0 "#PWR02" H 1675 1525 50  0001 C CNN
+F 0 "#PWR01" H 1675 1525 50  0001 C CNN
 F 1 "GNDD" H 1679 1620 50  0000 C CNN
 F 2 "" H 1675 1775 50  0001 C CNN
 F 3 "" H 1675 1775 50  0001 C CNN
@@ -1615,16 +1599,6 @@ Wire Wire Line
 	1675 1775 1500 1775
 Wire Wire Line
 	1500 1775 1500 1875
-Wire Wire Line
-	2050 2425 1850 2425
-Wire Wire Line
-	1850 2425 1850 2475
-Wire Wire Line
-	1850 2475 1700 2475
-Wire Wire Line
-	1700 2175 1850 2175
-Wire Wire Line
-	1850 2175 1850 2225
 NoConn ~ 1700 2075
 Wire Wire Line
 	9025 2000 9275 2000
@@ -1646,11 +1620,9 @@ Wire Wire Line
 Wire Wire Line
 	3575 2225 3800 2225
 Wire Wire Line
-	2325 3025 2325 2425
+	2325 3025 2325 2475
 Wire Wire Line
-	2250 2425 2325 2425
-Wire Wire Line
-	2325 3025 3800 3025
+	2250 2475 2325 2475
 $Comp
 L Jumper:SolderJumper_3_Open JP1
 U 1 1 5D8B719E
@@ -1660,14 +1632,15 @@ F 1 "C1_leak_mitigator" H 2400 1900 50  0000 C CNN
 F 2 "Jumper:SolderJumper-3_P1.3mm_Open_RoundedPad1.0x1.5mm_NumberLabels" H 2825 1750 50  0001 C CNN
 F 3 "~" H 2825 1750 50  0001 C CNN
 F 4 "part of MSB-T plus part of a second TSW-150-05-T-S/4-103327-0" H 2825 1750 50  0001 C CNN "Part_number"
+F 5 "00 Pads 2-3 were experimental.  Solder-short pads 1 to 2 unless you know pads 2-3 work." H 2825 1750 50  0001 C CNN "ClickToSortForPlacement"
 	1    2825 1750
 	1    0    0    -1  
 $EndComp
 $Comp
-L power:GNDA #PWR03
+L power:GNDA #PWR02
 U 1 1 5D8F459E
 P 2625 1750
-F 0 "#PWR03" H 2625 1500 50  0001 C CNN
+F 0 "#PWR02" H 2625 1500 50  0001 C CNN
 F 1 "GNDA" H 2630 1577 50  0000 C CNN
 F 2 "" H 2625 1750 50  0001 C CNN
 F 3 "" H 2625 1750 50  0001 C CNN
@@ -1681,25 +1654,26 @@ Wire Wire Line
 Connection ~ 3150 1650
 Wire Wire Line
 	3050 1900 2825 1900
-Text Label 6325 1450 0    60   ~ 0
+Text Label 6325 1500 0    60   ~ 0
 2nd_stage_guard_trace
 $Comp
-L Jumper:SolderJumper_3_Open JP3
+L Jumper:SolderJumper_3_Open JP2
 U 1 1 5D936E95
 P 4200 1300
-F 0 "JP3" H 4275 1400 50  0000 C CNN
+F 0 "JP2" H 4275 1400 50  0000 C CNN
 F 1 "C2_bias_reducer" H 3875 1400 50  0000 C CNN
 F 2 "Jumper:SolderJumper-3_P1.3mm_Open_RoundedPad1.0x1.5mm_NumberLabels" H 4200 1300 50  0001 C CNN
 F 3 "~" H 4200 1300 50  0001 C CNN
 F 4 "part of MSB-T plus part of a second TSW-150-05-T-S/4-103327-0" H 4200 1300 50  0001 C CNN "Part_number"
+F 5 "00 Pads 2-3 were experimental.  Solder-short pads 1 to 2 unless you know pads 2-3 work." H 4200 1300 50  0001 C CNN "ClickToSortForPlacement"
 	1    4200 1300
 	-1   0    0    -1  
 $EndComp
 $Comp
-L power:GNDA #PWR0101
+L power:GNDA #PWR04
 U 1 1 5D99BDAB
 P 4425 1300
-F 0 "#PWR0101" H 4425 1050 50  0001 C CNN
+F 0 "#PWR04" H 4425 1050 50  0001 C CNN
 F 1 "GNDA" H 4430 1127 50  0000 C CNN
 F 2 "" H 4425 1300 50  0001 C CNN
 F 3 "" H 4425 1300 50  0001 C CNN
@@ -1724,19 +1698,10 @@ Connection ~ 3250 2225
 Wire Wire Line
 	3250 2225 3375 2225
 Wire Wire Line
-	1850 2225 3250 2225
-Wire Wire Line
 	3250 2025 3250 1900
-Wire Wire Line
-	6150 1400 6200 1400
-Wire Wire Line
-	6200 1400 6200 1450
-Wire Wire Line
-	6200 1450 6325 1450
-Connection ~ 6150 1400
 NoConn ~ 6250 1400
-Text Notes 725  7175 0    80   ~ 0
-When used as designed (body \nsoldered to PCB and cover used \nremoveably) the height of this \nshield is 10mm and not hermetically \nsealed.\n\nInstead, hermetic sealing is \nsuggested to provide you with \nthe ultimate in long term \nsensitivity stability.\n\nHermetic sealing is achieved by: \n\n#1) Solder sealing all micro-vias of\nthe PCB under the shield, and\n\n#2) not using the shield body, only \ncarefully and thoroughly soldering \nthe shield top in place with the \ndried dessicant package (supplied \nby manufacturer with U1) stuffed \ninside to minimize moisture \nabsorption by U1 that could degrade\nU1 performance slightly over time in \nhumid environments.
+Text Notes 2025 8975 0    80   ~ 0
+When used as designed (body \nsoldered to PCB and cover used \nremoveably) the height of this \nshield is 10mm and not hermetically \nsealed.\n\nInstead, hermetic sealing is \nsuggested to provide you with \nthe ultimate in long term \nsensitivity stability in scientific\ninstrumentation class useages,\nwhich will also benefit from J1\nbeing a triax connector instead\nof the phone connector shown.\n\n\nHermetic sealing is achieved by: \n\n#1) Solder sealing all micro-vias of\nthe PCB under the shield, and\n\n#2) not using the shield body, only \ncarefully and thoroughly soldering \nthe shield top in place with the \ndried dessicant package (supplied \nby manufacturer with U3) stuffed \ninside to minimize moisture \nabsorption by U3 that could degrade\nU3 performance slightly over time in \nhumid environments.
 Wire Notes Line
 	7775 1775 8250 1775
 Wire Notes Line
@@ -1809,14 +1774,8 @@ Text Notes 12250 1175 0    70   ~ 0
 3rd stage guard trace source
 Text Label 13400 1775 0    60   ~ 0
 3rd_stage_guard_trace
-Wire Notes Line
-	1600 2525 1900 2525
-Wire Notes Line
-	1900 2525 1900 2475
-Wire Notes Line
-	1900 2475 2050 2475
-Text Notes 1075 2750 0    60   ~ 0
-GNDA used for guard trace here
+Text Notes 1175 3000 0    60   ~ 0
+GNDA used for \nguard trace between\nS and R1
 Wire Wire Line
 	21525 3925 21525 4325
 Wire Wire Line
@@ -1830,7 +1789,7 @@ F 1 "200 KΩ" H 20957 5620 50  0000 R CNN
 F 2 "multipackage:Potentiometer_Bourns_PTV09A-1_Single_Vertical" H 21025 5575 50  0001 C CNN
 F 3 "https://www.bourns.com/docs/Product-Datasheets/PTV09.pdf" H 21025 5575 50  0001 C CNN
 F 4 "12 Don't solder, merely press against sides of holes inside them with power on and diags running.  When A0 diags are successful, power down, pull boards apart with great care, then remove J3 and attach it again with a tack solder to J3 pin 2. Power up and run A1 diags using VR2 position similarly (inserted without soldering).   When A1 diags are successful power down, then remove J2, 3, & 4, R1 and solder-bridges of JP1-3 no cuts needed, check work for inadvertent shorts and opens after" H 12065 -155 50  0001 C CNN "ClickToSortForPlacement"
-F 5 "User/developer (\"hacker\") use only: PTV09A-4030U-B204 or may end in B203 or some resistance in between those.  The 4030 may be 4020 or 4015 for shorter shaft. If using the UNO SMD MCU version with an ATMEGA128P-AU (a TQFP package specifically instead of the UNO with a DIP ATMEGA128P), there are two analog input pins available at the TQFP package on the MCU board that not wired out to any connector.  One or both of these can be, if you are willing to attach tiny wires between them and VR3/4 and write the code, used as seventh and eighth analog inputs A6 & A7.  Then air-wire them or connectorize them somehow across to this extention board and buy the PCB mount vertically oriented version of PTV09 pots to get one or two more user developed, run-time analog input controls into the training board." H 21025 5575 50  0001 C CNN "Part_number"
+F 5 "User/developer use only: PTV09A-4030U-B204 or may end in B203 or some resistance in between those.  The 4030 may be 4020 or 4015 for shorter shaft. If using the UNO SMD MCU version with an ATMEGA128P-AU (a TQFP package specifically instead of the UNO with a DIP ATMEGA128P), there are two analog input pins available at the TQFP package on the MCU board that not wired out to any connector.  One or both of these can be, if you are willing to attach tiny wires between them and VR3/4 and write the code, used as seventh and eighth analog inputs A6 & A7.  Then air-wire them or connectorize them somehow across to this extention board and buy the PCB mount vertically oriented version of PTV09 pots to get one or two more user developed, run-time analog input controls into the training board." H 21025 5575 50  0001 C CNN "Part_number"
 F 6 "http://Arrow.com" H 21025 5575 50  0001 C CNN "Source"
 	1    21025 5575
 	-1   0    0    1   
@@ -1844,16 +1803,16 @@ F 1 "200 KΩ" H 21657 5520 50  0000 R CNN
 F 2 "multipackage:Potentiometer_Bourns_PTV09A-1_Single_Vertical" H 21725 5475 50  0001 C CNN
 F 3 "https://www.bourns.com/docs/Product-Datasheets/PTV09.pdf" H 21725 5475 50  0001 C CNN
 F 4 "12 Don't solder, merely press against sides of holes inside them with power on and diags running.  When A0 diags are successful, power down, pull boards apart with great care, then remove J3 and attach it again with a tack solder to J3 pin 2. Power up and run A1 diags using VR2 position similarly (inserted without soldering).   When A1 diags are successful power down, then remove J2, 3, & 4, R1 and solder-bridges of JP1-3 no cuts needed, check work for inadvertent shorts and opens after" H 12765 -255 50  0001 C CNN "ClickToSortForPlacement"
-F 5 "User/developer (\"hacker\") use only: PTV09A-4030U-B204 or may end in B203 or some resistance in between those.  The 4030 may be 4020 or 4015 for shorter shaft. If using the UNO SMD MCU version with an ATMEGA128P-AU (a TQFP package specifically instead of the UNO with a DIP ATMEGA128P), there are two analog input pins available at the TQFP package on the MCU board that not wired out to any connector.  One or both of these can be, if you are willing to attach tiny wires between them and VR3/4 and write the code, used as seventh and eighth analog inputs A6 & A7.  Then air-wire them or connectorize them somehow across to this extention board and buy the PCB mount vertically oriented version of PTV09 pots to get one or two more user developed, run-time analog input controls into the training board." H 21725 5475 50  0001 C CNN "Part_number"
+F 5 "User/developer use only: PTV09A-4030U-B204 or may end in B203 or some resistance in between those.  The 4030 may be 4020 or 4015 for shorter shaft. If using the UNO SMD MCU version with an ATMEGA128P-AU (a TQFP package specifically instead of the UNO with a DIP ATMEGA128P), there are two analog input pins available at the TQFP package on the MCU board that not wired out to any connector.  One or both of these can be, if you are willing to attach tiny wires between them and VR3/4 and write the code, used as seventh and eighth analog inputs A6 & A7.  Then air-wire them or connectorize them somehow across to this extention board and buy the PCB mount vertically oriented version of PTV09 pots to get one or two more user developed, run-time analog input controls into the training board." H 21725 5475 50  0001 C CNN "Part_number"
 F 6 "http://Arrow.com" H 21725 5475 50  0001 C CNN "Source"
 	1    21725 5475
 	-1   0    0    1   
 $EndComp
 $Comp
-L power:GNDD #PWR032
+L power:GNDD #PWR031
 U 1 1 5DC90CA3
 P 21725 5625
-F 0 "#PWR032" H 21725 5375 50  0001 C CNN
+F 0 "#PWR031" H 21725 5375 50  0001 C CNN
 F 1 "GNDD" H 21729 5470 50  0000 C CNN
 F 2 "" H 21725 5625 50  0001 C CNN
 F 3 "" H 21725 5625 50  0001 C CNN
@@ -1861,10 +1820,10 @@ F 3 "" H 21725 5625 50  0001 C CNN
 	1    0    0    -1  
 $EndComp
 $Comp
-L power:GNDD #PWR030
+L power:GNDD #PWR025
 U 1 1 5DC91543
 P 21025 5725
-F 0 "#PWR030" H 21025 5475 50  0001 C CNN
+F 0 "#PWR025" H 21025 5475 50  0001 C CNN
 F 1 "GNDD" H 21029 5570 50  0000 C CNN
 F 2 "" H 21025 5725 50  0001 C CNN
 F 3 "" H 21025 5725 50  0001 C CNN
@@ -1872,10 +1831,10 @@ F 3 "" H 21025 5725 50  0001 C CNN
 	1    0    0    -1  
 $EndComp
 $Comp
-L power:VCC #PWR031
+L power:VCC #PWR030
 U 1 1 5DC91A88
 P 21725 5325
-F 0 "#PWR031" H 21725 5175 50  0001 C CNN
+F 0 "#PWR030" H 21725 5175 50  0001 C CNN
 F 1 "VCC" H 21742 5498 50  0000 C CNN
 F 2 "" H 21725 5325 50  0001 C CNN
 F 3 "" H 21725 5325 50  0001 C CNN
@@ -1883,10 +1842,10 @@ F 3 "" H 21725 5325 50  0001 C CNN
 	1    0    0    -1  
 $EndComp
 $Comp
-L power:VCC #PWR029
+L power:VCC #PWR024
 U 1 1 5DC922E1
 P 21025 5425
-F 0 "#PWR029" H 21025 5275 50  0001 C CNN
+F 0 "#PWR024" H 21025 5275 50  0001 C CNN
 F 1 "VCC" H 21042 5598 50  0000 C CNN
 F 2 "" H 21025 5425 50  0001 C CNN
 F 3 "" H 21025 5425 50  0001 C CNN
@@ -1897,7 +1856,7 @@ Text Notes 21425 6025 0    50   ~ 0
 Developer-user 2
 Text Notes 20650 6025 0    50   ~ 0
 Developer-user 1
-Text Notes 17875 6850 0    50   ~ 0
+Text Notes 17475 7050 0    50   ~ 0
 If using the UNO SMD MCU version with an ATMEGA128P-AU (a \nTQFP package specifically instead of the UNO with a DIP \nATMEGA128P), there are two analog input pins available at the \nTQFP package on the MCU board that are often not wired out to \nany connector.  Their TQFP pin numbers are 19 (A6) and 22 (A7).\n\nWhile you are building this project and before deciding on the \nlength of J2, look at your Arduino to see if A6 and A7 are wired \nto J2, both J2 and J3 joined into one single connector, and A6 \nand A7 labeled on pins 9 and 1 of J2.  If you got lucky just build \nthis board as is.  If your Arduino does not break out A6 and A7 \nlike that, decide whether you have a use for A6 &/or A7.  If so, \nyou will connect with PH-MVS-5370 pogo pins soldered atop \nslightly retracted J2 pins 9 and 1 (this board) and FFC bare pad \n(MCU board) instead of socket and pin.  \n\nFor the Arduino with the directly pinout supported see\nhttps://www.aliexpress.com\n/item\n/Real-tracking-number-100-new-chip-high-quality-UNO-R3-MEGA328P-CH340G-for-Arduino-Compatible-Improved\n/1933684816.html?spm=a2g0o.cart.0.0.7cd53c00hidtIP
 Text Label 22250 1400 0    50   ~ 0
 GNDD
@@ -1969,10 +1928,6 @@ NoConn ~ 22250 1800
 NoConn ~ 22250 1900
 NoConn ~ 22250 2000
 Wire Wire Line
-	19375 3200 19375 4975
-Wire Wire Line
-	19375 3200 20650 3200
-Wire Wire Line
 	21425 3200 21150 3200
 Wire Wire Line
 	21425 3200 21425 3500
@@ -2011,7 +1966,6 @@ F 5 "NRC06J103TRF" H 6300 2525 50  0001 C CNN "Part_number"
 	1    6300 2525
 	0    -1   -1   0   
 $EndComp
-Connection ~ 6200 2525
 $Comp
 L Device:R_Small_US R8
 U 1 1 5CFCFAA5
@@ -2188,19 +2142,16 @@ Wire Wire Line
 Wire Wire Line
 	6200 2525 6200 9575
 Wire Wire Line
-	21425 3500 19475 3500
-Wire Wire Line
-	19475 3500 19475 5075
-Wire Wire Line
 	20500 5575 20700 5575
 $Comp
-L Connector:Conn_01x02_Female J6_A6,A7
+L Connector:Conn_01x02_Female J6_A7,A1
 U 1 1 5D238E1B
 P 20550 4950
-F 0 "J6_A6,A7" V 20550 5350 50  0000 R CNN
-F 1 "Conn_01x02_Female" V 20450 5825 50  0000 R CNN
+F 0 "J6_A7,A1" V 20550 5350 50  0000 R CNN
+F 1 "Conn_01x02_gender_unknown" V 20475 6075 50  0000 R CNN
 F 2 "Connector_PinHeader_2.54mm:PinHeader_1x02_P2.54mm_Vertical" H 20550 4950 50  0001 C CNN
 F 3 "~" H 20550 4950 50  0001 C CNN
+F 4 "male: part of a second TSW-150-05-T-S/4-103327-0 female:  SSA-102-S-T" H 20550 4950 50  0001 C CNN "Part_number"
 	1    20550 4950
 	0    -1   -1   0   
 $EndComp
@@ -2218,4 +2169,86 @@ Wire Wire Line
 Connection ~ 20700 5575
 Wire Wire Line
 	20700 5575 20875 5575
+$Comp
+L Connector:Conn_01x02_Female J7_A7,A1
+U 1 1 5CFFF071
+P 19400 4925
+F 0 "J7_A7,A1" V 19375 4700 50  0000 R CNN
+F 1 "Conn_01x02_Female" V 19250 4675 50  0000 R CNN
+F 2 "Connector_PinHeader_2.54mm:PinHeader_1x02_P2.54mm_Vertical" H 19400 4925 50  0001 C CNN
+F 3 "~" H 19400 4925 50  0001 C CNN
+F 4 "SSA-102-S-T" H 19400 4925 50  0001 C CNN "Part_number"
+	1    19400 4925
+	0    1    -1   0   
+$EndComp
+Wire Wire Line
+	17425 3200 17425 4725
+Wire Wire Line
+	17550 3500 17550 4850
+Wire Wire Line
+	17425 4725 17425 4975
+Wire Wire Line
+	12250 4725 22550 4725
+Wire Wire Line
+	17425 3200 20650 3200
+Wire Wire Line
+	17550 3500 21425 3500
+Wire Wire Line
+	17550 4850 17550 5075
+Wire Wire Line
+	12150 4850 22500 4850
+Wire Wire Line
+	19300 5125 19300 5225
+Wire Wire Line
+	19300 5225 20550 5225
+Connection ~ 20550 5225
+Wire Wire Line
+	19400 5175 20650 5175
+Wire Wire Line
+	20650 5175 20650 5150
+Wire Wire Line
+	19400 5125 19400 5175
+Connection ~ 20650 5150
+Wire Notes Line
+	1600 2525 2050 2525
+Wire Wire Line
+	1700 2475 2050 2475
+Wire Wire Line
+	3075 2175 3075 2225
+Wire Wire Line
+	3075 2225 3250 2225
+Wire Wire Line
+	1700 2175 3075 2175
+Wire Notes Line
+	1800 2125 3100 2125
+Wire Notes Line
+	3100 2125 3100 2200
+Wire Notes Line
+	3100 2200 4100 2200
+Text Notes 1650 2575 0    60   ~ 0
+With triax cabling employed \n   (not shown) guard trace will \n                 join to cable's guard \n                        conductor
+Connection ~ 6200 2525
+Connection ~ 5000 3025
+Wire Wire Line
+	6200 2225 7775 2225
+Wire Wire Line
+	6200 2425 6400 2425
+Wire Wire Line
+	6200 2325 6325 2325
+Wire Wire Line
+	5000 3025 7775 3025
+Wire Wire Line
+	2325 3025 3800 3025
+Wire Wire Line
+	3800 2525 3800 3025
+Connection ~ 3800 3025
+Wire Wire Line
+	3800 3025 5000 3025
+Wire Wire Line
+	6150 1400 6150 1500
+Wire Wire Line
+	6150 1500 6325 1500
+Connection ~ 6150 1500
+Wire Wire Line
+	6325 1500 6325 2325
 $EndSCHEMATC
