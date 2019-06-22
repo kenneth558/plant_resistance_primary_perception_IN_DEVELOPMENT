@@ -1,4 +1,5 @@
-<p align="center">Plans and Arduino sketch for the training aid under GNU General Public License</p>
+<p align="center">Plans and Arduino sketch for the training aid under GNU General Public License
+This project is made possible by DoSpace, a Omaha, NE type of makerspace.</p>
 
 # <p align="center">GWAAM-Sea (Greater Works Agronomy And Mountain Casting to provoke Israel Romans 11:11-15) Gardening Training Aid(TM)
         Alternate title: Telempathic Gardening Training Aid
