@@ -1,6 +1,8 @@
-<dl><dt>15 June 2019</dt></dl>PCBs on their way to me for arrival Monday 17 June.
-<dl><dt>09 June 2019</dt></dl>It won't be too much longer before I get my PCB (bare) I have on order. I have enough components to build it out. Depending on how many build mistakes I make I could have it built by July week 1. After that my guess is another 3 weeks sketch development time.  In hopes that the PCB has no errors, the link to order more is: https://oshpark.com/shared_projects/gzd7kenf
+<dl><dt>27 June 2019</dt></dl>Discovered that I spec'd C1 far too small physically to handle and solder onto the PCB.  I lost about 8 while simply trying to develop a means of soldering them to the PCB.  That step took about 4 or 5 hrs and I ended up pulling the C1 footprint off the board.  I'll have to wait until my low temperature paste solder arrives later today to resume my attempt to build my first working PCB.
 
+<dl><dt>15 June 2019</dt></dl>PCBs on their way to me for arrival Monday 17 June.
+
+<dl><dt>09 June 2019</dt></dl>It won't be too much longer before I get my PCB (bare) I have on order. I have enough components to build it out. Depending on how many build mistakes I make I could have it built by July week 1. After that my guess is another 3 weeks sketch development time.  In hopes that the PCB has no errors, the link to order more is: https://oshpark.com/shared_projects/gzd7kenf
 
 <dl><dt>06 June 2019</dt></dl>My ultimate design has been put into PCB design and three PCBs have been ordered.  Once those are built up, I'll test this latest and final circuit design.  Note that I haven't tested this design due to the breadboarding challenges I didn't want to deal with.
 
