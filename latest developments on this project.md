@@ -1,4 +1,4 @@
-<dl><dt>27 June 2019</dt></dl>Discovered that I spec'd C1 far too small physically to handle and solder onto the PCB.  I lost about 8 while simply trying to develop a means of soldering them to the PCB.  That step took about 4 or 5 hrs and I ended up pulling the C1 footprint off the board.  I'll have to wait until my low temperature paste solder arrives later today to resume my attempt to build my first working PCB.
+<dl><dt>27 June 2019</dt></dl>Discovered that I spec'd C1 far too small physically to handle and solder onto the PCB.  I lost about 8 while simply trying to develop a means of soldering them to the PCB with solid solder.  That step took about 4 or 5 hrs and I ended up pulling the C1 footprint off the board.  I'll have to wait until my low temperature paste solder arrives later today to resume my attempt to build my first working PCB.  BTW, this small C1 will fit into a space half or less the size of a pinhead.  Every time I observed one through the magnifying glass, I was newly amazed all over again how microscopic it is.
 
 <dl><dt>15 June 2019</dt></dl>PCBs on their way to me for arrival Monday 17 June.
 
