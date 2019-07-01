@@ -1,7 +1,7 @@
 <p align="center">Plans and Arduino sketch for the training aid under GNU General Public License
 This project is made possible in large part by DoSpace, a privately owned, non-profit technology library/makerspace in Omaha, NE.</p>
 
-# <p align="center">GWAAM-Sea (Greater Works Agronomy And Mountain Casting to provoke Israel Romans 11:11-15) Gardening Training Aid(TM)
+# <p align="center">GWAAM-Sea (Greater Works Agronomy And Mountain Casting to provoke Israel Romans 11:11-15) Gardening and Faith Aid(TM)
         Alternate title: Telempathic Gardening Training Aid
         Alternate title: Husbandry of the Fig Tree and John 14:12 Training Aid
         Alternate title: John 14:12 Agronomy - Promoting A Reviving Civility Training Aid
