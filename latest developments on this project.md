@@ -1,3 +1,5 @@
+<dl><dt>01 July 2019</dt></dl>Today I placed my electronics component order that I expect will complete my purchase of all remaining components I need to populate and energize the first rendition of this project.  Enough of the order should arrive in two days to get it working.
+
 <dl><dt>01 July 2019</dt></dl>To view a high resolution image of the PCB I have on order, click on the low resolution one here: https://oshpark.com/shared_projects/S2iFzmFE
 
 <dl><dt>29 June 2019</dt></dl>After spending another couple hours trying again to solder C1 down, I realize that the problem of there being too much space between C1 pads for both to attach to C1 simultaneously would, if this board version had to be salvaged, require some makeshift piece of solid copper to bridge  to one or the other pad.  I'll get back to that possible workaround once I get a more workable board designed and ordered.  
