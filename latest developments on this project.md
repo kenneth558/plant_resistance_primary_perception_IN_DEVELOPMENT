@@ -1,4 +1,4 @@
-<dl><dt>01 July 2019</dt></dl>Today I placed my electronics component order that I expect will complete my purchase of all remaining components I need to populate and energize the first rendition of this project.  Enough of the order should arrive in two days to get it working.
+<dl><dt>03 July 2019</dt></dl>Today I placed my electronics component order that I expect will complete my purchase of all remaining components I need to populate and energize the first rendition of this project.  Enough of the order should arrive in two days to get it working.
 
 <dl><dt>01 July 2019</dt></dl>To view a high resolution image of the PCB I have on order, click on the low resolution one here: https://oshpark.com/shared_projects/S2iFzmFE
 
