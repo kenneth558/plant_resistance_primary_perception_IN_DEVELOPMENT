@@ -6,7 +6,7 @@ This project is made possible in large part by DoSpace, a privately owned, non-p
         Alternate title: Husbandry of the Fig Tree and John 14:12 Training Aid
         Alternate title: John 14:12 Agronomy - Promoting A Reviving Civility Training Aid
 [Click here to see what this title means](https://github.com/kenneth558/plant_resistance_primary_perception/blob/Free/what%20the%20title%20means.md)
-##### <p align="center">FINAL DESIGN STILL UNDER DEVELOPMENT: As of Fall 2018 or so, development of this project has focused on the circuit without corresponding updates to the software.  I'm sure the latest revision of each do not work together during this phase of development.  Do you have experience successfully connecting Arduino together via the Internet without using intermediate computers?  Please notify me by filing an "Issue".
+##### <p align="center">FINAL DESIGN STILL UNDER DEVELOPMENT: As of Fall 2018 or so, development of this project has focused on the circuit without corresponding updates to the software.  I'm sure the latest revision of each do not work together during this phase of development.  Do you have experience successfully connecting Arduinos via the Internet without using intermediate computers?  Please notify me by filing an "Issue".
 -------------
 
 
