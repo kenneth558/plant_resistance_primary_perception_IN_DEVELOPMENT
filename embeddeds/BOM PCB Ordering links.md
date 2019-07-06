@@ -1,3 +1,4 @@
+No longer current.  See https://github.com/kenneth558/plant_resistance_primary_perception/blob/Free/ibom.html instead.
 ### BOM
 
 
