@@ -1,4 +1,4 @@
-<dl><dt>06 July 2019</dt></dl>Discovered I neglected to order one component needed for board completion.  Ordered it from USA, and I expect arrival in a week maybe.  Discoverd a silkscreen imperfection and posted a new PCB layout on this site only (not on OSH Park site until my next PCB order happens) correcting it.  
+<dl><dt>06 July 2019</dt></dl>Discovered I neglected to order one component needed for board completion.  Ordered it from USA, and I expect arrival in a week maybe.  I also discovered a silkscreen imperfection and posted a new PCB layout on this site only (not on OSH Park site until my next PCB order happens) correcting it.  
 
 <dl><dt>03 July 2019</dt></dl>Today I placed my electronics component order that I expect will complete my purchase of all remaining components I need to populate and energize the first rendition of this project.  Enough of the order should arrive in two days to get it working.
 
