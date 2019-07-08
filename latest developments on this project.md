@@ -1,3 +1,5 @@
+<dl><dt>08 July 2019</dt></dl>I added BlueTooth module capability, which means a new PCB design is out there now.  I have not added the BlueTooth module to the parts list...its up to you to find one that suits you.
+
 <dl><dt>07 July 2019</dt></dl>I made a few tweaks on the PCB design and couldn't think of any more to make, so I ordered that latest PCB design which updated the PCB design published by OSH Park to the very latest.  Still, be aware that I have NOT assembled any PCB fully enough to operate.  I expect I will do so in about a week, but I cannot claim any of this project works in its present design.  All developers of hardware and software know enough that future changes in circuit and software should still be expected at this stage of the project.
 
 <dl><dt>06 July 2019</dt></dl>Discovered I neglected to order one last(?) component needed for board completion.  Ordered it from USA, and I expect arrival in a week maybe.  I also discovered a silkscreen imperfection and posted a new PCB layout on this site only (not on OSH Park site until my next PCB order happens) correcting it.  
