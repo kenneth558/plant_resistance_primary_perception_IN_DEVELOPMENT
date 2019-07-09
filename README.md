@@ -10,7 +10,7 @@ This project is made possible in large part by DoSpace, a privately owned, non-p
 -------------
 
 
-By applying 4 volts DC across a plant in 5V power environments or 2.3V in 3.3V power environments, this device allows REAL-TIME observation of a plant’s electrical response to stimuli. That stimuli is expected to be telempathic while an observer learns to utilize telempathy and develop energetic faith (Jas. 5:16), but may be any other non-electric stimuli as well.
+By applying 4 volts DC across a plant in 5V power environments (2.3V in 3.3V power environments), this device allows REAL-TIME observation of a plant’s electrical response to stimuli. That stimuli is expected to be telempathic while an observer learns to utilize telempathy and develop energetic faith (Jas. 5:16), but may be any other non-electric stimuli as well.
 
 A recent enhancement of the circuit now allows electric current through the plant tissue of less than a nano ampere to be detected and observed.
 
