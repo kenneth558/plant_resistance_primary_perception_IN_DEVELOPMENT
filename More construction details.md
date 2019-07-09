@@ -12,6 +12,7 @@ Electrodes are vaporware as of yet: I'm trying conductive foam or conductive she
 
 Link to BOM: https://github.com/kenneth558/plant_resistance_primary_perception/blob/Free/BOM%20PCB%20Ordering%20links.md
 
+NOTE IF 3.3V OPERATION IS DESIRED:  Pin 5 of J2 will have to be omitted and the pad of the adjacent pin 4 J2 will have to be shorted over to the pad of that pin 5.  I neglected to leave room for the jumper to do this.  Sorry! 
 
 If for some odd reason you are stuck using the "not recommended due to far lower resolution" ADS1X15, observe the following 3 points:
 
