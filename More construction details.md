@@ -10,7 +10,7 @@ For anyone searching sites that give soldering tips, just remember that most boa
 
 OPTIONAL:  Quick and dirty operation can be achieved with just the Arduino and the DUT with balancing resistor connected to +5 VDC...and electrodes  Just set the appropriate pre-processor macros:  disable the USING_LM334... macro, the NUM_OF_OUTBOARDS... macro [and maybe the SUPERIMPOSE_FIRST_INBOARDS... macro if you want two pins plotted magnified (superimposing disables the magnified view of a signal)].  IOW, the AD8244, digipots, and high sensitivity ADC are optional if you just want to see a plotline respond to your finger touching it.  The digipots also won't do anything for you if you use a rail-to-rail ADC, as the ADS1X15 is.  
 
-You might be able to be notified of my changes to the project by GitHub settings, if you look around in GitHub, maybe...that's not a GitHub feature I've ever used, yet.
+You might be able to be notified of my changes to the project by GitHub settings, if you use the Github cloning & tracking feature, maybe...cloing is not a GitHub feature I've ever used, yet.
 
 Electrodes are vaporware as of yet: I'm trying conductive foam or conductive sheet plastic.
 
