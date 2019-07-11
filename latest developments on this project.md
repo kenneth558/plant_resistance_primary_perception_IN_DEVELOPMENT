@@ -2,7 +2,7 @@
 
 If you need the 3V operation, that PCB design is not the one at OSH Park.  You'll have to use the one here on GitHub, which will always be the very latest, most current design.
 
-<dl><dt>08 July 2019</dt></dl>I added BlueTooth module capability, which means a new PCB design is out there now.  I have not added the BlueTooth module to the parts list...its up to you to find one that suits you.
+<dl><dt>08 July 2019</dt></dl>I added BlueTooth module capability, which means a new PCB design is out there now.  I have not added the BlueTooth module to the parts list...its up to you to find one that suits you.  Get one that follows the same pinout as HC-05, a very common pinout for wireless modules in applications like this.
 
 <dl><dt>07 July 2019</dt></dl>I made a few tweaks on the PCB design and couldn't think of any more to make, so I ordered that latest PCB design which updated the PCB design published by OSH Park to the very latest.  Still, be aware that I have NOT assembled any PCB fully enough to operate.  I expect I will do so in about a week, but I cannot claim any of this project works in its present design.  All developers of hardware and software know enough that future changes in circuit and software should still be expected at this stage of the project.
 
