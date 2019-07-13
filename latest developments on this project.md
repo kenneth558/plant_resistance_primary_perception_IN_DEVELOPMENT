@@ -1,5 +1,5 @@
 
-<dl><dt>13 July 2019</dt></dl>Imade some very minor adjustments on the PCB to move some words in silk screen and solder mask to where I think they would look more professional.  That PCB design won't appear at OSH Park until my next order, but you do find it here at GitHub, as always.
+<dl><dt>13 July 2019</dt></dl>I made some very minor adjustments on the PCB to move some words in silk screen and solder mask to where I think they would look more professional.  That PCB design won't appear at OSH Park until my next order, but you do find it here at GitHub, as always.
 
 <dl><dt>12 July 2019</dt></dl>Added a jumper near ICSP1 pin 2 for ease of disconnect in case the power there doesn't match a 3V3 MCU Vcc.  I discovered that will sadly be the case with most 3V3 MCUs.  PCB files updated, new OSH Park order placed for the project on OSH Park (https://oshpark.com/shared_projects/8v1sgXR2) to be current.
 
