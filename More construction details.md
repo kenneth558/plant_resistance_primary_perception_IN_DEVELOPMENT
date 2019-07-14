@@ -1,4 +1,13 @@
- ### DO NOT OPEN PACKAGING FOR U3 (REF200) UNTIL READY TO SOLDER IT IN PLACE AND SOLDER-SEAL SHLD1 AS A SINGLE STEP!  That IC is a high precision component that is designed to give you highest performance when always kept in a very low humidity environment.  This is also why SHLD1 and all the micro-vias under it should be solder-sealed into hermetically sealed containment.
+ ### DO NOT OPEN PACKAGING FOR U3 (REF200) UNTIL READY TO SOLDER IT IN PLACE AND SOLDER-SEAL SHLD1 AS A SINGLE STEP!  That IC is a high precision component that is designed to give you highest performance when always kept in a very low humidity environment.  This is also why SHLD1 and all the micro-vias under it should be solder-sealed into hermetically sealed containment.  If you open that package too soon, here are the instructions to remedy: 
+ 1. Calculated shelf life in sealed bag: 12 months at <40C and <90% RH from bag seal date.
+ 2. Peak component body temperature for attention soldering: 260C(500F)
+ 3. After bag is opened, devices that will be subjected to reflow solder or other high temperature process must be 
+   a) Mounted within 168 hrs of factory conditions of <30C/60% RH, or
+   b) Stored per J-STD-033
+ 4. Devices require bake before mounting if:
+   a) Humidity indicator card reads >10%
+   b) When 3a or 3b are not met
+ 5. If baking is required, refer to IPC/JEDEC J-STD-033 for bake procedure.
 
 This project is difficult to build.  If you think you can do it without use of a microscope, I'll bet against you.  If you can find in your heart to get a microscope, you'll be able to put it to good use later to magnify growth of the plant at the ends of branches.
 
