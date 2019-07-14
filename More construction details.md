@@ -1,4 +1,4 @@
- # DO NOT OPEN PACKAGING FOR U3 (REF200) UNTIL READY TO SOLDER IT IN PLACE AND SOLDER-SEAL SHLD1 AS A SINGLE STEP!  That IC is a high precision component that is designed to give you highest performance when always kept in a very low humidity environment.  This is also why SHLD1 and all the micro-vias under it should be solder-sealed into hermetically sealed containment.
+ ### DO NOT OPEN PACKAGING FOR U3 (REF200) UNTIL READY TO SOLDER IT IN PLACE AND SOLDER-SEAL SHLD1 AS A SINGLE STEP!  That IC is a high precision component that is designed to give you highest performance when always kept in a very low humidity environment.  This is also why SHLD1 and all the micro-vias under it should be solder-sealed into hermetically sealed containment.
 
 This project is difficult to build.  If you think you can do it without use of a microscope, I'll bet against you.  If you can find in your heart to get a microscope, you'll be able to put it to good use later to magnify growth of the plant at the ends of branches.
 
