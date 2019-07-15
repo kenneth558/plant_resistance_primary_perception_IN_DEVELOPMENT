@@ -1,5 +1,5 @@
 
-<dl><dt>15 July 2019</dt></dl>When I powered up the board-under-construction, the prelim diags showed I had given Q3-7 a wrong pinout at the footprint.  I have pulled that PCB design off and will put up a new corrected design when I get that completed.
+<dl><dt>15 July 2019</dt></dl>When I powered up the board-under-construction, the prelim diags showed I had given Q3-7 a wrong pinout at the footprint.  I pulled that PCB design off and put up a new corrected design.
 
 <dl><dt>13 July 2019</dt></dl>I made some very minor adjustments on the PCB to move some words in silk screen and solder mask to where I think they would look more professional.  That PCB design won't appear at OSH Park until my next order, but you do find it here at GitHub, as always.
 
