@@ -10,7 +10,7 @@ This project is made possible in large part by DoSpace, a privately owned, non-p
 -------------
 
 
-By applying 4 volts DC (in 5V power environments, 2.3V in 3.3V power environments) across a plant, this device allows REAL-TIME observation of a plant’s electrical response to stimuli. That stimuli is expected to be telempathic while an observer learns to utilize telempathy and develop energetic faith (Jas. 5:16), but may be any other non-electric stimuli as well.
+By applying 4 volts DC (in 5V power environments, 2.3V in 3.3V power environments) across a plant, this device allows REAL-TIME observation of a plant’s electrical conductance response to stimuli. That stimuli is expected to be telempathic while an observer learns to utilize telempathy and develop energetic faith (Jas. 5:16), but may be any other non-electric stimuli as well.  When used in tandem with plant electrophysiology instrumentation, which observes voltages, this electronics circuitry monitoring conductance will not readily (important point there) be able to differentiate between a voltage response and a conductance response, while plant electrophysiology instrumentation used by will not detect a mere conductance response whatsoever unless a voltage is also present.
 
 A recent enhancement of the circuit now allows electric current through the plant tissue of less than a nano ampere to be detected and observed.
 
