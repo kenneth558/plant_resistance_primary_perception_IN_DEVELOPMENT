@@ -1,3 +1,4 @@
+<dl><dt>19 July 2019</dt></dl>Today I discovered that disparate solder types/compositions cannot be mixed.  That tells me why I have been having so much trouble building my first boards.  I've been cavalier about mixing 138C Bi/Sn eutectic solder and leaded solders, for instance.  That causes solder to fail with thermal cycling.  Other types of cross contamination simply won't adhere or increase the melting point.  I'll have to start building a board all over with a clean, new board and clean, new components.  Lesson learned.
 
 <dl><dt>16 July 2019</dt></dl>Soldering clearances were less than ideal.  Increased them on PCB and put the new one here and on OSH Park.
 <dl><dt>15 July 2019</dt></dl>When I powered up the board-under-construction, the prelim diags showed I had given Q3-7 a wrong pinout at the footprint.  I pulled that PCB design off and put up a new corrected design.
