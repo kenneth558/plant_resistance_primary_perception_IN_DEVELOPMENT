@@ -1,3 +1,5 @@
+<dl><dt>20 July 2019</dt></dl>Developed a different method of soldering the center pad of U2 - I put a via underneath it.  New PCB designed, ordered and published both here and at OSH Park.
+
 <dl><dt>19 July 2019</dt></dl>Today I discovered that disparate solder types/compositions cannot be mixed.  That tells me why I have been having so much trouble building my first boards.  I've been cavalier about mixing 138C Bi/Sn eutectic solder and leaded solders, for instance.  That causes solder to fail when thermal cycled.  Other types of cross contamination simply won't adhere or increase the melting point.  I'll have to start building a board all over with a clean, new board and clean, new components.  Lesson learned.  I expect much easier building after this!  I also updated the PCB to space components better and fix silk screen imperfections.  The PCB now also contains a warning against mixing solder types so we never forget.
 
 <dl><dt>16 July 2019</dt></dl>Soldering clearances were less than ideal.  Increased them on PCB and put the new one here and on OSH Park.
