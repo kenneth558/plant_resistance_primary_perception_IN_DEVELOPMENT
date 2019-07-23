@@ -19,7 +19,7 @@ OPTIONAL:  Quick and dirty operation can be achieved with just the Arduino and t
 
 You might be able to be notified of my changes to the project by GitHub settings, if you use the Github cloning & tracking feature, maybe...cloning is not a GitHub feature I've ever used, yet.
 
-Electrodes are vaporware as of yet: I'm trying conductive foam or conductive sheet plastic.
+Electrodes are vaporware as of yet: I'm hoping to go carbon fiber yarn route.
 
 Link to BOM: https://github.com/kenneth558/plant_resistance_primary_perception/blob/Free/BOM%20PCB%20Ordering%20links.md
 
