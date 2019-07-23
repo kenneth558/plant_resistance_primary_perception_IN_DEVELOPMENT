@@ -1,4 +1,4 @@
-<dl><dt>21 July 2019</dt></dl>I put alignment assist holes around U1, U2, U6, U7 and put the new PCB design out here and at OSH Park (https://oshpark.com/shared_projects/NDoaLBoY).  I finally feel very good about the state of this PCB design.  Whew!  It has been too long coming!
+<dl><dt>21 July 2019</dt></dl>I put alignment assist holes around U1, U2, U6, U7 and the shield and put the new PCB design out here and at OSH Park (https://oshpark.com/shared_projects/NDoaLBoY).  I finally feel very good about the state of this PCB design.  Whew!  It has been too long coming!
 
 <dl><dt>20 July 2019</dt></dl>I am developing a different method of soldering the center pad of U2 - I am putting a via underneath it that I will give a slightly oversized hole.  That much is in the latest PCB files here on GitHub, but since I am also adding line-up holes around the more difficult to place components in a design later today, I pulled the OSH Park order until I finish that enhancement.
 
