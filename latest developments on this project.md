@@ -1,4 +1,4 @@
-<dl><dt>26 July 2019</dt></dl>I'm seeing that if you choose to use solid wire solder, you'll need to use Kapton polyimide tape over both the components and tiny pieces of appropriately sized solder, (mashed down then cut with scissors &/or knife blade) and maybe a hot air solderer is best.  The Kapton tape stands up to the heat and holds everything in place while the solder melts.  I haven't tried an iron through that Kapton tape, but it just might work.
+<dl><dt>26 July 2019</dt></dl>I'm seeing that if you choose to use solid wire solder (not that I'm recommending that, but if that is a limitation...), you'll need to use Kapton polyimide tape over both the components and tiny pieces of appropriately sized solder, (mashed down then cut with scissors &/or knife blade) and maybe a hot air solderer is best.  The Kapton tape stands up to the heat and holds everything in place while the solder melts.  I haven't tried an iron through that Kapton tape, but it just might work.
 <dl><dt> </dt></dl> 
 I've added guide traces (fiducials) for pick and place contracting and have updated the PCB.
  
