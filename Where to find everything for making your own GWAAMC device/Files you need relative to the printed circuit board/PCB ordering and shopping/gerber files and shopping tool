@@ -1,5 +1,5 @@
 ### PCB Gerber files
-##### Here is a link to the gerber files of my PCB design: https://github.com/kenneth558/plant_resistance_primary_perception/blob/Free/embeddeds/v.5%20training%20aid%20board%20gerbers.zip.  
+##### Here is a link to the gerber files of my PCB design: https://github.com/kenneth558/plant_resistance_primary_perception/blob/Free/Where%20to%20find%20everything%20for%20making%20your%20own%20GWAAMC%20device/Files%20you%20need%20relative%20to%20the%20printed%20circuit%20board/uno%20shield%20v.6%20PCB%20gerbers.zip.  
  While I really like ENIG as it provides a nice flat surface for easier placement of fine pitch components, on tiny pads you'll need to "wash" the pad by double-tinning the gold off or gold migration will make the solder brittle.  Tinning, double or otherwise, negates the whole reason in getting a flat surface, so the PCB design includes place-assist holes to help hold fine-pitch components in place during soldering.  Whether they'll serve the purpose remains to be seen, but if they do, you should be able to order HASL boards instead of ENIG.
 
 ### PCB Comparison sites
