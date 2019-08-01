@@ -1,7 +1,7 @@
 (export (version D)
   (design
     (source "/home/master/gwaamc training aid/New GWAAMC Training Aid/Main Board LM334 UL2004 UNO/uno shield/uno shield v.6 project SMD.sch")
-    (date "Thu 01 Aug 2019 05:44:20 AM CDT")
+    (date "Thu 01 Aug 2019 05:37:15 PM CDT")
     (tool "Eeschema 5.1.2-f72e74a~84~ubuntu16.04.1")
     (sheet (number 1) (name /) (tstamps /)
       (title_block
@@ -31,8 +31,8 @@
       (footprint multipackage:Jack_3.5mm_CUI_SJ1-3534NS_Horizontal_CircularHoles)
       (datasheet " ~")
       (fields
-        (field (name ClickToSortForPlacement) "08 Use Kapton tape to protect shorting to board.  Then check work for inadvertent shorts and opens")
-        (field (name Part_number) SJ1-3534NS)
+        (field (name ClickToSortForPlacement) "08 Requires Kapton tape underneath to protect shorting to board: use two+ layers if expecting user/operator forces.  Place, then check work for inadvertent shorts and opens")
+        (field (name Part_number) "SJ1-3534NS; Kapton tape: 3057")
         (field (name Source) http://Arrow.com))
       (libsource (lib audiojack3_ground_switchtr) (part AudioJack3_Ground_SwitchTR) (description "Audio Jack, 3 Poles (Stereo / TRS), Grounded Sleeve, Switched TR Poles (Normalling)"))
       (sheetpath (names /) (tstamps /))
