@@ -1,7 +1,7 @@
 (export (version D)
   (design
     (source "/home/master/gwaamc training aid/New GWAAMC Training Aid/Main Board LM334 UL2004 UNO/uno shield/uno shield v.6 project SMD.sch")
-    (date "Thu 01 Aug 2019 05:32:49 AM CDT")
+    (date "Thu 01 Aug 2019 05:44:20 AM CDT")
     (tool "Eeschema 5.1.2-f72e74a~84~ubuntu16.04.1")
     (sheet (number 1) (name /) (tstamps /)
       (title_block
@@ -408,7 +408,7 @@
       (datasheet ~)
       (fields
         (field (name ClickToSortForPlacement) 99)
-        (field (name Part_number) "part of MSB-T plus part of a second TSW-150-05-T-S/4-103327-0")
+        (field (name Part_number) "part of MSB-T plus part of a second TSW-150-05-T-S or 4-103327-0")
         (field (name Source) http://Arrow.com))
       (libsource (lib Jumper) (part Jumper_2_Bridged) (description "Jumper, 2-pole, closed/bridged"))
       (sheetpath (names /) (tstamps /))
