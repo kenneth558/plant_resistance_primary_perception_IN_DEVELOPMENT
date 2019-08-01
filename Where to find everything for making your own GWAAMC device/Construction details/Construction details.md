@@ -23,7 +23,7 @@ OPTIONAL:  Quick and dirty operation can be achieved with just the Arduino and t
 
 You might be able to be notified of my changes to the project by GitHub settings, if you use the Github cloning & tracking feature, maybe...cloning is not a GitHub feature I've ever used, yet.
 
-Electrodes are vaporware as of yet: I'm hoping to go carbon fiber yarn route.
+Electrodes are vaporware as of yet: I'm hoping to use dry (not prepreg) carbon fiber tow.  The carbon fiber must establish its electrical connection to the circuit via gold plated contact or else corrosion will ensue.  Alternatives to gold are few and more rare.
 
 Link to BOM: https://github.com/kenneth558/plant_resistance_primary_perception/blob/Free/BOM%20PCB%20Ordering%20links.md
 
