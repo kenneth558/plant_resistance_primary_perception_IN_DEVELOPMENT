@@ -1,7 +1,7 @@
 (export (version D)
   (design
     (source "/home/master/gwaamc training aid/New GWAAMC Training Aid/Main Board LM334 UL2004 UNO/uno shield/uno shield v.6 project SMD.sch")
-    (date "Thu 01 Aug 2019 05:37:15 PM CDT")
+    (date "Fri 02 Aug 2019 01:23:24 AM CDT")
     (tool "Eeschema 5.1.2-f72e74a~84~ubuntu16.04.1")
     (sheet (number 1) (name /) (tstamps /)
       (title_block
@@ -226,7 +226,7 @@
       (footprint "HX711:HX711 module")
       (datasheet http://www.ti.com/lit/ds/symlink/ads1110.pdf)
       (fields
-        (field (name ClickToSortForPlacement) "13 Use Kapton tape to protect shorting to board")
+        (field (name ClickToSortForPlacement) "13 Kapton tape can be used to protect shorting to board and to MCU.  Height is set with that tape or other insulator in place and MCU fully seated plugged in")
         (field (name Part_number) "least cost - CN1501541594; fastest arrival - Dual Channel HX711")
         (field (name Source) "least cost - https://www.aliexpress.com/item/1PCS-X-HX711-modules-weigh-sensors-for-AD-module-chip-preferred-DIY-Graduation/32851591970.html?spm=2114.search0104.3.1.7ad07d02cMfLjw&ws_ab_test=searchweb0_0,searchweb201602_4_10065_10130_10068_10890_10547_319_10546_317_10548_10545_10696_453_10084_454_10083_10618_10307_537_536_10059_10884_10887_321_322_10103,searchweb201603_52,ppcSwitch_0&algo_expid=c46a3ce9-e8cf-4d7c-8e89-50e4aff4f628-0&algo_pvid=c46a3ce9-e8cf-4d7c-8e89-50e4aff4f628&transAbTest=ae803_3; fastest arrival https://www.ebay.com/itm/Dual-Channel-HX711-Weighing-Pressure-Sensor-24-bit-Precision-A-D-Module-Arduino/202679288819?hash=item2f30a083f3:g:xyIAAOSwhXtc2wdH"))
       (libsource (lib newkicadversion-rescue) (part HX711-hx711) (description ""))
