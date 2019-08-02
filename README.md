@@ -5,7 +5,7 @@ This project is made possible in large part by DoSpace, a privately owned, non-p
         Alternate title: Telempathic Gardening Training Aid
         Alternate title: Husbandry of the Fig Tree and John 14:12 Training Aid
         Alternate title: John 14:12 Agronomy - Promoting A Reviving Civility Training Aid
-![This is an Arduino shield project](https://github.com/kenneth558/plant_resistance_primary_perception/blob/Free/Where%20to%20find%20everything%20for%20making%20your%20own%20GWAAMC%20device/Construction%20details/front_straight-on_SHLD1_see-through.png)
+
 [Click here to see what this title means](https://github.com/kenneth558/plant_resistance_primary_perception/blob/Free/what%20the%20title%20means.md)
 ##### <p align="center">FINAL DESIGN STILL UNDER DEVELOPMENT: As of Fall 2018 or so, development of this project has focused on the circuit without corresponding updates to the software.  I'm sure the latest revision of each do not work together during this phase of development.  Do you have experience successfully connecting Arduinos via the Internet without using intermediate computers?  Please notify me by filing an "Issue" because that feature has been requested for this project.
 -------------
@@ -102,3 +102,4 @@ To repeat myself for the sake of emphasis:
 Note to anyone wanting this device for tobacco, marijuana, coca, or similar uses: You'll not have ANY support from me for purposes not intended to make the world a better place.  Don't even try to get my support for those type purposes that make the world a worse place rather than better.  Notice the period at the end of that statement.
 
 TO PROSPECTIVE GITHUB CLONERS - Given my lack of knowledge how GitHub cloning works, I have no idea what you can expect from cloning anything of mine at this time.
+![](https://github.com/kenneth558/plant_resistance_primary_perception/blob/Free/Where%20to%20find%20everything%20for%20making%20your%20own%20GWAAMC%20device/Construction%20details/front_straight-on_SHLD1_see-through.png)
