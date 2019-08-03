@@ -1,6 +1,6 @@
 <p align="center">Plans and Arduino sketch for the training aid under GNU General Public License
 This project is made possible in large part by DoSpace, a privately owned, non-profit technology library/makerspace in Omaha, NE.</p>
-<p>![Click here to see what this title means](https://github.com/kenneth558/plant_resistance_primary_perception/blob/Free/what%20the%20title%20means.md)</p>
+
 # <p align="center">GWAAM-Sea (Greater Works Agronomy And Mountain Casting to provoke Israel Romans 11:11-15) Gardening and Faith Aid(TM)
         Alternate title: Telempathic Gardening Training Aid
         Alternate title: Husbandry of the Fig Tree and John 14:12 Training Aid
