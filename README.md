@@ -102,4 +102,4 @@ To repeat myself for the sake of emphasis:
 Note to anyone wanting this device for tobacco, marijuana, coca, or similar uses: You'll not have ANY support from me for purposes not intended to make the world a better place.  Don't even try to get my support for those type purposes that make the world a worse place rather than better.  Notice the period at the end of that statement.
 
 
-![](https://github.com/kenneth558/plant_resistance_primary_perception/blob/Free/Where%20to%20find%20everything%20for%20making%20your%20own%20GWAAMC%20device/Construction%20details/front_straight-on_SHLD1_see-through.png)
+![](https://github.com/kenneth558/plant_resistance_primary_perception/blob/Free/Where%20to%20find%20everything%20for%20making%20your%20own%20GWAAMC%20device/front_straight-on_SHLD1_see-through.png)
