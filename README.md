@@ -8,7 +8,7 @@ This project is made possible in large part by DoSpace, a privately owned, non-p
 </p>
 
 <p align="center">Click here to see what this title means
-        [Click here to see what this title means](https://github.com/kenneth558/plant_resistance_primary_perception/blob/Free/what%20the%20title%20means.md)</p>
+        ![Click here to see what this title means](https://github.com/kenneth558/plant_resistance_primary_perception/blob/Free/what%20the%20title%20means.md)</p>
 
 ![](https://github.com/kenneth558/plant_resistance_primary_perception/blob/Free/Where%20to%20find%20everything%20for%20making%20your%20own%20GWAAMC%20device/front_straight-on_SHLD1_see-through.png)
 
