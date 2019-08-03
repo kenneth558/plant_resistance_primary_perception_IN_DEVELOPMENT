@@ -99,7 +99,7 @@ If you want to use an SBC (like a Raspberry Pi), I will suggest the use of a bri
         "...it is given unto you to know the mysteries of the kingdom of heaven..." Matt. 14:11
 
 
-To repeat myself for the sake of emphasis:
-Note to anyone wanting this device for tobacco, marijuana, coca, or similar uses: You'll not have ANY support from me for purposes not intended to make the world a better place.  Don't even try to get my support for those type purposes that make the world a worse place rather than better.  Notice the period at the end of that statement.
+To repeat from few paragraphs above for the sake of emphasis:
+Note to anyone wanting this device for tobacco, marijuana, coca, or similar uses: You'll not have ANY support from me for purposes which are not intended to make the world a better place.  Don't even try to get my support for those type purposes that make the world a worse place rather than better.  Notice the period at the end of that statement.
 <p align="center">Plans and Arduino sketch for the training aid under GNU General Public License.  
 This project is made possible in large part by DoSpace, a privately owned, non-profit technology library/makerspace in Omaha, NE.</p>
