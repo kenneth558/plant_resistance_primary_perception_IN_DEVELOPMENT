@@ -5,6 +5,7 @@ This project is made possible in large part by DoSpace, a privately owned, non-p
         Alternate title: Telempathic Gardening Training Aid
         Alternate title: Husbandry of the Fig Tree and John 14:12 Training Aid
         Alternate title: John 14:12 Agronomy - Promoting A Reviving Civility Training Aid
+        [this YouTube video](https://youtu.be/0lK9nYZC6ak)
 </p>
 
 ![](https://github.com/kenneth558/plant_resistance_primary_perception/blob/Free/Where%20to%20find%20everything%20for%20making%20your%20own%20GWAAMC%20device/front_straight-on_SHLD1_see-through.png)
