@@ -96,6 +96,9 @@ Add-on ADCs, especially the more affordable ones, tend to have inputs that are o
 
 If you want to use an SBC (like a Raspberry Pi), I will suggest the use of a bridge (shim) product like arduPi or ArduiPi.  In using one of those products, you'll be limited to using two potentiometers, which is all that this project needs in its current state anyway.  The Meet Arduino Shield, on the other hand, provides the normal Arduino ADC pin array, which is without A6 and A7.  I started investigating into making an R-Pi version of this project, but lost interest this early in the development cycle when I saw the EEPROM and circuit protection requirements for an R-Pi hat.  It'll take me a while to warm up to that side project, but making this into an R-Pi HAT would be nicely advantageous to allow stacked HATs.
 
+        "...it is given unto you to know the mysteries of the kingdom of heaven..." Matt. 14:11
+
+
 To repeat myself for the sake of emphasis:
 Note to anyone wanting this device for tobacco, marijuana, coca, or similar uses: You'll not have ANY support from me for purposes not intended to make the world a better place.  Don't even try to get my support for those type purposes that make the world a worse place rather than better.  Notice the period at the end of that statement.
 <p align="center">Plans and Arduino sketch for the training aid under GNU General Public License.  
