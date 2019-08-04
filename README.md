@@ -1,11 +1,10 @@
 
-# <p align="center">GWAAM-Sea™ (Greater Works Agronomy And Mountain Casting to provoke Israel Romans 11:11-15) Gardening and Faith Aid 
-        _UNO VERSION PCB LAYOUT FINALIZED!_
+# <p align="center">GWAAM-Sea™ (Greater Works Agronomy And Mountain Casting to provoke Israel Romans 11:11-15) Gardening and Faith Aid </p>
+# <p align="center">_UNO VERSION PCB LAYOUT FINALIZED!_</p>
 
         Alternate title: Telempathic Gardening Training Aid
         Alternate title: Husbandry of the Fig Tree and John 14:12 Training Aid
         Alternate title: John 14:12 Agronomy - Promoting A Reviving Civility Training Aid
-</p>
 
 ![](https://github.com/kenneth558/plant_resistance_primary_perception/blob/Free/Where%20to%20find%20everything%20for%20making%20your%20own%20GWAAMC%20device/front_straight-on_SHLD1_see-through.png)
 
