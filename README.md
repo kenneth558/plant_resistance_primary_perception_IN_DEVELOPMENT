@@ -7,8 +7,10 @@
 
 ![](https://github.com/kenneth558/plant_resistance_primary_perception/blob/Free/Where%20to%20find%20everything%20for%20making%20your%20own%20GWAAMC%20device/front_straight-on_SHLD1_see-through.png)
 
-##### <p align="center">FINAL DESIGN STILL UNDER DEVELOPMENT: As of Fall 2018 or so, development of this project has focused on the circuit without corresponding updates to the software.  I'm sure the latest revision of each do not work together during this phase of development.  Do you have experience successfully connecting Arduinos via the Internet without using intermediate computers?  Please notify me by filing an "Issue" because that feature has been requested for this project.
--------------
+##### <p align="center">ARDUINO UNO COMPATIBLE CIRCUIT DESIGN AND PCB LAYOUT IS NOW FINALIZED but development of the sketch for this style board has not been kept pace with circuit changes since Fall 2018.  I'm sure the latest revision of each do not work together during this phase of development.  When the PCBs arrive this week, I'll get that sketch caught up as fast as I can.  
+        Next circuit design will be for WEMOS D1 compatibilty.
+</p>
+        
 
 
 By applying voltage across a plant - 4 volts DC in 5V power environments, 2.3V in 3.3V power environments - this device allows REAL-TIME observation of a plant’s electrical conductance response to stimuli. That stimuli is expected to be telempathic while an observer learns to utilize telempathy and develop energetic faith (Jas. 5:16), but may be any other non-electric stimuli as well.  When used in tandem with plant electrophysiology instrumentation, which observes voltages, this electronics circuitry, which monitors conductance, will not readily (important point there) be able to differentiate between a voltage response and a conductance response, while plant electrophysiology instrumentation can not detect a mere conductance response whatsoever unless a voltage is also present.  Said a different way, plant electrophysiology instrumentation reads a _voltage_ signal provided to it by the plant, while the circuitry of this GWAAMC project generates and reads a _current_ signal whose amplitude is changed by and reflects the plant's conductance.
