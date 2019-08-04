@@ -1,6 +1,6 @@
 [PCB available for sale at OSH Park](https://oshpark.com/shared_projects/QC9ok4wx)
 
-![](https://drive.google.com/open?id=1_vxV2jGqUCDTPv-I9se9yU1sjNqsOMT9)
+![A 3D rendering of a populated board was supposed to show here](https://drive.google.com/open?id=1_vxV2jGqUCDTPv-I9se9yU1sjNqsOMT9)
 
 <dl><dt>03 Aug 2019</dt></dl>I've been making scores of cosmetic changes to the PCB design and some copper changes to enable ESP-01 wireless module to work.  J6 is now 9 pins long for wireless modules.  I emphasize that I have no code to operate any wireless right now.  Rx of the MCU runs to Tx of the module and vice versa.  Some modules may have pinouts that will require solder jumpering of nearby pads.  I've eliminated solder mask in those places to facilitate such jumpering.  My hopefully functional boards of a previous edit level should arrive in a day or two and we'll assemble, troubleshoot, and publish instructions immediately.
 
