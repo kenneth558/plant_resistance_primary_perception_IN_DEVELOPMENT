@@ -1,4 +1,4 @@
-#### <p align="center">_PCB LAYOUT IS FINALIZED! (AS LONG AS YOU DON'T NEED AN SD CARD)_</p>
+#### <p align="center">_PCB LAYOUT IS FINALIZED! (as long as you don't require and SD card)_</p>
 # <p align="center">GWAAM-Sea™ (Greater Works Agronomy And Mountain Casting to provoke Israel Romans 11:11-15) Gardening and Faith Aid </p>
 
         Alternate title: Telempathic Gardening Training Aid
