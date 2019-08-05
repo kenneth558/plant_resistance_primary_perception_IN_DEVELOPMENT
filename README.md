@@ -1,4 +1,4 @@
-#### <p align="center">_UNO SHIELD VERSION PCB LAYOUT FINALIZED!_</p>
+#### <p align="center">_UNO SHIELD VERSION PCB LAYOUT FINALIZED IF YOU DON'T NEED SD CARD!_</p>
 # <p align="center">GWAAM-Sea™ (Greater Works Agronomy And Mountain Casting to provoke Israel Romans 11:11-15) Gardening and Faith Aid </p>
 
         Alternate title: Telempathic Gardening Training Aid
