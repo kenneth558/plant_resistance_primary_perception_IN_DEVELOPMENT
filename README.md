@@ -1,4 +1,4 @@
-#### <p align="center">_PCB LAYOUT IS FINALIZED_!  Caveat: not yet tested, and won't yet have an SD card to store your observations</p>
+#### <p align="center">_PCB LAYOUT IS FINALIZED_!  Caveat: not yet tested, and won't have a _local_ SD card to store your observations</p>
 # <p align="center">GWAAM-Sea™ (Greater Works Agronomy And Mountain Casting to provoke Israel Romans 11:11-15) Gardening and Faith Aid </p>
 
         Alternate titles: Telempathic Gardening Training Aid,  Husbandry of the Fig Tree and John 14:12 Training Aid, John 14:12 Agronomy - Promoting A Reviving Civility Training Aid
