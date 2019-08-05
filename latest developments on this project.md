@@ -1,4 +1,4 @@
-_Now is a great time for you to ask me about capabilities you think would make this project as valuable as it can be.  Just submit an Issue_
+<p align = center>_Now is a great time for you to ask me about capabilities you think would make this project as valuable as it can be.  Just submit an Issue_</p<
 
 
 [PCB available for sale at OSH Park](https://oshpark.com/shared_projects/QC9ok4wx)
