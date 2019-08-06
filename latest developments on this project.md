@@ -5,7 +5,7 @@
 
 ![A 3D rendering of a populated board was supposed to show here](https://github.com/kenneth558/plant_resistance_primary_perception/blob/Free/Where%20to%20find%20everything%20for%20making%20your%20own%20GWAAMC%20device/Construction%20details/front_straight-on_SHLD1_see-through_with_notes.png)
 
-<dl><dt>06 Aug 2019</dt></dl>I just made one last improvement - I freed up pin D4 so an SD card shield may be stacked on top.
+<dl><dt>06 Aug 2019</dt></dl>I just made one last improvement - I freed up pin D4 so it may be stacked on top of an SD card shield to store the plot during learning sessions.  Code has not yet been written for that feature, though.
 
 <dl><dt>03 Aug 2019</dt></dl>I've been making scores of cosmetic changes to the PCB design and some copper changes to enable ESP-01 wireless module to work.  J6 is now 9 pins long for wireless modules.  I emphasize that I have no code to operate any wireless right now.  Rx of the MCU runs to Tx of the module and vice versa.  Some modules may have pinouts that will require solder jumpering of nearby pads.  I've eliminated solder mask in those places to facilitate such jumpering.  My hopefully functional boards of a previous edit level should arrive in a day or two and we'll assemble, troubleshoot, and publish instructions immediately.
 
