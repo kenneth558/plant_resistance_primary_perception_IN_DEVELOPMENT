@@ -1,4 +1,4 @@
-##  <p align="center">GWAAM-Sea Gerdening and Faith Aid (TM), by A Reviving Civility
+##  <p align="center">GWAAM-Sea Gerdening and Faith Aid (TM) by A Reviving Civility
 ###  <p align="center">What does this project's title mean, anyway?
 
 GWAAM-Sea (Greater Works Agronomy and Mountain Casting) Entanglement refers to Bible verses quoting words of Jesus.  The terms agronomy and mountain casting are taken from Matt 21:19-21 where we know that Jesus killed a fig tree with a curse and when His disciples marveled, He extrapolated the moment and linked the action to casting mountains into the sea.  I believe He tied the two actions together without missing a beat because a single generation would grasp the both of them in the same historical season - our own.  As far as I know, God saved His revelation of these concepts closely related to what we now call Quantum Mechanics until Jesus' time.  
