@@ -9,5 +9,4 @@ Did you ever watch a theatrical performance or movie and be so caught up in it t
 
 (Until hard results transform my motivational conjecture into substantive proof, I'm limited in further purposing, but I'll say this anyway - I'm hoping to incorporate into this project the term "domestic tranquility", given the insane prevelancy of incivility in the U.S. these days.)
 
-If you'll consider just the last two terms "reviving civility" standing alone, they would denote both the effect of civility if thought of as adjective-noun and, if thought of as verb-object, a goal of this project.  In a recent jusrisdiction I lived in, I secured the name A Reviving Civility as one of my legal fictional names, so that completes.
-
+If you'll consider just the last two terms "reviving civility" standing alone, they would denote both the effect of civility if thought of as adjective-noun and, if thought of as verb-object, a goal of this project.  In a recent jusrisdiction I lived in, I secured the name A Reviving Civility as a legal fictional name, just to round out the explanation for you.
