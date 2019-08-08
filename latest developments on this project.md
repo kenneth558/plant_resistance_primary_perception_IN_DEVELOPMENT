@@ -7,6 +7,8 @@
 
 <dl><dt>08 Aug 2019</dt></dl>Building a new board that I expect will become the first working rendition of this project.  I'm placing components, then performing diagnostic tests on what I've just placed.  I've succeeded in the first diagnostics step of getting function from U2 and now in process of installing LEDs and their driving circuitry.
 
+<dl><dt> </dt></dl>I'm trying to work the word "Entanglement" into this project's title.  I think it works best being the type of gardening..."Entanglement Gardening".
+
 <dl><dt>06 Aug 2019</dt></dl>I just made one last improvement - I freed up pin D4 so it may be stacked on top of an SD card shield to store the plot during learning sessions.  Code has not yet been written for that feature, though.
 
 <dl><dt>03 Aug 2019</dt></dl>I've been making scores of cosmetic changes to the PCB design and some copper changes to enable ESP-01 wireless module to work.  J6 is now 9 pins long for wireless modules.  I emphasize that I have no code to operate any wireless right now.  Rx of the MCU runs to Tx of the module and vice versa.  Some modules may have pinouts that will require solder jumpering of nearby pads.  I've eliminated solder mask in those places to facilitate such jumpering.  My hopefully functional boards of a previous edit level should arrive in a day or two and we'll assemble, troubleshoot, and publish instructions immediately.
