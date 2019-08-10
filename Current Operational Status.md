@@ -1,4 +1,4 @@
-**Current Operational Status:** As of 10 Aug 2019, I had not gotten any PCB rendition of this circuit working, only the breadboarded rendition, plus I've decided to incorporate additional circuitry onto the board that will enhance sensitivity to a more reasonable capability.  The board space that the additional circuitry uses forces me to incorporate SMT much more, thus requiring extensive layout redesign.  I am now building the board of my most recent PCB design, and I expect to be able to get it working a bit later in the month.
+**Current Operational Status:** As of 10 Aug 2019, I don't have any PCB rendition of this circuit working, only the breadboarded rendition of the previous circuit design.  I am now building the board of my most recent PCB design, and I expect to be able to get it working a bit later in the month.
 
 Though I personally have not gotten the circuit working with the PCB design I publish here, I do believe someone with adequate electronics skills will be able to gain a great deal of headway with it. (I am talking about Rev 6).
 
