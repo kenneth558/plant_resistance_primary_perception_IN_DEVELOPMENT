@@ -1,7 +1,7 @@
 (export (version D)
   (design
     (source "/home/master/gwaamc training aid/New GWAAMC Training Aid/Main Board LM334 UL2004 UNO/uno shield/uno shield v.6 project SMD.sch")
-    (date "Sat 10 Aug 2019 04:34:34 AM CDT")
+    (date "Sat 10 Aug 2019 05:52:07 AM CDT")
     (tool "Eeschema 5.1.2-f72e74a~84~ubuntu16.04.1")
     (sheet (number 1) (name /) (tstamps /)
       (title_block
@@ -307,7 +307,7 @@
       (footprint multipackage:ADL5315ACPZ-R7)
       (datasheet https://www.analog.com/media/en/technical-documentation/data-sheets/ADL5315.pdf)
       (fields
-        (field (name ClickToSortForPlacement) "03 Being careful not to desolder surrounding components, tin pads on lateral sides of the component itself and the center and largest pad on bottom side of the component itself.  Ensure that none of the solder tinning on the lateral side pads of the component extends below bottom plane as that solder won't melt while soldering bottom pad to allow component to fully seat against board.  It would be ideal to solder center pin 9 from the back side of board and ensure its attachment to the via and pins 1-8 from front of board.  Pin 9 should be soldered first so you can verify it becomes soundly attached and seated against board, but I don't know a technique to do it while ensuring the other pads will all stay lined up.  When finished soldering, check that surrounding components already placed were not disturbed. Check work for inadvertent shorts and opens. ")
+        (field (name ClickToSortForPlacement) "03 Being careful not to desolder surrounding components (use the body of SHLD1 to protect them, if it will help), tin pads on lateral sides of the component itself and the center and largest pad on bottom side of the component itself.  Ensure that none of the solder tinning on the lateral side pads of the component extends below bottom plane as that solder won't melt while soldering bottom pad to allow component to fully seat against board.  It would be ideal to solder center pin 9 from the back side of board and ensure its attachment to the via and pins 1-8 from front of board.  Pin 9 should be soldered first so you can verify it becomes soundly attached and seated against board, but I don't know a technique to do it while ensuring the other pads will all stay lined up.  When finished soldering, check that surrounding components already placed were not disturbed. Check work for inadvertent shorts and opens. ")
         (field (name Part_number) ADL5315ACPZ-R7)
         (field (name Source) http://Arrow.com))
       (libsource (lib uno-shield-rescue) (part ADL5315ACPZ-R7-2019-05-19_00-44-38-uno-shield-rescue-uno-shield-rescue) (description ""))
