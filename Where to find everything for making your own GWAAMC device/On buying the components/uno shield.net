@@ -1,7 +1,7 @@
 (export (version D)
   (design
     (source "/home/master/gwaamc training aid/New GWAAMC Training Aid/Main Board LM334 UL2004 UNO/uno shield/uno shield v.6 project SMD.sch")
-    (date "Sat 10 Aug 2019 04:34:27 AM CDT")
+    (date "Sat 10 Aug 2019 04:34:34 AM CDT")
     (tool "Eeschema 5.1.2-f72e74a~84~ubuntu16.04.1")
     (sheet (number 1) (name /) (tstamps /)
       (title_block
