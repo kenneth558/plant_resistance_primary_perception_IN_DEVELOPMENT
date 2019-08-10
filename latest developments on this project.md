@@ -35,7 +35,7 @@ I've added guide traces (fiducials) for pick and place contracting and have upda
 
 <dl><dt>13 July 2019</dt></dl>I made some very minor adjustments on the PCB to move some words in silk screen and solder mask to where I think they would look more professional.  That PCB design won't appear at OSH Park until my next order, but you do find it here at GitHub, as always.
 
-<dl><dt>12 July 2019</dt></dl>Added a jumper near ICSP1 pin 2 for ease of disconnect in case the power there doesn't match a 3V3 MCU Vcc.  I discovered that will sadly be the case with most 3V3 MCUs.  PCB files updated, new OSH Park order placed for the project on OSH Park (https://oshpark.com/shared_projects/QC9ok4wx - UPDATED 15 JULY 2019 FOR CORRECTED Q3-7 FOOTPRINTS; 16-30 July, 02 Aug 2019 component spacing for increased soldering clearances and minor silk screen changes) to be current.
+<dl><dt>12 July 2019</dt></dl>Added a jumper near ICSP1 pin 2 for ease of disconnect in case the power there doesn't match a 3V3 MCU Vcc.  I discovered that will sadly be the case with most 3V3 MCUs.  PCB files updated, new OSH Park order placed for the project on OSH Park.
 
 <dl><dt>11 July 2019</dt></dl>I discovered the Arduino 101 is a 3V device with onboard BLE that could allow this HC-05 capability to then be used for wifi instead of BT/BLE.  Since that would be a nice feature, but the Arduino 101 is 3V only, I modified the PCB a little to allow easy jumpering to 3V operation without needing to cut any trace.  Just pull out pin 5 of J2 if using the Arduino 101 and use part of it or a similar size wire segment to solder down as a jumper instead of cutting a trace.  If you do this, don't ever use the board in a 5V environment without reversing this mod!  
 <dl><dt> </dt></dl>
@@ -59,7 +59,7 @@ I'll be making a new PCB design once again <sigh...>
 
 <dl><dt>15 June 2019</dt></dl>PCBs on their way to me for arrival Monday 17 June.
 
-<dl><dt>09 June 2019</dt></dl>It won't be too much longer before I get my PCB (bare) I have on order. I have enough components to build it out. Depending on how many build mistakes I make I could have it built by July week 1. After that my guess is another 3 weeks sketch development time.  In hopes that the PCB has no errors, the link to order more is: https://oshpark.com/shared_projects/gzd7kenf
+<dl><dt>09 June 2019</dt></dl>It won't be too much longer before I get my PCB (bare) I have on order. I have enough components to build it out. Depending on how many build mistakes I make I could have it built by July week 1. After that my guess is another 3 weeks sketch development time.
 
 <dl><dt>06 June 2019</dt></dl>My ultimate design has been put into PCB design and three PCBs have been ordered.  Once those are built up, I'll test this latest and final circuit design.  Note that I haven't tested this design due to the breadboarding challenges I didn't want to deal with.
 
