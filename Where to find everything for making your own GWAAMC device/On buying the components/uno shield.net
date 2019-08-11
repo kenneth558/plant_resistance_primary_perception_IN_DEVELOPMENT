@@ -1,7 +1,7 @@
 (export (version D)
   (design
     (source "/home/master/gwaamc training aid/New GWAAMC Training Aid/Main Board LM334 UL2004 UNO/uno shield/uno shield v.6 project SMD.sch")
-    (date "Sun 11 Aug 2019 03:22:38 PM CDT")
+    (date "Sun 11 Aug 2019 03:29:59 PM CDT")
     (tool "Eeschema 5.1.2-f72e74a~84~ubuntu16.04.1")
     (sheet (number 1) (name /) (tstamps /)
       (title_block
@@ -493,7 +493,7 @@
       (footprint multipackage:Masach_Tech_MS26320_26x19.50mm)
       (datasheet ~)
       (fields
-        (field (name ClickToSortForPlacement) "16 Thoroughly solder in place wuth dessicant inside.  Verify every place-assist hole inside shield footprint is sealed and take one last opportunity to ensure all other holes there as well are fully sealed against air travel.")
+        (field (name ClickToSortForPlacement) "16 Thoroughly solder in place with dessicant inside.  Verify every place-assist hole inside shield footprint is sealed and take one last opportunity to ensure all other holes there as well are fully sealed against air travel.")
         (field (name Part_number) "MS263-20 (will use only the cover to keep hermetic sealed)")
         (field (name Source) http://Arrow.com))
       (libsource (lib Device) (part RF_Shield_Two_Pieces) (description "Two-piece EMI RF shielding cabinet"))
