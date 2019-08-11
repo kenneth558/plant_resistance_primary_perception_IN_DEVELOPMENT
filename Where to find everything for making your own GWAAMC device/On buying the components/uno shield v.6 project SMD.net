@@ -1,7 +1,7 @@
 (export (version D)
   (design
     (source "/home/master/gwaamc training aid/New GWAAMC Training Aid/Main Board LM334 UL2004 UNO/uno shield/uno shield v.6 project SMD.sch")
-    (date "Sun 11 Aug 2019 03:12:12 PM CDT")
+    (date "Sun 11 Aug 2019 03:22:32 PM CDT")
     (tool "Eeschema 5.1.2-f72e74a~84~ubuntu16.04.1")
     (sheet (number 1) (name /) (tstamps /)
       (title_block
@@ -296,7 +296,7 @@
       (footprint Package_SO:SOIC-8_3.9x4.9mm_P1.27mm)
       (datasheet www.ti.com/lit/ds/symlink/ref200.pdf)
       (fields
-        (field (name ClickToSortForPlacement) "15 First, perform as complete of diagnostics as possible of all circuitry under SHLD1 placed thus far.  Then solder seal any and all via holes left unsoldered located within SHLD1 footprint.  Solder seal any and all place-assist holes located within SHLD1 footprint except U3 place-assist holes.  All this should minimize risk of getting interrupted while U3 is left not heremetically sealed.  Tin SHLD1 around outside of bottom edge that will get soldered to its footprint.  Tin SHLD1 footprint on the board, leaving a very smooth surface to mate with SHLD1.  Prepare dessicant to place inside SHLD1 as soon as U3 is placed, and ensure SHLD1 is handy also.  Place U3 and solder-seal its place-assist holes.  Perform diagnostics of U3.  Immediately perform next step.")
+        (field (name ClickToSortForPlacement) "15 First, perform as complete of diagnostics as possible of all circuitry under SHLD1 placed thus far.  Then, from the bottom side of the board, solder seal any and all via holes left unsoldered located within SHLD1 footprint.  Solder seal any and all place-assist holes located within SHLD1 footprint except U3 place-assist holes.  All this should minimize risk of getting interrupted while U3 is left not heremetically sealed.  Tin SHLD1 around outside of bottom edge that will get soldered to its footprint.  Tin SHLD1 footprint on the board, leaving a very smooth surface to mate with SHLD1.  Prepare dessicant to place inside SHLD1 as soon as U3 is placed, and ensure SHLD1 is handy also.  Place U3 and solder-seal its place-assist holes.  Perform diagnostics of U3.  Immediately perform next step.")
         (field (name Part_number) "REF200AU (Requires hermetic sealing, so will have dessicant with it that you'll need to place under SHLD1)")
         (field (name Source) http://Arrow.com))
       (libsource (lib Reference_Current) (part REF200AU) (description "2x100μA Current Sources/Sinks with Current Mirror, SO-8"))
@@ -493,7 +493,7 @@
       (footprint multipackage:Masach_Tech_MS26320_26x19.50mm)
       (datasheet ~)
       (fields
-        (field (name ClickToSortForPlacement) "16 Thoroughly solder in place.  Verify every place-assist hole inside shield footprint is sealed and take one last opportunity to ensure all other holes there as well are fully sealed against air travel.")
+        (field (name ClickToSortForPlacement) "16 Thoroughly solder in place wuth dessicant inside.  Verify every place-assist hole inside shield footprint is sealed and take one last opportunity to ensure all other holes there as well are fully sealed against air travel.")
         (field (name Part_number) "MS263-20 (will use only the cover to keep hermetic sealed)")
         (field (name Source) http://Arrow.com))
       (libsource (lib Device) (part RF_Shield_Two_Pieces) (description "Two-piece EMI RF shielding cabinet"))
