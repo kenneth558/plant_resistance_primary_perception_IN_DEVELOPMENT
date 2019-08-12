@@ -1,7 +1,7 @@
 (export (version D)
   (design
     (source "/home/master/gwaamc training aid/New GWAAMC Training Aid/Main Board LM334 UL2004 UNO/uno shield/uno shield v.6 project SMD.sch")
-    (date "Mon 12 Aug 2019 01:51:40 AM CDT")
+    (date "Mon 12 Aug 2019 01:55:01 AM CDT")
     (tool "Eeschema 5.1.2-f72e74a~84~ubuntu16.04.1")
     (sheet (number 1) (name /) (tstamps /)
       (title_block
@@ -851,6 +851,8 @@
       (value SolderJumper_3_Bridged12)
       (footprint Jumper:SolderJumper-3_P1.3mm_Bridged12_Pad1.0x1.5mm_NumberLabels)
       (datasheet ~)
+      (fields
+        (field (name ClickToSortForPlacement) 999))
       (libsource (lib solderjumper_3_bridged12) (part SolderJumper_3_Bridged12) (description "3-pole Solder Jumper, pins 1+2 closed/bridged"))
       (sheetpath (names /) (tstamps /))
       (tstamp 5D438593))
@@ -858,6 +860,8 @@
       (value SolderJumper_3_Bridged12)
       (footprint Jumper:SolderJumper-3_P1.3mm_Bridged12_Pad1.0x1.5mm_NumberLabels)
       (datasheet ~)
+      (fields
+        (field (name ClickToSortForPlacement) 999))
       (libsource (lib solderjumper_3_bridged12) (part SolderJumper_3_Bridged12) (description "3-pole Solder Jumper, pins 1+2 closed/bridged"))
       (sheetpath (names /) (tstamps /))
       (tstamp 5D43B289))
@@ -865,6 +869,8 @@
       (value SolderJumper_3_Bridged12)
       (footprint Jumper:SolderJumper-3_P1.3mm_Bridged12_Pad1.0x1.5mm_NumberLabels)
       (datasheet ~)
+      (fields
+        (field (name ClickToSortForPlacement) 999))
       (libsource (lib solderjumper_3_bridged12) (part SolderJumper_3_Bridged12) (description "3-pole Solder Jumper, pins 1+2 closed/bridged"))
       (sheetpath (names /) (tstamps /))
       (tstamp 5D43C8EF))
@@ -883,6 +889,8 @@
       (value SolderJumper_3_Bridged12)
       (footprint Jumper:SolderJumper-3_P1.3mm_Bridged12_Pad1.0x1.5mm_NumberLabels)
       (datasheet ~)
+      (fields
+        (field (name ClickToSortForPlacement) 999))
       (libsource (lib solderjumper_3_bridged12) (part SolderJumper_3_Bridged12) (description "3-pole Solder Jumper, pins 1+2 closed/bridged"))
       (sheetpath (names /) (tstamps /))
       (tstamp 5D43D9B5))
