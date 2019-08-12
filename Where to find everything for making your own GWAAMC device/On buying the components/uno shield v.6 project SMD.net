@@ -1,7 +1,7 @@
 (export (version D)
   (design
     (source "/home/master/gwaamc training aid/New GWAAMC Training Aid/Main Board LM334 UL2004 UNO/uno shield/uno shield v.6 project SMD.sch")
-    (date "Sun 11 Aug 2019 05:33:21 PM CDT")
+    (date "Mon 12 Aug 2019 01:40:01 AM CDT")
     (tool "Eeschema 5.1.2-f72e74a~84~ubuntu16.04.1")
     (sheet (number 1) (name /) (tstamps /)
       (title_block
@@ -31,7 +31,7 @@
       (footprint multipackage:Jack_3.5mm_CUI_SJ1-3534NS_Horizontal_CircularHoles)
       (datasheet " ~")
       (fields
-        (field (name ClickToSortForPlacement) "21 Requires Kapton tape affixed all around to protect from electrical shorts against surrounding conductors: use two+ layers if expecting user/operator forces.  Place, then check work for inadvertent shorts and opens")
+        (field (name ClickToSortForPlacement) "22 Requires Kapton tape affixed all around to protect from electrical shorts against surrounding conductors: use two+ layers if expecting user/operator forces.  Place, then check work for inadvertent shorts and opens")
         (field (name Part_number) "SJ1-3534NS; Kapton tape: 3057")
         (field (name Source) http://Arrow.com))
       (libsource (lib audiojack3_ground_switchtr) (part AudioJack3_Ground_SwitchTR) (description "Audio Jack, 3 Poles (Stereo / TRS), Grounded Sleeve, Switched TR Poles (Normalling)"))
@@ -95,7 +95,7 @@
       (footprint Connector_PinSocket_2.54mm:PinSocket_2x03_P2.54mm_Vertical)
       (datasheet ~)
       (fields
-        (field (name ClickToSortForPlacement) "21 Height with all connectors mated.  Then check work for inadvertent shorts and opens")
+        (field (name ClickToSortForPlacement) "22 Height with all connectors mated.  Then check work for inadvertent shorts and opens")
         (field (name Part_number) "SSQ-103-03-T-D. Stackables are too often not stocked; unable to source stackable style")
         (field (name Source) http://Arrow.com))
       (libsource (lib Connector_Generic) (part Conn_02x03_Odd_Even) (description "Generic connector, double row, 02x03, odd/even pin numbering scheme (row 1 odd numbers, row 2 even numbers), script generated (kicad-library-utils/schlib/autogen/connector/)"))
@@ -106,7 +106,7 @@
       (footprint Connector_PinHeader_2.54mm:PinHeader_1x09_P2.54mm_Vertical)
       (datasheet ~)
       (fields
-        (field (name ClickToSortForPlacement) "22 Temporary tack solder pin 5 (when MCU is 5V) or pin 4 with its pad shorted to pin 5 PAD (pin 5 PIN gets removed indefinitely or permanently when MCU is 3.3V) only.  Height with all connectors mated.  Tack soldering is done with lowest temp solder available.  Then check work for inadvertent shorts and opens")
+        (field (name ClickToSortForPlacement) "23 Temporary tack solder pin 5 (when MCU is 5V) or pin 4 with its pad shorted to pin 5 PAD (pin 5 PIN gets removed indefinitely or permanently when MCU is 3.3V) only.  Height with all connectors mated.  Tack soldering is done with lowest temp solder available.  Then check work for inadvertent shorts and opens")
         (field (name Part_number) "part of first TSW-150-05-T-S or 4-103327-0. Stackables are too often not stocked; unable to source stackable style")
         (field (name Source) http://Arrow.com))
       (libsource (lib Connector) (part Conn_01x09_Male) (description "Generic connector, single row, 01x09, script generated (kicad-library-utils/schlib/autogen/connector/)"))
@@ -117,7 +117,7 @@
       (footprint Connector_PinHeader_2.54mm:PinHeader_1x08_P2.54mm_Vertical)
       (datasheet ~)
       (fields
-        (field (name ClickToSortForPlacement) "21 Height with all connectors mated.  Then check work for inadvertent shorts and opens")
+        (field (name ClickToSortForPlacement) "22 Height with all connectors mated.  Then check work for inadvertent shorts and opens")
         (field (name Part_number) "part of first TSW-150-05-T-S or 4-103327-0. Stackables are too often not stocked; unable to source stackable style")
         (field (name Source) http://Arrow.com))
       (libsource (lib conn_01x08_maleA) (part Conn_01x08_Male) (description "Generic connector, single row, 01x08, script generated (kicad-library-utils/schlib/autogen/connector/)"))
@@ -180,7 +180,7 @@
       (footprint multipackage:Potentiometer_Bourns_PTV09A-2_Single_Horizontal)
       (datasheet https://www.bourns.com/docs/Product-Datasheets/PTV09.pdf)
       (fields
-        (field (name ClickToSortForPlacement) "23 Power down first, remove solder-bridges of JP1-3 no cuts needed, check work for inadvertent shorts and opens after")
+        (field (name ClickToSortForPlacement) "27 Power down first, remove solder-bridges of JP1-3 no cuts needed, check work for inadvertent shorts and opens after")
         (field (name Part_number) "PTV09A-2030U-B204 or may end in B203 or some resistance in between those.  The 4030 may be 4020 or 4015 for shorter shaft")
         (field (name Source) http://Arrow.com))
       (libsource (lib Device) (part R_POT_US) (description "Potentiometer, US symbol"))
@@ -191,7 +191,7 @@
       (footprint multipackage:Potentiometer_Bourns_PTV09A-2_Single_Horizontal)
       (datasheet https://www.bourns.com/docs/Product-Datasheets/PTV09.pdf)
       (fields
-        (field (name ClickToSortForPlacement) "23 Don't solder, merely press against sides of holes inside them with power on and diags running.  When A0 diags are successful, power down, pull boards apart with great care, then remove J3 and attach it again with a tack solder to J3 pin 2. Power up and run A1 diags using VR2 position similarly (inserted without soldering).   When A1 diags are successful power down, then remove J2, 3, & 4, R1 and solder-bridges of JP1-3 no cuts needed, check work for inadvertent shorts and opens after")
+        (field (name ClickToSortForPlacement) "27 Don't solder, merely press against sides of holes inside them with power on and diags running.  When A0 diags are successful, power down, pull boards apart with great care, then remove J3 and attach it again with a tack solder to J3 pin 2. Power up and run A1 diags using VR2 position similarly (inserted without soldering).   When A1 diags are successful power down, then remove J2, 3, & 4, R1 and solder-bridges of JP1-3 no cuts needed, check work for inadvertent shorts and opens after")
         (field (name Part_number) "PTV09A-2030U-B204 or may end in B203 or some resistance in between those.  The 4030 may be 4020 or 4015 for shorter shaft")
         (field (name Source) http://Arrow.com))
       (libsource (lib Device) (part R_POT_US) (description "Potentiometer, US symbol"))
@@ -202,7 +202,7 @@
       (footprint Connector_PinHeader_2.54mm:PinHeader_1x06_P2.54mm_Vertical)
       (datasheet ~)
       (fields
-        (field (name ClickToSortForPlacement) "21 Temporary tack solder pin 1 only.  Height with all connectors mated.  Then check work for inadvertent shorts and opens")
+        (field (name ClickToSortForPlacement) "22 Temporary tack solder pin 1 only.  Height with all connectors mated.  Then check work for inadvertent shorts and opens")
         (field (name Part_number) "part of first TSW-150-05-T-S or 4-103327-0. Stackables are too often not stocked; unable to source stackable style")
         (field (name Source) http://Arrow.com))
       (libsource (lib conn_01x06_male) (part Conn_01x06_Male) (description "Generic connector, single row, 01x06, script generated (kicad-library-utils/schlib/autogen/connector/)"))
@@ -226,7 +226,7 @@
       (footprint "HX711:HX711 module")
       (datasheet http://www.ti.com/lit/ds/symlink/ads1110.pdf)
       (fields
-        (field (name ClickToSortForPlacement) "23 Kapton tape can be used to protect shorting to board and to MCU.  Height is set with that tape or other insulator in place and MCU fully seated plugged in.  There may not be enough clearance for socketing ADC1, otherwise socketing is far more flexible, but the pins with ADC1 might be too large for the sockets in which case use any wiring or pins that will fit.")
+        (field (name ClickToSortForPlacement) "17 Kapton tape can be used to protect shorting to board and to MCU.  Height is set with that tape or other insulator in place and MCU fully seated plugged in.  There may not be enough clearance for socketing ADC1, otherwise socketing is far more flexible, but the pins with ADC1 might be too large for the sockets in which case use any wiring or pins that will fit.   UNDER CONSTRUCTION - Assembly instructions after this one may reference obsolete jumper settings.")
         (field (name Part_number) "least cost - CN1501541594; fastest arrival - Dual Channel HX711")
         (field (name Source) "Sockets: 1 qty SL-106-T-10 + 1 qty SMC-1-04-1-GT from http://Arrow.com. Component: least cost - https://www.aliexpress.com/item/1PCS-X-HX711-modules-weigh-sensors-for-AD-module-chip-preferred-DIY-Graduation/32851591970.html?spm=2114.search0104.3.1.7ad07d02cMfLjw&ws_ab_test=searchweb0_0,searchweb201602_4_10065_10130_10068_10890_10547_319_10546_317_10548_10545_10696_453_10084_454_10083_10618_10307_537_536_10059_10884_10887_321_322_10103,searchweb201603_52,ppcSwitch_0&algo_expid=c46a3ce9-e8cf-4d7c-8e89-50e4aff4f628-0&algo_pvid=c46a3ce9-e8cf-4d7c-8e89-50e4aff4f628&transAbTest=ae803_3; fastest arrival https://www.ebay.com/itm/Dual-Channel-HX711-Weighing-Pressure-Sensor-24-bit-Precision-A-D-Module-Arduino/202679288819?hash=item2f30a083f3:g:xyIAAOSwhXtc2wdH"))
       (libsource (lib newkicadversion-rescue) (part HX711-hx711) (description ""))
@@ -296,7 +296,7 @@
       (footprint Package_SO:SOIC-8_3.9x4.9mm_P1.27mm)
       (datasheet www.ti.com/lit/ds/symlink/ref200.pdf)
       (fields
-        (field (name ClickToSortForPlacement) "17 First, perform as complete of diagnostics as possible of all circuitry under SHLD1 placed thus far.  Then, from the bottom side of the board, solder seal any and all via holes left unsoldered located within SHLD1 footprint.  Solder seal any and all place-assist holes located within SHLD1 footprint except U3 place-assist holes.  All this should minimize risk of getting interrupted while U3 is left not heremetically sealed.  Tin SHLD1 around outside of bottom edge that will get soldered to its footprint.  Tin SHLD1 footprint on the board, leaving a very smooth surface to mate with SHLD1.  Prepare dessicant to place inside SHLD1 as soon as U3 is placed, and ensure SHLD1 is handy also.  Place U3 and solder-seal its place-assist holes.  Perform diagnostics of U3.  Immediately perform next step.")
+        (field (name ClickToSortForPlacement) "25 First, perform as complete of diagnostics as possible of all circuitry under SHLD1 placed thus far: solder a shorting wire between pins 4 & 5 of U3 and load the Arduino with GWAAM-Sea Diagnostics 1 and run them.  Then, from the bottom side of the board, solder seal any and all via holes left unsoldered located within SHLD1 footprint.  Solder seal any and all place-assist holes located within SHLD1 footprint except U3 place-assist holes.  All this should minimize risk of getting interrupted while U3 is left not heremetically sealed.  Tin SHLD1 around outside of bottom edge that will get soldered to its footprint.  Tin SHLD1 footprint on the board, leaving a very smooth surface to mate with SHLD1.  Prepare dessicant to place inside SHLD1 as soon as U3 is placed, and ensure SHLD1 is handy also.  Place U3 and solder-seal its place-assist holes.  Perform diagnostics of U3.  Immediately perform next step.")
         (field (name Part_number) "REF200AU (Requires hermetic sealing, so will have dessicant with it that you'll need to place under SHLD1)")
         (field (name Source) http://Arrow.com))
       (libsource (lib Reference_Current) (part REF200AU) (description "2x100μA Current Sources/Sinks with Current Mirror, SO-8"))
@@ -350,7 +350,7 @@
       (value MCP4262-502E_UN)
       (footprint Package_SO:MSOP-10_3x3mm_P0.5mm)
       (fields
-        (field (name ClickToSortForPlacement) "15 Remove solder bridges on JP4 & 5.  Remove R1 to allow board to lie flat.  Place, then check work for inadvertent shorts and opens")
+        (field (name ClickToSortForPlacement) "15 Place, then check work for inadvertent shorts and opens")
         (field (name Part_number) MCP4262-502E/UN-ND)
         (field (name PlacementOrder) 01)
         (field (name SortForPlacement) 01)
@@ -362,7 +362,7 @@
       (value MCP4262-104E_UN)
       (footprint Package_SO:MSOP-10_3x3mm_P0.5mm)
       (fields
-        (field (name ClickToSortForPlacement) "12 Place, then tack R1 back on.  Temporary tack solder J2 with pin 5 only, J3 with pin 1, and J4 with pin 4 only.  Check for inadvertent shorts and opens.  Power up and run U4-5 diags")
+        (field (name ClickToSortForPlacement) "12 Place.  Temporary tack solder J2 with pin 5 only, J3 with pin 1, and J4 with pin 4 only.  Check for inadvertent shorts and opens.  Power up and run U4-5 diags")
         (field (name Part_number) MCP4262-104E/UN)
         (field (name Source) http://Arrow.com))
       (libsource (lib 2019-03-19_09-09-09) (part MCP4262-xxxE_UN) (description ""))
@@ -493,7 +493,7 @@
       (footprint multipackage:Masach_Tech_MS26320_26x19.50mm)
       (datasheet ~)
       (fields
-        (field (name ClickToSortForPlacement) "18 Thoroughly solder in place with dessicant inside.  Verify every place-assist hole inside shield footprint is sealed and take one last opportunity to ensure all other holes there as well are fully sealed against air travel.")
+        (field (name ClickToSortForPlacement) "26 Thoroughly solder in place with dessicant inside.  Verify every place-assist hole inside shield footprint is sealed and take one last opportunity to ensure all other holes there as well are fully sealed against air travel.")
         (field (name Part_number) "MS263-20 (will use only the cover to keep hermetic sealed)")
         (field (name Source) http://Arrow.com))
       (libsource (lib Device) (part RF_Shield_Two_Pieces) (description "Two-piece EMI RF shielding cabinet"))
@@ -535,7 +535,7 @@
       (footprint Connector_PinHeader_2.54mm:PinHeader_1x10_P2.54mm_Vertical)
       (datasheet ~)
       (fields
-        (field (name ClickToSortForPlacement) "22 Temporary tack solder pin 4 only.  Height with all connectors mated.  Then check work for inadvertent shorts and opens")
+        (field (name ClickToSortForPlacement) "23 Temporary tack solder pin 4 only.  Height with all connectors mated.  Then check work for inadvertent shorts and opens")
         (field (name Part_number) "part of first TSW-150-05-T-S or 4-103327-0. Stackables are too often not stocked; unable to source stackable style")
         (field (name Source) http://Arrow.com))
       (libsource (lib Connector) (part Conn_01x10_Male) (description "Generic connector, single row, 01x10, script generated (kicad-library-utils/schlib/autogen/connector/)"))
@@ -631,7 +631,7 @@
       (footprint multipackage:Potentiometer_Bourns_PTV09A-1_Single_Vertical)
       (datasheet https://www.bourns.com/docs/Product-Datasheets/PTV09.pdf)
       (fields
-        (field (name ClickToSortForPlacement) "23 Don't solder, merely press against sides of holes inside them with power on and diags running.  When A0 diags are successful, power down, pull boards apart with great care, then remove J3 and attach it again with a tack solder to J3 pin 2. Power up and run A1 diags using VR2 position similarly (inserted without soldering).   When A1 diags are successful power down, then remove J2, 3, & 4, R1 and solder-bridges of JP1-3 no cuts needed, check work for inadvertent shorts and opens after")
+        (field (name ClickToSortForPlacement) "27 Don't solder, merely press against sides of holes inside them with power on and diags running.  When A0 diags are successful, power down, pull boards apart with great care, then remove J3 and attach it again with a tack solder to J3 pin 2. Power up and run A1 diags using VR2 position similarly (inserted without soldering).   When A1 diags are successful power down, then remove J2, 3, & 4, R1 and solder-bridges of JP1-3 no cuts needed, check work for inadvertent shorts and opens after")
         (field (name Part_number) "User/developer use only: PTV09A-4030U-B204 or may end in B203 or some resistance in between those.  The 4030 may be 4020 or 4015 for shorter shaft. If using the UNO SMD MCU version with an ATMEGA128P-AU (a TQFP package specifically instead of the UNO with a DIP ATMEGA128P), there are two analog input pins available at the TQFP package on the MCU board that not wired out to any connector.  One or both of these can be, if you are willing to attach tiny wires between them and VR3/4 and write the code, used as seventh and eighth analog inputs A6 & A7.  Then air-wire them or connectorize them somehow across to this extention board and buy the PCB mount vertically oriented version of PTV09 pots to get one or two more user developed, run-time analog input controls into the training board.")
         (field (name Source) http://Arrow.com))
       (libsource (lib Device) (part R_POT_US) (description "Potentiometer, US symbol"))
@@ -873,7 +873,7 @@
       (footprint multipackage:Potentiometer_Bourns_PTV09A-1_Single_Vertical)
       (datasheet https://www.bourns.com/docs/Product-Datasheets/PTV09.pdf)
       (fields
-        (field (name ClickToSortForPlacement) "23 Don't solder, merely press against sides of holes inside them with power on and diags running.  When A0 diags are successful, power down, pull boards apart with great care, then remove J3 and attach it again with a tack solder to J3 pin 2. Power up and run A1 diags using VR2 position similarly (inserted without soldering).   When A1 diags are successful power down, then remove J2, 3, & 4, R1 and solder-bridges of JP1-3 no cuts needed, check work for inadvertent shorts and opens after")
+        (field (name ClickToSortForPlacement) "27 Don't solder, merely press against sides of holes inside them with power on and diags running.  When A0 diags are successful, power down, pull boards apart with great care, then remove J3 and attach it again with a tack solder to J3 pin 2. Power up and run A1 diags using VR2 position similarly (inserted without soldering).   When A1 diags are successful power down, then remove J2, 3, & 4, R1 and solder-bridges of JP1-3 no cuts needed, check work for inadvertent shorts and opens after")
         (field (name Part_number) "User/developer use only: PTV09A-4030U-B204 or may end in B203 or some resistance in between those.  The 4030 may be 4020 or 4015 for shorter shaft. If using the UNO SMD MCU version with an ATMEGA128P-AU (a TQFP package specifically instead of the UNO with a DIP ATMEGA128P), there are two analog input pins available at the TQFP package on the MCU board that not wired out to any connector.  One or both of these can be, if you are willing to attach tiny wires between them and VR3/4 and write the code, used as seventh and eighth analog inputs A6 & A7.  Then air-wire them or connectorize them somehow across to this extention board and buy the PCB mount vertically oriented version of PTV09 pots to get one or two more user developed, run-time analog input controls into the training board.")
         (field (name Source) http://Arrow.com))
       (libsource (lib Device) (part R_POT_US) (description "Potentiometer, US symbol"))
