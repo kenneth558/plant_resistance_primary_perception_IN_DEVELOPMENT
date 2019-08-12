@@ -5,7 +5,7 @@
 
 ![A 3D rendering of a populated board was supposed to show here](https://github.com/kenneth558/plant_resistance_primary_perception/blob/Free/Where%20to%20find%20everything%20for%20making%20your%20own%20GWAAMC%20device/front_straight-on_SHLD1_see-through_with_notes.png)
 
-<dl><dt>12 Aug 2019</dt></dl>I'm to the stage of fine position adjusting so this board best fits an MCU while I'm powering up for build diagnostics.  The four components I have left to place are ADC1, U3, the RF shield, and J1.  These have to wait until I develop diagnostic code for the state of the build as is.  However, I'm taking a family road trip now and won't be making any more progress on this until late this week.
+<dl><dt>12 Aug 2019</dt></dl>I'm to the stage of fine position adjusting so this board best fits an MCU while I'm powering up for build diagnostics.  The components I have left to place are ADC1, U3, the RF shield, J1, and the potentiometers.  These have to wait until I develop diagnostic code for the state of the build as is.  However, I'm taking a family road trip now and won't be making any more progress on this until late this week.
 
 <dl><dt>10 Aug 2019</dt></dl>While building, I've just learned one has to place the two-leaded components and U2 after the multi-leaded ones other than U2.  U2 is so compact that it is as susceptible to collateral de-soldering as the two-leaded components are.  In other words, I've been slowed down building because U2 had to be soldered on twice, and it is a bear to do it even once.  Past that, now...
 
