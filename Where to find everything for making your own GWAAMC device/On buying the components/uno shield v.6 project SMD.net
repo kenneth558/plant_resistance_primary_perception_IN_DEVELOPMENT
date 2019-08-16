@@ -1,7 +1,7 @@
 (export (version D)
   (design
     (source "/home/master/gwaamc training aid/New GWAAMC Training Aid/Main Board LM334 UL2004 UNO/uno shield/uno shield v.6 project SMD.sch")
-    (date "Fri 16 Aug 2019 12:58:52 PM CDT")
+    (date "Fri 16 Aug 2019 01:10:32 PM CDT")
     (tool "Eeschema 5.1.4-e60b266~84~ubuntu16.04.1")
     (sheet (number 1) (name /) (tstamps /)
       (title_block
@@ -95,7 +95,7 @@
       (footprint Connector_PinSocket_2.54mm:PinSocket_2x03_P2.54mm_Vertical)
       (datasheet ~)
       (fields
-        (field (name ClickToSortForPlacement) "18  Height with all connectors mated.  Then check work for inadvertent shorts and opens")
+        (field (name ClickToSortForPlacement) "18 Remove the previous JP6 wire and hold the full-size JP6 in its place while placing this.   Set height with all connectors mated.   Then check work for inadvertent shorts and opens.  Replace JP6, if removed, with the style you want - wire or removeable shunt.")
         (field (name Part_number) "SSQ-103-03-T-D. Stackables are too often not stocked; unable to source stackable style")
         (field (name Source) http://Arrow.com))
       (libsource (lib Connector_Generic) (part Conn_02x03_Odd_Even) (description "Generic connector, double row, 02x03, odd/even pin numbering scheme (row 1 odd numbers, row 2 even numbers), script generated (kicad-library-utils/schlib/autogen/connector/)"))
@@ -117,7 +117,7 @@
       (footprint Connector_PinHeader_2.54mm:PinHeader_1x08_P2.54mm_Vertical)
       (datasheet ~)
       (fields
-        (field (name ClickToSortForPlacement) "18  Height with all connectors mated.  Then check work for inadvertent shorts and opens")
+        (field (name ClickToSortForPlacement) "18 Remove the previous JP6 wire and hold the full-size JP6 in its place while placing this.   Set height with all connectors mated.   Then check work for inadvertent shorts and opens.  Replace JP6, if removed, with the style you want - wire or removeable shunt.")
         (field (name Part_number) "part of first TSW-150-05-T-S or 4-103327-0. Stackables are too often not stocked; unable to source stackable style")
         (field (name Source) http://Arrow.com))
       (libsource (lib conn_01x08_maleA) (part Conn_01x08_Male) (description "Generic connector, single row, 01x08, script generated (kicad-library-utils/schlib/autogen/connector/)"))
