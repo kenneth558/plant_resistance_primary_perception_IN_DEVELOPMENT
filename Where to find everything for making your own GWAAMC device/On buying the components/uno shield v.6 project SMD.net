@@ -1,7 +1,7 @@
 (export (version D)
   (design
     (source "/home/master/gwaamc training aid/New GWAAMC Training Aid/Main Board LM334 UL2004 UNO/uno shield/uno shield v.6 project SMD.sch")
-    (date "Fri 16 Aug 2019 01:10:32 PM CDT")
+    (date "Fri 16 Aug 2019 03:34:04 PM CDT")
     (tool "Eeschema 5.1.4-e60b266~84~ubuntu16.04.1")
     (sheet (number 1) (name /) (tstamps /)
       (title_block
@@ -776,7 +776,7 @@
       (footprint multipackage:PinHeader_1x02_P2.54mm_Vertical)
       (datasheet ~)
       (fields
-        (field (name ClickToSortForPlacement) "04 First, determine what Vcc the MCU operates at, what voltage this GWAAMC board Vcc will be (match them unless you have the different signal line voltages figured out and do what you need to about it) and what voltage the MCU places on pin2 of ICSP1.  Leave JP6 open if MCU Vcc is 3V3 but it sends 5V to ICSP1 pin 2 - otherwise, if volts on ICSP1 pin 2  matches the Vcc this board is set for (no other case can exist), install a low profile, insulated wire short here across JP6.  You may later replace this short with a normal height pin pair and jumper after board construction, if you need that flexibility or just want to.  This solder joint will press against ICSP1 and will too easily prevent proper seating of ICSP1 unless you hold ICSP1 firmly in its place while placing JP6.")
+        (field (name ClickToSortForPlacement) "04 First, determine what Vcc the MCU operates at, what voltage this GWAAMC board Vcc will be (match them unless you have the different signal line voltages figured out and do what you need to about it) and what voltage the MCU places on pin2 of ICSP1.  Leave JP6 open if MCU Vcc is 3V3 but it sends 5V to ICSP1 pin 2 - otherwise, if volts on ICSP1 pin 2  matches the Vcc this board is set for (no other case can exist), install a low profile wire short here across JP6.  The wire may used may be a trimmed lead from the future D1-3 installation step: go through the D1 install motions to trim the longest lead amount you can.  You may later replace this short with a normal height pin pair and jumper after board construction, if you need that flexibility or just want to.  This solder joint will press against ICSP1 and will too easily prevent proper seating of ICSP1 unless you hold ICSP1 firmly in its place while placing JP6.")
         (field (name Part_number) "part of MSB-T plus part of a second TSW-150-05-T-S/4-103327-0")
         (field (name Source) http://Arrow.com))
       (libsource (lib Jumper) (part Jumper_2_Bridged) (description "Jumper, 2-pole, closed/bridged"))
