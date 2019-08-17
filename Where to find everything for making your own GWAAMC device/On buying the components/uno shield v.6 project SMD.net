@@ -1,7 +1,7 @@
 (export (version D)
   (design
     (source "/home/master/gwaamc training aid/New GWAAMC Training Aid/Main Board LM334 UL2004 UNO/uno shield/uno shield v.6 project SMD.sch")
-    (date "Fri 16 Aug 2019 03:34:04 PM CDT")
+    (date "Sat 17 Aug 2019 09:58:00 AM CDT")
     (tool "Eeschema 5.1.4-e60b266~84~ubuntu16.04.1")
     (sheet (number 1) (name /) (tstamps /)
       (title_block
@@ -42,7 +42,7 @@
       (footprint multipackage:MSOP-10_3x3mm_P0.5mm)
       (datasheet http://static6.arrow.com/aropdfconversion/427f47d0fc5e4caf484beffd27781384154f9c66/33171669476397452ad8244.pdf)
       (fields
-        (field (name ClickToSortForPlacement) "03 Place then check work")
+        (field (name ClickToSortForPlacement) "03 Ensure the solder mask of all corner pads is scraped off. Place then check work.")
         (field (name Part_number) AD8244ARMZ-R7)
         (field (name PlacementOrder) 01)
         (field (name SortForPlacement) 01)
@@ -95,7 +95,7 @@
       (footprint Connector_PinSocket_2.54mm:PinSocket_2x03_P2.54mm_Vertical)
       (datasheet ~)
       (fields
-        (field (name ClickToSortForPlacement) "18 Remove the previous JP6 wire and hold the full-size JP6 in its place while placing this.   Set height with all connectors mated.   Then check work for inadvertent shorts and opens.  Replace JP6, if removed, with the style you want - wire or removeable shunt.")
+        (field (name ClickToSortForPlacement) "19 Remove the previous JP6 wire and hold the full-size JP6 in its place while placing this.   Set height with all connectors mated, and on some MCU boards their mating pins will be a little too long so could stand to be trimmed slightly or otherwise dealt with.   Then check work for inadvertent shorts and opens.  Replace JP6, if removed, with the style you want - wire or removeable shunt.")
         (field (name Part_number) "SSQ-103-03-T-D. Stackables are too often not stocked; unable to source stackable style")
         (field (name Source) http://Arrow.com))
       (libsource (lib Connector_Generic) (part Conn_02x03_Odd_Even) (description "Generic connector, double row, 02x03, odd/even pin numbering scheme (row 1 odd numbers, row 2 even numbers), script generated (kicad-library-utils/schlib/autogen/connector/)"))
@@ -226,7 +226,7 @@
       (footprint "HX711:HX711 module")
       (datasheet http://www.ti.com/lit/ds/symlink/ads1110.pdf)
       (fields
-        (field (name ClickToSortForPlacement) "19 Kapton tape can be used to protect shorting to board and to MCU.  Height is set with that tape or other insulator in place and MCU fully seated plugged in.  There may not be enough clearance for socketing ADC1, otherwise socketing is far more flexible, but the pins with ADC1 might be too large for the sockets in which case use any wiring or pins that will fit.   The pins being delivered loose allow top side mounting in case where clearance with the MCU is insufficient and won't allow bottom side mounting, as in the case of the SaneSmart UNO.  UNDER CONSTRUCTION - Assembly instructions after this one reference obsolete jumper settings and situations which you should ignore.")
+        (field (name ClickToSortForPlacement) "20 Kapton tape can be used to protect shorting to board and to MCU.  Height is set with that tape or other insulator in place and MCU fully seated plugged in.  There may not be enough clearance for socketing ADC1, otherwise socketing is far more flexible, but the pins with ADC1 might be too large for the sockets in which case use any wiring or pins that will fit.   The pins being delivered loose allow top side mounting in case where clearance with the MCU is insufficient and won't allow bottom side mounting, as in the case of the SainSmart UNO.  UNDER CONSTRUCTION - Assembly instructions after this one reference obsolete jumper settings and situations which you should ignore.")
         (field (name Part_number) "least cost - CN1501541594; fastest arrival - Dual Channel HX711")
         (field (name Source) "Sockets: 1 qty SL-106-T-10 + 1 qty SMC-1-04-1-GT from http://Arrow.com. Component: least cost - https://www.aliexpress.com/item/1PCS-X-HX711-modules-weigh-sensors-for-AD-module-chip-preferred-DIY-Graduation/32851591970.html?spm=2114.search0104.3.1.7ad07d02cMfLjw&ws_ab_test=searchweb0_0,searchweb201602_4_10065_10130_10068_10890_10547_319_10546_317_10548_10545_10696_453_10084_454_10083_10618_10307_537_536_10059_10884_10887_321_322_10103,searchweb201603_52,ppcSwitch_0&algo_expid=c46a3ce9-e8cf-4d7c-8e89-50e4aff4f628-0&algo_pvid=c46a3ce9-e8cf-4d7c-8e89-50e4aff4f628&transAbTest=ae803_3; fastest arrival https://www.ebay.com/itm/Dual-Channel-HX711-Weighing-Pressure-Sensor-24-bit-Precision-A-D-Module-Arduino/202679288819?hash=item2f30a083f3:g:xyIAAOSwhXtc2wdH"))
       (libsource (lib newkicadversion-rescue) (part HX711-hx711) (description ""))
@@ -350,7 +350,7 @@
       (value MCP4262-502E_UN)
       (footprint Package_SO:MSOP-10_3x3mm_P0.5mm)
       (fields
-        (field (name ClickToSortForPlacement) "15 Place, then check work for inadvertent shorts and opens")
+        (field (name ClickToSortForPlacement) "15 Ensure the solder mask of all corner pads is scraped off.  Place, then check work for inadvertent shorts and opens")
         (field (name Part_number) MCP4262-502E/UN-ND)
         (field (name PlacementOrder) 01)
         (field (name SortForPlacement) 01)
@@ -362,7 +362,7 @@
       (value MCP4262-104E_UN)
       (footprint Package_SO:MSOP-10_3x3mm_P0.5mm)
       (fields
-        (field (name ClickToSortForPlacement) "12 Place.  Temporary tack solder J2 with pin 5 only, J3 with pin 1, and J4 with pin 4 only.  Check for inadvertent shorts and opens.  Power up and run U4-5 diags")
+        (field (name ClickToSortForPlacement) "12 Ensure the solder mask of all corner pads is scraped off.  Place.  Temporary tack solder J2 with pin 5 only, J3 with pin 1, and J4 with pin 4 only.  Check for inadvertent shorts and opens.  Power up and run U4-5 diags")
         (field (name Part_number) MCP4262-104E/UN)
         (field (name Source) http://Arrow.com))
       (libsource (lib 2019-03-19_09-09-09) (part MCP4262-xxxE_UN) (description ""))
@@ -373,7 +373,7 @@
       (footprint Package_SO:SOIC-8_3.9x4.9mm_P1.27mm)
       (datasheet http://www.ti.com/lit/ds/symlink/lm134.pdf)
       (fields
-        (field (name ClickToSortForPlacement) "12 Place then check work")
+        (field (name ClickToSortForPlacement) "12 Ensure the solder mask of all corner pads is scraped off.  Place then check work")
         (field (name Part_number) LM334M/NOPB)
         (field (name Source) http://Arrow.com))
       (libsource (lib lm334m) (part LM334M) (description "1μA to 10mA 3-Terminal Adjustable Current Source, SO-8"))
@@ -384,7 +384,7 @@
       (footprint Package_SO:SOIC-8_3.9x4.9mm_P1.27mm)
       (datasheet http://www.ti.com/lit/ds/symlink/lm134.pdf)
       (fields
-        (field (name ClickToSortForPlacement) "12 Place then check work")
+        (field (name ClickToSortForPlacement) "12 Ensure the solder mask of all corner pads is scraped off.  Place then check work")
         (field (name Part_number) LM334M/NOPB)
         (field (name Source) http://Arrow.com))
       (libsource (lib lm334m) (part LM334M) (description "1μA to 10mA 3-Terminal Adjustable Current Source, SO-8"))
