@@ -7,6 +7,8 @@
 
 <dl><dt>18 Aug 2019</dt></dl>I've made more progress on the diagnostics after having to abandon my first U1 due to solder cross contamination.  Early on I tinned the leads of that component with leaded solder and have been plagued ever since with it rejecting other solders.  I handled it so much that its leads started falling off.  $6.  The new U1 took low-temp paste solder like a champ, but the whole experience sure tested my patience.  These new bismuth solders don't mix well at all with the old leaded solder!  A word to the wise.
 
+When I resume development, I'll be writing diags for U6 and U7, the dPots.  I'm hoping the ones I've installed have no issues for me to troubleshoot, but I can't expect a perfect world.
+
 <dl><dt>17 Aug 2019</dt></dl>I've been working on developing the build instructions which are found in the BOM named ibom.html in this directory https://github.com/kenneth558/plant_resistance_primary_perception/blob/Free/Where%20to%20find%20everything%20for%20making%20your%20own%20GWAAMC%20device/On%20buying%20the%20components/.  On my own board, I'm up to the diags right before placing ADC1.  What remains after any troubleshooting the diags make me do is to place ADC1, U3, SHLD1, J1, and the potentiometers.  BTW, I'm writing the diags as I go, so that adds to the slowdown.
 
 <dl><dt>12 Aug 2019</dt></dl>I'm to the stage of fine position adjusting so this board best fits an MCU while I'm powering up for build diagnostics.  The components I have left to place are ADC1, U3, the RF shield, J1, the potentiometers, and the wireless module.  These have to wait until I develop diagnostic code for the state of the build as is.  However, I'm taking a family road trip now and won't be making any more progress on this until late this week.
