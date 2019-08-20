@@ -1,7 +1,7 @@
 (export (version D)
   (design
     (source "/home/master/gwaamc training aid/New GWAAMC Training Aid/Main Board LM334 UL2004 UNO/uno shield/uno shield v.6 project SMD.sch")
-    (date "Mon 19 Aug 2019 02:06:39 PM CDT")
+    (date "Tue 20 Aug 2019 01:40:53 PM CDT")
     (tool "Eeschema 5.1.4-e60b266~84~ubuntu16.04.1")
     (sheet (number 1) (name /) (tstamps /)
       (title_block
@@ -106,7 +106,7 @@
       (footprint Connector_PinHeader_2.54mm:PinHeader_1x09_P2.54mm_Vertical)
       (datasheet ~)
       (fields
-        (field (name ClickToSortForPlacement) "20 Placing into plated-through holes requires heat for a longer time than single-sided components, especially on the Vcc and GNDD pins.  When MCU is NOT 5V, pin 5 gets removed and pin 4 gets its pad shorted to pin 5 PAD.  When MCU is switchable 5V and 3.3V and you want to be able to switch between the two levels, remove pin 5 still but tie ICSP1 pin 2 into pin 5 PAD with an insulated wire.  Height with all connectors mated, may need to space away from board some.  Then check work for inadvertent shorts and opens.")
+        (field (name ClickToSortForPlacement) "20 Placing into plated-through holes requires more solder than single-sided components and heat for a longer time, especially on the Vcc and GNDD pins or the MCU can push the solder pads right off the board.  When MCU is NOT 5V, pin 5 gets removed and pin 4 gets its pad shorted to pin 5 PAD.  When MCU is switchable 5V and 3.3V and you want to be able to switch between the two levels, remove pin 5 still but tie ICSP1 pin 2 into pin 5 PAD with an insulated wire.  Height with all connectors mated, may need to space away from board some.  Then check work for inadvertent shorts and opens.")
         (field (name Part_number) "part of first TSW-150-05-T-S or 4-103327-0. Stackables are too often not stocked; unable to source stackable style")
         (field (name Source) http://Arrow.com))
       (libsource (lib Connector) (part Conn_01x09_Male) (description "Generic connector, single row, 01x09, script generated (kicad-library-utils/schlib/autogen/connector/)"))
@@ -117,7 +117,7 @@
       (footprint Connector_PinHeader_2.54mm:PinHeader_1x08_P2.54mm_Vertical)
       (datasheet ~)
       (fields
-        (field (name ClickToSortForPlacement) "21 Set height with all connectors mated, may need to space away from board some.   Placing into plated-through holes requires heat for a longer time than single-sided components.  Then check work for inadvertent shorts and opens.  Power up and run diags.  Power down and continue.")
+        (field (name ClickToSortForPlacement) "21 Set height with all connectors mated, may need to space away from board some.   Placing into plated-through holes requires more solder than single-sided components and heat for a longer time or the MCU can push the solder pads right off the board.    Then check work for inadvertent shorts and opens.  Power up and run diags.  Power down and continue.")
         (field (name Part_number) "part of first TSW-150-05-T-S or 4-103327-0. Stackables are too often not stocked; unable to source stackable style")
         (field (name Source) http://Arrow.com))
       (libsource (lib conn_01x08_maleA) (part Conn_01x08_Male) (description "Generic connector, single row, 01x08, script generated (kicad-library-utils/schlib/autogen/connector/)"))
@@ -202,7 +202,7 @@
       (footprint Connector_PinHeader_2.54mm:PinHeader_1x06_P2.54mm_Vertical)
       (datasheet ~)
       (fields
-        (field (name ClickToSortForPlacement) "20 Placing into plated-through holes requires heat for a longer time than single-sided components.  Place with height with all connectors mated, may need to space away from board some.  Then check work for inadvertent shorts and opens.")
+        (field (name ClickToSortForPlacement) "20 Placing into plated-through holes requires more solder than single-sided components and heat for a longer time or the MCU can push the solder pads right off the board.    Place with height with all connectors mated, may need to space away from board some.  Then check work for inadvertent shorts and opens.")
         (field (name Part_number) "part of first TSW-150-05-T-S or 4-103327-0. Stackables are too often not stocked; unable to source stackable style")
         (field (name Source) http://Arrow.com))
       (libsource (lib conn_01x06_male) (part Conn_01x06_Male) (description "Generic connector, single row, 01x06, script generated (kicad-library-utils/schlib/autogen/connector/)"))
@@ -535,7 +535,7 @@
       (footprint Connector_PinHeader_2.54mm:PinHeader_1x10_P2.54mm_Vertical)
       (datasheet ~)
       (fields
-        (field (name ClickToSortForPlacement) "20 Placing into plated-through holes requires heat for a longer time than single-sided components, especially on the Vcc and GNDD pins.  Place with height with all connectors mated, may need to space away from board some.  Then check work for inadvertent shorts and opens.")
+        (field (name ClickToSortForPlacement) "20 Placing into plated-through holes requires more solder than single-sided components and heat for a longer time, especially on the GNDD pin or the MCU can push the solder pads right off the board.  Place with height with all connectors mated, may need to space away from board some.  Then check work for inadvertent shorts and opens.")
         (field (name Part_number) "part of first TSW-150-05-T-S or 4-103327-0. Stackables are too often not stocked; unable to source stackable style")
         (field (name Source) http://Arrow.com))
       (libsource (lib Connector) (part Conn_01x10_Male) (description "Generic connector, single row, 01x10, script generated (kicad-library-utils/schlib/autogen/connector/)"))
