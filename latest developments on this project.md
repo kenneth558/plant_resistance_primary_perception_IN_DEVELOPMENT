@@ -5,6 +5,8 @@
 
 ![A 3D rendering of a populated board was supposed to show here](https://github.com/kenneth558/plant_resistance_primary_perception/blob/Free/Where%20to%20find%20everything%20for%20making%20your%20own%20GWAAMC%20device/front_straight-on_SHLD1_see-through_with_notes.png)
 
+<dl><dt>21 Aug 2019</dt></dl>I am having fits with an apparent open circuit in the programming resistor circuit of U5.  Yet another nightmare....
+
 <dl><dt>19 Aug 2019</dt></dl>Today I found that I had placed two U7s instead of a U6 and U7.  Would have made definite progess otherwise.  Replaced.  Starting again writing the diags for this step.
 
 <dl><dt>18 Aug 2019</dt></dl>I've made more progress on the diagnostics after having to abandon my first U1 due to solder cross contamination.  Early on I tinned the leads of that component with leaded solder and have been plagued ever since with it rejecting other solders.  I handled it so much that its leads started falling off.  $6.  The new U1 took low-temp paste solder like a champ, but the whole experience sure tested my patience.  These new bismuth solders don't mix well at all with the old leaded solder!  A word to the wise.
