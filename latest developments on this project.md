@@ -3,7 +3,7 @@
 
 [PCB available for sale at OSH Park](https://oshpark.com/shared_projects/4GDhtJIc)
 
-![A 3D rendering of a populated board was supposed to show here](https://github.com/kenneth558/plant_resistance_primary_perception/blob/Free/Where%20to%20find%20everything%20for%20making%20your%20own%20GWAAMC%20device/front_straight-on_SHLD1_see-through_with_notes.png).  Note that I make no money on this in order to keep the price as low for you as I can.
+![A 3D rendering of a populated board was supposed to show here].  Note that I make no money on this in order to keep the price as low for you as I can.(https://github.com/kenneth558/plant_resistance_primary_perception/blob/Free/Where%20to%20find%20everything%20for%20making%20your%20own%20GWAAMC%20device/front_straight-on_SHLD1_see-through_with_notes.png)
 
 <dl><dt>21 Aug 2019</dt></dl>I am having fits with an apparent open circuit in the programming resistor circuit of U5.  Yet another nightmare, but everyone building this will benefit from the improved diags that it makes me write and PCB test points I lay down.
 
