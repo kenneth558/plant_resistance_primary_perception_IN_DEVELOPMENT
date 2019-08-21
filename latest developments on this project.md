@@ -5,7 +5,7 @@
 
 ![A 3D rendering of a populated board was supposed to show here](https://github.com/kenneth558/plant_resistance_primary_perception/blob/Free/Where%20to%20find%20everything%20for%20making%20your%20own%20GWAAMC%20device/front_straight-on_SHLD1_see-through_with_notes.png)
 
-<dl><dt>21 Aug 2019</dt></dl>I am having fits with an apparent open circuit in the programming resistor circuit of U5.  Yet another nightmare, but everyone building this will benefit from the improved diags that it makes me write.
+<dl><dt>21 Aug 2019</dt></dl>I am having fits with an apparent open circuit in the programming resistor circuit of U5.  Yet another nightmare, but everyone building this will benefit from the improved diags that it makes me write and PCB test points I lay down.
 
 <dl><dt>19 Aug 2019</dt></dl>Today I found that I had placed two U7s instead of a U6 and U7.  Would have made definite progess otherwise.  Replaced.  Starting again writing the diags for this step.
 
