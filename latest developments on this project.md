@@ -7,7 +7,7 @@
 
  <dl><dt>24 Aug 2019</dt></dl>The board works.  I've posted new gerbers at OSH Park to change some pin assignments that tended to cause confusion while running diagnostics, but the only differences between the newest board and the previous version are operationally inconsequential.  You may now buy PCB boards from wherever you want to  with assurance that the product works.  
  
-In fact, it works so well that the HX711 may not even be necessary!
+ In fact, this now works so well that the HX711 may not even be necessary!
 
 <dl><dt>23 Aug 2019</dt></dl>I've fixed everything I broke an am now ready to proceed with placing U3 and SHLD1, which should be done as a single step without allowing any interruptions so that U3 is not left to absorb moisture from the humidity in the air.  Let me say that this project is very, very difficult to build...nearly impossible for me.
 
