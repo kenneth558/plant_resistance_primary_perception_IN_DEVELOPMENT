@@ -6,8 +6,8 @@
 ![A 3D rendering of a populated board was supposed to show here](https://github.com/kenneth558/plant_resistance_primary_perception/blob/Free/Where%20to%20find%20everything%20for%20making%20your%20own%20GWAAMC%20device/front_straight-on_SHLD1_see-through_with_notes.png) Note that I make no money on you ordering from OSH Park so I can keep the price as low for you as possible.
 
  <dl><dt>24 Aug 2019</dt></dl>The board works at 5VDC only.  I've posted new gerbers at OSH Park to change some pin assignments that tended to cause confusion while running diagnostics, but any differences between the newest board and the previous version are operationally inconsequential.  You may now buy PCB boards from wherever you want to  with assurance that the product works at 5VDC.  
- 
-In fact, this now works so well at %VDC that the HX711 may not even be necessary!
+
+In fact, this now works so well at 5VDC that the HX711 may not even be necessary!
 
 I'm investigating now into 3.3VDC operation.  The difference seems to be that the U6 dPot with the buffering resistor isn't changing settings at 3.3VDC when being told to, yet it works OK at 5VDC.
 
