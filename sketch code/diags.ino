@@ -23,6 +23,9 @@
 #define CONTINUE_PLOTTING_DURING_AUTO_BRIDGE_BALANCE true                    //Without predictive balancing, this takes too much time if true
 //#define DEBUG                                                              //Don't forget that DEBUG is not formatted for Serial plotter, but might work anyway if you'd never print numbers only any DEBUG print line
 #define COMPILE_FOR_DIAGS_ONLY
+//#define DIAGS_STEP2                                                          //Don't define on very first run of diags
+#define DIAGS_STEP3                                                          //Don't define on very first run of diags
+#define DIAGS_STEP4                                                          //Don't define on very first run of diags
 #define SHOW_LINEARITY_USING_THIS_BRIDGE_INDEX 0                                    //Can be a single bridge index or the word "ALL"
 #define INJECT_DIAGNOSTIC_SQUARE_WAVE_ON_SIGNAL_PIN_OF_SPECIFIED_OUTBOARD_ADC 0       //For testing - wobbles digipot settings on bridge index to impose a signal into Wheatstone bridge outputs. This imposes a signal on the signal leg
 #define INJECT_DIAGNOSTIC_SQUARE_WAVE_ON_REFERENCE_PIN_OF_SPECIFIED_OUTBOARD_ADC 0    //For testing - wobbles digipot settings on bridge index to impose a signal into Wheatstone bridge outputs. This imposes a signal on the reference leg
@@ -80,7 +83,7 @@
 //No need to change macros below:
 #define CONVERT_TWOS_COMP_TO_SINGLE_ENDED( value_read_from_the_differential_ADC, mask, xorvalue ) ((value_read_from_the_differential_ADC & mask)^xorvalue)
 //A FEW OF THE OTHER MACROS (DEFINES OR RE-DEFINES) ELSEWHERE: VERSION, NON_LSB_DPOT_2_B0SIG_STARTVALUE - LSB_DPOT_B0REF_STARTVALUE, HALFHIGHEST_BIT_RES_FROM_HIGHEST_SENSI_OUTBOARD_ADC, DIFFERENTIAL, PIN_FOR_DATA_TOFROM_HIGHEST_SENSI_ADC, PIN_FOR_CLK_TO_HIGHEST_SENSI_ADC, PLOTTER_MAX_SCALE, HUNDREDTHPLOTTER_MAX_SCALE, SAMPLE_TIMES, SCALE_FACTOR_TO_PROMOTE_LOW_RES_ADC_TO_SAME_SCALE, COMMON_MODE_LEVEL_FOR_MAX_GAIN_AS_READ_RAW_BY_INBOARD_ANALOG, HEIGHT_OF_A_PLOT_LINESPACE
-#define COPYRIGHT_YEAR "2018, 2019"
+#define COPYRIGHT_YEAR "<2018>, <2019>"
 /*******************(C) GNU General Public License COPYRIGHT 2019 KENNETH L ANDERSON *********************
        ARDUINO ELECTRICAL RESISTANCE/CONDUCTANCE MONITORING SKETCH
   File Name          : adc_for_plant_tissue.ino
@@ -371,7 +374,9 @@ If you only have the Arduino without an ADS1X15, then define INBOARDS_PLOTTED.  
 #if ( ( ( INBOARDS_PLOTTED < 2 ) && defined SUPERIMPOSE_FIRST_INBOARDS_IN_PAIRS ) || ( defined COMPILE_FOR_DIAGS_ONLY ) )
     #ifdef COMPILE_FOR_DIAGS_ONLY
         #warning You are specifying COMPILE_FOR_DIAGS_ONLY.  If that is not what you want, change that defined macro
-        #define LEAVE_POT_VALUES_ALONE_DURING_SETUP
+        #ifdef LEAVE_POT_VALUES_ALONE_DURING_SETUP
+            #undef LEAVE_POT_VALUES_ALONE_DURING_SETUP
+        #endif
 //        #define INBOARDS_PLOTTED ALL 
 //        #define DPOT_LEGS MAX
     #endif
@@ -690,7 +695,7 @@ If you only have the Arduino without an ADS1X15, then define INBOARDS_PLOTTED.  
     //Never use bit 6 of DPotPin for anything except to designate the second pot in a dual pkg
     /*
         To scale up to multiple values of digipotsperleg:
-      x1   fix LSB_DPOT_B0SIG_PIN names and such
+      x1   fix LSB_DPOT_B0U4_PIN names and such
       x2   fix index order within DPotSettings and DPotPins
       >3   fix LSB_DPOT_B0SIG_STARTVALUE names and such
       4   fix DPOT_RATIO to something that will work where it is used
@@ -698,29 +703,29 @@ If you only have the Arduino without an ADS1X15, then define INBOARDS_PLOTTED.  
       Never use bit 6 of DPotPin for anything except to designate the second pot in a dual pkg
     
     */
-    //If a digipot is the second in a MCP42xx pkg, you will OR that digipot's pin number with B01000000 (add 64) like so: #define LSB_DPOT_B0SIG_PIN ( 7 + 64 ) would be for when pin 7 is the physical Arduino Digital pin.  MCP41xx packages need no such consideration
+    //If a digipot is the second in a MCP42xx pkg, you will OR that digipot's pin number with B01000000 (add 64) like so: #define LSB_DPOT_B0U4_PIN ( 7 + 64 ) would be for when pin 7 is the physical Arduino Digital pin.  MCP41xx packages need no such consideration
     //If you find that you don't understand that, I'd encourage you to learn the topics of converting between hexadecimal, decimal, and binary and to learn bitwise boolean operations
-    #define LSB_DPOT_B0SIG_PIN 4         // Signal LSB fine adjust digital pot's CS line connected to here
+    #define LSB_DPOT_B0SIG_PIN ( 8 + 64 )         //U5-1 Signal LSB fine adjust digital pot's CS line connected to here
 //    #define LSB_DPOT_B0SIG_STARTVALUE 0 //309 52 - 54 or ( MAX_DPOT_SETTG / 2 )   //this settingValue in digipots and with 1 MOhm resistors for the LM334 loads put the LM334 output voltage at closest: with three DPots per leg
-    #define LSB_DPOT_B0SIG_STARTVALUE 38 //304 52 - 54 or ( MAX_DPOT_SETTG / 2 )   //this settingValue in digipots and with 1 MOhm resistors for the LM334 loads put the LM334 output voltage at closest: with three DPots per leg
+    #define LSB_DPOT_B0SIG_STARTVALUE 0 //304 52 - 54 or ( MAX_DPOT_SETTG / 2 )   //this settingValue in digipots and with 1 MOhm resistors for the LM334 loads put the LM334 output voltage at closest: with three DPots per leg
 //    #define LSB_DPOT_B0SIG_STARTVALUE 83 //52 - 54 or ( MAX_DPOT_SETTG / 2 )   //this settingValue in digipots and with 1 MOhm resistors for the LM334 loads put the LM334 output voltage at closest: with three DPots per leg
     
     #if ( ( DPOTS_PER_LM334_LEG > 0 ) || ( DPOTS_PER_BRIDGED_BARE_LEG > 0 ) )
-        #define LSB_DPOT_B0REF_PIN ( 4 + 64 )        // Reference LSB fine adjust digital pot's CS line connected to here
+        #define LSB_DPOT_B0REF_PIN 8        //U5-0 Reference LSB fine adjust digital pot's CS line connected to here
 //        #define LSB_DPOT_B0REF_STARTVALUE 0 //310 or ( MAX_DPOT_SETTG / 2 )   //this settingValue in digipots and with 1 MOhm resistors for the LM334 loads put the LM334 output voltage at closest: with three DPots per leg
-        #define LSB_DPOT_B0REF_STARTVALUE 50 //305 or ( MAX_DPOT_SETTG / 2 )   //this settingValue in digipots and with 1 MOhm resistors for the LM334 loads put the LM334 output voltage at closest: with three DPots per leg
+        #define LSB_DPOT_B0REF_STARTVALUE 0 //305 or ( MAX_DPOT_SETTG / 2 )   //this settingValue in digipots and with 1 MOhm resistors for the LM334 loads put the LM334 output voltage at closest: with three DPots per leg
 //        #define LSB_DPOT_B0REF_STARTVALUE 87 //or ( MAX_DPOT_SETTG / 2 )   //this settingValue in digipots and with 1 MOhm resistors for the LM334 loads put the LM334 output voltage at closest: with three DPots per leg
     //        #define LSB_DPOT_B0REF_STARTVALUE 18 //or ( MAX_DPOT_SETTG / 2 )   //this settingValue in digipots and with 1 MOhm resistors for the LM334 loads put the LM334 output voltage at closest: with two DPots per leg
     #endif
     #if ( ( DPOTS_PER_LM334_LEG > 1 ) || ( DPOTS_PER_BRIDGED_BARE_LEG > 1 ) || ( DPOTS_PER_UNBRIDGED_BARE_LEG > 1 ) )
-        #define NON_LSB_DPOT_1_B0SIG_PIN 5          // second digital pot of signal leg CS line connected to here.  coarse adjust B positive (signal) leg
+        #define NON_LSB_DPOT_1_B0SIG_PIN ( 5 + 64 )          //U4-1 second digital pot of signal leg CS line connected to here.  coarse adjust B positive (signal) leg
 //        #define NON_LSB_DPOT_1_B0SIG_STARTVALUE ( MAX_DPOT_SETTG / 4 ) //or ( MAX_DPOT_SETTG / 2 )  //this settingValue in digipots and with 1 MOhm resistors for the LM334 loads put the LM334 output voltage at closest: with two or three DPots per leg
-        #define NON_LSB_DPOT_1_B0SIG_STARTVALUE 125 //or ( MAX_DPOT_SETTG / 2 )  //this settingValue in digipots and with 1 MOhm resistors for the LM334 loads put the LM334 output voltage at closest: with two or three DPots per leg
+        #define NON_LSB_DPOT_1_B0SIG_STARTVALUE 255 //or ( MAX_DPOT_SETTG / 2 )  //this settingValue in digipots and with 1 MOhm resistors for the LM334 loads put the LM334 output voltage at closest: with two or three DPots per leg
     #endif
     #if ( ( DPOTS_PER_LM334_LEG > 1 ) || ( DPOTS_PER_BRIDGED_BARE_LEG > 1 ) )
-        #define NON_LSB_DPOT_1_B0REF_PIN ( 5 + 64 )         // second digital pot of reference leg CS line connected to here.  coarse adjust B negative (reference) leg
+        #define NON_LSB_DPOT_1_B0REF_PIN 5         //U4-0 second digital pot of reference leg CS line connected to here.  coarse adjust B negative (reference) leg
 //        #define NON_LSB_DPOT_1_B0REF_STARTVALUE ( MAX_DPOT_SETTG / 4 ) //or ( MAX_DPOT_SETTG / 2 )   //this settingValue in digipots and with 1 MOhm resistors for the LM334 loads put the LM334 output voltage at closest: with three DPots per leg
-        #define NON_LSB_DPOT_1_B0REF_STARTVALUE 125 //or ( MAX_DPOT_SETTG / 2 )   //this settingValue in digipots and with 1 MOhm resistors for the LM334 loads put the LM334 output voltage at closest: with three DPots per leg
+        #define NON_LSB_DPOT_1_B0REF_STARTVALUE 0 //or ( MAX_DPOT_SETTG / 2 )   //this settingValue in digipots and with 1 MOhm resistors for the LM334 loads put the LM334 output voltage at closest: with three DPots per leg
     //        #define NON_LSB_DPOT_1_B0REF_STARTVALUE 117 //or ( MAX_DPOT_SETTG / 2 )   //this settingValue in digipots and with 1 MOhm resistors for the LM334 loads put the LM334 output voltage at closest: with two DPots per leg
     #endif
     #if ( ( DPOTS_PER_LM334_LEG > 2 ) || ( DPOTS_PER_BRIDGED_BARE_LEG > 2 ) || ( DPOTS_PER_UNBRIDGED_BARE_LEG > 2 ) )
@@ -1078,7 +1083,28 @@ void readAndPlotFromAllADCsInAndOutboard( uint32_t, bool = !( ( bool )analogPinA
         #endif
           }
     #endif
-      digitalWrite( ( thisIsIndexForPinNotPinNumberDirectly ? dPotPins[ indexOfThisDPotCSpinInDPotArrays ] : indexOfThisDPotCSpinInDPotArrays ) & 0x3FF, LOW ); //activates the bar-CS pin
+#ifdef COMPILE_FOR_DIAGS_ONLY
+        Serial.print( F( "Line<1084>\n" ) );
+      if ( digitalRead( ( thisIsIndexForPinNotPinNumberDirectly ? dPotPins[ indexOfThisDPotCSpinInDPotArrays ] : indexOfThisDPotCSpinInDPotArrays ) & 0x3F ) != HIGH )
+        {
+            Serial.print( F( "Line<1087> BAD dPot<" ) );
+            Serial.print( ( thisIsIndexForPinNotPinNumberDirectly ? dPotPins[ indexOfThisDPotCSpinInDPotArrays ] : indexOfThisDPotCSpinInDPotArrays ) & 0x3F );
+            Serial.print( F( "> bar-CS read-back not HIGH=<" ) );
+            Serial.print( digitalRead( ( thisIsIndexForPinNotPinNumberDirectly ? dPotPins[ indexOfThisDPotCSpinInDPotArrays ] : indexOfThisDPotCSpinInDPotArrays ) & 0x3F ) );
+            Serial.print( F( ">\n" ) );
+        }
+#endif
+      digitalWrite( ( thisIsIndexForPinNotPinNumberDirectly ? dPotPins[ indexOfThisDPotCSpinInDPotArrays ] : indexOfThisDPotCSpinInDPotArrays ) & 0x3F, LOW ); //activates the bar-CS pin
+#ifdef COMPILE_FOR_DIAGS_ONLY
+      if ( digitalRead( ( thisIsIndexForPinNotPinNumberDirectly ? dPotPins[ indexOfThisDPotCSpinInDPotArrays ] : indexOfThisDPotCSpinInDPotArrays ) & 0x3F ) != LOW )
+        {
+            Serial.print( F( "Line<1097> BAD dPot<" ) );
+            Serial.print( ( thisIsIndexForPinNotPinNumberDirectly ? dPotPins[ indexOfThisDPotCSpinInDPotArrays ] : indexOfThisDPotCSpinInDPotArrays ) & 0x3F );
+            Serial.print( F( "> bar-CS read-back not LOW=<" ) );
+            Serial.print( digitalRead( ( thisIsIndexForPinNotPinNumberDirectly ? dPotPins[ indexOfThisDPotCSpinInDPotArrays ] : indexOfThisDPotCSpinInDPotArrays ) & 0x3F ) );
+            Serial.print( F( ">\n" ) );
+        }
+#endif
       SPI.transfer( ( settingValue & 0x100 ) ? /*will the second data byte be one or zero?*/\
             ( ( thisIsIndexForPinNotPinNumberDirectly ? dPotPins[ indexOfThisDPotCSpinInDPotArrays ] : indexOfThisDPotCSpinInDPotArrays ) & 0x40 ? 0x11 : 1 ) : \
             ( ( thisIsIndexForPinNotPinNumberDirectly ? dPotPins[ indexOfThisDPotCSpinInDPotArrays ] : indexOfThisDPotCSpinInDPotArrays ) & 0x40 ? 0x10 : 0 ) ); //This is the way we allow dual dpot devices MCP42xxx
@@ -1096,7 +1122,17 @@ void readAndPlotFromAllADCsInAndOutboard( uint32_t, bool = !( ( bool )analogPinA
         modification to accommodate it.
     
       ***********************************************************************************************************************************************************/
-      digitalWrite( ( thisIsIndexForPinNotPinNumberDirectly ? dPotPins[ indexOfThisDPotCSpinInDPotArrays ] : indexOfThisDPotCSpinInDPotArrays ) & 0x3FF, HIGH );
+      digitalWrite( ( thisIsIndexForPinNotPinNumberDirectly ? dPotPins[ indexOfThisDPotCSpinInDPotArrays ] : indexOfThisDPotCSpinInDPotArrays ) & 0x3F, HIGH );
+#ifdef COMPILE_FOR_DIAGS_ONLY
+      if ( digitalRead( ( thisIsIndexForPinNotPinNumberDirectly ? dPotPins[ indexOfThisDPotCSpinInDPotArrays ] : indexOfThisDPotCSpinInDPotArrays ) & 0x3F ) != HIGH )
+        {
+            Serial.print( F( "Line<1125> BAD dPot<" ) ) ;
+            Serial.print( ( thisIsIndexForPinNotPinNumberDirectly ? dPotPins[ indexOfThisDPotCSpinInDPotArrays ] : indexOfThisDPotCSpinInDPotArrays ) & 0x3F );
+            Serial.print( F( "> bar-CS read-back not HIGH=<" ) );
+            Serial.print( digitalRead( ( thisIsIndexForPinNotPinNumberDirectly ? dPotPins[ indexOfThisDPotCSpinInDPotArrays ] : indexOfThisDPotCSpinInDPotArrays ) & 0x3F ) );
+            Serial.print( F( ">\n" ) );
+        }
+#endif
     #ifdef USING_DUAL_74LV138_DECODERS_FOR_DPOT_CS_LINES
         #ifdef FINAL_STAGE_3_TO_8_DECODER_ENABLE_PIN4
             digitalWrite( FINAL_STAGE_3_TO_8_DECODER_ENABLE_PIN4, HIGH );
@@ -2790,6 +2826,17 @@ void fixMSB_SETTINGSarraysAndMayDistribute( bool mayDistribute = ( bool )analogP
 }
 #endif
 
+uint32_t any_high_but_this_or_if_this_low( uint8_t i )
+{
+    uint32_t result = 0;
+    for( uint8_t j = 2; j < 20; j++ )
+    {
+        if( !digitalRead( i ) ) { bitSet( result, i ); return result; }
+        if( j == i ) continue;
+//        if( digitalRead( j ) ) { bitSet( result, j ); return result; }
+    }
+    return false;
+}
 void setup()
 { //all vars of setup() scope will never compete for space with any vars of loop() scope nor any vars scoped to functions except those called herein, so we have a lot of latitude to be sloppy large with the array sizes herein.  That is the big advantage of a setup() scope for embedded applications.
 #ifdef WIFI
@@ -2806,25 +2853,209 @@ void setup()
   delay( SECONDS_THAT_A_LGT8FX8E_HARDWARE_SERIAL_NEEDS_TO_COME_UP_WORKING * 1000 );  // Needed by this board for serial to work
   Serial.println( F( "DEBUG is defined." ) );
 #endif
+    for( /*all pins*/uint8_t i = 2; i < 20; i++ )
+    {
+//        mode/*make 'em inputs*/
+        pinMode( i, INPUT );
+        digitalWrite( i, HIGH);
+    }
 #if not ( ( defined MINIMIZE_COMPILED_SKETCH_SIZE_LEVEL ) && ( MINIMIZE_COMPILED_SKETCH_SIZE_LEVEL == 0 ) )
   while( !Serial && ( millis() - millisStart < 8000 ) );
   if( Serial )
   {
-      Serial.println( F( VERSION ) );
-      Serial.println( F( "Thank you for your interest in learning GWAAM-Sea to cooperate with God" ) );
-      Serial.println( F( "bringing His kingdom to earth and His will to be done here as it is in heaven." ) );
-      Serial.println( F( "There is no doubt He will eventually answer that prayer of ours...and very, very soon." ) );
-      Serial.println();
-      Serial.println( F( "This product is normally run in the Serial Plotter, not the Serial Monitor." ) );
-      Serial.println( F( "Unless you're interested in this text only output, close this Serial Monitor" ) );
-      Serial.println( F( "and open the Serial Plotter instead." ) );
-      Serial.println();
+    uint32_t tracker_by_bitsetting = 0;
+    for( /*all pins*/uint8_t i = 2; i < 18; i++ )
+    {
+        for( /*all pins*/uint8_t j = 2; j < 18; j++ )
+        {
+            if( j == i ) continue;
+    //        mode/*make 'em inputs*/
+            pinMode( j, OUTPUT );
+            digitalWrite( j, LOW);
+        }
+        pinMode( i, OUTPUT );
+        digitalWrite( i, HIGH);
+        tracker_by_bitsetting |= any_high_but_this_or_if_this_low( i );
+        for( /*all pins*/uint8_t j = 2; j < 18; j++ )
+        {
+            if( j == i ) continue;
+    //        mode/*make 'em inputs*/
+            pinMode( j, INPUT );
+        }
+        tracker_by_bitsetting |= any_high_but_this_or_if_this_low( i );
+        digitalWrite( i, LOW);
+        pinMode( i, INPUT );
+        for( /*all pins*/uint8_t j = 2; j < 18; j++ )
+        {
+    //        mode/*make 'em inputs*/
+            pinMode( j, OUTPUT );
+            digitalWrite( j, HIGH);
+            if( !digitalRead( j ) ) bitSet( tracker_by_bitsetting, j );
+        }
+//        Serial.println( tracker_by_bitsetting, BIN );
+    }
+    if( tracker_by_bitsetting ) Serial.println( tracker_by_bitsetting, BIN );
+      Serial.print( F( VERSION ) );
+      Serial.print( F( "\nThank you for your interest in learning GWAAM-Sea to cooperate with God\n" ) );
+      Serial.print( F( "bringing His kingdom to earth and His will to be done here as it is in heaven.\n" ) );
+      Serial.print( F( "There is no doubt He will eventually answer that prayer of ours...and very, very soon.\n\n" ) );
+    #if not defined COMPILE_FOR_DIAGS_ONLY
+      Serial.print( F( "This product is normally run in the Serial Plotter, not the Serial Monitor.\n" ) );
+      Serial.print( F( "Unless you're interested in this text only output, close this Serial Monitor\n" ) );
+      Serial.print( F( "and open the Serial Plotter instead.\n\n" ) );
+    #else
+      Serial.print( F( "\n\n\nDiagnostics for the GWAAM-Sea Entanglement Gardening and Faith Training Aid\n\n" ) );
+    #endif
       Serial.print( F( "(C)" ) );
       Serial.print( COPYRIGHT_YEAR ); /*To prevent this numeric from becoming part of a plotline we must have a non whitespace character adjacent.  Don't try to whitespace-wrap this numeric or it will affect plotting*/
-      Serial.println( F( ", Kenneth L. Anderson, Electronics Technician, BT, BGS, MCSE, RDH (ret'd)  d/b/a A Reviving Civility" ) );
-      Serial.println();
+      Serial.print( F( ", Kenneth L. Anderson, Electronics Technician, BT, BGS, MCSE, RDH (ret'd)  d/b/a A Reviving Civility\n\n" ) );
   }
 #endif
+#ifdef COMPILE_FOR_DIAGS_ONLY
+
+    //Make all pins as inputs and making one at a time an output low (& verify), then high (& verify), then input again.  In that way read from all pins both analog and digital reads, store them and check that value after making it an output low (& verify), then high (& verify), then input again
+    //Make all pins as output lows and making one at a time an output low (& verify), then high (& verify), then input again.  In that way read from all pins both analog and digital reads, store them and check that value after making it an output low (& verify), then high (& verify), then input again
+    //Make all pins as output highs and making one at a time an output low (& verify), then high (& verify), then input again.  In that way read from all pins both analog and digital reads, store them and check that value after making it an output low (& verify), then high (& verify), then input again
+      Serial.print( F( "Follow these instructions:\n" ) );
+      Serial.print( F( "Locate two adjustable controls, aka variable resistors, aka potentiometers (choose from VR1-4)\n" ) );
+      Serial.print( F( "and temporarily insert them where they will fit, ensuring their three input/output lines\n" ) );
+      Serial.print( F( "make firm electrical contact, whether by slight bend force or very minimal solder tack.  Then\n" ) );
+      Serial.print( F( "locate where the center lead trace of each runs nearest where you'll tie them in to the\n" ) );
+      Serial.print( F( "circuit as built so far: by means using very lightweight scrap wires or jumpers, tie the center\n" ) );
+      Serial.print( F( "lead circuit of the lowest number VR (this is the same circuit as one of the Analog Input pins)\n" ) );
+      Serial.print( F( "into the circuit of U3 pin <4>, either on that pad or onto a more convenient pad like Q2 pin <1>.\n" ) );
+      Serial.print( F( "Tie the center lead circuit of the other VR (the same circuit as a higher numbered Analog Input\n" ) );
+      Serial.print( F( "pin) into the circuit of U3 pin <2>.  Solder to pads rather than the VR itself so you can use\n" ) );
+      Serial.print( F( "those trimmed leads from the LEDs and not risk pulling a pad off if the VR moves. Kapton tape for\n" ) );
+      Serial.print( F( "insulating or spacing can be your friend here.\n\n" ) );
+      Serial.print( F( "When ready to continue, re-compile the diagnostics sketch with the macro \"DIAGS_STEP2\" defined\n" ) );
+      Serial.print( F( "then upload the sketch and start the plotter tool instead of this monitor tool\n" ) );
+    #if ( not defined DIAGS_STEP2 ) && ( not defined DIAGS_STEP3 ) && ( not defined DIAGS_STEP4 )
+            while( true );
+    #elif DIAGS_STEP2
+      Serial.print( F( "Follow these instructions after removing power from the Arduino:\n" ) );
+      Serial.print( F( "Carefully remove the pieces of Kapton tape under pin 1s of U4 and U5, DO NOT BEND PINS UP TO DO THIS!\n" ) );
+      Serial.print( F( "Solder those pins down now.\n" ) );
+      Serial.print( F( "When ready to continue, re-compile the diagnostics sketch with the macro \"DIAGS_STEP3\" defined instead\n" ) );
+      Serial.print( F( "of \"DIAGS_STEP2\" and unsolder any VR from pin 4 of U3, replacing it with an R to GNDA from that pin and\n" ) );
+      Serial.print( F( "pin 5 of U3\n" ) );
+      Serial.print( F( "then upload the sketch and start the plotter tool instead of this monitor tool\n" ) );
+    #endif
+
+    for( /*all pins*/uint8_t i = 2; i < 20; i++ )
+    {
+//        mode/*make 'em inputs*/
+        digitalWrite( i, LOW);
+        pinMode( i, INPUT );
+    }
+    #if ( not defined DIAGS_STEP3 ) && ( not defined DIAGS_STEP4 ) 
+        while( true )
+        {
+            Serial.print( 0 );
+            Serial.print( F( " " ) );
+            Serial.print( analogRead( A0 ) );
+            Serial.print( F( " " ) );
+            Serial.print( analogRead( A1 ) );
+            Serial.print( F( " " ) );
+            Serial.println( 1024 );
+            delay( 100 );
+        }
+    #endif
+#ifndef DIAGS_STEP4
+    for( /*all pins*/uint8_t i = 2; i < 20; i++ )
+    {
+//        /*show their levels*/
+        Serial.print( F( "Pin D<" ) );
+        Serial.print( i );
+        Serial.print( F( ">=<" ) );
+        Serial.print( digitalRead( i ) );
+        Serial.print( F( ">, <" ) );
+        Serial.print( analogRead( i ) );
+        Serial.println( F( ">" ) );
+    }
+    Serial.println( F( "Sitting at line 2894" ) );
+    while( Serial.available() ) Serial.read();
+    while( !Serial.available() );
+//Analyze the data
+    while( Serial.available() ) Serial.read();
+    for( /*all pins*/uint8_t i = 2; i < 20; i++ )
+    {
+//        mode/*make 'em inputs*/
+        digitalWrite( i, HIGH);
+        pinMode( i, INPUT );
+    }
+    for( /*all pins*/uint8_t i = 2; i < 20; i++ )
+    {
+//        /*show their levels*/
+        Serial.print( F( "Pin D<" ) );
+        Serial.print( i );
+        Serial.print( F( ">=<" ) );
+        Serial.print( digitalRead( i ) );
+        Serial.print( F( ">, <" ) );
+        Serial.print( analogRead( i ) );
+        Serial.println( F( ">" ) );
+    }
+    Serial.println( F( "Sitting at line 2916" ) );
+    while( Serial.available() ) Serial.read();
+    while( !Serial.available() );
+//Analyze the data
+    while( Serial.available() ) Serial.read();
+    for( /*all pins*/uint8_t i = 2; i < 14; i++ )
+    {
+//        mode/*make 'em outputs*/
+        digitalWrite( i, LOW);
+        pinMode( i, OUTPUT );
+        digitalWrite( i, LOW);
+    }
+    for( /*all pins*/uint8_t i = 2; i < 20; i++ )
+    {
+//        /*show their levels*/
+        Serial.print( F( "Pin D<" ) );
+        Serial.print( i );
+        Serial.print( F( ">=<" ) );
+        Serial.print( digitalRead( i ) );
+        Serial.print( F( ">, <" ) );
+        Serial.print( analogRead( i ) );
+        Serial.println( F( ">" ) );
+    }
+    Serial.println( F( "Sitting at line 2939" ) );
+    while( Serial.available() ) Serial.read();
+    while( !Serial.available() );
+//Analyze the data
+    while( Serial.available() ) Serial.read();
+    for( /*all pins*/uint8_t i = 2; i < 14; i++ )
+    {
+//        mode/*make 'em outputs*/
+        digitalWrite( i, HIGH);
+        pinMode( i, OUTPUT );
+        digitalWrite( i, HIGH);
+    }
+    for( /*all pins*/uint8_t i = 2; i < 20; i++ )
+    {
+//        /*show their levels*/
+        Serial.print( F( "Pin D<" ) );
+        Serial.print( i );
+        Serial.print( F( ">=<" ) );
+        Serial.print( digitalRead( i ) );
+        Serial.print( F( ">, <" ) );
+        Serial.print( analogRead( i ) );
+        Serial.println( F( ">" ) );
+    }
+//    for( all pins )
+//        make 'em output lows
+//    for( all pins )
+//       make 'em output highs
+//Make the dpots to full values and just make sure they ALL work.
+
+    for( /*all pins*/uint8_t i = 2; i < 20; i++ )
+    {
+//        mode/*make 'em inputs*/
+        digitalWrite( i, LOW);
+        pinMode( i, INPUT );
+    }
+#endif
+#endif
+
 #if ( ( DPOTS > 0 ) || ( defined __SD_H__ ) )
   SPI.begin(); //The CS pin gets specified in the SPI.transfer( CS_pin ) instruction
   SPI.setBitOrder( MSBFIRST );
@@ -2857,6 +3088,12 @@ void setup()
     #endif
 #endif
 #ifdef LM334_BRIDGES   //This is important to put this first so LM334 get some resistance, but not super important b/c the DPots default to half-setting resistance at power-up, so the only time they MIGHT need this is when the ckt was just merely reset after a previous session that left them setting at zero resistance, but at powerup they go the half value so this is unnecessary for just power
+/*  Is this right?
+Index=<0> pin=<8> LSB_DPOT_B0SIG_PIN 
+Index=<1> pin=<5>  NON_LSB_DPOT_1_B0SIG_PIN
+Index=<2> pin=<72>  LSB_DPOT_B0REF_PIN
+Index=<3> pin=<69> NON_LSB_DPOT_1_B0REF_PIN */
+
 #if ( LM334_BRIDGES == 1 )
   digitalWrite( SS, HIGH ); //Not needed by slave devices but rather by this board to make it configure itself to be master
   pinMode( SS, OUTPUT );
@@ -2942,12 +3179,79 @@ void setup()
     for( uint8_t dPotIndex = 0; dPotIndex < DPOTS; dPotIndex++) //THIS ASSUMES THE ABOVE CONSTRUCT FILLS BOTH ARRAYS COMPLETELY
     {
 #ifdef NUM_DIGITAL_PINS
-      if( ( dPotSettings[ dPotIndex ] > MAX_DPOT_SETTG ) || ( dPotPins[ dPotIndex ] & 0x3F > NUM_DIGITAL_PINS ) ) break;  //The protection against arrays not fully set up
+      if( ( dPotSettings[ dPotIndex ] > MAX_DPOT_SETTG ) || ( ( dPotPins[ dPotIndex ] & 0x3F ) > NUM_DIGITAL_PINS ) ) break;  //The protection against arrays not fully set up
 #else
       if( dPotSettings[ dPotIndex ] > MAX_DPOT_SETTG ) break;  //The protection against arrays not fully set up
 #endif
         writeSettingToAsingleDPot( dPotIndex, dPotSettings[ dPotIndex ] );
     }
+#ifdef DIAGS_STEP4
+{
+        uint8_t start_dPot_index = 0;
+        uint8_t end_dPot_index = 3;
+        uint16_t start_dPot_setting = 21; //non-inverting (higher means higher volts)
+        uint16_t end_dPot_setting = 21;  //non-inverting (higher means higher volts)
+        uint16_t dPot2_setting = 19;  //non-inverting (higher means higher volts)
+        int8_t step_per_dPot_change = 1;
+        uint8_t which_dpot_index = start_dPot_index;
+        dPotSettings[ 0 ] = 0; //inverting  (higher means lower volts)  reduced effect dPot
+        dPotSettings[ 1 ] = 21;  //inverting
+        dPotSettings[ 2 ] = dPot2_setting;
+        dPotSettings[ 3 ] = start_dPot_index;
+        writeSettingToAsingleDPot( 0, dPotSettings[ 0 ] );  //inverting reduced effect dPot
+        writeSettingToAsingleDPot( 1, dPotSettings[ 1 ] );   //inverting 
+        writeSettingToAsingleDPot( 2, dPotSettings[ 2 ] );   //non-inverting 
+//        writeSettingToAsingleDPot( 2, dPotSettings[ 2 ] );   //non-inverting 
+        writeSettingToAsingleDPot( 3, dPotSettings[ 3 ] );     //non-inverting 
+//        dPotSettings[ which_dpot_index ] = 0;
+        while( !Serial.available() )
+        {
+//            writeSettingToAsingleDPot( 2, start_dPot_setting );
+            writeSettingToAsingleDPot( 3, start_dPot_setting );   //non-inverting 
+            writeSettingToAsingleDPot( 0, 3 );  //inverting  reduced effect dPot
+            delay( 50 );
+            for( uint8_t i = 0; i < 254; i++ )
+            {
+                Serial.print( 0 );
+                Serial.print( F( " " ) );
+                Serial.print( analogRead( A0 ) );
+                Serial.print( F( " " ) );
+                Serial.print( analogRead( A1 ) );
+                Serial.print( F( " " ) );
+    //            Serial.print(  dPotSettings[ which_dpot_index ] );
+    //            Serial.print( F( " which_dpot_index=<" ) );
+    //            Serial.print(  which_dpot_index );
+    //            Serial.print( F( "> " ) );
+                Serial.println( 1024 );
+                delay( 1 );
+            }
+//            writeSettingToAsingleDPot( 2, end_dPot_setting );
+            writeSettingToAsingleDPot( 3, end_dPot_setting );   //non-inverting 
+            writeSettingToAsingleDPot( 0, 4 );  //inverting - this is the reduced effect dPot
+//            delay( 500 );
+            for( uint8_t i = 0; i < 254; i++ )
+            {
+                Serial.print( 0 );
+                Serial.print( F( " " ) );
+                Serial.print( analogRead( A0 ) );
+                Serial.print( F( " " ) );
+                Serial.print( analogRead( A1 ) );
+                Serial.print( F( " " ) );
+    //            Serial.print(  dPotSettings[ which_dpot_index ] );
+    //            Serial.print( F( " which_dpot_index=<" ) );
+    //            Serial.print(  which_dpot_index );
+    //            Serial.print( F( "> " ) );
+                Serial.println( 1024 );
+                delay( 1 );
+            }
+//            delay( 500 );
+//            writeSettingToAsingleDPot( which_dpot_index, dPotSettings[ which_dpot_index ] );
+//            dPotSettings[ which_dpot_index ] += step_per_dPot_change;
+//            if( ( ( step_per_dPot_change > 0 ) && ( dPotSettings[ which_dpot_index ] > end_dPot_setting ) ) || ( ( step_per_dPot_change < 0 ) && ( dPotSettings[ which_dpot_index ] < end_dPot_setting ) ) ) { dPotSettings[ which_dpot_index ] = start_dPot_setting; which_dpot_index++; if( which_dpot_index > end_dPot_index ) which_dpot_index = start_dPot_index; dPotSettings[ which_dpot_index ] = start_dPot_setting; }
+        }
+}
+#endif
+
 /******************************************************************************
 If the entire dPotPins[] and dPotSettings[] did NOT get filled, or some DPots 
 aren't being used as in a test so need to be set to zero, insert code here either
@@ -2955,14 +3259,59 @@ to fill out the arrays and/or set the unused DPots to desired settings:*/
 //        writeSettingToAsingleDPot( DPotPin, setting, THIS_IS_OVERT_PIN_NUMBER_INSTEAD_OF_INDEX );
 /*******************************************************************************/
 #if not ( ( defined MINIMIZE_COMPILED_SKETCH_SIZE_LEVEL ) && ( MINIMIZE_COMPILED_SKETCH_SIZE_LEVEL == 0 ) )
-  Serial.print( F( "DPots set up. " ) );
+  Serial.print( F( "DPots set up.\n" ) );
 #endif
 #endif
 #elif ( LM334_BRIDGES > 1 )
 #error This sketch is not entirely able to handle multiple digipot bridges at this revision level
 #endif
 #endif
-  millisStart = millis();
+
+  
+  
+
+#ifdef COMPILE_FOR_DIAGS_ONLY 
+    #ifndef DIAGS_STEP4
+        uint8_t which_dpot_index = 0;
+        dPotSettings[ which_dpot_index ] = 0;
+        while( !Serial.available() )
+        {
+            Serial.print( 0 );
+            Serial.print( F( " " ) );
+            Serial.print( analogRead( A0 ) );
+            Serial.print( F( " " ) );
+            Serial.print( analogRead( A3 ) );
+            Serial.print( F( " " ) );
+            Serial.print(  dPotSettings[ which_dpot_index ] );
+            Serial.print( F( " which_dpot_index=<" ) );
+            Serial.print(  which_dpot_index );
+            Serial.print( F( "> " ) );
+            Serial.println( 1024 );
+            writeSettingToAsingleDPot( which_dpot_index, dPotSettings[ which_dpot_index ] );
+            dPotSettings[ which_dpot_index ]++; //analogRead( A3 ) / 4;
+            if( dPotSettings[ which_dpot_index ] > 256 ) { dPotSettings[ which_dpot_index ] = 0; which_dpot_index++; if( which_dpot_index > 0 ) which_dpot_index = 0; dPotSettings[ which_dpot_index ] = 0; }
+            delay( 10 );
+        }
+        Serial.print( F( "When ready to continue, re-compile the diagnostics sketch with the macro \"DIAGS_STEP4\" defined instead\n" ) );
+        Serial.print( F( "of \"DIAGS_STEP3\" and unsolder any VR from pin 4 of U3, replacing it with an R to GNDA from that pin and\n" ) );
+        Serial.print( F( "pin 5 of U3\n" ) );
+        Serial.print( F( "then upload the sketch and start the plotter tool instead of this monitor tool\n" ) );
+        while( !Serial.available() );
+        while( Serial.available() );
+    #else
+        
+    #endif
+#endif
+
+
+
+
+
+
+
+
+
+millisStart = millis();
 #if defined LEGS_PER_DPOT_STYLE_BRIDGE
 #ifdef DEBUG
   while( !Serial && ( millis() - millisStart < 8000 ) );
@@ -3422,98 +3771,9 @@ to fill out the arrays and/or set the unused DPots to desired settings:*/
         Serial.print( ( uint32_t )( OUTBOARDS_PLOTTED + INBOARDS_PLOTTED ) );
         Serial.println( F( ">" ) );
     }
-  
-
-  //add other prints here to your liking
+    //add other prints here to your liking
 #endif //end of DEBUG
   //Start of DPot MSB group settings storing for each DPot leg
-#ifdef COMPILE_FOR_DIAGS_ONLY
-    //Make all pins as inputs and making one at a time an output low (& verify), then high (& verify), then input again.  In that way read from all pins both analog and digital reads, store them and check that value after making it an output low (& verify), then high (& verify), then input again
-    //Make all pins as output lows and making one at a time an output low (& verify), then high (& verify), then input again.  In that way read from all pins both analog and digital reads, store them and check that value after making it an output low (& verify), then high (& verify), then input again
-    //Make all pins as output highs and making one at a time an output low (& verify), then high (& verify), then input again.  In that way read from all pins both analog and digital reads, store them and check that value after making it an output low (& verify), then high (& verify), then input again
-    for( /*all pins*/uint8_t i = 2; i < 20; i++ )
-    {
-//        mode/*make 'em inputs*/
-        digitalWrite( i, LOW);
-        pinMode( i, INPUT );
-    }
-    for( /*all pins*/uint8_t i = 2; i < 20; i++ )
-    {
-//        /*show their levels*/
-        Serial.print( F( "Pin D" ) );
-        Serial.print( i );
-        Serial.print( F( "=" ) );
-        Serial.print( digitalRead( i ) );
-        Serial.print( F( ", " ) );
-        Serial.println( analogRead( i ) );
-    }
-    Serial.println( F( " " ) );
-    while( Serial.available() ) Serial.read();
-    while( !Serial.available() );
-    while( Serial.available() ) Serial.read();
-    for( /*all pins*/uint8_t i = 2; i < 20; i++ )
-    {
-//        mode/*make 'em inputs*/
-        digitalWrite( i, HIGH);
-        pinMode( i, INPUT );
-    }
-    for( /*all pins*/uint8_t i = 2; i < 20; i++ )
-    {
-//        /*show their levels*/
-        Serial.print( F( "Pin D" ) );
-        Serial.print( i );
-        Serial.print( F( "=" ) );
-        Serial.print( digitalRead( i ) );
-        Serial.print( F( ", " ) );
-        Serial.println( analogRead( i ) );
-    }
-    Serial.println( F( " " ) );
-    while( Serial.available() ) Serial.read();
-    while( !Serial.available() );
-    while( Serial.available() ) Serial.read();
-    for( /*all pins*/uint8_t i = 2; i < 14; i++ )
-    {
-//        mode/*make 'em outputs*/
-        digitalWrite( i, LOW);
-        pinMode( i, OUTPUT );
-        digitalWrite( i, LOW);
-    }
-    for( /*all pins*/uint8_t i = 2; i < 20; i++ )
-    {
-//        /*show their levels*/
-        Serial.print( F( "Pin D" ) );
-        Serial.print( i );
-        Serial.print( F( "=" ) );
-        Serial.print( digitalRead( i ) );
-        Serial.print( F( ", " ) );
-        Serial.println( analogRead( i ) );
-    }
-    Serial.println( F( " " ) );
-    while( Serial.available() ) Serial.read();
-    while( !Serial.available() );
-    while( Serial.available() ) Serial.read();
-    for( /*all pins*/uint8_t i = 2; i < 14; i++ )
-    {
-//        mode/*make 'em outputs*/
-        digitalWrite( i, HIGH);
-        pinMode( i, OUTPUT );
-        digitalWrite( i, HIGH);
-    }
-    for( /*all pins*/uint8_t i = 2; i < 20; i++ )
-    {
-//        /*show their levels*/
-        Serial.print( F( "Pin D" ) );
-        Serial.print( i );
-        Serial.print( F( "=" ) );
-        Serial.print( digitalRead( i ) );
-        Serial.print( F( ", " ) );
-        Serial.println( analogRead( i ) );
-    }
-//    for( all pins )
-//        make 'em output lows
-//    for( all pins )
-//       make 'em output highs
-#endif
 #if ( DPOT_LEGS > 0 )
 #if not ( ( defined MINIMIZE_COMPILED_SKETCH_SIZE_LEVEL ) && ( MINIMIZE_COMPILED_SKETCH_SIZE_LEVEL == 0 ) )
     Serial.print( F( "Entering prefill construct DPOT_LEGS=<" ) );
