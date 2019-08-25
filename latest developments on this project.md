@@ -9,7 +9,7 @@
 
 In fact, this now works so well at 5VDC that the HX711 may not even be necessary!
 
-I'm investigating now into 3.3VDC operation.  The difference seems to be that the U6 dPot with the buffering resistor isn't changing settings at 3.3VDC when being told to, yet it works OK at 5VDC.
+I'm investigating now into 3.3VDC operation.  The difference seems to be that the U6 dPot with the buffering resistor isn't changing settings at 3.3VDC when being told to, yet it works just fine at 5VDC.
 
 <dl><dt>23 Aug 2019</dt></dl>I've fixed everything I broke an am now ready to proceed with placing U3 and SHLD1, which should be done as a single step without allowing any interruptions so that U3 is not left to absorb moisture from the humidity in the air.  Let me say that this project is very, very difficult to build...nearly impossible for me.
 
