@@ -1,7 +1,7 @@
 (export (version D)
   (design
     (source "/home/master/gwaamc training aid/New GWAAMC Training Aid/Main Board LM334 UL2004 UNO/uno shield/uno shield v.7 project SMD.sch")
-    (date "Sun 25 Aug 2019 12:17:39 AM CDT")
+    (date "Sun 25 Aug 2019 01:16:22 AM CDT")
     (tool "Eeschema 5.1.4-e60b266~84~ubuntu16.04.1")
     (sheet (number 1) (name /) (tstamps /)
       (title_block
@@ -360,12 +360,12 @@
       (sheetpath (names /) (tstamps /))
       (tstamp 5C9A2EF5))
     (comp (ref U7)
-      (value MCP4262-104E_UN)
+      (value MCP4262-503E/UN)
       (footprint Package_SO:MSOP-10_3x3mm_P0.5mm)
       (datasheet http://ww1.microchip.com/downloads/en/DeviceDoc/22059b.pdf)
       (fields
         (field (name ClickToSortForPlacement) "12 Check corner pads for adequate bare metal: ensure the solder mask of all corner pads is scraped off.  Place.  Temporary tack solder J2 with pin 5 only, J3 with pin 1, and J4 with pin 4 only.  Check for inadvertent shorts and opens.  ")
-        (field (name Part_number) MCP4262-104E/UN)
+        (field (name Part_number) MCP4262-503E/UN)
         (field (name Source) http://Arrow.com))
       (libsource (lib 2019-03-19_09-09-09) (part MCP4262-xxxE_UN) (description ""))
       (sheetpath (names /) (tstamps /))
