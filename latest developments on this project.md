@@ -5,7 +5,9 @@
 
 ![A 3D rendering of a populated board was supposed to show here](https://github.com/kenneth558/plant_resistance_primary_perception/blob/Free/Where%20to%20find%20everything%20for%20making%20your%20own%20GWAAMC%20device/front_straight-on_SHLD1_see-through_with_notes.png) Note that I make no money on you ordering from OSH Park so I can keep the price as low for you as possible.
 
- <dl><dt>23 Aug 2019</dt></dl>I've fixed everything I broke an am now ready to proceed with placing U3 and SHLD1, which should be done as a single step without allowing any interruptions so that U3 is not left to absorb moisture from the humidity in the air.  Let me say that this project is very, very difficult to build...nearly impossible for me.
+ <dl><dt>24 Aug 2019</dt></dl>The board works.  I've posted new gerbers at OSH Park to change some pin assignments that tended to cause confusion while running diagnostics, but the only differences between the newest board and the previous version are operationally inconsequential.  You may now buy PCB boards from wherever you want to  with assurance that the product works.
+
+<dl><dt>23 Aug 2019</dt></dl>I've fixed everything I broke an am now ready to proceed with placing U3 and SHLD1, which should be done as a single step without allowing any interruptions so that U3 is not left to absorb moisture from the humidity in the air.  Let me say that this project is very, very difficult to build...nearly impossible for me.
 
 <dl><dt>22 Aug 2019</dt></dl>I'm hopeful I found the last of the circuit problems...about half dozen broken traces and lifted pads and about twice that many solder joints that didnt take.
 
