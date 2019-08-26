@@ -1,1 +1,1 @@
-**Current Operational Status:** As of 24 Aug 2019, I have the newest circuitry working at 5VDC only.  I'm investigating into 3.3VDC operation.  Now the sketch needs to catch up with this new circuit, so I still have development to do.
+**Current Operational Status:** As of 25 Aug 2019, I have the newest circuitry working at both 3.3VDC and 5VDC. Now the sketch needs to catch up with this new circuit, so I still have development to do.
