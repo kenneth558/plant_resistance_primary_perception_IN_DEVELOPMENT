@@ -1,7 +1,7 @@
 (export (version D)
   (design
     (source "/home/master/gwaamc training aid/New GWAAMC Training Aid/Main Board LM334 UL2004 UNO/uno shield/uno shield v.7 project SMD.sch")
-    (date "Mon 26 Aug 2019 03:54:14 AM CDT")
+    (date "Mon 26 Aug 2019 04:07:04 AM CDT")
     (tool "Eeschema 5.1.4-e60b266~84~ubuntu16.04.1")
     (sheet (number 1) (name /) (tstamps /)
       (title_block
@@ -912,7 +912,7 @@
       (footprint Diode_SMD:D_SOD-123)
       (datasheet http://diotec.com/tl_files/diotec/files/pdf/datasheets/zpd1)
       (fields
-        (field (name ClickToSortForPlacement) "04 Place, being fully observant to ensure correct polarity, then check work as before.")
+        (field (name ClickToSortForPlacement) "04 NEEDED FOR REV 8 OF PCB, SEE SCHEMATIC. PROVIDES BETTER 5VDC POWER ISOLATION SINCE MANY USB CABLES GET LOOSE POWER CONNECTIONS.  Place, being fully observant to ensure correct polarity, then check work as before.")
         (field (name Part_number) MMSZ4683T1G)
         (field (name Source) http://Arrow.com))
       (libsource (lib Diode) (part MM3Zxx) (description "300mW Zener Diode, SOD-123F"))
@@ -923,7 +923,7 @@
       (footprint Resistor_SMD:R_0603_1608Metric)
       (datasheet ~)
       (fields
-        (field (name ClickToSortForPlacement) "14 Place then check work")
+        (field (name ClickToSortForPlacement) "14  PROTECTIVE - ONLY USED IN REV 8 OF PCB, SEE SCHEMATIC.  Place then check work")
         (field (name Part_number) RC0603JR-1310KL)
         (field (name Source) http://Arrow.com))
       (libsource (lib Device) (part R_Small_US) (description "Resistor, small US symbol"))
@@ -934,7 +934,7 @@
       (footprint Resistor_SMD:R_0603_1608Metric)
       (datasheet ~)
       (fields
-        (field (name ClickToSortForPlacement) "14 Place then check work")
+        (field (name ClickToSortForPlacement) "14  PROTECTIVE - ONLY USED IN REV 8 OF PCB, SEE SCHEMATIC.  Place then check work")
         (field (name Part_number) RC0603JR-1310KL)
         (field (name Source) http://Arrow.com))
       (libsource (lib Device) (part R_Small_US) (description "Resistor, small US symbol"))
