@@ -5,6 +5,8 @@
 
 ![A 3D rendering of a populated board was supposed to show here](https://github.com/kenneth558/plant_resistance_primary_perception/blob/Free/Where%20to%20find%20everything%20for%20making%20your%20own%20GWAAMC%20device/front_straight-on_SHLD1_see-through_with_notes.png) Note that I make no money on you ordering from OSH Park so I can keep the price as low for you as possible.
 
+<dl><dt>26 Aug 2019</dt></dl>I've decided that the USB cables that power this board contribute too much Vcc noise when they're worn from a lot of use, so a zener diode off U2 VREF is required.  Learning from performing the diags, I want to add a couple current limiting resistors, one each for U4 and U5. That means shifting board traces to make room where there seems to be no room...
+
 <dl><dt>24 Aug 2019</dt></dl>The board now works fully at 5VDC after cleaning specks and other contamination from the area around U6.  It is not fully stable at 3.3VDC when a transient overload condition occurs.   Investigating this...
 
  <dl><dt>24 Aug 2019</dt></dl>The board works at 5VDC only.  I've posted new gerbers at OSH Park to change some pin assignments that tended to cause confusion while running diagnostics, but any differences between the newest board and the previous version are operationally inconsequential.  You may now buy PCB boards from wherever you want to  with assurance that the product works at 5VDC.  
