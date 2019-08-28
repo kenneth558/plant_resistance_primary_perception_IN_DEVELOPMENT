@@ -4,12 +4,11 @@ Kapton tape (Polyimide) WILL be needed.  It doesn't get into the BOM because it 
 
 38ga magnet wire for U8+ and for trace repairs.  P/N 3522 from Arrow or equivalent
 
-Soldering Colophony (pine or gum rosin) flux (can make yourself to save $) and solder wick P/N TOL-09327 from Arrow or equivalent
+The best solder will always be "No Heat SAC305" if you can find it, but you still MUST cleanse gold from pads.
+Avoid Pb (leaded) solder unless you understand the behavior of eutectics, how Pb ruins other solders, and how gold from ENIG ruins it.
+Solder wick P/N TOL-09327 from Arrow or equivalent
+Soldering colophony (pine or gum ROSIN - NOT with zinc or ammonium chloride) flux (can make it yourself)
 
 Multi-conductor flat cable hookup wire
 
-Carbon fiber tow, non-impregnated with a gold-plated connector per electrode (we have no source, yet)
-
-Avoid Pb (leaded) solder unless you understand the chemistry of eutectics, how it ruins other solders, and how gold from ENIG ruins it.
-
-The best solder will always be "No Heat SAC305" if you can find it, but even then you still MUST cleanse gold from pads if you bought ENIG boards.
+Carbon fiber tow, non-impregnated with a gold-plated connector per electrode (our source is www.cfamills.com, David Shippee, Executive Director of Sales, P.O. Box 609, 105 Pierpoint Lane, Taylorsville, NC  28681, 828.855.5137  Mobile, 828.632.5220  Office )
