@@ -22,11 +22,13 @@ If you try to use solid solder with Kapton tape holding things together instead 
 In summary, I recommend bismuth paste solder for components with more than two leads and as long as you realize you need to get it hotter while cleansing new plating.   When I build a board _without_ paste or cream solder, I'll expect two solder attempts.  The first is with 97% tin, 3% silver solid solder (especially on two leaded components) and the second pass is spot soldering with bismuth solder of any kind after microscopic inspection of all joints.  I will diligently avoid having Pb solders in the area whenever I have any hopes to use bismuth solders, ever.  I will avoid tinning the through plating of PTH (Plated Through Holes), but will tin those annular rings with bismuth solder.
 
 NEW! Found this solder type mentioned that may obsolete the above paragraph:
-"SAC305 is pretty much the best thing since the invention of the banana, and will reliably bond anything to anything"  source: https://hackaday.com/2017/05/10/designing-for-fab-a-heads-up-before-designing-pcbs-for-professional-assembly/#comments
+"SAC305 is pretty much the best thing since the invention of the banana, and will reliably bond anything to anything"  source: https://hackaday.com/2017/05/10/designing-for-fab-a-heads-up-before-designing-pcbs-for-professional-assembly/#comments.  Upon further investigation, this solder is high-temp, just so you know.
 
 For anyone searching sites that give soldering tips, be aware that most boards are single side components while this project provides the design for components on both sides.  So remember that you'll be soldering components to the second side while the first side's components must not fall off from getting their solder re-flowed.  Decide how you'll keep that first side cool while soldering the second side.
 
 Electrodes are vaporware as of yet: I'm hoping to use non-impregnated carbon fiber tow, not the prepreg tow.  The carbon fiber must establish its electrical connection to the circuit via gold plated contact or else corrosion will ensue.  Alternatives to gold are few and more rare.
+
+Hours of my development time has been wasted because I had no solder wick left.  Do yourself a favor and make sure to have solder wick available.
 
 Link to BOM: https://github.com/kenneth558/plant_resistance_primary_perception/blob/Free/BOM%20PCB%20Ordering%20links.md
 
