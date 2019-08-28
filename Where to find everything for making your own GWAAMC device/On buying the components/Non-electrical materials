@@ -11,4 +11,5 @@ Multi-conductor flat cable hookup wire
 Carbon fiber tow, non-impregnated with a gold-plated connector per electrode (we have no source, yet)
 
 Avoid Pb (leaded) solder unless you understand the chemistry of eutectics, how it ruins other solders, and how gold from ENIG ruins it.
-The best solder will always be "No Heat SAC305" if you can find it, but you still MUST cleanse gold from pads.
+
+The best solder will always be "No Heat SAC305" if you can find it, but even then you still MUST cleanse gold from pads if you bought ENIG boards.
