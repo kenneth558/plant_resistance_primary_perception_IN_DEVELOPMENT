@@ -30,6 +30,6 @@ Electrodes are vaporware as of yet: I'm hoping to use non-impregnated carbon fib
 
 Hours of my development time has been wasted because I had no solder wick left.  Do yourself a favor and make sure to have solder wick available.
 
-Link to BOM: https://github.com/kenneth558/plant_resistance_primary_perception/blob/Free/BOM%20PCB%20Ordering%20links.md
+Link to BOM: https://github.com/kenneth558/plant_resistance_primary_perception/blob/Free/Where%20to%20find%20everything%20for%20making%20your%20own%20GWAAMC%20device/On%20buying%20the%20components/BOM%20PCB%20Ordering%20links.md
 
 NOTE IF 3.3V OPERATION IS DESIRED:  Pin 5 of J2 will have to be omitted and the pad of the adjacent pin 4 J2 will have to be shorted over to the pad of that pin 5.  I neglected to leave room for the jumper to do this.  Sorry!   Only do this when pin 2 of ICSP1 from the MCU is also providing +3.3V!!!!
