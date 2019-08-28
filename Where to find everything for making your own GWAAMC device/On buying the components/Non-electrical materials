@@ -1,9 +1,14 @@
-Kapton tape WILL be needed.  It doesn't get into the BOM because it is not a circuit component.  If you want to laser cut stencils from it, get 2" wide and 6" long minimum plus what you'll need for place assist holding tape (3/8" wide, 6' long)
+Kapton tape (Polyimide) WILL be needed.  It doesn't get into the BOM because it is not a circuit component.  If you want to laser cut stencils from it, get 2" wide and 6" long minimum plus what you'll need for place assist holding tape (3/8" wide, 6' long)
 
-1 roll Polyimide tape 3/8" wide 6' length or greater.  Electrical insulator and place assist.  P/N 3057 from Arrow or equivalent
+1 roll Polyimide tape 3/8" wide 6' length or greater.  Use as electrical insulator and place assist. P/N 3057 from Arrow or equivalent
 
-Electrodes have to be constructed from non-prepreg carbon fiber tow "yarn" (good luck finding any, you may just have to use prepreg, but don't get "spread" tow) as the electrode elements, women's nylon stocking, craft-rated styrofoam "beans" that go inside the stockings, lightweight wooden paddles as backing for the nylon stocking bean bags that press against the plant leaves, gold-plated pins to contact the carbon fiber, and some type of hinging mechanism for the paddles if you want, and a 1/8" jack and the wiring and soldering to electrically attach the gold pin into the jack.
+38ga magnet wire for U8+ and for trace repairs.  P/N 3522 from Arrow or equivalent
 
-Solder wick
+Soldering Colophony (pine or gum rosin) flux (can make yourself to save $) and solder wick P/N TOL-09327 from Arrow or equivalent
 
-No-Heat SAC305, if you can find some.
+Multi-conductor flat cable hookup wire
+
+Carbon fiber tow, non-impregnated with a gold-plated connector per electrode (we have no source, yet)
+
+Avoid Pb (leaded) solder unless you understand the chemistry of eutectics, how it ruins other solders, and how gold from ENIG ruins it.
+The best solder will always be "No Heat SAC305" if you can find it, but you still MUST cleanse gold from pads.
