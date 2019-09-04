@@ -4,7 +4,7 @@ Kapton tape (Polyimide) WILL be needed.  It doesn't get into the BOM because it 
 
 38ga magnet wire for U8+ and for trace repairs.  P/N 3522 from Arrow or equivalent
 
-The best solder will always be "No Heat SAC305" if you can find it, but you still MUST cleanse gold from pads.
+The best solder will always be "No Heat SAC305" if you can find it, but you still MUST cleanse gold from pads.  As far as I know, that requires heat.
 Avoid Pb (leaded) solder unless you understand the behavior of eutectics, how Pb ruins other solders, and how gold from ENIG ruins it.
 Solder wick P/N TOL-09327 from Arrow or equivalent
 Soldering colophony (pine or gum ROSIN - NOT with zinc or ammonium chloride) flux (can make it yourself)
