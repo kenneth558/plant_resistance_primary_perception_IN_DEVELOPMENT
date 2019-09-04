@@ -7,7 +7,7 @@
  4. Devices require bake before mounting if:
    a) Humidity indicator card reads >10%
    b) When 3a or 3b are not met
- 5. If baking is required, refer to IPC/JEDEC J-STD-033, Level 3 MSL components and peak body temp 260°C, for bake procedure.
+ 5. If baking is required, refer to IPC/JEDEC J-STD-033 (Level 3 MSL components, 1.75mm thickness, peak body temp 260°C) for the prescribed bake procedure.
 
 #### The dessicant package you receive with U3 and won't be able to see until the moment you need to place it will likely be too large to place inside SHLD1 where it eventually needs be placed.  You will be wise, therefore, to keep your eyes open for a smaller dissicant package that you can repurpose from some other product that will fit inside the SHLD1 lid.  Bake it for most of a day in an electric oven at a temperature near the boiling point of water, then keep it dry (hermetically sealed) until you go to place it.
 
