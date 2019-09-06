@@ -1,7 +1,7 @@
 (export (version D)
   (design
     (source "/home/master/gwaamc training aid/New GWAAMC Training Aid/Main Board LM334 UL2004 UNO/uno shield/uno shield v.8 project SMD.sch")
-    (date "Fri 06 Sep 2019 01:42:57 AM CDT")
+    (date "Fri 06 Sep 2019 04:05:38 AM CDT")
     (tool "Eeschema 5.1.4-e60b266~84~ubuntu16.04.1")
     (sheet (number 1) (name /) (tstamps /)
       (title_block
@@ -877,7 +877,7 @@
       (footprint Package_SO:MSOP-10_3x3mm_P0.5mm)
       (datasheet http://ww1.microchip.com/downloads/en/DeviceDoc/22059b.pdf)
       (fields
-        (field (name ClickToSortForPlacement) "15 NOT ACCOMMODATED ON BOARD REV 7 AND BELOW: PATCHING IN REQUIRES PARALLELING ALL PINS EXCEPT 9 WITH 32 GA WIRES OR SMALLER.  Using flex board, check corner pads for adequate bare metal: ensure the solder mask of all corner pads is scraped off.  Place, then check work for inadvertent shorts and opens")
+        (field (name ClickToSortForPlacement) "15 NOT WELL ACCOMMODATED ON BOARD REV 7 AND BELOW: PATCHING IN WOULD REQUIRE PARALLELING ALL PINS EXCEPT 9 WITH 32 GA WIRES OR SMALLER.  With Rev 8 flex board, check corner pads for adequate bare metal: ensure the solder mask of all corner pads is scraped off.  Place, then check work for inadvertent shorts and opens")
         (field (name Part_number) MCP4262-502E/UN-ND)
         (field (name PlacementOrder) 01)
         (field (name SortForPlacement) 01)
@@ -890,7 +890,7 @@
       (footprint Package_SO:MSOP-10_3x3mm_P0.5mm)
       (datasheet http://ww1.microchip.com/downloads/en/DeviceDoc/22059b.pdf)
       (fields
-        (field (name ClickToSortForPlacement) "15 NOT ACCOMMODATED ON BOARD REV 7 AND BELOW: PATCHING IN REQUIRES PARALLELING ALL PINS EXCEPT 9 WITH 32 GA WIRES OR SMALLER.  Using flex board, check corner pads for adequate bare metal: ensure the solder mask of all corner pads is scraped off.  Place, then check work for inadvertent shorts and opens")
+        (field (name ClickToSortForPlacement) "15 NOT WELL ACCOMMODATED ON BOARD REV 7 AND BELOW: PATCHING IN WOULD REQUIRE PARALLELING ALL PINS EXCEPT 9 WITH 32 GA WIRES OR SMALLER.  With Rev 8 flex board, check corner pads for adequate bare metal: ensure the solder mask of all corner pads is scraped off.  Place, then check work for inadvertent shorts and opens")
         (field (name Part_number) MCP4262-502E/UN-ND)
         (field (name PlacementOrder) 01)
         (field (name SortForPlacement) 01)
@@ -903,7 +903,7 @@
       (footprint Package_SO:MSOP-10_3x3mm_P0.5mm)
       (datasheet http://ww1.microchip.com/downloads/en/DeviceDoc/22059b.pdf)
       (fields
-        (field (name ClickToSortForPlacement) "15 NOT ACCOMMODATED ON BOARD REV 7 AND BELOW: PATCHING IN REQUIRES PARALLELING ALL PINS EXCEPT 9 WITH 32 GA WIRES OR SMALLER.  Using flex board, check corner pads for adequate bare metal: ensure the solder mask of all corner pads is scraped off.  Place, then check work for inadvertent shorts and opens")
+        (field (name ClickToSortForPlacement) "15 NOT WELL ACCOMMODATED ON BOARD REV 7 AND BELOW: PATCHING IN WOULD REQUIRE PARALLELING ALL PINS EXCEPT 9 WITH 32 GA WIRES OR SMALLER.  With Rev 8 flex board, check corner pads for adequate bare metal: ensure the solder mask of all corner pads is scraped off.  Place, then check work for inadvertent shorts and opens")
         (field (name Part_number) MCP4262-502E/UN-ND)
         (field (name PlacementOrder) 01)
         (field (name SortForPlacement) 01)
@@ -916,7 +916,7 @@
       (footprint Package_SO:MSOP-10_3x3mm_P0.5mm)
       (datasheet http://ww1.microchip.com/downloads/en/DeviceDoc/22059b.pdf)
       (fields
-        (field (name ClickToSortForPlacement) "15 NOT ACCOMMODATED ON BOARD REV 7 AND BELOW: PATCHING IN REQUIRES PARALLELING ALL PINS EXCEPT 9 WITH 32 GA WIRES OR SMALLER.  Using flex board, check corner pads for adequate bare metal: ensure the solder mask of all corner pads is scraped off.  Place, then check work for inadvertent shorts and opens")
+        (field (name ClickToSortForPlacement) "15 NOT WELL ACCOMMODATED ON BOARD REV 7 AND BELOW: PATCHING IN WOULD REQUIRE PARALLELING ALL PINS EXCEPT 9 WITH 32 GA WIRES OR SMALLER.  With Rev 8 flex board, check corner pads for adequate bare metal: ensure the solder mask of all corner pads is scraped off.  Place, then check work for inadvertent shorts and opens")
         (field (name Part_number) MCP4262-502E/UN-ND)
         (field (name PlacementOrder) 01)
         (field (name SortForPlacement) 01)
@@ -929,7 +929,7 @@
       (footprint Package_SO:MSOP-10_3x3mm_P0.5mm)
       (datasheet http://ww1.microchip.com/downloads/en/DeviceDoc/22059b.pdf)
       (fields
-        (field (name ClickToSortForPlacement) "15 NOT ACCOMMODATED ON BOARD REV 7 AND BELOW: PATCHING IN REQUIRES PARALLELING ALL PINS EXCEPT 9 WITH 32 GA WIRES OR SMALLER.  Using flex board, check corner pads for adequate bare metal: ensure the solder mask of all corner pads is scraped off.  Place, then check work for inadvertent shorts and opens")
+        (field (name ClickToSortForPlacement) "15 NOT WELL ACCOMMODATED ON BOARD REV 7 AND BELOW: PATCHING IN WOULD REQUIRE PARALLELING ALL PINS EXCEPT 9 WITH 32 GA WIRES OR SMALLER.  With Rev 8 flex board, check corner pads for adequate bare metal: ensure the solder mask of all corner pads is scraped off.  Place, then check work for inadvertent shorts and opens")
         (field (name Part_number) MCP4262-502E/UN-ND)
         (field (name PlacementOrder) 01)
         (field (name SortForPlacement) 01)
@@ -942,7 +942,7 @@
       (footprint Package_SO:MSOP-10_3x3mm_P0.5mm)
       (datasheet http://ww1.microchip.com/downloads/en/DeviceDoc/22059b.pdf)
       (fields
-        (field (name ClickToSortForPlacement) "15 NOT ACCOMMODATED ON BOARD REV 7 AND BELOW: PATCHING IN REQUIRES PARALLELING ALL PINS EXCEPT 9 WITH 32 GA WIRES OR SMALLER.  Using flex board, check corner pads for adequate bare metal: ensure the solder mask of all corner pads is scraped off.  Place, then check work for inadvertent shorts and opens")
+        (field (name ClickToSortForPlacement) "15 NOT WELL ACCOMMODATED ON BOARD REV 7 AND BELOW: PATCHING IN WOULD REQUIRE PARALLELING ALL PINS EXCEPT 9 WITH 32 GA WIRES OR SMALLER.  With Rev 8 flex board, check corner pads for adequate bare metal: ensure the solder mask of all corner pads is scraped off.  Place, then check work for inadvertent shorts and opens")
         (field (name Part_number) MCP4262-502E/UN-ND)
         (field (name PlacementOrder) 01)
         (field (name SortForPlacement) 01)
@@ -966,7 +966,7 @@
       (footprint Package_SO:MSOP-10_3x3mm_P0.5mm)
       (datasheet http://ww1.microchip.com/downloads/en/DeviceDoc/22059b.pdf)
       (fields
-        (field (name ClickToSortForPlacement) "15 NOT ACCOMMODATED ON BOARD REV 7 AND BELOW: PATCHING IN REQUIRES PARALLELING ALL PINS EXCEPT 9 WITH 32 GA WIRES OR SMALLER.  Using flex board, check corner pads for adequate bare metal: ensure the solder mask of all corner pads is scraped off.  Place, then check work for inadvertent shorts and opens")
+        (field (name ClickToSortForPlacement) "15 NOT WELL ACCOMMODATED ON BOARD REV 7 AND BELOW: PATCHING IN WOULD REQUIRE PARALLELING ALL PINS EXCEPT 9 WITH 32 GA WIRES OR SMALLER.  With Rev 8 flex board, check corner pads for adequate bare metal: ensure the solder mask of all corner pads is scraped off.  Place, then check work for inadvertent shorts and opens")
         (field (name Part_number) MCP4262-502E/UN-ND)
         (field (name PlacementOrder) 01)
         (field (name SortForPlacement) 01)
@@ -979,7 +979,7 @@
       (footprint Package_SO:MSOP-10_3x3mm_P0.5mm)
       (datasheet http://ww1.microchip.com/downloads/en/DeviceDoc/22059b.pdf)
       (fields
-        (field (name ClickToSortForPlacement) "15 NOT ACCOMMODATED ON BOARD REV 7 AND BELOW: PATCHING IN REQUIRES PARALLELING ALL PINS EXCEPT 9 WITH 32 GA WIRES OR SMALLER.  Using flex board, check corner pads for adequate bare metal: ensure the solder mask of all corner pads is scraped off.  Place, then check work for inadvertent shorts and opens")
+        (field (name ClickToSortForPlacement) "15 NOT WELL ACCOMMODATED ON BOARD REV 7 AND BELOW: PATCHING IN WOULD REQUIRE PARALLELING ALL PINS EXCEPT 9 WITH 32 GA WIRES OR SMALLER.  With Rev 8 flex board, check corner pads for adequate bare metal: ensure the solder mask of all corner pads is scraped off.  Place, then check work for inadvertent shorts and opens")
         (field (name Part_number) MCP4262-502E/UN-ND)
         (field (name PlacementOrder) 01)
         (field (name SortForPlacement) 01)
@@ -992,7 +992,7 @@
       (footprint Package_SO:MSOP-10_3x3mm_P0.5mm)
       (datasheet http://ww1.microchip.com/downloads/en/DeviceDoc/22059b.pdf)
       (fields
-        (field (name ClickToSortForPlacement) "15 NOT ACCOMMODATED ON BOARD REV 7 AND BELOW: PATCHING IN REQUIRES PARALLELING ALL PINS EXCEPT 9 WITH 32 GA WIRES OR SMALLER.  Using flex board, check corner pads for adequate bare metal: ensure the solder mask of all corner pads is scraped off.  Place, then check work for inadvertent shorts and opens")
+        (field (name ClickToSortForPlacement) "15 NOT WELL ACCOMMODATED ON BOARD REV 7 AND BELOW: PATCHING IN WOULD REQUIRE PARALLELING ALL PINS EXCEPT 9 WITH 32 GA WIRES OR SMALLER.  With Rev 8 flex board, check corner pads for adequate bare metal: ensure the solder mask of all corner pads is scraped off.  Place, then check work for inadvertent shorts and opens")
         (field (name Part_number) MCP4262-502E/UN-ND)
         (field (name PlacementOrder) 01)
         (field (name SortForPlacement) 01)
@@ -1005,7 +1005,7 @@
       (footprint Package_SO:MSOP-10_3x3mm_P0.5mm)
       (datasheet http://ww1.microchip.com/downloads/en/DeviceDoc/22059b.pdf)
       (fields
-        (field (name ClickToSortForPlacement) "15 NOT ACCOMMODATED ON BOARD REV 7 AND BELOW: PATCHING IN REQUIRES PARALLELING ALL PINS EXCEPT 9 WITH 32 GA WIRES OR SMALLER.  Using flex board, check corner pads for adequate bare metal: ensure the solder mask of all corner pads is scraped off.  Place, then check work for inadvertent shorts and opens")
+        (field (name ClickToSortForPlacement) "15 NOT WELL ACCOMMODATED ON BOARD REV 7 AND BELOW: PATCHING IN WOULD REQUIRE PARALLELING ALL PINS EXCEPT 9 WITH 32 GA WIRES OR SMALLER.  With Rev 8 flex board, check corner pads for adequate bare metal: ensure the solder mask of all corner pads is scraped off.  Place, then check work for inadvertent shorts and opens")
         (field (name Part_number) MCP4262-502E/UN-ND)
         (field (name PlacementOrder) 01)
         (field (name SortForPlacement) 01)
@@ -1018,7 +1018,7 @@
       (footprint Package_SO:MSOP-10_3x3mm_P0.5mm)
       (datasheet http://ww1.microchip.com/downloads/en/DeviceDoc/22059b.pdf)
       (fields
-        (field (name ClickToSortForPlacement) "15 NOT ACCOMMODATED ON BOARD REV 7 AND BELOW: PATCHING IN REQUIRES PARALLELING ALL PINS EXCEPT 9 WITH 32 GA WIRES OR SMALLER.  Using flex board, check corner pads for adequate bare metal: ensure the solder mask of all corner pads is scraped off.  Place, then check work for inadvertent shorts and opens")
+        (field (name ClickToSortForPlacement) "15 NOT WELL ACCOMMODATED ON BOARD REV 7 AND BELOW: PATCHING IN WOULD REQUIRE PARALLELING ALL PINS EXCEPT 9 WITH 32 GA WIRES OR SMALLER.  With Rev 8 flex board, check corner pads for adequate bare metal: ensure the solder mask of all corner pads is scraped off.  Place, then check work for inadvertent shorts and opens")
         (field (name Part_number) MCP4262-502E/UN-ND)
         (field (name PlacementOrder) 01)
         (field (name SortForPlacement) 01)
@@ -1031,7 +1031,7 @@
       (footprint Package_SO:MSOP-10_3x3mm_P0.5mm)
       (datasheet http://ww1.microchip.com/downloads/en/DeviceDoc/22059b.pdf)
       (fields
-        (field (name ClickToSortForPlacement) "15 NOT ACCOMMODATED ON BOARD REV 7 AND BELOW: PATCHING IN REQUIRES PARALLELING ALL PINS EXCEPT 9 WITH 32 GA WIRES OR SMALLER.  Using flex board, check corner pads for adequate bare metal: ensure the solder mask of all corner pads is scraped off.  Place, then check work for inadvertent shorts and opens")
+        (field (name ClickToSortForPlacement) "15 NOT WELL ACCOMMODATED ON BOARD REV 7 AND BELOW: PATCHING IN WOULD REQUIRE PARALLELING ALL PINS EXCEPT 9 WITH 32 GA WIRES OR SMALLER.  With Rev 8 flex board, check corner pads for adequate bare metal: ensure the solder mask of all corner pads is scraped off.  Place, then check work for inadvertent shorts and opens")
         (field (name Part_number) MCP4262-502E/UN-ND)
         (field (name PlacementOrder) 01)
         (field (name SortForPlacement) 01)
@@ -1044,7 +1044,7 @@
       (footprint Package_SO:MSOP-10_3x3mm_P0.5mm)
       (datasheet http://ww1.microchip.com/downloads/en/DeviceDoc/22059b.pdf)
       (fields
-        (field (name ClickToSortForPlacement) "15 NOT ACCOMMODATED ON BOARD REV 7 AND BELOW: PATCHING IN REQUIRES PARALLELING ALL PINS EXCEPT 9 WITH 32 GA WIRES OR SMALLER.  Using flex board, check corner pads for adequate bare metal: ensure the solder mask of all corner pads is scraped off.  Place, then check work for inadvertent shorts and opens")
+        (field (name ClickToSortForPlacement) "15 NOT WELL ACCOMMODATED ON BOARD REV 7 AND BELOW: PATCHING IN WOULD REQUIRE PARALLELING ALL PINS EXCEPT 9 WITH 32 GA WIRES OR SMALLER.  With Rev 8 flex board, check corner pads for adequate bare metal: ensure the solder mask of all corner pads is scraped off.  Place, then check work for inadvertent shorts and opens")
         (field (name Part_number) MCP4262-502E/UN-ND)
         (field (name PlacementOrder) 01)
         (field (name SortForPlacement) 01)
@@ -1057,7 +1057,7 @@
       (footprint Package_SO:MSOP-10_3x3mm_P0.5mm)
       (datasheet http://ww1.microchip.com/downloads/en/DeviceDoc/22059b.pdf)
       (fields
-        (field (name ClickToSortForPlacement) "15 NOT ACCOMMODATED ON BOARD REV 7 AND BELOW: PATCHING IN REQUIRES PARALLELING ALL PINS EXCEPT 9 WITH 32 GA WIRES OR SMALLER.  Using flex board, check corner pads for adequate bare metal: ensure the solder mask of all corner pads is scraped off.  Place, then check work for inadvertent shorts and opens")
+        (field (name ClickToSortForPlacement) "15 NOT WELL ACCOMMODATED ON BOARD REV 7 AND BELOW: PATCHING IN WOULD REQUIRE PARALLELING ALL PINS EXCEPT 9 WITH 32 GA WIRES OR SMALLER.  With Rev 8 flex board, check corner pads for adequate bare metal: ensure the solder mask of all corner pads is scraped off.  Place, then check work for inadvertent shorts and opens")
         (field (name Part_number) MCP4262-502E/UN-ND)
         (field (name PlacementOrder) 01)
         (field (name SortForPlacement) 01)
@@ -1070,7 +1070,7 @@
       (footprint Package_SO:MSOP-10_3x3mm_P0.5mm)
       (datasheet http://ww1.microchip.com/downloads/en/DeviceDoc/22059b.pdf)
       (fields
-        (field (name ClickToSortForPlacement) "15 NOT ACCOMMODATED ON BOARD REV 7 AND BELOW: PATCHING IN REQUIRES PARALLELING ALL PINS EXCEPT 9 WITH 32 GA WIRES OR SMALLER.  Using flex board, check corner pads for adequate bare metal: ensure the solder mask of all corner pads is scraped off.  Place, then check work for inadvertent shorts and opens")
+        (field (name ClickToSortForPlacement) "15 NOT WELL ACCOMMODATED ON BOARD REV 7 AND BELOW: PATCHING IN WOULD REQUIRE PARALLELING ALL PINS EXCEPT 9 WITH 32 GA WIRES OR SMALLER.  With Rev 8 flex board, check corner pads for adequate bare metal: ensure the solder mask of all corner pads is scraped off.  Place, then check work for inadvertent shorts and opens")
         (field (name Part_number) MCP4262-502E/UN-ND)
         (field (name PlacementOrder) 01)
         (field (name SortForPlacement) 01)
@@ -1083,7 +1083,7 @@
       (footprint Package_SO:MSOP-10_3x3mm_P0.5mm)
       (datasheet http://ww1.microchip.com/downloads/en/DeviceDoc/22059b.pdf)
       (fields
-        (field (name ClickToSortForPlacement) "15 NOT ACCOMMODATED ON BOARD REV 7 AND BELOW: PATCHING IN REQUIRES PARALLELING ALL PINS EXCEPT 9 WITH 32 GA WIRES OR SMALLER.  Using flex board, check corner pads for adequate bare metal: ensure the solder mask of all corner pads is scraped off.  Place, then check work for inadvertent shorts and opens")
+        (field (name ClickToSortForPlacement) "15 NOT WELL ACCOMMODATED ON BOARD REV 7 AND BELOW: PATCHING IN WOULD REQUIRE PARALLELING ALL PINS EXCEPT 9 WITH 32 GA WIRES OR SMALLER.  With Rev 8 flex board, check corner pads for adequate bare metal: ensure the solder mask of all corner pads is scraped off.  Place, then check work for inadvertent shorts and opens")
         (field (name Part_number) MCP4262-502E/UN-ND)
         (field (name PlacementOrder) 01)
         (field (name SortForPlacement) 01)
@@ -1096,7 +1096,7 @@
       (footprint Package_SO:MSOP-10_3x3mm_P0.5mm)
       (datasheet http://ww1.microchip.com/downloads/en/DeviceDoc/22059b.pdf)
       (fields
-        (field (name ClickToSortForPlacement) "15 NOT ACCOMMODATED ON BOARD REV 7 AND BELOW: PATCHING IN REQUIRES PARALLELING ALL PINS EXCEPT 9 WITH 32 GA WIRES OR SMALLER.  Using flex board, check corner pads for adequate bare metal: ensure the solder mask of all corner pads is scraped off.  Place, then check work for inadvertent shorts and opens")
+        (field (name ClickToSortForPlacement) "15 NOT WELL ACCOMMODATED ON BOARD REV 7 AND BELOW: PATCHING IN WOULD REQUIRE PARALLELING ALL PINS EXCEPT 9 WITH 32 GA WIRES OR SMALLER.  With Rev 8 flex board, check corner pads for adequate bare metal: ensure the solder mask of all corner pads is scraped off.  Place, then check work for inadvertent shorts and opens")
         (field (name Part_number) MCP4262-502E/UN-ND)
         (field (name PlacementOrder) 01)
         (field (name SortForPlacement) 01)
@@ -1109,7 +1109,7 @@
       (footprint Package_SO:MSOP-10_3x3mm_P0.5mm)
       (datasheet http://ww1.microchip.com/downloads/en/DeviceDoc/22059b.pdf)
       (fields
-        (field (name ClickToSortForPlacement) "15 NOT ACCOMMODATED ON BOARD REV 7 AND BELOW: PATCHING IN REQUIRES PARALLELING ALL PINS EXCEPT 9 WITH 32 GA WIRES OR SMALLER.  Using flex board, check corner pads for adequate bare metal: ensure the solder mask of all corner pads is scraped off.  Place, then check work for inadvertent shorts and opens")
+        (field (name ClickToSortForPlacement) "15 NOT WELL ACCOMMODATED ON BOARD REV 7 AND BELOW: PATCHING IN WOULD REQUIRE PARALLELING ALL PINS EXCEPT 9 WITH 32 GA WIRES OR SMALLER.  With Rev 8 flex board, check corner pads for adequate bare metal: ensure the solder mask of all corner pads is scraped off.  Place, then check work for inadvertent shorts and opens")
         (field (name Part_number) MCP4262-502E/UN-ND)
         (field (name PlacementOrder) 01)
         (field (name SortForPlacement) 01)
@@ -1122,7 +1122,7 @@
       (footprint Package_SO:MSOP-10_3x3mm_P0.5mm)
       (datasheet http://ww1.microchip.com/downloads/en/DeviceDoc/22059b.pdf)
       (fields
-        (field (name ClickToSortForPlacement) "15 NOT ACCOMMODATED ON BOARD REV 7 AND BELOW: PATCHING IN REQUIRES PARALLELING ALL PINS EXCEPT 9 WITH 32 GA WIRES OR SMALLER.  Using flex board, check corner pads for adequate bare metal: ensure the solder mask of all corner pads is scraped off.  Place, then check work for inadvertent shorts and opens")
+        (field (name ClickToSortForPlacement) "15 NOT WELL ACCOMMODATED ON BOARD REV 7 AND BELOW: PATCHING IN WOULD REQUIRE PARALLELING ALL PINS EXCEPT 9 WITH 32 GA WIRES OR SMALLER.  With Rev 8 flex board, check corner pads for adequate bare metal: ensure the solder mask of all corner pads is scraped off.  Place, then check work for inadvertent shorts and opens")
         (field (name Part_number) MCP4262-502E/UN-ND)
         (field (name PlacementOrder) 01)
         (field (name SortForPlacement) 01)
@@ -1135,7 +1135,7 @@
       (footprint Package_SO:MSOP-10_3x3mm_P0.5mm)
       (datasheet http://ww1.microchip.com/downloads/en/DeviceDoc/22059b.pdf)
       (fields
-        (field (name ClickToSortForPlacement) "15 NOT ACCOMMODATED ON BOARD REV 7 AND BELOW: PATCHING IN REQUIRES PARALLELING ALL PINS EXCEPT 9 WITH 32 GA WIRES OR SMALLER.  Using flex board, check corner pads for adequate bare metal: ensure the solder mask of all corner pads is scraped off.  Place, then check work for inadvertent shorts and opens")
+        (field (name ClickToSortForPlacement) "15 NOT WELL ACCOMMODATED ON BOARD REV 7 AND BELOW: PATCHING IN WOULD REQUIRE PARALLELING ALL PINS EXCEPT 9 WITH 32 GA WIRES OR SMALLER.  With Rev 8 flex board, check corner pads for adequate bare metal: ensure the solder mask of all corner pads is scraped off.  Place, then check work for inadvertent shorts and opens")
         (field (name Part_number) MCP4262-502E/UN-ND)
         (field (name PlacementOrder) 01)
         (field (name SortForPlacement) 01)
@@ -1148,7 +1148,7 @@
       (footprint Package_SO:MSOP-10_3x3mm_P0.5mm)
       (datasheet http://ww1.microchip.com/downloads/en/DeviceDoc/22059b.pdf)
       (fields
-        (field (name ClickToSortForPlacement) "15 NOT ACCOMMODATED ON BOARD REV 7 AND BELOW: PATCHING IN REQUIRES PARALLELING ALL PINS EXCEPT 9 WITH 32 GA WIRES OR SMALLER.  Using flex board, check corner pads for adequate bare metal: ensure the solder mask of all corner pads is scraped off.  Place, then check work for inadvertent shorts and opens")
+        (field (name ClickToSortForPlacement) "15 NOT WELL ACCOMMODATED ON BOARD REV 7 AND BELOW: PATCHING IN WOULD REQUIRE PARALLELING ALL PINS EXCEPT 9 WITH 32 GA WIRES OR SMALLER.  With Rev 8 flex board, check corner pads for adequate bare metal: ensure the solder mask of all corner pads is scraped off.  Place, then check work for inadvertent shorts and opens")
         (field (name Part_number) MCP4262-502E/UN-ND)
         (field (name PlacementOrder) 01)
         (field (name SortForPlacement) 01)
@@ -1161,7 +1161,7 @@
       (footprint Package_SO:MSOP-10_3x3mm_P0.5mm)
       (datasheet http://ww1.microchip.com/downloads/en/DeviceDoc/22059b.pdf)
       (fields
-        (field (name ClickToSortForPlacement) "15 NOT ACCOMMODATED ON BOARD REV 7 AND BELOW: PATCHING IN REQUIRES PARALLELING ALL PINS EXCEPT 9 WITH 32 GA WIRES OR SMALLER.  Using flex board, check corner pads for adequate bare metal: ensure the solder mask of all corner pads is scraped off.  Place, then check work for inadvertent shorts and opens")
+        (field (name ClickToSortForPlacement) "15 NOT WELL ACCOMMODATED ON BOARD REV 7 AND BELOW: PATCHING IN WOULD REQUIRE PARALLELING ALL PINS EXCEPT 9 WITH 32 GA WIRES OR SMALLER.  With Rev 8 flex board, check corner pads for adequate bare metal: ensure the solder mask of all corner pads is scraped off.  Place, then check work for inadvertent shorts and opens")
         (field (name Part_number) MCP4262-502E/UN-ND)
         (field (name PlacementOrder) 01)
         (field (name SortForPlacement) 01)
@@ -1174,7 +1174,7 @@
       (footprint Package_SO:MSOP-10_3x3mm_P0.5mm)
       (datasheet http://ww1.microchip.com/downloads/en/DeviceDoc/22059b.pdf)
       (fields
-        (field (name ClickToSortForPlacement) "15 NOT ACCOMMODATED ON BOARD REV 7 AND BELOW: PATCHING IN REQUIRES PARALLELING ALL PINS EXCEPT 9 WITH 32 GA WIRES OR SMALLER.  Using flex board, check corner pads for adequate bare metal: ensure the solder mask of all corner pads is scraped off.  Place, then check work for inadvertent shorts and opens")
+        (field (name ClickToSortForPlacement) "15 NOT WELL ACCOMMODATED ON BOARD REV 7 AND BELOW: PATCHING IN WOULD REQUIRE PARALLELING ALL PINS EXCEPT 9 WITH 32 GA WIRES OR SMALLER.  With Rev 8 flex board, check corner pads for adequate bare metal: ensure the solder mask of all corner pads is scraped off.  Place, then check work for inadvertent shorts and opens")
         (field (name Part_number) MCP4262-502E/UN-ND)
         (field (name PlacementOrder) 01)
         (field (name SortForPlacement) 01)
@@ -1187,7 +1187,7 @@
       (footprint Package_SO:MSOP-10_3x3mm_P0.5mm)
       (datasheet http://ww1.microchip.com/downloads/en/DeviceDoc/22059b.pdf)
       (fields
-        (field (name ClickToSortForPlacement) "15 NOT ACCOMMODATED ON BOARD REV 7 AND BELOW: PATCHING IN REQUIRES PARALLELING ALL PINS EXCEPT 9 WITH 32 GA WIRES OR SMALLER.  Using flex board, check corner pads for adequate bare metal: ensure the solder mask of all corner pads is scraped off.  Place, then check work for inadvertent shorts and opens")
+        (field (name ClickToSortForPlacement) "15 NOT WELL ACCOMMODATED ON BOARD REV 7 AND BELOW: PATCHING IN WOULD REQUIRE PARALLELING ALL PINS EXCEPT 9 WITH 32 GA WIRES OR SMALLER.  With Rev 8 flex board, check corner pads for adequate bare metal: ensure the solder mask of all corner pads is scraped off.  Place, then check work for inadvertent shorts and opens")
         (field (name Part_number) MCP4262-502E/UN-ND)
         (field (name PlacementOrder) 01)
         (field (name SortForPlacement) 01)
@@ -1200,7 +1200,7 @@
       (footprint Package_SO:MSOP-10_3x3mm_P0.5mm)
       (datasheet http://ww1.microchip.com/downloads/en/DeviceDoc/22059b.pdf)
       (fields
-        (field (name ClickToSortForPlacement) "15 NOT ACCOMMODATED ON BOARD REV 7 AND BELOW: PATCHING IN REQUIRES PARALLELING ALL PINS EXCEPT 9 WITH 32 GA WIRES OR SMALLER.  Using flex board, check corner pads for adequate bare metal: ensure the solder mask of all corner pads is scraped off.  Place, then check work for inadvertent shorts and opens")
+        (field (name ClickToSortForPlacement) "15 NOT WELL ACCOMMODATED ON BOARD REV 7 AND BELOW: PATCHING IN WOULD REQUIRE PARALLELING ALL PINS EXCEPT 9 WITH 32 GA WIRES OR SMALLER.  With Rev 8 flex board, check corner pads for adequate bare metal: ensure the solder mask of all corner pads is scraped off.  Place, then check work for inadvertent shorts and opens")
         (field (name Part_number) MCP4262-502E/UN-ND)
         (field (name PlacementOrder) 01)
         (field (name SortForPlacement) 01)
@@ -1261,7 +1261,7 @@
       (fields
         (field (name ClickToSortForPlacement) "18 Place then check work")
         (field (name Part_number) 1-2328702-0)
-        (field (name Source) "https://www.te.com/ OR http://Arrow.com (factory direct can actually be a few cents cheaper!)"))
+        (field (name Source) "https://www.te.com/ OR http://Arrow.com (factory direct can actually be a few cents cheaper with this one!)"))
       (libsource (lib 1-2328702-0) (part 1-2328702-0) (description ""))
       (sheetpath (names /) (tstamps /))
       (tstamp 5DA5E558))

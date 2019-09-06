@@ -3467,7 +3467,7 @@ F 2 "Package_SO:MSOP-10_3x3mm_P0.5mm" H 7495 -400 60  0001 C CNN
 F 3 "http://ww1.microchip.com/downloads/en/DeviceDoc/22059b.pdf" H 6960 -825 60  0001 C CNN
 F 4 "01" H 2600 -2725 50  0001 C CNN "PlacementOrder"
 F 5 "01" H 2600 -2725 50  0001 C CNN "SortForPlacement"
-F 6 "15 NOT ACCOMMODATED ON BOARD REV 7 AND BELOW: PATCHING IN REQUIRES PARALLELING ALL PINS EXCEPT 9 WITH 32 GA WIRES OR SMALLER.  Using flex board, check corner pads for adequate bare metal: ensure the solder mask of all corner pads is scraped off.  Place, then check work for inadvertent shorts and opens" H 2600 -2725 50  0001 C CNN "ClickToSortForPlacement"
+F 6 "15 NOT WELL ACCOMMODATED ON BOARD REV 7 AND BELOW: PATCHING IN WOULD REQUIRE PARALLELING ALL PINS EXCEPT 9 WITH 32 GA WIRES OR SMALLER.  With Rev 8 flex board, check corner pads for adequate bare metal: ensure the solder mask of all corner pads is scraped off.  Place, then check work for inadvertent shorts and opens" H 2600 -2725 50  0001 C CNN "ClickToSortForPlacement"
 F 7 "MCP4262-502E/UN-ND" H 6950 -825 50  0001 C CNN "Part_number"
 F 8 "http://www.digikey.com" H 6950 -825 50  0001 C CNN "Source"
 	1    6950 -825
@@ -3483,7 +3483,7 @@ F 2 "Package_SO:MSOP-10_3x3mm_P0.5mm" H 9270 -350 60  0001 C CNN
 F 3 "http://ww1.microchip.com/downloads/en/DeviceDoc/22059b.pdf" H 8735 -775 60  0001 C CNN
 F 4 "01" H 4375 -2675 50  0001 C CNN "PlacementOrder"
 F 5 "01" H 4375 -2675 50  0001 C CNN "SortForPlacement"
-F 6 "15 NOT ACCOMMODATED ON BOARD REV 7 AND BELOW: PATCHING IN REQUIRES PARALLELING ALL PINS EXCEPT 9 WITH 32 GA WIRES OR SMALLER.  Using flex board, check corner pads for adequate bare metal: ensure the solder mask of all corner pads is scraped off.  Place, then check work for inadvertent shorts and opens" H 4375 -2675 50  0001 C CNN "ClickToSortForPlacement"
+F 6 "15 NOT WELL ACCOMMODATED ON BOARD REV 7 AND BELOW: PATCHING IN WOULD REQUIRE PARALLELING ALL PINS EXCEPT 9 WITH 32 GA WIRES OR SMALLER.  With Rev 8 flex board, check corner pads for adequate bare metal: ensure the solder mask of all corner pads is scraped off.  Place, then check work for inadvertent shorts and opens" H 4375 -2675 50  0001 C CNN "ClickToSortForPlacement"
 F 7 "MCP4262-502E/UN-ND" H 8725 -775 50  0001 C CNN "Part_number"
 F 8 "http://www.digikey.com" H 8725 -775 50  0001 C CNN "Source"
 	1    8725 -775
@@ -3499,7 +3499,7 @@ F 2 "Package_SO:MSOP-10_3x3mm_P0.5mm" H 10870 -375 60  0001 C CNN
 F 3 "http://ww1.microchip.com/downloads/en/DeviceDoc/22059b.pdf" H 10335 -800 60  0001 C CNN
 F 4 "01" H 5975 -2700 50  0001 C CNN "PlacementOrder"
 F 5 "01" H 5975 -2700 50  0001 C CNN "SortForPlacement"
-F 6 "15 NOT ACCOMMODATED ON BOARD REV 7 AND BELOW: PATCHING IN REQUIRES PARALLELING ALL PINS EXCEPT 9 WITH 32 GA WIRES OR SMALLER.  Using flex board, check corner pads for adequate bare metal: ensure the solder mask of all corner pads is scraped off.  Place, then check work for inadvertent shorts and opens" H 5975 -2700 50  0001 C CNN "ClickToSortForPlacement"
+F 6 "15 NOT WELL ACCOMMODATED ON BOARD REV 7 AND BELOW: PATCHING IN WOULD REQUIRE PARALLELING ALL PINS EXCEPT 9 WITH 32 GA WIRES OR SMALLER.  With Rev 8 flex board, check corner pads for adequate bare metal: ensure the solder mask of all corner pads is scraped off.  Place, then check work for inadvertent shorts and opens" H 5975 -2700 50  0001 C CNN "ClickToSortForPlacement"
 F 7 "MCP4262-502E/UN-ND" H 10325 -800 50  0001 C CNN "Part_number"
 F 8 "http://www.digikey.com" H 10325 -800 50  0001 C CNN "Source"
 	1    10325 -800
@@ -3515,7 +3515,7 @@ F 2 "Package_SO:MSOP-10_3x3mm_P0.5mm" H 12495 -350 60  0001 C CNN
 F 3 "http://ww1.microchip.com/downloads/en/DeviceDoc/22059b.pdf" H 11960 -775 60  0001 C CNN
 F 4 "01" H 7600 -2675 50  0001 C CNN "PlacementOrder"
 F 5 "01" H 7600 -2675 50  0001 C CNN "SortForPlacement"
-F 6 "15 NOT ACCOMMODATED ON BOARD REV 7 AND BELOW: PATCHING IN REQUIRES PARALLELING ALL PINS EXCEPT 9 WITH 32 GA WIRES OR SMALLER.  Using flex board, check corner pads for adequate bare metal: ensure the solder mask of all corner pads is scraped off.  Place, then check work for inadvertent shorts and opens" H 7600 -2675 50  0001 C CNN "ClickToSortForPlacement"
+F 6 "15 NOT WELL ACCOMMODATED ON BOARD REV 7 AND BELOW: PATCHING IN WOULD REQUIRE PARALLELING ALL PINS EXCEPT 9 WITH 32 GA WIRES OR SMALLER.  With Rev 8 flex board, check corner pads for adequate bare metal: ensure the solder mask of all corner pads is scraped off.  Place, then check work for inadvertent shorts and opens" H 7600 -2675 50  0001 C CNN "ClickToSortForPlacement"
 F 7 "MCP4262-502E/UN-ND" H 11950 -775 50  0001 C CNN "Part_number"
 F 8 "http://www.digikey.com" H 11950 -775 50  0001 C CNN "Source"
 	1    11950 -775
@@ -3531,7 +3531,7 @@ F 2 "Package_SO:MSOP-10_3x3mm_P0.5mm" H 14245 -325 60  0001 C CNN
 F 3 "http://ww1.microchip.com/downloads/en/DeviceDoc/22059b.pdf" H 13710 -750 60  0001 C CNN
 F 4 "01" H 9350 -2650 50  0001 C CNN "PlacementOrder"
 F 5 "01" H 9350 -2650 50  0001 C CNN "SortForPlacement"
-F 6 "15 NOT ACCOMMODATED ON BOARD REV 7 AND BELOW: PATCHING IN REQUIRES PARALLELING ALL PINS EXCEPT 9 WITH 32 GA WIRES OR SMALLER.  Using flex board, check corner pads for adequate bare metal: ensure the solder mask of all corner pads is scraped off.  Place, then check work for inadvertent shorts and opens" H 9350 -2650 50  0001 C CNN "ClickToSortForPlacement"
+F 6 "15 NOT WELL ACCOMMODATED ON BOARD REV 7 AND BELOW: PATCHING IN WOULD REQUIRE PARALLELING ALL PINS EXCEPT 9 WITH 32 GA WIRES OR SMALLER.  With Rev 8 flex board, check corner pads for adequate bare metal: ensure the solder mask of all corner pads is scraped off.  Place, then check work for inadvertent shorts and opens" H 9350 -2650 50  0001 C CNN "ClickToSortForPlacement"
 F 7 "MCP4262-502E/UN-ND" H 13700 -750 50  0001 C CNN "Part_number"
 F 8 "http://www.digikey.com" H 13700 -750 50  0001 C CNN "Source"
 	1    13700 -750
@@ -3547,7 +3547,7 @@ F 2 "Package_SO:MSOP-10_3x3mm_P0.5mm" H 15770 -325 60  0001 C CNN
 F 3 "http://ww1.microchip.com/downloads/en/DeviceDoc/22059b.pdf" H 15235 -750 60  0001 C CNN
 F 4 "01" H 10875 -2650 50  0001 C CNN "PlacementOrder"
 F 5 "01" H 10875 -2650 50  0001 C CNN "SortForPlacement"
-F 6 "15 NOT ACCOMMODATED ON BOARD REV 7 AND BELOW: PATCHING IN REQUIRES PARALLELING ALL PINS EXCEPT 9 WITH 32 GA WIRES OR SMALLER.  Using flex board, check corner pads for adequate bare metal: ensure the solder mask of all corner pads is scraped off.  Place, then check work for inadvertent shorts and opens" H 10875 -2650 50  0001 C CNN "ClickToSortForPlacement"
+F 6 "15 NOT WELL ACCOMMODATED ON BOARD REV 7 AND BELOW: PATCHING IN WOULD REQUIRE PARALLELING ALL PINS EXCEPT 9 WITH 32 GA WIRES OR SMALLER.  With Rev 8 flex board, check corner pads for adequate bare metal: ensure the solder mask of all corner pads is scraped off.  Place, then check work for inadvertent shorts and opens" H 10875 -2650 50  0001 C CNN "ClickToSortForPlacement"
 F 7 "MCP4262-502E/UN-ND" H 15225 -750 50  0001 C CNN "Part_number"
 F 8 "http://www.digikey.com" H 15225 -750 50  0001 C CNN "Source"
 	1    15225 -750
@@ -3577,7 +3577,7 @@ F 2 "Package_SO:MSOP-10_3x3mm_P0.5mm" H 7445 -2075 60  0001 C CNN
 F 3 "http://ww1.microchip.com/downloads/en/DeviceDoc/22059b.pdf" H 6910 -2500 60  0001 C CNN
 F 4 "01" H 2550 -4400 50  0001 C CNN "PlacementOrder"
 F 5 "01" H 2550 -4400 50  0001 C CNN "SortForPlacement"
-F 6 "15 NOT ACCOMMODATED ON BOARD REV 7 AND BELOW: PATCHING IN REQUIRES PARALLELING ALL PINS EXCEPT 9 WITH 32 GA WIRES OR SMALLER.  Using flex board, check corner pads for adequate bare metal: ensure the solder mask of all corner pads is scraped off.  Place, then check work for inadvertent shorts and opens" H 2550 -4400 50  0001 C CNN "ClickToSortForPlacement"
+F 6 "15 NOT WELL ACCOMMODATED ON BOARD REV 7 AND BELOW: PATCHING IN WOULD REQUIRE PARALLELING ALL PINS EXCEPT 9 WITH 32 GA WIRES OR SMALLER.  With Rev 8 flex board, check corner pads for adequate bare metal: ensure the solder mask of all corner pads is scraped off.  Place, then check work for inadvertent shorts and opens" H 2550 -4400 50  0001 C CNN "ClickToSortForPlacement"
 F 7 "MCP4262-502E/UN-ND" H 6900 -2500 50  0001 C CNN "Part_number"
 F 8 "http://www.digikey.com" H 6900 -2500 50  0001 C CNN "Source"
 	1    6900 -2500
@@ -3593,7 +3593,7 @@ F 2 "Package_SO:MSOP-10_3x3mm_P0.5mm" H 9220 -2025 60  0001 C CNN
 F 3 "http://ww1.microchip.com/downloads/en/DeviceDoc/22059b.pdf" H 8685 -2450 60  0001 C CNN
 F 4 "01" H 4325 -4350 50  0001 C CNN "PlacementOrder"
 F 5 "01" H 4325 -4350 50  0001 C CNN "SortForPlacement"
-F 6 "15 NOT ACCOMMODATED ON BOARD REV 7 AND BELOW: PATCHING IN REQUIRES PARALLELING ALL PINS EXCEPT 9 WITH 32 GA WIRES OR SMALLER.  Using flex board, check corner pads for adequate bare metal: ensure the solder mask of all corner pads is scraped off.  Place, then check work for inadvertent shorts and opens" H 4325 -4350 50  0001 C CNN "ClickToSortForPlacement"
+F 6 "15 NOT WELL ACCOMMODATED ON BOARD REV 7 AND BELOW: PATCHING IN WOULD REQUIRE PARALLELING ALL PINS EXCEPT 9 WITH 32 GA WIRES OR SMALLER.  With Rev 8 flex board, check corner pads for adequate bare metal: ensure the solder mask of all corner pads is scraped off.  Place, then check work for inadvertent shorts and opens" H 4325 -4350 50  0001 C CNN "ClickToSortForPlacement"
 F 7 "MCP4262-502E/UN-ND" H 8675 -2450 50  0001 C CNN "Part_number"
 F 8 "http://www.digikey.com" H 8675 -2450 50  0001 C CNN "Source"
 	1    8675 -2450
@@ -3609,7 +3609,7 @@ F 2 "Package_SO:MSOP-10_3x3mm_P0.5mm" H 10820 -2050 60  0001 C CNN
 F 3 "http://ww1.microchip.com/downloads/en/DeviceDoc/22059b.pdf" H 10285 -2475 60  0001 C CNN
 F 4 "01" H 5925 -4375 50  0001 C CNN "PlacementOrder"
 F 5 "01" H 5925 -4375 50  0001 C CNN "SortForPlacement"
-F 6 "15 NOT ACCOMMODATED ON BOARD REV 7 AND BELOW: PATCHING IN REQUIRES PARALLELING ALL PINS EXCEPT 9 WITH 32 GA WIRES OR SMALLER.  Using flex board, check corner pads for adequate bare metal: ensure the solder mask of all corner pads is scraped off.  Place, then check work for inadvertent shorts and opens" H 5925 -4375 50  0001 C CNN "ClickToSortForPlacement"
+F 6 "15 NOT WELL ACCOMMODATED ON BOARD REV 7 AND BELOW: PATCHING IN WOULD REQUIRE PARALLELING ALL PINS EXCEPT 9 WITH 32 GA WIRES OR SMALLER.  With Rev 8 flex board, check corner pads for adequate bare metal: ensure the solder mask of all corner pads is scraped off.  Place, then check work for inadvertent shorts and opens" H 5925 -4375 50  0001 C CNN "ClickToSortForPlacement"
 F 7 "MCP4262-502E/UN-ND" H 10275 -2475 50  0001 C CNN "Part_number"
 F 8 "http://www.digikey.com" H 10275 -2475 50  0001 C CNN "Source"
 	1    10275 -2475
@@ -3625,7 +3625,7 @@ F 2 "Package_SO:MSOP-10_3x3mm_P0.5mm" H 12445 -2025 60  0001 C CNN
 F 3 "http://ww1.microchip.com/downloads/en/DeviceDoc/22059b.pdf" H 11910 -2450 60  0001 C CNN
 F 4 "01" H 7550 -4350 50  0001 C CNN "PlacementOrder"
 F 5 "01" H 7550 -4350 50  0001 C CNN "SortForPlacement"
-F 6 "15 NOT ACCOMMODATED ON BOARD REV 7 AND BELOW: PATCHING IN REQUIRES PARALLELING ALL PINS EXCEPT 9 WITH 32 GA WIRES OR SMALLER.  Using flex board, check corner pads for adequate bare metal: ensure the solder mask of all corner pads is scraped off.  Place, then check work for inadvertent shorts and opens" H 7550 -4350 50  0001 C CNN "ClickToSortForPlacement"
+F 6 "15 NOT WELL ACCOMMODATED ON BOARD REV 7 AND BELOW: PATCHING IN WOULD REQUIRE PARALLELING ALL PINS EXCEPT 9 WITH 32 GA WIRES OR SMALLER.  With Rev 8 flex board, check corner pads for adequate bare metal: ensure the solder mask of all corner pads is scraped off.  Place, then check work for inadvertent shorts and opens" H 7550 -4350 50  0001 C CNN "ClickToSortForPlacement"
 F 7 "MCP4262-502E/UN-ND" H 11900 -2450 50  0001 C CNN "Part_number"
 F 8 "http://www.digikey.com" H 11900 -2450 50  0001 C CNN "Source"
 	1    11900 -2450
@@ -3641,7 +3641,7 @@ F 2 "Package_SO:MSOP-10_3x3mm_P0.5mm" H 14195 -2000 60  0001 C CNN
 F 3 "http://ww1.microchip.com/downloads/en/DeviceDoc/22059b.pdf" H 13660 -2425 60  0001 C CNN
 F 4 "01" H 9300 -4325 50  0001 C CNN "PlacementOrder"
 F 5 "01" H 9300 -4325 50  0001 C CNN "SortForPlacement"
-F 6 "15 NOT ACCOMMODATED ON BOARD REV 7 AND BELOW: PATCHING IN REQUIRES PARALLELING ALL PINS EXCEPT 9 WITH 32 GA WIRES OR SMALLER.  Using flex board, check corner pads for adequate bare metal: ensure the solder mask of all corner pads is scraped off.  Place, then check work for inadvertent shorts and opens" H 9300 -4325 50  0001 C CNN "ClickToSortForPlacement"
+F 6 "15 NOT WELL ACCOMMODATED ON BOARD REV 7 AND BELOW: PATCHING IN WOULD REQUIRE PARALLELING ALL PINS EXCEPT 9 WITH 32 GA WIRES OR SMALLER.  With Rev 8 flex board, check corner pads for adequate bare metal: ensure the solder mask of all corner pads is scraped off.  Place, then check work for inadvertent shorts and opens" H 9300 -4325 50  0001 C CNN "ClickToSortForPlacement"
 F 7 "MCP4262-502E/UN-ND" H 13650 -2425 50  0001 C CNN "Part_number"
 F 8 "http://www.digikey.com" H 13650 -2425 50  0001 C CNN "Source"
 	1    13650 -2425
@@ -3657,7 +3657,7 @@ F 2 "Package_SO:MSOP-10_3x3mm_P0.5mm" H 15720 -2000 60  0001 C CNN
 F 3 "http://ww1.microchip.com/downloads/en/DeviceDoc/22059b.pdf" H 15185 -2425 60  0001 C CNN
 F 4 "01" H 10825 -4325 50  0001 C CNN "PlacementOrder"
 F 5 "01" H 10825 -4325 50  0001 C CNN "SortForPlacement"
-F 6 "15 NOT ACCOMMODATED ON BOARD REV 7 AND BELOW: PATCHING IN REQUIRES PARALLELING ALL PINS EXCEPT 9 WITH 32 GA WIRES OR SMALLER.  Using flex board, check corner pads for adequate bare metal: ensure the solder mask of all corner pads is scraped off.  Place, then check work for inadvertent shorts and opens" H 10825 -4325 50  0001 C CNN "ClickToSortForPlacement"
+F 6 "15 NOT WELL ACCOMMODATED ON BOARD REV 7 AND BELOW: PATCHING IN WOULD REQUIRE PARALLELING ALL PINS EXCEPT 9 WITH 32 GA WIRES OR SMALLER.  With Rev 8 flex board, check corner pads for adequate bare metal: ensure the solder mask of all corner pads is scraped off.  Place, then check work for inadvertent shorts and opens" H 10825 -4325 50  0001 C CNN "ClickToSortForPlacement"
 F 7 "MCP4262-502E/UN-ND" H 15175 -2425 50  0001 C CNN "Part_number"
 F 8 "http://www.digikey.com" H 15175 -2425 50  0001 C CNN "Source"
 	1    15175 -2425
@@ -3673,7 +3673,7 @@ F 2 "Package_SO:MSOP-10_3x3mm_P0.5mm" H 7420 -3900 60  0001 C CNN
 F 3 "http://ww1.microchip.com/downloads/en/DeviceDoc/22059b.pdf" H 6885 -4325 60  0001 C CNN
 F 4 "01" H 2525 -6225 50  0001 C CNN "PlacementOrder"
 F 5 "01" H 2525 -6225 50  0001 C CNN "SortForPlacement"
-F 6 "15 NOT ACCOMMODATED ON BOARD REV 7 AND BELOW: PATCHING IN REQUIRES PARALLELING ALL PINS EXCEPT 9 WITH 32 GA WIRES OR SMALLER.  Using flex board, check corner pads for adequate bare metal: ensure the solder mask of all corner pads is scraped off.  Place, then check work for inadvertent shorts and opens" H 2525 -6225 50  0001 C CNN "ClickToSortForPlacement"
+F 6 "15 NOT WELL ACCOMMODATED ON BOARD REV 7 AND BELOW: PATCHING IN WOULD REQUIRE PARALLELING ALL PINS EXCEPT 9 WITH 32 GA WIRES OR SMALLER.  With Rev 8 flex board, check corner pads for adequate bare metal: ensure the solder mask of all corner pads is scraped off.  Place, then check work for inadvertent shorts and opens" H 2525 -6225 50  0001 C CNN "ClickToSortForPlacement"
 F 7 "MCP4262-502E/UN-ND" H 6875 -4325 50  0001 C CNN "Part_number"
 F 8 "http://www.digikey.com" H 6875 -4325 50  0001 C CNN "Source"
 	1    6875 -4325
@@ -3689,7 +3689,7 @@ F 2 "Package_SO:MSOP-10_3x3mm_P0.5mm" H 9195 -3850 60  0001 C CNN
 F 3 "http://ww1.microchip.com/downloads/en/DeviceDoc/22059b.pdf" H 8660 -4275 60  0001 C CNN
 F 4 "01" H 4300 -6175 50  0001 C CNN "PlacementOrder"
 F 5 "01" H 4300 -6175 50  0001 C CNN "SortForPlacement"
-F 6 "15 NOT ACCOMMODATED ON BOARD REV 7 AND BELOW: PATCHING IN REQUIRES PARALLELING ALL PINS EXCEPT 9 WITH 32 GA WIRES OR SMALLER.  Using flex board, check corner pads for adequate bare metal: ensure the solder mask of all corner pads is scraped off.  Place, then check work for inadvertent shorts and opens" H 4300 -6175 50  0001 C CNN "ClickToSortForPlacement"
+F 6 "15 NOT WELL ACCOMMODATED ON BOARD REV 7 AND BELOW: PATCHING IN WOULD REQUIRE PARALLELING ALL PINS EXCEPT 9 WITH 32 GA WIRES OR SMALLER.  With Rev 8 flex board, check corner pads for adequate bare metal: ensure the solder mask of all corner pads is scraped off.  Place, then check work for inadvertent shorts and opens" H 4300 -6175 50  0001 C CNN "ClickToSortForPlacement"
 F 7 "MCP4262-502E/UN-ND" H 8650 -4275 50  0001 C CNN "Part_number"
 F 8 "http://www.digikey.com" H 8650 -4275 50  0001 C CNN "Source"
 	1    8650 -4275
@@ -3705,7 +3705,7 @@ F 2 "Package_SO:MSOP-10_3x3mm_P0.5mm" H 10795 -3875 60  0001 C CNN
 F 3 "http://ww1.microchip.com/downloads/en/DeviceDoc/22059b.pdf" H 10260 -4300 60  0001 C CNN
 F 4 "01" H 5900 -6200 50  0001 C CNN "PlacementOrder"
 F 5 "01" H 5900 -6200 50  0001 C CNN "SortForPlacement"
-F 6 "15 NOT ACCOMMODATED ON BOARD REV 7 AND BELOW: PATCHING IN REQUIRES PARALLELING ALL PINS EXCEPT 9 WITH 32 GA WIRES OR SMALLER.  Using flex board, check corner pads for adequate bare metal: ensure the solder mask of all corner pads is scraped off.  Place, then check work for inadvertent shorts and opens" H 5900 -6200 50  0001 C CNN "ClickToSortForPlacement"
+F 6 "15 NOT WELL ACCOMMODATED ON BOARD REV 7 AND BELOW: PATCHING IN WOULD REQUIRE PARALLELING ALL PINS EXCEPT 9 WITH 32 GA WIRES OR SMALLER.  With Rev 8 flex board, check corner pads for adequate bare metal: ensure the solder mask of all corner pads is scraped off.  Place, then check work for inadvertent shorts and opens" H 5900 -6200 50  0001 C CNN "ClickToSortForPlacement"
 F 7 "MCP4262-502E/UN-ND" H 10250 -4300 50  0001 C CNN "Part_number"
 F 8 "http://www.digikey.com" H 10250 -4300 50  0001 C CNN "Source"
 	1    10250 -4300
@@ -3721,7 +3721,7 @@ F 2 "Package_SO:MSOP-10_3x3mm_P0.5mm" H 12420 -3850 60  0001 C CNN
 F 3 "http://ww1.microchip.com/downloads/en/DeviceDoc/22059b.pdf" H 11885 -4275 60  0001 C CNN
 F 4 "01" H 7525 -6175 50  0001 C CNN "PlacementOrder"
 F 5 "01" H 7525 -6175 50  0001 C CNN "SortForPlacement"
-F 6 "15 NOT ACCOMMODATED ON BOARD REV 7 AND BELOW: PATCHING IN REQUIRES PARALLELING ALL PINS EXCEPT 9 WITH 32 GA WIRES OR SMALLER.  Using flex board, check corner pads for adequate bare metal: ensure the solder mask of all corner pads is scraped off.  Place, then check work for inadvertent shorts and opens" H 7525 -6175 50  0001 C CNN "ClickToSortForPlacement"
+F 6 "15 NOT WELL ACCOMMODATED ON BOARD REV 7 AND BELOW: PATCHING IN WOULD REQUIRE PARALLELING ALL PINS EXCEPT 9 WITH 32 GA WIRES OR SMALLER.  With Rev 8 flex board, check corner pads for adequate bare metal: ensure the solder mask of all corner pads is scraped off.  Place, then check work for inadvertent shorts and opens" H 7525 -6175 50  0001 C CNN "ClickToSortForPlacement"
 F 7 "MCP4262-502E/UN-ND" H 11875 -4275 50  0001 C CNN "Part_number"
 F 8 "http://www.digikey.com" H 11875 -4275 50  0001 C CNN "Source"
 	1    11875 -4275
@@ -3737,7 +3737,7 @@ F 2 "Package_SO:MSOP-10_3x3mm_P0.5mm" H 14170 -3825 60  0001 C CNN
 F 3 "http://ww1.microchip.com/downloads/en/DeviceDoc/22059b.pdf" H 13635 -4250 60  0001 C CNN
 F 4 "01" H 9275 -6150 50  0001 C CNN "PlacementOrder"
 F 5 "01" H 9275 -6150 50  0001 C CNN "SortForPlacement"
-F 6 "15 NOT ACCOMMODATED ON BOARD REV 7 AND BELOW: PATCHING IN REQUIRES PARALLELING ALL PINS EXCEPT 9 WITH 32 GA WIRES OR SMALLER.  Using flex board, check corner pads for adequate bare metal: ensure the solder mask of all corner pads is scraped off.  Place, then check work for inadvertent shorts and opens" H 9275 -6150 50  0001 C CNN "ClickToSortForPlacement"
+F 6 "15 NOT WELL ACCOMMODATED ON BOARD REV 7 AND BELOW: PATCHING IN WOULD REQUIRE PARALLELING ALL PINS EXCEPT 9 WITH 32 GA WIRES OR SMALLER.  With Rev 8 flex board, check corner pads for adequate bare metal: ensure the solder mask of all corner pads is scraped off.  Place, then check work for inadvertent shorts and opens" H 9275 -6150 50  0001 C CNN "ClickToSortForPlacement"
 F 7 "MCP4262-502E/UN-ND" H 13625 -4250 50  0001 C CNN "Part_number"
 F 8 "http://www.digikey.com" H 13625 -4250 50  0001 C CNN "Source"
 	1    13625 -4250
@@ -3753,7 +3753,7 @@ F 2 "Package_SO:MSOP-10_3x3mm_P0.5mm" H 15695 -3825 60  0001 C CNN
 F 3 "http://ww1.microchip.com/downloads/en/DeviceDoc/22059b.pdf" H 15160 -4250 60  0001 C CNN
 F 4 "01" H 10800 -6150 50  0001 C CNN "PlacementOrder"
 F 5 "01" H 10800 -6150 50  0001 C CNN "SortForPlacement"
-F 6 "15 NOT ACCOMMODATED ON BOARD REV 7 AND BELOW: PATCHING IN REQUIRES PARALLELING ALL PINS EXCEPT 9 WITH 32 GA WIRES OR SMALLER.  Using flex board, check corner pads for adequate bare metal: ensure the solder mask of all corner pads is scraped off.  Place, then check work for inadvertent shorts and opens" H 10800 -6150 50  0001 C CNN "ClickToSortForPlacement"
+F 6 "15 NOT WELL ACCOMMODATED ON BOARD REV 7 AND BELOW: PATCHING IN WOULD REQUIRE PARALLELING ALL PINS EXCEPT 9 WITH 32 GA WIRES OR SMALLER.  With Rev 8 flex board, check corner pads for adequate bare metal: ensure the solder mask of all corner pads is scraped off.  Place, then check work for inadvertent shorts and opens" H 10800 -6150 50  0001 C CNN "ClickToSortForPlacement"
 F 7 "MCP4262-502E/UN-ND" H 15150 -4250 50  0001 C CNN "Part_number"
 F 8 "http://www.digikey.com" H 15150 -4250 50  0001 C CNN "Source"
 	1    15150 -4250
@@ -3769,7 +3769,7 @@ F 2 "Package_SO:MSOP-10_3x3mm_P0.5mm" H 7395 -5725 60  0001 C CNN
 F 3 "http://ww1.microchip.com/downloads/en/DeviceDoc/22059b.pdf" H 6860 -6150 60  0001 C CNN
 F 4 "01" H 2500 -8050 50  0001 C CNN "PlacementOrder"
 F 5 "01" H 2500 -8050 50  0001 C CNN "SortForPlacement"
-F 6 "15 NOT ACCOMMODATED ON BOARD REV 7 AND BELOW: PATCHING IN REQUIRES PARALLELING ALL PINS EXCEPT 9 WITH 32 GA WIRES OR SMALLER.  Using flex board, check corner pads for adequate bare metal: ensure the solder mask of all corner pads is scraped off.  Place, then check work for inadvertent shorts and opens" H 2500 -8050 50  0001 C CNN "ClickToSortForPlacement"
+F 6 "15 NOT WELL ACCOMMODATED ON BOARD REV 7 AND BELOW: PATCHING IN WOULD REQUIRE PARALLELING ALL PINS EXCEPT 9 WITH 32 GA WIRES OR SMALLER.  With Rev 8 flex board, check corner pads for adequate bare metal: ensure the solder mask of all corner pads is scraped off.  Place, then check work for inadvertent shorts and opens" H 2500 -8050 50  0001 C CNN "ClickToSortForPlacement"
 F 7 "MCP4262-502E/UN-ND" H 6850 -6150 50  0001 C CNN "Part_number"
 F 8 "http://www.digikey.com" H 6850 -6150 50  0001 C CNN "Source"
 	1    6850 -6150
@@ -3785,7 +3785,7 @@ F 2 "Package_SO:MSOP-10_3x3mm_P0.5mm" H 9170 -5675 60  0001 C CNN
 F 3 "http://ww1.microchip.com/downloads/en/DeviceDoc/22059b.pdf" H 8635 -6100 60  0001 C CNN
 F 4 "01" H 4275 -8000 50  0001 C CNN "PlacementOrder"
 F 5 "01" H 4275 -8000 50  0001 C CNN "SortForPlacement"
-F 6 "15 NOT ACCOMMODATED ON BOARD REV 7 AND BELOW: PATCHING IN REQUIRES PARALLELING ALL PINS EXCEPT 9 WITH 32 GA WIRES OR SMALLER.  Using flex board, check corner pads for adequate bare metal: ensure the solder mask of all corner pads is scraped off.  Place, then check work for inadvertent shorts and opens" H 4275 -8000 50  0001 C CNN "ClickToSortForPlacement"
+F 6 "15 NOT WELL ACCOMMODATED ON BOARD REV 7 AND BELOW: PATCHING IN WOULD REQUIRE PARALLELING ALL PINS EXCEPT 9 WITH 32 GA WIRES OR SMALLER.  With Rev 8 flex board, check corner pads for adequate bare metal: ensure the solder mask of all corner pads is scraped off.  Place, then check work for inadvertent shorts and opens" H 4275 -8000 50  0001 C CNN "ClickToSortForPlacement"
 F 7 "MCP4262-502E/UN-ND" H 8625 -6100 50  0001 C CNN "Part_number"
 F 8 "http://www.digikey.com" H 8625 -6100 50  0001 C CNN "Source"
 	1    8625 -6100
@@ -3801,7 +3801,7 @@ F 2 "Package_SO:MSOP-10_3x3mm_P0.5mm" H 10770 -5700 60  0001 C CNN
 F 3 "http://ww1.microchip.com/downloads/en/DeviceDoc/22059b.pdf" H 10235 -6125 60  0001 C CNN
 F 4 "01" H 5875 -8025 50  0001 C CNN "PlacementOrder"
 F 5 "01" H 5875 -8025 50  0001 C CNN "SortForPlacement"
-F 6 "15 NOT ACCOMMODATED ON BOARD REV 7 AND BELOW: PATCHING IN REQUIRES PARALLELING ALL PINS EXCEPT 9 WITH 32 GA WIRES OR SMALLER.  Using flex board, check corner pads for adequate bare metal: ensure the solder mask of all corner pads is scraped off.  Place, then check work for inadvertent shorts and opens" H 5875 -8025 50  0001 C CNN "ClickToSortForPlacement"
+F 6 "15 NOT WELL ACCOMMODATED ON BOARD REV 7 AND BELOW: PATCHING IN WOULD REQUIRE PARALLELING ALL PINS EXCEPT 9 WITH 32 GA WIRES OR SMALLER.  With Rev 8 flex board, check corner pads for adequate bare metal: ensure the solder mask of all corner pads is scraped off.  Place, then check work for inadvertent shorts and opens" H 5875 -8025 50  0001 C CNN "ClickToSortForPlacement"
 F 7 "MCP4262-502E/UN-ND" H 10225 -6125 50  0001 C CNN "Part_number"
 F 8 "http://www.digikey.com" H 10225 -6125 50  0001 C CNN "Source"
 	1    10225 -6125
@@ -3817,7 +3817,7 @@ F 2 "Package_SO:MSOP-10_3x3mm_P0.5mm" H 12395 -5675 60  0001 C CNN
 F 3 "http://ww1.microchip.com/downloads/en/DeviceDoc/22059b.pdf" H 11860 -6100 60  0001 C CNN
 F 4 "01" H 7500 -8000 50  0001 C CNN "PlacementOrder"
 F 5 "01" H 7500 -8000 50  0001 C CNN "SortForPlacement"
-F 6 "15 NOT ACCOMMODATED ON BOARD REV 7 AND BELOW: PATCHING IN REQUIRES PARALLELING ALL PINS EXCEPT 9 WITH 32 GA WIRES OR SMALLER.  Using flex board, check corner pads for adequate bare metal: ensure the solder mask of all corner pads is scraped off.  Place, then check work for inadvertent shorts and opens" H 7500 -8000 50  0001 C CNN "ClickToSortForPlacement"
+F 6 "15 NOT WELL ACCOMMODATED ON BOARD REV 7 AND BELOW: PATCHING IN WOULD REQUIRE PARALLELING ALL PINS EXCEPT 9 WITH 32 GA WIRES OR SMALLER.  With Rev 8 flex board, check corner pads for adequate bare metal: ensure the solder mask of all corner pads is scraped off.  Place, then check work for inadvertent shorts and opens" H 7500 -8000 50  0001 C CNN "ClickToSortForPlacement"
 F 7 "MCP4262-502E/UN-ND" H 11850 -6100 50  0001 C CNN "Part_number"
 F 8 "http://www.digikey.com" H 11850 -6100 50  0001 C CNN "Source"
 	1    11850 -6100
@@ -3833,7 +3833,7 @@ F 2 "Package_SO:MSOP-10_3x3mm_P0.5mm" H 14145 -5650 60  0001 C CNN
 F 3 "http://ww1.microchip.com/downloads/en/DeviceDoc/22059b.pdf" H 13610 -6075 60  0001 C CNN
 F 4 "01" H 9250 -7975 50  0001 C CNN "PlacementOrder"
 F 5 "01" H 9250 -7975 50  0001 C CNN "SortForPlacement"
-F 6 "15 NOT ACCOMMODATED ON BOARD REV 7 AND BELOW: PATCHING IN REQUIRES PARALLELING ALL PINS EXCEPT 9 WITH 32 GA WIRES OR SMALLER.  Using flex board, check corner pads for adequate bare metal: ensure the solder mask of all corner pads is scraped off.  Place, then check work for inadvertent shorts and opens" H 9250 -7975 50  0001 C CNN "ClickToSortForPlacement"
+F 6 "15 NOT WELL ACCOMMODATED ON BOARD REV 7 AND BELOW: PATCHING IN WOULD REQUIRE PARALLELING ALL PINS EXCEPT 9 WITH 32 GA WIRES OR SMALLER.  With Rev 8 flex board, check corner pads for adequate bare metal: ensure the solder mask of all corner pads is scraped off.  Place, then check work for inadvertent shorts and opens" H 9250 -7975 50  0001 C CNN "ClickToSortForPlacement"
 F 7 "MCP4262-502E/UN-ND" H 13600 -6075 50  0001 C CNN "Part_number"
 F 8 "http://www.digikey.com" H 13600 -6075 50  0001 C CNN "Source"
 	1    13600 -6075
@@ -3849,7 +3849,7 @@ F 2 "Package_SO:MSOP-10_3x3mm_P0.5mm" H 15670 -5650 60  0001 C CNN
 F 3 "http://ww1.microchip.com/downloads/en/DeviceDoc/22059b.pdf" H 15135 -6075 60  0001 C CNN
 F 4 "01" H 10775 -7975 50  0001 C CNN "PlacementOrder"
 F 5 "01" H 10775 -7975 50  0001 C CNN "SortForPlacement"
-F 6 "15 NOT ACCOMMODATED ON BOARD REV 7 AND BELOW: PATCHING IN REQUIRES PARALLELING ALL PINS EXCEPT 9 WITH 32 GA WIRES OR SMALLER.  Using flex board, check corner pads for adequate bare metal: ensure the solder mask of all corner pads is scraped off.  Place, then check work for inadvertent shorts and opens" H 10775 -7975 50  0001 C CNN "ClickToSortForPlacement"
+F 6 "15 NOT WELL ACCOMMODATED ON BOARD REV 7 AND BELOW: PATCHING IN WOULD REQUIRE PARALLELING ALL PINS EXCEPT 9 WITH 32 GA WIRES OR SMALLER.  With Rev 8 flex board, check corner pads for adequate bare metal: ensure the solder mask of all corner pads is scraped off.  Place, then check work for inadvertent shorts and opens" H 10775 -7975 50  0001 C CNN "ClickToSortForPlacement"
 F 7 "MCP4262-502E/UN-ND" H 15125 -6075 50  0001 C CNN "Part_number"
 F 8 "http://www.digikey.com" H 15125 -6075 50  0001 C CNN "Source"
 	1    15125 -6075
@@ -3865,7 +3865,7 @@ F 2 "Package_SO:MSOP-10_3x3mm_P0.5mm" H 17520 -300 60  0001 C CNN
 F 3 "http://ww1.microchip.com/downloads/en/DeviceDoc/22059b.pdf" H 16985 -725 60  0001 C CNN
 F 4 "01" H 12625 -2625 50  0001 C CNN "PlacementOrder"
 F 5 "01" H 12625 -2625 50  0001 C CNN "SortForPlacement"
-F 6 "15 NOT ACCOMMODATED ON BOARD REV 7 AND BELOW: PATCHING IN REQUIRES PARALLELING ALL PINS EXCEPT 9 WITH 32 GA WIRES OR SMALLER.  Using flex board, check corner pads for adequate bare metal: ensure the solder mask of all corner pads is scraped off.  Place, then check work for inadvertent shorts and opens" H 12625 -2625 50  0001 C CNN "ClickToSortForPlacement"
+F 6 "15 NOT WELL ACCOMMODATED ON BOARD REV 7 AND BELOW: PATCHING IN WOULD REQUIRE PARALLELING ALL PINS EXCEPT 9 WITH 32 GA WIRES OR SMALLER.  With Rev 8 flex board, check corner pads for adequate bare metal: ensure the solder mask of all corner pads is scraped off.  Place, then check work for inadvertent shorts and opens" H 12625 -2625 50  0001 C CNN "ClickToSortForPlacement"
 F 7 "MCP4262-502E/UN-ND" H 16975 -725 50  0001 C CNN "Part_number"
 F 8 "http://www.digikey.com" H 16975 -725 50  0001 C CNN "Source"
 	1    16975 -725
@@ -3969,7 +3969,7 @@ F 1 "TE_1-2328702-0" H 4950 -1675 50  0000 L CNN
 F 2 "multipackage:TE_1-2328702-0" H 5350 -800 50  0001 C CNN
 F 3 "~" H 5350 -800 50  0001 C CNN
 F 4 "1-2328702-0" H 5350 -800 50  0001 C CNN "Part_number"
-F 5 "https://www.te.com/ OR http://Arrow.com (factory direct can actually be a few cents cheaper!)" H 5350 -800 50  0001 C CNN "Source"
+F 5 "https://www.te.com/ OR http://Arrow.com (factory direct can actually be a few cents cheaper with this one!)" H 5350 -800 50  0001 C CNN "Source"
 F 6 "18 Place then check work" H 5350 -800 50  0001 C CNN "ClickToSortForPlacement"
 	1    5350 -800
 	1    0    0    -1  
@@ -3997,10 +3997,10 @@ F 3 "" H 3950 -800 50  0001 C CNN
 	1    0    0    -1  
 $EndComp
 Text Label 4950 -400 2    50   ~ 0
-7
-Text Label 4950 -600 2    50   ~ 0
-SCK(1)
+8
 Text Label 4950 -500 2    50   ~ 0
+SCK(1)
+Text Label 4950 -600 2    50   ~ 0
 MOSI(1)
 Wire Wire Line
 	4950 -800 3950 -800
@@ -4015,13 +4015,13 @@ F 3 "" H 4425 -675 50  0001 C CNN
 	1    4425 -675
 	1    0    0    -1  
 $EndComp
-Text Label 4950 -1200 2    50   ~ 0
+Text Label 4950 -1000 2    50   ~ 0
 U8-Pad5
 Text Label 4950 -1300 2    50   ~ 0
 U8-Pad6
-Text Label 4950 -1100 2    50   ~ 0
+Text Label 4950 -1200 2    50   ~ 0
 U8-Pad7
-Text Label 4950 -1000 2    50   ~ 0
+Text Label 4950 -1100 2    50   ~ 0
 U8-Pad8
 Wire Wire Line
 	4950 -700 4425 -700
