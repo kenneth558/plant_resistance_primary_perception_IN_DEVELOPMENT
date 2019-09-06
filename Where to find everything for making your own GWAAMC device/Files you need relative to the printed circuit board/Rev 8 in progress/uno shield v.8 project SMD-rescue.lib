@@ -1,0 +1,62 @@
+EESchema-LIBRARY Version 2.4
+#encoding utf-8
+#
+# 3.5mm_TRS_male_cable_end-Connector_private
+#
+DEF 3.5mm_TRS_male_cable_end-Connector_private P 0 40 Y Y 1 F N
+F0 "P" -95 -165 50 H V C CNN
+F1 "3.5mm_TRS_male_cable_end-Connector_private" 150 200 50 H V C CNN
+F2 "multipackage:3.5mm_cable_end_earphone_plug" 5 -15 50 H I C CNN
+F3 "" 5 -15 50 H I C CNN
+DRAW
+T 0 255 -115 50 0 0 0 1 Normal 0 C C
+T 0 555 -115 50 0 0 0 2 Normal 0 C C
+T 0 405 -115 50 0 0 0 3 Normal 0 C C
+S -270 68 175 -100 0 1 0 F
+S 154 13 435 -43 0 1 0 f
+S 335 8 366 -41 0 1 0 F
+S 435 13 464 -43 0 1 0 F
+P 2 0 1 0 -250 100 -250 -100 N
+P 12 0 1 0 466 13 477 13 482 5 504 7 555 13 564 -14 556 -43 499 -36 482 -34 477 -43 468 -43 465 -43 f
+X SHLD 1 -550 100 300 R 28 28 1 1 P
+X Tip 2 -350 0 100 R 28 28 1 1 P
+X Ring 3 -450 -50 200 R 28 28 1 1 P
+ENDDRAW
+ENDDEF
+#
+# Conn_01x01_Female-Connector_private
+#
+DEF Conn_01x01_Female-Connector_private J 0 40 Y N 1 F N
+F0 "J" 0 100 50 H V C CNN
+F1 "Conn_01x01_Female-Connector_private" 0 -100 50 H V C CNN
+F2 "" 0 0 50 H I C CNN
+F3 "" 0 0 50 H I C CNN
+$FPLIST
+ Connector*:*
+$ENDFPLIST
+DRAW
+A 0 0 20 901 -901 1 1 6 N 0 20 0 -20
+P 2 1 1 6 -50 0 -20 0 N
+X Pin_1 1 -200 0 150 R 50 50 1 1 P
+ENDDRAW
+ENDDEF
+#
+# R_Small_US_Ω-r_small_us_ω
+#
+DEF R_Small_US_Ω-r_small_us_ω R 0 10 N N 1 F N
+F0 "R" 30 20 50 H V L CNN
+F1 "R_Small_US_Ω-r_small_us_ω" 30 -40 50 H V L CNN
+F2 "" 0 0 50 H I C CNN
+F3 "" 0 0 50 H I C CNN
+$FPLIST
+ R_*
+$ENDFPLIST
+DRAW
+P 5 1 1 0 0 0 40 -15 0 -30 -40 -45 0 -60 N
+P 5 1 1 0 0 60 40 45 0 30 -40 15 0 0 N
+X ~ 1 0 100 40 D 50 50 1 1 P
+X ~ 2 0 -100 40 U 50 50 1 1 P
+ENDDRAW
+ENDDEF
+#
+#End Library

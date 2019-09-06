@@ -2321,7 +2321,7 @@ Wire Wire Line
 	3575 5450 3800 5450
 Connection ~ 3575 5450
 $Comp
-L audiojack3_ground_switchtr:AudioJack3_Ground_SwitchTR J1
+L uno-shield-v.8-project-SMD-rescue:AudioJack3_Ground_SwitchTR-audiojack3_ground_switchtr J1
 U 1 1 5C536746
 P 1500 4800
 F 0 "J1" H 1175 4775 50  0000 L CNN
@@ -2335,7 +2335,7 @@ F 6 "http://Arrow.com" H 1500 4800 50  0001 C CNN "Source"
 	1    0    0    1   
 $EndComp
 $Comp
-L newkicadversion-rescue:AD8244ARMZ-AD8244_A U2
+L uno-shield-v.8-project-SMD-rescue:AD8244ARMZ-AD8244_A-newkicadversion-rescue U2
 U 4 1 5C72CF84
 P 12800 6400
 F 0 "U2" H 12950 6500 50  0000 C CNN
@@ -2435,7 +2435,7 @@ F 6 "http://Arrow.com" H 21350 1500 50  0001 C CNN "Source"
 	-1   0    0    -1  
 $EndComp
 $Comp
-L conn_01x08_maleA:Conn_01x08_Male J5
+L uno-shield-v.8-project-SMD-rescue:Conn_01x08_Male-conn_01x08_maleA J5
 U 1 1 5C8A7B72
 P 21850 2500
 F 0 "J5" H 21800 2900 50  0000 C CNN
@@ -2541,7 +2541,7 @@ F 6 "http://Arrow.com" H 20800 9275 50  0001 C CNN "Source"
 	-1   0    0    1   
 $EndComp
 $Comp
-L conn_01x06_male:Conn_01x06_Male J3
+L uno-shield-v.8-project-SMD-rescue:Conn_01x06_Male-conn_01x06_male J3
 U 1 1 5C90EA9D
 P 21250 2400
 F 0 "J3" H 21250 2700 50  0000 L CNN
@@ -2555,7 +2555,7 @@ F 6 "http://Arrow.com" H 21250 2400 50  0001 C CNN "Source"
 	1    0    0    -1  
 $EndComp
 $Comp
-L newkicadversion-rescue:AD8244ARMZ-AD8244_A U2
+L uno-shield-v.8-project-SMD-rescue:AD8244ARMZ-AD8244_A-newkicadversion-rescue U2
 U 2 1 5F04F6CF
 P 12800 4775
 F 0 "U2" H 12950 4875 50  0000 C CNN
@@ -2585,7 +2585,7 @@ F 8 "http://Arrow.com" H 13050 3925 50  0001 C CNN "Source"
 	0    -1   -1   0   
 $EndComp
 $Comp
-L newkicadversion-rescue:HX711-hx711 ADC1
+L uno-shield-v.8-project-SMD-rescue:HX711-hx711-newkicadversion-rescue ADC1
 U 1 1 5C19811F
 P 15350 5100
 F 0 "ADC1" H 15800 4950 50  0000 C CNN
@@ -2629,7 +2629,7 @@ F 6 "99" H 15150 5600 50  0001 C CNN "ClickToSortForPlacement"
 	0    1    1    0   
 $EndComp
 $Comp
-L newkicadversion-rescue:AD8244ARMZ-AD8244_A U2
+L uno-shield-v.8-project-SMD-rescue:AD8244ARMZ-AD8244_A-newkicadversion-rescue U2
 U 1 1 5F04DF16
 P 12800 4150
 F 0 "U2" H 12900 4250 50  0000 L CNN
@@ -2687,7 +2687,7 @@ F 6 "14 Note this is a precision value component so its conductive ends and blac
 	1    0    0    -1  
 $EndComp
 $Comp
-L Reference_Current:REF200AU U4
+L uno-shield-v.8-project-SMD-rescue:REF200AU-Reference_Current U4
 U 3 1 5D0FCC87
 P 7775 5150
 F 0 "U4" H 8155 5196 50  0000 L CNN
@@ -2701,7 +2701,7 @@ F 6 "26 Before opening this shipping package, perform as complete of diagnostics
 	1    0    0    -1  
 $EndComp
 $Comp
-L Reference_Current:REF200AU U4
+L uno-shield-v.8-project-SMD-rescue:REF200AU-Reference_Current U4
 U 2 1 5D0FB910
 P 8375 6000
 F 0 "U4" H 8555 6046 50  0000 L CNN
@@ -2715,7 +2715,7 @@ F 6 "26 Before opening this shipping package, perform as complete of diagnostics
 	1    0    0    -1  
 $EndComp
 $Comp
-L uno-shield-rescue:ADL5315ACPZ-R7-2019-05-19_00-44-38-uno-shield-rescue-uno-shield-rescue U3
+L uno-shield-v.8-project-SMD-rescue:ADL5315ACPZ-R7-2019-05-19_00-44-38-uno-shield-rescue-uno-shield-rescue-uno-shield-rescue U3
 U 1 1 5CE2F217
 P 3800 4650
 F 0 "U3" H 5000 5037 60  0000 C CNN
@@ -2771,7 +2771,7 @@ F 6 "14 Place then check work as before" H 3850 4075 50  0001 C CNN "ClickToSort
 	0    -1   -1   0   
 $EndComp
 $Comp
-L 2019-03-19_09-09-09:MCP4262-xxxE_UN U8
+L uno-shield-v.8-project-SMD-rescue:MCP4262-xxxE_UN-2019-03-19_09-09-09 U8
 U 1 1 5CA59032
 P 11100 4575
 F 0 "U8" H 12050 3675 60  0000 R CNN
@@ -2785,7 +2785,7 @@ F 6 "http://digikey.com" H 11100 4575 50  0001 C CNN "Source"
 	-1   0    0    1   
 $EndComp
 $Comp
-L lm334m:LM334M U5
+L uno-shield-v.8-project-SMD-rescue:LM334M-lm334m U5
 U 1 1 5CDCE965
 P 7775 3950
 F 0 "U5" H 7655 3996 50  0000 R CNN
@@ -2799,7 +2799,7 @@ F 6 "23 Check corner pads for adequate bare metal: ensure the solder mask of all
 	1    0    0    -1  
 $EndComp
 $Comp
-L lm334m:LM334M U6
+L uno-shield-v.8-project-SMD-rescue:LM334M-lm334m U6
 U 1 1 5CDCF5D4
 P 8875 3950
 F 0 "U6" H 8755 3996 50  0000 R CNN
@@ -2907,7 +2907,7 @@ F 8 "http://Arrow.com" H 9700 11700 50  0001 C CNN "Source"
 	1    0    0    -1  
 $EndComp
 $Comp
-L newkicadversion-rescue:AD8244ARMZ-AD8244_A U2
+L uno-shield-v.8-project-SMD-rescue:AD8244ARMZ-AD8244_A-newkicadversion-rescue U2
 U 3 1 5F050747
 P 3450 4075
 F 0 "U2" H 3575 3925 50  0000 C CNN
@@ -3368,7 +3368,7 @@ F 4 "99 " H 1450 1000 50  0001 C CNN "ClickToSortForPlacement"
 	1    0    0    -1  
 $EndComp
 $Comp
-L solderjumper_3_bridged12:SolderJumper_3_Bridged12 JP8
+L uno-shield-v.8-project-SMD-rescue:SolderJumper_3_Bridged12-solderjumper_3_bridged12 JP8
 U 1 1 5D438593
 P 17700 9075
 F 0 "JP8" H 17700 9280 50  0000 C CNN
@@ -3380,7 +3380,7 @@ F 4 "999" H 17700 9075 50  0001 C CNN "ClickToSortForPlacement"
 	-1   0    0    -1  
 $EndComp
 $Comp
-L solderjumper_3_bridged12:SolderJumper_3_Bridged12 JP10
+L uno-shield-v.8-project-SMD-rescue:SolderJumper_3_Bridged12-solderjumper_3_bridged12 JP10
 U 1 1 5D43B289
 P 18400 8975
 F 0 "JP10" H 18400 9100 50  0000 C CNN
@@ -3392,7 +3392,7 @@ F 4 "999" H 18400 8975 50  0001 C CNN "ClickToSortForPlacement"
 	-1   0    0    -1  
 $EndComp
 $Comp
-L solderjumper_3_bridged12:SolderJumper_3_Bridged12 JP11
+L uno-shield-v.8-project-SMD-rescue:SolderJumper_3_Bridged12-solderjumper_3_bridged12 JP11
 U 1 1 5D43C8EF
 P 18400 9575
 F 0 "JP11" H 18400 9688 50  0000 C CNN
@@ -3418,7 +3418,7 @@ F 6 "http://Arrow.com" H 18400 9275 50  0001 C CNN "Source"
 	-1   0    0    1   
 $EndComp
 $Comp
-L solderjumper_3_bridged12:SolderJumper_3_Bridged12 JP9
+L uno-shield-v.8-project-SMD-rescue:SolderJumper_3_Bridged12-solderjumper_3_bridged12 JP9
 U 1 1 5D43D9B5
 P 17700 9675
 F 0 "JP9" H 17700 9788 50  0000 C CNN
@@ -3458,7 +3458,7 @@ F 6 "14 Place then check work" H 6150 4025 50  0001 C CNN "ClickToSortForPlaceme
 	1    0    0    -1  
 $EndComp
 $Comp
-L 2019-03-19_09-09-09:MCP4262-xxxE_UN U12
+L uno-shield-v.8-project-SMD-rescue:MCP4262-xxxE_UN-2019-03-19_09-09-09 U12
 U 1 1 5D6AAC30
 P 6950 -825
 F 0 "U12" H 6825 -1200 60  0000 R CNN
@@ -3474,7 +3474,7 @@ F 8 "http://www.digikey.com" H 6950 -825 50  0001 C CNN "Source"
 	-1   0    0    1   
 $EndComp
 $Comp
-L 2019-03-19_09-09-09:MCP4262-xxxE_UN U16
+L uno-shield-v.8-project-SMD-rescue:MCP4262-xxxE_UN-2019-03-19_09-09-09 U16
 U 1 1 5D79DE00
 P 8725 -775
 F 0 "U16" H 8600 -1150 60  0000 R CNN
@@ -3490,7 +3490,7 @@ F 8 "http://www.digikey.com" H 8725 -775 50  0001 C CNN "Source"
 	-1   0    0    1   
 $EndComp
 $Comp
-L 2019-03-19_09-09-09:MCP4262-xxxE_UN U20
+L uno-shield-v.8-project-SMD-rescue:MCP4262-xxxE_UN-2019-03-19_09-09-09 U20
 U 1 1 5D7B7390
 P 10325 -800
 F 0 "U20" H 10200 -1175 60  0000 R CNN
@@ -3506,7 +3506,7 @@ F 8 "http://www.digikey.com" H 10325 -800 50  0001 C CNN "Source"
 	-1   0    0    1   
 $EndComp
 $Comp
-L 2019-03-19_09-09-09:MCP4262-xxxE_UN U24
+L uno-shield-v.8-project-SMD-rescue:MCP4262-xxxE_UN-2019-03-19_09-09-09 U24
 U 1 1 5D7D0E54
 P 11950 -775
 F 0 "U24" H 11825 -1150 60  0000 R CNN
@@ -3522,7 +3522,7 @@ F 8 "http://www.digikey.com" H 11950 -775 50  0001 C CNN "Source"
 	-1   0    0    1   
 $EndComp
 $Comp
-L 2019-03-19_09-09-09:MCP4262-xxxE_UN U28
+L uno-shield-v.8-project-SMD-rescue:MCP4262-xxxE_UN-2019-03-19_09-09-09 U28
 U 1 1 5D7E9C86
 P 13700 -750
 F 0 "U28" H 13575 -1125 60  0000 R CNN
@@ -3538,7 +3538,7 @@ F 8 "http://www.digikey.com" H 13700 -750 50  0001 C CNN "Source"
 	-1   0    0    1   
 $EndComp
 $Comp
-L 2019-03-19_09-09-09:MCP4262-xxxE_UN U32
+L uno-shield-v.8-project-SMD-rescue:MCP4262-xxxE_UN-2019-03-19_09-09-09 U32
 U 1 1 5D8038A3
 P 15225 -750
 F 0 "U32" H 15100 -1125 60  0000 R CNN
@@ -3568,7 +3568,7 @@ F 6 "14 IF NO FOOTPRINT FOR THIS: OPTIONAL IN BOARD REV 7 AND BELOW AND WOULD HA
 	0    1    1    0   
 $EndComp
 $Comp
-L 2019-03-19_09-09-09:MCP4262-xxxE_UN U11
+L uno-shield-v.8-project-SMD-rescue:MCP4262-xxxE_UN-2019-03-19_09-09-09 U11
 U 1 1 5D88DEC2
 P 6900 -2500
 F 0 "U11" H 6775 -2875 60  0000 R CNN
@@ -3584,7 +3584,7 @@ F 8 "http://www.digikey.com" H 6900 -2500 50  0001 C CNN "Source"
 	-1   0    0    1   
 $EndComp
 $Comp
-L 2019-03-19_09-09-09:MCP4262-xxxE_UN U15
+L uno-shield-v.8-project-SMD-rescue:MCP4262-xxxE_UN-2019-03-19_09-09-09 U15
 U 1 1 5D88DEE1
 P 8675 -2450
 F 0 "U15" H 8550 -2825 60  0000 R CNN
@@ -3600,7 +3600,7 @@ F 8 "http://www.digikey.com" H 8675 -2450 50  0001 C CNN "Source"
 	-1   0    0    1   
 $EndComp
 $Comp
-L 2019-03-19_09-09-09:MCP4262-xxxE_UN U19
+L uno-shield-v.8-project-SMD-rescue:MCP4262-xxxE_UN-2019-03-19_09-09-09 U19
 U 1 1 5D88DF00
 P 10275 -2475
 F 0 "U19" H 10150 -2850 60  0000 R CNN
@@ -3616,7 +3616,7 @@ F 8 "http://www.digikey.com" H 10275 -2475 50  0001 C CNN "Source"
 	-1   0    0    1   
 $EndComp
 $Comp
-L 2019-03-19_09-09-09:MCP4262-xxxE_UN U23
+L uno-shield-v.8-project-SMD-rescue:MCP4262-xxxE_UN-2019-03-19_09-09-09 U23
 U 1 1 5D88DF1F
 P 11900 -2450
 F 0 "U23" H 11775 -2825 60  0000 R CNN
@@ -3632,7 +3632,7 @@ F 8 "http://www.digikey.com" H 11900 -2450 50  0001 C CNN "Source"
 	-1   0    0    1   
 $EndComp
 $Comp
-L 2019-03-19_09-09-09:MCP4262-xxxE_UN U27
+L uno-shield-v.8-project-SMD-rescue:MCP4262-xxxE_UN-2019-03-19_09-09-09 U27
 U 1 1 5D88DF3E
 P 13650 -2425
 F 0 "U27" H 13525 -2800 60  0000 R CNN
@@ -3648,7 +3648,7 @@ F 8 "http://www.digikey.com" H 13650 -2425 50  0001 C CNN "Source"
 	-1   0    0    1   
 $EndComp
 $Comp
-L 2019-03-19_09-09-09:MCP4262-xxxE_UN U31
+L uno-shield-v.8-project-SMD-rescue:MCP4262-xxxE_UN-2019-03-19_09-09-09 U31
 U 1 1 5D88DF5D
 P 15175 -2425
 F 0 "U31" H 15050 -2800 60  0000 R CNN
@@ -3664,7 +3664,7 @@ F 8 "http://www.digikey.com" H 15175 -2425 50  0001 C CNN "Source"
 	-1   0    0    1   
 $EndComp
 $Comp
-L 2019-03-19_09-09-09:MCP4262-xxxE_UN U10
+L uno-shield-v.8-project-SMD-rescue:MCP4262-xxxE_UN-2019-03-19_09-09-09 U10
 U 1 1 5D8ACEF1
 P 6875 -4325
 F 0 "U10" H 6750 -4700 60  0000 R CNN
@@ -3680,7 +3680,7 @@ F 8 "http://www.digikey.com" H 6875 -4325 50  0001 C CNN "Source"
 	-1   0    0    1   
 $EndComp
 $Comp
-L 2019-03-19_09-09-09:MCP4262-xxxE_UN U14
+L uno-shield-v.8-project-SMD-rescue:MCP4262-xxxE_UN-2019-03-19_09-09-09 U14
 U 1 1 5D8ACF10
 P 8650 -4275
 F 0 "U14" H 8525 -4650 60  0000 R CNN
@@ -3696,7 +3696,7 @@ F 8 "http://www.digikey.com" H 8650 -4275 50  0001 C CNN "Source"
 	-1   0    0    1   
 $EndComp
 $Comp
-L 2019-03-19_09-09-09:MCP4262-xxxE_UN U18
+L uno-shield-v.8-project-SMD-rescue:MCP4262-xxxE_UN-2019-03-19_09-09-09 U18
 U 1 1 5D8ACF2F
 P 10250 -4300
 F 0 "U18" H 10125 -4675 60  0000 R CNN
@@ -3712,7 +3712,7 @@ F 8 "http://www.digikey.com" H 10250 -4300 50  0001 C CNN "Source"
 	-1   0    0    1   
 $EndComp
 $Comp
-L 2019-03-19_09-09-09:MCP4262-xxxE_UN U22
+L uno-shield-v.8-project-SMD-rescue:MCP4262-xxxE_UN-2019-03-19_09-09-09 U22
 U 1 1 5D8ACF4E
 P 11875 -4275
 F 0 "U22" H 11750 -4650 60  0000 R CNN
@@ -3728,7 +3728,7 @@ F 8 "http://www.digikey.com" H 11875 -4275 50  0001 C CNN "Source"
 	-1   0    0    1   
 $EndComp
 $Comp
-L 2019-03-19_09-09-09:MCP4262-xxxE_UN U26
+L uno-shield-v.8-project-SMD-rescue:MCP4262-xxxE_UN-2019-03-19_09-09-09 U26
 U 1 1 5D8ACF6D
 P 13625 -4250
 F 0 "U26" H 13500 -4625 60  0000 R CNN
@@ -3744,7 +3744,7 @@ F 8 "http://www.digikey.com" H 13625 -4250 50  0001 C CNN "Source"
 	-1   0    0    1   
 $EndComp
 $Comp
-L 2019-03-19_09-09-09:MCP4262-xxxE_UN U30
+L uno-shield-v.8-project-SMD-rescue:MCP4262-xxxE_UN-2019-03-19_09-09-09 U30
 U 1 1 5D8ACF8C
 P 15150 -4250
 F 0 "U30" H 15025 -4625 60  0000 R CNN
@@ -3760,7 +3760,7 @@ F 8 "http://www.digikey.com" H 15150 -4250 50  0001 C CNN "Source"
 	-1   0    0    1   
 $EndComp
 $Comp
-L 2019-03-19_09-09-09:MCP4262-xxxE_UN U9
+L uno-shield-v.8-project-SMD-rescue:MCP4262-xxxE_UN-2019-03-19_09-09-09 U9
 U 1 1 5D8CCF9E
 P 6850 -6150
 F 0 "U9" H 6725 -6525 60  0000 R CNN
@@ -3776,7 +3776,7 @@ F 8 "http://www.digikey.com" H 6850 -6150 50  0001 C CNN "Source"
 	-1   0    0    1   
 $EndComp
 $Comp
-L 2019-03-19_09-09-09:MCP4262-xxxE_UN U13
+L uno-shield-v.8-project-SMD-rescue:MCP4262-xxxE_UN-2019-03-19_09-09-09 U13
 U 1 1 5D8CCFBD
 P 8625 -6100
 F 0 "U13" H 8500 -6475 60  0000 R CNN
@@ -3792,7 +3792,7 @@ F 8 "http://www.digikey.com" H 8625 -6100 50  0001 C CNN "Source"
 	-1   0    0    1   
 $EndComp
 $Comp
-L 2019-03-19_09-09-09:MCP4262-xxxE_UN U17
+L uno-shield-v.8-project-SMD-rescue:MCP4262-xxxE_UN-2019-03-19_09-09-09 U17
 U 1 1 5D8CCFDC
 P 10225 -6125
 F 0 "U17" H 10100 -6500 60  0000 R CNN
@@ -3808,7 +3808,7 @@ F 8 "http://www.digikey.com" H 10225 -6125 50  0001 C CNN "Source"
 	-1   0    0    1   
 $EndComp
 $Comp
-L 2019-03-19_09-09-09:MCP4262-xxxE_UN U21
+L uno-shield-v.8-project-SMD-rescue:MCP4262-xxxE_UN-2019-03-19_09-09-09 U21
 U 1 1 5D8CCFFB
 P 11850 -6100
 F 0 "U21" H 11725 -6475 60  0000 R CNN
@@ -3824,7 +3824,7 @@ F 8 "http://www.digikey.com" H 11850 -6100 50  0001 C CNN "Source"
 	-1   0    0    1   
 $EndComp
 $Comp
-L 2019-03-19_09-09-09:MCP4262-xxxE_UN U25
+L uno-shield-v.8-project-SMD-rescue:MCP4262-xxxE_UN-2019-03-19_09-09-09 U25
 U 1 1 5D8CD01A
 P 13600 -6075
 F 0 "U25" H 13475 -6450 60  0000 R CNN
@@ -3840,7 +3840,7 @@ F 8 "http://www.digikey.com" H 13600 -6075 50  0001 C CNN "Source"
 	-1   0    0    1   
 $EndComp
 $Comp
-L 2019-03-19_09-09-09:MCP4262-xxxE_UN U29
+L uno-shield-v.8-project-SMD-rescue:MCP4262-xxxE_UN-2019-03-19_09-09-09 U29
 U 1 1 5D8CD039
 P 15125 -6075
 F 0 "U29" H 15000 -6450 60  0000 R CNN
@@ -3856,7 +3856,7 @@ F 8 "http://www.digikey.com" H 15125 -6075 50  0001 C CNN "Source"
 	-1   0    0    1   
 $EndComp
 $Comp
-L 2019-03-19_09-09-09:MCP4262-xxxE_UN U33
+L uno-shield-v.8-project-SMD-rescue:MCP4262-xxxE_UN-2019-03-19_09-09-09 U33
 U 1 1 5D8EC9A4
 P 16975 -725
 F 0 "U33" H 16850 -1100 60  0000 R CNN
@@ -3937,7 +3937,7 @@ U8-Pad6
 Text Label 6500 -6300 2    50   ~ 0
 U8-Pad5
 $Comp
-L 2019-03-19_09-09-09:MCP4262-xxxE_UN U7
+L uno-shield-v.8-project-SMD-rescue:MCP4262-xxxE_UN-2019-03-19_09-09-09 U7
 U 1 1 5C9A2EF5
 P 9850 4575
 F 0 "U7" H 10050 3675 60  0000 R CNN
@@ -3961,7 +3961,7 @@ Wire Notes Line
 Wire Notes Line
 	9525 4025 9525 4275
 $Comp
-L 1-2328702-0:1-2328702-0 J9
+L uno-shield-v.8-project-SMD-rescue:1-2328702-0-1-2328702-0 J9
 U 1 1 5DA5E558
 P 5350 -800
 F 0 "J9" H 5275 -1500 50  0000 L CNN
@@ -4030,7 +4030,7 @@ Wire Wire Line
 Text Label 4950 -900 2    50   ~ 0
 1st_stage_guard_trace
 $Comp
-L Reference_Current:REF200AU U4
+L uno-shield-v.8-project-SMD-rescue:REF200AU-Reference_Current U4
 U 1 1 5D0F9980
 P 6150 3525
 F 0 "U4" H 6330 3571 50  0000 L CNN
