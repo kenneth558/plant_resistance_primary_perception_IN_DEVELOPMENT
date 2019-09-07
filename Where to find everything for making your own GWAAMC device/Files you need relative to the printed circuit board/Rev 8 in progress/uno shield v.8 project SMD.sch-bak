@@ -4017,11 +4017,11 @@ F 3 "" H 4425 -675 50  0001 C CNN
 $EndComp
 Text Label 4950 -1000 2    50   ~ 0
 U8-Pad5
-Text Label 4950 -1300 2    50   ~ 0
+Text Label 4950 -1100 2    50   ~ 0
 U8-Pad6
 Text Label 4950 -1200 2    50   ~ 0
 U8-Pad7
-Text Label 4950 -1100 2    50   ~ 0
+Text Label 4950 -1300 2    50   ~ 0
 U8-Pad8
 Wire Wire Line
 	4950 -700 4425 -700
