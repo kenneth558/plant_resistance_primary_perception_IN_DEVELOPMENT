@@ -3988,46 +3988,44 @@ $EndComp
 $Comp
 L power:+5V #PWR0143
 U 1 1 5D764CDA
-P 3950 -800
-F 0 "#PWR0143" H 3950 -950 50  0001 C CNN
-F 1 "+5V" H 3965 -627 50  0000 C CNN
-F 2 "" H 3950 -800 50  0001 C CNN
-F 3 "" H 3950 -800 50  0001 C CNN
-	1    3950 -800
+P 4425 -1075
+F 0 "#PWR0143" H 4425 -1225 50  0001 C CNN
+F 1 "+5V" H 4440 -902 50  0000 C CNN
+F 2 "" H 4425 -1075 50  0001 C CNN
+F 3 "" H 4425 -1075 50  0001 C CNN
+	1    4425 -1075
 	1    0    0    -1  
 $EndComp
-Text Label 4950 -400 2    50   ~ 0
+Text Label 4950 -1300 2    50   ~ 0
 8
-Text Label 4950 -500 2    50   ~ 0
+Text Label 4950 -1200 2    50   ~ 0
 SCK(1)
-Text Label 4950 -600 2    50   ~ 0
+Text Label 4950 -1100 2    50   ~ 0
 MOSI(1)
-Wire Wire Line
-	4950 -800 3950 -800
 $Comp
 L power:GNDD #PWR0144
 U 1 1 5D79F70A
-P 4425 -675
-F 0 "#PWR0144" H 4425 -925 50  0001 C CNN
-F 1 "GNDD" H 4429 -830 50  0000 C CNN
-F 2 "" H 4425 -675 50  0001 C CNN
-F 3 "" H 4425 -675 50  0001 C CNN
-	1    4425 -675
+P 4425 -975
+F 0 "#PWR0144" H 4425 -1225 50  0001 C CNN
+F 1 "GNDD" H 4429 -1130 50  0000 C CNN
+F 2 "" H 4425 -975 50  0001 C CNN
+F 3 "" H 4425 -975 50  0001 C CNN
+	1    4425 -975
 	1    0    0    -1  
 $EndComp
-Text Label 4950 -1000 2    50   ~ 0
+Text Label 4950 -700 2    50   ~ 0
 U8-Pad5
-Text Label 4950 -1300 2    50   ~ 0
+Text Label 4950 -400 2    50   ~ 0
 U8-Pad6
-Text Label 4950 -1200 2    50   ~ 0
+Text Label 4950 -500 2    50   ~ 0
 U8-Pad7
-Text Label 4950 -1100 2    50   ~ 0
+Text Label 4950 -600 2    50   ~ 0
 U8-Pad8
 Wire Wire Line
-	4950 -700 4425 -700
+	4950 -1000 4425 -1000
 Wire Wire Line
-	4425 -700 4425 -675
-Text Label 4950 -900 2    50   ~ 0
+	4425 -1000 4425 -975
+Text Label 4950 -800 2    50   ~ 0
 1st_stage_guard_trace
 $Comp
 L Reference_Current:REF200AU U4
@@ -4055,4 +4053,10 @@ Text Label 10200 4425 0    50   ~ 0
 7
 Text Label 11450 4425 0    50   ~ 0
 8
+Wire Wire Line
+	4950 -900 4575 -900
+Wire Wire Line
+	4575 -900 4575 -1075
+Wire Wire Line
+	4575 -1075 4425 -1075
 $EndSCHEMATC
