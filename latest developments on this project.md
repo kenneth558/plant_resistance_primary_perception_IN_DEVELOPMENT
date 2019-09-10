@@ -1,4 +1,4 @@
-<p align=center>Now is a great time for all interested parties to ask me about including capabilities you think would make this project as valuable as it can be.  Just submit an Issue describing the enhancement.  Thank you!</p>
+<p align=center>Do you have an idea for improvement?  Now is a great time for all interested parties to ask me about including capabilities you think would make this project as valuable as it can be.  Just submit an Issue describing the enhancement.  Thank you!</p>
 
 
 [Rev 8 PCB available for sale at OSH Park](https://oshpark.com/shared_projects/SF7ghPqh) and you will need to also order [the expansion flex board](https://oshpark.com/shared_projects/RKupJU04)
