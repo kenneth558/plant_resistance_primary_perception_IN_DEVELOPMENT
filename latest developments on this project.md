@@ -5,7 +5,7 @@
 
 ![A 3D rendering of a populated board was supposed to show here](https://github.com/kenneth558/plant_resistance_primary_perception/blob/Free/Where%20to%20find%20everything%20for%20making%20your%20own%20GWAAMC%20device/front_straight-on_SHLD1_see-through_with_notes.png) Note that I make no money on you ordering from OSH Park so I can keep the price for you as low as possible.
 
-<dl><dt>09 Sep 2019</dt></dl>I thought the flex board was done, but when the connector arrived in my mailbox, I discovered that I designed the board having the connector backwards.
+<dl><dt>09 Sep 2019</dt></dl>The final correction (of a backwards connector) has been incorporated into the latest PCB design.  Additionally, a flex board expansion board design is finished.  I would venture to bet  this new main board and the flex expansion board will work just fine.  I have them on order from OSH Park now.  When they arrive in two or three weeks, estimated based on past purchases, I will expect to take about a week or so to prove their operation.  Mid-October-ish.
 
 <dl><dt>06 Sep 2019</dt></dl>I'm changing schematic symbol numbers for U1 and up for the ICs and changing chip select pins from the MCU.  That means I'll be publishing a new schematic and any references to U numbers and CS pins in previous postings and documents are now obsolete.  Be sure when examining any documents referencing U numbers and CS pins that you realize those changes that occurred as of this date.  I'm hoping to correct a lot of it on GitHub within minutes.
 
