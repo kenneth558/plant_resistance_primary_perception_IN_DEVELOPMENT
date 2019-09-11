@@ -7,5 +7,5 @@
 · Electrode clamshells; one per leaf electrode.  Having attachment means and gripping spring somewhere along hinge axis and having enough suspending points spread out to hold clamshell in any specific orientation needed.  
 · Electrode suspension device of your own making that won't sink into ground and extends a guy strings hang point above DUT
 · Carbon fiber tow, non-impregnated with a gold-plated connector per electrode (we have no source yet).  The connector will interface between the carbon fiber and wiring to the receptacle that receives the coaxial cable plug.
-NOTE - Very high temp solder (K100) not allowed on U3.  The best solder will always be "No Heat SAC305" if you can find it, but you still MUST cleanse gold from pads.  Avoid Pb (leaded) solder unless you understand the behavior of eutectics, how Pb ruins other solders, and how gold from ENIG ruins it.
+NOTE - Very high temp solder (K100) not allowed on U4.  The best solder will always be "No Heat SAC305" if you can find it, but you still MUST cleanse gold from pads.  Avoid Pb (leaded) solder unless you understand the behavior of eutectics, how Pb ruins other solders, and how gold from ENIG ruins it.
 
