@@ -1,14 +1,11 @@
-Kapton tape (Polyimide) WILL be needed.  It doesn't get into the BOM because it is not a circuit component.  If you want to laser cut stencils from it, get 2" wide and 6" long minimum plus what you'll need for place assist holding tape (3/8" wide, 6' long)
+· 1 roll Polyimide (Kapton) tape 3/8" wide 6' length or greater.  Use as electrical insulator and place assist. P/N 3057 from Arrow or equivalent
+· 38ga magnet wire for trace repairs.  P/N 3522 from Arrow or equivalent
+· Solder wick P/N TOL-09327 from Arrow or equivalent
+· Soldering colophony (pine or gum ROSIN - NOT with zinc or ammonium chloride) flux (can make it yourself)
+· RG316 Coaxial cable 2m/6ft min length
+· Multi-conductor flat IDC ribbon cable or hookup wire.  P/N 2001 to 2006 from Arrow
+· Electrode clamshells; one per leaf electrode.  Having attachment means and gripping spring somewhere along hinge axis and having enough suspending points spread out to hold clamshell in any specific orientation needed.  
+· Electrode suspension device of your own making that won't sink into ground and extends a guy strings hang point above DUT
+· Carbon fiber tow, non-impregnated with a gold-plated connector per electrode (we have no source yet).  The connector will interface between the carbon fiber and wiring to the receptacle that receives the coaxial cable plug.
+NOTE - Very high temp solder (K100) not allowed on U3.  The best solder will always be "No Heat SAC305" if you can find it, but you still MUST cleanse gold from pads.  Avoid Pb (leaded) solder unless you understand the behavior of eutectics, how Pb ruins other solders, and how gold from ENIG ruins it.
 
-1 roll Polyimide tape 3/8" wide 6' length or greater.  Use as electrical insulator and place assist. P/N 3057 from Arrow or equivalent
-
-38ga magnet wire for U8+ and for trace repairs.  P/N 3522 from Arrow or equivalent
-
-The best solder will always be "No Heat SAC305" if you can find it, but you still MUST cleanse gold from pads.  As far as I know, that requires heat.
-Avoid Pb (leaded) solder unless you understand the behavior of eutectics, how Pb ruins other solders, and how gold from ENIG ruins it.
-Solder wick P/N TOL-09327 from Arrow or equivalent
-Soldering colophony (pine or gum ROSIN - NOT with zinc or ammonium chloride) flux (can make it yourself)
-
-Multi-conductor flat cable hookup wire
-RG316 Coaxial cable 2m/6ft min length
-Carbon fiber tow, non-impregnated with a gold-plated connector per electrode (our source is www.cfamills.com, David Shippee, Executive Director of Sales, P.O. Box 609, 105 Pierpoint Lane, Taylorsville, NC  28681, 828.855.5137  Mobile, 828.632.5220  Office )
