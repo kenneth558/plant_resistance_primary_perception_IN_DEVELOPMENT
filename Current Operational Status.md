@@ -3,7 +3,9 @@
 If you wonder what it was about Rev. 7 that I needed to change, it was the fact that I had made the current-to-voltage-signal stage far more sensitive than the LSB dPot could zero in on for screen placement.  IOW, as small as the LSB dPot step was, it simply was not a small enough resistance step to change the trace placement finely enough not to overshoot the entire screen during auto-adjust.  The only solution I could think of to this problem is parallel several of those dPots together...26 of them, in fact.  That is where the flex board comes in - it holds all those other dPots.  By using 26, their entire device resistance value becomes as close as possible to equaling one single resistance step of the MSB dPot.  That is the ideal resistance relationship between LSB and MSB.  The math with proper use of units is as follows:
 
 1 step MSB is                            50000 ohms per device/256 steps per device = 195.3125 ohms = 195 ohms
+
 a single LSB device full resistance is   5000 ohms per device
+
 number of LSB devices to parallel
     together to make their full
     resistance value equal to 195 ohms   5000 ohms per device/195 ohms = 25.6 devices
