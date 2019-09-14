@@ -8,7 +8,7 @@ a single LSB device full resistance is   5000 ohms per device
 
 number of LSB devices to parallel
     together to make their full
-    resistance value equal to 195 ohms   5000 ohms per device / 195 ohms = 25.6 devices
+    resistance value equal to 195 ohms is   5000 ohms per device / 195 ohms = 25.6 devices
     
 
 By paralleling a half device more than the optimal number, there will be a small adjustment step region that will be inaccessible in terms of achieving a fine-tune into with any LSB/MSB step combination.  You may actually prefer the alternative to that.  Twenty-five dPots paralleled with each other which would make each adjustment step just a little larger and result in a small adjustment step region of each MSB step that could be adjusted into by either of two MSB/LSB step combinations.  Which scheme is better will depend on the conductance range of DUTs your working with - 25 devices paralleled will be better suited for DUTs with higher conductance (lower DUT resistance).
