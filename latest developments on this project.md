@@ -2,7 +2,7 @@
 
 [Rev 8 PCB available for sale at OSH Park](https://oshpark.com/shared_projects/ZxEdCrsK) and you will need to also order [the expansion flex board](https://oshpark.com/shared_projects/RKupJU04).  They haven't yet been tested because I haven't received mine.  When I finally know Rev. 8 works, I will adopt a major.minor version numbering style beginning with version 1.0
 
-![A 3D rendering of a populated board was supposed to show here](https://github.com/kenneth558/plant_resistance_primary_perception/blob/Free/Where%20to%20find%20everything%20for%20making%20your%20own%20GWAAMC%20device/front_straight-on_SHLD1_see-through_with_notes.png) Note that I make no money on you ordering from OSH Park so I can keep the price for you as low as possible.
+![A 3D rendering of a populated board was supposed to show here](https://github.com/kenneth558/plant_resistance_primary_perception/blob/Free/Where%20to%20find%20everything%20for%20making%20your%20own%20GWAAMC%20device/front_straight-on_SHLD1_see-through_with_notes.png) Note that I make no money on you ordering from OSH Park so I can keep the price for the DIYer as low as possible.
 
 <dl><dt>15 Sep 2019</dt></dl>I tweaked the J9 flex connector footprint in a PCB edit to strengthen it mechanically - I moved some nearby PTH vias into its GNDD attachments so that SMD pads weren't the only means of it staying attached.  With this change, solidified solder through the depth of the board will assist the SMD pads.  Not only that, but I made those vias large enough to place guy wire ends into so that connector could actually also be held down with a guy wire around the top side of it for even greater strength.  The OSH Park project is updated with this enhancement.
 
