@@ -1,6 +1,6 @@
 <p align=center>Do you have an idea for features?  Now is a great time for all interested parties to ask me about including capabilities you think would make this project as valuable as it can be.  Just submit an "Issue" (see the tab above) describing the device feature that would interest you.  Thank you!</p>
 
-[Rev 8 PCB available for sale at OSH Park](https://oshpark.com/shared_projects/SF7ghPqh) and you will need to also order [the expansion flex board](https://oshpark.com/shared_projects/RKupJU04).  They haven't yet been tested because I haven't received mine.  When I finally know Rev. 8 works, I will adopt a major.minor version numbering style beginning with version 1.0
+[Rev 8 PCB available for sale at OSH Park](https://oshpark.com/shared_projects/ZxEdCrsK) and you will need to also order [the expansion flex board](https://oshpark.com/shared_projects/RKupJU04).  They haven't yet been tested because I haven't received mine.  When I finally know Rev. 8 works, I will adopt a major.minor version numbering style beginning with version 1.0
 
 ![A 3D rendering of a populated board was supposed to show here](https://github.com/kenneth558/plant_resistance_primary_perception/blob/Free/Where%20to%20find%20everything%20for%20making%20your%20own%20GWAAMC%20device/front_straight-on_SHLD1_see-through_with_notes.png) Note that I make no money on you ordering from OSH Park so I can keep the price for you as low as possible.
 
