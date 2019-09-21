@@ -37,7 +37,7 @@ We also see that energy in support of faith will make that faith produce greater
 
 Note that even though God values virtue, knowledge, and so on out to love more than faith, He'll be gracious to accept us to start with faith.
 
-The elephant in the living room:  These teachings from heaven were kept hidden by God from the public until Jesus walked this earth and brought them to us.  Jesus says no one can come to the Father but through Jesus.  Although we've discovered that plants will respond to anyones' sentiments, thanks to the grace of God, Jesus is the real God-ordained starting point for our development along this path:
+The elephant in the living room:  These teachings from heaven were kept hidden by God from the public until Jesus walked this earth and brought them to us.  Jesus says no one can come to the Father but through Jesus.  Although we've discovered that plants will respond to anyones' sentiments, thanks to the grace of God, God's real God-ordained starting point for our development along this path is Jesus:
 
  - "But as many as received him, to them gave he power to become the sons of God, even to them that believe on 
     his name"   John 1:12
