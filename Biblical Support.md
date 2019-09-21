@@ -63,4 +63,9 @@ We also see that energy behind faith will make that faith produce greater result
 
 Note that even though God values virtue, knowledge, and so on out to love more than faith, He'll be gracious to accept us to start with faith.
 
-The elephant in the living room:  These teachings from heaven were kept hidden by God from the public until Jesus walked this earth and brought them to us.  Jesus says no one can come to the Father but through Jesus.  Although we've discovered that plants will respond to anyones' sentiments, Jesus is the God-ordained starting point for development along this path.
+The elephant in the living room:  These teachings from heaven were kept hidden by God from the public until Jesus walked this earth and brought them to us.  Jesus says no one can come to the Father but through Jesus.  Although we've discovered that plants will respond to anyones' sentiments, thanks to the grace of God, Jesus is the real God-ordained starting point for our development along this path:
+
+ - "But as many as received him, to them gave he power to become the sons of God, even to them that believe on 
+    his name"   John 1:12
+    
+What plants are recognizing in us is that mankind comes from a royal lineage.  God has placed us here intending that we choose that royalty once again, and in so doing, Jesus offers us a more abundant life:  "I am come that they might have life, and that they might have it more abundantly"   John 10:10  (the astute reader will notice additionally that Jesus has actually also come to give us life itself...there is something deep there for those who have an ear to hear...)
