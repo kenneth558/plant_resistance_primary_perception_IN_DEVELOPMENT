@@ -59,7 +59,7 @@ And finally, since Jesus made the connection between faith and prayer in that Ma
 
 From all this, we see that developing the faith to affect plants is merely step 1 of a journey of which the destiny is love.  Stated another way, it will be very unbecoming, even ugly, for a person to exercise faith, yet not be intending to love other people.
 
-We also see that energy behind faith will make that faith produce greater results.
+We also see that energy in support of faith will make that faith produce greater results.
 
 Note that even though God values virtue, knowledge, and so on out to love more than faith, He'll be gracious to accept us to start with faith.
 
