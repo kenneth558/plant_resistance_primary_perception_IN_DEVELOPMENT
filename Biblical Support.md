@@ -57,7 +57,7 @@ And finally, since Jesus made the connection between faith and prayer in that Ma
  - The effectual fervent (the word "energetic" encapsulates both terms; gr. "energeo") prayer of a righteous man availeth much.
 
 
-From all this we see that developing the faith to affect plants is merely step 1 of a journey of which the destiny is love.  Stated another way, it will be very unbecoming, even ugly, for a person to exercise faith, yet not be intending to love other people.
+From all this, we see that developing the faith to affect plants is merely step 1 of a journey of which the destiny is love.  Stated another way, it will be very unbecoming, even ugly, for a person to exercise faith, yet not be intending to love other people.
 
 We also see that energy behind faith will make that faith produce greater results.
 
