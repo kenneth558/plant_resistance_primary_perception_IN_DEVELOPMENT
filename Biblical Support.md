@@ -22,3 +22,45 @@ In summary, Jesus accepted the fact that people would kill plants like fig trees
 ## 7 Wherefore thou art no more a servant, but a son; and if a son, then an heir of God through Christ.
 
 Notice in reading all this that the entirety of this project is Biblically based.  In fact, more specifically it is based in the words and lives of Jesus and His disciples.  God reserved these things to give to the believing Gentiles so they could make the nation of Israel jealous and know that they'll have to come back to God through Jesus.  Far be it from me to make it easy for anyone to short-circuit their way in without knowing that it was Jesus who started this whole agronomy-to-mountain-casting idea.  A mocker might posit that telempathic gardening probably came along well prior to Jesus' time, so Jesus didn't start it at all.  The fact is, Jesus actually was involved in started EVERYTHING well before He became a man, so He still knew first.
+
+ ### Wrap-up:
+ 
+ The principles relevant to the GWAAM-Sea Aid are found in several Bible verses, including the following:
+
+
+Notice the name of the element within us that is being exercised when we practice this type of gardening:
+
+ - If ye have faith, and doubt not, ye shall not only do this which is done to the fig tree, but also if ye shall 
+   say unto this mountain, Be thou removed, and be thou cast into the sea; it shall be done. And all things,
+   whatsoever ye shall ask in prayer, believing, ye shall receive. Matt 21:21-22
+
+
+Notice the value God puts on that element:
+
+ - But without faith it is impossible to please him    Heb. 11:6
+
+
+Notice the pre-eminent importance of love (called "charity" in the KJV Bible; gr. "agape")
+
+ - And now abideth faith, hope, charity, these three; but the greatest of these is charity. I Cor 13:13
+
+
+Notice the acquisition order that will be acceptable for the beginner during their growth and maturation:
+
+ - And beside this, giving all diligence, add to your faith virtue; and to virtue knowledge; And to knowledge
+   temperance; and to temperance patience; and to patience godliness; And to godliness brotherly kindness; and to 
+   brotherly kindness charity (love).   2 Peter 1:5
+
+
+And finally, since Jesus made the connection between faith and prayer in that Matt. 21:22 verse above, notice the type of prayer and faith that will get things done:
+
+ - The effectual fervent (the word "energetic" encapsulates both terms; gr. "energeo") prayer of a righteous man availeth much.
+
+
+From all this we see that developing the faith to affect plants is merely step 1 of a journey of which the destiny is love.  Stated another way, it will be very unbecoming, even ugly, for a person to exercise faith, yet not be intending to love other people.
+
+We also see that energy behind faith will make that faith produce greater results.
+
+Note that even though God values virtue, knowledge, and so on out to love more than faith, He'll be gracious to accept us to start with faith.
+
+The elephant in the living room:  These teachings from heaven were kept hidden by God from the public until Jesus walked this earth and brought them to us.  Jesus says no one can come to the Father but through Jesus.  Although we've discovered that plants will respond to anyones' sentiments, Jesus is the God-ordained starting point for development along this path.
