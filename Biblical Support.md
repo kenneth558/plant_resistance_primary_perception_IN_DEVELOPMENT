@@ -44,7 +44,7 @@ The elephant in the living room:  These teachings from heaven were kept hidden b
     
 What plants are recognizing in us is that mankind comes from a royal lineage.  God has placed us here intending that we choose that royalty once again, and in so doing, Jesus offers us a more abundant life:  "I am come that they might have life, and that they might have it more abundantly"   John 10:10  (the astute reader will notice additionally that Jesus has actually also come to give us life itself...there is something deep there for those who have an ear to hear...)
 
-<p align="center">### Wrap-up:</p>
+## Wrap-up:</p>
 Jesus cursed the fig tree, it withered away, and He said we would do the same [Matt 21:19-21](https://www.biblegateway.com/passage/?search=Matt+21%3A19-21&version=KJV):
 
 ## 19 And when he saw a fig tree in the way, he came to it, and found nothing thereon, but leaves only, and said unto it, Let no fruit grow on thee henceforward for ever. And presently the fig tree withered away.
