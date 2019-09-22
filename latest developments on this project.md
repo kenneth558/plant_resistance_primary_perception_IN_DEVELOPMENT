@@ -4,6 +4,9 @@
 
 ![A 3D rendering of a populated board was supposed to show here](https://github.com/kenneth558/plant_resistance_primary_perception/blob/Free/Where%20to%20find%20everything%20for%20making%20your%20own%20GWAAMC%20device/front_straight-on_SHLD1_see-through_with_notes.png) Note that I make no money on you ordering from OSH Park so I can keep the price for the DIYer as low as possible.
 
+
+<dl><dt>22 Sep 2019</dt></dl>Although I didn't know it until today, I received my order of 3 main boards (not the flex boards) yesterday.  I will start ASAP to build them out.
+
 <dl><dt>21 Sep 2019</dt></dl>Building my server complex has been curtailed by ISP blocking port 80 traffic into my modem.  This even though they assured me back when that they would not do such a thing.  Negotiating with other ISPs that can give me a data drop.  So far no success with that.  Anyone want to help me out here?  Open an Issue to let me know.  My specific need is acquire and install my SSL certificate for e-commerce, which requires my server to receive port 80 traffic.  Thank you!!!
 
 <dl><dt>15 Sep 2019</dt></dl>I tweaked the J9 flex connector footprint in a PCB edit to strengthen it mechanically - I moved some nearby PTH vias into its GND attachments so that SMD pads weren't the only means of it staying attached.  With this change, solidified solder through the depth of the board under the flex connector's GND attachments will assist the board's SMD pads holding that connector down.  Not only that, but I made those vias large enough to place guy wire ends into so that connector could actually also be held down with a guy wire around the top side of it for even greater strength.  The OSH Park project is updated with this enhancement.
