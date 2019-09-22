@@ -32,9 +32,10 @@ And finally, since Jesus made the connection between faith and prayer in that Ma
 
 From all this, we see that developing the faith to affect plants is merely step 1 of a journey of which the destiny is love.  Stated another way, it will be very unbecoming, even ugly, for a person to exercise faith, yet not be intent on loving other people.
 
-We also see that energy in support of faith will make that faith produce greater results.
+We also see from that verse that when we exert energy in support of our faith's actions that faith produces greater results.  Cleve Backster noticed the same thing in his experiments with plants.
 
 Note that even though God values virtue, knowledge, and so on out to love more than faith, He'll be gracious to accept us to start with faith.
+
 
 The elephant in the living room:  These teachings from heaven were kept hidden by God from the public until Jesus walked this earth and brought them to us.  Jesus says no one can come to the Father but through Jesus.  Although we've discovered that plants will respond to anyones' sentiments, thanks to the grace of God, God's real God-ordained starting point for our development along this path is Jesus:
 
@@ -42,6 +43,11 @@ The elephant in the living room:  These teachings from heaven were kept hidden b
     his name"   John 1:12
     
 What plants are recognizing in us is that mankind comes from a royal lineage.  God has placed us here intending that we choose that royalty once again, and in so doing, Jesus offers us a more abundant life:  "I am come that they might have life, and that they might have it more abundantly"   John 10:10  (the astute reader will notice additionally that Jesus has actually also come to give us life itself...there is something deep there for those who have an ear to hear...)
+
+Jesus' statement in Matt. 21:21 is a prophecy that has yet to be fulfilled to the scale He stated it.  To the extent that we are now able to fulfill this good prophecy of His and we refuse to do so, we deprive Him of what He is worthy of.  I want to see that He is no longer deprived of the fulfillment of His words that He is worthy of.  With a little help from the real-time, instantaneous feedback that devices like the GWAAM-Sea Aid provide, people can learn the faith technique needed to bring fulfillment to that good prophecy of His.
+
+
+
 
 ## Wrap-up:</p>
 Jesus cursed the fig tree, it withered away, and He said we would do the same [Matt 21:19-21](https://www.biblegateway.com/passage/?search=Matt+21%3A19-21&version=KJV):
