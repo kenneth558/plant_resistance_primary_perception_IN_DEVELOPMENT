@@ -9,7 +9,7 @@
 
 <dl><dt></dt></dl>
 
-Also while building these boards now, I'm focusing on getting the boards to working condition quick so I'm not video recording.  I'll video record for you once I get a few more boards under my belt.
+Also while building these boards now, I'm focusing on getting the boards to working condition the quickest I can so I'm not video recording.  I'll video record for you once I get a few more boards under my belt.
 
 <dl><dt>22 Sep 2019</dt></dl>Although I didn't know it until today, I received my order of 3 main boards (not the flex boards) yesterday.  I will start ASAP to build them out.
 
