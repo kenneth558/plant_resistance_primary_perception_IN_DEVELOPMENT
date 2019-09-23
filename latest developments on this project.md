@@ -7,6 +7,10 @@
 
 <dl><dt>23 Sep 2019</dt></dl>While building my latest design boards, I will fine-tune various files here to reflect refinements I deem necessary.  Just updated iBOM and board designs at the KiCad file-type level, but not the gerbers yet.  New board designs are in recognition that solder mask seems to be an adequate hermetic seal for inside SHLD1.  Therfore, I removed the solder mask blocks I had placed on those micro-vias.
 
+<dl><dt></dt></dl>
+
+Also while building these boards now, I'm focusing on getting the boards to working condition quick so I'm not video recording.  I'll video record for you once I get a few more boards under my belt.
+
 <dl><dt>22 Sep 2019</dt></dl>Although I didn't know it until today, I received my order of 3 main boards (not the flex boards) yesterday.  I will start ASAP to build them out.
 
 <dl><dt>21 Sep 2019</dt></dl>Building my server complex has been curtailed by ISP blocking port 80 traffic into my modem.  This even though they assured me back when that they would not do such a thing.  Negotiating with other ISPs that can give me a data drop.  So far no success with that.  Anyone want to help me out here?  Open an Issue to let me know.  My specific need is acquire and install my SSL certificate for e-commerce, which requires my server to receive port 80 traffic.  Thank you!!!
