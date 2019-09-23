@@ -274,7 +274,7 @@ F 0 "P8" H 5575 4500 50  0000 C CNN
 F 1 "Cable end 2mm male" H 6150 4500 50  0000 C CNN
 F 2 "Connector_PinHeader_1.00mm:PinHeader_1x01_P1.00mm_Horizontal" H 5300 4400 50  0001 C CNN
 F 3 "~" H 5300 4400 50  0001 C CNN
-F 4 "http://www.digikey.com" H 5300 4400 50  0001 C CNN "Source"
+F 4 "http://digikey.com" H 5300 4400 50  0001 C CNN "Source"
 F 5 "99" H 5300 4400 50  0001 C CNN "ClickToSortForPlacement"
 F 6 " CT3098-2-ND" H 5300 4400 50  0001 C CNN "Part_number"
 	1    5300 4400
@@ -292,7 +292,7 @@ F 2 "Connector_PinHeader_1.00mm:PinHeader_1x01_P1.00mm_Horizontal" H 5025 4300 5
 F 3 "~" H 5025 4300 50  0001 C CNN
 F 4 "99" H 5025 4300 50  0001 C CNN "ClickToSortForPlacement"
 F 5 "CT3095-2-ND" H 5025 4300 50  0001 C CNN "Part_number"
-F 6 "http://www.digikey.com" H 5025 4300 50  0001 C CNN "Source"
+F 6 "http://digikey.com" H 5025 4300 50  0001 C CNN "Source"
 	1    5025 4300
 	0    1    1    0   
 $EndComp
@@ -306,7 +306,7 @@ F 0 "P7" H 5100 4325 50  0000 C CNN
 F 1 "Cable end 2mm male" H 5675 4325 50  0000 C CNN
 F 2 "Connector_PinHeader_1.00mm:PinHeader_1x01_P1.00mm_Horizontal" H 4800 4400 50  0001 C CNN
 F 3 "~" H 4800 4400 50  0001 C CNN
-F 4 "http://www.digikey.com" H 4800 4400 50  0001 C CNN "Source"
+F 4 "http://digikey.com" H 4800 4400 50  0001 C CNN "Source"
 F 5 " CT3098-2-ND" H 4800 4400 50  0001 C CNN "Part_number"
 F 6 "99" H 4800 4400 50  0001 C CNN "ClickToSortForPlacement"
 	1    4800 4400

@@ -1219,21 +1219,21 @@ Wire Wire Line
 Text Notes 11200 1950 0    60   ~ 0
 Only a single jumper to be used at a time.\nThere are two pinouts of HC-05 style \nmodules and a third for ESP-01 \nadapter, though only one of the modules\ncan be chosen from that lineup.  If\nJ6 pin 3 is needed to be GND for an\nESP-01 adapter, use not only the JP4 shunt \nbut also solder-jumper on board front\nto surrounding copper.  If it is needed for\nconnect to Rx, pad jumpering is available \nnearby.  Note that Tx of one device \nconnects to Rx of the other & vice versa.\nThat is why you'll notice Tx printed on the \nwireless module goes to MCU Rx.
 Wire Notes Line
-	8075 13150 8075 15950
+	8075 12750 8075 15550
 Wire Notes Line
-	18650 15950 18650 13150
-Text Notes 8000 13775 0    500  ~ 0
+	18650 15575 18650 12775
+Text Notes 8050 13350 0    500  ~ 0
 Helpful Parts Not In Circuit
 Wire Notes Line
-	9000 13900 17900 13900
-Text Notes 8100 15875 0    100  ~ 0
-1 roll Polyimide tape 3/8" wide 6' length or greater.  Use as electrical insulator and place assist. P/N 3057 from Arrow or equivalent\n\n38ga magnet wire for U8+ and for trace repairs.  P/N 3522 from Arrow or equivalent\nVery high temp solder (K100) not allowed on U3.\nThe best solder will always be "No Heat SAC305" if you can find it, but you still MUST cleanse gold from pads.\nAvoid Pb (leaded) solder unless you understand the behavior of eutectics, how Pb ruins other solders, and how gold from ENIG ruins it.\nSolder wick P/N TOL-09327 from Arrow or equivalent\nSoldering colophony (pine or gum ROSIN - NOT with zinc or ammonium chloride) flux (can make it yourself)\n\nMulti-conductor flat IDC ribbon cable or hookup wire.  P/N 2001 to 2006 from Arrow\n\nCarbon fiber tow, non-impregnated with a gold-plated connector per electrode (we have no source, yet)
+	9025 13475 17925 13475
+Text Notes 8175 15850 0    100  ~ 0
+· 1 roll Polyimide (Kapton) tape 3/8" wide 6' length or greater.  Use as electrical insulator and place assist. P/N 3057 from Arrow \nor equivalent\n· 38ga magnet wire for trace repairs.  P/N 3522 from Arrow or equivalent\n· Solder wick P/N TOL-09327 from Arrow or equivalent\n· Soldering colophony (pine or gum ROSIN - NOT with zinc or ammonium chloride) flux (can make it yourself)\n· RG316 Coaxial cable 2m/6ft min length\n· Multi-conductor flat IDC ribbon cable or hookup wire.  P/N 2001 to 2006 from Arrow\n· Electrode clamshells; one per leaf electrode.  Having attachment means and gripping spring somewhere along hinge axis and \nhaving enough suspending points spread out to hold clamshell in any specific orientation needed.  \n· Electrode suspension device of your own making that won't sink into ground and extends a guy strings hang point above DUT\n· Carbon fiber tow, non-impregnated with a gold-plated connector per electrode (we have no source yet).  The connector will \ninterface between the carbon fiber and wiring to the receptacle that receives the coaxial cable plug.\nNOTE - Very high temp solder (K100) not allowed on U4.  The best solder will always be "No Heat SAC305" if you can find it, but \nyou still MUST cleanse gold from pads.  Avoid Pb (leaded) solder unless you understand the behavior of eutectics, how Pb ruins \nother solders, and how gold from ENIG ruins it.
 Wire Notes Line
 	21575 3825 22915 3825
 Wire Wire Line
 	21075 4075 21075 4150
 Wire Notes Line
-	8075 13150 18650 13150
+	8075 12725 18650 12725
 Wire Notes Line
 	8075 15950 18650 15950
 $Comp
@@ -2360,7 +2360,7 @@ F 2 "TestPoint:TestPoint_Keystone_5010-5014_Multipurpose" H 22421 721 20  0001 C
 F 3 "" H 22500 647 50  0000 C CNN
 F 4 "999 " H 11650 -25 50  0001 C CNN "ClickToSortForPlacement"
 F 5 "n/a" H 22500 647 50  0001 C CNN "Part_number"
-F 6 "n/a" H 22500 647 50  0001 C CNN "Source"
+F 6 "0 For clarity: [If not shown] U9-U33 must be ordered as well.  Same part number and source as U8, so order a qty 26 of U8 part number. Also, some components in this project are assigned to multiple sources, sure sure to decide where you'll buy those components from before ordering anything from anywhere so you won't end up ordering them on their own order and incurring additional costs in doing so." H 22500 647 50  0001 C CNN "Source"
 	1    22500 647 
 	0    -1   -1   0   
 $EndComp
@@ -2374,7 +2374,7 @@ F 2 "TestPoint:TestPoint_Keystone_5010-5014_Multipurpose" H 22600 647 20  0001 C
 F 3 "" H 22600 647 50  0000 C CNN
 F 4 "999 " H 11650 -25 50  0001 C CNN "ClickToSortForPlacement"
 F 5 "n/a" H 22600 647 50  0001 C CNN "Part_number"
-F 6 "n/a" H 22600 647 50  0001 C CNN "Source"
+F 6 "0 For clarity: [If not shown] U9-U33 must be ordered as well.  Same part number and source as U8, so order a qty 26 of U8 part number. Also, some components in this project are assigned to multiple sources, sure sure to decide where you'll buy those components from before ordering anything from anywhere so you won't end up ordering them on their own order and incurring additional costs in doing so." H 22600 647 50  0001 C CNN "Source"
 	1    22600 647 
 	0    -1   -1   0   
 $EndComp
@@ -2388,7 +2388,7 @@ F 2 "TestPoint:TestPoint_Keystone_5010-5014_Multipurpose" V 22700 647 20  0001 C
 F 3 "" H 22700 647 50  0000 C CNN
 F 4 "999 " H 11650 -25 50  0001 C CNN "ClickToSortForPlacement"
 F 5 "n/a" H 22700 647 50  0001 C CNN "Part_number"
-F 6 "n/a" H 22700 647 50  0001 C CNN "Source"
+F 6 "0 For clarity: [If not shown] U9-U33 must be ordered as well.  Same part number and source as U8, so order a qty 26 of U8 part number. Also, some components in this project are assigned to multiple sources, sure sure to decide where you'll buy those components from before ordering anything from anywhere so you won't end up ordering them on their own order and incurring additional costs in doing so." H 22700 647 50  0001 C CNN "Source"
 	1    22700 647 
 	0    -1   -1   0   
 $EndComp
@@ -2402,7 +2402,7 @@ F 2 "TestPoint:TestPoint_Keystone_5010-5014_Multipurpose" H 22724 569 20  0001 C
 F 3 "" H 22800 647 50  0000 C CNN
 F 4 "999 " H 11650 -25 50  0001 C CNN "ClickToSortForPlacement"
 F 5 "n/a" H 22800 647 50  0001 C CNN "Part_number"
-F 6 "n/a" H 22800 647 50  0001 C CNN "Source"
+F 6 "0 For clarity: [If not shown] U9-U33 must be ordered as well.  Same part number and source as U8, so order a qty 26 of U8 part number. Also, some components in this project are assigned to multiple sources, sure sure to decide where you'll buy those components from before ordering anything from anywhere so you won't end up ordering them on their own order and incurring additional costs in doing so." H 22800 647 50  0001 C CNN "Source"
 	1    22800 647 
 	0    -1   -1   0   
 $EndComp
@@ -2593,7 +2593,7 @@ F 1 "HX711 module" H 15950 4850 50  0000 C CNN
 F 2 "HX711:HX711 module" H 15800 5450 50  0001 L CNN
 F 3 "http://www.ti.com/lit/ds/symlink/ads1110.pdf" H 15050 5450 50  0001 C CNN
 F 4 "25 Kapton tape should be used to protect shorting to board and to MCU.  Height is set with that tape or other insulator in place and MCU fully seated plugged in.  There may not be enough clearance for socketing ADC1, otherwise socketing is far more flexible, but the pins with ADC1 might be too large for the sockets in which case use any wiring or pins that will fit.   The pins being delivered loose allow top side mounting in case where clearance with the MCU is insufficient and won't allow bottom side mounting, as in the case of the SainSmart UNO.  Run diags.  Then, KEEPING U2 PERFECTLY IMMOBILE, solder all remaining unsealed vias except the two place-assist holes at U3, and run diags once more to make sure you didn't short any vias together.  Assembly instructions after this step are UNDER CONSTRUCTION - references to obsolete jumper settings and situations can be found which you should ignore." H 10100 728 50  0001 C CNN "ClickToSortForPlacement"
-F 5 "Sockets: 1 qty SL-106-T-10 + 1 qty SMC-1-04-1-GT from http://Arrow.com. Component: least cost - https://www.aliexpress.com/item/1PCS-X-HX711-modules-weigh-sensors-for-AD-module-chip-preferred-DIY-Graduation/32851591970.html?spm=2114.search0104.3.1.7ad07d02cMfLjw&ws_ab_test=searchweb0_0,searchweb201602_4_10065_10130_10068_10890_10547_319_10546_317_10548_10545_10696_453_10084_454_10083_10618_10307_537_536_10059_10884_10887_321_322_10103,searchweb201603_52,ppcSwitch_0&algo_expid=c46a3ce9-e8cf-4d7c-8e89-50e4aff4f628-0&algo_pvid=c46a3ce9-e8cf-4d7c-8e89-50e4aff4f628&transAbTest=ae803_3; fastest arrival https://www.ebay.com/itm/Dual-Channel-HX711-Weighing-Pressure-Sensor-24-bit-Precision-A-D-Module-Arduino/202679288819?hash=item2f30a083f3:g:xyIAAOSwhXtc2wdH" H 15350 5100 50  0001 C CNN "Source"
+F 5 "Sockets: 1 qty SL-106-T-10 + 1 qty SMC-1-04-1-GT from http://Arrow.com (sockets only, remember). Component: least cost - https://www.aliexpress.com/item/1PCS-X-HX711-modules-weigh-sensors-for-AD-module-chip-preferred-DIY-Graduation/32851591970.html?spm=2114.search0104.3.1.7ad07d02cMfLjw&ws_ab_test=searchweb0_0,searchweb201602_4_10065_10130_10068_10890_10547_319_10546_317_10548_10545_10696_453_10084_454_10083_10618_10307_537_536_10059_10884_10887_321_322_10103,searchweb201603_52,ppcSwitch_0&algo_expid=c46a3ce9-e8cf-4d7c-8e89-50e4aff4f628-0&algo_pvid=c46a3ce9-e8cf-4d7c-8e89-50e4aff4f628&transAbTest=ae803_3; fastest arrival https://www.ebay.com/itm/Dual-Channel-HX711-Weighing-Pressure-Sensor-24-bit-Precision-A-D-Module-Arduino/202679288819?hash=item2f30a083f3:g:xyIAAOSwhXtc2wdH" H 15350 5100 50  0001 C CNN "Source"
 F 6 "least cost - CN1501541594; fastest arrival - Dual Channel HX711" H 15350 5100 50  0001 C CNN "Part_number"
 	1    15350 5100
 	1    0    0    -1  
@@ -2752,7 +2752,7 @@ F 2 "Capacitor_SMD:C_0603_1608Metric_Pad1.05x0.95mm_HandSolder" H 3250 4550 50  
 F 3 "~" H 3250 4550 50  0001 C CNN
 F 4 "http://Arrow.com" H 3250 4550 50  0001 C CNN "Source"
 F 5 "CL10B391KB8NNND" H 3250 4550 50  0001 C CNN "Part_number"
-F 6 "02 A duplicate C1 pad set is on PCB.  Determine which pad set your C1 fits.  Place (always means solder down herein) C1 where and on side that _level_ reference is silk-screened, not angled reference.  Then check work for inadvertent shorts and opens." H 3250 4550 50  0001 C CNN "ClickToSortForPlacement"
+F 6 "02 A tiny 0201-size duplicate C1 pad set is on PCB.  Determine which pad set your C1 fits.  Place (always means solder down herein) C1 where and on side that _level_ reference is silk-screened, not angled reference.  Then check work for inadvertent shorts and opens." H 3250 4550 50  0001 C CNN "ClickToSortForPlacement"
 	1    3250 4550
 	-1   0    0    1   
 $EndComp
@@ -2957,7 +2957,7 @@ F 1 "C1_leak_mitigator" H 2400 4325 50  0000 C CNN
 F 2 "Jumper:SolderJumper-3_P1.3mm_Open_RoundedPad1.0x1.5mm_NumberLabels" H 2825 4175 50  0001 C CNN
 F 3 "~" H 2825 4175 50  0001 C CNN
 F 4 "part of MSB-T plus part of a second TSW-150-05-T-S/4-103327-0" H 2825 4175 50  0001 C CNN "Part_number"
-F 5 "00 (TIPS - Always when sorting this page, make the column's title cell show the little sort direction indicator highlighted and pointing up. Solder temperature if using a soldering iron: Highest temperature solder when used for two-lead SMD components so they aren't so easily dislocated when bumped with hot iron.  Never allow leaded solder to cross contaminate low-temp [bismuth] solders - lead ruins them.  Plated through holes can only be used once on new boards unless they are HASL and you are careful to match solders with the factory solder or you are prepared to ream out plating-contaminated solder from the hole, so do NOT assume that tinning plated through holes to prepare the holes themselves for pins or leads is the right thing to do!  Just use them as-is when the time comes even though they won't take the solder as well, or instead you may plug the holes with stainless steel paste dispensing syringe needle/nozzle 20-21 gauge while you tin the annular ring only on the one side opposite the component.  Cleanse gold from board by double-tinning with the same solder composition you'll use on the respective pads leaving as little solder on them as possible. The reasoning? Plating interferes with solder, making untinned pads almost impossible to solder to with this leadless package type. Take care about LEDs and U3 soldering temperatures - they don't stand the temperatures of other components.   U3 special handling - don't open U3 shipping/storage package until these instructions say to; soldering temperature for U3 must never exceed 250C/500F.)   Now would be as good a time as any to solder-seal all the micro-vias within SHLD1 footprint for hermetic sealing, but do so from the back side where SHLD1 is not outlined in copper.  Use a bright light shining through to ensure all vias get sealed, but do not seal place-assist holes yet nor U2 center lead.  Solder-short pads 1 to 2 of JP1 keeping all previous solder joints from melting.  Take that precaution throughout assembly." H 2825 4175 50  0001 C CNN "ClickToSortForPlacement"
+F 5 "00 (TIPS - Always when sorting this page, make the column's title cell show the little sort direction indicator highlighted and pointing up. Solder temperature if using a soldering iron: Highest temperature solder when used for two-lead SMD components so they aren't so easily dislocated when bumped with hot iron.  Never allow leaded solder to cross contaminate low-temp [bismuth] solders - lead ruins them.  Plated through holes can only be used once on new boards unless they are HASL and you are careful to match solders with the factory solder or you are prepared to ream out plating-contaminated solder from the hole, so do NOT assume that tinning plated through holes to prepare the holes themselves for pins or leads is the right thing to do!  Just use them as-is when the time comes even though they won't take the solder as well, or instead you may plug the holes with stainless steel paste dispensing syringe needle/nozzle 20-21 gauge while you tin the annular ring only on the one side opposite the component.  Cleanse gold from board by double-tinning with the same solder composition you'll use on the respective pads leaving as little solder on them as possible. The reasoning? Plating interferes with solder, making untinned pads almost impossible to solder to with this leadless package type. Take care about LEDs and U3 soldering temperatures - they don't stand the temperatures of other components.   U3 special handling - don't open U3 shipping/storage package until these instructions say to; soldering temperature for U3 must never exceed 250C/500F.)   Now would be the best time to solder-seal all the micro-vias that let light through, if any, within SHLD1 footprint for hermetic sealing, but do so from the back side where SHLD1 is not outlined in copper.  Use a bright light shining through to ensure all vias get sealed, but do not seal place-assist holes yet nor U2 center lead hole.  Whether mere solder mask actually hermetically seals adequately is debatable - I would only trust it if it is thick enough to block all light.  Use solder to seal any suspicious micro-vias.  Solder-short pads 1 to 2 of JP1 keeping all previous solder joints from melting.  Take that precaution throughout assembly." H 2825 4175 50  0001 C CNN "ClickToSortForPlacement"
 	1    2825 4175
 	1    0    0    -1  
 $EndComp
@@ -3195,6 +3195,7 @@ F 1 "Net-Tie_2" V 14955 5556 50  0001 R CNN
 F 2 "multipackage:NetTie-2_HX711_THT_Pad1.0mm" H 15000 5600 50  0001 C CNN
 F 3 "~" H 15000 5600 50  0001 C CNN
 F 4 "99" H 15000 5600 50  0001 C CNN "ClickToSortForPlacement"
+F 5 "" H 15000 5600 50  0001 C CNN "Source"
 	1    15000 5600
 	0    -1   -1   0   
 $EndComp
@@ -3304,6 +3305,7 @@ F 1 "Front Fiducial" H 710 555 50  0000 L CNN
 F 2 "Fiducial:Fiducial_1mm_Mask3mm" H 625 600 50  0001 C CNN
 F 3 "~" H 625 600 50  0001 C CNN
 F 4 "99 " H 625 600 50  0001 C CNN "ClickToSortForPlacement"
+F 5 "0 For clarity: [If not shown] U9-U33 must be ordered as well.  Same part number and source as U8, so order a qty 26 of U8 part number. Also, some components in this project are assigned to multiple sources, sure sure to decide where you'll buy those components from before ordering anything from anywhere so you won't end up ordering them on their own order and incurring additional costs in doing so." H 625 600 50  0001 C CNN "Source"
 	1    625  600 
 	1    0    0    -1  
 $EndComp
@@ -3316,6 +3318,7 @@ F 1 "Front Fiducial" H 710 755 50  0000 L CNN
 F 2 "Fiducial:Fiducial_1mm_Mask3mm" H 625 800 50  0001 C CNN
 F 3 "~" H 625 800 50  0001 C CNN
 F 4 "99 " H 625 800 50  0001 C CNN "ClickToSortForPlacement"
+F 5 "0 For clarity: [If not shown] U9-U33 must be ordered as well.  Same part number and source as U8, so order a qty 26 of U8 part number. Also, some components in this project are assigned to multiple sources, sure sure to decide where you'll buy those components from before ordering anything from anywhere so you won't end up ordering them on their own order and incurring additional costs in doing so." H 625 800 50  0001 C CNN "Source"
 	1    625  800 
 	1    0    0    -1  
 $EndComp
@@ -3328,6 +3331,7 @@ F 1 "Front Fiducial" H 710 955 50  0000 L CNN
 F 2 "Fiducial:Fiducial_1mm_Mask3mm" H 625 1000 50  0001 C CNN
 F 3 "~" H 625 1000 50  0001 C CNN
 F 4 "99 " H 625 1000 50  0001 C CNN "ClickToSortForPlacement"
+F 5 "0 For clarity: [If not shown] U9-U33 must be ordered as well.  Same part number and source as U8, so order a qty 26 of U8 part number. Also, some components in this project are assigned to multiple sources, sure sure to decide where you'll buy those components from before ordering anything from anywhere so you won't end up ordering them on their own order and incurring additional costs in doing so." H 625 1000 50  0001 C CNN "Source"
 	1    625  1000
 	1    0    0    -1  
 $EndComp
@@ -3340,6 +3344,7 @@ F 1 "Back Fiducial" H 1535 555 50  0000 L CNN
 F 2 "Fiducial:Fiducial_1mm_Mask3mm" H 1450 600 50  0001 C CNN
 F 3 "~" H 1450 600 50  0001 C CNN
 F 4 "99 " H 1450 600 50  0001 C CNN "ClickToSortForPlacement"
+F 5 "0 For clarity: [If not shown] U9-U33 must be ordered as well.  Same part number and source as U8, so order a qty 26 of U8 part number. Also, some components in this project are assigned to multiple sources, sure sure to decide where you'll buy those components from before ordering anything from anywhere so you won't end up ordering them on their own order and incurring additional costs in doing so." H 1450 600 50  0001 C CNN "Source"
 	1    1450 600 
 	1    0    0    -1  
 $EndComp
@@ -3352,6 +3357,7 @@ F 1 "Back Fiducial" H 1535 755 50  0000 L CNN
 F 2 "Fiducial:Fiducial_1mm_Mask3mm" H 1450 800 50  0001 C CNN
 F 3 "~" H 1450 800 50  0001 C CNN
 F 4 "99 " H 1450 800 50  0001 C CNN "ClickToSortForPlacement"
+F 5 "0 For clarity: [If not shown] U9-U33 must be ordered as well.  Same part number and source as U8, so order a qty 26 of U8 part number. Also, some components in this project are assigned to multiple sources, sure sure to decide where you'll buy those components from before ordering anything from anywhere so you won't end up ordering them on their own order and incurring additional costs in doing so." H 1450 800 50  0001 C CNN "Source"
 	1    1450 800 
 	1    0    0    -1  
 $EndComp
@@ -3364,6 +3370,7 @@ F 1 "Back Fiducial" H 1535 955 50  0000 L CNN
 F 2 "Fiducial:Fiducial_1mm_Mask3mm" H 1450 1000 50  0001 C CNN
 F 3 "~" H 1450 1000 50  0001 C CNN
 F 4 "99 " H 1450 1000 50  0001 C CNN "ClickToSortForPlacement"
+F 5 "0 For clarity: [If not shown] U9-U33 must be ordered as well.  Same part number and source as U8, so order a qty 26 of U8 part number. Also, some components in this project are assigned to multiple sources, sure sure to decide where you'll buy those components from before ordering anything from anywhere so you won't end up ordering them on their own order and incurring additional costs in doing so." H 1450 1000 50  0001 C CNN "Source"
 	1    1450 1000
 	1    0    0    -1  
 $EndComp
@@ -3469,7 +3476,7 @@ F 4 "01" H 2600 -2725 50  0001 C CNN "PlacementOrder"
 F 5 "01" H 2600 -2725 50  0001 C CNN "SortForPlacement"
 F 6 "15 NOT WELL ACCOMMODATED ON BOARD REV 7 AND BELOW: PATCHING IN WOULD REQUIRE PARALLELING ALL PINS EXCEPT 9 WITH 32 GA WIRES OR SMALLER.  With Rev 8 flex board, check corner pads for adequate bare metal: ensure the solder mask of all corner pads is scraped off.  Place, then check work for inadvertent shorts and opens" H 2600 -2725 50  0001 C CNN "ClickToSortForPlacement"
 F 7 "MCP4262-502E/UN-ND" H 6950 -825 50  0001 C CNN "Part_number"
-F 8 "http://www.digikey.com" H 6950 -825 50  0001 C CNN "Source"
+F 8 "http://digikey.com" H 6950 -825 50  0001 C CNN "Source"
 	1    6950 -825
 	-1   0    0    1   
 $EndComp
@@ -3485,7 +3492,7 @@ F 4 "01" H 4375 -2675 50  0001 C CNN "PlacementOrder"
 F 5 "01" H 4375 -2675 50  0001 C CNN "SortForPlacement"
 F 6 "15 NOT WELL ACCOMMODATED ON BOARD REV 7 AND BELOW: PATCHING IN WOULD REQUIRE PARALLELING ALL PINS EXCEPT 9 WITH 32 GA WIRES OR SMALLER.  With Rev 8 flex board, check corner pads for adequate bare metal: ensure the solder mask of all corner pads is scraped off.  Place, then check work for inadvertent shorts and opens" H 4375 -2675 50  0001 C CNN "ClickToSortForPlacement"
 F 7 "MCP4262-502E/UN-ND" H 8725 -775 50  0001 C CNN "Part_number"
-F 8 "http://www.digikey.com" H 8725 -775 50  0001 C CNN "Source"
+F 8 "http://digikey.com" H 8725 -775 50  0001 C CNN "Source"
 	1    8725 -775
 	-1   0    0    1   
 $EndComp
@@ -3501,7 +3508,7 @@ F 4 "01" H 5975 -2700 50  0001 C CNN "PlacementOrder"
 F 5 "01" H 5975 -2700 50  0001 C CNN "SortForPlacement"
 F 6 "15 NOT WELL ACCOMMODATED ON BOARD REV 7 AND BELOW: PATCHING IN WOULD REQUIRE PARALLELING ALL PINS EXCEPT 9 WITH 32 GA WIRES OR SMALLER.  With Rev 8 flex board, check corner pads for adequate bare metal: ensure the solder mask of all corner pads is scraped off.  Place, then check work for inadvertent shorts and opens" H 5975 -2700 50  0001 C CNN "ClickToSortForPlacement"
 F 7 "MCP4262-502E/UN-ND" H 10325 -800 50  0001 C CNN "Part_number"
-F 8 "http://www.digikey.com" H 10325 -800 50  0001 C CNN "Source"
+F 8 "http://digikey.com" H 10325 -800 50  0001 C CNN "Source"
 	1    10325 -800
 	-1   0    0    1   
 $EndComp
@@ -3517,7 +3524,7 @@ F 4 "01" H 7600 -2675 50  0001 C CNN "PlacementOrder"
 F 5 "01" H 7600 -2675 50  0001 C CNN "SortForPlacement"
 F 6 "15 NOT WELL ACCOMMODATED ON BOARD REV 7 AND BELOW: PATCHING IN WOULD REQUIRE PARALLELING ALL PINS EXCEPT 9 WITH 32 GA WIRES OR SMALLER.  With Rev 8 flex board, check corner pads for adequate bare metal: ensure the solder mask of all corner pads is scraped off.  Place, then check work for inadvertent shorts and opens" H 7600 -2675 50  0001 C CNN "ClickToSortForPlacement"
 F 7 "MCP4262-502E/UN-ND" H 11950 -775 50  0001 C CNN "Part_number"
-F 8 "http://www.digikey.com" H 11950 -775 50  0001 C CNN "Source"
+F 8 "http://digikey.com" H 11950 -775 50  0001 C CNN "Source"
 	1    11950 -775
 	-1   0    0    1   
 $EndComp
@@ -3533,7 +3540,7 @@ F 4 "01" H 9350 -2650 50  0001 C CNN "PlacementOrder"
 F 5 "01" H 9350 -2650 50  0001 C CNN "SortForPlacement"
 F 6 "15 NOT WELL ACCOMMODATED ON BOARD REV 7 AND BELOW: PATCHING IN WOULD REQUIRE PARALLELING ALL PINS EXCEPT 9 WITH 32 GA WIRES OR SMALLER.  With Rev 8 flex board, check corner pads for adequate bare metal: ensure the solder mask of all corner pads is scraped off.  Place, then check work for inadvertent shorts and opens" H 9350 -2650 50  0001 C CNN "ClickToSortForPlacement"
 F 7 "MCP4262-502E/UN-ND" H 13700 -750 50  0001 C CNN "Part_number"
-F 8 "http://www.digikey.com" H 13700 -750 50  0001 C CNN "Source"
+F 8 "http://digikey.com" H 13700 -750 50  0001 C CNN "Source"
 	1    13700 -750
 	-1   0    0    1   
 $EndComp
@@ -3549,7 +3556,7 @@ F 4 "01" H 10875 -2650 50  0001 C CNN "PlacementOrder"
 F 5 "01" H 10875 -2650 50  0001 C CNN "SortForPlacement"
 F 6 "15 NOT WELL ACCOMMODATED ON BOARD REV 7 AND BELOW: PATCHING IN WOULD REQUIRE PARALLELING ALL PINS EXCEPT 9 WITH 32 GA WIRES OR SMALLER.  With Rev 8 flex board, check corner pads for adequate bare metal: ensure the solder mask of all corner pads is scraped off.  Place, then check work for inadvertent shorts and opens" H 10875 -2650 50  0001 C CNN "ClickToSortForPlacement"
 F 7 "MCP4262-502E/UN-ND" H 15225 -750 50  0001 C CNN "Part_number"
-F 8 "http://www.digikey.com" H 15225 -750 50  0001 C CNN "Source"
+F 8 "http://digikey.com" H 15225 -750 50  0001 C CNN "Source"
 	1    15225 -750
 	-1   0    0    1   
 $EndComp
@@ -3579,7 +3586,7 @@ F 4 "01" H 2550 -4400 50  0001 C CNN "PlacementOrder"
 F 5 "01" H 2550 -4400 50  0001 C CNN "SortForPlacement"
 F 6 "15 NOT WELL ACCOMMODATED ON BOARD REV 7 AND BELOW: PATCHING IN WOULD REQUIRE PARALLELING ALL PINS EXCEPT 9 WITH 32 GA WIRES OR SMALLER.  With Rev 8 flex board, check corner pads for adequate bare metal: ensure the solder mask of all corner pads is scraped off.  Place, then check work for inadvertent shorts and opens" H 2550 -4400 50  0001 C CNN "ClickToSortForPlacement"
 F 7 "MCP4262-502E/UN-ND" H 6900 -2500 50  0001 C CNN "Part_number"
-F 8 "http://www.digikey.com" H 6900 -2500 50  0001 C CNN "Source"
+F 8 "http://digikey.com" H 6900 -2500 50  0001 C CNN "Source"
 	1    6900 -2500
 	-1   0    0    1   
 $EndComp
@@ -3595,7 +3602,7 @@ F 4 "01" H 4325 -4350 50  0001 C CNN "PlacementOrder"
 F 5 "01" H 4325 -4350 50  0001 C CNN "SortForPlacement"
 F 6 "15 NOT WELL ACCOMMODATED ON BOARD REV 7 AND BELOW: PATCHING IN WOULD REQUIRE PARALLELING ALL PINS EXCEPT 9 WITH 32 GA WIRES OR SMALLER.  With Rev 8 flex board, check corner pads for adequate bare metal: ensure the solder mask of all corner pads is scraped off.  Place, then check work for inadvertent shorts and opens" H 4325 -4350 50  0001 C CNN "ClickToSortForPlacement"
 F 7 "MCP4262-502E/UN-ND" H 8675 -2450 50  0001 C CNN "Part_number"
-F 8 "http://www.digikey.com" H 8675 -2450 50  0001 C CNN "Source"
+F 8 "http://digikey.com" H 8675 -2450 50  0001 C CNN "Source"
 	1    8675 -2450
 	-1   0    0    1   
 $EndComp
@@ -3611,7 +3618,7 @@ F 4 "01" H 5925 -4375 50  0001 C CNN "PlacementOrder"
 F 5 "01" H 5925 -4375 50  0001 C CNN "SortForPlacement"
 F 6 "15 NOT WELL ACCOMMODATED ON BOARD REV 7 AND BELOW: PATCHING IN WOULD REQUIRE PARALLELING ALL PINS EXCEPT 9 WITH 32 GA WIRES OR SMALLER.  With Rev 8 flex board, check corner pads for adequate bare metal: ensure the solder mask of all corner pads is scraped off.  Place, then check work for inadvertent shorts and opens" H 5925 -4375 50  0001 C CNN "ClickToSortForPlacement"
 F 7 "MCP4262-502E/UN-ND" H 10275 -2475 50  0001 C CNN "Part_number"
-F 8 "http://www.digikey.com" H 10275 -2475 50  0001 C CNN "Source"
+F 8 "http://digikey.com" H 10275 -2475 50  0001 C CNN "Source"
 	1    10275 -2475
 	-1   0    0    1   
 $EndComp
@@ -3627,7 +3634,7 @@ F 4 "01" H 7550 -4350 50  0001 C CNN "PlacementOrder"
 F 5 "01" H 7550 -4350 50  0001 C CNN "SortForPlacement"
 F 6 "15 NOT WELL ACCOMMODATED ON BOARD REV 7 AND BELOW: PATCHING IN WOULD REQUIRE PARALLELING ALL PINS EXCEPT 9 WITH 32 GA WIRES OR SMALLER.  With Rev 8 flex board, check corner pads for adequate bare metal: ensure the solder mask of all corner pads is scraped off.  Place, then check work for inadvertent shorts and opens" H 7550 -4350 50  0001 C CNN "ClickToSortForPlacement"
 F 7 "MCP4262-502E/UN-ND" H 11900 -2450 50  0001 C CNN "Part_number"
-F 8 "http://www.digikey.com" H 11900 -2450 50  0001 C CNN "Source"
+F 8 "http://digikey.com" H 11900 -2450 50  0001 C CNN "Source"
 	1    11900 -2450
 	-1   0    0    1   
 $EndComp
@@ -3643,7 +3650,7 @@ F 4 "01" H 9300 -4325 50  0001 C CNN "PlacementOrder"
 F 5 "01" H 9300 -4325 50  0001 C CNN "SortForPlacement"
 F 6 "15 NOT WELL ACCOMMODATED ON BOARD REV 7 AND BELOW: PATCHING IN WOULD REQUIRE PARALLELING ALL PINS EXCEPT 9 WITH 32 GA WIRES OR SMALLER.  With Rev 8 flex board, check corner pads for adequate bare metal: ensure the solder mask of all corner pads is scraped off.  Place, then check work for inadvertent shorts and opens" H 9300 -4325 50  0001 C CNN "ClickToSortForPlacement"
 F 7 "MCP4262-502E/UN-ND" H 13650 -2425 50  0001 C CNN "Part_number"
-F 8 "http://www.digikey.com" H 13650 -2425 50  0001 C CNN "Source"
+F 8 "http://digikey.com" H 13650 -2425 50  0001 C CNN "Source"
 	1    13650 -2425
 	-1   0    0    1   
 $EndComp
@@ -3659,7 +3666,7 @@ F 4 "01" H 10825 -4325 50  0001 C CNN "PlacementOrder"
 F 5 "01" H 10825 -4325 50  0001 C CNN "SortForPlacement"
 F 6 "15 NOT WELL ACCOMMODATED ON BOARD REV 7 AND BELOW: PATCHING IN WOULD REQUIRE PARALLELING ALL PINS EXCEPT 9 WITH 32 GA WIRES OR SMALLER.  With Rev 8 flex board, check corner pads for adequate bare metal: ensure the solder mask of all corner pads is scraped off.  Place, then check work for inadvertent shorts and opens" H 10825 -4325 50  0001 C CNN "ClickToSortForPlacement"
 F 7 "MCP4262-502E/UN-ND" H 15175 -2425 50  0001 C CNN "Part_number"
-F 8 "http://www.digikey.com" H 15175 -2425 50  0001 C CNN "Source"
+F 8 "http://digikey.com" H 15175 -2425 50  0001 C CNN "Source"
 	1    15175 -2425
 	-1   0    0    1   
 $EndComp
@@ -3675,7 +3682,7 @@ F 4 "01" H 2525 -6225 50  0001 C CNN "PlacementOrder"
 F 5 "01" H 2525 -6225 50  0001 C CNN "SortForPlacement"
 F 6 "15 NOT WELL ACCOMMODATED ON BOARD REV 7 AND BELOW: PATCHING IN WOULD REQUIRE PARALLELING ALL PINS EXCEPT 9 WITH 32 GA WIRES OR SMALLER.  With Rev 8 flex board, check corner pads for adequate bare metal: ensure the solder mask of all corner pads is scraped off.  Place, then check work for inadvertent shorts and opens" H 2525 -6225 50  0001 C CNN "ClickToSortForPlacement"
 F 7 "MCP4262-502E/UN-ND" H 6875 -4325 50  0001 C CNN "Part_number"
-F 8 "http://www.digikey.com" H 6875 -4325 50  0001 C CNN "Source"
+F 8 "http://digikey.com" H 6875 -4325 50  0001 C CNN "Source"
 	1    6875 -4325
 	-1   0    0    1   
 $EndComp
@@ -3691,7 +3698,7 @@ F 4 "01" H 4300 -6175 50  0001 C CNN "PlacementOrder"
 F 5 "01" H 4300 -6175 50  0001 C CNN "SortForPlacement"
 F 6 "15 NOT WELL ACCOMMODATED ON BOARD REV 7 AND BELOW: PATCHING IN WOULD REQUIRE PARALLELING ALL PINS EXCEPT 9 WITH 32 GA WIRES OR SMALLER.  With Rev 8 flex board, check corner pads for adequate bare metal: ensure the solder mask of all corner pads is scraped off.  Place, then check work for inadvertent shorts and opens" H 4300 -6175 50  0001 C CNN "ClickToSortForPlacement"
 F 7 "MCP4262-502E/UN-ND" H 8650 -4275 50  0001 C CNN "Part_number"
-F 8 "http://www.digikey.com" H 8650 -4275 50  0001 C CNN "Source"
+F 8 "http://digikey.com" H 8650 -4275 50  0001 C CNN "Source"
 	1    8650 -4275
 	-1   0    0    1   
 $EndComp
@@ -3707,7 +3714,7 @@ F 4 "01" H 5900 -6200 50  0001 C CNN "PlacementOrder"
 F 5 "01" H 5900 -6200 50  0001 C CNN "SortForPlacement"
 F 6 "15 NOT WELL ACCOMMODATED ON BOARD REV 7 AND BELOW: PATCHING IN WOULD REQUIRE PARALLELING ALL PINS EXCEPT 9 WITH 32 GA WIRES OR SMALLER.  With Rev 8 flex board, check corner pads for adequate bare metal: ensure the solder mask of all corner pads is scraped off.  Place, then check work for inadvertent shorts and opens" H 5900 -6200 50  0001 C CNN "ClickToSortForPlacement"
 F 7 "MCP4262-502E/UN-ND" H 10250 -4300 50  0001 C CNN "Part_number"
-F 8 "http://www.digikey.com" H 10250 -4300 50  0001 C CNN "Source"
+F 8 "http://digikey.com" H 10250 -4300 50  0001 C CNN "Source"
 	1    10250 -4300
 	-1   0    0    1   
 $EndComp
@@ -3723,7 +3730,7 @@ F 4 "01" H 7525 -6175 50  0001 C CNN "PlacementOrder"
 F 5 "01" H 7525 -6175 50  0001 C CNN "SortForPlacement"
 F 6 "15 NOT WELL ACCOMMODATED ON BOARD REV 7 AND BELOW: PATCHING IN WOULD REQUIRE PARALLELING ALL PINS EXCEPT 9 WITH 32 GA WIRES OR SMALLER.  With Rev 8 flex board, check corner pads for adequate bare metal: ensure the solder mask of all corner pads is scraped off.  Place, then check work for inadvertent shorts and opens" H 7525 -6175 50  0001 C CNN "ClickToSortForPlacement"
 F 7 "MCP4262-502E/UN-ND" H 11875 -4275 50  0001 C CNN "Part_number"
-F 8 "http://www.digikey.com" H 11875 -4275 50  0001 C CNN "Source"
+F 8 "http://digikey.com" H 11875 -4275 50  0001 C CNN "Source"
 	1    11875 -4275
 	-1   0    0    1   
 $EndComp
@@ -3739,7 +3746,7 @@ F 4 "01" H 9275 -6150 50  0001 C CNN "PlacementOrder"
 F 5 "01" H 9275 -6150 50  0001 C CNN "SortForPlacement"
 F 6 "15 NOT WELL ACCOMMODATED ON BOARD REV 7 AND BELOW: PATCHING IN WOULD REQUIRE PARALLELING ALL PINS EXCEPT 9 WITH 32 GA WIRES OR SMALLER.  With Rev 8 flex board, check corner pads for adequate bare metal: ensure the solder mask of all corner pads is scraped off.  Place, then check work for inadvertent shorts and opens" H 9275 -6150 50  0001 C CNN "ClickToSortForPlacement"
 F 7 "MCP4262-502E/UN-ND" H 13625 -4250 50  0001 C CNN "Part_number"
-F 8 "http://www.digikey.com" H 13625 -4250 50  0001 C CNN "Source"
+F 8 "http://digikey.com" H 13625 -4250 50  0001 C CNN "Source"
 	1    13625 -4250
 	-1   0    0    1   
 $EndComp
@@ -3755,7 +3762,7 @@ F 4 "01" H 10800 -6150 50  0001 C CNN "PlacementOrder"
 F 5 "01" H 10800 -6150 50  0001 C CNN "SortForPlacement"
 F 6 "15 NOT WELL ACCOMMODATED ON BOARD REV 7 AND BELOW: PATCHING IN WOULD REQUIRE PARALLELING ALL PINS EXCEPT 9 WITH 32 GA WIRES OR SMALLER.  With Rev 8 flex board, check corner pads for adequate bare metal: ensure the solder mask of all corner pads is scraped off.  Place, then check work for inadvertent shorts and opens" H 10800 -6150 50  0001 C CNN "ClickToSortForPlacement"
 F 7 "MCP4262-502E/UN-ND" H 15150 -4250 50  0001 C CNN "Part_number"
-F 8 "http://www.digikey.com" H 15150 -4250 50  0001 C CNN "Source"
+F 8 "http://digikey.com" H 15150 -4250 50  0001 C CNN "Source"
 	1    15150 -4250
 	-1   0    0    1   
 $EndComp
@@ -3771,7 +3778,7 @@ F 4 "01" H 2500 -8050 50  0001 C CNN "PlacementOrder"
 F 5 "01" H 2500 -8050 50  0001 C CNN "SortForPlacement"
 F 6 "15 NOT WELL ACCOMMODATED ON BOARD REV 7 AND BELOW: PATCHING IN WOULD REQUIRE PARALLELING ALL PINS EXCEPT 9 WITH 32 GA WIRES OR SMALLER.  With Rev 8 flex board, check corner pads for adequate bare metal: ensure the solder mask of all corner pads is scraped off.  Place, then check work for inadvertent shorts and opens" H 2500 -8050 50  0001 C CNN "ClickToSortForPlacement"
 F 7 "MCP4262-502E/UN-ND" H 6850 -6150 50  0001 C CNN "Part_number"
-F 8 "http://www.digikey.com" H 6850 -6150 50  0001 C CNN "Source"
+F 8 "http://digikey.com" H 6850 -6150 50  0001 C CNN "Source"
 	1    6850 -6150
 	-1   0    0    1   
 $EndComp
@@ -3787,7 +3794,7 @@ F 4 "01" H 4275 -8000 50  0001 C CNN "PlacementOrder"
 F 5 "01" H 4275 -8000 50  0001 C CNN "SortForPlacement"
 F 6 "15 NOT WELL ACCOMMODATED ON BOARD REV 7 AND BELOW: PATCHING IN WOULD REQUIRE PARALLELING ALL PINS EXCEPT 9 WITH 32 GA WIRES OR SMALLER.  With Rev 8 flex board, check corner pads for adequate bare metal: ensure the solder mask of all corner pads is scraped off.  Place, then check work for inadvertent shorts and opens" H 4275 -8000 50  0001 C CNN "ClickToSortForPlacement"
 F 7 "MCP4262-502E/UN-ND" H 8625 -6100 50  0001 C CNN "Part_number"
-F 8 "http://www.digikey.com" H 8625 -6100 50  0001 C CNN "Source"
+F 8 "http://digikey.com" H 8625 -6100 50  0001 C CNN "Source"
 	1    8625 -6100
 	-1   0    0    1   
 $EndComp
@@ -3803,7 +3810,7 @@ F 4 "01" H 5875 -8025 50  0001 C CNN "PlacementOrder"
 F 5 "01" H 5875 -8025 50  0001 C CNN "SortForPlacement"
 F 6 "15 NOT WELL ACCOMMODATED ON BOARD REV 7 AND BELOW: PATCHING IN WOULD REQUIRE PARALLELING ALL PINS EXCEPT 9 WITH 32 GA WIRES OR SMALLER.  With Rev 8 flex board, check corner pads for adequate bare metal: ensure the solder mask of all corner pads is scraped off.  Place, then check work for inadvertent shorts and opens" H 5875 -8025 50  0001 C CNN "ClickToSortForPlacement"
 F 7 "MCP4262-502E/UN-ND" H 10225 -6125 50  0001 C CNN "Part_number"
-F 8 "http://www.digikey.com" H 10225 -6125 50  0001 C CNN "Source"
+F 8 "http://digikey.com" H 10225 -6125 50  0001 C CNN "Source"
 	1    10225 -6125
 	-1   0    0    1   
 $EndComp
@@ -3819,7 +3826,7 @@ F 4 "01" H 7500 -8000 50  0001 C CNN "PlacementOrder"
 F 5 "01" H 7500 -8000 50  0001 C CNN "SortForPlacement"
 F 6 "15 NOT WELL ACCOMMODATED ON BOARD REV 7 AND BELOW: PATCHING IN WOULD REQUIRE PARALLELING ALL PINS EXCEPT 9 WITH 32 GA WIRES OR SMALLER.  With Rev 8 flex board, check corner pads for adequate bare metal: ensure the solder mask of all corner pads is scraped off.  Place, then check work for inadvertent shorts and opens" H 7500 -8000 50  0001 C CNN "ClickToSortForPlacement"
 F 7 "MCP4262-502E/UN-ND" H 11850 -6100 50  0001 C CNN "Part_number"
-F 8 "http://www.digikey.com" H 11850 -6100 50  0001 C CNN "Source"
+F 8 "http://digikey.com" H 11850 -6100 50  0001 C CNN "Source"
 	1    11850 -6100
 	-1   0    0    1   
 $EndComp
@@ -3835,7 +3842,7 @@ F 4 "01" H 9250 -7975 50  0001 C CNN "PlacementOrder"
 F 5 "01" H 9250 -7975 50  0001 C CNN "SortForPlacement"
 F 6 "15 NOT WELL ACCOMMODATED ON BOARD REV 7 AND BELOW: PATCHING IN WOULD REQUIRE PARALLELING ALL PINS EXCEPT 9 WITH 32 GA WIRES OR SMALLER.  With Rev 8 flex board, check corner pads for adequate bare metal: ensure the solder mask of all corner pads is scraped off.  Place, then check work for inadvertent shorts and opens" H 9250 -7975 50  0001 C CNN "ClickToSortForPlacement"
 F 7 "MCP4262-502E/UN-ND" H 13600 -6075 50  0001 C CNN "Part_number"
-F 8 "http://www.digikey.com" H 13600 -6075 50  0001 C CNN "Source"
+F 8 "http://digikey.com" H 13600 -6075 50  0001 C CNN "Source"
 	1    13600 -6075
 	-1   0    0    1   
 $EndComp
@@ -3851,7 +3858,7 @@ F 4 "01" H 10775 -7975 50  0001 C CNN "PlacementOrder"
 F 5 "01" H 10775 -7975 50  0001 C CNN "SortForPlacement"
 F 6 "15 NOT WELL ACCOMMODATED ON BOARD REV 7 AND BELOW: PATCHING IN WOULD REQUIRE PARALLELING ALL PINS EXCEPT 9 WITH 32 GA WIRES OR SMALLER.  With Rev 8 flex board, check corner pads for adequate bare metal: ensure the solder mask of all corner pads is scraped off.  Place, then check work for inadvertent shorts and opens" H 10775 -7975 50  0001 C CNN "ClickToSortForPlacement"
 F 7 "MCP4262-502E/UN-ND" H 15125 -6075 50  0001 C CNN "Part_number"
-F 8 "http://www.digikey.com" H 15125 -6075 50  0001 C CNN "Source"
+F 8 "http://digikey.com" H 15125 -6075 50  0001 C CNN "Source"
 	1    15125 -6075
 	-1   0    0    1   
 $EndComp
@@ -3867,7 +3874,7 @@ F 4 "01" H 12625 -2625 50  0001 C CNN "PlacementOrder"
 F 5 "01" H 12625 -2625 50  0001 C CNN "SortForPlacement"
 F 6 "15 NOT WELL ACCOMMODATED ON BOARD REV 7 AND BELOW: PATCHING IN WOULD REQUIRE PARALLELING ALL PINS EXCEPT 9 WITH 32 GA WIRES OR SMALLER.  With Rev 8 flex board, check corner pads for adequate bare metal: ensure the solder mask of all corner pads is scraped off.  Place, then check work for inadvertent shorts and opens" H 12625 -2625 50  0001 C CNN "ClickToSortForPlacement"
 F 7 "MCP4262-502E/UN-ND" H 16975 -725 50  0001 C CNN "Part_number"
-F 8 "http://www.digikey.com" H 16975 -725 50  0001 C CNN "Source"
+F 8 "http://digikey.com" H 16975 -725 50  0001 C CNN "Source"
 	1    16975 -725
 	-1   0    0    1   
 $EndComp
@@ -3948,7 +3955,7 @@ F 4 "01" H 5500 2675 50  0001 C CNN "PlacementOrder"
 F 5 "01" H 5500 2675 50  0001 C CNN "SortForPlacement"
 F 6 "12 Check corner pads for adequate bare metal: ensure the solder mask of all corner pads is scraped off.  Place.  Temporary tack solder J2 with pin 5 only, J3 with pin 1, and J4 with pin 4 only.  Check for inadvertent shorts and opens." H 5500 2675 50  0001 C CNN "ClickToSortForPlacement"
 F 7 "MCP4262-503E/UN-ND" H 9850 4575 50  0001 C CNN "Part_number"
-F 8 "http://www.Arrow.com" H 9850 4575 50  0001 C CNN "Source"
+F 8 "http://Arrow.com" H 9850 4575 50  0001 C CNN "Source"
 	1    9850 4575
 	-1   0    0    1   
 $EndComp
@@ -3963,69 +3970,65 @@ Wire Notes Line
 $Comp
 L 1-2328702-0:1-2328702-0 J9
 U 1 1 5DA5E558
-P 5350 -800
-F 0 "J9" H 5275 -1500 50  0000 L CNN
-F 1 "TE_1-2328702-0" H 4950 -1675 50  0000 L CNN
-F 2 "multipackage:TE_1-2328702-0" H 5350 -800 50  0001 C CNN
-F 3 "~" H 5350 -800 50  0001 C CNN
-F 4 "1-2328702-0" H 5350 -800 50  0001 C CNN "Part_number"
-F 5 "https://www.te.com/ OR http://Arrow.com (factory direct can actually be a few cents cheaper with this one!)" H 5350 -800 50  0001 C CNN "Source"
-F 6 "18 Place then check work" H 5350 -800 50  0001 C CNN "ClickToSortForPlacement"
-	1    5350 -800
+P 21400 5500
+F 0 "J9" H 21325 4800 50  0000 L CNN
+F 1 "TE_1-2328702-0" H 21000 4625 50  0000 L CNN
+F 2 "multipackage:TE_1-2328702-0" H 21400 5500 50  0001 C CNN
+F 3 "~" H 21400 5500 50  0001 C CNN
+F 4 "1-2328702-0" H 21400 5500 50  0001 C CNN "Part_number"
+F 5 "https://www.te.com/ OR http://Arrow.com (factory direct can actually be a few cents cheaper with this one!)" H 21400 5500 50  0001 C CNN "Source"
+F 6 "18 Place then check work" H 21400 5500 50  0001 C CNN "ClickToSortForPlacement"
+	1    21400 5500
 	1    0    0    -1  
 $EndComp
 $Comp
 L power:GNDD #PWR0142
 U 1 1 5D76262A
-P 4950 -300
-F 0 "#PWR0142" H 4950 -550 50  0001 C CNN
-F 1 "GNDD" H 4954 -455 50  0000 C CNN
-F 2 "" H 4950 -300 50  0001 C CNN
-F 3 "" H 4950 -300 50  0001 C CNN
-	1    4950 -300
+P 21000 6000
+F 0 "#PWR0142" H 21000 5750 50  0001 C CNN
+F 1 "GNDD" H 21004 5845 50  0000 C CNN
+F 2 "" H 21000 6000 50  0001 C CNN
+F 3 "" H 21000 6000 50  0001 C CNN
+	1    21000 6000
 	1    0    0    -1  
 $EndComp
 $Comp
 L power:+5V #PWR0143
 U 1 1 5D764CDA
-P 4425 -1075
-F 0 "#PWR0143" H 4425 -1225 50  0001 C CNN
-F 1 "+5V" H 4440 -902 50  0000 C CNN
-F 2 "" H 4425 -1075 50  0001 C CNN
-F 3 "" H 4425 -1075 50  0001 C CNN
-	1    4425 -1075
+P 20225 5250
+F 0 "#PWR0143" H 20225 5100 50  0001 C CNN
+F 1 "+5V" H 20240 5423 50  0000 C CNN
+F 2 "" H 20225 5250 50  0001 C CNN
+F 3 "" H 20225 5250 50  0001 C CNN
+	1    20225 5250
 	1    0    0    -1  
 $EndComp
-Text Label 4950 -1300 2    50   ~ 0
+Text Label 21000 5000 2    50   ~ 0
 8
-Text Label 4950 -1200 2    50   ~ 0
+Text Label 21000 5100 2    50   ~ 0
 SCK(1)
-Text Label 4950 -1100 2    50   ~ 0
+Text Label 21000 5200 2    50   ~ 0
 MOSI(1)
 $Comp
 L power:GNDD #PWR0144
 U 1 1 5D79F70A
-P 4425 -975
-F 0 "#PWR0144" H 4425 -1225 50  0001 C CNN
-F 1 "GNDD" H 4429 -1130 50  0000 C CNN
-F 2 "" H 4425 -975 50  0001 C CNN
-F 3 "" H 4425 -975 50  0001 C CNN
-	1    4425 -975
+P 20125 5550
+F 0 "#PWR0144" H 20125 5300 50  0001 C CNN
+F 1 "GNDD" H 20129 5395 50  0000 C CNN
+F 2 "" H 20125 5550 50  0001 C CNN
+F 3 "" H 20125 5550 50  0001 C CNN
+	1    20125 5550
 	1    0    0    -1  
 $EndComp
-Text Label 4950 -700 2    50   ~ 0
+Text Label 21000 5600 2    50   ~ 0
 U8-Pad5
-Text Label 4950 -400 2    50   ~ 0
+Text Label 21000 5900 2    50   ~ 0
 U8-Pad6
-Text Label 4950 -500 2    50   ~ 0
+Text Label 21000 5800 2    50   ~ 0
 U8-Pad7
-Text Label 4950 -600 2    50   ~ 0
+Text Label 21000 5700 2    50   ~ 0
 U8-Pad8
-Wire Wire Line
-	4950 -1000 4425 -1000
-Wire Wire Line
-	4425 -1000 4425 -975
-Text Label 4950 -800 2    50   ~ 0
+Text Label 21000 5500 2    50   ~ 0
 1st_stage_guard_trace
 $Comp
 L Reference_Current:REF200AU U4
@@ -4054,9 +4057,13 @@ Text Label 10200 4425 0    50   ~ 0
 Text Label 11450 4425 0    50   ~ 0
 8
 Wire Wire Line
-	4950 -900 4575 -900
+	20125 5550 20125 5300
 Wire Wire Line
-	4575 -900 4575 -1075
+	20125 5300 21000 5300
 Wire Wire Line
-	4575 -1075 4425 -1075
+	20225 5400 20225 5250
+Wire Wire Line
+	20225 5400 21000 5400
+Text Notes 50   -75  0    50   ~ 0
+1 step MSB is 50000 ohms per device/256 steps per device = 195.3125 ohms = 195 ohms\n\n    5000 ohms LSB:\na single LSB device full resistance is 5000 ohms per device\n\nnumber of LSB devices to parallel together to make their full resistance value equal to 195 ohms is 5000 ohms per device/195 ohms = 25.6 devices\n\ncost = $25 + flex board a little larger size\n\n   Alternate design under consideration 1000 ohms LSB:\na single LSB device full resistance is 1000 ohms per device\n\nnumber of LSB devices to parallel together to make their full resistance value equal to 195 ohms is 1000 ohms per device/195 ohms = 5.13 devices\n\nEquivalent 2 devices/package, so 3 packages @ $6/pkg = $18 for savings of $7 or so and a much smaller flex board but with a different pinout of both the flex connector and the MCU connector from which it will consume one more digital pin.
 $EndSCHEMATC
