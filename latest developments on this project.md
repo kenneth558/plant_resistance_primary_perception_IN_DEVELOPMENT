@@ -5,7 +5,7 @@
 ![A 3D rendering of a populated board was supposed to show here](https://github.com/kenneth558/plant_resistance_primary_perception/blob/Free/Where%20to%20find%20everything%20for%20making%20your%20own%20GWAAMC%20device/front_straight-on_SHLD1_see-through_with_notes.png) Note that I make no money when you order bare boards from any PCB fab house so I can keep the price for the DIYer as low as possible.
 
 
-<dl><dt>27 Sep 2019</dt></dl>I received 4 copies and am building out one of the flex board.  I also had to order some components in the LDO stage that I overlooked buying.  I expect that order to arrive today.
+<dl><dt>27 Sep 2019</dt></dl>I received 4 copies and am building out one of the flex board.  I don't know why they sent 4 when they say 3, but I'm happy about it.  I also had to order some components in the LDO stage that I overlooked buying.  I expect that order to arrive today.
 
 <dl><dt>23 Sep 2019</dt></dl>While building my latest design boards, I will fine-tune various files here to reflect refinements I deem necessary.  Just updated iBOM and board designs at the KiCad file-type level, but not the gerbers yet.  New board designs are in recognition that solder mask seems to be an adequate hermetic seal for inside SHLD1.  Therefore, I removed the solder mask blocks I had placed on those micro-vias.
 
