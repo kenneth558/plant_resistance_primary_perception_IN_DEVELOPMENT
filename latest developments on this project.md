@@ -6,7 +6,7 @@
 
 <dl><dt>28 Sep 2019</dt></dl>Yesterday I finished building out one rigid main board and built out one flex board.  I had much difficulty soldering down SMD components that I had the "wise" idea of laying out on the adhesive side of my Kapton flex prototype.   I'll re-build the entire flex board today after my night's sleep and after I clean those SMD components with contaminated leads.  Then I'll spend several hours examining the boards with loupe and microscope before applying power.  Then I'll repair whatever build mistakes I made, after which I'll know whether my design (sans wireless and SD Card) is all I hoped it would be.  Wireless and SD Card operation may or may not work, but checking their operation is low priority for my time at this stage.
 
-<dl><dt></dt></dl>GOT TO WORK FOR THE DAY AND MY SOLDER STATION BROKE.  All soldering work is paused while I await heaters for my solder station.
+<dl><dt></dt></dl>GOT TO WORK FOR THE DAY AND MY SOLDER STATION BROKE.  All soldering work is on hold while I await heaters for my solder station.
 
 <dl><dt>27 Sep 2019</dt></dl>I received 4 copies and am building out one of the flex board.  I don't know why they sent 4 when they say 3, but I'm happy about it.  I also had to order some components in the LDO circuit stage that I overlooked buying.  I expect that order to arrive today.
 
