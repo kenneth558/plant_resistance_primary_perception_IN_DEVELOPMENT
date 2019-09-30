@@ -2,7 +2,7 @@
 
 [Rev 8 PCB available for sale at OSH Park](https://oshpark.com/shared_projects/ZCiIaH2y) and you will need to also order [the expansion flex board](https://oshpark.com/shared_projects/ndJ42ccp).  Neither board design has been tested yet because I haven't received and built mine.  When I finally know Rev. 8 works, I will adopt a major.minor version numbering style beginning with version 1.0
 
-![A 3D rendering of a populated board was supposed to show here](https://github.com/kenneth558/plant_resistance_primary_perception/blob/Free/Where%20to%20find%20everything%20for%20making%20your%20own%20GWAAMC%20device/front_straight-on_SHLD1_see-through_with_notes.png) Note in your favor that I make no money when you order bare boards from any PCB fab house so I can keep the price for the DIYer as low as possible.
+![A 3D rendering of a populated board was supposed to show here](https://github.com/kenneth558/plant_resistance_primary_perception/blob/Free/Where%20to%20find%20everything%20for%20making%20your%20own%20GWAAMC%20device/front_straight-on_SHLD1_see-through_with_notes.png) Note: In your favor I take no money from you when you order bare boards from any PCB fab house.  That way the build costs for the DIYer stays as low as possible.
 
 <dl><dt>29 Sep 2019</dt></dl>I just finished placing all components onto this board rendition.  Before I apply power, I'll have to spend a few hours examining the entire thing.  First, however, comes a night's sleep....
 
