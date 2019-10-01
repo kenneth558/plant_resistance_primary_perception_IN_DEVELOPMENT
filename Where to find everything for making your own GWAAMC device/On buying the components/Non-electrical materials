@@ -18,4 +18,4 @@ the coax cable) identical so the transitions' galvanic voltages cancel out.
 
 NOTE - Very high temp solder (K100) not allowed on U4.  The best solder will always be "No Heat SAC305" if you can find it, but 
 you still MUST cleanse gold from pads.  Avoid Pb (leaded) solder unless you understand the behavior of eutectics, how Pb ruins 
-other solders, and how gold from ENIG ruins it.
+other solders, and how gold from ENIG ruins Pb solder.
