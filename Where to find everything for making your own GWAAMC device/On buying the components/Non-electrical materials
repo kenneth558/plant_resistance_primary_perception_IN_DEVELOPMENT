@@ -5,7 +5,7 @@
 · RG316 Coaxial cable 2m/6ft min length
 · Multi-conductor flat IDC ribbon cable or hookup wire.  P/N 2001 to 2006 from Arrow
 · Electrode clamshells; one per leaf electrode.  Having attachment means and gripping spring somewhere along hinge axis and having enough suspending points spread out to hold clamshell in any specific orientation needed.  
-· 2 cushions to fit into electrode clamshell halves made from white or ivory color "Kayser-Roth No nonsense knee high 100% nylon socks MADE IN USA" UPC 70011195323, partially filled with craft-spec styrofoam balls, aka "beads" or "beans", approx. 3mm in dia.
+· 2 cushions to fit into electrode clamshell halves made from white or ivory color "Kayser-Roth No nonsense knee high 100% nylon socks MADE IN USA" UPC 70011195323 (https://www.upcindex.com/70011195323), partially filled with craft-spec styrofoam balls, aka "beads" or "beans", approx. 3mm in dia.
 · Electrode suspension device of your own making that won't sink into ground and extends a guy strings hang point above DUT
 · Carbon fiber tow, non-impregnated with a gold-plated connector per electrode (we have no source yet).  The connector will interface between the carbon fiber and wiring to the receptacle that receives the coaxial cable plug.
 NOTE - Very high temp solder (K100) not allowed on U4.  The best solder will always be "No Heat SAC305" if you can find it, but you still MUST cleanse gold from pads.  Avoid Pb (leaded) solder unless you understand the behavior of eutectics, how Pb ruins other solders, and how gold from ENIG ruins it.
