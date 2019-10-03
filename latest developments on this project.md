@@ -4,6 +4,8 @@
 
 ![A 3D rendering of a populated board was supposed to show here](https://github.com/kenneth558/plant_resistance_primary_perception/blob/Free/Where%20to%20find%20everything%20for%20making%20your%20own%20GWAAMC%20device/front_straight-on_SHLD1_see-through_with_notes.png) Note: In your favor I take no money from you when you order bare boards from any PCB fab house.  That way the build costs for the DIYer stays as low as possible.
 
+<dl><dt>03 Oct 2019</dt></dl>The solder joint issues with the fine pich components seem to be never ending.  I'm still not done with the visual inspection, but when that is finished I'll apply power...
+
 <dl><dt>29 Sep 2019</dt></dl>I just finished placing all components onto this board rendition.  Before I apply power, I'll have to spend a few hours examining the entire thing.  First, however, comes a night's sleep....
 
 <dl><dt>28 Sep 2019</dt></dl>Yesterday I finished building out one rigid main board and built out one flex board.  I had much difficulty soldering down SMD components that I had the "wise" idea of laying out on the adhesive side of my Kapton flex prototype.   I'll re-build the entire flex board today after my night's sleep and after I clean those SMD components with contaminated leads.  Then I'll spend several hours examining the boards with loupe and microscope before applying power.  Then I'll repair whatever build mistakes I made, after which I'll know whether my design (sans wireless and SD Card) is all I hoped it would be.  Wireless and SD Card operation may or may not work, but checking their operation is low priority for my time at this stage.
