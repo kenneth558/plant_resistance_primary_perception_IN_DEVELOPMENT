@@ -4,7 +4,7 @@
 
 ![A 3D rendering of a populated board was supposed to show here](https://github.com/kenneth558/plant_resistance_primary_perception/blob/Free/Where%20to%20find%20everything%20for%20making%20your%20own%20GWAAMC%20device/front_straight-on_SHLD1_see-through_with_notes.png) Note: In your favor I take no money from you when you order bare boards from any PCB fab house.  That way the build costs for the DIYer stays as low as possible.
 
-<dl><dt>06 Oct 2019</dt></dl>Tomorrow I'll apply power.
+<dl><dt>07 Oct 2019</dt></dl>So now I've discovered my latest fabbed boards have a short on them between GNDD and 5VDC.  Whether it is a design error or a manufacturing error remains to be seen.
 
 <dl><dt>03 Oct 2019</dt></dl>The solder joint issues with the fine pich components seem to be never ending.  I'm still not done with the visual inspection, but when that is finished I'll apply power...
 
