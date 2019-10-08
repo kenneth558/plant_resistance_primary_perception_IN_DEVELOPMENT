@@ -6,7 +6,7 @@ $Descr A2 23386 16535
 encoding utf-8
 Sheet 1 2
 Title ""
-Date "06-Sep-2019"
+Date "07-Oct-2019"
 Rev ""
 Comp ""
 Comment1 ""
@@ -1226,8 +1226,8 @@ Text Notes 8050 13350 0    500  ~ 0
 Helpful Parts Not In Circuit
 Wire Notes Line
 	9025 13475 17925 13475
-Text Notes 8175 15850 0    100  ~ 0
-· 1 roll Polyimide (Kapton) tape 3/8" wide 6' length or greater.  Use as electrical insulator and place assist. P/N 3057 from Arrow \nor equivalent\n· 38ga magnet wire for trace repairs.  P/N 3522 from Arrow or equivalent\n· Solder wick P/N TOL-09327 from Arrow or equivalent\n· Soldering colophony (pine or gum ROSIN - NOT with zinc or ammonium chloride) flux (can make it yourself)\n· RG316 Coaxial cable 2m/6ft min length\n· Multi-conductor flat IDC ribbon cable or hookup wire.  P/N 2001 to 2006 from Arrow\n· Electrode clamshells; one per leaf electrode.  Having attachment means and gripping spring somewhere along hinge axis and \nhaving enough suspending points spread out to hold clamshell in any specific orientation needed.  \n· Electrode suspension device of your own making that won't sink into ground and extends a guy strings hang point above DUT\n· Carbon fiber tow, non-impregnated with a gold-plated connector per electrode (we have no source yet).  The connector will \ninterface between the carbon fiber and wiring to the receptacle that receives the coaxial cable plug.\nNOTE - Very high temp solder (K100) not allowed on U4.  The best solder will always be "No Heat SAC305" if you can find it, but \nyou still MUST cleanse gold from pads.  Avoid Pb (leaded) solder unless you understand the behavior of eutectics, how Pb ruins \nother solders, and how gold from ENIG ruins it.
+Text Notes 9625 15900 0    65   ~ 0
+· 1 roll Polyimide (Kapton) tape 3/8" wide 6' length or greater.  Use as electrical insulator and place assist. P/N 3057 from Arrow \nor equivalent\n· 38ga magnet wire for trace repairs.  P/N 3522 from Arrow or equivalent\n· Solder wick P/N TOL-09327 from Arrow or equivalent\n· Soldering colophony (pine or gum ROSIN - NOT with zinc nor ammonium chlorides) flux (can make it yourself)\n· RG316 Coaxial cable 2m/6ft min length\n· Multi-conductor flat IDC ribbon cable or hookup wire.  P/N 2001 to 2006 from Arrow\n· Electrode clamshells; one per leaf electrode.  Having attachment means and gripping spring somewhere along hinge axis and \nhaving enough suspending points spread out to hold clamshell in any specific orientation needed.  \n· 2 Electrode clamshell cushions made from white or ivory color "Kayser-Roth No nonsense knee high 100% nylon socks MADE \nIN USA" UPC 70011195323 (https://www.upcindex.com/70011195323), partially filled with craft-spec styrofoam balls, aka "beads" \nor "beans", approx. 3mm dia.  Per Kayser Roth Consumer Care: "You are able to order the Nononsense Knee Highs on our online \nwebsite nononsense.com. If you are wanting to order them locally you might be able to find them at a Shop-Rite, Walgreens, \nRite-Aid, Food Lion, Harris Teeter, HEB, CVS, or local supermarkets around you."  Yet I actually found them at Wal-Mart.\n· Electrode suspension device of your own making that won't sink into ground and extends a guy strings hang point above DUT\n· Carbon fiber tow, non-impregnated with a gold-plated transition pin per electrode (we have no source yet, but "non-impregnated" \nbasically means "not the shiny type").  The transition pin will interface between the carbon fiber and wiring to the receptacle that\nreceives the coaxial cable plug.  Ensure that conductor material transitions are both (excitation/sense side and return sides of \nthe coax cable) identical so the transitions' galvanic voltages cancel out.\n\nNOTE - Very high temp solder (K100) not allowed on U4.  The best solder will always be "No Heat SAC305" if you can find it, but \nyou still MUST cleanse gold from pads.  Avoid Pb (leaded) solder unless you understand the behavior of eutectics, how Pb ruins \nother solders, and how gold from ENIG ruins Pb solder.\n
 Wire Notes Line
 	21575 3825 22915 3825
 Wire Wire Line
@@ -2414,7 +2414,7 @@ F 0 "ICSP1" H 20675 4575 50  0000 C CNN
 F 1 "ICSP Socket" H 20700 4500 50  0000 C CNN
 F 2 "Connector_PinSocket_2.54mm:PinSocket_2x03_P2.54mm_Vertical" H 20775 4250 50  0001 C CNN
 F 3 "~" H 20775 4250 50  0001 C CNN
-F 4 "19 Remove the previous JP6 wire and hold the full-size JP6 in its place while placing this.   Set height with all connectors to MCU mated, some connectors may need spaced away from board or otherwise made to fit.   Then check work for inadvertent shorts and opens.  Replace JP6, if removed, with the style you want - wire or removeable shunt.  Apply Kapton tape anywhere needed as board is mated to MCU, while also ensuring no Vcc conflicts will exist." H 11575 1050 50  0001 C CNN "ClickToSortForPlacement"
+F 4 "19 Remove the previous JP6 wire and hold the full-size JP6 in its place while placing this.   Set height with all connectors to MCU mated, some connectors may need spaced away from board or otherwise made to fit.   Place using bismuth solder if you have it (provided you used no-lead solder to pre-tin with) for easiest removal.   Then check work for inadvertent shorts and opens.  Replace JP6, if removed, with the style you want - wire or removeable shunt.  Apply Kapton tape anywhere needed as board is mated to MCU, while also ensuring no Vcc conflicts will exist." H 11575 1050 50  0001 C CNN "ClickToSortForPlacement"
 F 5 "SSQ-103-03-T-D. Stackables are too often not stocked; unable to source stackable style" H 20775 4250 50  0001 C CNN "Part_number"
 F 6 "http://Arrow.com" H 20775 4250 50  0001 C CNN "Source"
 	1    20775 4250
@@ -2428,7 +2428,7 @@ F 0 "J2" H 21450 2050 50  0000 L CNN
 F 1 "Power" V 21275 1375 50  0000 L CNN
 F 2 "Connector_PinHeader_2.54mm:PinHeader_1x09_P2.54mm_Vertical" H 21350 1500 50  0001 C CNN
 F 3 "~" H 21350 1500 50  0001 C CNN
-F 4 "20 When MCU is NOT 5V, pin 5 gets removed and pin 4 gets its pad shorted to pin 5 PAD.  When MCU is switchable 5V and 3.3V and you want to be able to switch between the two levels, remove pin 5 still but tie ICSP1 pin 2 into pin 5 PAD with an insulated wire.  Height with all connectors mated, may need to space away from board some.  Then check work for inadvertent shorts and opens." H 11800 -100 50  0001 C CNN "ClickToSortForPlacement"
+F 4 "20 When MCU is NOT 5V, pin 5 gets removed and pin 4 gets its pad shorted to pin 5 PAD.  When MCU is switchable 5V and 3.3V and you want to be able to switch between the two levels, remove pin 5 still but tie ICSP1 pin 2 into pin 5 PAD with an insulated wire.  Height with all connectors mated, may need to space away from board some.  Place with dessicant inside using bismuth solder if you have it for easiest removal (provided you used no-lead solder to pre-tin with) .  Then check work for inadvertent shorts and opens." H 11800 -100 50  0001 C CNN "ClickToSortForPlacement"
 F 5 "part of first TSW-150-05-T-S or 4-103327-0. Stackables are too often not stocked; unable to source stackable style.  Consider whether you want to get hookup wire [22-24 ga or so, stranded, multiconductor flat cable] to allow you to runs some diags before you permanently place these large connectors.  Stranded allows you to also use it with flux as solderwick)." H 21350 1500 50  0001 C CNN "Part_number"
 F 6 "http://Arrow.com" H 21350 1500 50  0001 C CNN "Source"
 	1    21350 1500
@@ -2442,7 +2442,7 @@ F 0 "J5" H 21800 2900 50  0000 C CNN
 F 1 "Digital" V 21600 2450 50  0000 C CNN
 F 2 "Connector_PinHeader_2.54mm:PinHeader_1x08_P2.54mm_Vertical" H 21850 2500 50  0001 C CNN
 F 3 "~" H 21850 2500 50  0001 C CNN
-F 4 "21 Set height with all connectors mated, may need to space away from board some.   Placing into plated-through holes requires more solder than single-sided components and heat for a longer time or the MCU can push the solder pads right off the board.    Then check work for inadvertent shorts and opens.  Power up and run diags.  Power down and continue." H 11650 0   50  0001 C CNN "ClickToSortForPlacement"
+F 4 "21 Set height with all connectors mated, may need to space away from board some.   Requires more solder than single-sided components and heat for a longer time or the MCU can push the solder pads right off the board.    Use bismuth solder if you have it for easiest removal (provided you used no-lead solder to pre-tin with).  Then check work for inadvertent shorts and opens.  Power up and run diags.  Power down and continue." H 11650 0   50  0001 C CNN "ClickToSortForPlacement"
 F 5 "part of first TSW-150-05-T-S or 4-103327-0. Stackables are too often not stocked; unable to source stackable style" H 21850 2500 50  0001 C CNN "Part_number"
 F 6 "http://Arrow.com" H 21850 2500 50  0001 C CNN "Source"
 	1    21850 2500
@@ -2548,7 +2548,7 @@ F 0 "J3" H 21250 2700 50  0000 L CNN
 F 1 "Analog" V 21400 2250 50  0000 L CNN
 F 2 "Connector_PinHeader_2.54mm:PinHeader_1x06_P2.54mm_Vertical" H 21350 2300 50  0001 C CNN
 F 3 "~" H 21350 2300 50  0001 C CNN
-F 4 "20 Placing into plated-through holes requires more solder than single-sided components and heat for a longer time or the MCU can push the solder pads right off the board.    Place with height with all connectors mated, may need to space away from board some.  Then check work for inadvertent shorts and opens." H 11650 0   50  0001 C CNN "ClickToSortForPlacement"
+F 4 "20 Requires more solder than single-sided components and heat for a longer time or the MCU can push the solder pads right off the board.    Place with height with all connectors mated, may need to space away from board some.  Use bismuth solder if you have it for easiest removal (provided you used no-lead solder to pre-tin with).  Then check work for inadvertent shorts and opens." H 11650 0   50  0001 C CNN "ClickToSortForPlacement"
 F 5 "part of first TSW-150-05-T-S or 4-103327-0. Stackables are too often not stocked; unable to source stackable style" H 21250 2400 50  0001 C CNN "Part_number"
 F 6 "http://Arrow.com" H 21250 2400 50  0001 C CNN "Source"
 	1    21250 2400
@@ -2775,7 +2775,7 @@ L 2019-03-19_09-09-09:MCP4262-xxxE_UN U8
 U 1 1 5CA59032
 P 11100 4575
 F 0 "U8" H 12050 3675 60  0000 R CNN
-F 1 "- U32 all in parallel MCP4262-502E/UN" H 11875 3675 60  0000 R CNN
+F 1 "- U33 all in parallel MCP4262-502E/UN" H 11875 3675 60  0000 R CNN
 F 2 "Package_SO:MSOP-10_3x3mm_P0.5mm" H 11645 5000 60  0001 C CNN
 F 3 "http://ww1.microchip.com/downloads/en/DeviceDoc/22059b.pdf" H 11110 4575 60  0001 R CNN
 F 4 "15 Check corner pads for adequate bare metal: ensure the solder mask of all corner pads is scraped off.  Place, then check work for inadvertent shorts and opens" H 5500 2675 50  0001 C CNN "ClickToSortForPlacement"
@@ -2794,7 +2794,7 @@ F 2 "Package_SO:SOIC-8_3.9x4.9mm_P1.27mm" H 7800 3800 50  0001 L CIN
 F 3 "http://www.ti.com/lit/ds/symlink/lm134.pdf" H 7775 3950 50  0001 C CIN
 F 4 "LM334M/NOPB" H 7775 3950 50  0001 C CNN "Part_number"
 F 5 "http://Arrow.com" H 7775 3950 50  0001 C CNN "Source"
-F 6 "23 Check corner pads for adequate bare metal: ensure the solder mask of all corner pads is scraped off.  Before placing, run the diags that use the ohmmeter.  Place then check work.  Place short between pins 2 and 5 of U3 and place 1.5 MOhm from Q2 pins 1 & 2 to GND.  Place a short between pins 1 & 2 of Q1. Make sure the added shorts cannot get bumped so to lift the pads they attach to.  Run diags.  Remove shorts on Q1 and Q2. " H 7775 3950 50  0001 C CNN "ClickToSortForPlacement"
+F 6 "23 Check corner pads for adequate bare metal: ensure the solder mask of all corner pads is scraped off.  Before placing, run the diags that use the ohmmeter.  Place then check work, you may allow up to three of pins 5-8 to fly free since none of them have electrical connection.  Place short between pins 2 and 5 of U4 and place 1.5 MOhm from Q2 pins 1 & 2 to GND.  Place a short between pins 1 & 2 of Q1. Make sure the added shorts cannot get bumped so to lift the pads they attach to.  Run diags.  Remove shorts on Q1 and Q2. " H 7775 3950 50  0001 C CNN "ClickToSortForPlacement"
 	1    7775 3950
 	1    0    0    -1  
 $EndComp
@@ -2808,7 +2808,7 @@ F 2 "Package_SO:SOIC-8_3.9x4.9mm_P1.27mm" H 8900 3800 50  0001 L CIN
 F 3 "http://www.ti.com/lit/ds/symlink/lm134.pdf" H 8875 3950 50  0001 C CIN
 F 4 "LM334M/NOPB" H 8875 3950 50  0001 C CNN "Part_number"
 F 5 "http://Arrow.com" H 8875 3950 50  0001 C CNN "Source"
-F 6 "23 Check corner pads for adequate bare metal: ensure the solder mask of all corner pads is scraped off.  Before placing, run the diags that use the ohmmeter.  Place then check work.  Place short between pins 2 and 5 of U3 and place 1.5 MOhm from Q2 pins 1 & 2 to GND.  Place a short between pins 1 & 2 of Q1. Make sure the added shorts cannot get bumped so to lift the pads they attach to.  Run diags.  Remove shorts on Q1 and Q2. " H 8875 3950 50  0001 C CNN "ClickToSortForPlacement"
+F 6 "23 Check corner pads for adequate bare metal: ensure the solder mask of all corner pads is scraped off.  Before placing, run the diags that use the ohmmeter.  Place then check work, you may allow up to three of pins 5-8 to fly free since none of them have electrical connection.  Place short between pins 2 and 5 of U4 and place 1.5 MOhm from Q2 pins 1 & 2 to GND.  Place a short between pins 1 & 2 of Q1. Make sure the added shorts cannot get bumped so to lift the pads they attach to.  Run diags.  Remove shorts on Q1 and Q2. " H 8875 3950 50  0001 C CNN "ClickToSortForPlacement"
 	1    8875 3950
 	1    0    0    -1  
 $EndComp
@@ -2930,7 +2930,7 @@ F 2 "multipackage:Masach_Tech_MS26320_26x19.50mm" H 3025 6750 50  0001 C CNN
 F 3 "~" H 3025 6750 50  0001 C CNN
 F 4 "MS263-20 (will use only the cover to keep hermetic sealed)" H 3025 6850 50  0001 C CNN "Part_number"
 F 5 "http://Arrow.com" H 3025 6850 50  0001 C CNN "Source"
-F 6 "27 Thoroughly solder in place with dessicant inside.  Verify every place-assist hole inside shield footprint is sealed and take one last opportunity to ensure all other holes there as well are fully sealed against air travel." H 3025 6850 50  0001 C CNN "ClickToSortForPlacement"
+F 6 "27  Verify every place-assist hole inside shield footprint is sealed and take one last opportunity to ensure all other holes there as well are fully sealed against air travel.  Thoroughly solder in place with dessicant inside using bismuth solder if you have it for easiest removal." H 3025 6850 50  0001 C CNN "ClickToSortForPlacement"
 	1    3025 6850
 	1    0    0    -1  
 $EndComp
@@ -2949,25 +2949,25 @@ F 6 "04 Place then check work" H 2150 4900 50  0001 C CNN "ClickToSortForPlaceme
 	0    1    1    0   
 $EndComp
 $Comp
-L Jumper:SolderJumper_3_Open JP1
+L Jumper:SolderJumper_3_Bridged12 JP1
 U 1 1 5D8B719E
 P 2825 4175
 F 0 "JP1" H 2650 4250 50  0000 C CNN
 F 1 "C1_leak_mitigator" H 2400 4325 50  0000 C CNN
-F 2 "Jumper:SolderJumper-3_P1.3mm_Open_RoundedPad1.0x1.5mm_NumberLabels" H 2825 4175 50  0001 C CNN
+F 2 "Jumper:SolderJumper-3_P1.3mm_Bridged12_RoundedPad1.0x1.5mm_NumberLabels" H 2825 4175 50  0001 C CNN
 F 3 "~" H 2825 4175 50  0001 C CNN
 F 4 "part of MSB-T plus part of a second TSW-150-05-T-S/4-103327-0" H 2825 4175 50  0001 C CNN "Part_number"
-F 5 "00 (TIPS - Always when sorting this page, make the column's title cell show the little sort direction indicator highlighted and pointing up. Solder temperature if using a soldering iron: Highest temperature solder when used for two-lead SMD components so they aren't so easily dislocated when bumped with hot iron.  Never allow leaded solder to cross contaminate low-temp [bismuth] solders - lead ruins them.  Plated through holes can only be used once on new boards unless they are HASL and you are careful to match solders with the factory solder or you are prepared to ream out plating-contaminated solder from the hole, so do NOT assume that tinning plated through holes to prepare the holes themselves for pins or leads is the right thing to do!  Just use them as-is when the time comes even though they won't take the solder as well, or instead you may plug the holes with stainless steel paste dispensing syringe needle/nozzle 20-21 gauge while you tin the annular ring only on the one side opposite the component.  Cleanse gold from board by double-tinning with the same solder composition you'll use on the respective pads leaving as little solder on them as possible. The reasoning? Plating interferes with solder, making untinned pads almost impossible to solder to with this leadless package type. Take care about LEDs and U3 soldering temperatures - they don't stand the temperatures of other components.   U3 special handling - don't open U3 shipping/storage package until these instructions say to; soldering temperature for U3 must never exceed 250C/500F.)   Now would be the best time to solder-seal all the micro-vias that let light through, if any, within SHLD1 footprint for hermetic sealing, but do so from the back side where SHLD1 is not outlined in copper.  Use a bright light shining through to ensure all vias get sealed, but do not seal place-assist holes yet nor U2 center lead hole.  Whether mere solder mask actually hermetically seals adequately is debatable - I would only trust it if it is thick enough to block all light.  Use solder to seal any suspicious micro-vias.  Solder-short pads 1 to 2 of JP1 keeping all previous solder joints from melting.  Take that precaution throughout assembly." H 2825 4175 50  0001 C CNN "ClickToSortForPlacement"
+F 5 "00 (TIPS - Always when sorting this page, make the column's title cell show the little sort direction indicator highlighted and pointing up. Solder temperature if using a soldering iron: Use your highest temperature solder for two-lead SMD components so they aren't so easily dislocated later when accidentally bumped with hot iron.  Never allow leaded solder to cross contaminate low-temp [bismuth] solders - lead ruins them.  Do your best to keep SMD component leads clean from adhesive tape glue and other sticky, clingy, slimy contaminates that could leave a film where solder will need to adhere to them.  Plated through holes can only be used once on new boards unless they are Hot Air Solder Leveled [HASL] and you are careful to match solders with the factory solder or you are prepared to ream out plating-contaminated solder from the hole, so do NOT assume that tinning plated through holes to prepare the holes themselves for pins or leads is the right thing to do!  Just use them as-is when the time comes even though they won't take the solder as well, or instead you may plug the holes with stainless steel paste dispensing syringe needle/nozzle 20-21 gauge while you tin the annular ring only on the one side opposite the component.  Take care about LEDs and U3 soldering temperatures - they don't stand the temperatures of other components.   U3 special handling - don't open U3 shipping/storage package until these instructions say to; soldering temperature for U3 must never exceed 250C/500F.)     Cleanse gold from all pads on the board by tinning - twice at least on SMD pads - with the same solder composition you'll use on the respective pads, leaving no gold and as little solder as possible on them - solder wick and rosin flux are invaluable for this task, and use some ingenuity on those plated-through holes to ensure they can be cleared out when done tinning them.  Allow 2 to 5 hours on this step alone, since the only way to do this quicker is by industrial HASL; and, yes, all the melted solder mask will look awful. The reasoning? Plating interferes with solder, making untinned pads almost impossible to solder to with this leadless package type.   Now would be the best time to solder-seal hermetically tight all the micro-vias that let light through, if any, within SHLD1 footprint.  Once the components get placed where they shadow the micro-vias, any non-sealed ones will be totally not findable.  Use a bright light shining through to ensure all vias get sealed, but do not seal place-assist holes yet nor U2 center lead hole.  Whether mere solder mask actually hermetically seals adequately is debatable - I would only trust it if it is thick enough to block all light.  Use solder to seal any suspicious micro-vias.  Solder-short pads 1 to 2 of this JP1, keeping all previous solder joints from melting.  Take that precaution throughout assembly." H 2825 4175 50  0001 C CNN "ClickToSortForPlacement"
 	1    2825 4175
 	1    0    0    -1  
 $EndComp
 $Comp
-L Jumper:SolderJumper_3_Open JP2
+L Jumper:SolderJumper_3_Bridged12 JP2
 U 1 1 5D936E95
 P 4200 3725
 F 0 "JP2" H 4275 3825 50  0000 C CNN
 F 1 "C2_bias_reducer" H 3875 3825 50  0000 C CNN
-F 2 "Jumper:SolderJumper-3_P1.3mm_Open_RoundedPad1.0x1.5mm_NumberLabels" H 4200 3725 50  0001 C CNN
+F 2 "Jumper:SolderJumper-3_P1.3mm_Bridged12_RoundedPad1.0x1.5mm_NumberLabels" H 4200 3725 50  0001 C CNN
 F 3 "~" H 4200 3725 50  0001 C CNN
 F 4 "part of MSB-T plus part of a second TSW-150-05-T-S/4-103327-0" H 4200 3725 50  0001 C CNN "Part_number"
 F 5 "01 Solder-short pads 1 to 2." H 4200 3725 50  0001 C CNN "ClickToSortForPlacement"
@@ -2982,7 +2982,7 @@ F 0 "J4" H 21800 2000 50  0000 C CNN
 F 1 "Digital" V 21600 1450 50  0000 C CNN
 F 2 "Connector_PinHeader_2.54mm:PinHeader_1x10_P2.54mm_Vertical" H 21700 1500 50  0001 C CNN
 F 3 "~" H 21700 1500 50  0001 C CNN
-F 4 "20 Placing into plated-through holes requires more solder than single-sided components and heat for a longer time, especially on the GNDD pin or the MCU can push the solder pads right off the board.  Place with height with all connectors mated, may need to space away from board some.  Then check work for inadvertent shorts and opens." H 11650 0   50  0001 C CNN "ClickToSortForPlacement"
+F 4 "20 Requires more solder than single-sided components and heat for a longer time, especially on the GNDD pin or the MCU can push the solder pads right off the board.  Use bismuth solder if you have it for easiest removal (provided you used no-lead solder to pre-tin with).  Place with height with all connectors mated, may need to space away from board some.  Then check work for inadvertent shorts and opens." H 11650 0   50  0001 C CNN "ClickToSortForPlacement"
 F 5 "part of first TSW-150-05-T-S or 4-103327-0. Stackables are too often not stocked; unable to source stackable style" H 21700 1500 50  0001 C CNN "Part_number"
 F 6 "http://Arrow.com" H 21700 1500 50  0001 C CNN "Source"
 	1    21700 1500
@@ -2998,7 +2998,7 @@ F 2 "Resistor_SMD:R_0603_1608Metric" H 6300 4950 50  0001 C CNN
 F 3 "~" H 6300 4950 50  0001 C CNN
 F 4 "http://Arrow.com" H 6300 4950 50  0001 C CNN "Source"
 F 5 "RC0603JR-1310KL" H 6300 4950 50  0001 C CNN "Part_number"
-F 6 "05 Place, then check work as before.   The steps up to this one were to install amplification stability ckt for powering up U2.  Pwr supply stability ckts for U1 and ADC1 are next after diagnostics of the work you've done so far:  You have reached the step of applying power voltage to the board, and you MUST not make any mistakes doing so or you'll all too likely damage components that will cost you extra shipping, handling to replace.  As you prepare to continue, be fully aware that any mistakes you make can destroy components when power gets applied.  BE VERY OBSERVANT.  Determine which of +5V or +3V3 your MCU puts on ICSP1 pin 2 before applying MCU power to this board: 5V is default of this PCB design.  If the MCU instead puts 3V on the ICSP1 pin 2, you MUST modify this board at J2 pins 4 & 5 or you'll stress out your MCU and likely damage it!  Such modification inflexibly renders this board unfit for 5V operation since there was not room for jumpers to make this change flexible.  You will bring the Arduino's Vcc to this board's Vcc (the pad of pin 2 JP6 or install JP6 and use the pad of pin 2 ICSP1) and Arduino GND to this board's GNDD somewhere (the pad of J2 pin 6 or 7 is fine) semi-long-term somehow without power, yet, on the Arduino while ensuring nothing of this wiring can short together now nor later.  If you decide to solder anything down for this purpose, make SURE you cleanse the gold from whatever pads you choose so you can melt the joint later...that non-eutectic composition raises the melting point way higher than you'd think - and this was your last warning of that point for the entire board. Once that is done, power up the Arduino and pay no attention to what the Arduino does except make sure it does something to indicate it has power to it.  Devote your attention to the GWAAM-Sea board where you'll carefully (so as not to short anything out) measure and verify these voltages: the T pad of J1 should have 4.0 VDC on it unless the Arduino is a 3.3V device in which case that same pad will have 2.2-2.3 VDC on it.  (If you didn't already know enough before now to touch one voltmeter lead to ground and the other to the named pad then you are not of sufficient ability to be doing this assembly at all - please power down the Arduino and stop right now in that case and decide what you need to learn about voltmetering.  Learn it before coming back to this step.  We are hoping to put up YouTube videos to help everyone in your situation.)  Remove power from Arduino but keep Arduino and this board wired together.  Temporarily use R10, R12, & R13 (these are all interchangeable) in this way: tack R10 between SHLD1 trace and the pad for pin 5 of U3.  The live end is on the pad of pin 5 U3.  We'll use R12 & R13 after this initial voltage check.  Powered up VDC right now on the live end of the temporary R10 resistor should be less than 0.01 VDC.  Power down Arduino.  Next tack R12 and R13 in series with each other bridging across S and T of J1, powering down the Arduino to do so.  With power on again, the VDC on J1 pad T will be just a tad bit less it was than before.  VDC on the live end of the temporary diag resistor will be half that level.  If you can read the meter while shorting across only one of R12-R13 the reading should rise to 4.0 (or 2.2-2.3 in 3.3V systems).  Remove power to continue the assembly.  Remove R10, R12, & R13 and install the extra R3 or other 3.9K where R10 was just removed from: from U3 pad 5 to SHLD1 trace right next to it.  Decide on a way you'll short between S and T of J1 to make the next voltage measurement and apply the short now or when you make that measurement.  Apply power again and measure the live end of that spare R3 with the aforementioned short placed.    With power on again, the VDC on J1 pad T will be just a tad bit less Vcc-1.   Remove power but leave the spare R3 and short of J1 there for another diagnostic step." H 6300 4950 50  0001 C CNN "ClickToSortForPlacement"
+F 6 "05 Place, then check work as before.   The steps up to this one were to install first stage stability ckt for powering up U3.  Pwr supply stability ckts for U1 and ADC1 are next after diagnostics of the work you've done so far:  You have reached the step of applying power voltage to the board, and you MUST not make any mistakes doing so or you'll all too likely damage components that will cost you extra shipping, handling to replace.  As you prepare to continue, be fully aware that any mistakes you make can destroy components when power gets applied.  BE VERY OBSERVANT.  Determine which of +5V or +3V3 your MCU puts on ICSP1 pin 2 before applying MCU power to this board: 5V is default of this PCB design.  If the MCU instead puts 3V on the ICSP1 pin 2, you MUST modify this board at J2 pins 4 & 5 or you'll stress out your MCU and likely damage it!  Such modification inflexibly renders this board unfit for 5V operation since there was not room for jumpers to make this change flexible.  You will bring the Arduino's Vcc to this board's Vcc (the pad of pin 2 JP6 or install JP6 and use the pad of pin 2 ICSP1) and Arduino GND to this board's GNDD somewhere (the pad of J2 pin 6 or 7 is fine) semi-long-term somehow without power, yet, on the Arduino while ensuring nothing of this wiring can short together now nor later.  If you decide to solder anything down for this purpose, make SURE you cleanse the gold from whatever pads you choose so you can melt the joint later...that non-eutectic composition raises the melting point way higher than you'd think - and this was your last warning of that point for the entire board. Once that is done, power up the Arduino and pay no attention to what the Arduino does except make sure it does something to indicate it has power to it.  Devote your attention to the GWAAM-Sea board where you'll carefully (so as not to short anything out) measure and verify these voltages: the T pad of J1 should have 4.0 VDC on it unless the Arduino is a 3.3V device in which case that same pad will have 2.2-2.3 VDC on it.  (If you didn't already know enough before now to touch one voltmeter lead to ground and the other to the named pad then you are not of sufficient ability to be doing this assembly at all - please power down the Arduino and stop right now in that case and decide what you need to learn about voltmetering.  Learn it before coming back to this step.  We are hoping to put up YouTube videos to help everyone in your situation.)  Remove power from Arduino but keep Arduino and this board wired together.  Temporarily use R10, R12, & R13 (these are all interchangeable) in this way: tack R10 between SHLD1 trace and the pad for pin 5 of U4.  The live end is on the pad of pin 5 U4.  We'll use R12 & R13 after this initial voltage check.  Powered up VDC right now on the live end of the temporary R10 resistor should be less than 0.01 VDC.  Power down Arduino.  Next tack R12 and R13 in series with each other bridging across S and T of J1, powering down the Arduino to do so.  With power on again, the VDC on J1 pad T will be just a tad bit less it was than before.  VDC on the live end of the temporary diag resistor will be half that level.  If you can read the meter while shorting across only one of R12-R13 the reading should rise to 4.0 (or 2.2-2.3 in 3.3V systems).  Remove power to continue the assembly.  Remove R10, R12, & R13 and install the extra R3 or other 3.9K where R10 was just removed from: from U4 pad 5 to SHLD1 trace right next to it.  Decide on a way you'll short between S and T of J1 to make the next voltage measurement and apply the short now or when you make that measurement.  Apply power again and measure the live end of that spare R3 with the aforementioned short placed.    With power on again, the VDC on J1 pad T will be just a tad bit less Vcc-1.   Remove power but leave the spare R3 and short of J1 there for another diagnostic step." H 6300 4950 50  0001 C CNN "ClickToSortForPlacement"
 	1    6300 4950
 	0    -1   -1   0   
 $EndComp
@@ -3465,80 +3465,80 @@ F 6 "14 Place then check work" H 6150 4025 50  0001 C CNN "ClickToSortForPlaceme
 	1    0    0    -1  
 $EndComp
 $Comp
-L 2019-03-19_09-09-09:MCP4262-xxxE_UN U12
+L 2019-03-19_09-09-09:MCP4262-xxxE_UN U27
 U 1 1 5D6AAC30
 P 6950 -825
-F 0 "U12" H 6825 -1200 60  0000 R CNN
+F 0 "U27" H 6825 -1200 60  0000 R CNN
 F 1 "MCP4262-502E/UN" H 6875 -1300 60  0000 R CNN
 F 2 "Package_SO:MSOP-10_3x3mm_P0.5mm" H 7495 -400 60  0001 C CNN
 F 3 "http://ww1.microchip.com/downloads/en/DeviceDoc/22059b.pdf" H 6960 -825 60  0001 C CNN
 F 4 "01" H 2600 -2725 50  0001 C CNN "PlacementOrder"
 F 5 "01" H 2600 -2725 50  0001 C CNN "SortForPlacement"
-F 6 "15 NOT WELL ACCOMMODATED ON BOARD REV 7 AND BELOW: PATCHING IN WOULD REQUIRE PARALLELING ALL PINS EXCEPT 9 WITH 32 GA WIRES OR SMALLER.  With Rev 8 flex board, check corner pads for adequate bare metal: ensure the solder mask of all corner pads is scraped off.  Place, then check work for inadvertent shorts and opens" H 2600 -2725 50  0001 C CNN "ClickToSortForPlacement"
+F 6 "15 NOT WELL ACCOMMODATED ON BOARD REV .7 AND BELOW: PATCHING IN WOULD REQUIRE PARALLELING ALL PINS EXCEPT 9 WITH 32 GA WIRES OR SMALLER.  With Rev 8 flex board, check corner pads for adequate bare metal: ensure the solder mask of all corner pads is scraped off.  Place, then check work for inadvertent shorts and opens" H 2600 -2725 50  0001 C CNN "ClickToSortForPlacement"
 F 7 "MCP4262-502E/UN-ND" H 6950 -825 50  0001 C CNN "Part_number"
 F 8 "http://digikey.com" H 6950 -825 50  0001 C CNN "Source"
 	1    6950 -825
 	-1   0    0    1   
 $EndComp
 $Comp
-L 2019-03-19_09-09-09:MCP4262-xxxE_UN U16
+L 2019-03-19_09-09-09:MCP4262-xxxE_UN U28
 U 1 1 5D79DE00
 P 8725 -775
-F 0 "U16" H 8600 -1150 60  0000 R CNN
+F 0 "U28" H 8600 -1150 60  0000 R CNN
 F 1 "MCP4262-502E/UN" H 8650 -1250 60  0000 R CNN
 F 2 "Package_SO:MSOP-10_3x3mm_P0.5mm" H 9270 -350 60  0001 C CNN
 F 3 "http://ww1.microchip.com/downloads/en/DeviceDoc/22059b.pdf" H 8735 -775 60  0001 C CNN
 F 4 "01" H 4375 -2675 50  0001 C CNN "PlacementOrder"
 F 5 "01" H 4375 -2675 50  0001 C CNN "SortForPlacement"
-F 6 "15 NOT WELL ACCOMMODATED ON BOARD REV 7 AND BELOW: PATCHING IN WOULD REQUIRE PARALLELING ALL PINS EXCEPT 9 WITH 32 GA WIRES OR SMALLER.  With Rev 8 flex board, check corner pads for adequate bare metal: ensure the solder mask of all corner pads is scraped off.  Place, then check work for inadvertent shorts and opens" H 4375 -2675 50  0001 C CNN "ClickToSortForPlacement"
+F 6 "15 NOT WELL ACCOMMODATED ON BOARD REV .7 AND BELOW: PATCHING IN WOULD REQUIRE PARALLELING ALL PINS EXCEPT 9 WITH 32 GA WIRES OR SMALLER.  With Rev 8 flex board, check corner pads for adequate bare metal: ensure the solder mask of all corner pads is scraped off.  Place, then check work for inadvertent shorts and opens" H 4375 -2675 50  0001 C CNN "ClickToSortForPlacement"
 F 7 "MCP4262-502E/UN-ND" H 8725 -775 50  0001 C CNN "Part_number"
 F 8 "http://digikey.com" H 8725 -775 50  0001 C CNN "Source"
 	1    8725 -775
 	-1   0    0    1   
 $EndComp
 $Comp
-L 2019-03-19_09-09-09:MCP4262-xxxE_UN U20
+L 2019-03-19_09-09-09:MCP4262-xxxE_UN U29
 U 1 1 5D7B7390
 P 10325 -800
-F 0 "U20" H 10200 -1175 60  0000 R CNN
+F 0 "U29" H 10200 -1175 60  0000 R CNN
 F 1 "MCP4262-502E/UN" H 10250 -1275 60  0000 R CNN
 F 2 "Package_SO:MSOP-10_3x3mm_P0.5mm" H 10870 -375 60  0001 C CNN
 F 3 "http://ww1.microchip.com/downloads/en/DeviceDoc/22059b.pdf" H 10335 -800 60  0001 C CNN
 F 4 "01" H 5975 -2700 50  0001 C CNN "PlacementOrder"
 F 5 "01" H 5975 -2700 50  0001 C CNN "SortForPlacement"
-F 6 "15 NOT WELL ACCOMMODATED ON BOARD REV 7 AND BELOW: PATCHING IN WOULD REQUIRE PARALLELING ALL PINS EXCEPT 9 WITH 32 GA WIRES OR SMALLER.  With Rev 8 flex board, check corner pads for adequate bare metal: ensure the solder mask of all corner pads is scraped off.  Place, then check work for inadvertent shorts and opens" H 5975 -2700 50  0001 C CNN "ClickToSortForPlacement"
+F 6 "15 NOT WELL ACCOMMODATED ON BOARD REV .7 AND BELOW: PATCHING IN WOULD REQUIRE PARALLELING ALL PINS EXCEPT 9 WITH 32 GA WIRES OR SMALLER.  With Rev 8 flex board, check corner pads for adequate bare metal: ensure the solder mask of all corner pads is scraped off.  Place, then check work for inadvertent shorts and opens" H 5975 -2700 50  0001 C CNN "ClickToSortForPlacement"
 F 7 "MCP4262-502E/UN-ND" H 10325 -800 50  0001 C CNN "Part_number"
 F 8 "http://digikey.com" H 10325 -800 50  0001 C CNN "Source"
 	1    10325 -800
 	-1   0    0    1   
 $EndComp
 $Comp
-L 2019-03-19_09-09-09:MCP4262-xxxE_UN U24
+L 2019-03-19_09-09-09:MCP4262-xxxE_UN U30
 U 1 1 5D7D0E54
 P 11950 -775
-F 0 "U24" H 11825 -1150 60  0000 R CNN
+F 0 "U30" H 11825 -1150 60  0000 R CNN
 F 1 "MCP4262-502E/UN" H 11875 -1250 60  0000 R CNN
 F 2 "Package_SO:MSOP-10_3x3mm_P0.5mm" H 12495 -350 60  0001 C CNN
 F 3 "http://ww1.microchip.com/downloads/en/DeviceDoc/22059b.pdf" H 11960 -775 60  0001 C CNN
 F 4 "01" H 7600 -2675 50  0001 C CNN "PlacementOrder"
 F 5 "01" H 7600 -2675 50  0001 C CNN "SortForPlacement"
-F 6 "15 NOT WELL ACCOMMODATED ON BOARD REV 7 AND BELOW: PATCHING IN WOULD REQUIRE PARALLELING ALL PINS EXCEPT 9 WITH 32 GA WIRES OR SMALLER.  With Rev 8 flex board, check corner pads for adequate bare metal: ensure the solder mask of all corner pads is scraped off.  Place, then check work for inadvertent shorts and opens" H 7600 -2675 50  0001 C CNN "ClickToSortForPlacement"
+F 6 "15 NOT WELL ACCOMMODATED ON BOARD REV .7 AND BELOW: PATCHING IN WOULD REQUIRE PARALLELING ALL PINS EXCEPT 9 WITH 32 GA WIRES OR SMALLER.  With Rev 8 flex board, check corner pads for adequate bare metal: ensure the solder mask of all corner pads is scraped off.  Place, then check work for inadvertent shorts and opens" H 7600 -2675 50  0001 C CNN "ClickToSortForPlacement"
 F 7 "MCP4262-502E/UN-ND" H 11950 -775 50  0001 C CNN "Part_number"
 F 8 "http://digikey.com" H 11950 -775 50  0001 C CNN "Source"
 	1    11950 -775
 	-1   0    0    1   
 $EndComp
 $Comp
-L 2019-03-19_09-09-09:MCP4262-xxxE_UN U28
+L 2019-03-19_09-09-09:MCP4262-xxxE_UN U31
 U 1 1 5D7E9C86
 P 13700 -750
-F 0 "U28" H 13575 -1125 60  0000 R CNN
+F 0 "U31" H 13575 -1125 60  0000 R CNN
 F 1 "MCP4262-502E/UN" H 13625 -1225 60  0000 R CNN
 F 2 "Package_SO:MSOP-10_3x3mm_P0.5mm" H 14245 -325 60  0001 C CNN
 F 3 "http://ww1.microchip.com/downloads/en/DeviceDoc/22059b.pdf" H 13710 -750 60  0001 C CNN
 F 4 "01" H 9350 -2650 50  0001 C CNN "PlacementOrder"
 F 5 "01" H 9350 -2650 50  0001 C CNN "SortForPlacement"
-F 6 "15 NOT WELL ACCOMMODATED ON BOARD REV 7 AND BELOW: PATCHING IN WOULD REQUIRE PARALLELING ALL PINS EXCEPT 9 WITH 32 GA WIRES OR SMALLER.  With Rev 8 flex board, check corner pads for adequate bare metal: ensure the solder mask of all corner pads is scraped off.  Place, then check work for inadvertent shorts and opens" H 9350 -2650 50  0001 C CNN "ClickToSortForPlacement"
+F 6 "15 NOT WELL ACCOMMODATED ON BOARD REV .7 AND BELOW: PATCHING IN WOULD REQUIRE PARALLELING ALL PINS EXCEPT 9 WITH 32 GA WIRES OR SMALLER.  With Rev 8 flex board, check corner pads for adequate bare metal: ensure the solder mask of all corner pads is scraped off.  Place, then check work for inadvertent shorts and opens" H 9350 -2650 50  0001 C CNN "ClickToSortForPlacement"
 F 7 "MCP4262-502E/UN-ND" H 13700 -750 50  0001 C CNN "Part_number"
 F 8 "http://digikey.com" H 13700 -750 50  0001 C CNN "Source"
 	1    13700 -750
@@ -3554,7 +3554,7 @@ F 2 "Package_SO:MSOP-10_3x3mm_P0.5mm" H 15770 -325 60  0001 C CNN
 F 3 "http://ww1.microchip.com/downloads/en/DeviceDoc/22059b.pdf" H 15235 -750 60  0001 C CNN
 F 4 "01" H 10875 -2650 50  0001 C CNN "PlacementOrder"
 F 5 "01" H 10875 -2650 50  0001 C CNN "SortForPlacement"
-F 6 "15 NOT WELL ACCOMMODATED ON BOARD REV 7 AND BELOW: PATCHING IN WOULD REQUIRE PARALLELING ALL PINS EXCEPT 9 WITH 32 GA WIRES OR SMALLER.  With Rev 8 flex board, check corner pads for adequate bare metal: ensure the solder mask of all corner pads is scraped off.  Place, then check work for inadvertent shorts and opens" H 10875 -2650 50  0001 C CNN "ClickToSortForPlacement"
+F 6 "15 NOT WELL ACCOMMODATED ON BOARD REV .7 AND BELOW: PATCHING IN WOULD REQUIRE PARALLELING ALL PINS EXCEPT 9 WITH 32 GA WIRES OR SMALLER.  With Rev 8 flex board, check corner pads for adequate bare metal: ensure the solder mask of all corner pads is scraped off.  Place, then check work for inadvertent shorts and opens" H 10875 -2650 50  0001 C CNN "ClickToSortForPlacement"
 F 7 "MCP4262-502E/UN-ND" H 15225 -750 50  0001 C CNN "Part_number"
 F 8 "http://digikey.com" H 15225 -750 50  0001 C CNN "Source"
 	1    15225 -750
@@ -3570,197 +3570,197 @@ F 2 "Resistor_SMD:R_0603_1608Metric" H 8150 4150 50  0001 C CNN
 F 3 "~" H 8150 4150 50  0001 C CNN
 F 4 "http://Arrow.com" H 8150 4150 50  0001 C CNN "Source"
 F 5 "RNCP0603FTD15K0" H 8150 4150 50  0001 C CNN "Part_number"
-F 6 "14 IF NO FOOTPRINT FOR THIS: OPTIONAL IN BOARD REV 7 AND BELOW AND WOULD HAVE TO CUT A TRACE.  Place then check work" H 8150 4150 50  0001 C CNN "ClickToSortForPlacement"
+F 6 "14 IF NO FOOTPRINT FOR THIS: OPTIONAL IN BOARD REV .7 AND BELOW AND WOULD HAVE TO CUT A TRACE.  Place then check work" H 8150 4150 50  0001 C CNN "ClickToSortForPlacement"
 	1    8150 4150
 	0    1    1    0   
 $EndComp
 $Comp
-L 2019-03-19_09-09-09:MCP4262-xxxE_UN U11
+L 2019-03-19_09-09-09:MCP4262-xxxE_UN U21
 U 1 1 5D88DEC2
 P 6900 -2500
-F 0 "U11" H 6775 -2875 60  0000 R CNN
+F 0 "U21" H 6775 -2875 60  0000 R CNN
 F 1 "MCP4262-502E/UN" H 6825 -2975 60  0000 R CNN
 F 2 "Package_SO:MSOP-10_3x3mm_P0.5mm" H 7445 -2075 60  0001 C CNN
 F 3 "http://ww1.microchip.com/downloads/en/DeviceDoc/22059b.pdf" H 6910 -2500 60  0001 C CNN
 F 4 "01" H 2550 -4400 50  0001 C CNN "PlacementOrder"
 F 5 "01" H 2550 -4400 50  0001 C CNN "SortForPlacement"
-F 6 "15 NOT WELL ACCOMMODATED ON BOARD REV 7 AND BELOW: PATCHING IN WOULD REQUIRE PARALLELING ALL PINS EXCEPT 9 WITH 32 GA WIRES OR SMALLER.  With Rev 8 flex board, check corner pads for adequate bare metal: ensure the solder mask of all corner pads is scraped off.  Place, then check work for inadvertent shorts and opens" H 2550 -4400 50  0001 C CNN "ClickToSortForPlacement"
+F 6 "15 NOT WELL ACCOMMODATED ON BOARD REV .7 AND BELOW: PATCHING IN WOULD REQUIRE PARALLELING ALL PINS EXCEPT 9 WITH 32 GA WIRES OR SMALLER.  With Rev 8 flex board, check corner pads for adequate bare metal: ensure the solder mask of all corner pads is scraped off.  Place, then check work for inadvertent shorts and opens" H 2550 -4400 50  0001 C CNN "ClickToSortForPlacement"
 F 7 "MCP4262-502E/UN-ND" H 6900 -2500 50  0001 C CNN "Part_number"
 F 8 "http://digikey.com" H 6900 -2500 50  0001 C CNN "Source"
 	1    6900 -2500
 	-1   0    0    1   
 $EndComp
 $Comp
-L 2019-03-19_09-09-09:MCP4262-xxxE_UN U15
+L 2019-03-19_09-09-09:MCP4262-xxxE_UN U22
 U 1 1 5D88DEE1
 P 8675 -2450
-F 0 "U15" H 8550 -2825 60  0000 R CNN
+F 0 "U22" H 8550 -2825 60  0000 R CNN
 F 1 "MCP4262-502E/UN" H 8600 -2925 60  0000 R CNN
 F 2 "Package_SO:MSOP-10_3x3mm_P0.5mm" H 9220 -2025 60  0001 C CNN
 F 3 "http://ww1.microchip.com/downloads/en/DeviceDoc/22059b.pdf" H 8685 -2450 60  0001 C CNN
 F 4 "01" H 4325 -4350 50  0001 C CNN "PlacementOrder"
 F 5 "01" H 4325 -4350 50  0001 C CNN "SortForPlacement"
-F 6 "15 NOT WELL ACCOMMODATED ON BOARD REV 7 AND BELOW: PATCHING IN WOULD REQUIRE PARALLELING ALL PINS EXCEPT 9 WITH 32 GA WIRES OR SMALLER.  With Rev 8 flex board, check corner pads for adequate bare metal: ensure the solder mask of all corner pads is scraped off.  Place, then check work for inadvertent shorts and opens" H 4325 -4350 50  0001 C CNN "ClickToSortForPlacement"
+F 6 "15 NOT WELL ACCOMMODATED ON BOARD REV .7 AND BELOW: PATCHING IN WOULD REQUIRE PARALLELING ALL PINS EXCEPT 9 WITH 32 GA WIRES OR SMALLER.  With Rev 8 flex board, check corner pads for adequate bare metal: ensure the solder mask of all corner pads is scraped off.  Place, then check work for inadvertent shorts and opens" H 4325 -4350 50  0001 C CNN "ClickToSortForPlacement"
 F 7 "MCP4262-502E/UN-ND" H 8675 -2450 50  0001 C CNN "Part_number"
 F 8 "http://digikey.com" H 8675 -2450 50  0001 C CNN "Source"
 	1    8675 -2450
 	-1   0    0    1   
 $EndComp
 $Comp
-L 2019-03-19_09-09-09:MCP4262-xxxE_UN U19
+L 2019-03-19_09-09-09:MCP4262-xxxE_UN U23
 U 1 1 5D88DF00
 P 10275 -2475
-F 0 "U19" H 10150 -2850 60  0000 R CNN
+F 0 "U23" H 10150 -2850 60  0000 R CNN
 F 1 "MCP4262-502E/UN" H 10200 -2950 60  0000 R CNN
 F 2 "Package_SO:MSOP-10_3x3mm_P0.5mm" H 10820 -2050 60  0001 C CNN
 F 3 "http://ww1.microchip.com/downloads/en/DeviceDoc/22059b.pdf" H 10285 -2475 60  0001 C CNN
 F 4 "01" H 5925 -4375 50  0001 C CNN "PlacementOrder"
 F 5 "01" H 5925 -4375 50  0001 C CNN "SortForPlacement"
-F 6 "15 NOT WELL ACCOMMODATED ON BOARD REV 7 AND BELOW: PATCHING IN WOULD REQUIRE PARALLELING ALL PINS EXCEPT 9 WITH 32 GA WIRES OR SMALLER.  With Rev 8 flex board, check corner pads for adequate bare metal: ensure the solder mask of all corner pads is scraped off.  Place, then check work for inadvertent shorts and opens" H 5925 -4375 50  0001 C CNN "ClickToSortForPlacement"
+F 6 "15 NOT WELL ACCOMMODATED ON BOARD REV .7 AND BELOW: PATCHING IN WOULD REQUIRE PARALLELING ALL PINS EXCEPT 9 WITH 32 GA WIRES OR SMALLER.  With Rev 8 flex board, check corner pads for adequate bare metal: ensure the solder mask of all corner pads is scraped off.  Place, then check work for inadvertent shorts and opens" H 5925 -4375 50  0001 C CNN "ClickToSortForPlacement"
 F 7 "MCP4262-502E/UN-ND" H 10275 -2475 50  0001 C CNN "Part_number"
 F 8 "http://digikey.com" H 10275 -2475 50  0001 C CNN "Source"
 	1    10275 -2475
 	-1   0    0    1   
 $EndComp
 $Comp
-L 2019-03-19_09-09-09:MCP4262-xxxE_UN U23
+L 2019-03-19_09-09-09:MCP4262-xxxE_UN U24
 U 1 1 5D88DF1F
 P 11900 -2450
-F 0 "U23" H 11775 -2825 60  0000 R CNN
+F 0 "U24" H 11775 -2825 60  0000 R CNN
 F 1 "MCP4262-502E/UN" H 11825 -2925 60  0000 R CNN
 F 2 "Package_SO:MSOP-10_3x3mm_P0.5mm" H 12445 -2025 60  0001 C CNN
 F 3 "http://ww1.microchip.com/downloads/en/DeviceDoc/22059b.pdf" H 11910 -2450 60  0001 C CNN
 F 4 "01" H 7550 -4350 50  0001 C CNN "PlacementOrder"
 F 5 "01" H 7550 -4350 50  0001 C CNN "SortForPlacement"
-F 6 "15 NOT WELL ACCOMMODATED ON BOARD REV 7 AND BELOW: PATCHING IN WOULD REQUIRE PARALLELING ALL PINS EXCEPT 9 WITH 32 GA WIRES OR SMALLER.  With Rev 8 flex board, check corner pads for adequate bare metal: ensure the solder mask of all corner pads is scraped off.  Place, then check work for inadvertent shorts and opens" H 7550 -4350 50  0001 C CNN "ClickToSortForPlacement"
+F 6 "15 NOT WELL ACCOMMODATED ON BOARD REV .7 AND BELOW: PATCHING IN WOULD REQUIRE PARALLELING ALL PINS EXCEPT 9 WITH 32 GA WIRES OR SMALLER.  With Rev 8 flex board, check corner pads for adequate bare metal: ensure the solder mask of all corner pads is scraped off.  Place, then check work for inadvertent shorts and opens" H 7550 -4350 50  0001 C CNN "ClickToSortForPlacement"
 F 7 "MCP4262-502E/UN-ND" H 11900 -2450 50  0001 C CNN "Part_number"
 F 8 "http://digikey.com" H 11900 -2450 50  0001 C CNN "Source"
 	1    11900 -2450
 	-1   0    0    1   
 $EndComp
 $Comp
-L 2019-03-19_09-09-09:MCP4262-xxxE_UN U27
+L 2019-03-19_09-09-09:MCP4262-xxxE_UN U25
 U 1 1 5D88DF3E
 P 13650 -2425
-F 0 "U27" H 13525 -2800 60  0000 R CNN
+F 0 "U25" H 13525 -2800 60  0000 R CNN
 F 1 "MCP4262-502E/UN" H 13575 -2900 60  0000 R CNN
 F 2 "Package_SO:MSOP-10_3x3mm_P0.5mm" H 14195 -2000 60  0001 C CNN
 F 3 "http://ww1.microchip.com/downloads/en/DeviceDoc/22059b.pdf" H 13660 -2425 60  0001 C CNN
 F 4 "01" H 9300 -4325 50  0001 C CNN "PlacementOrder"
 F 5 "01" H 9300 -4325 50  0001 C CNN "SortForPlacement"
-F 6 "15 NOT WELL ACCOMMODATED ON BOARD REV 7 AND BELOW: PATCHING IN WOULD REQUIRE PARALLELING ALL PINS EXCEPT 9 WITH 32 GA WIRES OR SMALLER.  With Rev 8 flex board, check corner pads for adequate bare metal: ensure the solder mask of all corner pads is scraped off.  Place, then check work for inadvertent shorts and opens" H 9300 -4325 50  0001 C CNN "ClickToSortForPlacement"
+F 6 "15 NOT WELL ACCOMMODATED ON BOARD REV .7 AND BELOW: PATCHING IN WOULD REQUIRE PARALLELING ALL PINS EXCEPT 9 WITH 32 GA WIRES OR SMALLER.  With Rev 8 flex board, check corner pads for adequate bare metal: ensure the solder mask of all corner pads is scraped off.  Place, then check work for inadvertent shorts and opens" H 9300 -4325 50  0001 C CNN "ClickToSortForPlacement"
 F 7 "MCP4262-502E/UN-ND" H 13650 -2425 50  0001 C CNN "Part_number"
 F 8 "http://digikey.com" H 13650 -2425 50  0001 C CNN "Source"
 	1    13650 -2425
 	-1   0    0    1   
 $EndComp
 $Comp
-L 2019-03-19_09-09-09:MCP4262-xxxE_UN U31
+L 2019-03-19_09-09-09:MCP4262-xxxE_UN U26
 U 1 1 5D88DF5D
 P 15175 -2425
-F 0 "U31" H 15050 -2800 60  0000 R CNN
+F 0 "U26" H 15050 -2800 60  0000 R CNN
 F 1 "MCP4262-502E/UN" H 15100 -2900 60  0000 R CNN
 F 2 "Package_SO:MSOP-10_3x3mm_P0.5mm" H 15720 -2000 60  0001 C CNN
 F 3 "http://ww1.microchip.com/downloads/en/DeviceDoc/22059b.pdf" H 15185 -2425 60  0001 C CNN
 F 4 "01" H 10825 -4325 50  0001 C CNN "PlacementOrder"
 F 5 "01" H 10825 -4325 50  0001 C CNN "SortForPlacement"
-F 6 "15 NOT WELL ACCOMMODATED ON BOARD REV 7 AND BELOW: PATCHING IN WOULD REQUIRE PARALLELING ALL PINS EXCEPT 9 WITH 32 GA WIRES OR SMALLER.  With Rev 8 flex board, check corner pads for adequate bare metal: ensure the solder mask of all corner pads is scraped off.  Place, then check work for inadvertent shorts and opens" H 10825 -4325 50  0001 C CNN "ClickToSortForPlacement"
+F 6 "15 NOT WELL ACCOMMODATED ON BOARD REV .7 AND BELOW: PATCHING IN WOULD REQUIRE PARALLELING ALL PINS EXCEPT 9 WITH 32 GA WIRES OR SMALLER.  With Rev 8 flex board, check corner pads for adequate bare metal: ensure the solder mask of all corner pads is scraped off.  Place, then check work for inadvertent shorts and opens" H 10825 -4325 50  0001 C CNN "ClickToSortForPlacement"
 F 7 "MCP4262-502E/UN-ND" H 15175 -2425 50  0001 C CNN "Part_number"
 F 8 "http://digikey.com" H 15175 -2425 50  0001 C CNN "Source"
 	1    15175 -2425
 	-1   0    0    1   
 $EndComp
 $Comp
-L 2019-03-19_09-09-09:MCP4262-xxxE_UN U10
+L 2019-03-19_09-09-09:MCP4262-xxxE_UN U15
 U 1 1 5D8ACEF1
 P 6875 -4325
-F 0 "U10" H 6750 -4700 60  0000 R CNN
+F 0 "U15" H 6750 -4700 60  0000 R CNN
 F 1 "MCP4262-502E/UN" H 6800 -4800 60  0000 R CNN
 F 2 "Package_SO:MSOP-10_3x3mm_P0.5mm" H 7420 -3900 60  0001 C CNN
 F 3 "http://ww1.microchip.com/downloads/en/DeviceDoc/22059b.pdf" H 6885 -4325 60  0001 C CNN
 F 4 "01" H 2525 -6225 50  0001 C CNN "PlacementOrder"
 F 5 "01" H 2525 -6225 50  0001 C CNN "SortForPlacement"
-F 6 "15 NOT WELL ACCOMMODATED ON BOARD REV 7 AND BELOW: PATCHING IN WOULD REQUIRE PARALLELING ALL PINS EXCEPT 9 WITH 32 GA WIRES OR SMALLER.  With Rev 8 flex board, check corner pads for adequate bare metal: ensure the solder mask of all corner pads is scraped off.  Place, then check work for inadvertent shorts and opens" H 2525 -6225 50  0001 C CNN "ClickToSortForPlacement"
+F 6 "15 NOT WELL ACCOMMODATED ON BOARD REV .7 AND BELOW: PATCHING IN WOULD REQUIRE PARALLELING ALL PINS EXCEPT 9 WITH 32 GA WIRES OR SMALLER.  With Rev 8 flex board, check corner pads for adequate bare metal: ensure the solder mask of all corner pads is scraped off.  Place, then check work for inadvertent shorts and opens" H 2525 -6225 50  0001 C CNN "ClickToSortForPlacement"
 F 7 "MCP4262-502E/UN-ND" H 6875 -4325 50  0001 C CNN "Part_number"
 F 8 "http://digikey.com" H 6875 -4325 50  0001 C CNN "Source"
 	1    6875 -4325
 	-1   0    0    1   
 $EndComp
 $Comp
-L 2019-03-19_09-09-09:MCP4262-xxxE_UN U14
+L 2019-03-19_09-09-09:MCP4262-xxxE_UN U16
 U 1 1 5D8ACF10
 P 8650 -4275
-F 0 "U14" H 8525 -4650 60  0000 R CNN
+F 0 "U16" H 8525 -4650 60  0000 R CNN
 F 1 "MCP4262-502E/UN" H 8575 -4750 60  0000 R CNN
 F 2 "Package_SO:MSOP-10_3x3mm_P0.5mm" H 9195 -3850 60  0001 C CNN
 F 3 "http://ww1.microchip.com/downloads/en/DeviceDoc/22059b.pdf" H 8660 -4275 60  0001 C CNN
 F 4 "01" H 4300 -6175 50  0001 C CNN "PlacementOrder"
 F 5 "01" H 4300 -6175 50  0001 C CNN "SortForPlacement"
-F 6 "15 NOT WELL ACCOMMODATED ON BOARD REV 7 AND BELOW: PATCHING IN WOULD REQUIRE PARALLELING ALL PINS EXCEPT 9 WITH 32 GA WIRES OR SMALLER.  With Rev 8 flex board, check corner pads for adequate bare metal: ensure the solder mask of all corner pads is scraped off.  Place, then check work for inadvertent shorts and opens" H 4300 -6175 50  0001 C CNN "ClickToSortForPlacement"
+F 6 "15 NOT WELL ACCOMMODATED ON BOARD REV .7 AND BELOW: PATCHING IN WOULD REQUIRE PARALLELING ALL PINS EXCEPT 9 WITH 32 GA WIRES OR SMALLER.  With Rev 8 flex board, check corner pads for adequate bare metal: ensure the solder mask of all corner pads is scraped off.  Place, then check work for inadvertent shorts and opens" H 4300 -6175 50  0001 C CNN "ClickToSortForPlacement"
 F 7 "MCP4262-502E/UN-ND" H 8650 -4275 50  0001 C CNN "Part_number"
 F 8 "http://digikey.com" H 8650 -4275 50  0001 C CNN "Source"
 	1    8650 -4275
 	-1   0    0    1   
 $EndComp
 $Comp
-L 2019-03-19_09-09-09:MCP4262-xxxE_UN U18
+L 2019-03-19_09-09-09:MCP4262-xxxE_UN U17
 U 1 1 5D8ACF2F
 P 10250 -4300
-F 0 "U18" H 10125 -4675 60  0000 R CNN
+F 0 "U17" H 10125 -4675 60  0000 R CNN
 F 1 "MCP4262-502E/UN" H 10175 -4775 60  0000 R CNN
 F 2 "Package_SO:MSOP-10_3x3mm_P0.5mm" H 10795 -3875 60  0001 C CNN
 F 3 "http://ww1.microchip.com/downloads/en/DeviceDoc/22059b.pdf" H 10260 -4300 60  0001 C CNN
 F 4 "01" H 5900 -6200 50  0001 C CNN "PlacementOrder"
 F 5 "01" H 5900 -6200 50  0001 C CNN "SortForPlacement"
-F 6 "15 NOT WELL ACCOMMODATED ON BOARD REV 7 AND BELOW: PATCHING IN WOULD REQUIRE PARALLELING ALL PINS EXCEPT 9 WITH 32 GA WIRES OR SMALLER.  With Rev 8 flex board, check corner pads for adequate bare metal: ensure the solder mask of all corner pads is scraped off.  Place, then check work for inadvertent shorts and opens" H 5900 -6200 50  0001 C CNN "ClickToSortForPlacement"
+F 6 "15 NOT WELL ACCOMMODATED ON BOARD REV .7 AND BELOW: PATCHING IN WOULD REQUIRE PARALLELING ALL PINS EXCEPT 9 WITH 32 GA WIRES OR SMALLER.  With Rev 8 flex board, check corner pads for adequate bare metal: ensure the solder mask of all corner pads is scraped off.  Place, then check work for inadvertent shorts and opens" H 5900 -6200 50  0001 C CNN "ClickToSortForPlacement"
 F 7 "MCP4262-502E/UN-ND" H 10250 -4300 50  0001 C CNN "Part_number"
 F 8 "http://digikey.com" H 10250 -4300 50  0001 C CNN "Source"
 	1    10250 -4300
 	-1   0    0    1   
 $EndComp
 $Comp
-L 2019-03-19_09-09-09:MCP4262-xxxE_UN U22
+L 2019-03-19_09-09-09:MCP4262-xxxE_UN U18
 U 1 1 5D8ACF4E
 P 11875 -4275
-F 0 "U22" H 11750 -4650 60  0000 R CNN
+F 0 "U18" H 11750 -4650 60  0000 R CNN
 F 1 "MCP4262-502E/UN" H 11800 -4750 60  0000 R CNN
 F 2 "Package_SO:MSOP-10_3x3mm_P0.5mm" H 12420 -3850 60  0001 C CNN
 F 3 "http://ww1.microchip.com/downloads/en/DeviceDoc/22059b.pdf" H 11885 -4275 60  0001 C CNN
 F 4 "01" H 7525 -6175 50  0001 C CNN "PlacementOrder"
 F 5 "01" H 7525 -6175 50  0001 C CNN "SortForPlacement"
-F 6 "15 NOT WELL ACCOMMODATED ON BOARD REV 7 AND BELOW: PATCHING IN WOULD REQUIRE PARALLELING ALL PINS EXCEPT 9 WITH 32 GA WIRES OR SMALLER.  With Rev 8 flex board, check corner pads for adequate bare metal: ensure the solder mask of all corner pads is scraped off.  Place, then check work for inadvertent shorts and opens" H 7525 -6175 50  0001 C CNN "ClickToSortForPlacement"
+F 6 "15 NOT WELL ACCOMMODATED ON BOARD REV .7 AND BELOW: PATCHING IN WOULD REQUIRE PARALLELING ALL PINS EXCEPT 9 WITH 32 GA WIRES OR SMALLER.  With Rev 8 flex board, check corner pads for adequate bare metal: ensure the solder mask of all corner pads is scraped off.  Place, then check work for inadvertent shorts and opens" H 7525 -6175 50  0001 C CNN "ClickToSortForPlacement"
 F 7 "MCP4262-502E/UN-ND" H 11875 -4275 50  0001 C CNN "Part_number"
 F 8 "http://digikey.com" H 11875 -4275 50  0001 C CNN "Source"
 	1    11875 -4275
 	-1   0    0    1   
 $EndComp
 $Comp
-L 2019-03-19_09-09-09:MCP4262-xxxE_UN U26
+L 2019-03-19_09-09-09:MCP4262-xxxE_UN U19
 U 1 1 5D8ACF6D
 P 13625 -4250
-F 0 "U26" H 13500 -4625 60  0000 R CNN
+F 0 "U19" H 13500 -4625 60  0000 R CNN
 F 1 "MCP4262-502E/UN" H 13550 -4725 60  0000 R CNN
 F 2 "Package_SO:MSOP-10_3x3mm_P0.5mm" H 14170 -3825 60  0001 C CNN
 F 3 "http://ww1.microchip.com/downloads/en/DeviceDoc/22059b.pdf" H 13635 -4250 60  0001 C CNN
 F 4 "01" H 9275 -6150 50  0001 C CNN "PlacementOrder"
 F 5 "01" H 9275 -6150 50  0001 C CNN "SortForPlacement"
-F 6 "15 NOT WELL ACCOMMODATED ON BOARD REV 7 AND BELOW: PATCHING IN WOULD REQUIRE PARALLELING ALL PINS EXCEPT 9 WITH 32 GA WIRES OR SMALLER.  With Rev 8 flex board, check corner pads for adequate bare metal: ensure the solder mask of all corner pads is scraped off.  Place, then check work for inadvertent shorts and opens" H 9275 -6150 50  0001 C CNN "ClickToSortForPlacement"
+F 6 "15 NOT WELL ACCOMMODATED ON BOARD REV .7 AND BELOW: PATCHING IN WOULD REQUIRE PARALLELING ALL PINS EXCEPT 9 WITH 32 GA WIRES OR SMALLER.  With Rev 8 flex board, check corner pads for adequate bare metal: ensure the solder mask of all corner pads is scraped off.  Place, then check work for inadvertent shorts and opens" H 9275 -6150 50  0001 C CNN "ClickToSortForPlacement"
 F 7 "MCP4262-502E/UN-ND" H 13625 -4250 50  0001 C CNN "Part_number"
 F 8 "http://digikey.com" H 13625 -4250 50  0001 C CNN "Source"
 	1    13625 -4250
 	-1   0    0    1   
 $EndComp
 $Comp
-L 2019-03-19_09-09-09:MCP4262-xxxE_UN U30
+L 2019-03-19_09-09-09:MCP4262-xxxE_UN U20
 U 1 1 5D8ACF8C
 P 15150 -4250
-F 0 "U30" H 15025 -4625 60  0000 R CNN
+F 0 "U20" H 15025 -4625 60  0000 R CNN
 F 1 "MCP4262-502E/UN" H 15075 -4725 60  0000 R CNN
 F 2 "Package_SO:MSOP-10_3x3mm_P0.5mm" H 15695 -3825 60  0001 C CNN
 F 3 "http://ww1.microchip.com/downloads/en/DeviceDoc/22059b.pdf" H 15160 -4250 60  0001 C CNN
 F 4 "01" H 10800 -6150 50  0001 C CNN "PlacementOrder"
 F 5 "01" H 10800 -6150 50  0001 C CNN "SortForPlacement"
-F 6 "15 NOT WELL ACCOMMODATED ON BOARD REV 7 AND BELOW: PATCHING IN WOULD REQUIRE PARALLELING ALL PINS EXCEPT 9 WITH 32 GA WIRES OR SMALLER.  With Rev 8 flex board, check corner pads for adequate bare metal: ensure the solder mask of all corner pads is scraped off.  Place, then check work for inadvertent shorts and opens" H 10800 -6150 50  0001 C CNN "ClickToSortForPlacement"
+F 6 "15 NOT WELL ACCOMMODATED ON BOARD REV .7 AND BELOW: PATCHING IN WOULD REQUIRE PARALLELING ALL PINS EXCEPT 9 WITH 32 GA WIRES OR SMALLER.  With Rev 8 flex board, check corner pads for adequate bare metal: ensure the solder mask of all corner pads is scraped off.  Place, then check work for inadvertent shorts and opens" H 10800 -6150 50  0001 C CNN "ClickToSortForPlacement"
 F 7 "MCP4262-502E/UN-ND" H 15150 -4250 50  0001 C CNN "Part_number"
 F 8 "http://digikey.com" H 15150 -4250 50  0001 C CNN "Source"
 	1    15150 -4250
@@ -3776,87 +3776,87 @@ F 2 "Package_SO:MSOP-10_3x3mm_P0.5mm" H 7395 -5725 60  0001 C CNN
 F 3 "http://ww1.microchip.com/downloads/en/DeviceDoc/22059b.pdf" H 6860 -6150 60  0001 C CNN
 F 4 "01" H 2500 -8050 50  0001 C CNN "PlacementOrder"
 F 5 "01" H 2500 -8050 50  0001 C CNN "SortForPlacement"
-F 6 "15 NOT WELL ACCOMMODATED ON BOARD REV 7 AND BELOW: PATCHING IN WOULD REQUIRE PARALLELING ALL PINS EXCEPT 9 WITH 32 GA WIRES OR SMALLER.  With Rev 8 flex board, check corner pads for adequate bare metal: ensure the solder mask of all corner pads is scraped off.  Place, then check work for inadvertent shorts and opens" H 2500 -8050 50  0001 C CNN "ClickToSortForPlacement"
+F 6 "15 NOT WELL ACCOMMODATED ON BOARD REV .7 AND BELOW: PATCHING IN WOULD REQUIRE PARALLELING ALL PINS EXCEPT 9 WITH 32 GA WIRES OR SMALLER.  With Rev 8 flex board, check corner pads for adequate bare metal: ensure the solder mask of all corner pads is scraped off.  Place, then check work for inadvertent shorts and opens" H 2500 -8050 50  0001 C CNN "ClickToSortForPlacement"
 F 7 "MCP4262-502E/UN-ND" H 6850 -6150 50  0001 C CNN "Part_number"
 F 8 "http://digikey.com" H 6850 -6150 50  0001 C CNN "Source"
 	1    6850 -6150
 	-1   0    0    1   
 $EndComp
 $Comp
-L 2019-03-19_09-09-09:MCP4262-xxxE_UN U13
+L 2019-03-19_09-09-09:MCP4262-xxxE_UN U10
 U 1 1 5D8CCFBD
 P 8625 -6100
-F 0 "U13" H 8500 -6475 60  0000 R CNN
+F 0 "U10" H 8500 -6475 60  0000 R CNN
 F 1 "MCP4262-502E/UN" H 8550 -6575 60  0000 R CNN
 F 2 "Package_SO:MSOP-10_3x3mm_P0.5mm" H 9170 -5675 60  0001 C CNN
 F 3 "http://ww1.microchip.com/downloads/en/DeviceDoc/22059b.pdf" H 8635 -6100 60  0001 C CNN
 F 4 "01" H 4275 -8000 50  0001 C CNN "PlacementOrder"
 F 5 "01" H 4275 -8000 50  0001 C CNN "SortForPlacement"
-F 6 "15 NOT WELL ACCOMMODATED ON BOARD REV 7 AND BELOW: PATCHING IN WOULD REQUIRE PARALLELING ALL PINS EXCEPT 9 WITH 32 GA WIRES OR SMALLER.  With Rev 8 flex board, check corner pads for adequate bare metal: ensure the solder mask of all corner pads is scraped off.  Place, then check work for inadvertent shorts and opens" H 4275 -8000 50  0001 C CNN "ClickToSortForPlacement"
+F 6 "15 NOT WELL ACCOMMODATED ON BOARD REV .7 AND BELOW: PATCHING IN WOULD REQUIRE PARALLELING ALL PINS EXCEPT 9 WITH 32 GA WIRES OR SMALLER.  With Rev 8 flex board, check corner pads for adequate bare metal: ensure the solder mask of all corner pads is scraped off.  Place, then check work for inadvertent shorts and opens" H 4275 -8000 50  0001 C CNN "ClickToSortForPlacement"
 F 7 "MCP4262-502E/UN-ND" H 8625 -6100 50  0001 C CNN "Part_number"
 F 8 "http://digikey.com" H 8625 -6100 50  0001 C CNN "Source"
 	1    8625 -6100
 	-1   0    0    1   
 $EndComp
 $Comp
-L 2019-03-19_09-09-09:MCP4262-xxxE_UN U17
+L 2019-03-19_09-09-09:MCP4262-xxxE_UN U11
 U 1 1 5D8CCFDC
 P 10225 -6125
-F 0 "U17" H 10100 -6500 60  0000 R CNN
+F 0 "U11" H 10100 -6500 60  0000 R CNN
 F 1 "MCP4262-502E/UN" H 10150 -6600 60  0000 R CNN
 F 2 "Package_SO:MSOP-10_3x3mm_P0.5mm" H 10770 -5700 60  0001 C CNN
 F 3 "http://ww1.microchip.com/downloads/en/DeviceDoc/22059b.pdf" H 10235 -6125 60  0001 C CNN
 F 4 "01" H 5875 -8025 50  0001 C CNN "PlacementOrder"
 F 5 "01" H 5875 -8025 50  0001 C CNN "SortForPlacement"
-F 6 "15 NOT WELL ACCOMMODATED ON BOARD REV 7 AND BELOW: PATCHING IN WOULD REQUIRE PARALLELING ALL PINS EXCEPT 9 WITH 32 GA WIRES OR SMALLER.  With Rev 8 flex board, check corner pads for adequate bare metal: ensure the solder mask of all corner pads is scraped off.  Place, then check work for inadvertent shorts and opens" H 5875 -8025 50  0001 C CNN "ClickToSortForPlacement"
+F 6 "15 NOT WELL ACCOMMODATED ON BOARD REV .7 AND BELOW: PATCHING IN WOULD REQUIRE PARALLELING ALL PINS EXCEPT 9 WITH 32 GA WIRES OR SMALLER.  With Rev 8 flex board, check corner pads for adequate bare metal: ensure the solder mask of all corner pads is scraped off.  Place, then check work for inadvertent shorts and opens" H 5875 -8025 50  0001 C CNN "ClickToSortForPlacement"
 F 7 "MCP4262-502E/UN-ND" H 10225 -6125 50  0001 C CNN "Part_number"
 F 8 "http://digikey.com" H 10225 -6125 50  0001 C CNN "Source"
 	1    10225 -6125
 	-1   0    0    1   
 $EndComp
 $Comp
-L 2019-03-19_09-09-09:MCP4262-xxxE_UN U21
+L 2019-03-19_09-09-09:MCP4262-xxxE_UN U12
 U 1 1 5D8CCFFB
 P 11850 -6100
-F 0 "U21" H 11725 -6475 60  0000 R CNN
+F 0 "U12" H 11725 -6475 60  0000 R CNN
 F 1 "MCP4262-502E/UN" H 11775 -6575 60  0000 R CNN
 F 2 "Package_SO:MSOP-10_3x3mm_P0.5mm" H 12395 -5675 60  0001 C CNN
 F 3 "http://ww1.microchip.com/downloads/en/DeviceDoc/22059b.pdf" H 11860 -6100 60  0001 C CNN
 F 4 "01" H 7500 -8000 50  0001 C CNN "PlacementOrder"
 F 5 "01" H 7500 -8000 50  0001 C CNN "SortForPlacement"
-F 6 "15 NOT WELL ACCOMMODATED ON BOARD REV 7 AND BELOW: PATCHING IN WOULD REQUIRE PARALLELING ALL PINS EXCEPT 9 WITH 32 GA WIRES OR SMALLER.  With Rev 8 flex board, check corner pads for adequate bare metal: ensure the solder mask of all corner pads is scraped off.  Place, then check work for inadvertent shorts and opens" H 7500 -8000 50  0001 C CNN "ClickToSortForPlacement"
+F 6 "15 NOT WELL ACCOMMODATED ON BOARD REV .7 AND BELOW: PATCHING IN WOULD REQUIRE PARALLELING ALL PINS EXCEPT 9 WITH 32 GA WIRES OR SMALLER.  With Rev 8 flex board, check corner pads for adequate bare metal: ensure the solder mask of all corner pads is scraped off.  Place, then check work for inadvertent shorts and opens" H 7500 -8000 50  0001 C CNN "ClickToSortForPlacement"
 F 7 "MCP4262-502E/UN-ND" H 11850 -6100 50  0001 C CNN "Part_number"
 F 8 "http://digikey.com" H 11850 -6100 50  0001 C CNN "Source"
 	1    11850 -6100
 	-1   0    0    1   
 $EndComp
 $Comp
-L 2019-03-19_09-09-09:MCP4262-xxxE_UN U25
+L 2019-03-19_09-09-09:MCP4262-xxxE_UN U13
 U 1 1 5D8CD01A
 P 13600 -6075
-F 0 "U25" H 13475 -6450 60  0000 R CNN
+F 0 "U13" H 13475 -6450 60  0000 R CNN
 F 1 "MCP4262-502E/UN" H 13525 -6550 60  0000 R CNN
 F 2 "Package_SO:MSOP-10_3x3mm_P0.5mm" H 14145 -5650 60  0001 C CNN
 F 3 "http://ww1.microchip.com/downloads/en/DeviceDoc/22059b.pdf" H 13610 -6075 60  0001 C CNN
 F 4 "01" H 9250 -7975 50  0001 C CNN "PlacementOrder"
 F 5 "01" H 9250 -7975 50  0001 C CNN "SortForPlacement"
-F 6 "15 NOT WELL ACCOMMODATED ON BOARD REV 7 AND BELOW: PATCHING IN WOULD REQUIRE PARALLELING ALL PINS EXCEPT 9 WITH 32 GA WIRES OR SMALLER.  With Rev 8 flex board, check corner pads for adequate bare metal: ensure the solder mask of all corner pads is scraped off.  Place, then check work for inadvertent shorts and opens" H 9250 -7975 50  0001 C CNN "ClickToSortForPlacement"
+F 6 "15 NOT WELL ACCOMMODATED ON BOARD REV .7 AND BELOW: PATCHING IN WOULD REQUIRE PARALLELING ALL PINS EXCEPT 9 WITH 32 GA WIRES OR SMALLER.  With Rev 8 flex board, check corner pads for adequate bare metal: ensure the solder mask of all corner pads is scraped off.  Place, then check work for inadvertent shorts and opens" H 9250 -7975 50  0001 C CNN "ClickToSortForPlacement"
 F 7 "MCP4262-502E/UN-ND" H 13600 -6075 50  0001 C CNN "Part_number"
 F 8 "http://digikey.com" H 13600 -6075 50  0001 C CNN "Source"
 	1    13600 -6075
 	-1   0    0    1   
 $EndComp
 $Comp
-L 2019-03-19_09-09-09:MCP4262-xxxE_UN U29
+L 2019-03-19_09-09-09:MCP4262-xxxE_UN U14
 U 1 1 5D8CD039
 P 15125 -6075
-F 0 "U29" H 15000 -6450 60  0000 R CNN
+F 0 "U14" H 15000 -6450 60  0000 R CNN
 F 1 "MCP4262-502E/UN" H 15050 -6550 60  0000 R CNN
 F 2 "Package_SO:MSOP-10_3x3mm_P0.5mm" H 15670 -5650 60  0001 C CNN
 F 3 "http://ww1.microchip.com/downloads/en/DeviceDoc/22059b.pdf" H 15135 -6075 60  0001 C CNN
 F 4 "01" H 10775 -7975 50  0001 C CNN "PlacementOrder"
 F 5 "01" H 10775 -7975 50  0001 C CNN "SortForPlacement"
-F 6 "15 NOT WELL ACCOMMODATED ON BOARD REV 7 AND BELOW: PATCHING IN WOULD REQUIRE PARALLELING ALL PINS EXCEPT 9 WITH 32 GA WIRES OR SMALLER.  With Rev 8 flex board, check corner pads for adequate bare metal: ensure the solder mask of all corner pads is scraped off.  Place, then check work for inadvertent shorts and opens" H 10775 -7975 50  0001 C CNN "ClickToSortForPlacement"
+F 6 "15 NOT WELL ACCOMMODATED ON BOARD REV .7 AND BELOW: PATCHING IN WOULD REQUIRE PARALLELING ALL PINS EXCEPT 9 WITH 32 GA WIRES OR SMALLER.  With Rev 8 flex board, check corner pads for adequate bare metal: ensure the solder mask of all corner pads is scraped off.  Place, then check work for inadvertent shorts and opens" H 10775 -7975 50  0001 C CNN "ClickToSortForPlacement"
 F 7 "MCP4262-502E/UN-ND" H 15125 -6075 50  0001 C CNN "Part_number"
 F 8 "http://digikey.com" H 15125 -6075 50  0001 C CNN "Source"
 	1    15125 -6075
@@ -3872,7 +3872,7 @@ F 2 "Package_SO:MSOP-10_3x3mm_P0.5mm" H 17520 -300 60  0001 C CNN
 F 3 "http://ww1.microchip.com/downloads/en/DeviceDoc/22059b.pdf" H 16985 -725 60  0001 C CNN
 F 4 "01" H 12625 -2625 50  0001 C CNN "PlacementOrder"
 F 5 "01" H 12625 -2625 50  0001 C CNN "SortForPlacement"
-F 6 "15 NOT WELL ACCOMMODATED ON BOARD REV 7 AND BELOW: PATCHING IN WOULD REQUIRE PARALLELING ALL PINS EXCEPT 9 WITH 32 GA WIRES OR SMALLER.  With Rev 8 flex board, check corner pads for adequate bare metal: ensure the solder mask of all corner pads is scraped off.  Place, then check work for inadvertent shorts and opens" H 12625 -2625 50  0001 C CNN "ClickToSortForPlacement"
+F 6 "15 NOT WELL ACCOMMODATED ON BOARD REV .7 AND BELOW: PATCHING IN WOULD REQUIRE PARALLELING ALL PINS EXCEPT 9 WITH 32 GA WIRES OR SMALLER.  With Rev 8 flex board, check corner pads for adequate bare metal: ensure the solder mask of all corner pads is scraped off.  Place, then check work for inadvertent shorts and opens" H 12625 -2625 50  0001 C CNN "ClickToSortForPlacement"
 F 7 "MCP4262-502E/UN-ND" H 16975 -725 50  0001 C CNN "Part_number"
 F 8 "http://digikey.com" H 16975 -725 50  0001 C CNN "Source"
 	1    16975 -725
