@@ -4,6 +4,8 @@
 
 ![A 3D rendering of a populated board was supposed to show here](https://github.com/kenneth558/plant_resistance_primary_perception/blob/Free/Where%20to%20find%20everything%20for%20making%20your%20own%20GWAAMC%20device/front_straight-on_SHLD1_see-through_with_notes.png) Note: In your favor I take no money from you when you order bare boards from any PCB fab house.  That way the build costs for the DIYer stays as low as possible.
 
+<dl><dt>09 Oct 2019</dt></dl>I've now verified operation of Rev. 8 boards.  I will soon change the Rev. system to Version system and start at Version 1.0 for the Rev. 8.  Use the Rev. 8 files in the meantime to order your PCBs.  You'll see lower noise in the output if you enclose the flex board in foil EMI protection.  I used aluminum foil with approriate insulating tape for my prototype.  Note that I won't develop temperature compensation any time soon, so I am avoiding the term "measure" in favor of "observe" when I refer to electrical conductance of the DUT.
+
 <dl><dt>07 Oct 2019</dt></dl>I just corrected a short between GNDD and 5VDC due to the boards not getting fully etched.  I corrected the design at that location to prevent it from happening again.  Power applied and I'm now running and tweaking the diags...
 
 <dl><dt>03 Oct 2019</dt></dl>The solder joint issues with the fine pich components seem to be never ending.  I'm still not done with the visual inspection, but when that is finished I'll apply power...
