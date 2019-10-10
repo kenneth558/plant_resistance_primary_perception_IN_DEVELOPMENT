@@ -1,4 +1,4 @@
-**Current Operational Status:** As of 09 Oct 2019, I have Rev. 8 circuitry working at 5VDC, but it is not fully stable at 3.3VDC when a transient overload condition occurs.  A "shield pouch" or "foil bag" enclosing the flex board will greatly lower the noise level with high-impedance DUTs.  I have not found a source for such a commercially available shield.
+**Current Operational Status:** As of 09 Oct 2019, I have Rev. 8 circuitry working at 5VDC except for J1 being miswired, but it is not fully stable at 3.3VDC when a transient overload condition occurs.  A "shield pouch" or "foil bag" enclosing the flex board will greatly lower the noise level with high-impedance DUTs.  I have not found a source for such a commercially available shield.
 
 I will soon adjust the "Revision" numbering to restart with "Version 1.0".  A custom shield pouch for the flex board will be added in Version 1.1; in the meantime you'll have to fashion your own using metal foil and insulating tape.  
 
