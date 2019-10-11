@@ -4,6 +4,8 @@
 
 ![A 3D rendering of a populated board was supposed to show here](https://github.com/kenneth558/plant_resistance_primary_perception/blob/Free/Where%20to%20find%20everything%20for%20making%20your%20own%20GWAAMC%20device/front_straight-on_SHLD1_see-through_with_notes.png) Note: In your favor I take no money from you when you order bare boards from any PCB fab house.  That way the build costs for the DIYer stays as low as possible.
 
+<dl><dt>11 Oct 2019</dt></dl>I'm changing the flex board to accommodate a through-hole GNDD pad dedicated for shield grounding.  I've de-activated the previous online flex board design.
+
 <dl><dt>09 Oct 2019</dt></dl>I've now verified operation of Rev. 8 and re-versioned the perfected rendition to Version 1.0.  You'll see lower noise in the output if you enclose the flex board in foil EMI protection, please.  I used aluminum foil with appropriate insulating tape for my prototype.  Note that I won't develop temperature compensation in the circuit any time soon, so I am avoiding the term "measure" in favor of "observe" when I refer to electrical conductance of the DUT.
 
 <dl><dt>07 Oct 2019</dt></dl>I just corrected a short between GNDD and 5VDC due to the boards not getting fully etched.  I corrected the design at that location to prevent it from happening again.  Power applied and I'm now running and tweaking the diags...
