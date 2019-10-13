@@ -4,6 +4,8 @@
 
 ![A 3D rendering of a populated board was supposed to show here](https://github.com/kenneth558/plant_resistance_primary_perception/blob/Free/Where%20to%20find%20everything%20for%20making%20your%20own%20GWAAMC%20device/front_straight-on_SHLD1_see-through_with_notes.png) Note: In your favor I take no money from you when you order bare boards from any PCB fab house.  That way the build costs for the DIYer stays as low as possible.
 
+<dl><dt>13 Oct 2019</dt></dl>I'm beginning to suspect the flex board problem is a combination of J9 not being solidly soldered onto the main board and conduction on the flex board from traces of contamination that need to be cleaned off better.  I'll get back to work in a few hours.
+
 <dl><dt>12 Oct 2019</dt></dl>I have the main board working consistently, but the flex board is misbehaving much of the time.  That is what I'll be working on next.  I'm quite sure the problem I'll find is a soldering problem rather than a board design problem.
 
 <dl><dt>11 Oct 2019</dt></dl>I changed the flex board to accommodate a through-hole GNDD pad dedicated for shield grounding.
