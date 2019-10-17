@@ -4,6 +4,8 @@
 
 ![A 3D rendering of a populated board was supposed to show here](https://github.com/kenneth558/plant_resistance_primary_perception/blob/Free/Where%20to%20find%20everything%20for%20making%20your%20own%20GWAAMC%20device/front_straight-on_SHLD1_see-through_with_notes.png) Note: In your favor I take no money from you when you order bare boards from any PCB fab house.  That way the build costs for the DIYer stays as low as possible.
 
+<dl><dt>17 Oct 2019</dt></dl>Updated the flex board to contain a U7 expansion section, since it doesn't cost any extra and it will help me use up old valued U7's.
+
 <dl><dt>15 Oct 2019</dt></dl>Once I soldered J9 better and then kept the flex board clean every time I add a dPot on it, all works well.  I CONSIDER MY CIRCUITRY DEVELOPMENT TO BE SUCCESSFULLY COMPLETED NOW.  Finishing the sketch is the next on my list after some car repairs...
 
 <dl><dt>13 Oct 2019</dt></dl>I'm beginning to suspect the flex board problem is a combination of J9 not being solidly soldered onto the main board and conduction on the flex board from traces of contamination that need to be cleaned off better.  I'll get back to work in a few hours.
