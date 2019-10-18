@@ -4,7 +4,7 @@
 
 ![A 3D rendering of a populated board was supposed to show here](https://github.com/kenneth558/plant_resistance_primary_perception/blob/Free/Where%20to%20find%20everything%20for%20making%20your%20own%20GWAAMC%20device/front_straight-on_SHLD1_see-through_with_notes.png) Note: In your favor I take no money from you when you order bare boards from any PCB fab house.  That way the build costs for the DIYer stays as low as possible.
 
-<dl><dt>17 Oct 2019</dt></dl>Updated [this flex board](https://oshpark.com/shared_projects/lBrfysVw) [the expansion flex board](https://oshpark.com/shared_projects/I4ssD7go)to contain a U7 expansion section, since it doesn't cost any extra and it will help me use up a number of old valued U7's that I bought before I settled on using the 50K values that are in the final design.  If you don't want this cut-away piece on your flex board, just order normally and avoid using the link in the previous sentence.
+<dl><dt>17 Oct 2019</dt></dl>Updated [this flex board](https://oshpark.com/shared_projects/lBrfysVw) to contain a U7 expansion section, since it doesn't cost any extra and it will help me use up a number of old valued U7's that I bought before I settled on using the 50K values that are in the final design.  If you don't want this cut-away piece on your flex board, just order normally and avoid using the link in the previous sentence.
 
 <dl><dt>15 Oct 2019</dt></dl>Once I soldered J9 better and then kept the flex board clean every time I add a dPot on it, all works well.  I CONSIDER MY CIRCUITRY DEVELOPMENT TO BE SUCCESSFULLY COMPLETED NOW.  Finishing the sketch is the next on my list after some car repairs...
 
