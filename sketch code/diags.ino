@@ -23,8 +23,9 @@
 #define CONTINUE_PLOTTING_DURING_AUTO_BRIDGE_BALANCE true                    //Without predictive balancing, this takes too much time if true
 //#define DEBUG                                                              //Don't forget that DEBUG is not formatted for Serial plotter, but might work anyway if you'd never print numbers only any DEBUG print line
 #define COMPILE_FOR_DIAGS_ONLY
+//#define DIAGS_STEP1                                                          //Don't define on very first run of diags
 //#define DIAGS_STEP2                                                          //Don't define on very first run of diags
-#define DIAGS_STEP3                                                          //Don't define on very first run of diags
+//#define DIAGS_STEP3                                                          //Don't define on very first run of diags
 #define DIAGS_STEP4                                                          //Don't define on very first run of diags
 #define SHOW_LINEARITY_USING_THIS_BRIDGE_INDEX 0                                    //Can be a single bridge index or the word "ALL"
 #define INJECT_DIAGNOSTIC_SQUARE_WAVE_ON_SIGNAL_PIN_OF_SPECIFIED_OUTBOARD_ADC 0       //For testing - wobbles digipot settings on bridge index to impose a signal into Wheatstone bridge outputs. This imposes a signal on the signal leg
@@ -40,7 +41,7 @@
 #else
 #define BAUD_TO_SERIAL 115200                                                         //YOU MAY SET THIS TO THE MAXIMUM VALUE THAT YOUR CONFIGURATION WILL FUNCTION WITH (UNLESS YOU'RE USING THE WeMos XI/TTGO XI, OF COURSE)
 #endif
-#define DPOT_RATIO ( signed )20 /* DPOT_RATIO: System-wide MSB/LSB.  Ex.: If the LSB digipot is 200 ohms/step and the MSB digipot is 2000 ohms/step, this value will be 10. (2000/200)
+#define DPOT_RATIO ( signed )248 /* DPOT_RATIO: System-wide MSB/LSB.  Ex.: If the LSB digipot is 200 ohms/step and the MSB digipot is 2000 ohms/step, this value will be 10. (2000/200)
                       It is only used relative to the LSB digipot, so there can only be that one digipot per leg allowed to have a smaller resistance
                       per step than other digipots on the leg. All bridge legs in the system must be built with the same ratio scheme, and must always include one and
                       only one LSB digipot, with all non-LSB digipots matching each others' resistance/step values.  This macro limits LSB settings adjustments
@@ -67,17 +68,17 @@
 #ifdef USING_DUAL_74LV138_DECODERS_FOR_DPOT_CS_LINES                         //Arduino pins can be better utilized with higher numbers of DPots by adding 74LV138s expand the number of DPot CS pins that can be driven with a given number of Arduino pins
 //!!! NOTE !!! 531 lines below this are also macros entitled similar to [NON_]LSB_DPOT_BXSIG(or REF)_PIN.  Those macros must also be set to correspond to the pins driving the CS lines of digipots
     #warning These pin numbers get specified normally, but be sure you specify the _digital_pot_CS_pins_ with the MSB set to decode them; i.e., make those pin numbers>= 128, but not these
-    #define FIRST_STAGE_3_TO_8_DECODER_A0_PIN1 5                             //
-    #define FIRST_STAGE_3_TO_8_DECODER_A1_PIN2 6                             //Second address pin of first stage not necessary if total DPots in the systems <= 2
-    #define FIRST_STAGE_3_TO_8_DECODER_A2_PIN3 7                             //Third address pin of first stage not necessary if total DPots in the system <= 4
-    //#define FIRST_STAGE_3_TO_8_DECODER_A3_PIN4 8                           //Always the same as FIRST_STAGE_3_TO_8_DECODER_ENABLE_PIN4 since both reference pin 4
+    #define FIRST_STAGE_3_TO_8_DECODER_A0_PIN1 9                             //
+    #define FIRST_STAGE_3_TO_8_DECODER_A1_PIN2 10                             //Second address pin of first stage not necessary if total DPots in the systems <= 2
+    #define FIRST_STAGE_3_TO_8_DECODER_A2_PIN3 11                             //Third address pin of first stage not necessary if total DPots in the system <= 4
+    //#define FIRST_STAGE_3_TO_8_DECODER_A3_PIN4 12                           //Always the same as FIRST_STAGE_3_TO_8_DECODER_ENABLE_PIN4 since both reference pin 4
     #ifndef FIRST_STAGE_3_TO_8_DECODER_A3_PIN4
-        #define FIRST_STAGE_3_TO_8_DECODER_ENABLE_PIN4 8                     //Pin 4 either paralleled with final stage's pin 4 (only for up to 8 DPots) or used as a virtual A3. Pin 5 always connects to pin 4 of final stage 74LV138.
+        #define FIRST_STAGE_3_TO_8_DECODER_ENABLE_PIN4 13                     //Pin 4 either paralleled with final stage's pin 4 (only for up to 8 DPots) or used as a virtual A3. Pin 5 always connects to pin 4 of final stage 74LV138.
     #endif
-    //#define FINAL_STAGE_3_TO_8_DECODER_A0_PIN1 5                           //Second stage not necessary if total DPots in the system <= 8
-    //#define FINAL_STAGE_3_TO_8_DECODER_A1_PIN2 6                           //Second address pin of second stage not necessary if total DPots in the systems <= 16
-    //#define FINAL_STAGE_3_TO_8_DECODER_A2_PIN3 7                           //Third address pin of second stage not necessary if total DPots in the systems <= 32
-    //#define FINAL_STAGE_3_TO_8_DECODER_ENABLE_PIN4 9                       //This connects into both 74LV138 chips on their pins 4 with pins 6 held high. First stage gets its pin 5 signal from second stage pin 15 and second stage pin 5 gets held low. Maximum total DPots = 64
+    //#define FINAL_STAGE_3_TO_8_DECODER_A0_PIN1 9                           //Second stage not necessary if total DPots in the system <= 8
+    //#define FINAL_STAGE_3_TO_8_DECODER_A1_PIN2 10                           //Second address pin of second stage not necessary if total DPots in the systems <= 16
+    //#define FINAL_STAGE_3_TO_8_DECODER_A2_PIN3 11                           //Third address pin of second stage not necessary if total DPots in the systems <= 32
+    //#define FINAL_STAGE_3_TO_8_DECODER_ENABLE_PIN4 12                       //This connects into both 74LV138 chips on their pins 4 with pins 6 held high. First stage gets its pin 5 signal from second stage pin 15 and second stage pin 5 gets held low. Maximum total DPots = 64
 #endif                                                                       //There are two ways to use 74LV138s: if more than 16 DPots, then, in part, the final stage 74LV138 drives all previous stages 74LV138 with its output lines driving pin 4 of previous stages. Up to 16 DPots can be used by two 74LV138s in parallel with, in part, the first 74LV138's pin 4 acting as an A3 and its pin 5 connected to pin 4 of the final 74LV138
 
 //No need to change macros below:
@@ -89,7 +90,7 @@
   File Name          : adc_for_plant_tissue.ino
   Author             : KENNETH L ANDERSON
   Version            : v.Free
-  Date               : 17-AUG-2019
+  Date               : 07-OCT-2019
   Description        : To replicate Cleve Backster's findings that he attributed to a phenomenon he called "Primary Perception".  Basically, this sketch turns an Arduino MCU and optional ADS1115 or HX711 (recommended) into a nicely functional GSR (Galvanic Skin Response) device or poor man's polygraph) in order to learn/demonstrate telempathic gardening.
   Boards tested on   : Uno using ADS1115 (early version), HX711, and inboard analog inputs.
                      : TTGO XI using ADS1115 in an early version
@@ -333,8 +334,8 @@ Elsewhere
         #undef HIGHEST_SENSI_PGA_GAIN_FACTOR
     #endif
 #endif
-#define RED_LED_PIN 7 //ALL LED pins must be in a contiguous block that begins with both LED pins for ADC(0)
-#define YELLOW_LED_PIN 6 //ALL LED pins must be in a contiguous block that begins with both LED pins for ADC(0)
+#define RED_LED_PIN 6 //ALL LED pins must be in a contiguous block that begins with both LED pins for ADC(0)
+#define YELLOW_LED_PIN 5 //ALL LED pins must be in a contiguous block that begins with both LED pins for ADC(0)
 #ifndef LOOP_COUNTER_LIMIT_THAT_TRACE_IS_ALLOWED_TO_BE_OFF_CENTER
     #define LOOP_COUNTER_LIMIT_THAT_TRACE_IS_ALLOWED_TO_BE_OFF_CENTER 65536 //really bad idea, will crash at some point
 #endif
@@ -705,35 +706,35 @@ If you only have the Arduino without an ADS1X15, then define INBOARDS_PLOTTED.  
     */
     //If a digipot is the second in a MCP42xx pkg, you will OR that digipot's pin number with B01000000 (add 64) like so: #define LSB_DPOT_B0U4_PIN ( 7 + 64 ) would be for when pin 7 is the physical Arduino Digital pin.  MCP41xx packages need no such consideration
     //If you find that you don't understand that, I'd encourage you to learn the topics of converting between hexadecimal, decimal, and binary and to learn bitwise boolean operations
-    #define LSB_DPOT_B0SIG_PIN ( 8 + 64 )         //U5-1 Signal LSB fine adjust digital pot's CS line connected to here
+    #define LSB_DPOT_B0SIG_PIN ( 8 + 64 )         //U8-1 Signal LSB fine adjust digital pot's CS line connected to here
 //    #define LSB_DPOT_B0SIG_STARTVALUE 0 //309 52 - 54 or ( MAX_DPOT_SETTG / 2 )   //this settingValue in digipots and with 1 MOhm resistors for the LM334 loads put the LM334 output voltage at closest: with three DPots per leg
     #define LSB_DPOT_B0SIG_STARTVALUE 0 //304 52 - 54 or ( MAX_DPOT_SETTG / 2 )   //this settingValue in digipots and with 1 MOhm resistors for the LM334 loads put the LM334 output voltage at closest: with three DPots per leg
 //    #define LSB_DPOT_B0SIG_STARTVALUE 83 //52 - 54 or ( MAX_DPOT_SETTG / 2 )   //this settingValue in digipots and with 1 MOhm resistors for the LM334 loads put the LM334 output voltage at closest: with three DPots per leg
     
     #if ( ( DPOTS_PER_LM334_LEG > 0 ) || ( DPOTS_PER_BRIDGED_BARE_LEG > 0 ) )
-        #define LSB_DPOT_B0REF_PIN 8        //U5-0 Reference LSB fine adjust digital pot's CS line connected to here
+        #define LSB_DPOT_B0REF_PIN 8        //U8-0 Reference LSB fine adjust digital pot's CS line connected to here
 //        #define LSB_DPOT_B0REF_STARTVALUE 0 //310 or ( MAX_DPOT_SETTG / 2 )   //this settingValue in digipots and with 1 MOhm resistors for the LM334 loads put the LM334 output voltage at closest: with three DPots per leg
         #define LSB_DPOT_B0REF_STARTVALUE 0 //305 or ( MAX_DPOT_SETTG / 2 )   //this settingValue in digipots and with 1 MOhm resistors for the LM334 loads put the LM334 output voltage at closest: with three DPots per leg
 //        #define LSB_DPOT_B0REF_STARTVALUE 87 //or ( MAX_DPOT_SETTG / 2 )   //this settingValue in digipots and with 1 MOhm resistors for the LM334 loads put the LM334 output voltage at closest: with three DPots per leg
     //        #define LSB_DPOT_B0REF_STARTVALUE 18 //or ( MAX_DPOT_SETTG / 2 )   //this settingValue in digipots and with 1 MOhm resistors for the LM334 loads put the LM334 output voltage at closest: with two DPots per leg
     #endif
     #if ( ( DPOTS_PER_LM334_LEG > 1 ) || ( DPOTS_PER_BRIDGED_BARE_LEG > 1 ) || ( DPOTS_PER_UNBRIDGED_BARE_LEG > 1 ) )
-        #define NON_LSB_DPOT_1_B0SIG_PIN ( 5 + 64 )          //U4-1 second digital pot of signal leg CS line connected to here.  coarse adjust B positive (signal) leg
+        #define NON_LSB_DPOT_1_B0SIG_PIN ( 7 + 64 )          //U7-1 MSB digital pot of signal leg CS line connected to here.  coarse adjust B positive (signal) leg
 //        #define NON_LSB_DPOT_1_B0SIG_STARTVALUE ( MAX_DPOT_SETTG / 4 ) //or ( MAX_DPOT_SETTG / 2 )  //this settingValue in digipots and with 1 MOhm resistors for the LM334 loads put the LM334 output voltage at closest: with two or three DPots per leg
         #define NON_LSB_DPOT_1_B0SIG_STARTVALUE 255 //or ( MAX_DPOT_SETTG / 2 )  //this settingValue in digipots and with 1 MOhm resistors for the LM334 loads put the LM334 output voltage at closest: with two or three DPots per leg
     #endif
     #if ( ( DPOTS_PER_LM334_LEG > 1 ) || ( DPOTS_PER_BRIDGED_BARE_LEG > 1 ) )
-        #define NON_LSB_DPOT_1_B0REF_PIN 5         //U4-0 second digital pot of reference leg CS line connected to here.  coarse adjust B negative (reference) leg
+        #define NON_LSB_DPOT_1_B0REF_PIN 7         //U7-0 MSB digital pot of reference leg CS line connected to here.  coarse adjust B negative (reference) leg
 //        #define NON_LSB_DPOT_1_B0REF_STARTVALUE ( MAX_DPOT_SETTG / 4 ) //or ( MAX_DPOT_SETTG / 2 )   //this settingValue in digipots and with 1 MOhm resistors for the LM334 loads put the LM334 output voltage at closest: with three DPots per leg
         #define NON_LSB_DPOT_1_B0REF_STARTVALUE 0 //or ( MAX_DPOT_SETTG / 2 )   //this settingValue in digipots and with 1 MOhm resistors for the LM334 loads put the LM334 output voltage at closest: with three DPots per leg
     //        #define NON_LSB_DPOT_1_B0REF_STARTVALUE 117 //or ( MAX_DPOT_SETTG / 2 )   //this settingValue in digipots and with 1 MOhm resistors for the LM334 loads put the LM334 output voltage at closest: with two DPots per leg
     #endif
     #if ( ( DPOTS_PER_LM334_LEG > 2 ) || ( DPOTS_PER_BRIDGED_BARE_LEG > 2 ) || ( DPOTS_PER_UNBRIDGED_BARE_LEG > 2 ) )
-        #define NON_LSB_DPOT_2_B0SIG_PIN 7         // third digital pot of signal leg CS line connected to here.  coarse adjust B positive (signal) leg
+        #define NON_LSB_DPOT_2_B0SIG_PIN ( 9 + 64 )         // third digital pot of signal leg CS line connected to here.  coarse adjust B positive (signal) leg
         #define NON_LSB_DPOT_2_B0SIG_STARTVALUE 0  //or ( MAX_DPOT_SETTG / 2 )  //this settingValue in digipots and with 1 MOhm resistors for the LM334 loads put the LM334 output voltage at closest
     #endif
     #if ( ( DPOTS_PER_LM334_LEG > 2 ) || ( DPOTS_PER_BRIDGED_BARE_LEG > 2 ) )
-        #define NON_LSB_DPOT_2_B0REF_PIN 10         // third digital pot of reference leg CS line connected to here.  coarse adjust B negative (reference) leg
+        #define NON_LSB_DPOT_2_B0REF_PIN 9         // third digital pot of reference leg CS line connected to here.  coarse adjust B negative (reference) leg
         #define NON_LSB_DPOT_2_B0REF_STARTVALUE 0  //or ( MAX_DPOT_SETTG / 2 )   //this settingValue in digipots and with 1 MOhm resistors for the LM334 loads put the LM334 output voltage at closest
     #endif
     
@@ -2923,18 +2924,18 @@ void setup()
       Serial.print( F( "locate where the center lead trace of each runs nearest where you'll tie them in to the\n" ) );
       Serial.print( F( "circuit as built so far: by means using very lightweight scrap wires or jumpers, tie the center\n" ) );
       Serial.print( F( "lead circuit of the lowest number VR (this is the same circuit as one of the Analog Input pins)\n" ) );
-      Serial.print( F( "into the circuit of U3 pin <4>, either on that pad or onto a more convenient pad like Q2 pin <1>.\n" ) );
+      Serial.print( F( "into the circuit of U4 pin <4>, either on that pad or onto a more convenient pad like Q2 pin <1>.\n" ) );
       Serial.print( F( "Tie the center lead circuit of the other VR (the same circuit as a higher numbered Analog Input\n" ) );
-      Serial.print( F( "pin) into the circuit of U3 pin <2>.  Solder to pads rather than the VR itself so you can use\n" ) );
+      Serial.print( F( "pin) into the circuit of U4 pin <2>.  Solder to pads rather than the VR itself so you can use\n" ) );
       Serial.print( F( "those trimmed leads from the LEDs and not risk pulling a pad off if the VR moves. Kapton tape for\n" ) );
       Serial.print( F( "insulating or spacing can be your friend here.\n\n" ) );
       Serial.print( F( "When ready to continue, re-compile the diagnostics sketch with the macro \"DIAGS_STEP2\" defined\n" ) );
       Serial.print( F( "then upload the sketch and start the plotter tool instead of this monitor tool\n" ) );
     #if ( not defined DIAGS_STEP2 ) && ( not defined DIAGS_STEP3 ) && ( not defined DIAGS_STEP4 )
             while( true );
-    #elif DIAGS_STEP2
+    #else if DIAGS_STEP2
       Serial.print( F( "Follow these instructions after removing power from the Arduino:\n" ) );
-      Serial.print( F( "Carefully remove the pieces of Kapton tape under pin 1s of U4 and U5, DO NOT BEND PINS UP TO DO THIS!\n" ) );
+      Serial.print( F( "Carefully remove the pieces of Kapton tape under pin 1s of U5 and U6, DO NOT BEND PINS UP TO DO THIS!\n" ) );
       Serial.print( F( "Solder those pins down now.\n" ) );
       Serial.print( F( "When ready to continue, re-compile the diagnostics sketch with the macro \"DIAGS_STEP3\" defined instead\n" ) );
       Serial.print( F( "of \"DIAGS_STEP2\" and unsolder any VR from pin 4 of U3, replacing it with an R to GNDA from that pin and\n" ) );
@@ -2945,7 +2946,7 @@ void setup()
     for( /*all pins*/uint8_t i = 2; i < 20; i++ )
     {
 //        mode/*make 'em inputs*/
-        digitalWrite( i, LOW);
+        digitalWrite( i, LOW );
         pinMode( i, INPUT );
     }
     #if ( not defined DIAGS_STEP3 ) && ( not defined DIAGS_STEP4 ) 
@@ -2981,7 +2982,7 @@ void setup()
     for( /*all pins*/uint8_t i = 2; i < 20; i++ )
     {
 //        mode/*make 'em inputs*/
-        digitalWrite( i, HIGH);
+        digitalWrite( i, HIGH );
         pinMode( i, INPUT );
     }
     for( /*all pins*/uint8_t i = 2; i < 20; i++ )
@@ -3003,9 +3004,9 @@ void setup()
     for( /*all pins*/uint8_t i = 2; i < 14; i++ )
     {
 //        mode/*make 'em outputs*/
-        digitalWrite( i, LOW);
+        digitalWrite( i, LOW );
         pinMode( i, OUTPUT );
-        digitalWrite( i, LOW);
+        digitalWrite( i, LOW );
     }
     for( /*all pins*/uint8_t i = 2; i < 20; i++ )
     {
@@ -3026,9 +3027,9 @@ void setup()
     for( /*all pins*/uint8_t i = 2; i < 14; i++ )
     {
 //        mode/*make 'em outputs*/
-        digitalWrite( i, HIGH);
+        digitalWrite( i, HIGH );
         pinMode( i, OUTPUT );
-        digitalWrite( i, HIGH);
+        digitalWrite( i, HIGH );
     }
     for( /*all pins*/uint8_t i = 2; i < 20; i++ )
     {
@@ -3050,7 +3051,7 @@ void setup()
     for( /*all pins*/uint8_t i = 2; i < 20; i++ )
     {
 //        mode/*make 'em inputs*/
-        digitalWrite( i, LOW);
+        digitalWrite( i, LOW );
         pinMode( i, INPUT );
     }
 #endif
@@ -3187,62 +3188,155 @@ Index=<3> pin=<69> NON_LSB_DPOT_1_B0REF_PIN */
     }
 #ifdef DIAGS_STEP4
 {
-        uint8_t start_dPot_index = 0;
-        uint8_t end_dPot_index = 3;
-        uint16_t start_dPot_setting = 21; //non-inverting (higher means higher volts)
-        uint16_t end_dPot_setting = 21;  //non-inverting (higher means higher volts)
-        uint16_t dPot2_setting = 19;  //non-inverting (higher means higher volts)
-        int8_t step_per_dPot_change = 1;
+        pinMode( RED_LED_PIN, OUTPUT );
+        digitalWrite( RED_LED_PIN, LOW);
+        pinMode( YELLOW_LED_PIN, OUTPUT );
+        digitalWrite( YELLOW_LED_PIN, LOW);
+    //ratio LSB/MSB=248/1
+    //!!!!  dPot2 doesn't have any effect !!!  Look for open ckt between U7 pin 7 and U5 pin 1.  Shorting pins 7-8 affects U5
+        uint8_t start_dPot_index = 3;
+        uint8_t end_dPot_index = 3; //BELOW: START AT 170, GOES DOWN TO 0 TO MATCH ONE STEP DOWN FROM 0, 217 TO 256, 216 (VICE VERSA) 
+
+        
+        uint16_t dPot0_setting = 15;  //256 NO FLEX [0]inverting LSB (higher means lower volts)   pin 72, affects U6   256 to test for presence of DUT
+        uint16_t dPot1_setting = 256;  //256 NO FLEX  [1]inverting MSB (higher means lower volts)   pin 71, affects U6   256 to test for presence of DUT.  202 with dPts 2 & 3 at 256 centers a 10 MOhm DUT
+
+        uint16_t aPot6; // = analogRead( A6 );
+        
+        uint16_t aPot7; // = analogRead( A7 );
+        int16_t U5[ 2 ];
+        int16_t U6[ 2 ];
+        uint16_t dPot2_setting = 50;  //16 TO 20 NO FLEX [2]non-inverting LSB (higher means higher volts)   pin 8, affects U5.  35-120 to test for presence of DUT
+        uint16_t start_dPot_setting = 179; //229 NO FLEX [3]non-inverting (higher means higher volts)   pin 7, affects U5   217 to test for presence of DUT
+        uint16_t end_dPot_setting = 179;  //229 NO FLEX [3]non-inverting (higher means higher volts), affects U5
+//        uint16_t start_dPot_setting = 205; //229 NO FLEX [3]non-inverting (higher means higher volts)   pin 7, affects U5   217 to test for presence of DUT
+//        uint16_t end_dPot_setting = 207;  //229 NO FLEX [3]non-inverting (higher means higher volts), affects U5
+
+
+        
+        
+        int8_t step_per_dPot_change = 1; //ABOVE SETTINGS GIVE ALMOST CENTERED A0.  IT'S A LITTLE LOW. BUT COULD BE ABOUT 300
         uint8_t which_dpot_index = start_dPot_index;
-        dPotSettings[ 0 ] = 0; //inverting  (higher means lower volts)  reduced effect dPot
-        dPotSettings[ 1 ] = 21;  //inverting
-        dPotSettings[ 2 ] = dPot2_setting;
-        dPotSettings[ 3 ] = start_dPot_index;
-        writeSettingToAsingleDPot( 0, dPotSettings[ 0 ] );  //inverting reduced effect dPot
-        writeSettingToAsingleDPot( 1, dPotSettings[ 1 ] );   //inverting 
-        writeSettingToAsingleDPot( 2, dPotSettings[ 2 ] );   //non-inverting 
+//check eeprom for valid values instead of using these hard-coded ones        
+        dPotSettings[ 0 ] = dPot0_setting; //inverting LSB (higher means lower volts)  reduced effect dPot
+        dPotSettings[ 1 ] = dPot1_setting;  //inverting  MSB
+        dPotSettings[ 2 ] = dPot2_setting;   //LSB non-inverting, affects U5
+        dPotSettings[ 3 ] = start_dPot_setting;  //non-inverting MSB, affects U5
+        writeSettingToAsingleDPot( 72, dPotSettings[ 0 ], false );  //inverting reduced effect dPot   pin 72, affects U6
+        writeSettingToAsingleDPot( 71, dPotSettings[ 1 ], false );   //inverting    pin 71, affects U6
+        writeSettingToAsingleDPot( 8, dPotSettings[ 2 ], false );   //non-inverting LSB   pin 8, affects U5
 //        writeSettingToAsingleDPot( 2, dPotSettings[ 2 ] );   //non-inverting 
-        writeSettingToAsingleDPot( 3, dPotSettings[ 3 ] );     //non-inverting 
+        writeSettingToAsingleDPot( 7, dPotSettings[ 3 ], false );     //non-inverting    pin 7, affects U5
 //        dPotSettings[ which_dpot_index ] = 0;
         while( !Serial.available() )
         {
-//            writeSettingToAsingleDPot( 2, start_dPot_setting );
-            writeSettingToAsingleDPot( 3, start_dPot_setting );   //non-inverting 
-            writeSettingToAsingleDPot( 0, 3 );  //inverting  reduced effect dPot
-            delay( 50 );
-            for( uint8_t i = 0; i < 254; i++ )
+//            writeSettingToAsingleDPot( 0, dPotSettings[ 0 ] );  //inverting  reduced effect dPot, affects U6
+            U5[ 0 ] = analogRead( A6 ) - 512;
+            if( U5[ 0 ] == 511 ) 
+            { while( analogRead( A6 ) == 1023 ); if( dPotSettings[ 3 ] < 257 ) dPotSettings[ 3 ] = dPotSettings[ 3 ] + 1; /*also save to eeprom*/}
+            else if( U5[ 0 ] == -512 ) 
+            { while( analogRead( A6 ) == 0 ); if( dPotSettings[ 3 ] > 0 ) dPotSettings[ 3 ] = dPotSettings[ 3 ] - 1; /*also save to eeprom*/}
+            U6[ 0 ] = analogRead( A7 ) - 512;
+            if( U6[ 0 ] == 511 ) 
+            { while( analogRead( A7 ) == 1023 ); if( dPotSettings[ 1 ] > 0 ) dPotSettings[ 1 ] = dPotSettings[ 1 ] - 1; /*also save to eeprom*/ } 
+            else if( U6[ 0 ] == -512 ) 
+            { while( analogRead( A7 ) == 0 ); if( dPotSettings[ 1 ] < 257 ) dPotSettings[ 1 ] = dPotSettings[ 1 ] + 1; /*also save to eeprom*/ }
+            else
             {
-                Serial.print( 0 );
-                Serial.print( F( " " ) );
-                Serial.print( analogRead( A0 ) );
-                Serial.print( F( " " ) );
-                Serial.print( analogRead( A1 ) );
-                Serial.print( F( " " ) );
-    //            Serial.print(  dPotSettings[ which_dpot_index ] );
-    //            Serial.print( F( " which_dpot_index=<" ) );
-    //            Serial.print(  which_dpot_index );
-    //            Serial.print( F( "> " ) );
-                Serial.println( 1024 );
-                delay( 1 );
-            }
-//            writeSettingToAsingleDPot( 2, end_dPot_setting );
-            writeSettingToAsingleDPot( 3, end_dPot_setting );   //non-inverting 
-            writeSettingToAsingleDPot( 0, 4 );  //inverting - this is the reduced effect dPot
-//            delay( 500 );
-            for( uint8_t i = 0; i < 254; i++ )
-            {
-                Serial.print( 0 );
-                Serial.print( F( " " ) );
-                Serial.print( analogRead( A0 ) );
-                Serial.print( F( " " ) );
-                Serial.print( analogRead( A1 ) );
-                Serial.print( F( " " ) );
-    //            Serial.print(  dPotSettings[ which_dpot_index ] );
-    //            Serial.print( F( " which_dpot_index=<" ) );
-    //            Serial.print(  which_dpot_index );
-    //            Serial.print( F( "> " ) );
-                Serial.println( 1024 );
-                delay( 1 );
+                U5[ 1 ] = dPotSettings[ 3 ] + ( U5[ 0 ] / 257 );
+                U5[ 0 ] = dPotSettings[ 2 ] + ( U5[ 0 ] % 257 );
+                U6[ 1 ] = dPotSettings[ 1 ] - ( U6[ 0 ] / 257 );
+                U6[ 0 ] = dPotSettings[ 0 ] - ( U6[ 0 ] % 257 );
+    
+                writeSettingToAsingleDPot( 0, U6[ 0 ] );
+                    Serial.print( F( " wrote <" ) );
+                    Serial.print( dPot0_setting );
+                    Serial.print( F( "> to " ) );
+                    Serial.print( F( " dPot0" ) );
+                writeSettingToAsingleDPot( 1, U6[ 1 ] );  //inverting  MSB, affects U6
+                    Serial.print( F( " wrote <" ) );
+                    Serial.print( dPot1_setting );
+                    Serial.print( F( "> to " ) );
+                    Serial.print( F( " dPot1" ) );
+                writeSettingToAsingleDPot( 2, U5[ 0 ] );   //, affects U5
+    //            if(  != dPotSettings[ 2 ] ) { dPotSettings[ 2 ] = ; writeSettingToAsingleDPot( 2, dPotSettings[ 2 ] ); }   //non-inverting , affects U5
+                    Serial.print( F( " wrote <" ) );
+                    Serial.print( dPot2_setting );
+                    Serial.print( F( "> to " ) );
+                    Serial.print( F( " dPot2" ) );
+                if( start_dPot_setting != U5[ 1 ] ) { U5[ 1 ] = start_dPot_setting; writeSettingToAsingleDPot( 3, U5[ 1 ] ); }   //non-inverting , affects U5
+                    Serial.print( F( " wrote <" ) );
+                    Serial.print( start_dPot_setting );
+                    Serial.print( F( "> to " ) );
+                    Serial.print( F( " dPot3" ) );
+    
+    
+    
+        //        dPotSettings[ 1 ] = 21;  //inverting
+        //            delay( 50 );
+    //            }
+                for( uint8_t i = 0; i < 25; i++ )
+                {
+                    Serial.print( F( " 0= " ) );
+                    Serial.print( 0 );
+                    Serial.print( F( " analogRead(A0)= " ) );
+                    Serial.print( analogRead( A0 ) );
+                    Serial.print( F( " analogRead(A1)= " ) );
+                    Serial.print( analogRead( A1 ) );
+                    Serial.print( F( " analogRead(A6)= " ) );
+                    Serial.print( analogRead( A6 ) );
+                    Serial.print( F( " analogRead(A7)= " ) );
+                    Serial.print( analogRead( A7 ) );
+                    Serial.print( F( " 1024= " ) );
+        //            Serial.print(  dPotSettings[ which_dpot_index ] );
+        //            Serial.print( F( " which_dpot_index=<" ) );
+        //            Serial.print(  which_dpot_index );
+        //            Serial.print( F( "> " ) );
+                    Serial.println( 1024 );
+                    delay( 1 );
+                }
+    //            writeSettingToAsingleDPot( 0, dPotSettings[ 0 ] );  //inverting - this is the reduced effect dPot, affects U6
+                    Serial.print( F( " wrote <" ) );
+                    Serial.print( dPot0_setting );
+                    Serial.print( F( "> to " ) );
+                    Serial.print( F( " dPot0" ) );
+    //            writeSettingToAsingleDPot( 1, dPotSettings[ 1 ] );  //inverting MSB, affects U6
+                    Serial.print( F( " wrote <" ) );
+                    Serial.print( dPot1_setting );
+                    Serial.print( F( "> to " ) );
+                    Serial.print( F( " dPot1" ) );
+    //            writeSettingToAsingleDPot( 2, dPotSettings[ 2 ] );  //1 amplitude can = amplitude of about 12-15 of index 0 where 0 at setting of 3, affects U5
+                    Serial.print( F( " wrote <" ) );
+                    Serial.print( dPot2_setting );
+                    Serial.print( F( "> to " ) );
+                    Serial.print( F( " dPot2" ) );
+                if( end_dPot_setting != dPotSettings[ 3 ] ) { dPotSettings[ 3 ] = end_dPot_setting; writeSettingToAsingleDPot( 3, dPotSettings[ 3 ] ); }   //non-inverting , affects U5
+                    Serial.print( F( " wrote <" ) );
+                    Serial.print( end_dPot_setting );
+                    Serial.print( F( "> to " ) );
+                    Serial.print( F( " dPot3" ) );
+    //        dPotSettings[ 1 ] = 22;  //inverting
+    //            delay( 500 );
+                for( uint8_t i = 0; i < 25; i++ )
+                {
+                    Serial.print( F( " 0= " ) );
+                    Serial.print( 0 );
+                    Serial.print( F( " analogRead(A0)= " ) );
+                    Serial.print( analogRead( A0 ) );
+                    Serial.print( F( " analogRead(A1)= " ) );
+                    Serial.print( analogRead( A1 ) );
+                    Serial.print( F( " analogRead(A6)= " ) );
+                    Serial.print( analogRead( A6 ) );
+                    Serial.print( F( " analogRead(A7)= " ) );
+                    Serial.print( analogRead( A7 ) );
+                    Serial.print( F( " 1024= " ) );
+        //            Serial.print(  dPotSettings[ which_dpot_index ] );
+        //            Serial.print( F( " which_dpot_index=<" ) );
+        //            Serial.print(  which_dpot_index );
+        //            Serial.print( F( "> " ) );
+                    Serial.println( 1024 );
+                    delay( 1 );
+                }
             }
 //            delay( 500 );
 //            writeSettingToAsingleDPot( which_dpot_index, dPotSettings[ which_dpot_index ] );
@@ -3253,6 +3347,18 @@ Index=<3> pin=<69> NON_LSB_DPOT_1_B0REF_PIN */
 #endif
 
 /******************************************************************************
+    Tuning process:
+    1.  Ensure a DUT of a conductance value between minimum and maximum is connected.  Otherwise illuminate & extinguish red & yellow LED and recheck
+    2.  Extinguish red and yellow LEDs which illuminates green LED
+    3.  MAYBE:  Ensure U5 &/or stage is at least 2.5 to 3 uA
+    4.  Adjust U5 &/or U6 as needed for A0 to equal A1
+    5.  Begin to continuously display A0 and ADC1 levels, adjusting U5 &/or U6 as needed at every reading
+
+
+
+
+
+
 If the entire dPotPins[] and dPotSettings[] did NOT get filled, or some DPots 
 aren't being used as in a test so need to be set to zero, insert code here either
 to fill out the arrays and/or set the unused DPots to desired settings:*/
