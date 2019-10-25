@@ -207,6 +207,7 @@ Elsewhere
 #endif
 #define VERSION "v.Free"
 #include <math.h>
+#include <EEPROM.h> // Any board that errors compiling this line is unsuitable to be used for this purpose because it cannot store settings persistently
 #ifdef WIFI  //The free version does not contain the code to utilize wifi.  Wifi only available in the priced ($20) sketch version.  
     #error The free version does not contain the code to utilize wifi.  Wifi only available in the priced ($20) sketch version.  Thank you for your understanding
     #include <Ethernet.h>
@@ -221,8 +222,31 @@ Elsewhere
         #define SPIINCLUDED
     #endif
     #include <SD.h>
+    boolean bLogging;
+    unsigned int logging_address = EEPROMlength - sizeof( boolean );
 //Object gets instantiated during setup() for greatest flexibility
 #endif
+
+#undef BAUD_RATE
+#define BAUD_RATE 57600 //Very much dependent upon the capability of the host computer to process talkback data, not just baud rate of its interface
+#if not defined ( __LGT8FX8E__ ) && not defined ( ARDUINO_AVR_YUN ) && not defined ( ARDUINO_AVR_LEONARDO ) && not defined ( ARDUINO_AVR_LEONARDO_ETH ) && not defined ( ARDUINO_AVR_MICRO ) && not defined ( ARDUINO_AVR_ESPLORA ) && not defined ( ARDUINO_AVR_LILYPAD_USB ) && not defined ( ARDUINO_AVR_YUNMINI ) && not defined ( ARDUINO_AVR_INDUSTRIAL101 ) && not defined ( ARDUINO_AVR_LININO_ONE )
+    #ifndef RESTORE_FACTORY_DEFAULTS
+        #define RESTORE_FACTORY_DEFAULTS
+    #endif
+#else
+    #if defined ( __LGT8FX8E__ )
+        #define BAUD_RATE 19200 //During sketch development it was found that the XI tends to revert to baud 19200 after programming or need that rate prior to programming so we can't risk setting baud to anything but that until trusted in the future
+        #define LED_BUILTIN 12
+//Commonly available TTGO XI/WeMo XI EEPROM library has only .read() and .write() methods, no EEPROM.length().
+        #define EEPROMlength 1024
+        #define NUM_DIGITAL_PINS 14  //here if necessary or FYI.  TTGO XI has no D13 labeled but it's prob sck, https://www.avrfreaks.net/comment/2247501#comment-2247501 says why D14 and up don't work digital: "lgt8fx8x_init() disables digital with DIDR0 register.   Subsequent pinMode() should enable/disable digital as required.   i.e. needs a patch in wiring_digital.c"
+    #endif
+#endif
+#ifndef EEPROMlength
+    #define EEPROMlength EEPROM.length()
+#endif
+
+
 //global variables are declared static to prevent them from being seen by any later user-added compilation units that would try, presumeably inadvertently, through the use of the "extern" cast.  Feel free to change if not inadvertent access is helpful
 //Next, force all macros to be coherent with each other
 #ifndef OUTBOARDS_PLOTTED
@@ -2840,10 +2864,82 @@ uint32_t any_high_but_this_or_if_this_low( uint8_t i )
 }
 void setup()
 { //all vars of setup() scope will never compete for space with any vars of loop() scope nor any vars scoped to functions except those called herein, so we have a lot of latitude to be sloppy large with the array sizes herein.  That is the big advantage of a setup() scope for embedded applications.
+    Serial.begin( BAUD_TO_SERIAL );
+    Serial.setTimeout( 10 );
+    //read EEPROM addresses 0 (LSB)and 1 (MSB).  This sketch expects MSB combined with LSB always contain ( NUM_DIGITAL_PINS + 1 ) * 3 for confidence in the remiander of the EEPROM's contents.
+    u16 tattoo = 0;
+#if defined ( RESTORE_FACTORY_DEFAULTS ) && ( defined ( __LGT8FX8E__ ) || defined ( ARDUINO_AVR_YUN ) || defined ( ARDUINO_AVR_LEONARDO ) || defined ( ARDUINO_AVR_LEONARDO_ETH ) || defined ( ARDUINO_AVR_MICRO ) || defined ( ARDUINO_AVR_ESPLORA ) || defined ( ARDUINO_AVR_LILYPAD_USB ) || defined ( ARDUINO_AVR_YUNMINI ) || defined ( ARDUINO_AVR_INDUSTRIAL101 ) || defined ( ARDUINO_AVR_LININO_ONE ) )
+#else
+    #ifndef __LGT8FX8E__
+        EEPROM.get( 0, tattoo );
+/*
+        tattoo = ( char )"G";
+        tattoo += ( u16 )( ( char )"W" << 8 );
+*/
+    #else
+        tattoo = EEPROM.read( 0 );
+        tattoo += ( u16 )( EEPROM.read( 1 ) << 8 );
+    #endif
+#endif
+#ifdef __LGT8FX8E__
+    delay( 10000 );//needed for TTGO XI Serial to initialize
+#endif
+    if( tattoo != ( u16 )10282 ) // Check for tattoo of "GW", means Greater Works
+    {
+        while ( !Serial ); // wait for serial port to connect. Needed for Leonardo's native USB
+        Serial.println();
+//        Serial.print( tattoo );
+//        Serial.println( ", no tattoo" ); 
+        Serial.println( "no tattoo, this Arduino has not been configured for this sketch" ); 
+/*        
+ *         add code here to handle first time initialize of EEPROM
+*/
+    }
+    else
+    {
+        while ( !Serial ); // wait for serial port to connect. Needed for Leonardo's native USB
+        Serial.println();
+        Serial.println( "This Arduino has a tattoo so it is configured for this sketch" );
+    #ifdef SD_CHIP_SELECT_PIN
+        unsigned int logging_address = EEPROMlength - sizeof( boolean );
+//        unsigned int upper_heat_temp_address = logging_address - sizeof( short );//EEPROMlength - 2; //This is example of useage from my thermostat sketch
+        bLogging = ( boolean )EEPROM.read( logging_address );
+    #endif
+    }
+#ifndef __LGT8FX8E__
+//    EEPROM.get( lower_heat_temp_address, lower_heat_temp_shorted_times_ten ); //This is example of useage from my thermostat sketch
+#else
+//    lower_heat_temp_shorted_times_ten = EEPROM.read( lower_heat_temp_address ); //This is example of useage from my thermostat sketch
+//    lower_heat_temp_shorted_times_ten += ( u16 )( EEPROM.read( lower_heat_temp_address + 1 ) << 8 ); //This is example of useage from my thermostat sketch
+#endif
+//    lower_heat_temp_floated = ( float )( ( float )( lower_heat_temp_shorted_times_ten ) / 10 ); //This is example of useage from my thermostat sketch
+#ifndef __LGT8FX8E__
+//    EEPROM.get( upper_heat_temp_address, upper_heat_temp_shorted_times_ten ); //This is example of useage from my thermostat sketch
+#else
+//    upper_heat_temp_shorted_times_ten = EEPROM.read( upper_heat_temp_address ); //This is example of useage from my thermostat sketch
+//    upper_heat_temp_shorted_times_ten += ( u16 )( EEPROM.read( upper_heat_temp_address + 1 ) << 8 ); //This is example of useage from my thermostat sketch
+#endif
+//    upper_heat_temp_floated = ( float )( ( float )( upper_heat_temp_shorted_times_ten ) / 10 ); //This is example of useage from my thermostat sketch
+      //( pin_specified*3 )and ( pin_specified*3 )+1 contains the EEPROM address where the pin's assigned name is stored.  Pin 0 will always have its name stored at EEPROM address (NUM_DIGITAL_PINS+1 )*3, so address (NUM_DIGITAL_PINS+1 )*3 will always be stored in EEPROM addresses 0 and 1; 0 = ( pin_number*3 )and 1 = (( pin_number*3 )+1 ) )]
+      // That will be the way we determine if the EEPROM is configured already or not
+      // ( pin_specified*3 )+2 is EEPROM address where the pin's desired inital state is stored
+#ifndef __LGT8FX8E__
+//    EEPROM.get( upper_cool_temp_address, upper_cool_temp_shorted_times_ten ); //This is example of useage from my thermostat sketch
+#else
+//    upper_cool_temp_shorted_times_ten = EEPROM.read( upper_cool_temp_address ); //This is example of useage from my thermostat sketch
+//    upper_cool_temp_shorted_times_ten += ( u16 )( EEPROM.read( upper_cool_temp_address + 1 ) << 8 ); //This is example of useage from my thermostat sketch
+#endif
+//    upper_cool_temp_floated = ( float )( ( float )( upper_cool_temp_shorted_times_ten ) / 10 ); //This is example of useage from my thermostat sketch
+#ifndef __LGT8FX8E__
+//    EEPROM.get( lower_cool_temp_address, lower_cool_temp_shorted_times_ten ); //This is example of useage from my thermostat sketch
+#else
+//    lower_cool_temp_shorted_times_ten = EEPROM.read( lower_cool_temp_address ); //This is example of useage from my thermostat sketch
+//    lower_cool_temp_shorted_times_ten += ( u16 )( EEPROM.read( lower_cool_temp_address + 1 ) << 8 ); //This is example of useage from my thermostat sketch
+#endif
+
 #ifdef WIFI
     //Start wifi here.  If using wifi, _local_ SD card storage becomes critical, so smaller RAM devices become unsuitable
 #endif
-  Serial.begin( BAUD_TO_SERIAL );
   millisStart = millis();
   while( !Serial && ( millis() - millisStart < 8000 ) ); //Leonardo needs this check
 #if ( ANALOG_INPUT_BITS_OF_BOARD != 10 )
@@ -3193,7 +3289,6 @@ Index=<3> pin=<69> NON_LSB_DPOT_1_B0REF_PIN */
         pinMode( YELLOW_LED_PIN, OUTPUT );
         digitalWrite( YELLOW_LED_PIN, LOW);
     //ratio LSB/MSB=248/1
-    //!!!!  dPot2 doesn't have any effect !!!  Look for open ckt between U7 pin 7 and U5 pin 1.  Shorting pins 7-8 affects U5
         uint8_t start_dPot_index = 3;
         uint8_t end_dPot_index = 3; //BELOW: START AT 170, GOES DOWN TO 0 TO MATCH ONE STEP DOWN FROM 0, 217 TO 256, 216 (VICE VERSA) 
 
@@ -3211,9 +3306,6 @@ Index=<3> pin=<69> NON_LSB_DPOT_1_B0REF_PIN */
         uint16_t end_dPot_setting = 179;  //229 NO FLEX [3]non-inverting (higher means higher volts), affects U5
 //        uint16_t start_dPot_setting = 205; //229 NO FLEX [3]non-inverting (higher means higher volts)   pin 7, affects U5   217 to test for presence of DUT
 //        uint16_t end_dPot_setting = 207;  //229 NO FLEX [3]non-inverting (higher means higher volts), affects U5
-
-
-        
         
         int8_t step_per_dPot_change = 1; //ABOVE SETTINGS GIVE ALMOST CENTERED A0.  IT'S A LITTLE LOW. BUT COULD BE ABOUT 300
         uint8_t which_dpot_index = start_dPot_index;
@@ -3231,6 +3323,26 @@ Index=<3> pin=<69> NON_LSB_DPOT_1_B0REF_PIN */
         while( !Serial.available() )
         {
 //            writeSettingToAsingleDPot( 0, dPotSettings[ 0 ] );  //inverting  reduced effect dPot, affects U6
+/*  In process of thinking through:
+CASE A:
+Let's use A5 for DUT matching: 
+when DUT too conductive:
+up with U5 (dPotSettings[ 2 ] & dPotSettings[ 3 ]), down with U6 (dPotSettings[ 0 ] & dPotSettings[ 1 ]) when DUT current is higher than circuit is accommodating
+or
+when DUT not conductive enough:
+down with U5 (dPotSettings[ 2 ] & dPotSettings[ 3 ]), up with U6 (dPotSettings[ 0 ] & dPotSettings[ 1 ]) when DUT current is lower than circuit is accommodating
+
+Upper Limit: Either leg’s MSB and LSB both reach  0 for U5, 257 for U6
+Lower Limit: Either leg’s MSB and LSB both reach  257 for U5, 0 for U6
+
+CASE B:
+Let's use A6 as impedance level adjust:
+both settings going in same direction by same amount.
+This should be set to lowest impedance that doesn’t swamp the DUT signal 
+
+Upper Limit: Either leg’s MSB and LSB both reach 257
+Lower Limit: Either leg’s MSB and LSB both reach 0
+*/
             U5[ 0 ] = analogRead( A6 ) - 512;
             if( U5[ 0 ] == 511 ) 
             { while( analogRead( A6 ) == 1023 ); if( dPotSettings[ 3 ] < 257 ) dPotSettings[ 3 ] = dPotSettings[ 3 ] + 1; /*also save to eeprom*/}
@@ -3243,6 +3355,8 @@ Index=<3> pin=<69> NON_LSB_DPOT_1_B0REF_PIN */
             { while( analogRead( A7 ) == 0 ); if( dPotSettings[ 1 ] < 257 ) dPotSettings[ 1 ] = dPotSettings[ 1 ] + 1; /*also save to eeprom*/ }
             else
             {
+                if( U5[ 0 ] > 0 ) { if( U5[ 0 ] < 10 ) U5[ 0 ] = 0; else U5[ 0 ] -= 10; } else if( U5[ 0 ] < 0 ) { if( U5[ 0 ] > -10 ) U5[ 0 ] = 0; else U5[ 0 ] += 10; }
+                if( U6[ 0 ] > 0 ) { if( U6[ 0 ] < 10 ) U6[ 0 ] = 0; else U6[ 0 ] -= 10; } else if( U6[ 0 ] < 0 ) { if( U6[ 0 ] > -10 ) U6[ 0 ] = 0; else U6[ 0 ] += 10; }
                 U5[ 1 ] = dPotSettings[ 3 ] + ( U5[ 0 ] / 257 );
                 U5[ 0 ] = dPotSettings[ 2 ] + ( U5[ 0 ] % 257 );
                 U6[ 1 ] = dPotSettings[ 1 ] - ( U6[ 0 ] / 257 );
@@ -3275,8 +3389,8 @@ Index=<3> pin=<69> NON_LSB_DPOT_1_B0REF_PIN */
         //        dPotSettings[ 1 ] = 21;  //inverting
         //            delay( 50 );
     //            }
-                for( uint8_t i = 0; i < 25; i++ )
-                {
+/*                for( uint8_t i = 0; i < 25; i++ )
+                { */
                     Serial.print( F( " 0= " ) );
                     Serial.print( 0 );
                     Serial.print( F( " analogRead(A0)= " ) );
@@ -3294,7 +3408,8 @@ Index=<3> pin=<69> NON_LSB_DPOT_1_B0REF_PIN */
         //            Serial.print( F( "> " ) );
                     Serial.println( 1024 );
                     delay( 1 );
-                }
+//                }
+/*
     //            writeSettingToAsingleDPot( 0, dPotSettings[ 0 ] );  //inverting - this is the reduced effect dPot, affects U6
                     Serial.print( F( " wrote <" ) );
                     Serial.print( dPot0_setting );
@@ -3337,6 +3452,7 @@ Index=<3> pin=<69> NON_LSB_DPOT_1_B0REF_PIN */
                     Serial.println( 1024 );
                     delay( 1 );
                 }
+*/
             }
 //            delay( 500 );
 //            writeSettingToAsingleDPot( which_dpot_index, dPotSettings[ which_dpot_index ] );
