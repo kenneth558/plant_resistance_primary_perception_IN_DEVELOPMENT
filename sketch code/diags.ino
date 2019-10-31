@@ -23,7 +23,7 @@
 #define CONTINUE_PLOTTING_DURING_AUTO_BRIDGE_BALANCE true                    //Without predictive balancing, this takes too much time if true
 //#define DEBUG                                                              //Don't forget that DEBUG is not formatted for Serial plotter, but might work anyway if you'd never print numbers only any DEBUG print line
 #define COMPILE_FOR_DIAGS_ONLY
-//#define DIAGS_STEP1                                                          //Don't define on very first run of diags
+//#define DIAGS_STEP1                                                          //Optionally define on very first run of diags.
 //#define DIAGS_STEP2                                                          //Don't define on very first run of diags
 //#define DIAGS_STEP3                                                          //Don't define on very first run of diags
 #define DIAGS_STEP4                                                          //Don't define on very first run of diags
@@ -568,6 +568,7 @@ If you only have the Arduino without an ADS1X15, then define INBOARDS_PLOTTED.  
     multiple times within the same bridge or leg context or else clutter 
     function argument lists into too much ugliness.  Not so with bridge.
 */
+    static uint16_t tattoo = 0;
     static uint8_t whichBridgeOrOutboardADCindex = 0;
     static uint16_t indexOfThisDPotCSpinInDPotArrays = 0;
     static uint8_t dPotLeg;
@@ -580,6 +581,12 @@ If you only have the Arduino without an ADS1X15, then define INBOARDS_PLOTTED.  
     static uint8_t firstMSBindexThisLeg;
     static uint8_t firstMSBindexThisLegReference;
     static uint8_t firstReferenceMSBindexThisBridge;
+#ifdef __LGT8FX8E__
+void EEPROMupdate ( unsigned long address, u8 val )
+{
+    if( EEPROM.read( address ) != val ) EEPROM.write( address, val );
+}
+#endif
     static uint8_t whatIsSignalLegThisBridge( uint8_t bridge )
     {
         return ( ( whichBridgeOrOutboardADCindex < ( LM334_BRIDGES + BARE_BRIDGE_LEGS ) ) ? \
@@ -786,8 +793,20 @@ If you only have the Arduino without an ADS1X15, then define INBOARDS_PLOTTED.  
     
         #error "The pins being used for clock and data of the ADC conflict with the I2C pins used by ADS1x15.  See https://www.arduino.cc/en/reference/wire and the Adafruit_ADS1X15-master README.md.  Remove this warning once you are satisfied one way or another"
     #endif
+    static int16_t VRsandbox[ NUM_ANALOG_INPUTS - DPOT_LEGS ]; //A spot for reading in the setting of any particular variable resistor potentiometer
+    #define VR1_A2 0 //Subscripts for VRsandbox[ ]
+    #define VR2_A3 1
+    #define VR3_A6 2
+    #define VR4_A7 3
     static uint8_t dPotPins[ DPOTS ]; //If I could just figure out how to fill this array here it would sure make for less code clutter
-    static int16_t dPotSettings[ DPOTS ];
+    static uint16_t dPotSettings[ DPOTS ];
+    static uint16_t dPotAnchorSettings[ DPOTS ];
+    static uint16_t dPotAnchorSettingsEEPROMAddress[ DPOTS ];
+    
+    #define SOLVENT 2 //Unit subscripts for dPotSettings[ ], dPotAnchorSettings[ ], and dPotAnchorSettingsEEPROMAddress[ ],  Add unit to sub-unit like this: dPotSettings[ SOLVENT + LSB ]
+    #define COUNTER_BALANCING_SOLVENT 0 //Unit subscripts for dPotSettings[ ], dPotAnchorSettings[ ], and dPotAnchorSettingsEEPROMAddress[ ],  Add unit to sub-unit like this: dPotSettings[ COUNTER_BALANCING_SOLVENT + LSB ]
+    #define LSB 0 //Sub unit subscripts for dPotSettings[ ], dPotAnchorSettings[ ], and dPotAnchorSettingsEEPROMAddress[ ],  Add unit to sub-unit like this: dPotSettings[ SOLVENT + LSB ]
+    #define MSB 1 //Sub unit subscripts for dPotSettings[ ], dPotAnchorSettings[ ], and dPotAnchorSettingsEEPROMAddress[ ],  Add unit to sub-unit like this: dPotSettings[ SOLVENT + MSB ]
     static bool pinIsArrayed = true;
     #define THIS_IS_OVERT_PIN_NUMBER_INSTEAD_OF_INDEX false
     #define DONT_CONSOLIDATE_MSB_GROUP_SETTINGS_THIS_TIME false
@@ -2867,30 +2886,39 @@ void setup()
     Serial.begin( BAUD_TO_SERIAL );
     Serial.setTimeout( 10 );
     //read EEPROM addresses 0 (LSB)and 1 (MSB).  This sketch expects MSB combined with LSB always contain ( NUM_DIGITAL_PINS + 1 ) * 3 for confidence in the remiander of the EEPROM's contents.
-    u16 tattoo = 0;
 #if defined ( RESTORE_FACTORY_DEFAULTS ) && ( defined ( __LGT8FX8E__ ) || defined ( ARDUINO_AVR_YUN ) || defined ( ARDUINO_AVR_LEONARDO ) || defined ( ARDUINO_AVR_LEONARDO_ETH ) || defined ( ARDUINO_AVR_MICRO ) || defined ( ARDUINO_AVR_ESPLORA ) || defined ( ARDUINO_AVR_LILYPAD_USB ) || defined ( ARDUINO_AVR_YUNMINI ) || defined ( ARDUINO_AVR_INDUSTRIAL101 ) || defined ( ARDUINO_AVR_LININO_ONE ) )
 #else
     #ifndef __LGT8FX8E__
-        EEPROM.get( 0, tattoo );
+        EEPROM.get( EEPROMlength - 2, tattoo );
+//        tattoo = ( u8 )73;//"I"
+//        tattoo += ( u16 )( ( u8 )68 << 8 );//"D".  "DI" makes 17481
 /*
         tattoo = ( char )"G";
-        tattoo += ( u16 )( ( char )"W" << 8 );
+        tattoo += ( u16 )( "W" << 8 );
+*/
+
+/*        tattoo = ( u8 )87;//"W"
+        tattoo += ( u16 )( ( u8 )"I" << 8 ); //tattoo == ( u16 )10792
+        tattoo = ( u8 )71;//"G" tattoo == ( u16 )40
+//        tattoo += ( u16 )( ( u8 )"W" << 8 );
+        tattoo = ( u8 )68;//"D"
+        tattoo = ( u8 )73;//"I"
 */
     #else
-        tattoo = EEPROM.read( 0 );
-        tattoo += ( u16 )( EEPROM.read( 1 ) << 8 );
+        tattoo = EEPROM.read( EEPROMlength - 2 );
+        tattoo += ( u16 )( EEPROM.read( EEPROMlength - 1 ) << 8 );
     #endif
 #endif
 #ifdef __LGT8FX8E__
     delay( 10000 );//needed for TTGO XI Serial to initialize
 #endif
-    if( tattoo != ( u16 )10282 ) // Check for tattoo of "GW", means Greater Works
+    if( tattoo != ( u16 )17481 ) // Check for tattoo of "DI", means Diagnostics
     {
         while ( !Serial ); // wait for serial port to connect. Needed for Leonardo's native USB
         Serial.println();
-//        Serial.print( tattoo );
-//        Serial.println( ", no tattoo" ); 
-        Serial.println( "no tattoo, this Arduino has not been configured for this sketch" ); 
+        Serial.print( tattoo );
+        Serial.println( F( ", no tattoo" ) ); 
+        Serial.println( F( "no tattoo, this Arduino has not been configured for this sketch" ) ); 
 /*        
  *         add code here to handle first time initialize of EEPROM
 */
@@ -2899,9 +2927,9 @@ void setup()
     {
         while ( !Serial ); // wait for serial port to connect. Needed for Leonardo's native USB
         Serial.println();
-        Serial.println( "This Arduino has a tattoo so it is configured for this sketch" );
+        Serial.println( F( "This Arduino has a tattoo so it is configured for this sketch" ) );
     #ifdef SD_CHIP_SELECT_PIN
-        unsigned int logging_address = EEPROMlength - sizeof( boolean );
+        unsigned int logging_address = EEPROMlength - sizeof( boolean );//This addressing scheme is only for thermostat
 //        unsigned int upper_heat_temp_address = logging_address - sizeof( short );//EEPROMlength - 2; //This is example of useage from my thermostat sketch
         bLogging = ( boolean )EEPROM.read( logging_address );
     #endif
@@ -3283,154 +3311,299 @@ Index=<3> pin=<69> NON_LSB_DPOT_1_B0REF_PIN */
         writeSettingToAsingleDPot( dPotIndex, dPotSettings[ dPotIndex ] );
     }
 #ifdef DIAGS_STEP4
-{
+ //A6 affects both SOLVENT and COUNTER_BALANCING_SOLVENT in opposite directions, preferring COUNTER_BALANCING_SOLVENT unless it is already maxed high or low (light an alerting LED &/or sound an alerting alarm when SOLVENT is getting adjusted b/c the dilution ratio is also getting changed), for "DC level". A7 simultaneously affects SOLVENT and COUNTER_BALANCING_SOLVENT in same direction for "Dilution ratio": light the red LED when either dPot reached its limit in the direction trying to go
+/*  for use as subscripts of dPot settings arrays dPotAnchorSettings[ ], dPotAnchorSettingsEEPROMAddress[ ] and dPotSettings[ ].
+    defined SOLVENT 0
+    defined COUNTER_BALANCING_SOLVENT 2
+    defined LSB 0
+    defined MSB 1
+*/
         pinMode( RED_LED_PIN, OUTPUT );
         digitalWrite( RED_LED_PIN, LOW);
         pinMode( YELLOW_LED_PIN, OUTPUT );
         digitalWrite( YELLOW_LED_PIN, LOW);
     //ratio LSB/MSB=248/1
-        uint8_t start_dPot_index = 3;
-        uint8_t end_dPot_index = 3; //BELOW: START AT 170, GOES DOWN TO 0 TO MATCH ONE STEP DOWN FROM 0, 217 TO 256, 216 (VICE VERSA) 
 
-        
-        uint16_t dPot0_setting = 15;  //256 NO FLEX [0]inverting LSB (higher means lower volts)   pin 72, affects U6   256 to test for presence of DUT
-        uint16_t dPot1_setting = 256;  //256 NO FLEX  [1]inverting MSB (higher means lower volts)   pin 71, affects U6   256 to test for presence of DUT.  202 with dPts 2 & 3 at 256 centers a 10 MOhm DUT
-
-        uint16_t aPot6; // = analogRead( A6 );
-        
-        uint16_t aPot7; // = analogRead( A7 );
-        int16_t U5[ 2 ];
-        int16_t U6[ 2 ];
-        uint16_t dPot2_setting = 50;  //16 TO 20 NO FLEX [2]non-inverting LSB (higher means higher volts)   pin 8, affects U5.  35-120 to test for presence of DUT
-        uint16_t start_dPot_setting = 179; //229 NO FLEX [3]non-inverting (higher means higher volts)   pin 7, affects U5   217 to test for presence of DUT
-        uint16_t end_dPot_setting = 179;  //229 NO FLEX [3]non-inverting (higher means higher volts), affects U5
-//        uint16_t start_dPot_setting = 205; //229 NO FLEX [3]non-inverting (higher means higher volts)   pin 7, affects U5   217 to test for presence of DUT
-//        uint16_t end_dPot_setting = 207;  //229 NO FLEX [3]non-inverting (higher means higher volts), affects U5
+        uint8_t start_dPot_index;
+        uint8_t end_dPot_index;
+        int8_t runTimeOffsetLSB;
+        int8_t runTimeOffsetMSB;
+//If EEPROM. is good, use it        
+    if( tattoo == ( u16 )17481 ) // Checking for tattoo of "DI", means Diagnostics
+    {
+#ifndef __LGT8FX8E__
+//    EEPROM.get( dPotAnchorSettingsEEPROMAddress[ COUNTER_BALANCING_SOLVENT + LSB ], dPotAnchorSettings[ COUNTER_BALANCING_SOLVENT + LSB ] ); //This is example of useage from my thermostat sketch
+//    EEPROM.get( dPotAnchorSettingsEEPROMAddress[ COUNTER_BALANCING_SOLVENT + MSB ], dPotAnchorSettings[ COUNTER_BALANCING_SOLVENT + MSB ] ); //This is example of useage from my thermostat sketch
+//    EEPROM.get( dPotAnchorSettingsEEPROMAddress[ SOLVENT + LSB ], dPotAnchorSettings[ SOLVENT + LSB ] ); //This is example of useage from my thermostat sketch
+//    EEPROM.get( dPotAnchorSettingsEEPROMAddress[ SOLVENT + MSB ], dPotAnchorSettings[ SOLVENT + MSB ] ); //This is example of useage from my thermostat sketch
+#else
+//    lower_cool_temp_shorted_times_ten = EEPROM.read( lower_cool_temp_address ); //This is example of useage from my thermostat sketch
+//    lower_cool_temp_shorted_times_ten += ( u16 )( EEPROM.read( lower_cool_temp_address + 1 ) << 8 ); //This is example of useage from my thermostat sketch
+#endif
+        dPotAnchorSettings[ COUNTER_BALANCING_SOLVENT + LSB ] = 0;
+        start_dPot_index = 3;
+        end_dPot_index = 3; //BELOW: START AT 170, GOES DOWN TO 0 TO MATCH ONE STEP DOWN FROM 0, 217 TO 256, 216 (VICE VERSA) 
+    }
+    else
+    {
+//        VRsandbox[ VR1-4 ] 
+        start_dPot_index = 3;
+        end_dPot_index = 3; //BELOW: START AT 170, GOES DOWN TO 0 TO MATCH ONE STEP DOWN FROM 0, 217 TO 256, 216 (VICE VERSA) 
+        dPotAnchorSettings[ COUNTER_BALANCING_SOLVENT + LSB ] = 15; //inverting LSB (higher means lower volts)  reduced effect dPot  //256 NO FLEX [0]inverting LSB (higher means lower volts)   pin 72, affects COUNTER_BALANCING_SOLVENT   256 to test for presence of DUT
+        dPotAnchorSettings[ COUNTER_BALANCING_SOLVENT + MSB ] = 156;  //inverting MSB //256 NO FLEX  [1]inverting MSB (higher means lower volts)   pin 71, affects COUNTER_BALANCING_SOLVENT   256 to test for presence of DUT.  202 with dPts 2 & 3 at 256 centers a 10 MOhm DUT
+        dPotAnchorSettings[ SOLVENT + LSB ] = 15;   //LSB non-inverting, affects U5 //16 TO 20 NO FLEX [2]non-inverting LSB (higher means higher volts)   pin 8, affects SOLVENT.  35-120 to test for presence of DUT
+        uint16_t start_dPot_setting = 156; //229 NO FLEX [3]non-inverting (higher means higher volts)   pin 7, affects SOLVENT   217 to test for presence of DUT
+        uint16_t end_dPot_setting = 179;  //229 NO FLEX [3]non-inverting (higher means higher volts), affects SOLVENT
+        dPotAnchorSettings[ SOLVENT + MSB ] = start_dPot_setting;  //non-inverting MSB, affects SOLVENT
+//        uint16_t start_dPot_setting = 205; //229 NO FLEX [3]non-inverting (higher means higher volts)   pin 7, affects SOLVENT   217 to test for presence of DUT
+//        uint16_t end_dPot_setting = 207;  //229 NO FLEX [3]non-inverting (higher means higher volts), affects SOLVENT
         
         int8_t step_per_dPot_change = 1; //ABOVE SETTINGS GIVE ALMOST CENTERED A0.  IT'S A LITTLE LOW. BUT COULD BE ABOUT 300
         uint8_t which_dpot_index = start_dPot_index;
+/*#ifndef __LGT8FX8E__
+           EEPROM.update( fan_mode_address, fan_mode ); //high; low = 'a'
+#else
+            
+( fan_mode_address, fan_mode );
+#endif
+#ifndef __LGT8FX8E__
+    EEPROM.put( settingOfInterestAddress, temp_specified_shorted_times_ten );
+#else
+    EEPROMupdate( settingOfInterestAddress, ( u8 )temp_specified_shorted_times_ten );
+    EEPROMupdate( settingOfInterestAddress + 1, ( u8 )( temp_specified_shorted_times_ten >> 8 ) );
+#endif
+*/
+#ifndef __LGT8FX8E__
+//    EEPROM.put( dPotAnchorSettingsEEPROMAddress[ COUNTER_BALANCING_SOLVENT + LSB ], dPotAnchorSettings[ COUNTER_BALANCING_SOLVENT + LSB ] ); //This is example of useage from my thermostat sketch
+//    EEPROM.get( dPotAnchorSettingsEEPROMAddress[ COUNTER_BALANCING_SOLVENT + MSB ], dPotAnchorSettings[ COUNTER_BALANCING_SOLVENT + MSB ] ); //This is example of useage from my thermostat sketch
+//    EEPROM.get( dPotAnchorSettingsEEPROMAddress[ SOLVENT + LSB ], dPotAnchorSettings[ SOLVENT + LSB ] ); //This is example of useage from my thermostat sketch
+//    EEPROM.get( dPotAnchorSettingsEEPROMAddress[ SOLVENT + MSB ], dPotAnchorSettings[ SOLVENT + MSB ] ); //This is example of useage from my thermostat sketch
+#else
+//    lower_cool_temp_shorted_times_ten = EEPROM.write( lower_cool_temp_address ); //This is example of useage from my thermostat sketch
+//    lower_cool_temp_shorted_times_ten += ( u16 )( EEPROM.read( lower_cool_temp_address + 1 ) << 8 ); //This is example of useage from my thermostat sketch
+#endif
+    }
 //check eeprom for valid values instead of using these hard-coded ones        
-        dPotSettings[ 0 ] = dPot0_setting; //inverting LSB (higher means lower volts)  reduced effect dPot
-        dPotSettings[ 1 ] = dPot1_setting;  //inverting  MSB
-        dPotSettings[ 2 ] = dPot2_setting;   //LSB non-inverting, affects U5
-        dPotSettings[ 3 ] = start_dPot_setting;  //non-inverting MSB, affects U5
-        writeSettingToAsingleDPot( 72, dPotSettings[ 0 ], false );  //inverting reduced effect dPot   pin 72, affects U6
-        writeSettingToAsingleDPot( 71, dPotSettings[ 1 ], false );   //inverting    pin 71, affects U6
-        writeSettingToAsingleDPot( 8, dPotSettings[ 2 ], false );   //non-inverting LSB   pin 8, affects U5
-//        writeSettingToAsingleDPot( 2, dPotSettings[ 2 ] );   //non-inverting 
-        writeSettingToAsingleDPot( 7, dPotSettings[ 3 ], false );     //non-inverting    pin 7, affects U5
-//        dPotSettings[ which_dpot_index ] = 0;
+//        writeSettingToAsingleDPot( 72, dPotAnchorSettings[ COUNTER_BALANCING_SOLVENT + LSB ], false );  //inverting reduced effect dPot   pin 72, affects U6
+//        writeSettingToAsingleDPot( 71, dPotAnchorSettings[ COUNTER_BALANCING_SOLVENT + MSB ], false );   //inverting    pin 71, affects U6
+//        writeSettingToAsingleDPot( 8, dPotAnchorSettings[ SOLVENT + LSB ], false );   //non-inverting LSB   pin 8, affects SOLVENT
+//        writeSettingToAsingleDPot( 2, dPotAnchorSettings[ SOLVENT + LSB ] );   //non-inverting 
+//        writeSettingToAsingleDPot( 7, dPotAnchorSettings[ SOLVENT + MSB ], false );     //non-inverting    pin 7, affects SOLVENT
+//        dPotAnchorSettings[ which_dpot_index ] = 0;
         while( !Serial.available() )
         {
-//            writeSettingToAsingleDPot( 0, dPotSettings[ 0 ] );  //inverting  reduced effect dPot, affects U6
+//            writeSettingToAsingleDPot( 0, dPotAnchorSettings[ COUNTER_BALANCING_SOLVENT + LSB ] );  //inverting  reduced effect dPot, affects U6
 /*  In process of thinking through:
 CASE A:
-Let's use A5 for DUT matching: 
+Let's use A6 for "DC level": 
 when DUT too conductive:
-up with U5 (dPotSettings[ 2 ] & dPotSettings[ 3 ]), down with U6 (dPotSettings[ 0 ] & dPotSettings[ 1 ]) when DUT current is higher than circuit is accommodating
+up with SOLVENT (dPotAnchorSettings[ SOLVENT + LSB ] & dPotAnchorSettings[ SOLVENT + MSB ]), down with U6 (dPotAnchorSettings[ COUNTER_BALANCING_SOLVENT + LSB ] & dPotAnchorSettings[ COUNTER_BALANCING_SOLVENT + MSB ]) when DUT current is higher than circuit is accommodating
 or
 when DUT not conductive enough:
-down with U5 (dPotSettings[ 2 ] & dPotSettings[ 3 ]), up with U6 (dPotSettings[ 0 ] & dPotSettings[ 1 ]) when DUT current is lower than circuit is accommodating
+down with SOLVENT (dPotAnchorSettings[ SOLVENT + LSB ] & dPotAnchorSettings[ SOLVENT + MSB ]), up with U6 (dPotAnchorSettings[ COUNTER_BALANCING_SOLVENT + LSB ] & dPotAnchorSettings[ COUNTER_BALANCING_SOLVENT + MSB ]) when DUT current is lower than circuit is accommodating
 
-Upper Limit: Either leg’s MSB and LSB both reach  0 for U5, 257 for U6
-Lower Limit: Either leg’s MSB and LSB both reach  257 for U5, 0 for U6
+Upper Limit: Either leg’s MSB and LSB both reach  0 for SOLVENT, 257 for U6
+Lower Limit: Either leg’s MSB and LSB both reach  257 for SOLVENT, 0 for U6
 
 CASE B:
-Let's use A6 as impedance level adjust:
+Let's use A7 for "Inverse Dilution ratio":
 both settings going in same direction by same amount.
-This should be set to lowest impedance that doesn’t swamp the DUT signal 
-
+This should be left at lowest impedance (highest solvent current) that doesn’t swamp the DUT (solute) signal 
+YELLOW_LED_PIN
 Upper Limit: Either leg’s MSB and LSB both reach 257
-Lower Limit: Either leg’s MSB and LSB both reach 0
+Lower Limit: Either leg’s MSB and LSB both reach 0*/
+/*
+//#error NEW IDEA:
+//#error Use VR4_A7 setting to establish dPotSettings[] to a specific dilution ratio (both dPot pairs set the same ( 1023 - VR3_A6 ) / 257 for MSB) and % 257 / 4 or something for LSB ), then apply the DC level demanded by VR3_A6
+            VRsandbox[ VR3_A6 ] = analogRead( A6 ) - 512;
+            VRsandbox[ VR4_A7 ] = analogRead( A7 );// - 512; //FUTURE TODO: This should not be able to take A0 too far away from its reference level
+            if( VRsandbox[ VR3_A6 ] == 511 ) 
+            { 
+                if( dPotAnchorSettings[ COUNTER_BALANCING_SOLVENT + MSB ] == 0 )
+                {
+                    if( dPotAnchorSettings[ SOLVENT + MSB ] == 257 ) digitalWrite( RED_LED_PIN, HIGH); 
+                    else digitalWrite( YELLOW_LED_PIN, HIGH); 
+                }
+                while( analogRead( A6 ) == 1023 ); 
+                if( dPotAnchorSettings[ COUNTER_BALANCING_SOLVENT + MSB ] > 0 ) dPotAnchorSettings[ COUNTER_BALANCING_SOLVENT + MSB ]-- 
+                */ /*increases counter_balance current to raise A0*//*; 
+                else if( dPotAnchorSettings[ SOLVENT + MSB ] < 256 )  dPotAnchorSettings[ SOLVENT + MSB ]++; /*also save to eeprom*/
+/*            }
+            
+            else if( VRsandbox[ VR3_A6 ] == -512 ) 
+            { 
+                if( dPotAnchorSettings[ COUNTER_BALANCING_SOLVENT + MSB ] == 256 )
+                {
+                    if( dPotAnchorSettings[ SOLVENT + MSB ] == 0 ) digitalWrite( RED_LED_PIN, HIGH);
+                    else if( 0 ); 
+                }
+                while( analogRead( A6 ) == 0 ); 
+                if( dPotAnchorSettings[ COUNTER_BALANCING_SOLVENT + MSB ] < 256 ) dPotAnchorSettings[ COUNTER_BALANCING_SOLVENT + MSB ]++ 
+                *//*reduces counter_balance current to lower A0*//*; 
+                else if( dPotAnchorSettings[ SOLVENT + MSB ] > 0 )  dPotAnchorSettings[ SOLVENT + MSB ]--; *//*also save to eeprom*/
+//            }
+//            */
+/*
+            if( VRsandbox[ VR4_A7 ] == 511 ) //? Let's decide this decreases dilution ratio which increases impedance which increases amount of signal produced so this is intuitive with the volume control concept
+            { 
+                if( ( dPotAnchorSettings[ COUNTER_BALANCING_SOLVENT + MSB ] == 256 ) || ( dPotAnchorSettings[ SOLVENT + MSB ] == 256 ) ) digitalWrite( RED_LED_PIN, HIGH);
+                while( analogRead( A7 ) == 1023 ); 
+                if( ( dPotAnchorSettings[ COUNTER_BALANCING_SOLVENT + MSB ] < 256 ) && ( dPotAnchorSettings[ SOLVENT + MSB ] < 256 ) ) { dPotAnchorSettings[ COUNTER_BALANCING_SOLVENT + MSB ]++; dPotAnchorSettings[ SOLVENT + MSB ]++; }
 */
-            U5[ 0 ] = analogRead( A6 ) - 512;
-            if( U5[ 0 ] == 511 ) 
-            { while( analogRead( A6 ) == 1023 ); if( dPotSettings[ 3 ] < 257 ) dPotSettings[ 3 ] = dPotSettings[ 3 ] + 1; /*also save to eeprom*/}
-            else if( U5[ 0 ] == -512 ) 
-            { while( analogRead( A6 ) == 0 ); if( dPotSettings[ 3 ] > 0 ) dPotSettings[ 3 ] = dPotSettings[ 3 ] - 1; /*also save to eeprom*/}
-            U6[ 0 ] = analogRead( A7 ) - 512;
-            if( U6[ 0 ] == 511 ) 
-            { while( analogRead( A7 ) == 1023 ); if( dPotSettings[ 1 ] > 0 ) dPotSettings[ 1 ] = dPotSettings[ 1 ] - 1; /*also save to eeprom*/ } 
-            else if( U6[ 0 ] == -512 ) 
-            { while( analogRead( A7 ) == 0 ); if( dPotSettings[ 1 ] < 257 ) dPotSettings[ 1 ] = dPotSettings[ 1 ] + 1; /*also save to eeprom*/ }
-            else
-            {
-                if( U5[ 0 ] > 0 ) { if( U5[ 0 ] < 10 ) U5[ 0 ] = 0; else U5[ 0 ] -= 10; } else if( U5[ 0 ] < 0 ) { if( U5[ 0 ] > -10 ) U5[ 0 ] = 0; else U5[ 0 ] += 10; }
-                if( U6[ 0 ] > 0 ) { if( U6[ 0 ] < 10 ) U6[ 0 ] = 0; else U6[ 0 ] -= 10; } else if( U6[ 0 ] < 0 ) { if( U6[ 0 ] > -10 ) U6[ 0 ] = 0; else U6[ 0 ] += 10; }
-                U5[ 1 ] = dPotSettings[ 3 ] + ( U5[ 0 ] / 257 );
-                U5[ 0 ] = dPotSettings[ 2 ] + ( U5[ 0 ] % 257 );
-                U6[ 1 ] = dPotSettings[ 1 ] - ( U6[ 0 ] / 257 );
-                U6[ 0 ] = dPotSettings[ 0 ] - ( U6[ 0 ] % 257 );
-    
-                writeSettingToAsingleDPot( 0, U6[ 0 ] );
+                /*also save to eeprom*/ 
+/*            } 
+
+            else if( VRsandbox[ VR4_A7 ] == -512 ) //increases dilution ratio, decreases impedance and amount of signal produced
+            { 
+                if( ( dPotAnchorSettings[ COUNTER_BALANCING_SOLVENT + MSB ] == 0 ) || ( dPotAnchorSettings[ SOLVENT + MSB ] == 0 ) ) digitalWrite( RED_LED_PIN, HIGH);
+                while( analogRead( A7 ) == 0 ); 
+                if( ( dPotAnchorSettings[ COUNTER_BALANCING_SOLVENT + MSB ] > 0 ) && ( dPotAnchorSettings[ SOLVENT + MSB ] > 0 ) ) { dPotAnchorSettings[ COUNTER_BALANCING_SOLVENT + MSB ]--; dPotAnchorSettings[ SOLVENT + MSB ]--; }
+                // /*also save to eeprom*/ 
+/*            } */
+/*            else goto ACT_ON_VRS;
+//READ_VRS_AGAIN:
+            VRsandbox[ VR3_A6 ] = analogRead( A6 ) - 512;
+ACT_ON_VRS:
+//Both VRs have been read and recorded into their sandboxes.  Don't read them again
+                if( VRsandbox[ VR3_A6 ] > 0 ) { if( VRsandbox[ VR3_A6 ] < 10 ) VRsandbox[ VR3_A6 ] = 0; else VRsandbox[ VR3_A6 ] -= 10; } else if( VRsandbox[ VR3_A6 ] < 0 ) { if( VRsandbox[ VR3_A6 ] > -10 ) VRsandbox[ VR3_A6 ] = 0; else VRsandbox[ VR3_A6 ] += 10; } //put the carrying algo in here
+//                if( VRsandbox[ VR4_A7 ] > 0 ) { if( VRsandbox[ VR4_A7 ] < 10 ) VRsandbox[ VR4_A7 ] = 0; else VRsandbox[ VR4_A7 ] -= 10; } else if( VRsandbox[ VR4_A7 ] < 0 ) { if( VRsandbox[ VR4_A7 ] > -10 ) VRsandbox[ VR4_A7 ] = 0; else VRsandbox[ VR4_A7 ] += 10; } //put the carrying algo in here
+
+                dPotSettings[ COUNTER_BALANCING_SOLVENT + MSB ] = min( max( dPotAnchorSettings[ COUNTER_BALANCING_SOLVENT + MSB ] - ( VRsandbox[ VR3_A6 ] / 257 ), 0 ), 256 ); //
+                dPotSettings[ COUNTER_BALANCING_SOLVENT + LSB ] = min( max( dPotAnchorSettings[ COUNTER_BALANCING_SOLVENT + LSB ] - ( VRsandbox[ VR3_A6 ] % 257 ), 0 ), 256 );
+                dPotSettings[ SOLVENT + MSB ] = max( min( dPotAnchorSettings[ SOLVENT + MSB ] + ( VRsandbox[ VR3_A6 ] / 257 ), 256 ), 0 ); //
+                dPotSettings[ SOLVENT + LSB ] = max( min( dPotAnchorSettings[ SOLVENT + LSB ] + ( VRsandbox[ VR3_A6 ] % 257 ), 256 ), 0 );
+//#error The following algo needs to be adjusted so the dilution ratio can be lowered, raised or left stable and the operator knows which is happening:
+                dPotSettings[ COUNTER_BALANCING_SOLVENT + MSB ] = max( min( dPotSettings[ COUNTER_BALANCING_SOLVENT + MSB ] + ( VRsandbox[ VR4_A7 ] / 1024 ), 1023 ), 0 ); //
+                dPotSettings[ COUNTER_BALANCING_SOLVENT + LSB ] = max( min( dPotSettings[ COUNTER_BALANCING_SOLVENT + LSB ] + ( VRsandbox[ VR4_A7 ] % 1024 ), 1023 ), 0 );
+                dPotSettings[ SOLVENT + MSB ] = max( min( dPotSettings[ SOLVENT + MSB ] + ( VRsandbox[ VR4_A7 ] / 1024 ), 1023 ), 0 ); //
+                dPotSettings[ SOLVENT + LSB ] = max( min( dPotSettings[ SOLVENT + LSB ] + ( VRsandbox[ VR4_A7 ] % 1024 ), 1023 ), 0 );
+*/
+//#error Wow this is getting very deep! Decide how does adjustment of VR4_A7 affect dPotAnchorSettings vs. dPotSettings: Simultaneously applies the same (current minus previous VR4_A7 offset) to both just before writeSettingToAsingleDPot for all
+//                if( dPotSettings[ COUNTER_BALANCING_SOLVENT + MSB ] != dPotAnchorSettings[ COUNTER_BALANCING_SOLVENT + MSB ] - ( VRsandbox[ VR3_A6 ] / 256  ) ) /*not all the VR value could get used in the COUNTER_BALANCING_SOLVENT settings, then....*/
+//                { ;
+//                    dPotSettings[ SOLVENT + MSB ] = min( max( dPotAnchorSettings[ SOLVENT + MSB ] /*+ remainder*/, 256 ), 0 );
+//                    dPotSettings[ SOLVENT + LSB ] = min( max( dPotAnchorSettings[ SOLVENT + LSB ] /*+ remainder*/, 256 ), 0 );
+//                }
+
+
+                VRsandbox[ VR1_A2 ] = analogRead( A2 );
+                VRsandbox[ VR2_A3 ] = analogRead( A3 );
+                VRsandbox[ VR3_A6 ] = analogRead( A6 );
+                VRsandbox[ VR4_A7 ] = analogRead( A7 );
+                if( ( ( VRsandbox[ VR3_A6 ] == 1023 ) && ( dPotSettings[ SOLVENT + MSB ] != 256 ) ) || ( ( VRsandbox[ VR3_A6 ] != 1023 ) && ( dPotSettings[ SOLVENT + MSB ] != VRsandbox[ VR3_A6 ] / 4 ) ) )
+                {
+                    dPotSettings[ SOLVENT + MSB ] = VRsandbox[ VR3_A6 ] / 4;//min( max( dPotAnchorSettings[ SOLVENT + MSB ] + ( VRsandbox[ VR3_A6 ] / 256 ), 0 ), 256 );
+                    if( VRsandbox[ VR3_A6 ] == 1023 ) dPotSettings[ SOLVENT + MSB ]++;
+                    writeSettingToAsingleDPot( SOLVENT + MSB, dPotSettings[ SOLVENT + MSB ] );  //dPot3 //non-inverting , affects U5
                     Serial.print( F( " wrote <" ) );
-                    Serial.print( dPot0_setting );
-                    Serial.print( F( "> to " ) );
-                    Serial.print( F( " dPot0" ) );
-                writeSettingToAsingleDPot( 1, U6[ 1 ] );  //inverting  MSB, affects U6
+                    Serial.print( dPotSettings[ SOLVENT + MSB ] );
+                    Serial.print( F( "> to SOLVENT + MSB dPot " ) );
+                }
+                if( ( ( VRsandbox[ VR1_A2 ] == 1023 ) && ( dPotSettings[ SOLVENT + MSB ] != 256 ) ) || ( ( VRsandbox[ VR1_A2 ] != 1023 ) && ( dPotSettings[ SOLVENT + MSB ] != VRsandbox[ VR1_A2 ] / 4 ) ) )
+                {
+                    dPotSettings[ SOLVENT + LSB ] = VRsandbox[ VR1_A2 ] / 4;//min( max( dPotAnchorSettings[ SOLVENT + LSB ] + ( VRsandbox[ VR3_A6 ] % 256 ), 0 ), 256 );
+                    if( VRsandbox[ VR1_A2 ] == 1023 ) dPotSettings[ SOLVENT + LSB ]++;
+                    writeSettingToAsingleDPot( SOLVENT + LSB, dPotSettings[ SOLVENT + LSB ] );   //dPot2, affects SOLVENT //dPot2
                     Serial.print( F( " wrote <" ) );
-                    Serial.print( dPot1_setting );
-                    Serial.print( F( "> to " ) );
-                    Serial.print( F( " dPot1" ) );
-                writeSettingToAsingleDPot( 2, U5[ 0 ] );   //, affects U5
-    //            if(  != dPotSettings[ 2 ] ) { dPotSettings[ 2 ] = ; writeSettingToAsingleDPot( 2, dPotSettings[ 2 ] ); }   //non-inverting , affects U5
+                    Serial.print( dPotSettings[ SOLVENT + LSB ] );
+                    Serial.print( F( "> to SOLVENT + LSB dPot " ) );
+//                Serial.print( SOLVENT + LSB ); //used to be dPot 2
+
+                }
+                if( ( ( VRsandbox[ VR4_A7 ] == 1023 ) && ( dPotSettings[ SOLVENT + MSB ] != 256 ) ) || ( ( VRsandbox[ VR4_A7 ] != 1023 ) && ( dPotSettings[ SOLVENT + MSB ] != VRsandbox[ VR4_A7 ] / 4 ) ) )
+                {
+                    dPotSettings[ COUNTER_BALANCING_SOLVENT + MSB ] = VRsandbox[ VR4_A7 ] / 4;//min( max( dPotAnchorSettings[ COUNTER_BALANCING_SOLVENT + MSB ] - ( VRsandbox[ VR3_A6 ] / 256 ), 0 ), 256 );
+                    if( VRsandbox[ VR4_A7 ] == 1023 ) dPotSettings[ COUNTER_BALANCING_SOLVENT + MSB ]++;
+                    writeSettingToAsingleDPot( COUNTER_BALANCING_SOLVENT + MSB, dPotSettings[ COUNTER_BALANCING_SOLVENT + MSB ] ); //dPot1  //inverting  MSB, affects U6 needs to be dPot what? used to be 1
                     Serial.print( F( " wrote <" ) );
-                    Serial.print( dPot2_setting );
-                    Serial.print( F( "> to " ) );
-                    Serial.print( F( " dPot2" ) );
-                if( start_dPot_setting != U5[ 1 ] ) { U5[ 1 ] = start_dPot_setting; writeSettingToAsingleDPot( 3, U5[ 1 ] ); }   //non-inverting , affects U5
+                    Serial.print( dPotSettings[ COUNTER_BALANCING_SOLVENT + MSB ] );
+                    Serial.print( F( "> to COUNTER_BALANCING_SOLVENT + MSB dPot " ) );
+    //                Serial.print( COUNTER_BALANCING_SOLVENT + MSB ); //needs to be dPot 1
+
+                }
+                if( ( ( VRsandbox[ VR2_A3 ] == 1023 ) && ( dPotSettings[ SOLVENT + MSB ] != 256 ) ) || ( ( VRsandbox[ VR2_A3 ] != 1023 ) && ( dPotSettings[ SOLVENT + MSB ] != VRsandbox[ VR2_A3 ] / 4 ) ) )
+                {
+                    dPotSettings[ COUNTER_BALANCING_SOLVENT + LSB ] = VRsandbox[ VR2_A3 ] / 4;//min( max( dPotAnchorSettings[ COUNTER_BALANCING_SOLVENT + LSB ] - ( VRsandbox[ VR2_A3 ] % 256 ), 0 ), 256 );
+                    if( VRsandbox[ VR2_A3 ] == 1023 ) dPotSettings[ COUNTER_BALANCING_SOLVENT + LSB ]++;
+                    writeSettingToAsingleDPot( COUNTER_BALANCING_SOLVENT + LSB, dPotSettings[ COUNTER_BALANCING_SOLVENT + LSB ] ); //dPot0
                     Serial.print( F( " wrote <" ) );
-                    Serial.print( start_dPot_setting );
-                    Serial.print( F( "> to " ) );
-                    Serial.print( F( " dPot3" ) );
+                    Serial.print( dPotSettings[ COUNTER_BALANCING_SOLVENT + LSB ] );
+                    Serial.print( F( "> to COUNTER_BALANCING_SOLVENT + LSB dPot " ) );
+                }    
+
+//                Serial.print( COUNTER_BALANCING_SOLVENT + LSB ); //needs to be dPot what? used to be 0
+
+
+
+//                Serial.print( SOLVENT + MSB ); //used to be dPot 3
+/*
+                Serial.print( F( " wrote <" ) );
+//                    Serial.print( dPot2_setting );
+                Serial.print( F( "> to " ) );
+                Serial.print( F( " dPot2" ) );
+//                if( start_dPot_setting != U5[ 1 ] ) { U5[ 1 ] = start_dPot_setting; writeSettingToAsingleDPot( SOLVENT + MSB, U5[ 1 ] ); }   //non-inverting , affects U5
+                Serial.print( F( " wrote <" ) );
+//                    Serial.print( start_dPot_setting );
+                Serial.print( F( "> to " ) );
+                Serial.print( F( " dPot3" ) );
+    */
     
     
-    
-        //        dPotSettings[ 1 ] = 21;  //inverting
+        //        dPotAnchorSettings[ COUNTER_BALANCING_SOLVENT + MSB ] = 21;  //inverting
         //            delay( 50 );
-    //            }
-/*                for( uint8_t i = 0; i < 25; i++ )
-                { */
+          //      }
+                for( uint8_t i = 0; i < 25; i++ )
+                {
                     Serial.print( F( " 0= " ) );
                     Serial.print( 0 );
                     Serial.print( F( " analogRead(A0)= " ) );
-                    Serial.print( analogRead( A0 ) );
+                    Serial.print( analogRead( A0 ) );  //IF GREATER THAN 307 OR LESS THAN 305 ADJUST DPOTS TO BRING IT BACK
+
+                    if( analogRead( A0 ) > 307 ) if( ( dPotAnchorSettings[ COUNTER_BALANCING_SOLVENT + LSB ] ) == 256 ) runTimeOffsetLSB = -1;
+                    else if( analogRead( A0 ) < 305 ) runTimeOffsetLSB = 1;
+                    else goto ANALOG0_READING_FINE;
+//                    dPotAnchorSettings[ COUNTER_BALANCING_SOLVENT + LSB ] = min( max( dPotAnchorSettings[ COUNTER_BALANCING_SOLVENT + LSB ] - ( VRsandbox[ VR3_A6 ] % 256 ), 0 ), 256 );
+//                    writeSettingToAsingleDPot( COUNTER_BALANCING_SOLVENT + LSB, dPotSettings[ COUNTER_BALANCING_SOLVENT + LSB ] ); //dPot0
+ANALOG0_READING_FINE:
                     Serial.print( F( " analogRead(A1)= " ) );
                     Serial.print( analogRead( A1 ) );
-                    Serial.print( F( " analogRead(A6)= " ) );
-                    Serial.print( analogRead( A6 ) );
-                    Serial.print( F( " analogRead(A7)= " ) );
-                    Serial.print( analogRead( A7 ) );
+//                    Serial.print( F( " analogRead(A6)= " ) );
+//                    Serial.print( analogRead( A6 ) );
+//                    Serial.print( F( " analogRead(A7)= " ) );
+//                    Serial.print( analogRead( A7 ) );
                     Serial.print( F( " 1024= " ) );
-        //            Serial.print(  dPotSettings[ which_dpot_index ] );
+        //            Serial.print(  dPotAnchorSettings[ which_dpot_index ] );
         //            Serial.print( F( " which_dpot_index=<" ) );
         //            Serial.print(  which_dpot_index );
         //            Serial.print( F( "> " ) );
                     Serial.println( 1024 );
+                    if( digitalRead( YELLOW_LED_PIN ) == HIGH ) digitalWrite( YELLOW_LED_PIN, LOW);
+                    if( digitalRead( RED_LED_PIN ) == HIGH ) digitalWrite( RED_LED_PIN, LOW);
+
                     delay( 1 );
-//                }
+                }
 /*
-    //            writeSettingToAsingleDPot( 0, dPotSettings[ 0 ] );  //inverting - this is the reduced effect dPot, affects U6
+    //            writeSettingToAsingleDPot( 0, dPotAnchorSettings[ COUNTER_BALANCING_SOLVENT + LSB ] );  //inverting - this is the reduced effect dPot, affects U6
                     Serial.print( F( " wrote <" ) );
                     Serial.print( dPot0_setting );
                     Serial.print( F( "> to " ) );
                     Serial.print( F( " dPot0" ) );
-    //            writeSettingToAsingleDPot( 1, dPotSettings[ 1 ] );  //inverting MSB, affects U6
+    //            writeSettingToAsingleDPot( 1, dPotAnchorSettings[ COUNTER_BALANCING_SOLVENT + MSB ] );  //inverting MSB, affects U6
                     Serial.print( F( " wrote <" ) );
                     Serial.print( dPot1_setting );
                     Serial.print( F( "> to " ) );
                     Serial.print( F( " dPot1" ) );
-    //            writeSettingToAsingleDPot( 2, dPotSettings[ 2 ] );  //1 amplitude can = amplitude of about 12-15 of index 0 where 0 at setting of 3, affects U5
+    //            writeSettingToAsingleDPot( 2, dPotAnchorSettings[ SOLVENT + LSB ] );  //1 amplitude can = amplitude of about 12-15 of index 0 where 0 at setting of 3, affects U5
                     Serial.print( F( " wrote <" ) );
                     Serial.print( dPot2_setting );
                     Serial.print( F( "> to " ) );
                     Serial.print( F( " dPot2" ) );
-                if( end_dPot_setting != dPotSettings[ 3 ] ) { dPotSettings[ 3 ] = end_dPot_setting; writeSettingToAsingleDPot( 3, dPotSettings[ 3 ] ); }   //non-inverting , affects U5
+                if( end_dPot_setting != dPotAnchorSettings[ SOLVENT + MSB ] ) { dPotAnchorSettings[ SOLVENT + MSB ] = end_dPot_setting; writeSettingToAsingleDPot( SOLVENT + MSB, dPotAnchorSettings[ SOLVENT + MSB ] ); }   //non-inverting , affects U5
                     Serial.print( F( " wrote <" ) );
                     Serial.print( end_dPot_setting );
                     Serial.print( F( "> to " ) );
                     Serial.print( F( " dPot3" ) );
-    //        dPotSettings[ 1 ] = 22;  //inverting
+    //        dPotAnchorSettings[ 1 ] = 22;  //inverting
     //            delay( 500 );
                 for( uint8_t i = 0; i < 25; i++ )
                 {
@@ -3445,7 +3618,7 @@ Lower Limit: Either leg’s MSB and LSB both reach 0
                     Serial.print( F( " analogRead(A7)= " ) );
                     Serial.print( analogRead( A7 ) );
                     Serial.print( F( " 1024= " ) );
-        //            Serial.print(  dPotSettings[ which_dpot_index ] );
+        //            Serial.print(  dPotAnchorSettings[ which_dpot_index ] );
         //            Serial.print( F( " which_dpot_index=<" ) );
         //            Serial.print(  which_dpot_index );
         //            Serial.print( F( "> " ) );
@@ -3453,13 +3626,14 @@ Lower Limit: Either leg’s MSB and LSB both reach 0
                     delay( 1 );
                 }
 */
-            }
 //            delay( 500 );
-//            writeSettingToAsingleDPot( which_dpot_index, dPotSettings[ which_dpot_index ] );
-//            dPotSettings[ which_dpot_index ] += step_per_dPot_change;
-//            if( ( ( step_per_dPot_change > 0 ) && ( dPotSettings[ which_dpot_index ] > end_dPot_setting ) ) || ( ( step_per_dPot_change < 0 ) && ( dPotSettings[ which_dpot_index ] < end_dPot_setting ) ) ) { dPotSettings[ which_dpot_index ] = start_dPot_setting; which_dpot_index++; if( which_dpot_index > end_dPot_index ) which_dpot_index = start_dPot_index; dPotSettings[ which_dpot_index ] = start_dPot_setting; }
+//            writeSettingToAsingleDPot( which_dpot_index, dPotAnchorSettings[ which_dpot_index ] );
+//            dPotAnchorSettings[ which_dpot_index ] += step_per_dPot_change;
+//            if( ( ( step_per_dPot_change > 0 ) && ( dPotAnchorSettings[ which_dpot_index ] > end_dPot_setting ) ) || ( ( step_per_dPot_change < 0 ) && ( dPotAnchorSettings[ which_dpot_index ] < end_dPot_setting ) ) ) 
+/*                { dPotAnchorSettings[ which_dpot_index ] = start_dPot_setting; which_dpot_index++; if( which_dpot_index > end_dPot_index ) 
+                    which_dpot_index = start_dPot_index; 
+                    dPotAnchorSettings[ which_dpot_index ] = start_dPot_setting; } */
         }
-}
 #endif
 
 /******************************************************************************
@@ -3475,7 +3649,7 @@ Lower Limit: Either leg’s MSB and LSB both reach 0
 
 
 
-If the entire dPotPins[] and dPotSettings[] did NOT get filled, or some DPots 
+If the entire dPotPins[] and dPotAnchorSettings[] did NOT get filled, or some DPots 
 aren't being used as in a test so need to be set to zero, insert code here either
 to fill out the arrays and/or set the unused DPots to desired settings:*/
 //        writeSettingToAsingleDPot( DPotPin, setting, THIS_IS_OVERT_PIN_NUMBER_INSTEAD_OF_INDEX );
