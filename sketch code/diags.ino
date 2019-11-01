@@ -2916,8 +2916,9 @@ void setup()
     {
         while ( !Serial ); // wait for serial port to connect. Needed for Leonardo's native USB
         Serial.println();
+        Serial.print( "<" );
         Serial.print( tattoo );
-        Serial.println( F( ", no tattoo" ) ); 
+        Serial.println( F( ">, no tattoo" ) ); 
         Serial.println( F( "no tattoo, this Arduino has not been configured for this sketch" ) ); 
 /*        
  *         add code here to handle first time initialize of EEPROM
@@ -3345,8 +3346,8 @@ Index=<3> pin=<69> NON_LSB_DPOT_1_B0REF_PIN */
         end_dPot_index = 3; //BELOW: START AT 170, GOES DOWN TO 0 TO MATCH ONE STEP DOWN FROM 0, 217 TO 256, 216 (VICE VERSA) 
     }
     else
-    {
-//        VRsandbox[ VR1-4 ] 
+    { ;
+/*        VRsandbox[ VR1-4 ] 
         start_dPot_index = 3;
         end_dPot_index = 3; //BELOW: START AT 170, GOES DOWN TO 0 TO MATCH ONE STEP DOWN FROM 0, 217 TO 256, 216 (VICE VERSA) 
         dPotAnchorSettings[ COUNTER_BALANCING_SOLVENT + LSB ] = 15; //inverting LSB (higher means lower volts)  reduced effect dPot  //256 NO FLEX [0]inverting LSB (higher means lower volts)   pin 72, affects COUNTER_BALANCING_SOLVENT   256 to test for presence of DUT
@@ -3359,7 +3360,7 @@ Index=<3> pin=<69> NON_LSB_DPOT_1_B0REF_PIN */
 //        uint16_t end_dPot_setting = 207;  //229 NO FLEX [3]non-inverting (higher means higher volts), affects SOLVENT
         
         int8_t step_per_dPot_change = 1; //ABOVE SETTINGS GIVE ALMOST CENTERED A0.  IT'S A LITTLE LOW. BUT COULD BE ABOUT 300
-        uint8_t which_dpot_index = start_dPot_index;
+        uint8_t which_dpot_index = start_dPot_index; */
 /*#ifndef __LGT8FX8E__
            EEPROM.update( fan_mode_address, fan_mode ); //high; low = 'a'
 #else
@@ -3484,22 +3485,70 @@ ACT_ON_VRS:
 //                    dPotSettings[ SOLVENT + MSB ] = min( max( dPotAnchorSettings[ SOLVENT + MSB ] /*+ remainder*/, 256 ), 0 );
 //                    dPotSettings[ SOLVENT + LSB ] = min( max( dPotAnchorSettings[ SOLVENT + LSB ] /*+ remainder*/, 256 ), 0 );
 //                }
-
+                VRsandbox[ VR1_A2 ] = analogRead( A0 );  //We are going to decide if we neeed to reference (so save) the previous reading.  We also need to decide whether to carry or borrow to keep an in-band signal in its band.
+                VRsandbox[ VR3_A6 ] = analogRead( A6 ); //update them
+                VRsandbox[ VR4_A7 ] = analogRead( A7 ); //update them
+                if( ( VRsandbox[ VR1_A2 > 700 ] ) || ( VRsandbox[ VR1_A2 ] < 180 ) ) //if outside these boundaries, be abrupt when user is cranking on VR3_A6 or VR4_A7
+                {//outside the band
+//Here comparing with below sure looks like we are mixing LSB/MSB 
+//#error The problem is hardware hysteresis!  Likely due to guard ring leakage into guarded traces somewhere.
+                    if( ( ( VRsandbox[ VR3_A6 ] == 1023 ) && ( dPotSettings[ SOLVENT + MSB ] != 256 ) ) || ( ( VRsandbox[ VR3_A6 ] != 1023 ) && ( dPotSettings[ SOLVENT + MSB ] != VRsandbox[ VR3_A6 ] / 4 ) ) )
+                    {
+                        dPotSettings[ SOLVENT + MSB ] = VRsandbox[ VR3_A6 ] / 4;//min( max( dPotAnchorSettings[ SOLVENT + MSB ] + ( VRsandbox[ VR3_A6 ] / 256 ), 0 ), 256 );
+                        if( VRsandbox[ VR3_A6 ] == 1023 ) dPotSettings[ SOLVENT + MSB ]++;
+                        writeSettingToAsingleDPot( SOLVENT + MSB, dPotSettings[ SOLVENT + MSB ] );  //dPot3 //non-inverting , affects U5
+                        Serial.print( F( " wrote <" ) );
+                        Serial.print( dPotSettings[ SOLVENT + MSB ] );
+                        Serial.print( F( "> to SOLVENT + MSB dPot " ) );
+                    }
+    
+                    if( ( ( VRsandbox[ VR4_A7 ] == 1023 ) && ( dPotSettings[ SOLVENT + MSB ] != 256 ) ) || ( ( VRsandbox[ VR4_A7 ] != 1023 ) && ( dPotSettings[ SOLVENT + MSB ] != VRsandbox[ VR4_A7 ] / 4 ) ) )
+                    {
+                        dPotSettings[ COUNTER_BALANCING_SOLVENT + MSB ] = VRsandbox[ VR4_A7 ] / 4;//min( max( dPotAnchorSettings[ COUNTER_BALANCING_SOLVENT + MSB ] - ( VRsandbox[ VR3_A6 ] / 256 ), 0 ), 256 );
+                        if( VRsandbox[ VR4_A7 ] == 1023 ) dPotSettings[ COUNTER_BALANCING_SOLVENT + MSB ]++;
+                        writeSettingToAsingleDPot( COUNTER_BALANCING_SOLVENT + MSB, dPotSettings[ COUNTER_BALANCING_SOLVENT + MSB ] ); //dPot1  //inverting  MSB, affects U6 needs to be dPot what? used to be 1
+                        Serial.print( F( " wrote <" ) );
+                        Serial.print( dPotSettings[ COUNTER_BALANCING_SOLVENT + MSB ] );
+                        Serial.print( F( "> to COUNTER_BALANCING_SOLVENT + MSB dPot " ) );
+        //                Serial.print( COUNTER_BALANCING_SOLVENT + MSB ); //needs to be dPot 1
+    
+                    }
+                }
+                else
+                {// be less abrupt, notice the offset of 2 before changing
+//Here comparing with below sure looks like we are mixing LSB/MSB 
+//#error The problem is hardware hysteresis!  Likely due to guard ring leakage into guarded traces somewhere.
+                    if( ( ( VRsandbox[ VR3_A6 ] == 1023 ) && ( dPotSettings[ SOLVENT + MSB ] != 256 ) ) || ( ( VRsandbox[ VR3_A6 ] != 1023 ) && ( dPotSettings[ SOLVENT + MSB ] != VRsandbox[ VR3_A6 ] / 4 ) ) )
+                    { //only change if two clicks are needed
+                        dPotSettings[ SOLVENT + MSB ] = ( dPotSettings[ SOLVENT + MSB ] > ( VRsandbox[ VR3_A6 ] / 4 ) ) ? \
+                        ( ( dPotSettings[ SOLVENT + MSB ] > ( ( VRsandbox[ VR3_A6 ] / 4 ) + 2 ) ) ? ( VRsandbox[ VR3_A6 ] / 4 ) : dPotSettings[ SOLVENT + MSB ] ) : \
+                        ( ( ( dPotSettings[ SOLVENT + MSB ] + 2 ) < ( VRsandbox[ VR3_A6 ] / 4 ) ) ? ( VRsandbox[ VR3_A6 ] / 4 ) : dPotSettings[ SOLVENT + MSB ] );//min( max( dPotAnchorSettings[ SOLVENT + MSB ] + ( VRsandbox[ VR3_A6 ] / 256 ), 0 ), 256 );
+                        if( VRsandbox[ VR3_A6 ] == 1023 ) dPotSettings[ SOLVENT + MSB ]++;
+                        writeSettingToAsingleDPot( SOLVENT + MSB, dPotSettings[ SOLVENT + MSB ] );  //dPot3 //non-inverting , affects U5
+                        Serial.print( F( " wrote <" ) );
+                        Serial.print( dPotSettings[ SOLVENT + MSB ] );
+                        Serial.print( F( "> to SOLVENT + MSB dPot " ) );
+                    }
+    
+                    if( ( ( VRsandbox[ VR4_A7 ] == 1023 ) && ( dPotSettings[ SOLVENT + MSB ] != 256 ) ) || ( ( VRsandbox[ VR4_A7 ] != 1023 ) && ( dPotSettings[ SOLVENT + MSB ] != VRsandbox[ VR4_A7 ] / 4 ) ) )
+                    {
+                        dPotSettings[ COUNTER_BALANCING_SOLVENT + MSB ] = ( dPotSettings[ COUNTER_BALANCING_SOLVENT + MSB ] > ( VRsandbox[ VR4_A7 ] / 4 ) ) ? \
+                        ( ( dPotSettings[ COUNTER_BALANCING_SOLVENT + MSB ] > ( ( VRsandbox[ VR4_A7 ] / 4 ) + 2 ) ) ? ( VRsandbox[ VR4_A7 ] / 4 ) : dPotSettings[ COUNTER_BALANCING_SOLVENT + MSB ] ) : \
+                        ( ( ( dPotSettings[ COUNTER_BALANCING_SOLVENT + MSB ] + 2 ) < ( VRsandbox[ VR4_A7 ] / 4 ) ) ? ( VRsandbox[ VR4_A7 ] / 4 ) : dPotSettings[ COUNTER_BALANCING_SOLVENT + MSB ] );
+                        if( VRsandbox[ VR4_A7 ] == 1023 ) dPotSettings[ COUNTER_BALANCING_SOLVENT + MSB ]++;
+                        writeSettingToAsingleDPot( COUNTER_BALANCING_SOLVENT + MSB, dPotSettings[ COUNTER_BALANCING_SOLVENT + MSB ] ); //dPot1  //inverting  MSB, affects U6 needs to be dPot what? used to be 1
+                        Serial.print( F( " wrote <" ) );
+                        Serial.print( dPotSettings[ COUNTER_BALANCING_SOLVENT + MSB ] );
+                        Serial.print( F( "> to COUNTER_BALANCING_SOLVENT + MSB dPot " ) );
+        //                Serial.print( COUNTER_BALANCING_SOLVENT + MSB ); //needs to be dPot 1
+    
+                    }
+                    
+                }
 
                 VRsandbox[ VR1_A2 ] = analogRead( A2 );
                 VRsandbox[ VR2_A3 ] = analogRead( A3 );
-                VRsandbox[ VR3_A6 ] = analogRead( A6 );
-                VRsandbox[ VR4_A7 ] = analogRead( A7 );
-                if( ( ( VRsandbox[ VR3_A6 ] == 1023 ) && ( dPotSettings[ SOLVENT + MSB ] != 256 ) ) || ( ( VRsandbox[ VR3_A6 ] != 1023 ) && ( dPotSettings[ SOLVENT + MSB ] != VRsandbox[ VR3_A6 ] / 4 ) ) )
-                {
-                    dPotSettings[ SOLVENT + MSB ] = VRsandbox[ VR3_A6 ] / 4;//min( max( dPotAnchorSettings[ SOLVENT + MSB ] + ( VRsandbox[ VR3_A6 ] / 256 ), 0 ), 256 );
-                    if( VRsandbox[ VR3_A6 ] == 1023 ) dPotSettings[ SOLVENT + MSB ]++;
-                    writeSettingToAsingleDPot( SOLVENT + MSB, dPotSettings[ SOLVENT + MSB ] );  //dPot3 //non-inverting , affects U5
-                    Serial.print( F( " wrote <" ) );
-                    Serial.print( dPotSettings[ SOLVENT + MSB ] );
-                    Serial.print( F( "> to SOLVENT + MSB dPot " ) );
-                }
-                if( ( ( VRsandbox[ VR1_A2 ] == 1023 ) && ( dPotSettings[ SOLVENT + MSB ] != 256 ) ) || ( ( VRsandbox[ VR1_A2 ] != 1023 ) && ( dPotSettings[ SOLVENT + MSB ] != VRsandbox[ VR1_A2 ] / 4 ) ) )
+                if( ( ( VRsandbox[ VR1_A2 ] == 1023 ) && ( dPotSettings[ SOLVENT + LSB ] != 256 ) ) || ( ( VRsandbox[ VR1_A2 ] != 1023 ) && ( dPotSettings[ SOLVENT + LSB ] != VRsandbox[ VR1_A2 ] / 4 ) ) )
                 {
                     dPotSettings[ SOLVENT + LSB ] = VRsandbox[ VR1_A2 ] / 4;//min( max( dPotAnchorSettings[ SOLVENT + LSB ] + ( VRsandbox[ VR3_A6 ] % 256 ), 0 ), 256 );
                     if( VRsandbox[ VR1_A2 ] == 1023 ) dPotSettings[ SOLVENT + LSB ]++;
@@ -3510,18 +3559,7 @@ ACT_ON_VRS:
 //                Serial.print( SOLVENT + LSB ); //used to be dPot 2
 
                 }
-                if( ( ( VRsandbox[ VR4_A7 ] == 1023 ) && ( dPotSettings[ SOLVENT + MSB ] != 256 ) ) || ( ( VRsandbox[ VR4_A7 ] != 1023 ) && ( dPotSettings[ SOLVENT + MSB ] != VRsandbox[ VR4_A7 ] / 4 ) ) )
-                {
-                    dPotSettings[ COUNTER_BALANCING_SOLVENT + MSB ] = VRsandbox[ VR4_A7 ] / 4;//min( max( dPotAnchorSettings[ COUNTER_BALANCING_SOLVENT + MSB ] - ( VRsandbox[ VR3_A6 ] / 256 ), 0 ), 256 );
-                    if( VRsandbox[ VR4_A7 ] == 1023 ) dPotSettings[ COUNTER_BALANCING_SOLVENT + MSB ]++;
-                    writeSettingToAsingleDPot( COUNTER_BALANCING_SOLVENT + MSB, dPotSettings[ COUNTER_BALANCING_SOLVENT + MSB ] ); //dPot1  //inverting  MSB, affects U6 needs to be dPot what? used to be 1
-                    Serial.print( F( " wrote <" ) );
-                    Serial.print( dPotSettings[ COUNTER_BALANCING_SOLVENT + MSB ] );
-                    Serial.print( F( "> to COUNTER_BALANCING_SOLVENT + MSB dPot " ) );
-    //                Serial.print( COUNTER_BALANCING_SOLVENT + MSB ); //needs to be dPot 1
-
-                }
-                if( ( ( VRsandbox[ VR2_A3 ] == 1023 ) && ( dPotSettings[ SOLVENT + MSB ] != 256 ) ) || ( ( VRsandbox[ VR2_A3 ] != 1023 ) && ( dPotSettings[ SOLVENT + MSB ] != VRsandbox[ VR2_A3 ] / 4 ) ) )
+                if( ( ( VRsandbox[ VR2_A3 ] == 1023 ) && ( dPotSettings[ COUNTER_BALANCING_SOLVENT + LSB ] != 256 ) ) || ( ( VRsandbox[ VR2_A3 ] != 1023 ) && ( dPotSettings[ COUNTER_BALANCING_SOLVENT + LSB ] != VRsandbox[ VR2_A3 ] / 4 ) ) )
                 {
                     dPotSettings[ COUNTER_BALANCING_SOLVENT + LSB ] = VRsandbox[ VR2_A3 ] / 4;//min( max( dPotAnchorSettings[ COUNTER_BALANCING_SOLVENT + LSB ] - ( VRsandbox[ VR2_A3 ] % 256 ), 0 ), 256 );
                     if( VRsandbox[ VR2_A3 ] == 1023 ) dPotSettings[ COUNTER_BALANCING_SOLVENT + LSB ]++;
@@ -3558,10 +3596,10 @@ ACT_ON_VRS:
                     Serial.print( 0 );
                     Serial.print( F( " analogRead(A0)= " ) );
                     Serial.print( analogRead( A0 ) );  //IF GREATER THAN 307 OR LESS THAN 305 ADJUST DPOTS TO BRING IT BACK
-
-                    if( analogRead( A0 ) > 307 ) if( ( dPotAnchorSettings[ COUNTER_BALANCING_SOLVENT + LSB ] ) == 256 ) runTimeOffsetLSB = -1;
-                    else if( analogRead( A0 ) < 305 ) runTimeOffsetLSB = 1;
-                    else goto ANALOG0_READING_FINE;
+/*
+                    if( analogRead( A0 ) > 607 ) if( ( dPotAnchorSettings[ COUNTER_BALANCING_SOLVENT + LSB ] ) == 256 ) runTimeOffsetLSB = -1;
+                    else if( analogRead( A0 ) < 205 ) runTimeOffsetLSB = 1;
+                    else goto ANALOG0_READING_FINE; */
 //                    dPotAnchorSettings[ COUNTER_BALANCING_SOLVENT + LSB ] = min( max( dPotAnchorSettings[ COUNTER_BALANCING_SOLVENT + LSB ] - ( VRsandbox[ VR3_A6 ] % 256 ), 0 ), 256 );
 //                    writeSettingToAsingleDPot( COUNTER_BALANCING_SOLVENT + LSB, dPotSettings[ COUNTER_BALANCING_SOLVENT + LSB ] ); //dPot0
 ANALOG0_READING_FINE:
