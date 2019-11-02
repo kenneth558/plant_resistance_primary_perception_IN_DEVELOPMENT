@@ -6,6 +6,7 @@
 
 <dl><dt>01 Nov 2019</dt></dl>I have gotten the manual tuning aspect of the sketch to function.  I envision a better method of tuning, but that path of programming eludes me for the time being.  The type of tuning that I hope to one day program into the sketch would treat the LM334 pair in opposing adjustment as one function block (entitled "DC level" or "DUT impedance balance") while that same LM334 pair working in in tandem adjustment as a different function block (entitled "dilution ratio").  That scheme in contrast to the easy-to-program manual tuning I'm resigned to run with for now.  The manual tuning is at level 4 of Diagnostics rather than being built into the main aspect of the sketch.  That is what I'll use to prove concept during tours so I can just get going and make this project known by demonstration.  Tested at 5 VDC only for right now.
 
+
 Engaged the DUT and the graph won't keep the trace inside the boundaries for me.  From the looks of it, the circuit gain is too high.  At least, that is my first suspicion.  If that is the case, I will have to modify the circuit.  Current signal circuits are very unusual, and their troubleshooting methodologies are different than those of normal circuitry. You can't just put a scope or meter on a node to see if operation is within normal limits.  I may have to develop circuit modifications purely for troubleshooting.
 
 I need to take a break right now.  I'll get back to things later today.
