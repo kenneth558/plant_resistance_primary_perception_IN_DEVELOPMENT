@@ -1,5 +1,5 @@
 EESchema Schematic File Version 4
-LIBS:uno shield v.8 project SMD-cache
+LIBS:uno shield v1.0 project SMD-cache
 EELAYER 30 0
 EELAYER END
 $Descr A4 11693 8268
