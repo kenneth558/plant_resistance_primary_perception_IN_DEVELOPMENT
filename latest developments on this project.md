@@ -2,7 +2,9 @@
 
 [Version 1.0 PCB available for sale at OSH Park](https://oshpark.com/shared_projects/7ypVSEYK) and you will need to also order [the expansion flex board](https://oshpark.com/shared_projects/xzXltQcl).  As of Oct 9, 2019 this revision level has been found to function as designed, but can benefit greatly from some metal foil wrapped around the flex board to better shield noise out.  Of course, insulate both the flex board and metal foil with Kapton tape to prevent electrical shorts.
 
-![A 3D rendering of a populated board was supposed to show here](https://github.com/kenneth558/plant_resistance_primary_perception/blob/Free/Where%20to%20find%20everything%20for%20making%20your%20own%20GWAAMC%20device/front_straight-on_SHLD1_see-through_with_notes.png) Note: In your favor, I take no money from you when you order bare boards from any PCB fab house.  That way the build costs for the DIYer stays as low as possible.
+![A 3D rendering of a populated board was supposed to show here](https://github.com/kenneth558/plant_resistance_primary_perception/blob/Free/Where%20to%20find%20everything%20for%20making%20your%20own%20GWAAMC%20device/front_straight-on_SHLD1_see-through_with_notes.png) Note: In your favor, I take no money from you when you order bare boards from any PCB fab house.  That way the DIY costs stay as low as possible.
+
+<dl><dt>09 Nov 2019</dt></dl>Removing (shorting across pins 1 and 2) Q1 and Q2 seem to alleviate the oscillations.  The flip side of doing that is less gain can be gotten in the third stage and that the guard ring trace for U5 is slightly imperfect.  Neither issue is important enough to undermine my belief in the product.  Full testing resumes now.
 
 <dl><dt>08 Nov 2019</dt></dl>A better look at the oscillations produces evidence that they are produced by the 3rd stage high impedance creating a type of relaxation oscillation in the presence of any solute/DUT current at all.  Will work more on cleaning and inspecting the main board, especially since I've left a bit of solder flux on the board, and studying the design and datasheets.
 
