@@ -4,6 +4,8 @@
 
 ![A 3D rendering of a populated board was supposed to show here](https://github.com/kenneth558/plant_resistance_primary_perception/blob/Free/Where%20to%20find%20everything%20for%20making%20your%20own%20GWAAMC%20device/front_straight-on_SHLD1_see-through_with_notes.png) Note: In your favor, I take no money from you when you order bare boards from any PCB fab house.  That way the DIY costs stay as low as possible.
 
+<dl><dt>14 Nov 2019</dt></dl>I'm seeing a low level of undesireable positive feedback so as to make the analog output a little unstable right around mid-point between rails at A0.  It might be the effect of AD8244 bias current, but whatever the source, I'm intent to identify it and compensate.
+
 <dl><dt>09 Nov 2019</dt></dl>Removing (shorting across pins 1 and 2) Q1 and Q2 seems to alleviate the oscillations.  The flip side of doing that is twofold - less gain can be gotten in the third stage and the voltage on the guard ring trace for U5 is slightly imperfect.  (Shorting across Q1 is probably overkill, and I may experiment with undoing that or using one of the other JFETs with higher pinch-off voltage for Q1 and even Q2.)  Neither issue is important enough to get wrapped around the axle over.  Full testing resumes now.
 
 <dl><dt>08 Nov 2019</dt></dl>A better look at the oscillations produces evidence that they are produced by the 3rd stage high impedance creating a type of relaxation oscillation in the presence of any solute/DUT current at all.  Will work more on cleaning and inspecting the main board, especially since I've left a bit of solder flux on the board, and studying the design and datasheets.
