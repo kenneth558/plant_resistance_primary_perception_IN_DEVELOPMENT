@@ -1,2 +1,3 @@
 As of 20 Nov 2019, the PCB is out of date because the AD8244 has proven it has too much crossover distortion, and there seems to be no drop-in replacement that will fix it.  I am trying new parts such as ADA4505, LMC6035/6, 
 LMC662, etc.  Give me yet another month.  Note that I always expect the one issue I am working on to be the last one needing fixing, and so is the case once again.
+
