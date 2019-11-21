@@ -1,6 +1,6 @@
 <p align=center>Do you have an idea for features?  Now is a great time for all interested parties to ask me about including capabilities you think would make this project as valuable as it can be.  Just submit an "Issue" (see the tab above) describing the device feature that would interest you.  Thank you!</p>
 
-<dl><dt>21 Nov 2019</dt></dl>My LMC662 came yesterday.  Other op amp types that I can compare with will arrive today.  The LMC662 has better noise and input bias current characteristics than the other ones I've ordered, but it doesn't work at 3.3 VDC.
+<dl><dt>21 Nov 2019</dt></dl>My LMC662 came yesterday.  Other op amp types that I can compare with will arrive today.  The LMC662 has better noise and input bias current characteristics than the other ones I've ordered, but it doesn't work at 3.3 VDC.  We'll see if the noise characteristics are acceptable.  I figure by the time I'm done, the AD8692 will win out.
 
 <dl><dt>18 Nov 2019</dt></dl>To avoid the input bias current caused "crossover distortion", as it seems to be called, I'll have to re-design stage 3 without the rail-to-rail input (RRI) AD8244 and use a non-RRI op-amp instead.  That takes the expected project completion date into December.  Sorry.  (Anyone know of a non-RRI quad unity gain buffer so I don't have to deal with more pins that go along with the op-amp solution?).  Until I change my mind, I'll be changing the design to use an LMC6036 and remove the AD8244 altogether.
 
