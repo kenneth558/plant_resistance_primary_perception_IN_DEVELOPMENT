@@ -10,3 +10,5 @@ Similarly and for the same reason, avoid any weaving at all alongside even a sho
 This rule philosophy replaces the notion of having vertical traces on one side of the board and horizontal traces on the opposite board side.  The added advantage is that it allows for better filling of zones (planes).
 
 2.  During weaving of multiple adjacent traces, maintain synchronous stitching so cross-directional traces don't get blocked.
+
+3.  Weaving may not be feasible under shields for sensitive runs because the traces would then be leaving protection of the shield for every other stitch and/or compromising the continuity/integrity of the ground plane.
