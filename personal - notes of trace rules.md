@@ -7,6 +7,6 @@ Any scenario where other yet-to-be-laid-down runs might need to cross current ru
 The aforementioned scenario does not and cannot exist along board edges and along the sides of shields and pads of other components where those pads are of longer lengths.  Do NOT weave traces running past and alongside those pads - keep the new traces on one board side or the other for that distance so that the other side of board is totally free to be used for an exact replica (you can't place any vias along these traces without making the other board side non-viable for passing traces, so avoid placing vias alongside the aforementioned edges and extended length pads).  
 Similarly and for the same reason, avoid any weaving at all alongside even a short pad while circumventing that pad.
 
-This rule philosophy replaces the notion of having vertical traces on one side of the board and horizontal traces on the opposite board side.  This will also allow better filling of zones (planes).
+This rule philosophy replaces the notion of having vertical traces on one side of the board and horizontal traces on the opposite board side.  The added advantage is that it allows for better filling of zones (planes).
 
 2.
