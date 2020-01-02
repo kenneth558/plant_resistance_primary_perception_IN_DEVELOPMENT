@@ -11,4 +11,4 @@ This rule philosophy replaces the notion of having vertical traces on one side o
 
 2.  During weaving of multiple adjacent traces, maintain synchronous stitching so cross-directional traces don't get blocked.
 
-3.  Weaving may not be feasible under shields for sensitive runs because the traces would then be leaving protection of the shield for every other stitch and/or compromising the continuity/integrity of the ground plane.
+3.  Weaving may not be feasible under shields for sensitive runs or maybe even at all because the traces would then be leaving protection of the shield for every other stitch and/or compromising the continuity/integrity of the ground plane.
