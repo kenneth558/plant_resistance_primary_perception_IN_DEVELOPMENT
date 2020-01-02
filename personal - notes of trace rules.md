@@ -1,6 +1,6 @@
- - When laying out the PCB - 
+When laying out the PCB - 
 
-(This rule philosophy replaces the notion of having vertical traces on one side of the board and horizontal traces on the opposite board side.  The added advantage is that it allows for better filling of zones [planes].)
+ - This rule philosophy replaces the notion of having vertical traces on one side of the board and horizontal traces on the opposite board side.  The added advantage is that it allows for better filling of zones [planes].
 
 
 
