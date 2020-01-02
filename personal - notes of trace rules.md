@@ -12,3 +12,5 @@ Similarly and for the same reason, avoid any weaving at all alongside even a sho
 2.  During weaving of multiple adjacent traces, maintain synchronous stitching so cross-directional traces don't get blocked.
 
 3.  Weaving may not be feasible under shields for sensitive runs or maybe even at all because the traces would then be leaving protection of the shield for every other stitch and/or compromising the continuity/integrity of the ground plane.
+
+ - Under shields that are used or can be used in any sense for hermetic sealing, try to place all vias within pads so that they get solder-sealed when components are placed.
