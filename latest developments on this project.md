@@ -1,9 +1,7 @@
 <p align=center>Do you have an idea for features?  Now is a great time for all interested parties to ask me about including capabilities you think would make this project as valuable as it can be.  Just submit an "Issue" (see the tab above) describing the device feature that would interest you.  Thank you!</p>
 
 <dl><dt>18 Jan 2020</dt></dl>Just finished fitting all copper traces onto the main PCB.  I did have to move the HX711 ADC off to the side onto a break-off tab due to lack of room.  I am now widening selected traces (Vcc and GND for example) and laying down the non-copper layers.
-
-
-I am also having to redesign the auxiliary board that holds 25 MCP4262-502E/UN dPots.  This aux board now has to fit underneath a shield with different dimensions than before.  The good part is that I've already designed the pattern for that aux board, so seeing the aux board through from this point will be trivial.
+<dl><dt> </dt></dl>I am also having to redesign the auxiliary board that holds 25 MCP4262-502E/UN dPots.  This aux board now has to fit underneath a shield with different dimensions than before.  The good part is that I've already designed the pattern for that aux board, so seeing the aux board through from this point will be trivial.
 
 <dl><dt>26 Dec 2019</dt></dl>I've been pulled away from this project by other assignments, but the larger issue that has me entangled is that I'm re-designing the main circuit board from ground zero to accommodate the fact that there was no drop-in replacement for the AD8244 that offered zero crossover distortion.  I would say two more months before I can finish the design, then another 4-5 weeks for PCBs of that design to arrive, then a week to build one up.  Fourteen weeks until the latest design is working.  April-ish.
 
