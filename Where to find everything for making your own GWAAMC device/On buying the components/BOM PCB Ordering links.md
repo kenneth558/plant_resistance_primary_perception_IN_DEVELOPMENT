@@ -1,4 +1,4 @@
-### PCB Gerber files - you'll need BOTH baords
+### PCB Gerber files - you'll need BOTH boards
 ##### Here is a link to the main board gerber files of my PCB design: 
 https://github.com/kenneth558/plant_resistance_primary_perception/blob/Free/Where%20to%20find%20everything%20for%20making%20your%20own%20GWAAMC%20device/Files%20you%20need%20relative%20to%20the%20printed%20circuit%20board/v1.0/uno%20shield%20v1.0%20PCB%20gerbers.zip.  
 
