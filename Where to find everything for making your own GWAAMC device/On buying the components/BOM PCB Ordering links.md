@@ -1,5 +1,10 @@
 ### PCB Gerber files
-##### Here is a link to the gerber files of my PCB design: https://github.com/kenneth558/plant_resistance_primary_perception/blob/Free/Where%20to%20find%20everything%20for%20making%20your%20own%20GWAAMC%20device/Files%20you%20need%20relative%20to%20the%20printed%20circuit%20board/uno%20shield%20v.6%20PCB%20gerbers.zip.  I suggest NOT getting the tinned option simply because the crowned traces you'll have from it will make it seriously more difficult for you to place the MSOP10 packages.  However, I recently added place-assist hole to the PCB to mitigate that.  I really like the gold plating that OSH Park uses for its flat surface, since you'll normally want something other than bare copper so it won't oxidize and prevent solder adhesion.
+##### Here is a link to the main board gerber files of my PCB design: 
+https://github.com/kenneth558/plant_resistance_primary_perception/blob/Free/Where%20to%20find%20everything%20for%20making%20your%20own%20GWAAMC%20device/Files%20you%20need%20relative%20to%20the%20printed%20circuit%20board/Rev%208%20in%20progress/uno%20shield%20v1.0%20PCB%20gerbers.zip.  
+
+The auxiliary board gerber files are here:
+https://github.com/kenneth558/plant_resistance_primary_perception/blob/Free/Where%20to%20find%20everything%20for%20making%20your%20own%20GWAAMC%20device/Files%20you%20need%20relative%20to%20the%20printed%20circuit%20board/Rev%208%20in%20progress/Quantum%20MCP4262-502%2025x%20expansion%20for%20GWAAM-Sea%20Aid.zip
+
 
 ### PCB Comparison sites
 ##### Printed circuit boards can be ordered from any one of a multitude of fabricators.  Compare between fabricators by visiting one or more of the fabricator comparison sites like https://www.pcbdirectory.com/get-quotations or https://pcbshopper.com or read the fabricator site collection list at https://www.eevblog.com/wiki/index.php?title=PCB_Manufacturers or search "online pcb quote".
