@@ -15,7 +15,8 @@ https://oshpark.com/shared_projects/psX7yYEk
 ##### Printed circuit boards can be ordered from any one of a multitude of fabricators.  Compare between fabricators by visiting one or more of the fabricator comparison sites like https://www.pcbdirectory.com/get-quotations or https://pcbshopper.com or read the fabricator site collection list at https://www.eevblog.com/wiki/index.php?title=PCB_Manufacturers or search "online pcb quote".
 
 I would encourage you to order RoHS (environmental friendly) wherever you're given that option, paying a very slight extra to do so.  Especially if you appreciate me making these plans freely available and so plan to send me your excess.
-### BOM https://github.com/kenneth558/plant_resistance_primary_perception/blob/Free/Where%20to%20find%20everything%20for%20making%20your%20own%20GWAAMC%20device/On%20buying%20the%20components/ibom.html.  Sorry for the inconvenience about how this file is viewed - it cannot simply be clicked on.  It must be offloaded from GitHub because Github doesn't serve it to your computer as a simple web page.
+### BOM:
+https://github.com/kenneth558/plant_resistance_primary_perception/blob/Free/Where%20to%20find%20everything%20for%20making%20your%20own%20GWAAMC%20device/On%20buying%20the%20components/ibom.html.  Sorry for the inconvenience about how this file is viewed - it cannot simply be clicked on.  It must be offloaded from GitHub because Github doesn't serve it to your computer as a simple web page.
 
 RELIABILITY NOTE:
 OUR MANY YEARS OF EXPERIENCE DATA ACCUMULATION INDICATE
