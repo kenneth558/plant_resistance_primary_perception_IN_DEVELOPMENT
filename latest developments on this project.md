@@ -1,5 +1,7 @@
 <p align=center>Do you have an idea for features?  Now is a great time for all interested parties to ask me about including capabilities you think would make this project as valuable as it can be.  Just submit an "Issue" (see the tab above) describing the device feature that would interest you.  Thank you!</p>
 
+<dl><dt>18 Feb 2020</dt></dl>I've received the newest PCBs and have begun assembling.  First step is to double tin the boards to remove the gold plating.  Then begin placing components later today, hopefully.
+
 <dl><dt>11 Feb 2020</dt></dl>Had to cancel the previous expansion board order for better hole alignment.  Now completed and new orders of both boards are being processed.  Expected delivery is by 18 Feb 2020
 
 <dl><dt>24 Jan 2020</dt></dl>Received notice that my shipment of 3 main boards will arrive Monday (today is Friday).  I'll be able to begin placing those components then, but in the meantime I need to finish design of the flex circuit and get 3 of those on order.
