@@ -1,6 +1,6 @@
 <p align=center>Do you have an idea for features?  Now is a great time for all interested parties to ask me about including capabilities you think would make this project as valuable as it can be.  Just submit an "Issue" (see the tab above) describing the device feature that would interest you.  rdetiger asks for compatibility with Adafruit μCs. I think that is a great direction for me to look into. My best guess is that the Adafruit Metro 328 will run this code and accept this board without any trouble.  Thank you!</p>
 
-<dl><dt>19 Feb 2020</dt></dl>I've received the newest PCBs and found numerous shorted traces.  I won't know the causes until I track down all the shorts.  It will either be design flaws or manufacturing flaws that must be addressed by design changes.  This could take a few days.  The shorts between the boards do not match each other, so that indicates a manufacturing proximity rule violation on my part.
+<dl><dt>19 Feb 2020</dt></dl>I've received the newest PCBs and found numerous shorted traces from manufacturing limits having been violated.  I will have to increase inter-trace clearances throughout both boards.  Entirely new design work from scratch seems to be the prescription.  I'll make sure the best I can that the problems are indeed widespread instead of isolated before I re-design both boards from scratch.
 
 <dl><dt>11 Feb 2020</dt></dl>Had to cancel the previous expansion board order for better hole alignment.  Now completed and new orders of both boards are being processed.  Expected delivery is by 18 Feb 2020
 
