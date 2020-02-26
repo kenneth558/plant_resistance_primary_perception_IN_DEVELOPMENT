@@ -1,16 +1,3 @@
- ### DO NOT OPEN U4 (REF200) PACKAGING UNTIL YOU ARE READY TO SOLDER IT IN PLACE AND SOLDER-SEAL SHLD1 IN PLACE WITH DISSICANT AS A SINGLE STEP!  That IC is a high precision component that is designed to give you highest performance when always kept in a very low humidity environment.  (This is also why SHLD1 and all the micro-vias under it should be solder-sealed into hermetically sealed containment.)  If you open that package too soon, here are the instructions to remedy: 
- 1. Calculated shelf life in sealed bag: 12 months at <40°C and <90% RH from bag seal date.
- 2. Peak component body temperature for soldering: 260°C(500°F)
- 3. After bag is opened, devices that will be subjected to reflow solder or other high temperature process must be 
-   a) Mounted within 168 hrs of factory conditions of <30C/60% RH, or
-   b) Stored per J-STD-033
- 4. Devices require bake before mounting if:
-   a) Humidity indicator card reads >10%
-   b) When 3a or 3b are not met
- 5. If baking is required, refer to IPC/JEDEC J-STD-033 (Level 3 MSL components, 1.75mm thickness, 260°C peak body temp) for the prescribed bake procedure.
-
-#### The dessicant package you receive with U4 and which you won't be able to see until the moment you need to place it will likely be too large to place inside SHLD1 where it eventually needs be placed.  You will be wise, therefore, to keep your eyes open for a smaller dissicant package that you can repurpose from some other product that will fit inside the SHLD1 lid.  Bake it for most of a day in an electric oven at a temperature near the boiling point of water, then keep it dry (hermetically sealed) until you go to place it.
-
 THIS PROJECT IS VERY DIFFICULT TO BUILD.  If you think you can do it without using loupes and possibly a microscope, I'll bet against your success.  The loupes will be needed when you need true color and highest resolution to differentiate between metallic and non-metallic specks, when and if you can provide the lighting and short focal distance they need.  The microscope would be useful when you need an adjustable focal range and can tolerate the lack of vendor honesty about the resolution and operating system compatibility from the manufacturer, and inability to adjust color and lighting settings adequately.  If you can find in your heart to get a microscope, you'll be able to put it to good use later to visually magnify growth of the plant at the ends of branches as yet another means of real-time feedback.  If I could have designed the circuit to employ components packaged in more manageable sized packaged, believe me, I would have done so.  Between U2, U3, and one or the other MCP4262, there is no getting around using the microscopic packages that the component manufacturers decided upon, so the remainder of the packages might as well follow suit, IMHO.
 
 I can't envision anyone successfully building this circuit board who doesn't know what a short and open is and who doesn't know why and how to both visual and meter for them, and meter for voltage and resistance.  Please don't embark on building this yourself without at least that level of knowledge.
@@ -27,6 +14,19 @@ NEW! Found this solder type mentioned that may obsolete the above paragraph:
 "SAC305 is pretty much the best thing since the invention of the banana, and will reliably bond anything to anything"  source: https://hackaday.com/2017/05/10/designing-for-fab-a-heads-up-before-designing-pcbs-for-professional-assembly/#comments.  Upon further investigation, this solder is high-temp, just so you know.
 
 For anyone searching sites that give soldering tips, be aware that most boards are single side components while this project provides the design for components on both sides.  So remember that you'll be soldering components to the second side while the first side's components must not fall off from getting their solder re-flowed.  Decide how you'll keep that first side cool while soldering the second side.
+
+### DO NOT OPEN U4 (REF200) PACKAGING UNTIL YOU ARE READY TO SOLDER IT IN PLACE AND SOLDER-SEAL SHLD1 IN PLACE WITH DISSICANT AS A SINGLE STEP!  That IC is a high precision component that is designed to give you highest performance when always kept in a very low humidity environment.  (This is also why SHLD1 and all the micro-vias under it should be solder-sealed into hermetically sealed containment.)  If you open that package too soon, here are the instructions to remedy: 
+ 1. Calculated shelf life in sealed bag: 12 months at <40°C and <90% RH from bag seal date.
+ 2. Peak component body temperature for soldering: 260°C(500°F)
+ 3. After bag is opened, devices that will be subjected to reflow solder or other high temperature process must be 
+   a) Mounted within 168 hrs of factory conditions of <30C/60% RH, or
+   b) Stored per J-STD-033
+ 4. Devices require bake before mounting if:
+   a) Humidity indicator card reads >10%
+   b) When 3a or 3b are not met
+ 5. If baking is required, refer to IPC/JEDEC J-STD-033 (Level 3 MSL components, 1.75mm thickness, 260°C peak body temp) for the prescribed bake procedure.
+
+#### The dessicant package you receive with U4 and which you won't be able to see until the moment you need to place it will likely be too large to place inside SHLD1 where it eventually needs be placed.  You will be wise, therefore, to keep your eyes open for a smaller dissicant package that you can repurpose from some other product that will fit inside the SHLD1 lid.  Bake it for most of a day in an electric oven at a temperature near the boiling point of water, then keep it dry (hermetically sealed) until you go to place it.
 
 Electrodes are vaporware as of yet: I'm hoping to use non-impregnated carbon fiber tow, not the prepreg tow.  The carbon fiber must establish its electrical connection to the circuit via gold plated contact or else corrosion will ensue.  Alternatives to gold are fewer and more rare.
 
