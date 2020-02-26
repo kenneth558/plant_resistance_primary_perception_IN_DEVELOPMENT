@@ -15,7 +15,7 @@ NEW! Found this solder type mentioned that may obsolete the above paragraph:
 
 For anyone searching sites that give soldering tips, be aware that most boards are single side components while this project provides the design for components on both sides.  So remember that you'll be soldering components to the second side while the first side's components must not fall off from getting their solder re-flowed.  Decide how you'll keep that first side cool while soldering the second side.
 
-### DO NOT OPEN U4 (REF200) PACKAGING UNTIL YOU ARE READY TO SOLDER IT IN PLACE AND SOLDER-SEAL SHLD1 IN PLACE WITH DISSICANT AS A SINGLE STEP!  That IC is a high precision component that is designed to give you highest performance when always kept in a very low humidity environment.  (This is also why SHLD1 and all the micro-vias under it should be solder-sealed into hermetically sealed containment.)  If you open that package too soon, here are the instructions to remedy: 
+### DO NOT OPEN U4 (REF200) PACKAGING UNTIL YOU ARE READY TO SOLDER IT IN PLACE AND SOLDER-SEAL SHLD1, SHLD2, and SHLD3 IN PLACE WITH DISSICANT AS A SINGLE STEP!  That IC is a high precision component that is designed to give you highest performance when always kept in a very low humidity environment.  (This is also why the micro-vias under only one shield should be solder-sealed into hermetically sealed containment.)  If you open that package too soon, here are the instructions to remedy: 
  1. Calculated shelf life in sealed bag: 12 months at <40°C and <90% RH from bag seal date.
  2. Peak component body temperature for soldering: 260°C(500°F)
  3. After bag is opened, devices that will be subjected to reflow solder or other high temperature process must be 
