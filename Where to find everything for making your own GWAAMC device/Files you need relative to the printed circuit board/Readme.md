@@ -6,8 +6,8 @@ When I got sloppy with the ENIG boards by putting on way more solder than I need
 
 Bare board renderings courtesy of OSH Park
 
-![Front/Top view](https://644db4de3505c40a0444-327723bce298e3ff5813fb42baeefbaa.ssl.cf1.rackcdn.com/a87762320266ccbb2e37d39648f11b10.png)
+![Front/Top view](https://644db4de3505c40a0444-327723bce298e3ff5813fb42baeefbaa.ssl.cf1.rackcdn.com/25eef2cbd3ce04d7b273bf092dd47e2b.png)
 
-![Back/Bottom view](https://644db4de3505c40a0444-327723bce298e3ff5813fb42baeefbaa.ssl.cf1.rackcdn.com/6780bc301a05325e7abed32e5850c090.png)
+![Back/Bottom view](https://644db4de3505c40a0444-327723bce298e3ff5813fb42baeefbaa.ssl.cf1.rackcdn.com/c0f299aac51f60036054d445ff42dacc.png)
 
 [Go to populating the board or the populated board instead](https://github.com/kenneth558/plant_resistance_primary_perception/tree/Free/Where%20to%20find%20everything%20for%20making%20your%20own%20GWAAMC%20device)
