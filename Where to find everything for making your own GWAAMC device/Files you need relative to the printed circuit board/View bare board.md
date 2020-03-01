@@ -4,7 +4,7 @@ Bare board renderings courtesy of OSH Park
 
 ![Back/Bottom view](https://644db4de3505c40a0444-327723bce298e3ff5813fb42baeefbaa.ssl.cf1.rackcdn.com/4a6f9c1d94d7d1e1969e0bdfbd6b4fb7.png)
 
-![Flex front.top]()
+![Expansion (aux) front/top view](https://644db4de3505c40a0444-327723bce298e3ff5813fb42baeefbaa.ssl.cf1.rackcdn.com/689d1df7868d48eb9769b987e831d852.png)
 
-![Flex back/bottom]()
+![Expansion (aux) back/bottom view](https://644db4de3505c40a0444-327723bce298e3ff5813fb42baeefbaa.ssl.cf1.rackcdn.com/793bb2b6c49c6b9c0e280dadfd5f93f3.png)
 
