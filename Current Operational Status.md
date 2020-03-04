@@ -1,4 +1,4 @@
-**Current Operational Status:** 
+**Current Operational Status:** Three new circuit boards arrived and are being built up for testing the latest circuit design. The first board lost a couple pads while getting solder tinned, but I always repair these types of failures by adding air-wires.  Expected finish in April
 
 I'm changing out the Rail-to-Rail input (RRI) unity gain buffer for a non-RRI device to alleviate the killer crossover distortion.  Today (18 Jan 2020) I completed the rough PCB design as far as needed to ensure it will work, and I've begun a second examination for optimizing it.  Give me another month to finish.  Once I get the project working with the new device, I'll focus on sketch upgrading.  I haven't even thought much about a project enclosure for it, either.  I do think it needs an enclosure to slow down the temperature changes when the ambient air moves.  A grounded metal one would also attenuate the effect of moving electrical charges nearby.  Both effects are very, very noticeable.  Until they are dealt with, I withhold judgment as to the functionality with a realistic DUT.  
 
