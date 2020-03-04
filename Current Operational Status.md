@@ -4,6 +4,6 @@ I'm changing out the Rail-to-Rail input (RRI) unity gain buffer for a non-RRI de
 
 Version 1.x built units will be labeled "This Version 1.x Training Aid Is Without Temperature Compensation, Useful For Observing Conductance Behavior, But Not For True And Honest Measuring.  Development Level Units Prior To Version 2.0 Are Not Intended For Repeatable Or Reproducible Precision Laboratory-Class Measurements".
 
-Because true measuring with electrodes is very dependent on electrode contact surface area and other factors that are not easily and conveniently controlled outside a laboratory setting, units built and manufactured at this Version 1.x level should meet the expectations of the vast majority of users.
+Units built and manufactured at this Version 1.x level should meet the expectations of the vast majority of users to *observe* the plant's response, but true *measuring* (as opposed to *observing*) with electrodes is very dependent on electrode contact surface area and other factors that are not easily and conveniently controlled outside a laboratory setting.
 
 I hope to begin development on a temperature-compensated Version 2.0 in the future, but I'll need to catch up financially first by selling kits and fully-built units at the current version level.  
