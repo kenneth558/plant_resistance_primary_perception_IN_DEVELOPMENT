@@ -4,6 +4,8 @@ If you are determined to purchase ENIG boards, you can't go wrong with OSH Park 
 
 When I got sloppy with the ENIG boards by putting on way more solder than I needed to, I did pull pads up, so you might as well be neat and frugal while tinning, including only tinning one side - the side you need to tin - on the plated through holes.
 
+Stencils are [main boards front](https://github.com/kenneth558/plant_resistance_primary_perception/blob/Free/Where%20to%20find%20everything%20for%20making%20your%20own%20GWAAMC%20device/Files%20you%20need%20relative%20to%20the%20printed%20circuit%20board/v1.0/uno%20shield%20v1.0%20PCB-front%20solder%20paste%20stencil.svg), [main board back](https://github.com/kenneth558/plant_resistance_primary_perception/blob/Free/Where%20to%20find%20everything%20for%20making%20your%20own%20GWAAMC%20device/Files%20you%20need%20relative%20to%20the%20printed%20circuit%20board/v1.0/uno%20shield%20v1.0%20PCB-back%20solder%20paste%20stencil.svg), [aux board front](https://github.com/kenneth558/plant_resistance_primary_perception/blob/Free/Where%20to%20find%20everything%20for%20making%20your%20own%20GWAAMC%20device/Files%20you%20need%20relative%20to%20the%20printed%20circuit%20board/v1.0/Quantum%20MCP4262-502%2026x%20expansion%20for%20GWAAM-Sea%20Aid-front%20solder%20paste%20stencil.svg).  No soldering on aux board back.
+
 Bare board renderings courtesy of OSH Park
 
 ![Front/Top view](https://644db4de3505c40a0444-327723bce298e3ff5813fb42baeefbaa.ssl.cf1.rackcdn.com/651c1b7ca4e41345d6a3aee425189e12.png)
