@@ -8,7 +8,7 @@ If you are determined to purchase ENIG boards, you can't go wrong with OSH Park 
 
 When I got sloppy with the ENIG boards by putting on way more solder than I needed to, I did pull pads up, so you might as well be neat and frugal while tinning, including only tinning one side - the side you need to tin - on the plated through holes.
 
-Stencils are [here](https://github.com/kenneth558/plant_resistance_primary_perception/tree/Free/Where%20to%20find%20everything%20for%20making%20your%20own%20GWAAMC%20device/Files%20you%20need%20relative%20to%20the%20printed%20circuit%20board/v1.0).  No soldering on aux board back.
+Stencils are [here](https://github.com/kenneth558/plant_resistance_primary_perception/tree/Free/Where%20to%20find%20everything%20for%20making%20your%20own%20GWAAMC%20device/Files%20you%20need%20relative%20to%20the%20printed%20circuit%20board/v1.0).
 
 *NEW!* Combined board stencils [here](https://github.com/kenneth558/plant_resistance_primary_perception/tree/Free/Where%20to%20find%20everything%20for%20making%20your%20own%20GWAAMC%20device/Files%20you%20need%20relative%20to%20the%20printed%20circuit%20board/v1.0/combined%20main%20plus%20aux%20on%20single%20board), same as gerbers link above.
 
