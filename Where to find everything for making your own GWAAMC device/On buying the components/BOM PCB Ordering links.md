@@ -10,7 +10,7 @@ https://github.com/kenneth558/plant_resistance_primary_perception/blob/Free/Wher
 Aux Board 2 of 2 at OSH Park all ready to order without having to upload files:
 https://oshpark.com/shared_projects/kbQQkkZ4
 
-#### *NEW!*  [Main and aux board in a single file](https://github.com/kenneth558/plant_resistance_primary_perception/tree/Free/Where%20to%20find%20everything%20for%20making%20your%20own%20GWAAMC%20device/Files%20you%20need%20relative%20to%20the%20printed%20circuit%20board/v1.0/combined%20main%20plus%20aux%20on%20single%20board) both gerbers and stencil
+#### *NEW!*  [Main and aux board in a single file](https://github.com/kenneth558/plant_resistance_primary_perception/tree/Free/Where%20to%20find%20everything%20for%20making%20your%20own%20GWAAMC%20device/Files%20you%20need%20relative%20to%20the%20printed%20circuit%20board/v1.0/combined%20main%20plus%20aux%20on%20single%20board) #  both gerbers and stencil
 
 ### PCB Comparison sites
 ##### Printed circuit boards can be ordered from any one of a multitude of fabricators.  Compare between fabricators by visiting one or more of the fabricator comparison sites like https://www.pcbdirectory.com/get-quotations or https://pcbshopper.com or read the fabricator site collection list at https://www.eevblog.com/wiki/index.php?title=PCB_Manufacturers or search "online pcb quote".
