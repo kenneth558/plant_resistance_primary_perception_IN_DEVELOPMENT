@@ -14,8 +14,8 @@ Stencils are [here](https://github.com/kenneth558/plant_resistance_primary_perce
 
 Bare board renderings courtesy of OSH Park
 
-![Front/Top view](https://644db4de3505c40a0444-327723bce298e3ff5813fb42baeefbaa.ssl.cf1.rackcdn.com/f18ca55068c1d57c79b3b01f612e8f7c.png)
+![Front/Top view](https://644db4de3505c40a0444-327723bce298e3ff5813fb42baeefbaa.ssl.cf1.rackcdn.com/c1d9370abe27fd32c32510dad0363903.png)
 
-![Back/Bottom view](https://644db4de3505c40a0444-327723bce298e3ff5813fb42baeefbaa.ssl.cf1.rackcdn.com/9d7423e4576c000747c01eabfa56b5e5.png)
+![Back/Bottom view](https://644db4de3505c40a0444-327723bce298e3ff5813fb42baeefbaa.ssl.cf1.rackcdn.com/08ea4b4a783aafc708e5f64d02326f8d.png)
 
 [Go to populating the board or the populated board instead](https://github.com/kenneth558/plant_resistance_primary_perception/tree/Free/Where%20to%20find%20everything%20for%20making%20your%20own%20GWAAMC%20device)
