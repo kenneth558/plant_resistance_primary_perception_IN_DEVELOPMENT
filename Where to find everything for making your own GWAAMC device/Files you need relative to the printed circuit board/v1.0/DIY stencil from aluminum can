@@ -6,3 +6,5 @@ and
 https://lowpowerlab.com/2013/02/11/diy-smd-metal-stencils-the-definitive-tutorial/
 
 If I could offer one improvisation I would try to copy the pattern to both sides of the aluminum and etch simultaneously from both sides.  But think it through before just doing this.
+
+As an alternative to pick and place directly to PCB:  When I get around to making stencils this way, I'll probably also try to etch a component holder to load with a boardload of components upside down properly positioned.  The PCB with preloaded solder cream would be placed solder side down on top of the components.  When I get that component holder pattern perfected, I'll publish it.
