@@ -4,7 +4,7 @@ As of 13 Mar 2020 due to coronavirus caution, I have stopped traveling to the ma
 
 <dl><dt>25 Mar 2020</dt></dl>I received notice today that my lead-free HSAL boards from PCBCart will ship April 1.  My ENIG boards are still being fabricated by OSH Park.  I am putting my time to use researching methods of assembly.  I'm planning to use an acrylic "footprint position" stencil made KiCAD's .pos file.
 
-<dl><dt>19 Mar 2020</dt></dl>While awaiting the arrival of boards with the two finishes, I'll state that I have high hopes in my board designs.  What I'm not sure about is what op-amp to specify for U2.  Right now it is the OPA2388.  Regardless, the footprint on the board is VSSOP-8_3.0x3.0mm_P0.65mm, which is a TI specific footprint but I chose it hoping it will also work for similar sized SO-8 dual op amps.
+<dl><dt>19 Mar 2020</dt></dl>While awaiting the arrival of boards with the two finishes, I'll state that I have high hopes in my board designs.  What I'm not sure about is which op-amp to specify for U2.  Right now it is the OPA2388.  Regardless, the footprint on the board is VSSOP-8_3.0x3.0mm_P0.65mm, which is a TI specific footprint but I chose it hoping it will also work for similar sized SO-8 dual op amps.
 
 <dl><dt>14 Mar 2020</dt></dl>I am going to try to get boards in lead-free HASL instead of fighting with this ENIG that really needs a soldering fountain to wash off the gold.  I have no soldering fountain, so I'm trying to do it with a soldering pencil, and it is too frustrating.
 
