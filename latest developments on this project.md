@@ -2,7 +2,7 @@ As of 13 Mar 2020 due to coronavirus caution, I have stopped traveling to the ma
 
 <p align=center>Do you have an idea for features?  Now is a great time for all interested parties to ask me about including capabilities you think would make this project as valuable as it can be.  Just submit an "Issue" (see the tab above) describing the device feature that would interest you.  rdetiger asks for compatibility with Adafruit μCs. I think that is a great direction for me to look into. My best guess is that the Adafruit Metro 328 will run this code and accept this board without any trouble.  Thank you!</p>
 
-<dl><dt>25 Mar 2020</dt></dl>I received notice today that my lead-free HSAL boards from PCBCart will ship April 1.  My ENIG boards have been fabricated through OSH Park and are being shipped today.  I am putting my time to use researching methods of assembly.  I'm planning to use an acrylic "footprint position" stencil made KiCAD's .pos file.
+<dl><dt>25 Mar 2020</dt></dl>I received notice today that my lead-free HSAL boards from PCBCart will ship April 1.  My ENIG boards have been fabricated through OSH Park and are being shipped today my direction.  I am putting my time to use researching methods of assembly.  I'm planning to use an acrylic "footprint position" stencil made KiCAD's .pos file.
 
 <dl><dt>19 Mar 2020</dt></dl>While awaiting the arrival of boards with the two finishes, I'll state that I have high hopes in my board designs.  What I'm not sure about is which op-amp to specify for U2.  Right now it is the OPA2388.  Regardless, the footprint on the board is VSSOP-8_3.0x3.0mm_P0.65mm, which is a TI specific footprint but I chose it hoping it will also work for similar sized SO-8 dual op amps.
 
