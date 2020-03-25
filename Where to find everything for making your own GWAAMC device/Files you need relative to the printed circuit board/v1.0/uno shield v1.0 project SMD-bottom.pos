@@ -1,0 +1,49 @@
+### Module positions - created on Wed 25 Mar 2020 01:42:55 PM CDT ###
+### Printed by Pcbnew version kicad 5.1.4-e60b266~84~ubuntu16.04.1
+## Unit = mm, Angle = deg.
+## Side : bottom
+# Ref     Val                                                 Package                                           PosX       PosY       Rot  Side
+C1        390_pF                                              C_0603_1608Metric_Pad1.05x0.95mm_HandSolder  -123.8000  -117.2610  120.0000  bottom
+C2        .22_µF                                             C_0603_1608Metric_Pad1.05x0.95mm_HandSolder  -123.0000  -110.6100   90.0000  bottom
+C3        10_µF                                              C_0603_1608Metric_Pad1.05x0.95mm_HandSolder  -135.6900   -97.8700    0.0000  bottom
+C4        0.1_µF                                             C_0603_1608Metric_Pad1.05x0.95mm_HandSolder  -135.9300  -103.2500    0.0000  bottom
+C7        1uF                                                 C_0603_1608Metric_Pad1.05x0.95mm_HandSolder  -144.5600  -124.1700  180.0000  bottom
+C8        10-51_pF                                            C_0603_1608Metric_Pad1.05x0.95mm_HandSolder  -130.3400  -104.2400    0.0000  bottom
+C9        .022_µF                                            C_0603_1608Metric_Pad1.05x0.95mm_HandSolder  -120.2604  -104.5200  270.0000  bottom
+C10       .022_µF                                            C_0603_1608Metric_Pad1.05x0.95mm_HandSolder  -129.1900   -97.5700  180.0000  bottom
+C11       0.1_µF                                             C_0603_1608Metric_Pad1.05x0.95mm_HandSolder  -134.2200   -87.0100  180.0000  bottom
+FID4                                                          Fiducial_1mm_Mask3mm                         -111.5238   -93.8911    0.0000  bottom
+FID5                                                          Fiducial_1mm_Mask3mm                         -170.9900   -85.7900    0.0000  bottom
+FID6                                                          Fiducial_1mm_Mask3mm                         -169.6700  -124.0200    0.0000  bottom
+Q1        MMBF5460_(2N5460)                                   SOT-23_Handsoldering                         -135.0700  -119.0900  270.0000  bottom
+Q2        MMBF5460_(2N5460)                                   SOT-23_Handsoldering                         -156.2900   -98.1400   90.0000  bottom
+Q4        DMN601K-7                                           SOT-23_Handsoldering                         -145.4800  -117.6700    0.0000  bottom
+Q5        DMN601K-7                                           SOT-23_Handsoldering                         -157.9900   -85.6100  180.0000  bottom
+Q6        DMN601K-7                                           SOT-23_Handsoldering                         -141.0200  -116.6800  270.0000  bottom
+Q7        DMN601K-7                                           SOT-23_Handsoldering                         -140.3700  -124.1400  270.0000  bottom
+R1        100_Ω                                              R_0603_1608Metric                            -126.5100  -126.5700  135.0000  bottom
+R2        100_Ω                                              R_0603_1608Metric                            -120.4600  -115.8200  180.0000  bottom
+R3        3.9_KΩ                                             R_0603_1608Metric                            -127.1800  -121.0600    0.0000  bottom
+R4        21_KΩ                                              R_0603_1608Metric                            -121.9300  -114.3400  180.0000  bottom
+R6        44.2_KΩ_0.1%_0.1W(1/10W)_±10ppm/°C_(1676343-2)   R_0805_2012Metric_Pad1.15x1.40mm_HandSolder  -121.2300  -108.0200   90.0000  bottom
+R7        22.6_KΩ_0.1%_0.125W(1/8W)_±10ppm/°C_(ERA6ARB2262V)  R_0805_2012Metric_Pad1.15x1.40mm_HandSolder  -119.3216  -108.0672   90.0000  bottom
+R8        15_KΩ                                              R_0603_1608Metric                            -135.5500  -114.0300  270.0000  bottom
+R9        10_KΩ                                              R_0603_1608Metric                            -127.1900  -110.9000  180.0000  bottom
+R11       470_Ω                                              R_0603_1608Metric                            -134.7799  -129.6300   90.0000  bottom
+R12       1_MΩ                                               R_0603_1608Metric                            -140.8400  -120.7100  180.0000  bottom
+R13       1_MΩ                                               R_0603_1608Metric                            -139.4700  -127.5900  180.0000  bottom
+R14       470_Ω                                              R_0603_1608Metric                            -115.4400  -127.1100  270.0000  bottom
+R17       14.7_KΩ__0.1%_0.063W_±25ppm/°C_(NTR06B1472CTRF)  R_0603_1608Metric                            -161.7900  -102.4200    0.0000  bottom
+R18       390_KΩ_0.1%_0.063W_±25ppm/°C_(CPF0603B390KE1)    R_0603_1608Metric                            -155.2900  -110.7700  180.0000  bottom
+R19       Optional_Rf                                         R_0805_2012Metric_Pad1.15x1.40mm_HandSolder  -133.2800  -104.7900  270.0000  bottom
+SHLD1     MS263-20C_(cover_only_of_MS263-20)                  Masach_Tech_MS26320_26x19.50mm               -128.3000  -109.1200  270.0000  bottom
+SHLD2     MS263-20C_(cover_only_of_MS263-20)                  Masach_Tech_MS26320_26x19.50mm               -157.0100  -104.9700    0.0000  bottom
+U1        3V_LDO                                              SOT-23                                       -144.1800  -126.6200  270.0000  bottom
+U2        OPA2388IDGKR                                        VSSOP-8_3.0x3.0mm_P0.65mm                    -125.6656  -107.1355  180.0000  bottom
+U4        REF200AU                                            SOIC-8_3.9x4.9mm_P1.27mm                     -131.7400  -110.8200  260.0000  bottom
+U5        LM334M                                              SOIC-8_3.9x4.9mm_P1.27mm                     -150.9800  -106.6900  180.0000  bottom
+U6        LM334M                                              SOIC-8_3.9x4.9mm_P1.27mm                     -151.8100   -99.1600   90.0000  bottom
+U7        MCP4262-503E/UN                                     MSOP-10_3x3mm_P0.5mm                         -162.3000   -97.8900    0.0000  bottom
+U34       MCP4262-502E/UN                                     MSOP-10_3x3mm_P0.5mm                         -146.7700  -100.4600   90.0000  bottom
+U35       OPA2388IDGKR                                        VSSOP-8_3.0x3.0mm_P0.65mm                    -134.5387  -100.6551  180.0000  bottom
+## End

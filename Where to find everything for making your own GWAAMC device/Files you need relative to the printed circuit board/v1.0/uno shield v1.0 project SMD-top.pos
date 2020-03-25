@@ -1,0 +1,15 @@
+### Module positions - created on Wed 25 Mar 2020 01:42:55 PM CDT ###
+### Printed by Pcbnew version kicad 5.1.4-e60b266~84~ubuntu16.04.1
+## Unit = mm, Angle = deg.
+## Side : top
+# Ref     Val                                            Package                                           PosX       PosY       Rot  Side
+C5        10_µF                                         C_0603_1608Metric_Pad1.05x0.95mm_HandSolder   175.2500  -110.7550   90.0000  top
+FID1                                                     Fiducial_1mm_Mask3mm                          109.1192  -106.7473    0.0000  top
+FID2                                                     Fiducial_1mm_Mask3mm                          172.2000   -85.9700    0.0000  top
+FID3                                                     Fiducial_1mm_Mask3mm                          168.9900  -124.4800    0.0000  top
+Q3        DMN601K-7                                      SOT-23_Handsoldering                          135.7800  -118.4800    0.0000  top
+R5        10_KΩ                                         R_0603_1608Metric                             134.4700  -116.0000    0.0000  top
+R10       1_MΩ                                          R_0603_1608Metric                             139.2200  -118.4725  270.0000  top
+R16       390_KΩ_0.1%_0.063W_±25ppm/°C_(CPF0603B390KE1)  R_0603_1608Metric                             166.9000  -116.5600   90.0000  top
+SHLD3     MS544-10C_(cover_only_of_MS544-10)             Masach_Tech_MS54410_54x23.90mm                143.5630  -101.0088    0.0000  top
+## End
