@@ -2,6 +2,8 @@ As of 13 Mar 2020 due to coronavirus caution, I have stopped traveling to the ma
 
 <p align=center>Do you have an idea for features?  Now is a great time for all interested parties to ask me about including capabilities you think would make this project as valuable as it can be.  Just submit an "Issue" (see the tab above) describing the device feature that would interest you.  rdetiger asks for compatibility with Adafruit μCs. I think that is a great direction for me to look into. My best guess is that the Adafruit Metro 328 will run this code and accept this board without any trouble.  Thank you!</p>
 
+<dl><dt>05 Apr 2020</dt></dl>MSOP10s are absolute bears!  Still not done.
+
 <dl><dt>31 Mar 2020</dt></dl>Double-tinning without ending in shorts is not so straightforward.  And after that enough gold too often remains so the wetting is impaired.  Not impossible, though.  Continuing the work.
 
 <dl><dt>29 Mar 2020</dt></dl>I am double-tinning the first board, after which I will flatten the solder, then place components.  All of this goes slow so I can update the instructions as I go along while letting wife sleep in the same small room.
