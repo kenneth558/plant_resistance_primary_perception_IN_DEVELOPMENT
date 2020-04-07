@@ -2,6 +2,8 @@ As of 13 Mar 2020 due to coronavirus caution, I have stopped traveling to the ma
 
 <p align=center>Do you have an idea for features?  Now is a great time for all interested parties to ask me about including capabilities you think would make this project as valuable as it can be.  Just submit an "Issue" (see the tab above) describing the device feature that would interest you.  rdetiger asks for compatibility with Adafruit μCs. I think that is a great direction for me to look into. My best guess is that the Adafruit Metro 328 will run this code and accept this board without any trouble.  Thank you!</p>
 
+<dl><dt>07 Apr 2020</dt></dl>Have any of you had success soldering MSOP-10 lead-free on OSH Park boards?  Please fill out an Issue just letting me know how to accomplish it!  Thank you!  I'm hesitant to use bismuth solder b/c the solder is supposed to absorb the gold, and I don't think bismuth solder gets hot enough to do that.
+
 <dl><dt>05 Apr 2020</dt></dl>MSOP10s are absolute bears!  Still not done.
 
 <dl><dt>31 Mar 2020</dt></dl>Double-tinning without ending in shorts is not so straightforward.  And after that enough gold too often remains so the wetting is impaired.  Not impossible, though.  Continuing the work.
