@@ -2,7 +2,7 @@ As of 13 Mar 2020 due to coronavirus caution, I have stopped traveling to the ma
 
 <p align=center>Do you have an idea for features?  Now is a great time for all interested parties to ask me about including capabilities you think would make this project as valuable as it can be.  Just submit an "Issue" (see the tab above) describing the device feature that would interest you.  rdetiger asks for compatibility with Adafruit μCs. I think that is a great direction for me to look into. My best guess is that the Adafruit Metro 328 will run this code and accept this board without any trouble.  Thank you!</p>
 
-<dl><dt>07 Apr 2020</dt></dl>I'm hoping this latest technique works to place MSOP-10s on double-tinned pads works.  After double-tinning while pressing down on the solder (to better displace the gold), I use the hot air tip to smooth the pad flat.  That doesn't leave much solder there, but at least the MSOP-10 package stays put during hot air soldering.
+<dl><dt>07 Apr 2020</dt></dl>I'm hoping this latest technique works to place MSOP-10s on double-tinned pads works.  After double-tinning while pressing down on the solder (to better displace the gold), I use the hot air tip to smooth the pad flat.  One last solder layer, this time bismuth, and smooth flat again.  That doesn't leave much solder there, but at least the MSOP-10 package stays put during hot air soldering.
 
 <dl><dt>05 Apr 2020</dt></dl>MSOP10s are absolute bears!  Still not done.
 
