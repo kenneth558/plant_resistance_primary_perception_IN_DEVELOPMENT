@@ -13,7 +13,7 @@ When I got sloppy with the ENIG boards by putting on way more solder than I need
 - I scoop the surface flat with hot air, then convert to bismuth (low temperature) solder with one more pass and scoop flat again.  If you've been thorough on every step, your board is ready to accept bismuth cream and placed components and heat to melt the low-temperature solder.
 
 
-Stencil stock thickness should be 4 to 5 mil.  Don't trust stacking stencils to obtain that thickness because the stencil apertures must have smooth enough walls not to pull the paste solder off the board when removed.  Remove the stencil quick enough after applying the paste that the paste doesn't dry enough to adhere to the stencil apertures walls.
+Stencil stock thickness should be no more than 4 mil (0.1mm).  Don't trust stacking stencils to obtain that thickness because the stencil apertures must have smooth enough walls not to pull the paste solder off the board when removed.  Remove the stencil quick enough after applying the paste that the paste doesn't dry enough to adhere to the stencil apertures walls.
 
 Stencils are [here](https://github.com/kenneth558/plant_resistance_primary_perception/tree/Free/Where%20to%20find%20everything%20for%20making%20your%20own%20GWAAMC%20device/Files%20you%20need%20relative%20to%20the%20printed%20circuit%20board/v1.0).
 
