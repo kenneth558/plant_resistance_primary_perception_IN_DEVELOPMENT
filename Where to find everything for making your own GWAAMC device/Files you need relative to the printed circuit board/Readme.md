@@ -6,7 +6,12 @@ I actually can't recommend the ENIG boards because industry wisdom is now that t
 
 If you are determined to purchase ENIG boards, you can't go wrong with OSH Park because their [rigid] boards handle the heat so well without the copper delaminating nor heat damage occuring otherwise.  I've read they use TG170.  Chinese boards default to TG140 and will darken and char at much lower heat levels than OSH Park boards, and their copper delaminates from the board at lower heat levels than OSH Park's 2 oz. boards.  OSH Park's flex boards, however, won't handle full-scale air heating without risking bubbles, but if you're careful to pop those bubbles while they're small, you should be fine.
 
-When I got sloppy with the ENIG boards by putting on way more solder than I needed to, I did pull pads up, so you might as well be neat and frugal while tinning, including only tinning one side - the side you need to tin - on the plated through holes.
+When I got sloppy with the ENIG boards by putting on way more solder than I needed to, I did pull pads up, so you might as well be neat and frugal while tinning, including only tinning one side - the side you need to tin - on the plated through holes.  Here's how I convert ENIG to lead-free HASL:  
+- I use hot air, 
+- press lead-free solid wire solder against all gold that needs to be soldered to until the gold is absorbed into molten solder
+- I do this twice
+- I scoop the surface flat with hot air, then convert to bismuth (low temperature) solder with one more pass and scoop flat again.  If you've been thorough on every step, your board is ready to accept bismuth cream and placed components and heat to melt the low-temperature solder.
+
 
 Stencil stock thickness should be 4 to 5 mil.  Don't trust stacking stencils to obtain that thickness because the stencil apertures must have smooth enough walls not to pull the paste solder off the board when removed.  Remove the stencil quick enough after applying the paste that the paste doesn't dry enough to adhere to the stencil apertures walls.
 
