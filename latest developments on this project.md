@@ -1,6 +1,6 @@
 <p align=center>Do you have an idea for features?  Now is a great time for all interested parties to ask me about including capabilities you think would make this project as valuable as it can be.  Just submit an "Issue" (see the tab above) describing the device feature that would interest you.  rdetiger asks for compatibility with Adafruit μCs. I think that is a great direction for me to look into. My best guess is that the Adafruit Metro 328 will run this code and accept this board without any trouble.  Thank you!</p>
 
-<dl><dt>13 Apr 2020</dt></dl>I've been notified my paste stencil is on the way.  When it arrives I'll work on regenerating my dried out solder cream and laying out components, etc.
+<dl><dt>23 Apr 2020</dt></dl>I've received my paste stencil, but without a cassette printed, I am hindered to lay out the components rapidly enough to before the paste dries.  I am working on designing and 3D printing a cassette to place an entire side of components simultaneously.
 
 <dl><dt>12 Apr 2020</dt></dl>A very blessed Resurrection Sunday to you.  Are you aware we are entering into a season many years long in which many resurrections will take place?  Even some people that have had their bodies cremated will be resurrected!  As I observe our society, I can't help but realize we need some help getting to that point.  People need to learn to put their faith to work, and to work hard.  That is EXACTLY what this project is all about!  In Jesus' name
 
