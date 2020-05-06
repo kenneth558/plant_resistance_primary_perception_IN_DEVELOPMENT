@@ -1,0 +1,372 @@
+83031159689271
+multipackage
+3.5mm_cable_end_earphone_plug
+
+
+0
+3
+3
+multipackage
+566 Series LED
+
+
+0
+2
+2
+multipackage
+566_Series_LED
+
+
+0
+2
+2
+multipackage
+ADL5315ACPZ-R7
+
+
+0
+10
+10
+multipackage
+Aux board under shield
+Laird Technologies BMI-S-209-F Shielding Cabinet Two Piece SMD 29.36x18.50mm (https://assets.lairdtech.com/home/brandworld/files/Board%20Level%20Shields%20Catalog%20Download.pdf)
+Shielding Cabinet
+0
+11
+11
+multipackage
+Banana_Jack_2mm_1Pin
+Single banana socket, footprint - 6mm drill
+banana socket
+0
+1
+1
+multipackage
+BreakguideHole
+Mounting Hole 2.1mm, no annular
+mounting hole 2.1mm no annular
+0
+1
+0
+multipackage
+CP_Radial_D4.48_P5.08mm
+CP, Radial series, Radial, pin pitch=5.00mm, , diameter=8mm, Tantalum Capacitor
+CP Radial series Radial pin pitch 5.08mm  diameter 4.48mm Tantalum Capacitor
+0
+2
+2
+multipackage
+CP_Radial_D8.0mm_P5.00mm
+CP, Radial series, Radial, pin pitch=5.00mm, , diameter=8mm, Tantalum Capacitor
+CP Radial series Radial pin pitch 5.08mm  diameter 4.48mm Tantalum Capacitor
+0
+2
+2
+multipackage
+CUI_SJ1-3523NG
+
+
+0
+3
+3
+multipackage
+C_2225_5664Metric_Pad1.80x6.60mm_HandSolder
+Capacitor SMD 2225 (5664 Metric), square (rectangular) end terminal, IPC_7351 nominal with elongated pad for handsoldering. (Body size from: http://datasheets.avx.com/AVX-HV_MLCC.pdf), generated with kicad-footprint-generator
+capacitor handsolder
+0
+2
+2
+multipackage
+Capacitor_disc_P6.35mm
+
+
+0
+2
+2
+multipackage
+FFC_2x02_P2.00mm_Vertical
+Through hole straight pin header, 2x02, 2.00mm pitch, double rows
+Through hole pin header THT 2x02 2.00mm double row
+0
+4
+4
+multipackage
+Fuseholder_Cylinder-5x20mm_Stelvio-Kontek_PTF78_Horizontal_Open
+https://www.tme.eu/en/Document/3b48dbe2b9714a62652c97b08fcd464b/PTF78.pdf
+Fuseholder horizontal open 5x20 Stelvio-Kontek PTF/78
+0
+2
+2
+multipackage
+HX711 module
+
+
+0
+16
+16
+multipackage
+Hole_0.5mm
+Mounting Hole 2.1mm, no annular
+mounting hole 2.1mm no annular
+0
+1
+1
+multipackage
+Hole_0.9mm
+Mounting Hole 2.1mm, no annular
+mounting hole 2.1mm no annular
+0
+1
+1
+multipackage
+Hole_2.1mm
+Mounting Hole 2.1mm, no annular
+mounting hole 2.1mm no annular
+0
+0
+0
+multipackage
+Jack_3.5mm_CUI_SJ1-3533NG_Horizontal_CircularHoles
+TRS 3.5mm, horizontal, through-hole, , circular holeshttps://www.cui.com/product/resource/sj1-353xng.pdf
+TRS audio jack stereo horizontal circular
+0
+6
+4
+multipackage
+Jack_3.5mm_CUI_SJ1-3534NS_Horizontal_CircularHoles
+TRS 3.5mm, horizontal, through-hole, , circular holeshttps://www.cui.com/product/resource/sj1-353xng.pdf
+TRS audio jack stereo horizontal circular
+0
+7
+5
+multipackage
+LED_Rectangular_W5.0mm_H2.0mm
+LED_Rectangular, Rectangular,  Rectangular size 5.0x2.0mm^2, 2 pins, http://www.kingbright.com/attachments/file/psearch/000/00/00/L-169XCGDK(Ver.9B).pdf
+LED_Rectangular Rectangular  Rectangular size 5.0x2.0mm^2 2 pins
+0
+2
+2
+multipackage
+LED_Rectangular_W5.0mm_H2.0mm_green
+LED_Rectangular, Rectangular,  Rectangular size 5.0x2.0mm^2, 2 pins, http://www.kingbright.com/attachments/file/psearch/000/00/00/L-169XCGDK(Ver.9B).pdf
+LED_Rectangular Rectangular  Rectangular size 5.0x2.0mm^2 2 pins
+0
+2
+2
+multipackage
+LED_Rectangular_W5.0mm_H2.0mm_yellow
+LED_Rectangular, Rectangular,  Rectangular size 5.0x2.0mm^2, 2 pins, http://www.kingbright.com/attachments/file/psearch/000/00/00/L-169XCGDK(Ver.9B).pdf
+LED_Rectangular Rectangular  Rectangular size 5.0x2.0mm^2 2 pins
+0
+2
+2
+multipackage
+MSOP-10_3x3mm_P0.5mm
+10-Lead Plastic Micro Small Outline Package (MS) [MSOP] (see Microchip Packaging Specification 00000049BS.pdf)
+SSOP 0.5
+0
+30
+10
+multipackage
+MSOP-10_3x3mm_P0.5mm_flipped
+10-Lead Plastic Micro Small Outline Package (MS) [MSOP] (see Microchip Packaging Specification 00000049BS.pdf)
+SSOP 0.5
+0
+10
+10
+multipackage
+Masach_Tech_MS26320_26x19.50mm
+Masach_Tech SMD 26x19.50mm
+Shielding Cabinet
+0
+1
+1
+multipackage
+Masach_Tech_MS54410_54x23.90mm
+shield_ StepUp generated footprint
+
+0
+5
+1
+multipackage
+NT1_HX711_SMD_GNDS
+Net tie hx711, 2 pin, 1.0mm round THT pads
+net tie
+0
+2
+2
+multipackage
+NetTie-2_HX711_THT_Pad1.0mm
+Net tie hx711, 2 pin, 1.0mm round THT pads
+net tie
+0
+2
+2
+multipackage
+NetTie-2_SMD_Pad0.5mm
+Net tie, 2 pin, 0.5mm square SMD pads
+net tie
+0
+2
+2
+multipackage
+NetTie-2_THT_Pad1.0mm
+Net tie, 2 pin, 1.0mm round THT pads
+net tie
+0
+2
+2
+multipackage
+NetTie-3_SMD_Pad2.0mm
+Net tie, 3 pin, 2.0mm square SMD pads
+net tie
+0
+3
+3
+multipackage
+NetTie-4_SMD_Pad2.0mm
+Net tie, 4 pin, 2.0mm square SMD pads
+net tie
+0
+4
+4
+multipackage
+NetTie-5_SMD_Pad0.5mm
+Net tie, 5 pin, 0.5mm square SMD pads
+net tie
+0
+5
+5
+multipackage
+PinHeader_1x01_P2.00mm_VerticalSMDSquare
+Through hole straight pin header, 1x01, 2.00mm pitch, single row
+Through hole pin header THT 1x01 2.00mm single row
+0
+1
+1
+multipackage
+PinHeader_1x02_P2.54mm_Vertical
+Through hole straight pin header, 1x02, 2.54mm pitch, single row
+Through hole pin header THT 1x02 2.54mm single row
+0
+2
+2
+multipackage
+PinHeader_1x09_P2.54mm_Vertical
+Through hole straight pin header, 1x09, 2.54mm pitch, single row
+Through hole pin header THT 1x09 2.54mm single row
+0
+9
+9
+multipackage
+Potentiometer_Bourns_PTV09A-1_Single_Vertical
+Potentiometer, vertical, Bourns PTV09A-1 Single, http://www.bourns.com/docs/Product-Datasheets/ptv09.pdf
+Potentiometer vertical Bourns PTV09A-1 Single
+0
+3
+3
+multipackage
+Potentiometer_Bourns_PTV09A-2_Single_Horizontal
+Potentiometer, horizontal, Bourns PTV09A-2 Single, http://www.bourns.com/docs/Product-Datasheets/ptv09.pdf
+Potentiometer horizontal Bourns PTV09A-2 Single
+0
+3
+3
+multipackage
+R_0612_1632Metric_Pad1.18x3.40mm_HandSolder
+Resistor SMD 0612 (1632 Metric), square (rectangular) end terminal, IPC_7351 nominal with elongated pad for handsoldering. (Body size source: https://www.vishay.com/docs/20019/rcwe.pdf), generated with kicad-footprint-generator
+resistor handsolder
+0
+2
+2
+multipackage
+SOIC-8_1.75x4.9mm_P1.27mm
+8-Lead Plastic Small Outline (SN) - Narrow, 3.90 mm Body [SOIC] (see Microchip Packaging Specification http://ww1.microchip.com/downloads/en/PackagingSpec/00000049BQ.pdf)
+SOIC 1.27
+0
+4
+4
+multipackage
+SOIC-8_3.9x4.9mm_P1.27mm
+8-Lead Plastic Small Outline (SN) - Narrow, 3.90 mm Body [SOIC] (see Microchip Packaging Specification http://ww1.microchip.com/downloads/en/PackagingSpec/00000049BQ.pdf)
+SOIC 1.27
+0
+4
+4
+multipackage
+SolderJumper-3_P1.3mm_Bridged12_Pad1.0x1.5mm_NumberLabels
+SMD Solder Jumper, 1x1.5mm Pads, 0.3mm gap, pads 1-2 bridged with 1 copper strip, labeled with numbers
+solder jumper open
+0
+3
+3
+multipackage
+TE_1-2328702-0
+
+
+0
+12
+12
+multipackage
+TE_1-2328702-0_card_edge
+
+
+0
+20
+10
+multipackage
+TO-92_Inline_Wide
+TO-92 leads in-line, wide, drill 0.75mm (see NXP sot054_po.pdf)
+to-92 sc-43 sc-43a sot54 PA33 transistor
+0
+3
+3
+multipackage
+TO-92_LM334_Inline
+TO-92 leads in-line, narrow, oval pads, drill 0.75mm (see NXP sot054_po.pdf)
+to-92 sc-43 sc-43a sot54 PA33 transistor
+0
+3
+3
+multipackage
+TO-92_LM334_Inline_surface_mount
+TO-92 leads in-line, narrow, oval pads, drill 0.75mm (see NXP sot054_po.pdf)
+to-92 sc-43 sc-43a sot54 PA33 transistor
+0
+3
+3
+multipackage
+TO-92_Spread_for_LM334Z
+TO-92 leads in-line, narrow, oval pads, drill 0.75mm (see NXP sot054_po.pdf)
+to-92 sc-43 sc-43a sot54 PA33 transistor
+0
+3
+3
+multipackage
+TO-92_full pads_for_LM334Z
+TO-92 leads in-line, narrow, oval pads, drill 0.75mm (see NXP sot054_po.pdf)
+to-92 sc-43 sc-43a sot54 PA33 transistor
+0
+3
+3
+multipackage
+Tensility_54-00127
+
+
+0
+5
+4
+multipackage
+Tensility_barrel_receptical_2.1mm_through_hole_right_angle
+
+
+0
+0
+0
+multipackage
+spotter_microdot
+
+
+0
+1
+1

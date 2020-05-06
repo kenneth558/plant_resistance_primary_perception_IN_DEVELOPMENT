@@ -1,0 +1,1434 @@
+EESchema Schematic File Version 4
+LIBS:uno shield v1.0 project SMD with aux board-cache
+EELAYER 30 0
+EELAYER END
+$Descr A3 16535 11693
+encoding utf-8
+Sheet 2 2
+Title ""
+Date ""
+Rev ""
+Comp ""
+Comment1 ""
+Comment2 ""
+Comment3 ""
+Comment4 ""
+$EndDescr
+Text Notes 700  10850 0    50   ~ 0
+1 step MSB is 50000 ohms per device/256 steps per device = 195.3125 ohms = 195 ohms\n\n    5000 ohms LSB:\na single LSB device full resistance is 5000 ohms per device\n\nnumber of LSB devices to parallel together to make their full resistance value equal to 195 ohms is 5000 ohms per device/195 ohms = 25.6 devices\n\ncost = $25 + flex board a little larger size\n\n   Alternate design under consideration 1000 ohms LSB:\na single LSB device full resistance is 1000 ohms per device\n\nnumber of LSB devices to parallel together to make their full resistance value equal to 195 ohms is 1000 ohms per device/195 ohms = 5.13 devices\n\nEquivalent 2 devices/package, so 3 packages @ $6/pkg = $18 for savings of $7 or so and a much smaller flex board but with a different pinout of both the flex connector and the MCU connector from which it will consume one more digital pin.
+$Comp
+L mcp4262-xxxe_un:MCP4262-xxxE_UN U8
+U 1 1 5D68C40C
+P 1275 1375
+F 0 "U8" H 1275 2100 60  0000 C CNN
+F 1 "MCP4262-xxxE_UN" H 1275 2200 60  0000 C CNN
+F 2 "Package_SO:MSOP-10_3x3mm_P0.5mm" H 1820 1800 60  0001 C CNN
+F 3 "" H 1285 1375 60  0000 C CNN
+F 4 "The rows are lined up to use a straightedge guide.  Proceed from row farthest from guide clamping.   Two tiny dabs of rosin flux paste on the leads helps hold them in place." H 1275 1375 50  0001 C CNN "Note"
+	1    1275 1375
+	1    0    0    -1  
+$EndComp
+NoConn ~ 925  1275
+$Comp
+L power:GNDD #PWR0118
+U 1 1 5D69F934
+P 1275 1775
+F 0 "#PWR0118" H 1275 1525 50  0001 C CNN
+F 1 "GNDD" H 1279 1620 50  0000 C CNN
+F 2 "" H 1275 1775 50  0001 C CNN
+F 3 "" H 1275 1775 50  0001 C CNN
+	1    1275 1775
+	1    0    0    -1  
+$EndComp
+$Comp
+L power:VCC #PWR0119
+U 1 1 5D6A058F
+P 1275 975
+F 0 "#PWR0119" H 1275 825 50  0001 C CNN
+F 1 "VCC" H 1292 1148 50  0000 C CNN
+F 2 "" H 1275 975 50  0001 C CNN
+F 3 "" H 1275 975 50  0001 C CNN
+	1    1275 975 
+	1    0    0    -1  
+$EndComp
+Text Label 1625 1175 0    50   ~ 0
+U1-Pad8
+Text Label 1625 1275 0    50   ~ 0
+U1-Pad7
+Text Label 1625 1525 0    50   ~ 0
+U1-Pad5
+Text Label 1625 1625 0    50   ~ 0
+U1-Pad6
+$Comp
+L mcp4262-xxxe_un:MCP4262-xxxE_UN U9
+U 1 1 5D6C68DE
+P 2925 1375
+F 0 "U9" H 2925 2100 60  0000 C CNN
+F 1 "MCP4262-xxxE_UN" H 2925 2200 60  0000 C CNN
+F 2 "Package_SO:MSOP-10_3x3mm_P0.5mm" H 3470 1800 60  0001 C CNN
+F 3 "" H 2935 1375 60  0000 C CNN
+	1    2925 1375
+	1    0    0    -1  
+$EndComp
+NoConn ~ 2575 1275
+$Comp
+L power:GNDD #PWR015
+U 1 1 5D6C68E9
+P 2925 1775
+F 0 "#PWR015" H 2925 1525 50  0001 C CNN
+F 1 "GNDD" H 2929 1620 50  0000 C CNN
+F 2 "" H 2925 1775 50  0001 C CNN
+F 3 "" H 2925 1775 50  0001 C CNN
+	1    2925 1775
+	1    0    0    -1  
+$EndComp
+$Comp
+L power:VCC #PWR0120
+U 1 1 5D6C68F3
+P 2925 975
+F 0 "#PWR0120" H 2925 825 50  0001 C CNN
+F 1 "VCC" H 2942 1148 50  0000 C CNN
+F 2 "" H 2925 975 50  0001 C CNN
+F 3 "" H 2925 975 50  0001 C CNN
+	1    2925 975 
+	1    0    0    -1  
+$EndComp
+Text Label 3275 1175 0    50   ~ 0
+U1-Pad8
+Text Label 3275 1275 0    50   ~ 0
+U1-Pad7
+Text Label 3275 1525 0    50   ~ 0
+U1-Pad5
+Text Label 3275 1625 0    50   ~ 0
+U1-Pad6
+$Comp
+L mcp4262-xxxe_un:MCP4262-xxxE_UN U14
+U 1 1 5D6CC4F3
+P 1275 3025
+F 0 "U14" H 1275 3750 60  0000 C CNN
+F 1 "MCP4262-xxxE_UN" H 1275 3850 60  0000 C CNN
+F 2 "Package_SO:MSOP-10_3x3mm_P0.5mm" H 1820 3450 60  0001 C CNN
+F 3 "" H 1285 3025 60  0000 C CNN
+	1    1275 3025
+	1    0    0    -1  
+$EndComp
+NoConn ~ 925  2925
+$Comp
+L power:GNDD #PWR026
+U 1 1 5D6CC4FE
+P 1275 3425
+F 0 "#PWR026" H 1275 3175 50  0001 C CNN
+F 1 "GNDD" H 1279 3270 50  0000 C CNN
+F 2 "" H 1275 3425 50  0001 C CNN
+F 3 "" H 1275 3425 50  0001 C CNN
+	1    1275 3425
+	1    0    0    -1  
+$EndComp
+$Comp
+L power:VCC #PWR0121
+U 1 1 5D6CC508
+P 1275 2625
+F 0 "#PWR0121" H 1275 2475 50  0001 C CNN
+F 1 "VCC" H 1292 2798 50  0000 C CNN
+F 2 "" H 1275 2625 50  0001 C CNN
+F 3 "" H 1275 2625 50  0001 C CNN
+	1    1275 2625
+	1    0    0    -1  
+$EndComp
+Text Label 1625 2825 0    50   ~ 0
+U1-Pad8
+Text Label 1625 2925 0    50   ~ 0
+U1-Pad7
+Text Label 1625 3175 0    50   ~ 0
+U1-Pad5
+Text Label 1625 3275 0    50   ~ 0
+U1-Pad6
+$Comp
+L mcp4262-xxxe_un:MCP4262-xxxE_UN U15
+U 1 1 5D6CC519
+P 2925 3025
+F 0 "U15" H 2925 3750 60  0000 C CNN
+F 1 "MCP4262-xxxE_UN" H 2925 3850 60  0000 C CNN
+F 2 "Package_SO:MSOP-10_3x3mm_P0.5mm" H 3470 3450 60  0001 C CNN
+F 3 "" H 2935 3025 60  0000 C CNN
+	1    2925 3025
+	1    0    0    -1  
+$EndComp
+NoConn ~ 2575 2925
+$Comp
+L power:GNDD #PWR0122
+U 1 1 5D6CC524
+P 2925 3425
+F 0 "#PWR0122" H 2925 3175 50  0001 C CNN
+F 1 "GNDD" H 2929 3270 50  0000 C CNN
+F 2 "" H 2925 3425 50  0001 C CNN
+F 3 "" H 2925 3425 50  0001 C CNN
+	1    2925 3425
+	1    0    0    -1  
+$EndComp
+$Comp
+L power:VCC #PWR0123
+U 1 1 5D6CC52E
+P 2925 2625
+F 0 "#PWR0123" H 2925 2475 50  0001 C CNN
+F 1 "VCC" H 2942 2798 50  0000 C CNN
+F 2 "" H 2925 2625 50  0001 C CNN
+F 3 "" H 2925 2625 50  0001 C CNN
+	1    2925 2625
+	1    0    0    -1  
+$EndComp
+Text Label 3275 2825 0    50   ~ 0
+U1-Pad8
+Text Label 3275 2925 0    50   ~ 0
+U1-Pad7
+Text Label 3275 3175 0    50   ~ 0
+U1-Pad5
+Text Label 3275 3275 0    50   ~ 0
+U1-Pad6
+$Comp
+L mcp4262-xxxe_un:MCP4262-xxxE_UN U10
+U 1 1 5D6D0B35
+P 4725 1375
+F 0 "U10" H 4725 2100 60  0000 C CNN
+F 1 "MCP4262-xxxE_UN" H 4725 2200 60  0000 C CNN
+F 2 "Package_SO:MSOP-10_3x3mm_P0.5mm" H 5270 1800 60  0001 C CNN
+F 3 "" H 4735 1375 60  0000 C CNN
+	1    4725 1375
+	1    0    0    -1  
+$EndComp
+NoConn ~ 4375 1275
+$Comp
+L power:GNDD #PWR0124
+U 1 1 5D6D0B40
+P 4725 1775
+F 0 "#PWR0124" H 4725 1525 50  0001 C CNN
+F 1 "GNDD" H 4729 1620 50  0000 C CNN
+F 2 "" H 4725 1775 50  0001 C CNN
+F 3 "" H 4725 1775 50  0001 C CNN
+	1    4725 1775
+	1    0    0    -1  
+$EndComp
+$Comp
+L power:VCC #PWR010
+U 1 1 5D6D0B4A
+P 4725 975
+F 0 "#PWR010" H 4725 825 50  0001 C CNN
+F 1 "VCC" H 4742 1148 50  0000 C CNN
+F 2 "" H 4725 975 50  0001 C CNN
+F 3 "" H 4725 975 50  0001 C CNN
+	1    4725 975 
+	1    0    0    -1  
+$EndComp
+Text Label 5075 1175 0    50   ~ 0
+U1-Pad8
+Text Label 5075 1275 0    50   ~ 0
+U1-Pad7
+Text Label 5075 1525 0    50   ~ 0
+U1-Pad5
+Text Label 5075 1625 0    50   ~ 0
+U1-Pad6
+$Comp
+L mcp4262-xxxe_un:MCP4262-xxxE_UN U11
+U 1 1 5D6D0B5B
+P 6375 1375
+F 0 "U11" H 6375 2100 60  0000 C CNN
+F 1 "MCP4262-xxxE_UN" H 6375 2200 60  0000 C CNN
+F 2 "Package_SO:MSOP-10_3x3mm_P0.5mm" H 6920 1800 60  0001 C CNN
+F 3 "" H 6385 1375 60  0000 C CNN
+	1    6375 1375
+	1    0    0    -1  
+$EndComp
+NoConn ~ 6025 1275
+$Comp
+L power:GNDD #PWR0125
+U 1 1 5D6D0B66
+P 6375 1775
+F 0 "#PWR0125" H 6375 1525 50  0001 C CNN
+F 1 "GNDD" H 6379 1620 50  0000 C CNN
+F 2 "" H 6375 1775 50  0001 C CNN
+F 3 "" H 6375 1775 50  0001 C CNN
+	1    6375 1775
+	1    0    0    -1  
+$EndComp
+$Comp
+L power:VCC #PWR0126
+U 1 1 5D6D0B70
+P 6375 975
+F 0 "#PWR0126" H 6375 825 50  0001 C CNN
+F 1 "VCC" H 6392 1148 50  0000 C CNN
+F 2 "" H 6375 975 50  0001 C CNN
+F 3 "" H 6375 975 50  0001 C CNN
+	1    6375 975 
+	1    0    0    -1  
+$EndComp
+Text Label 6725 1175 0    50   ~ 0
+U1-Pad8
+Text Label 6725 1275 0    50   ~ 0
+U1-Pad7
+Text Label 6725 1525 0    50   ~ 0
+U1-Pad5
+Text Label 6725 1625 0    50   ~ 0
+U1-Pad6
+$Comp
+L mcp4262-xxxe_un:MCP4262-xxxE_UN U16
+U 1 1 5D6D0B81
+P 4725 3025
+F 0 "U16" H 4725 3750 60  0000 C CNN
+F 1 "MCP4262-xxxE_UN" H 4725 3850 60  0000 C CNN
+F 2 "Package_SO:MSOP-10_3x3mm_P0.5mm" H 5270 3450 60  0001 C CNN
+F 3 "" H 4735 3025 60  0000 C CNN
+	1    4725 3025
+	1    0    0    -1  
+$EndComp
+NoConn ~ 4375 2925
+$Comp
+L power:GNDD #PWR028
+U 1 1 5D6D0B8C
+P 4725 3425
+F 0 "#PWR028" H 4725 3175 50  0001 C CNN
+F 1 "GNDD" H 4729 3270 50  0000 C CNN
+F 2 "" H 4725 3425 50  0001 C CNN
+F 3 "" H 4725 3425 50  0001 C CNN
+	1    4725 3425
+	1    0    0    -1  
+$EndComp
+$Comp
+L power:VCC #PWR022
+U 1 1 5D6D0B96
+P 4725 2625
+F 0 "#PWR022" H 4725 2475 50  0001 C CNN
+F 1 "VCC" H 4742 2798 50  0000 C CNN
+F 2 "" H 4725 2625 50  0001 C CNN
+F 3 "" H 4725 2625 50  0001 C CNN
+	1    4725 2625
+	1    0    0    -1  
+$EndComp
+Text Label 5075 2825 0    50   ~ 0
+U1-Pad8
+Text Label 5075 2925 0    50   ~ 0
+U1-Pad7
+Text Label 5075 3175 0    50   ~ 0
+U1-Pad5
+Text Label 5075 3275 0    50   ~ 0
+U1-Pad6
+$Comp
+L mcp4262-xxxe_un:MCP4262-xxxE_UN U17
+U 1 1 5D6D0BA7
+P 6375 3025
+F 0 "U17" H 6375 3750 60  0000 C CNN
+F 1 "MCP4262-xxxE_UN" H 6375 3850 60  0000 C CNN
+F 2 "Package_SO:MSOP-10_3x3mm_P0.5mm" H 6920 3450 60  0001 C CNN
+F 3 "" H 6385 3025 60  0000 C CNN
+	1    6375 3025
+	1    0    0    -1  
+$EndComp
+NoConn ~ 6025 2925
+$Comp
+L power:GNDD #PWR0127
+U 1 1 5D6D0BB2
+P 6375 3425
+F 0 "#PWR0127" H 6375 3175 50  0001 C CNN
+F 1 "GNDD" H 6379 3270 50  0000 C CNN
+F 2 "" H 6375 3425 50  0001 C CNN
+F 3 "" H 6375 3425 50  0001 C CNN
+	1    6375 3425
+	1    0    0    -1  
+$EndComp
+$Comp
+L power:VCC #PWR0128
+U 1 1 5D6D0BBC
+P 6375 2625
+F 0 "#PWR0128" H 6375 2475 50  0001 C CNN
+F 1 "VCC" H 6392 2798 50  0000 C CNN
+F 2 "" H 6375 2625 50  0001 C CNN
+F 3 "" H 6375 2625 50  0001 C CNN
+	1    6375 2625
+	1    0    0    -1  
+$EndComp
+Text Label 6725 2825 0    50   ~ 0
+U1-Pad8
+Text Label 6725 2925 0    50   ~ 0
+U1-Pad7
+Text Label 6725 3175 0    50   ~ 0
+U1-Pad5
+Text Label 6725 3275 0    50   ~ 0
+U1-Pad6
+$Comp
+L mcp4262-xxxe_un:MCP4262-xxxE_UN U20
+U 1 1 5D6DAF6B
+P 1300 4625
+F 0 "U20" H 1300 5350 60  0000 C CNN
+F 1 "MCP4262-xxxE_UN" H 1300 5450 60  0000 C CNN
+F 2 "Package_SO:MSOP-10_3x3mm_P0.5mm" H 1845 5050 60  0001 C CNN
+F 3 "" H 1310 4625 60  0000 C CNN
+	1    1300 4625
+	1    0    0    -1  
+$EndComp
+NoConn ~ 950  4525
+$Comp
+L power:GNDD #PWR038
+U 1 1 5D6DAF76
+P 1300 5025
+F 0 "#PWR038" H 1300 4775 50  0001 C CNN
+F 1 "GNDD" H 1304 4870 50  0000 C CNN
+F 2 "" H 1300 5025 50  0001 C CNN
+F 3 "" H 1300 5025 50  0001 C CNN
+	1    1300 5025
+	1    0    0    -1  
+$EndComp
+$Comp
+L power:VCC #PWR032
+U 1 1 5D6DAF80
+P 1300 4225
+F 0 "#PWR032" H 1300 4075 50  0001 C CNN
+F 1 "VCC" H 1317 4398 50  0000 C CNN
+F 2 "" H 1300 4225 50  0001 C CNN
+F 3 "" H 1300 4225 50  0001 C CNN
+	1    1300 4225
+	1    0    0    -1  
+$EndComp
+Text Label 1650 4425 0    50   ~ 0
+U1-Pad8
+Text Label 1650 4525 0    50   ~ 0
+U1-Pad7
+Text Label 1650 4775 0    50   ~ 0
+U1-Pad5
+Text Label 1650 4875 0    50   ~ 0
+U1-Pad6
+$Comp
+L mcp4262-xxxe_un:MCP4262-xxxE_UN U21
+U 1 1 5D6DAF91
+P 2950 4625
+F 0 "U21" H 2950 5350 60  0000 C CNN
+F 1 "MCP4262-xxxE_UN" H 2950 5450 60  0000 C CNN
+F 2 "Package_SO:MSOP-10_3x3mm_P0.5mm" H 3495 5050 60  0001 C CNN
+F 3 "" H 2960 4625 60  0000 C CNN
+	1    2950 4625
+	1    0    0    -1  
+$EndComp
+NoConn ~ 2600 4525
+$Comp
+L power:GNDD #PWR039
+U 1 1 5D6DAF9C
+P 2950 5025
+F 0 "#PWR039" H 2950 4775 50  0001 C CNN
+F 1 "GNDD" H 2954 4870 50  0000 C CNN
+F 2 "" H 2950 5025 50  0001 C CNN
+F 3 "" H 2950 5025 50  0001 C CNN
+	1    2950 5025
+	1    0    0    -1  
+$EndComp
+$Comp
+L power:VCC #PWR0129
+U 1 1 5D6DAFA6
+P 2950 4225
+F 0 "#PWR0129" H 2950 4075 50  0001 C CNN
+F 1 "VCC" H 2967 4398 50  0000 C CNN
+F 2 "" H 2950 4225 50  0001 C CNN
+F 3 "" H 2950 4225 50  0001 C CNN
+	1    2950 4225
+	1    0    0    -1  
+$EndComp
+Text Label 3300 4425 0    50   ~ 0
+U1-Pad8
+Text Label 3300 4525 0    50   ~ 0
+U1-Pad7
+Text Label 3300 4775 0    50   ~ 0
+U1-Pad5
+Text Label 3300 4875 0    50   ~ 0
+U1-Pad6
+$Comp
+L mcp4262-xxxe_un:MCP4262-xxxE_UN U26
+U 1 1 5D6DAFB7
+P 1300 6275
+F 0 "U26" H 1300 7000 60  0000 C CNN
+F 1 "MCP4262-xxxE_UN" H 1300 7100 60  0000 C CNN
+F 2 "Package_SO:MSOP-10_3x3mm_P0.5mm" H 1845 6700 60  0001 C CNN
+F 3 "" H 1310 6275 60  0000 C CNN
+	1    1300 6275
+	1    0    0    -1  
+$EndComp
+NoConn ~ 950  6175
+$Comp
+L power:GNDD #PWR050
+U 1 1 5D6DAFC2
+P 1300 6675
+F 0 "#PWR050" H 1300 6425 50  0001 C CNN
+F 1 "GNDD" H 1304 6520 50  0000 C CNN
+F 2 "" H 1300 6675 50  0001 C CNN
+F 3 "" H 1300 6675 50  0001 C CNN
+	1    1300 6675
+	1    0    0    -1  
+$EndComp
+$Comp
+L power:VCC #PWR044
+U 1 1 5D6DAFCC
+P 1300 5875
+F 0 "#PWR044" H 1300 5725 50  0001 C CNN
+F 1 "VCC" H 1317 6048 50  0000 C CNN
+F 2 "" H 1300 5875 50  0001 C CNN
+F 3 "" H 1300 5875 50  0001 C CNN
+	1    1300 5875
+	1    0    0    -1  
+$EndComp
+Text Label 1650 6075 0    50   ~ 0
+U1-Pad8
+Text Label 1650 6175 0    50   ~ 0
+U1-Pad7
+Text Label 1650 6425 0    50   ~ 0
+U1-Pad5
+Text Label 1650 6525 0    50   ~ 0
+U1-Pad6
+$Comp
+L mcp4262-xxxe_un:MCP4262-xxxE_UN U27
+U 1 1 5D6DAFDD
+P 2950 6275
+F 0 "U27" H 2950 7000 60  0000 C CNN
+F 1 "MCP4262-xxxE_UN" H 2950 7100 60  0000 C CNN
+F 2 "Package_SO:MSOP-10_3x3mm_P0.5mm" H 3495 6700 60  0001 C CNN
+F 3 "" H 2960 6275 60  0000 C CNN
+	1    2950 6275
+	1    0    0    -1  
+$EndComp
+NoConn ~ 2600 6175
+$Comp
+L power:GNDD #PWR051
+U 1 1 5D6DAFE8
+P 2950 6675
+F 0 "#PWR051" H 2950 6425 50  0001 C CNN
+F 1 "GNDD" H 2954 6520 50  0000 C CNN
+F 2 "" H 2950 6675 50  0001 C CNN
+F 3 "" H 2950 6675 50  0001 C CNN
+	1    2950 6675
+	1    0    0    -1  
+$EndComp
+$Comp
+L power:VCC #PWR045
+U 1 1 5D6DAFF2
+P 2950 5875
+F 0 "#PWR045" H 2950 5725 50  0001 C CNN
+F 1 "VCC" H 2967 6048 50  0000 C CNN
+F 2 "" H 2950 5875 50  0001 C CNN
+F 3 "" H 2950 5875 50  0001 C CNN
+	1    2950 5875
+	1    0    0    -1  
+$EndComp
+Text Label 3300 6075 0    50   ~ 0
+U1-Pad8
+Text Label 3300 6175 0    50   ~ 0
+U1-Pad7
+Text Label 3300 6425 0    50   ~ 0
+U1-Pad5
+Text Label 3300 6525 0    50   ~ 0
+U1-Pad6
+$Comp
+L mcp4262-xxxe_un:MCP4262-xxxE_UN U22
+U 1 1 5D6DB003
+P 4750 4625
+F 0 "U22" H 4750 5350 60  0000 C CNN
+F 1 "MCP4262-xxxE_UN" H 4750 5450 60  0000 C CNN
+F 2 "Package_SO:MSOP-10_3x3mm_P0.5mm" H 5295 5050 60  0001 C CNN
+F 3 "" H 4760 4625 60  0000 C CNN
+	1    4750 4625
+	1    0    0    -1  
+$EndComp
+NoConn ~ 4400 4525
+$Comp
+L power:GNDD #PWR040
+U 1 1 5D6DB00E
+P 4750 5025
+F 0 "#PWR040" H 4750 4775 50  0001 C CNN
+F 1 "GNDD" H 4754 4870 50  0000 C CNN
+F 2 "" H 4750 5025 50  0001 C CNN
+F 3 "" H 4750 5025 50  0001 C CNN
+	1    4750 5025
+	1    0    0    -1  
+$EndComp
+$Comp
+L power:VCC #PWR034
+U 1 1 5D6DB018
+P 4750 4225
+F 0 "#PWR034" H 4750 4075 50  0001 C CNN
+F 1 "VCC" H 4767 4398 50  0000 C CNN
+F 2 "" H 4750 4225 50  0001 C CNN
+F 3 "" H 4750 4225 50  0001 C CNN
+	1    4750 4225
+	1    0    0    -1  
+$EndComp
+Text Label 5100 4425 0    50   ~ 0
+U1-Pad8
+Text Label 5100 4525 0    50   ~ 0
+U1-Pad7
+Text Label 5100 4775 0    50   ~ 0
+U1-Pad5
+Text Label 5100 4875 0    50   ~ 0
+U1-Pad6
+$Comp
+L mcp4262-xxxe_un:MCP4262-xxxE_UN U23
+U 1 1 5D6DB029
+P 6400 4625
+F 0 "U23" H 6400 5350 60  0000 C CNN
+F 1 "MCP4262-xxxE_UN" H 6400 5450 60  0000 C CNN
+F 2 "Package_SO:MSOP-10_3x3mm_P0.5mm" H 6945 5050 60  0001 C CNN
+F 3 "" H 6410 4625 60  0000 C CNN
+	1    6400 4625
+	1    0    0    -1  
+$EndComp
+NoConn ~ 6050 4525
+$Comp
+L power:GNDD #PWR041
+U 1 1 5D6DB034
+P 6400 5025
+F 0 "#PWR041" H 6400 4775 50  0001 C CNN
+F 1 "GNDD" H 6404 4870 50  0000 C CNN
+F 2 "" H 6400 5025 50  0001 C CNN
+F 3 "" H 6400 5025 50  0001 C CNN
+	1    6400 5025
+	1    0    0    -1  
+$EndComp
+$Comp
+L power:VCC #PWR035
+U 1 1 5D6DB03E
+P 6400 4225
+F 0 "#PWR035" H 6400 4075 50  0001 C CNN
+F 1 "VCC" H 6417 4398 50  0000 C CNN
+F 2 "" H 6400 4225 50  0001 C CNN
+F 3 "" H 6400 4225 50  0001 C CNN
+	1    6400 4225
+	1    0    0    -1  
+$EndComp
+Text Label 6750 4425 0    50   ~ 0
+U1-Pad8
+Text Label 6750 4525 0    50   ~ 0
+U1-Pad7
+Text Label 6750 4775 0    50   ~ 0
+U1-Pad5
+Text Label 6750 4875 0    50   ~ 0
+U1-Pad6
+$Comp
+L mcp4262-xxxe_un:MCP4262-xxxE_UN U28
+U 1 1 5D6DB04F
+P 4750 6275
+F 0 "U28" H 4750 7000 60  0000 C CNN
+F 1 "MCP4262-xxxE_UN" H 4750 7100 60  0000 C CNN
+F 2 "Package_SO:MSOP-10_3x3mm_P0.5mm" H 5295 6700 60  0001 C CNN
+F 3 "" H 4760 6275 60  0000 C CNN
+	1    4750 6275
+	1    0    0    -1  
+$EndComp
+NoConn ~ 4400 6175
+$Comp
+L power:GNDD #PWR052
+U 1 1 5D6DB05A
+P 4750 6675
+F 0 "#PWR052" H 4750 6425 50  0001 C CNN
+F 1 "GNDD" H 4754 6520 50  0000 C CNN
+F 2 "" H 4750 6675 50  0001 C CNN
+F 3 "" H 4750 6675 50  0001 C CNN
+	1    4750 6675
+	1    0    0    -1  
+$EndComp
+$Comp
+L power:VCC #PWR046
+U 1 1 5D6DB064
+P 4750 5875
+F 0 "#PWR046" H 4750 5725 50  0001 C CNN
+F 1 "VCC" H 4767 6048 50  0000 C CNN
+F 2 "" H 4750 5875 50  0001 C CNN
+F 3 "" H 4750 5875 50  0001 C CNN
+	1    4750 5875
+	1    0    0    -1  
+$EndComp
+Text Label 5100 6075 0    50   ~ 0
+U1-Pad8
+Text Label 5100 6175 0    50   ~ 0
+U1-Pad7
+Text Label 5100 6425 0    50   ~ 0
+U1-Pad5
+Text Label 5100 6525 0    50   ~ 0
+U1-Pad6
+$Comp
+L mcp4262-xxxe_un:MCP4262-xxxE_UN U29
+U 1 1 5D6DB075
+P 6400 6275
+F 0 "U29" H 6400 7000 60  0000 C CNN
+F 1 "MCP4262-xxxE_UN" H 6400 7100 60  0000 C CNN
+F 2 "Package_SO:MSOP-10_3x3mm_P0.5mm" H 6945 6700 60  0001 C CNN
+F 3 "" H 6410 6275 60  0000 C CNN
+	1    6400 6275
+	1    0    0    -1  
+$EndComp
+NoConn ~ 6050 6175
+$Comp
+L power:GNDD #PWR053
+U 1 1 5D6DB080
+P 6400 6675
+F 0 "#PWR053" H 6400 6425 50  0001 C CNN
+F 1 "GNDD" H 6404 6520 50  0000 C CNN
+F 2 "" H 6400 6675 50  0001 C CNN
+F 3 "" H 6400 6675 50  0001 C CNN
+	1    6400 6675
+	1    0    0    -1  
+$EndComp
+$Comp
+L power:VCC #PWR047
+U 1 1 5D6DB08A
+P 6400 5875
+F 0 "#PWR047" H 6400 5725 50  0001 C CNN
+F 1 "VCC" H 6417 6048 50  0000 C CNN
+F 2 "" H 6400 5875 50  0001 C CNN
+F 3 "" H 6400 5875 50  0001 C CNN
+	1    6400 5875
+	1    0    0    -1  
+$EndComp
+Text Label 6750 6075 0    50   ~ 0
+U1-Pad8
+Text Label 6750 6175 0    50   ~ 0
+U1-Pad7
+Text Label 6750 6425 0    50   ~ 0
+U1-Pad5
+Text Label 6750 6525 0    50   ~ 0
+U1-Pad6
+$Comp
+L mcp4262-xxxe_un:MCP4262-xxxE_UN U12
+U 1 1 5D6E6E49
+P 8200 1400
+F 0 "U12" H 8200 2125 60  0000 C CNN
+F 1 "MCP4262-xxxE_UN" H 8200 2225 60  0000 C CNN
+F 2 "Package_SO:MSOP-10_3x3mm_P0.5mm" H 8745 1825 60  0001 C CNN
+F 3 "" H 8210 1400 60  0000 C CNN
+	1    8200 1400
+	1    0    0    -1  
+$EndComp
+NoConn ~ 7850 1300
+$Comp
+L power:GNDD #PWR0130
+U 1 1 5D6E6E54
+P 8200 1800
+F 0 "#PWR0130" H 8200 1550 50  0001 C CNN
+F 1 "GNDD" H 8204 1645 50  0000 C CNN
+F 2 "" H 8200 1800 50  0001 C CNN
+F 3 "" H 8200 1800 50  0001 C CNN
+	1    8200 1800
+	1    0    0    -1  
+$EndComp
+$Comp
+L power:VCC #PWR0131
+U 1 1 5D6E6E5E
+P 8200 1000
+F 0 "#PWR0131" H 8200 850 50  0001 C CNN
+F 1 "VCC" H 8217 1173 50  0000 C CNN
+F 2 "" H 8200 1000 50  0001 C CNN
+F 3 "" H 8200 1000 50  0001 C CNN
+	1    8200 1000
+	1    0    0    -1  
+$EndComp
+Text Label 8550 1200 0    50   ~ 0
+U1-Pad8
+Text Label 8550 1300 0    50   ~ 0
+U1-Pad7
+Text Label 8550 1550 0    50   ~ 0
+U1-Pad5
+Text Label 8550 1650 0    50   ~ 0
+U1-Pad6
+$Comp
+L mcp4262-xxxe_un:MCP4262-xxxE_UN U13
+U 1 1 5D6E6E6F
+P 9850 1400
+F 0 "U13" H 9850 2125 60  0000 C CNN
+F 1 "MCP4262-xxxE_UN" H 9850 2225 60  0000 C CNN
+F 2 "Package_SO:MSOP-10_3x3mm_P0.5mm" H 10395 1825 60  0001 C CNN
+F 3 "" H 9860 1400 60  0000 C CNN
+	1    9850 1400
+	1    0    0    -1  
+$EndComp
+NoConn ~ 9500 1300
+$Comp
+L power:GNDD #PWR0132
+U 1 1 5D6E6E7A
+P 9850 1800
+F 0 "#PWR0132" H 9850 1550 50  0001 C CNN
+F 1 "GNDD" H 9854 1645 50  0000 C CNN
+F 2 "" H 9850 1800 50  0001 C CNN
+F 3 "" H 9850 1800 50  0001 C CNN
+	1    9850 1800
+	1    0    0    -1  
+$EndComp
+$Comp
+L power:VCC #PWR0133
+U 1 1 5D6E6E84
+P 9850 1000
+F 0 "#PWR0133" H 9850 850 50  0001 C CNN
+F 1 "VCC" H 9867 1173 50  0000 C CNN
+F 2 "" H 9850 1000 50  0001 C CNN
+F 3 "" H 9850 1000 50  0001 C CNN
+	1    9850 1000
+	1    0    0    -1  
+$EndComp
+Text Label 10200 1200 0    50   ~ 0
+U1-Pad8
+Text Label 10200 1300 0    50   ~ 0
+U1-Pad7
+Text Label 10200 1550 0    50   ~ 0
+U1-Pad5
+Text Label 10200 1650 0    50   ~ 0
+U1-Pad6
+$Comp
+L mcp4262-xxxe_un:MCP4262-xxxE_UN U18
+U 1 1 5D6E6E95
+P 8200 3050
+F 0 "U18" H 8200 3775 60  0000 C CNN
+F 1 "MCP4262-xxxE_UN" H 8200 3875 60  0000 C CNN
+F 2 "Package_SO:MSOP-10_3x3mm_P0.5mm" H 8745 3475 60  0001 C CNN
+F 3 "" H 8210 3050 60  0000 C CNN
+	1    8200 3050
+	1    0    0    -1  
+$EndComp
+NoConn ~ 7850 2950
+$Comp
+L power:GNDD #PWR030
+U 1 1 5D6E6EA0
+P 8200 3450
+F 0 "#PWR030" H 8200 3200 50  0001 C CNN
+F 1 "GNDD" H 8204 3295 50  0000 C CNN
+F 2 "" H 8200 3450 50  0001 C CNN
+F 3 "" H 8200 3450 50  0001 C CNN
+	1    8200 3450
+	1    0    0    -1  
+$EndComp
+$Comp
+L power:VCC #PWR024
+U 1 1 5D6E6EAA
+P 8200 2650
+F 0 "#PWR024" H 8200 2500 50  0001 C CNN
+F 1 "VCC" H 8217 2823 50  0000 C CNN
+F 2 "" H 8200 2650 50  0001 C CNN
+F 3 "" H 8200 2650 50  0001 C CNN
+	1    8200 2650
+	1    0    0    -1  
+$EndComp
+Text Label 8550 2850 0    50   ~ 0
+U1-Pad8
+Text Label 8550 2950 0    50   ~ 0
+U1-Pad7
+Text Label 8550 3200 0    50   ~ 0
+U1-Pad5
+Text Label 8550 3300 0    50   ~ 0
+U1-Pad6
+$Comp
+L mcp4262-xxxe_un:MCP4262-xxxE_UN U19
+U 1 1 5D6E6EBB
+P 9850 3050
+F 0 "U19" H 9850 3775 60  0000 C CNN
+F 1 "MCP4262-xxxE_UN" H 9850 3875 60  0000 C CNN
+F 2 "Package_SO:MSOP-10_3x3mm_P0.5mm" H 10395 3475 60  0001 C CNN
+F 3 "" H 9860 3050 60  0000 C CNN
+	1    9850 3050
+	1    0    0    -1  
+$EndComp
+NoConn ~ 9500 2950
+$Comp
+L power:GNDD #PWR0134
+U 1 1 5D6E6EC6
+P 9850 3450
+F 0 "#PWR0134" H 9850 3200 50  0001 C CNN
+F 1 "GNDD" H 9854 3295 50  0000 C CNN
+F 2 "" H 9850 3450 50  0001 C CNN
+F 3 "" H 9850 3450 50  0001 C CNN
+	1    9850 3450
+	1    0    0    -1  
+$EndComp
+$Comp
+L power:VCC #PWR025
+U 1 1 5D6E6ED0
+P 9850 2650
+F 0 "#PWR025" H 9850 2500 50  0001 C CNN
+F 1 "VCC" H 9867 2823 50  0000 C CNN
+F 2 "" H 9850 2650 50  0001 C CNN
+F 3 "" H 9850 2650 50  0001 C CNN
+	1    9850 2650
+	1    0    0    -1  
+$EndComp
+Text Label 10200 2850 0    50   ~ 0
+U1-Pad8
+Text Label 10200 2950 0    50   ~ 0
+U1-Pad7
+Text Label 10200 3200 0    50   ~ 0
+U1-Pad5
+Text Label 10200 3300 0    50   ~ 0
+U1-Pad6
+$Comp
+L mcp4262-xxxe_un:MCP4262-xxxE_UN U24
+U 1 1 5D6E6EE1
+P 8225 4650
+F 0 "U24" H 8225 5375 60  0000 C CNN
+F 1 "MCP4262-xxxE_UN" H 8225 5475 60  0000 C CNN
+F 2 "Package_SO:MSOP-10_3x3mm_P0.5mm" H 8770 5075 60  0001 C CNN
+F 3 "" H 8235 4650 60  0000 C CNN
+	1    8225 4650
+	1    0    0    -1  
+$EndComp
+NoConn ~ 7875 4550
+$Comp
+L power:GNDD #PWR042
+U 1 1 5D6E6EEC
+P 8225 5050
+F 0 "#PWR042" H 8225 4800 50  0001 C CNN
+F 1 "GNDD" H 8229 4895 50  0000 C CNN
+F 2 "" H 8225 5050 50  0001 C CNN
+F 3 "" H 8225 5050 50  0001 C CNN
+	1    8225 5050
+	1    0    0    -1  
+$EndComp
+$Comp
+L power:VCC #PWR036
+U 1 1 5D6E6EF6
+P 8225 4250
+F 0 "#PWR036" H 8225 4100 50  0001 C CNN
+F 1 "VCC" H 8242 4423 50  0000 C CNN
+F 2 "" H 8225 4250 50  0001 C CNN
+F 3 "" H 8225 4250 50  0001 C CNN
+	1    8225 4250
+	1    0    0    -1  
+$EndComp
+Text Label 8575 4450 0    50   ~ 0
+U1-Pad8
+Text Label 8575 4550 0    50   ~ 0
+U1-Pad7
+Text Label 8575 4800 0    50   ~ 0
+U1-Pad5
+Text Label 8575 4900 0    50   ~ 0
+U1-Pad6
+$Comp
+L mcp4262-xxxe_un:MCP4262-xxxE_UN U25
+U 1 1 5D6E6F07
+P 9875 4650
+F 0 "U25" H 9875 5375 60  0000 C CNN
+F 1 "MCP4262-xxxE_UN" H 9875 5475 60  0000 C CNN
+F 2 "Package_SO:MSOP-10_3x3mm_P0.5mm" H 10420 5075 60  0001 C CNN
+F 3 "" H 9885 4650 60  0000 C CNN
+	1    9875 4650
+	1    0    0    -1  
+$EndComp
+NoConn ~ 9525 4550
+$Comp
+L power:GNDD #PWR043
+U 1 1 5D6E6F12
+P 9875 5050
+F 0 "#PWR043" H 9875 4800 50  0001 C CNN
+F 1 "GNDD" H 9879 4895 50  0000 C CNN
+F 2 "" H 9875 5050 50  0001 C CNN
+F 3 "" H 9875 5050 50  0001 C CNN
+	1    9875 5050
+	1    0    0    -1  
+$EndComp
+$Comp
+L power:VCC #PWR037
+U 1 1 5D6E6F1C
+P 9875 4250
+F 0 "#PWR037" H 9875 4100 50  0001 C CNN
+F 1 "VCC" H 9892 4423 50  0000 C CNN
+F 2 "" H 9875 4250 50  0001 C CNN
+F 3 "" H 9875 4250 50  0001 C CNN
+	1    9875 4250
+	1    0    0    -1  
+$EndComp
+Text Label 10225 4450 0    50   ~ 0
+U1-Pad8
+Text Label 10225 4550 0    50   ~ 0
+U1-Pad7
+Text Label 10225 4800 0    50   ~ 0
+U1-Pad5
+Text Label 10225 4900 0    50   ~ 0
+U1-Pad6
+$Comp
+L mcp4262-xxxe_un:MCP4262-xxxE_UN U30
+U 1 1 5D6E6F2D
+P 8225 6300
+F 0 "U30" H 8225 7025 60  0000 C CNN
+F 1 "MCP4262-xxxE_UN" H 8225 7125 60  0000 C CNN
+F 2 "Package_SO:MSOP-10_3x3mm_P0.5mm" H 8770 6725 60  0001 C CNN
+F 3 "" H 8235 6300 60  0000 C CNN
+	1    8225 6300
+	1    0    0    -1  
+$EndComp
+NoConn ~ 7875 6200
+$Comp
+L power:GNDD #PWR054
+U 1 1 5D6E6F38
+P 8225 6700
+F 0 "#PWR054" H 8225 6450 50  0001 C CNN
+F 1 "GNDD" H 8229 6545 50  0000 C CNN
+F 2 "" H 8225 6700 50  0001 C CNN
+F 3 "" H 8225 6700 50  0001 C CNN
+	1    8225 6700
+	1    0    0    -1  
+$EndComp
+$Comp
+L power:VCC #PWR048
+U 1 1 5D6E6F42
+P 8225 5900
+F 0 "#PWR048" H 8225 5750 50  0001 C CNN
+F 1 "VCC" H 8242 6073 50  0000 C CNN
+F 2 "" H 8225 5900 50  0001 C CNN
+F 3 "" H 8225 5900 50  0001 C CNN
+	1    8225 5900
+	1    0    0    -1  
+$EndComp
+Text Label 7875 6300 2    50   ~ 0
+SCK(1)
+Text Label 7875 6100 2    50   ~ 0
+MOSI(1)
+Text Label 8575 6100 0    50   ~ 0
+U1-Pad8
+Text Label 8575 6200 0    50   ~ 0
+U1-Pad7
+Text Label 8575 6450 0    50   ~ 0
+U1-Pad5
+Text Label 8575 6550 0    50   ~ 0
+U1-Pad6
+Text Label 7875 6450 2    50   ~ 0
+8
+$Comp
+L mcp4262-xxxe_un:MCP4262-xxxE_UN U31
+U 1 1 5D6E6F53
+P 9875 6300
+F 0 "U31" H 9875 7025 60  0000 C CNN
+F 1 "MCP4262-xxxE_UN" H 9875 7125 60  0000 C CNN
+F 2 "Package_SO:MSOP-10_3x3mm_P0.5mm" H 10420 6725 60  0001 C CNN
+F 3 "" H 9885 6300 60  0000 C CNN
+	1    9875 6300
+	1    0    0    -1  
+$EndComp
+NoConn ~ 9525 6200
+$Comp
+L power:GNDD #PWR055
+U 1 1 5D6E6F5E
+P 9875 6700
+F 0 "#PWR055" H 9875 6450 50  0001 C CNN
+F 1 "GNDD" H 9879 6545 50  0000 C CNN
+F 2 "" H 9875 6700 50  0001 C CNN
+F 3 "" H 9875 6700 50  0001 C CNN
+	1    9875 6700
+	1    0    0    -1  
+$EndComp
+$Comp
+L power:VCC #PWR049
+U 1 1 5D6E6F68
+P 9875 5900
+F 0 "#PWR049" H 9875 5750 50  0001 C CNN
+F 1 "VCC" H 9892 6073 50  0000 C CNN
+F 2 "" H 9875 5900 50  0001 C CNN
+F 3 "" H 9875 5900 50  0001 C CNN
+	1    9875 5900
+	1    0    0    -1  
+$EndComp
+Text Label 9525 6300 2    50   ~ 0
+SCK(1)
+Text Label 9525 6100 2    50   ~ 0
+MOSI(1)
+Text Label 10225 6100 0    50   ~ 0
+U1-Pad8
+Text Label 10225 6200 0    50   ~ 0
+U1-Pad7
+Text Label 10225 6450 0    50   ~ 0
+U1-Pad5
+Text Label 10225 6550 0    50   ~ 0
+U1-Pad6
+Text Label 9525 6450 2    50   ~ 0
+8
+$Comp
+L mcp4262-xxxe_un:MCP4262-xxxE_UN U32
+U 1 1 5D6F1A59
+P 3875 7525
+F 0 "U32" H 3875 8250 60  0000 C CNN
+F 1 "MCP4262-xxxE_UN" H 3875 8350 60  0000 C CNN
+F 2 "Package_SO:MSOP-10_3x3mm_P0.5mm" H 4420 7950 60  0001 C CNN
+F 3 "" H 3885 7525 60  0000 C CNN
+	1    3875 7525
+	1    0    0    -1  
+$EndComp
+NoConn ~ 3525 7425
+$Comp
+L power:GNDD #PWR058
+U 1 1 5D6F1A64
+P 3875 7925
+F 0 "#PWR058" H 3875 7675 50  0001 C CNN
+F 1 "GNDD" H 3879 7770 50  0000 C CNN
+F 2 "" H 3875 7925 50  0001 C CNN
+F 3 "" H 3875 7925 50  0001 C CNN
+	1    3875 7925
+	1    0    0    -1  
+$EndComp
+$Comp
+L power:VCC #PWR056
+U 1 1 5D6F1A6E
+P 3875 7125
+F 0 "#PWR056" H 3875 6975 50  0001 C CNN
+F 1 "VCC" H 3892 7298 50  0000 C CNN
+F 2 "" H 3875 7125 50  0001 C CNN
+F 3 "" H 3875 7125 50  0001 C CNN
+	1    3875 7125
+	1    0    0    -1  
+$EndComp
+Text Label 4225 7325 0    50   ~ 0
+U1-Pad8
+Text Label 4225 7425 0    50   ~ 0
+U1-Pad7
+Text Label 4225 7675 0    50   ~ 0
+U1-Pad5
+Text Label 4225 7775 0    50   ~ 0
+U1-Pad6
+$Comp
+L mcp4262-xxxe_un:MCP4262-xxxE_UN U33
+U 1 1 5D6F1A7F
+P 5675 7525
+F 0 "U33" H 5675 8250 60  0000 C CNN
+F 1 "MCP4262-xxxE_UN" H 5675 8350 60  0000 C CNN
+F 2 "Package_SO:MSOP-10_3x3mm_P0.5mm" H 6220 7950 60  0001 C CNN
+F 3 "" H 5685 7525 60  0000 C CNN
+	1    5675 7525
+	1    0    0    -1  
+$EndComp
+NoConn ~ 5325 7425
+$Comp
+L power:GNDD #PWR059
+U 1 1 5D6F1A8A
+P 5675 7925
+F 0 "#PWR059" H 5675 7675 50  0001 C CNN
+F 1 "GNDD" H 5679 7770 50  0000 C CNN
+F 2 "" H 5675 7925 50  0001 C CNN
+F 3 "" H 5675 7925 50  0001 C CNN
+	1    5675 7925
+	1    0    0    -1  
+$EndComp
+$Comp
+L power:VCC #PWR057
+U 1 1 5D6F1A94
+P 5675 7125
+F 0 "#PWR057" H 5675 6975 50  0001 C CNN
+F 1 "VCC" H 5692 7298 50  0000 C CNN
+F 2 "" H 5675 7125 50  0001 C CNN
+F 3 "" H 5675 7125 50  0001 C CNN
+	1    5675 7125
+	1    0    0    -1  
+$EndComp
+Text Label 6025 7325 0    50   ~ 0
+U1-Pad8
+Text Label 6025 7425 0    50   ~ 0
+U1-Pad7
+Text Label 6025 7675 0    50   ~ 0
+U1-Pad5
+Text Label 6025 7775 0    50   ~ 0
+U1-Pad6
+$Comp
+L Reference_Current:LM334Z-LFT1 U40
+U 1 1 5E709926
+P 1300 7875
+F 0 "U40" H 1171 7921 50  0000 R CNN
+F 1 "LM334Z-LFT1" H 1171 7830 50  0000 R CNN
+F 2 "multipackage:TO-92_Spread_for_LM334Z" H 1325 7700 50  0001 L CIN
+F 3 "http://www.ti.com/lit/ds/symlink/lm134.pdf" H 1300 7875 50  0001 C CIN
+F 4 "LM334Z/LFT1" H 1300 7875 50  0001 C CNN "Part_number"
+F 5 "http://digikey.com Two needed" H 1300 7875 50  0001 C CNN "Source"
+F 6 "01" H 1300 7875 50  0001 C CNN "ClickToSortForPlacement"
+	1    1300 7875
+	1    0    0    -1  
+$EndComp
+$Comp
+L Device:R_Small_US R15
+U 1 1 5E713C95
+P 1500 7975
+F 0 "R15" H 1568 8021 50  0000 L CNN
+F 1 "14.7 KΩ  0.1% 0.063W ±25ppm/°C (NTR06B1472CTRF)" H 1568 7930 50  0000 L CNN
+F 2 "Resistor_SMD:R_0603_1608Metric" H 1500 7975 50  0001 C CNN
+F 3 "https://static6.arrow.com/aropdfconversion/669b41e07e7b791c3fd809a54c1187fadb989b67/697940354256393ntr.pdf" H 1500 7975 50  0001 C CNN
+F 4 "http://Arrow.com Order two: R15 & R17" H 1500 7975 50  0001 C CNN "Source"
+F 5 "NTR06B1472CTRF" H 1500 7975 50  0001 C CNN "Part_number"
+F 6 "01" H 1500 7975 50  0001 C CNN "ClickToSortForPlacement"
+	1    1500 7975
+	1    0    0    -1  
+$EndComp
+Wire Wire Line
+	1500 8075 1300 8075
+$Comp
+L power:GNDD #PWR0135
+U 1 1 5E714662
+P 1300 8075
+F 0 "#PWR0135" H 1300 7825 50  0001 C CNN
+F 1 "GNDD" H 1304 7920 50  0000 C CNN
+F 2 "" H 1300 8075 50  0001 C CNN
+F 3 "" H 1300 8075 50  0001 C CNN
+	1    1300 8075
+	1    0    0    -1  
+$EndComp
+Connection ~ 1300 8075
+$Comp
+L power:VCC #PWR0136
+U 1 1 5E714A44
+P 1300 7675
+F 0 "#PWR0136" H 1300 7525 50  0001 C CNN
+F 1 "VCC" H 1317 7848 50  0000 C CNN
+F 2 "" H 1300 7675 50  0001 C CNN
+F 3 "" H 1300 7675 50  0001 C CNN
+	1    1300 7675
+	1    0    0    -1  
+$EndComp
+Text Label 1675 7750 0    50   ~ 0
+A6
+Wire Wire Line
+	1500 7875 1525 7875
+Wire Wire Line
+	1525 7875 1525 7750
+Wire Wire Line
+	1525 7750 1675 7750
+Connection ~ 1500 7875
+Text Label 9525 4450 2    50   ~ 0
+MOSI(1)
+Text Label 9525 4800 2    50   ~ 0
+8
+Text Label 9500 3200 2    50   ~ 0
+8
+Text Label 9525 4650 2    50   ~ 0
+SCK(1)
+Text Label 9500 3050 2    50   ~ 0
+SCK(1)
+Text Label 9500 2850 2    50   ~ 0
+MOSI(1)
+Text Label 7875 4800 2    50   ~ 0
+8
+Text Label 7850 3200 2    50   ~ 0
+8
+Text Label 7850 1550 2    50   ~ 0
+8
+Text Label 9500 1550 2    50   ~ 0
+8
+Text Label 9500 1400 2    50   ~ 0
+SCK(1)
+Text Label 7850 1400 2    50   ~ 0
+SCK(1)
+Text Label 7850 3050 2    50   ~ 0
+SCK(1)
+Text Label 9500 1200 2    50   ~ 0
+MOSI(1)
+Text Label 7850 1200 2    50   ~ 0
+MOSI(1)
+Text Label 7850 2850 2    50   ~ 0
+MOSI(1)
+Text Label 7875 4650 2    50   ~ 0
+SCK(1)
+Text Label 7875 4450 2    50   ~ 0
+MOSI(1)
+Text Label 6025 1525 2    50   ~ 0
+8
+Text Label 4375 1525 2    50   ~ 0
+8
+Text Label 4375 3175 2    50   ~ 0
+8
+Text Label 6025 3175 2    50   ~ 0
+8
+Text Label 6050 4775 2    50   ~ 0
+8
+Text Label 4400 4775 2    50   ~ 0
+8
+Text Label 4400 6425 2    50   ~ 0
+8
+Text Label 6050 6425 2    50   ~ 0
+8
+Text Label 6025 1375 2    50   ~ 0
+SCK(1)
+Text Label 4375 1375 2    50   ~ 0
+SCK(1)
+Text Label 4375 3025 2    50   ~ 0
+SCK(1)
+Text Label 4400 4625 2    50   ~ 0
+SCK(1)
+Text Label 4400 6275 2    50   ~ 0
+SCK(1)
+Text Label 6050 6275 2    50   ~ 0
+SCK(1)
+Text Label 6050 4625 2    50   ~ 0
+SCK(1)
+Text Label 6025 3025 2    50   ~ 0
+SCK(1)
+Text Label 6050 6075 2    50   ~ 0
+MOSI(1)
+Text Label 4400 6075 2    50   ~ 0
+MOSI(1)
+Text Label 4400 4425 2    50   ~ 0
+MOSI(1)
+Text Label 6050 4425 2    50   ~ 0
+MOSI(1)
+Text Label 4375 2825 2    50   ~ 0
+MOSI(1)
+Text Label 4375 1175 2    50   ~ 0
+MOSI(1)
+Text Label 6025 1175 2    50   ~ 0
+MOSI(1)
+Text Label 6025 2825 2    50   ~ 0
+MOSI(1)
+Text Label 3525 7675 2    50   ~ 0
+8
+Text Label 5325 7675 2    50   ~ 0
+8
+Text Label 5325 7525 2    50   ~ 0
+SCK(1)
+Text Label 5325 7325 2    50   ~ 0
+MOSI(1)
+Text Label 3525 7525 2    50   ~ 0
+SCK(1)
+Text Label 3525 7325 2    50   ~ 0
+MOSI(1)
+Text Label 2575 1175 2    50   ~ 0
+MOSI(1)
+Text Label 2575 1375 2    50   ~ 0
+SCK(1)
+Text Label 2575 1525 2    50   ~ 0
+8
+Text Label 925  1175 2    50   ~ 0
+MOSI(1)
+Text Label 2575 3025 2    50   ~ 0
+SCK(1)
+Text Label 2575 2825 2    50   ~ 0
+MOSI(1)
+Text Label 2575 3175 2    50   ~ 0
+8
+Text Label 925  1375 2    50   ~ 0
+SCK(1)
+Text Label 925  1525 2    50   ~ 0
+8
+Text Label 925  3175 2    50   ~ 0
+8
+Text Label 925  3025 2    50   ~ 0
+SCK(1)
+Text Label 925  2825 2    50   ~ 0
+MOSI(1)
+Text Label 2600 4425 2    50   ~ 0
+MOSI(1)
+Text Label 2600 4625 2    50   ~ 0
+SCK(1)
+Text Label 2600 4775 2    50   ~ 0
+8
+Text Label 950  4425 2    50   ~ 0
+MOSI(1)
+Text Label 950  4625 2    50   ~ 0
+SCK(1)
+Text Label 950  4775 2    50   ~ 0
+8
+Text Label 2600 6075 2    50   ~ 0
+MOSI(1)
+Text Label 2600 6275 2    50   ~ 0
+SCK(1)
+Text Label 2600 6425 2    50   ~ 0
+8
+Text Label 950  6425 2    50   ~ 0
+8
+Text Label 950  6275 2    50   ~ 0
+SCK(1)
+Text Label 950  6075 2    50   ~ 0
+MOSI(1)
+$Comp
+L conn_01x01_male_tiny_pin_number:Conn_01x01_Male J24
+U 1 1 5E72F694
+P 1120 8535
+F 0 "J24" H 1120 8635 50  0001 C CNN
+F 1 "Conn_01x01_Male" H 1120 8435 50  0001 C CNN
+F 2 "multipackage:Hole_0.9mm" H 1120 8535 50  0001 C CNN
+F 3 "~" H 1120 8535 50  0001 C CNN
+	1    1120 8535
+	1    0    0    -1  
+$EndComp
+$Comp
+L conn_01x01_male_tiny_pin_number:Conn_01x01_Male J25
+U 1 1 5E72F805
+P 1120 8630
+F 0 "J25" H 1120 8730 50  0001 C CNN
+F 1 "Conn_01x01_Male" H 1120 8530 50  0001 C CNN
+F 2 "multipackage:Hole_0.9mm" H 1120 8630 50  0001 C CNN
+F 3 "~" H 1120 8630 50  0001 C CNN
+	1    1120 8630
+	1    0    0    -1  
+$EndComp
+$Comp
+L conn_01x01_male_tiny_pin_number:Conn_01x01_Male J23
+U 1 1 5E72FA29
+P 1120 8725
+F 0 "J23" H 1120 8825 50  0001 C CNN
+F 1 "Conn_01x01_Male" H 1120 8625 50  0001 C CNN
+F 2 "multipackage:Hole_0.9mm" H 1120 8725 50  0001 C CNN
+F 3 "~" H 1120 8725 50  0001 C CNN
+	1    1120 8725
+	1    0    0    -1  
+$EndComp
+Text Label 1320 8725 0    50   ~ 0
+8
+Text Label 1320 8630 0    50   ~ 0
+SCK(1)
+Text Label 1320 8535 0    50   ~ 0
+MOSI(1)
+$Comp
+L conn_01x01_male_tiny_pin_number:Conn_01x01_Male J20
+U 1 1 5E723A6C
+P 1120 8825
+F 0 "J20" H 1120 8925 50  0001 C CNN
+F 1 "Conn_01x01_Male" H 1120 8725 50  0001 C CNN
+F 2 "multipackage:Hole_0.9mm" H 1120 8825 50  0001 C CNN
+F 3 "~" H 1120 8825 50  0001 C CNN
+	1    1120 8825
+	1    0    0    -1  
+$EndComp
+Text Label 1320 8825 0    50   ~ 0
+U1-Pad6
+$Comp
+L conn_01x01_male_tiny_pin_number:Conn_01x01_Male J18
+U 1 1 5E72A122
+P 1120 8930
+F 0 "J18" H 1120 9030 50  0001 C CNN
+F 1 "Conn_01x01_Male" H 1120 8830 50  0001 C CNN
+F 2 "multipackage:Hole_0.9mm" H 1120 8930 50  0001 C CNN
+F 3 "~" H 1120 8930 50  0001 C CNN
+	1    1120 8930
+	1    0    0    -1  
+$EndComp
+Text Label 1320 8930 0    50   ~ 0
+U1-Pad8
+$Comp
+L conn_01x01_male_tiny_pin_number:Conn_01x01_Male J32
+U 1 1 5E72CCEE
+P 1120 9030
+F 0 "J32" H 1120 9130 50  0001 C CNN
+F 1 "Conn_01x01_Male" H 1120 8930 50  0001 C CNN
+F 2 "" H 1120 9030 50  0001 C CNN
+F 3 "~" H 1120 9030 50  0001 C CNN
+	1    1120 9030
+	1    0    0    -1  
+$EndComp
+Text Label 1320 9030 0    50   ~ 0
+U1-Pad7
+$Comp
+L conn_01x01_male_tiny_pin_number:Conn_01x01_Male J19
+U 1 1 5E72F96E
+P 1120 9140
+F 0 "J19" H 1120 9240 50  0001 C CNN
+F 1 "Conn_01x01_Male" H 1120 9040 50  0001 C CNN
+F 2 "" H 1120 9140 50  0001 C CNN
+F 3 "~" H 1120 9140 50  0001 C CNN
+	1    1120 9140
+	1    0    0    -1  
+$EndComp
+Text Label 1320 9140 0    50   ~ 0
+U1-Pad5
+$Comp
+L conn_01x01_male_tiny_pin_number:Conn_01x01_Male J22
+U 1 1 5E7BD863
+P 1120 8440
+F 0 "J22" H 1120 8540 50  0001 C CNN
+F 1 "Conn_01x01_Male" H 1120 8340 50  0001 C CNN
+F 2 "multipackage:Hole_0.9mm" H 1120 8440 50  0001 C CNN
+F 3 "~" H 1120 8440 50  0001 C CNN
+	1    1120 8440
+	1    0    0    -1  
+$EndComp
+Text Label 1320 8440 0    50   ~ 0
+MOSI(1)
+$EndSCHEMATC
