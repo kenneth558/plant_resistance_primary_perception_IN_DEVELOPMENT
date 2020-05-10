@@ -1,32 +1,3 @@
-
-Skip to content
-Pull requests
-Issues
-Marketplace
-Explore
-@kenneth558
-kenneth558 /
-plant_resistance_primary_perception
-
-5
-6
-
-    0
-
-Code
-Issues 0
-Pull requests 0
-Actions
-Projects 12
-Wiki
-Security 0
-Insights
-
-    Settings
-
-plant_resistance_primary_perception/Where to find everything for making your own GWAAMC device/Construction details/Risks; Required Skills and Knowledge
-@kenneth558 kenneth558 Create Risks; Required Skills and Knowledge 8291620 3 minutes ago
-72 lines (45 sloc) 15 KB
 ### DISCLAIMER
 
 I am forced by the reality of all the development complexities to strongly suggest that until this sketch has been bug-free at the latest revision level for at least three to four weeks after I claim it to be bug-free, all potential users just hold off unless you are prepared to fix my sketch bugs. Sorry for not being perfect.
