@@ -1,5 +1,8 @@
 <p align=center>Do you have an idea for features?  Now is a great time for all interested parties to ask me about including capabilities you think would make this project as valuable as it can be.  Just submit an "Issue" (see the tab above) describing the device feature that would interest you.  rdetiger asks for compatibility with Adafruit μCs. I think that is a great direction for me to look into. My best guess is that the Adafruit Metro 328 will run this code and accept this board without any trouble.  Thank you!</p>
 
+
+<dl><dt>12 May 2020</dt></dl>Both my cassette orders got canceled due to too fine of features for ABS.  I've arranged for someone to see if they can print the bottom.  No word back from them, yet....
+
 <dl><dt>09 May 2020</dt></dl>Placed the order for the bottom cassette. 
 
 <dl><dt>08 May 2020</dt></dl>Just placed an order for a new top aspect cassette.  Still working on the bottom to add one last item - some tin whiskers cages for the larger IC packages.  The design for MSOP package cages are done.  These cages will span across the IC packages to contain any tin whiskers that might form to only the pin they originate from.
