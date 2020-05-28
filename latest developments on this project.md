@@ -1,5 +1,7 @@
 <p align=center>Do you have an idea for features?  Now is a great time for all interested parties to ask me about including capabilities you think would make this project as valuable as it can be.  Just submit an "Issue" (see the tab above) describing the device feature that would interest you.  rdetiger asks for compatibility with Adafruit μCs. I think that is a great direction for me to look into. My best guess is that the Adafruit Metro 328 will run this code and accept this board without any trouble.  Thank you!</p>
 
+<dl><dt>28 May 2020</dt></dl>I had to modify the cavity sizes a bit larger in the bottom cassette and order a new one.  I just received notice that it is finished and shipped.  I await it.
+
 <dl><dt>17 May 2020</dt></dl>The cassettes are still in "Production started" status according to craftcloud3d web site.
 
 <dl><dt>13 May 2020</dt></dl>I placed a new order for top and bottom resin cassette. No word as of 14 May 9am whether the order will get honored, but my last resin order did get made for me.  Product expected in 9 days.  Once the cassettes arrive I can start constructing boards.  I will also need to locate carbon fiber "tape".  Most of what I see for sale uses the term "graphite" in the sales lit.  Graphite and diamond are the WRONG forms of carbon for me to use.  I wish everyone would stay away from using the term "graphite" unless the molecular structure is actually graphite.  Bad terminology makes me have to dig deeper and even travel hundreds of miles to measure electrical resistance.
