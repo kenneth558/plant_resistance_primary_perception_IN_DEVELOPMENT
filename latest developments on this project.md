@@ -1,5 +1,7 @@
 <p align=center>Do you have an idea for features?  Now is a great time for all interested parties to ask me about including capabilities you think would make this project as valuable as it can be.  Just submit an "Issue" (see the tab above) describing the device feature that would interest you.  rdetiger asks for compatibility with Adafruit μCs. I think that is a great direction for me to look into. My best guess is that the Adafruit Metro 328 will run this code and accept this board without any trouble.  Thank you!</p>
 
+<dl><dt>03 Jun 2020</dt></dl>Again, The components wells were too small.  Ordered ones with larger wells and using three different materials.
+
 <dl><dt>01 Jun 2020</dt></dl>The projected arrival date of my newest cassette has been changed to be today in about 4 hrs.
 
 <dl><dt>28 May 2020</dt></dl>I had to modify the cavity sizes a bit larger in the bottom cassette and order a new one.  It is scheduled to arrive Tuesday June 2.
