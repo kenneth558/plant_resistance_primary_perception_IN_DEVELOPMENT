@@ -1,5 +1,7 @@
 <p align=center>Do you have an idea for features?  Now is a great time for all interested parties to ask me about including capabilities you think would make this project as valuable as it can be.  Just submit an "Issue" (see the tab above) describing the device feature that would interest you.  rdetiger asks for compatibility with Adafruit μCs. I think that is a great direction for me to look into. My best guess is that the Adafruit Metro 328 will run this code and accept this board without any trouble.  Thank you!</p>
 
+<dl><dt>16 Jun 2020</dt></dl>Received my latest form/holder, and the VSSOP-8 wells are still too small.  Going for one last design now.
+
 <dl><dt>11 Jun 2020</dt></dl>My son offered the term of "form" instead of "cassette" for these components holders.  I didn't care for calling them "cassettes".  I'll change their term to something like "holder" or "form".  They can also be called a "jig", but only as a last resort.
 
 <dl><dt>09 Jun 2020</dt></dl>That cassette was better, but still not right.  Made corrections to design and ordered another.  A return notice is telling me the new cassette is already in production.
