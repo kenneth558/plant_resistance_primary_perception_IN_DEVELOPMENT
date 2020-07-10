@@ -1,5 +1,7 @@
 <p align=center>Do you have an idea for features?  Now is a great time for all interested parties to ask me about including capabilities you think would make this project as valuable as it can be.  Just submit an "Issue" (see the tab above) describing the device feature that would interest you.  rdetiger asks for compatibility with Adafruit μCs. I think that is a great direction for me to look into. My best guess is that the Adafruit Metro 328 will run this code and accept this board without any trouble.  Thank you!</p>
 
+<dl><dt>09 Jul 2020</dt></dl>Given clues by the postal service, I found that they delivered to the wrong address.  Jig retrieved, looks like I got it right this time, assembling a board.  Files for printing a jig of your own [here](https://drive.google.com/drive/folders/1_j0E5dFC1kLGvFu55QTtv5UvltjqBdjs?usp=sharing).
+
 <dl><dt>08 Jul 2020</dt></dl>The postal service says they delivered the latest jig to me, but there was no jig in the mailbox or even in the secondary delivery location.  I'll meet the postal delivery person tomorrow and have a talk with them about this.
 
 <dl><dt>02 Jul 2020</dt></dl>Final jig is ordered.  No word if it will go into printing before the July 4 weekend.
@@ -8,7 +10,7 @@
 
 <dl><dt>30 Jun 2020</dt></dl>While populating the jig, I found a couple issues that really need to be addressed still before it will work.  A new jig will arrive tomorrow which might work.
 
-<dl><dt>27 Jun 2020</dt></dl>Done designing new jig and orderd it.  Now building a board with this jig that I took a utiiity knife to and made it workable.
+<dl><dt>27 Jun 2020</dt></dl>Done designing new jig and ordered it.  Now building a board with this jig that I took a utiiity knife to and made it workable.
 
 <dl><dt>26 Jun 2020</dt></dl>Jig received.  Building a board while tweaking the jig design in small ways.
 
