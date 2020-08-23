@@ -1,5 +1,7 @@
 <p align=center>Do you have an idea for features?  Now is a great time for all interested parties to ask me about including capabilities you think would make this project as valuable as it can be.  Just submit an "Issue" (see the tab above) describing the device feature that would interest you.  rdetiger asks for compatibility with Adafruit μCs. I think that is a great direction for me to look into. My best guess is that the Adafruit Metro 328 will run this code and accept this board without any trouble.  Thank you!</p>
 
+<dl><dt>23 Aug 2020</dt></dl>I'm now being pulled away from this important project by other urgencies, like thieves and vandals to my father's property which make me develop a security system.
+
 <dl><dt>28 Jul 2020</dt></dl>After some weeks of distraction, I am slowly returning to this project.  I think my next step is to place and solder componponents.
 
 <dl><dt>14 Jul 2020</dt></dl>While awaiting components, I am configuring a server for the GWAAMC web site.  It will include a tight firewall ruleset from my poofitee project, knowing how there are so many malicious and mischievous malevolents on the internet.
