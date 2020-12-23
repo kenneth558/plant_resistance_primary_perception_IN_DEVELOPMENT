@@ -1,5 +1,7 @@
 <p align=center>Do you have an idea for features?  Now is a great time for all interested parties to ask me about including capabilities you think would make this project as valuable as it can be.  Just submit an "Issue" (see the tab above) describing the device feature that would interest you.  rdetiger asks for compatibility with Adafruit μCs. I think that is a great direction for me to look into. My best guess is that the Adafruit Metro 328 will run this code and accept this board without any trouble.  Thank you!</p>
 
+<dl><dt>23 Dec 2020</dt></dl>I plan to return to this project today.  FINALLY!
+
 <dl><dt>19 Dec 2020</dt></dl>No updates again, but the security system development is done enough that I'll start now to arrange this project for resumption...after a good night's sleep, maybe two.  During this interim period, I've had to physically re-arrange everything related to this project which makes it not merely a simple matter of picking up where I left off.
 
 <dl><dt>19 Nov 2020</dt></dl>No update again.  Still distracted from this project by having to develop a security system for my father's property.
