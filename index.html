@@ -1,0 +1,1460 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <title>Surveillance Recordings</title>
+        <meta charset="utf-8"/> 
+<!-- 
+THIS WEB PAGE CONTAINS NUMEROUS FEATURES ONLY AVAILABLE IN TANDEM WITH SERVER-SIDE CUSTOMIZATIONS.  
+I DON'T KNOW WHETHER STANDARD WEB SERVERS CAN BE SO CUSTOMIZED; I DIDN'T EVEN WANT TO TRY TO. 
+ON MY SERVER,  MY ONLY WEB SERVER IS bashttp BASH SCRIPT WEB SERVER FOUNDATION, WHICH I THEN TRICKED OUT.  
+LOOK FOR IT IN MY GITHUB SPACE.
+
+I HOPE I'VE LAID THIS OUT MODULARLY ENOUGH THAT IF YOUR MONITOR IS WIDE OR NARROW OR FOR ANY OTHER REASON YOU WANT
+THE .mp4 PLAY <OBJECT> ELEMENTS TO DIFFERENT POSITIONS AND DIMENSIONS THAN I HAVE THEM, YOU SHOULD FIND IT EASY 
+ENOUGH TO CHANGE THEIR POSITIONS AND DIMENSIONS.  THEIR LAYOUT HEREIN IS GRABBED OUT OF THIN AIR, SO LIKELY NOT UP
+TO ANYONE'S STANDARDS.
+
+MUCH IMPROVEMENT IS POSSIBLE ALONG THE LINES OF KEEPING THE PLAYING VIDEOS BETTER SYNCHRONIZED.  I MAY OR MAY NOT SO CONTINUE THIS
+
+NOTE THAT SOME COMMENTS CONTAINED IN THIS SOURCE CODE MAY HAVE BEEN APPLICABLE UNTIL SOME STAGE OF DEVELOPMENT, BUT NOT ANY MORE.
+
+SORRY FOR ANY UGLINESS YOU FIND...I AM NOT A BEAUTICIAN, AND I HAD ANOTHER PROJECT THAT NEEDED MY ATTENTION FAR MORE THAN THIS ONE
+-->
+<style type="text/css">
+    body 
+    {
+        width: 75em;
+        margin: 1em;
+        background: rgb(215,215,245);
+        font-family: Tahoma, Verdana, Arial, sans-serif;
+        font-size:30px;
+    }
+    .column 
+    {
+         vertical-align: top;
+    }
+    #camapp_lm 
+    {
+        display: inline;
+    }
+    .bb
+    {
+        border-bottom: solid 1px black;
+        border-right: solid 1px black;
+        vertical-align: top;
+    }
+    .camtitle
+    {
+          border:3px ridge black;
+          border-top: solid 9px black;
+         td:first-child:after {content: attr(aria-label);
+    }
+
+.tab {
+  overflow: hidden;
+  border: 1px solid #ccc;
+  background-color: #f1f1f1;
+}
+
+/* Style the buttons that are used to open the tab content */
+.tab button {
+  background-color: inherit;
+  float: left;
+  border: none;
+  outline: none;
+  cursor: pointer;
+  padding: 14px 16px;
+  transition: 0.3s;
+}
+
+    .tabcontent {
+       display: none;
+       padding: 6px 12px;
+       border: 1px solid #ccc;
+       border-top: none;
+    }
+</style>
+    </head>
+    <body onload = "url0='rtsp://';
+url1='kERRY123:Kerry123@';
+url2=':9';url3='554/Streaming/Channels/10';url4='2';  camapp_ul.value= url0 + url1 + window.location.hostname + url2 + url3 + url4;
+                                           url4='1'; camapp_ul1.value= url0 + url1 + window.location.hostname + url2 + url3 + url4;
+url2=':6';                                 url4='2';  camapp_ur.value= url0        + window.location.hostname + url2 + url3 + url4;
+                                           url4='1'; camapp_ur1.value= url0        + window.location.hostname + url2 + url3 + url4;
+url2=':10';                                url4='2';  camapp_ll.value= url0        + window.location.hostname + url2 + url3 + url4;
+                                           url4='1'; camapp_ll1.value= url0        + window.location.hostname + url2 + url3 + url4;
+url2=':14';                                url4='2';  camapp_lr.value= url0        + window.location.hostname + url2 + url3 + url4;
+                                           url4='1'; camapp_lr1.value= url0        + window.location.hostname + url2 + url3 + url4;
+url2=':15';                                url4='2'; camapp_lst.value= url0        + window.location.hostname + url2 + url3 + url4;
+                                           url4='1';camapp_lst1.value= url0        + window.location.hostname + url2 + url3 + url4;
+slidersd(10);
+slidered(10);
+slidersw(10);
+sliderfp(10);
+sliderne(10);
+slideres(45);
+document.links[ 7].href='http://' + window.location.hostname + ':14080';//set for SW Corner 14080
+document.links[10].href='http://' + window.location.hostname + ':10080';//set for South Driveway 10080
+document.links[13].href='http://' + window.location.hostname + ':6080';//set for East Driveway 6080
+document.links[16].href='http://' + window.location.hostname + ':9080';//set for Front Parking Lot 9080
+document.links[19].href='http://' + window.location.hostname + ':15080';//set for NE Corner 15080
+">
+<script type="text/javascript"><!-- THIS REALLY DOESN'T WORK SO EACH ANNOUNCEMENT WILL HAVE TO HAVE ITS OWN ID AND SCRIPT TAG WITH IT -->
+  var x = document.getElementsByClassName("announcement");
+  for (var i = 0; i < x.length; i++) {
+    x[i].style.display = "none";
+    setInterval(function(){x[i].style.visibility=(x[i].style.visibility == "hidden" ? "" : "hidden");},750);}
+<!-- This is embedded by web server customizing, or at least it was at one stage of development-> setInterval(function(){announcement.style.visibility=(announcement.style.visibility=="hidden" ? "" : "hidden");},750) -->
+<!-- "/../../camera_snapshots/*/*jpg-MOTION/mostrecent1"  or "/../../home/homeowner/emails_log
+<!-- var holderforalertcompare = document.querySelector("alertcompare");
+<!-- var eventstocompare = holderforalertcompare.textContent;
+<!-- setInterval( id="stablealertsdirectory" data="/../../links_to_alerting_activity/mostrecent1",7000)
+<!--  id="latestalert" of link of interest, then innerHTML
+<!-- rewrite hrefs for alarm system and be sure to have a sounder 
+<!-- alert(latestalert.innerHTML);
+-->
+var StartTimeOfInterest;
+<!-- var StartCamOfInterest; -->
+var StartTimeOfInterestDT=new Date();
+var StartTimeOfInterestmSec;
+var StartTimeOfInterestmSecminus60=new Date();
+
+var checkingAlerted = null;
+var previousalert = null; 
+let requestAlerted = new XMLHttpRequest();
+requestAlerted.open('GET', '/../../camera_snapshots/*/*jpg-MOTION/mostrecent1')
+var lastcomplexevent = 'something';
+var thiscomplexevent = 'something';
+var element = null;
+requestAlerted.onload = function() { thiscomplexevent = requestAlerted.response; };
+function openSection(event, arg1){;}
+var month = new Array();
+month["Jan"] = "-01-";
+month["Feb"] = "-02-";
+month["Mar"] = "-03-";
+month["Apr"] = "-04-";
+month["May"] = "-05-";
+month["Jun"] = "-06-";
+month["Jul"] = "-07-";
+month["Aug"] = "-08-";
+month["Sep"] = "-09-";
+month["Oct"] = "-10-";
+month["Nov"] = "-11-";
+month["Dec"] = "-12-";
+var streamListings = new Array();
+streamListings["swmp4"] = "/var/www/camera_streams/camera_sw_corner/";
+streamListings["fpmp4"] = "/var/www/camera_streams/camera_front_parking/";
+streamListings["nemp4"] = "/var/www/camera_streams/camera_ne_corner/";
+streamListings["edmp4"] = "/var/www/camera_streams/camera_east_driveway/";
+streamListings["sdmp4"] = "/var/www/camera_streams/camera_south_driveway/";
+streamListings["11"] = "East Driveway" ;//These correspond to 192.168.0.nn or 192.168.0.n_ since they are 2 characters long extracted from the file name
+streamListings["14"] = "Southwest Corner"
+streamListings["15"] = "Northeast corner"
+streamListings["12"] = "Front parking lot"
+streamListings["13"] = "South Driveway"
+
+</script>
+<datalist id="tickmarks">
+<option value="2" label="2 min"></option>
+<option value="360" label="6 hrs"></option>
+</datalist>
+<!-- Tab links change the name of tablinks so it shows, change rest to drop 1 so they don't-->
+<div class="tablinks">
+  <button class="tablinks" style="font-size:21px;" onclick="if(document.getElementById('title').style.display == 'none'){document.getElementById('title').style.display = 'block'}else{document.getElementById('title').style.display = 'none';}">Title</button>
+  <button class="tablinks" style="font-size:21px;" onclick="if(document.getElementById('alertchecking').style.display == 'none'){document.getElementById('alertchecking').style.display = 'block'}else{document.getElementById('alertchecking').style.display = 'none';}">Alert Checking</button>
+  <button class="tablinks" style="font-size:21px;" onclick="if(document.getElementById('disablesandlivelinks').style.display == 'none'){document.getElementById('disablesandlivelinks').style.display = 'block'}else{document.getElementById('disablesandlivelinks').style.display = 'none';}">Links to lives streams and suspend alerts</button>
+  <button class="tablinks" style="font-size:21px;" onclick="if(document.getElementById('system_wide').style.display == 'none'){document.getElementById('system_wide').style.display = 'block'}else{document.getElementById('system_wide').style.display = 'none';}">Combined views recordings</button>
+  <button class="tablinks" style="font-size:21px;" onclick="if(document.getElementById('byview').style.display == 'none'){document.getElementById('byview').style.display = 'block'}else{document.getElementById('byview').style.display = 'none';}">Separated views recordings</button>
+</div>
+<!--  <button class="tablinks" onclick="if(document.getElementById('byview').style.display == 'none'){document.getElementById('byview').style.display = 'block'}else{document.getElementById('byview').style.display = 'none';}">Recording by view</button> -->
+
+<small><small>
+<div id="title" class="tabcontent">
+<table width="1535px" style="border:3px solid black"><tr><td><center>
+<b>Surveillance Camera Stills and Stream videos with links to Live Streams</b></center><small>
+<label></label>
+</td></tr><tr><td>
+<small><small><small>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<i><u>Live</u></i> camera feeds can't be played in the common web browsers but only in independent video player instances easily by
+dragging and dropping the strings provided.  However, the <i><u>recorded</u></i> material <i>will</i> play in 
+this web page's file listing areas below just by clicking on one, and the browser's "back" 
+button gets back to the listing again.
+</td></tr><tr><td>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<small><small><small>More detailed instructions, a list of features being developed, feature wish list, and known incapabilites are at the bottom of this page.
+</td></tr>
+<tr><td>
+<small><small><small>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<label>Drag/droppable, cut/pasteable low-res (.../102) and high-res (.../101) camera stream addresses, layed out the way I arrange the players on my screen:</label><br>
+</td></tr></table>
+</div>
+
+
+<div id="alertchecking" class="tabcontent">
+<table><tr><td width="1535px">
+<input type="button" 
+id="alertCheck" style="width:300px;height:75px;font-size:20px;background:white;border-radius:15px;border-color:black;border-width:10px;" 
+value="Alert checking is now OFF" 
+onclick="if(alertsdirectory.contentDocument.body.children[0].children[0].children[1] != 'undefined' && alertsdirectory.contentDocument.body.children[0].children[0].children[1] != null)
+{element=alertsdirectory.contentDocument.body.children[0].children[0].children[1].children[1];}
+else {element=null;}
+if(typeof(element) != 'undefined' && element != null){ previousalert=element.innerText;
+                                                     }
+else { previousalert=null;
+     }
+if (this.value.substr(this.value.length-1,1) != 'F'){ this.value='Alert checking is now OFF';this.style.background='white';this.style.width='300px';clearInterval(checkingAlerted);
+                                                    } 
+else { this.value='Alert checking is ON.  If you\'re traveling, you\'ll risk your phone getting blacklisted';alertCheck.style.background='Chartreuse';this.style.width='930px';
+        checkingAlerted=setInterval(
+           function()
+             {if(alertsdirectory.contentDocument.body.children[0].children[0] != 'undefined' && alertsdirectory.contentDocument.body.children[0].children[0].children[1] != 'undefined' && alertsdirectory.contentDocument.body.children[0].children[0].children[1] != null)
+                   {element=alertsdirectory.contentDocument.body.children[0].children[0].children[1].children[1];}
+              else {element=null;}
+                     if(typeof(element) != 'undefined' && element != null) 
+                        {if (element.innerText !== previousalert)   {if (element.innerText == ''){previousalert=element.innerText;
+                                                                                                  } 
+                                                                    }
+                        }
+                     else {previousalert=null;}
+               alertsdirectory.data=alertsdirectory.data;
+             },8000);
+        if(alertsdirectory.contentDocument.body.children[0].children[0].children[1] != 'undefined' && alertsdirectory.contentDocument.body.children[0].children[0].children[1] != null)
+             {element=alertsdirectory.contentDocument.body.children[0].children[0].children[1].children[1];}
+        else {element=null;}
+        if(typeof(element) != 'undefined' && element != null){if (element.innerText !== previousalert){if(!element.innerText.endsWith('.jpg')){previousalert=element.innerText};
+                                                                                                       }
+                                                             }
+        alertsdirectory.data=alertsdirectory.data;
+     }">
+<!-- </td></tr>
+<tr>
+<td><center>-->
+<small>
+<a href="/../../links_to_alerting_activity/"><b>Recent Alerts</b></a>&nbsp;&nbsp;&nbsp;<small>Click title to see all recent alerts. Click border to toggle between listing all or just most recent 1 (traffic sparing)</small></small></td></tr><tr height="130px"><td>
+    <object id="alertsdirectory" type="text/html" 
+data="/../../links_to_alerting_activity/mostrecent1" 
+onclick="if (this.data.includes('/mostrecent1')){this.data='/../../links_to_alerting_activity'}else{this.data='/../../links_to_alerting_activity/mostrecent1'};" 
+onload="if(alertsdirectory.contentWindow.document.body.children[0].localName == 'img'){return}
+        if(alertsdirectory.contentDocument.body.children[0].children[0] != 'undefined' && alertsdirectory.contentDocument.body.children[0].children[0].children[1] != 'undefined' && alertsdirectory.contentDocument.body.children[0].children[0].children[1] != null)
+          {element=alertsdirectory.contentDocument.body.children[0].children[0].children[1].children[1];}
+        else {element=null;}
+        if(element != 'undefined' && element != null)
+          {if (element.innerText !== previousalert)
+             {if (alertCheck.value.substr(alertCheck.value.length-1,1) != 'F' && previousalert != null && element.innerText !== null && !element.innerText.endsWith('.jpg')){play();}else {if(!element.innerText.endsWith('.jpg')){previousalert=element.innerText};}
+             }
+          }
+        else {previousalert=null;}
+        glonload( this.contentDocument.body.children[0].currentSrc, this, '', '', '', '', '')"
+width="1512px" height="100px" style="font-size:15px;overflow:auto;border:3px solid black;border-width:20px 30px 3px 3px;">
+   <param name="timestamp" value="initial" />
+   <param name="nextfilename" value="initial" />
+    </object>
+</td></tr></table>
+</div>
+
+
+
+
+
+
+<div id="disablesandlivelinks" class="tabcontent">
+<small><small>
+<table width="1450px"  style="border:3px solid black"><tr><td>
+<table style="border:1px solid black" width="1150px"><tr><td>
+<table><tr><td width="625px">
+<center>
+<table><tr><td style="border:1px ridge black">
+<center>
+<b>
+<a href="#sd_location_on_page">South Drive, High View</a></b><br>
+<input disabled id="camapp_ll" size="41" style="border:1px ridge blue;" value="working..." ><br>
+<input disabled id="camapp_ll1" size="41" style="border:1px ridge blue;" value="working..." ><br>
+  <br><label><b>Short term alerts disable (this camera only)</b></label><br>
+  <form  method="put">
+  <input type="range" id="south_driveway" oninput="slidersd()" name="!home!homeowner!camera_snapshots!camera_south_driveway!settimeout"
+         min="0" max="360" value="4" step="1" list="tickmarks">
+  <input type="submit" id="sdsubmit" value="Set to n minutes">
+  </form>
+<br>
+</td></tr><tr><td style="border:1px ridge black">
+<center><b>
+<a href="#sw_corner_location_on_page">SW Corner, Low View</a></b><br>
+<input disabled id="camapp_lr" size="41" style="border:1px ridge blue;" value="working..."><br>
+<input disabled id="camapp_lr1" size="41" style="border:1px ridge blue;" value="working..."><br>
+  <br><label><b>Short term alerts disable (this camera only)</b></label><br>
+  <form  method="put">
+  <input type="range" id="sw_corner" oninput="slidersw()" name="!home!homeowner!camera_snapshots!camera_sw_corner!settimeout"
+         min="0" max="360" value="4" step="1" list="tickmarks">
+  <input type="submit" id="swsubmit" value="Set to n minutes">
+  </form>
+<br>
+</td></tr></table>
+</td>
+<td width="615px">
+<center><table><tr><td style="border:1px ridge black">
+<center><b><a href="#fp_location_on_page">Front Lot</a></b><br>
+<input disabled id="camapp_ul" size="58" style="border:1px ridge blue;" value="working..."><br>
+<input disabled id="camapp_ul1" size="58" style="border:1px ridge blue;" value="working..."><br>
+  <br><label><b>Short term alerts disable (this camera only)</b></label><br>
+  <form  method="put">
+  <input type="range" id="front_parking" oninput="sliderfp()"  name="!home!homeowner!camera_snapshots!camera_front_parking!settimeout"
+         min="0" max="360" value="4" step="1"  list="tickmarks">
+  <input type="submit" id="fpsubmit" value="Set to n minutes">
+  </form>
+<br>
+</td></tr><tr><td style="border:1px ridge black">
+<center><b><a href="#ed_location_on_page">East Drive</a></b><br>
+<input disabled id="camapp_ur" size="42" style="border:1px ridge blue;" value="working..."><br>
+<input disabled id="camapp_ur1" size="42" style="border:1px ridge blue;" value="working..."><br>
+  <br><label><b>Short term alerts disable (this camera only)</b></label><br>
+  <form  method="put">
+  <input type="range" id="east_driveway" oninput="slidered()"  name="!home!homeowner!camera_snapshots!camera_east_driveway!settimeout"
+         min="0" max="360" value="4" step="1" list="tickmarks">
+  <input type="submit" id="edsubmit" value="Set to n minutes">
+  </form>
+ <!--<input type="submit" formaction="" name="PlayAll" value="Start all four">-->
+<!-- <button onclick="playVid()" type="button">Play Video</button>
+<button onclick="pauseVid()" type="button">Pause Video</button><br> 
+
+<video src="" id="camembed_ul" width="320" height="176" autoplay controls debug>
+</video>
+-->
+<br>
+</td></tr><tr><td style="border:1px solid black">
+<center><b><a href="#ne_location_on_page">NE Corner</a></b><br>
+<input disabled id="camapp_lst" size="41" style="border:1px ridge blue;" value="working..."><br>
+<input disabled id="camapp_lst1" size="41" style="border:1px ridge blue;" value="working..."><br>
+  <br><label><b>Short term alerts disable (this camera only)</b></label><br>
+  <form  method="put">
+  <input type="range" id="ne_corner" oninput="sliderne()" name="!home!homeowner!camera_snapshots!camera_ne_corner!settimeout"
+         min="0" max="360" value="4" step="1" list="tickmarks">
+  <input type="submit" id="nesubmit" value="Set to n minutes">
+   </form>
+<br></center>
+</td></tr></table>
+
+</td></tr></table>
+
+</td></tr>
+<tr><td>
+
+<table width="100%"><tr><td>
+<br>
+  <center><label><big><b>Entire system short term alerts disable</b></big></label>
+<small><small><br>This disable operates independent of the others while overscoping them
+</center><br>
+  <center><form  method="put">
+  </center><center><input type="range" id="entire_system" oninput="slideres()" name="!home!homeowner!camera_snapshots!settimeout"
+         min="0" max="3600" value="4" step="1" list="tickmarks">
+  <input type="submit" id="essubmit" value="Set to n minutes"></center><br>
+  </form>
+</td><td>
+</td></tr></table>
+
+</td></tr></table>
+
+</td>
+<td>
+<table width="150px"><tr><td>
+<textarea cols="35" style="font-size: 12pt"  value="In here could be the recipient list">
+In here could be the recipient list
+</textarea>
+<textarea cols="35" style="font-size: 12pt" >FUTURE Ability to send notices to others on a notification list</textarea>
+</td></tr></table>
+</td></tr></table>
+</div>
+
+<div id="system_wide" class="tabcontent">
+
+
+
+</small>
+<b>
+<br>System-wide:</b><br>
+<small>
+<table width="1450px" style="border:1px solid black"><tr><td>
+All system recordings mingled together except MOTION_DETECTIONs, then time-arranged.  Notes: mp4 timestamps are the ending of the events recorded in them, not their beginning,
+&nbsp;<b>top mp4 for each camera won't immediately be complete to play.</b> 
+</td>
+</tr>
+<tr>
+<td>
+    <object id="sysjpgmp4_motion" type="text/html" 
+onload="glonload( this.contentDocument.body.children[0].currentSrc, this, '', '', '', '', '')"
+onclick="this.data=this.data;" 
+data="/camera_snapshots/camera_*/*jpg /var/www/camera_streams/camera_*/*mp4-MOTION" 
+width="1700px" 
+height="900px" 
+style="font-size:15px;overflow:auto;border:5px solid black;border-width:20px 3px 3px;">
+   <param name="timestamp" value="initial" />
+   <param name="nextfilename" value="initial" />
+</object>
+<table width="1450px"><tr><td>
+All system snapshots except for the overly ubiquitous, plain MOTION_DETECTION.  For best control, drop them into a spare viewer.  Alerts are produced by enough of these per any camera which are named other than MOTION_DETECTION: 
+</td>
+</tr>
+<tr>
+<td>
+    <object id="sysjpg_motion" type="text/html" 
+onload="glonload( this.contentDocument.body.children[0].currentSrc, this, '', '', '', '', '')"
+onclick="this.data=this.data;" data="/../../camera_snapshots/*/*jpg-MOTION" width="1700px" height="900px" style="font-size:15px;overflow:auto;border:5px solid black;border-width:20px 3px 3px;">
+</object>
+</td>
+</tr>
+
+
+<tr>
+<td>
+<!--
+<textarea cols="35" style="font-size: 12pt">SAMPLE TEXTAREA</textarea>
+-->
+
+<table style="border:3px solid black" style="border:3px solid black"><tr><td>
+
+<table><tr><td>
+<table width="1450px"><tr><td width="83%">
+All system streams - <b>USE THIS LIST FOR EVENT ARCHIVING STREAMS. Top file for each camera won't immediately be complete to play.</b> For best control, drop others into a spare player.  Click border to list/unlist them:
+</td><td width="17%">
+</td></tr></table>
+
+</td>
+</tr>
+<tr>
+<td>
+    <object id="sysmp4mostrecent" type="text/html" data="/var/www/camera_streams/*/*mp4/mostrecent10" 
+onload="glonload( this.contentDocument.body.children[0].currentSrc, this, '', '', '', '', '')"
+onclick="if (this.data.includes('mostrecent10')) {this.style.border='3px solid blue';this.style.borderWidth='20px 3px 3px';this.data='/var/www/camera_streams/*/*mp4';} else {this.style.border='3px solid blue';this.style.borderWidth='20px 30px 3px 3px';this.data='/var/www/camera_streams/*/*mp4/mostrecent10';}" width="1700px" height="700px" style="font-size:15px;overflow:auto;border:3px solid blue;border-width:20px 30px 3px 3px;">
+   <param name="timestamp" value="initial" />
+   <param name="nextfilename" value="initial" />
+</object>
+</td>
+</tr>
+<tr>
+<td>
+<br>All system snapshots, MOTION_DETECTIONs included. <b>USE THIS LIST FOR EVENT ARCHIVING SNAPSHOTS</b> Click border to list/unlist them:
+<br><br>
+</td>
+</tr>
+<tr>
+<td>
+    <object id="sysjpgs" type="text/plain" value="Click here to collect these snapshots" 
+onload="glonload( this.contentDocument.body.children[0].currentSrc, this, '', '', '', '', '')"
+onclick="if (this.type == 'text/plain') {this.type='text/html';this.style.border='3px solid blue';this.style.borderWidth='20px 3px 3px';this.data='/../../camera_snapshots/*/*jpg';} else {this.type='text/plain';this.style.border='3px solid blue';this.style.borderWidth='20px 30px 3px 3px';this.data='';}" width="1720px" height="900px" style="font-size:15px;overflow:auto;border:3px solid blue;border-width:20px 30px 3px 3px;">
+</object>
+</td>
+</tr>
+</table></td>
+<td>
+<table><tr><td valign="middle">
+  <form  method="put">
+<textarea cols="131" rows="32" style="font-size: 12pt" name="files_to_archive">
+Replace all this text in following 
+these instructions:
+
+To archive a significant event, 
+highlight its files first then and 
+drag its HIGHLIGHTED(!) MP4 file 
+names (from the streams listing) and 
+JPG file names (from the snapshots 
+listing below it) and drop them into 
+here.  Only highlighted file names 
+will drop in the correct format. Each 
+drag can contain many highlighted 
+files, but only from the same listing 
+box. Keep highlighting and dragging/ 
+dropping until the event's files are 
+all in here. Each file name needs to 
+be on its own line, so check before 
+each drop that the next drop begins 
+at a new line, but don't leave any 
+lines blank.  Then name the event and 
+archive it. 
+
+Don't forget to replace all these 
+instructions in this process.
+
+NO SANITY CHECKING YET, SO FOLLOW 
+THESE RULES PERFECTLY.</textarea>
+<br>
+<textarea cols="131" rows="5" style="font-size: 12pt" name="name_for_archive">
+Replace this text with a no-space
+descriptive event name to include 
+license plate and colors but not 
+time, day nor month since they will 
+be learned from a file timestamp</textarea>
+  <input type="submit" id="archiveevent" value="Submit for archiving" disabled="true">
+  </form>
+<a href="/var/important_video_archives/mostrecent200" target="_blank"><h3>Show previous events archive</h3></a>
+</td></tr></table>
+</td>
+</tr>
+</table>
+</td>
+</tr>
+</table>
+</td>
+</tr>
+</table>
+</div>
+
+<div id="byview" class="tabcontent">
+<br><b><big>Separate Camera Recordings.  Click a border to list/unlist:</big></b>
+<table style="border:1px solid black">
+<tr><td valign="top">
+
+<table><tr><td class="camtitle"><!-- FUTURE --Use a layout pattern for these that will facilitate swapping them around style="border:5px ridge fuchsia">-->
+
+<a name="sw_corner_location_on_page"></a>
+<a href="" target="_blank"><h3>Southwest Corner</h3></a>
+</td></tr><tr>
+<td class="bb">
+<a href=/../../camera_snapshots/camera_sw_corner/>Event Snapshots.  For best control, drop into a spare viewer.</a>
+<br><br><br>
+<object id="swjpg" type="text/plain" value="Click here to collect these snapshots" 
+onload="glonload( this.contentDocument.body.children[0].currentSrc, this, '', '', '', '', '')"
+onclick="if (this.type == 'text/plain') {this.type='text/html';this.style.border='3px solid blue';this.style.borderWidth='20px 3px 3px';this.data='/../../camera_snapshots/camera_sw_corner/';} else {this.type='text/plain';this.style.border='3px solid blue';this.style.borderWidth='20px 30px 3px 3px';this.data='';}" width="1080px" height="810px" style="font-size:15px;overflow:auto;border:3px solid blue;border-width:20px 30px 3px 3px;">
+</object>
+</td></tr><tr>
+<td class="bb">
+<a href=/var/www/camera_streams/camera_sw_corner/>Streams - <b>top one won't immediately be complete to play.</b>  For best control, drop others into a spare player.</a>
+<br><br><br>
+    <object id="swmp4" type="text/plain" value="Click here to collect these videos" class="mp4obj"
+onload="glonload( this.contentDocument.body.children[0].currentSrc, this, '', '', '', '', '')"
+onclick="if (this.type == 'text/plain') {this.type='text/html';this.style.border='3px solid blue';this.style.borderWidth='20px 3px 3px';this.data=streamListings[this.id];} else {this.type='text/plain';this.style.border='3px solid blue';this.style.borderWidth='20px 30px 3px 3px';this.data='';}" width="945px" height="710px" style="font-size:15px;overflow:auto;border:3px solid blue;border-width:20px 30px 3px 3px;">
+   <param name="timestamp" value="initial" />
+   <param name="nextfilename" value="initial" />
+   <param name="currenttime" value=0>
+</object>
+
+</td></tr>
+
+<tr><td></td></tr>
+
+<tr><td class="camtitle">
+
+<a name="sd_location_on_page"></a>
+<a href="" target="_blank"><h3>South Driveway</h3></a>
+</td></tr><tr>
+<td class="bb">
+<a href=/../../camera_snapshots/camera_south_driveway/>Event Snapshots.   For best control, drop into a spare viewer.</a>
+<br><br><br>
+<object id="sdjpg" type="text/plain" value="Click here to collect these snapshots" 
+onload="glonload( this.contentDocument.body.children[0].currentSrc, this, '', '', '', '', '')"
+onclick="if (this.type == 'text/plain') {this.type='text/html';this.style.border='3px solid blue';this.style.borderWidth='20px 3px 3px';this.data='/../../camera_snapshots/camera_south_driveway/';} else {this.type='text/plain';this.style.border='3px solid blue';this.style.borderWidth='20px 30px 3px 3px';this.data='';}" width="1080px" height="810px" style="font-size:15px;overflow:auto;border:3px solid blue;border-width:20px 30px 3px 3px;">
+</object></td></tr>
+<tr><td class="bb">
+<a href=/var/www/camera_streams/camera_south_driveway/>Streams - <b>top one won't immediately be complete to play.</b>  For best control, drop others into a spare player.</a>
+<br><br><br>
+    <object id="sdmp4" type="text/plain" value="Click here to collect these videos" class="mp4obj"
+onload="glonload( this.contentDocument.body.children[0].currentSrc, this, '', '', '', '', '')"
+onclick="if (this.type == 'text/plain') {this.type='text/html';this.style.border='3px solid blue';this.style.borderWidth='20px 3px 3px';this.data=streamListings[this.id];} else {this.type='text/plain';this.style.border='3px solid blue';this.style.borderWidth='20px 30px 3px 3px';this.data='';}" width="700px" height="880px" style="font-size:15px;overflow:auto;border:3px solid blue;border-width:20px 30px 3px 3px;">
+   <param name="timestamp" value="initial" />
+   <param name="nextfilename" value="initial" />
+   <param name="currenttime" value=0>
+</object>
+
+</td>
+</tr>
+</table>
+
+
+</td>
+<td valign="top" align="left">
+<table style="border:2px ridge blue"><tr>
+<td class="camtitle">
+
+<a name="ed_location_on_page"></a>
+<a href="" target="_blank"><h3>East Driveway</h3></a>
+</td></tr>
+<tr>
+<td class="bb" valign="top">
+<a href=/../../camera_snapshots/camera_east_driveway>Event Snapshots.  For best control, drop into a spare viewer.</a><br><br><br>
+    <object id="edjpg" type="text/plain" value="Click here to collect these snapshots" 
+onload="glonload( this.contentDocument.body.children[0].currentSrc, this, '', '', '', '', '')"
+onclick="if (this.type == 'text/plain') {this.type='text/html';this.style.border='3px solid blue';this.style.borderWidth='20px 3px 3px';this.data='/../../camera_snapshots/camera_east_driveway';} else {this.type='text/plain';this.style.border='3px solid blue';this.style.borderWidth='20px 30px 3px 3px';this.data='';}" width="1220px" height="700px" style="font-size:15px;overflow:auto;border:3px solid blue;border-width:20px 30px 3px 3px;">
+</object>
+</td>
+</tr><tr>
+<td class="bb">
+<a href=/var/www/camera_streams/camera_east_driveway/>Streams - <b>top one won't immediately be complete to play.</b>  For best control, drop others into a spare player.</a><br><br><br>
+    <object id="edmp4" type="text/plain" value="Click here to collect these streams" class="mp4obj"
+onload="glonload( this.contentDocument.body.children[0].currentSrc, this, '', '', '', '', '')"
+onclick="if (this.type == 'text/plain') 
+{this.type='text/html';this.style.border='3px solid blue';this.style.borderWidth='20px 3px 3px';this.data=streamListings[this.id];} 
+else 
+{this.type='text/plain';this.style.border='3px solid blue';this.style.borderWidth='20px 30px 3px 3px';this.data='';}" 
+width="1000px" height="560px" 
+style="font-size:15px;overflow:auto;border:3px solid blue;border-width:20px 30px 3px 3px;">
+   <param name="timestamp" value="initial" />
+   <param name="nextfilename" value="initial" />
+   <param name="currenttime" value=0>
+</object>
+
+</td></tr>
+<tr>
+<td class="camtitle">
+
+<a name="fp_location_on_page"></a>
+<a href="" target="_blank"> <h3>Front parking lot</h3></a>
+</td>
+</tr>
+<tr>
+<td  class="bb" valign="top">
+<a href=/../../camera_snapshots/camera_front_parking>Event Snapshots.  For best control, drop into a spare viewer.</a><br><br><br>
+    <object id="fpjpg" type="text/plain" value="Click here to collect these snapshots" 
+onload="glonload( this.contentDocument.body.children[0].currentSrc, this, '', '', '', '', '')"
+onclick="if (this.type == 'text/plain') {this.type='text/html';this.style.border='3px solid blue';this.style.borderWidth='20px 3px 3px';this.data='/../../camera_snapshots/camera_front_parking/';} else {this.type='text/plain';this.style.border='3px solid blue';this.style.borderWidth='20px 30px 3px 3px';this.data='';}" 
+width="1220px" height="700px" style="font-size:15px;overflow:auto;border:3px solid blue;border-width:20px 30px 3px 3px;">
+</object>
+</td>
+</tr>
+<tr><td class="bb">
+<a href=/var/www/camera_streams/camera_front_parking/>Streams - <b>top one won't immediately be complete to play.</b>   For best control, drop others into a spare player.</a><br><br><br>
+    <object id="fpmp4" type="text/plain" value="Click here to collect these streams" class="mp4obj"
+onclick="if (this.type == 'text/plain') {this.type='text/html';this.style.border='3px solid blue';this.style.borderWidth='20px 3px 3px';this.data=streamListings[this.id];} else {this.type='text/plain';this.style.border='3px solid blue';this.style.borderWidth='20px 30px 3px 3px';this.data='';}" 
+onload="glonload( this.contentDocument.body.children[0].currentSrc, this, '', this.contentDocument.body.children[0].tagName, '', '', '')"
+onload="if (fpmp4.contentDocument.body.children[0] != 'undefined' && fpmp4.contentDocument.body.children[0] != null && fpmp4.contentDocument.body.children[0].localName == 'video'){}"
+onload="if (fpmp4.contentDocument.body.children[0] != 'undefined' && fpmp4.contentDocument.body.children[0] != null && fpmp4.contentDocument.body.children[0].localName == 'video'){
+var endTime = new Date(fpmp4.contentDocument.body.children[0].ownerDocument.lastModified);
+var startTime = new Date(endTime.getTime() - (fpmp4.contentDocument.body.children[0].mozFragmentEnd * 1000));alert('Last modified time is ' + fpmp4.contentDocument.body.children[0].ownerDocument.lastModified + ' (' + endTime.getTime() + ' ms) and the video segment is ' + (fpmp4.contentDocument.body.children[0].mozFragmentEnd * 1000) + ' mseconds long, so start time should be ' + startTime)}"
+onload="if (fpmp4.contentDocument.body.children[0] != 'undefined' && fpmp4.contentDocument.body.children[0] != null && fpmp4.contentDocument.body.children[0].localName == 'video'){alert(fpmp4.contentDocument.body.children[0].ownerDocument.timeline)}"
+width="1000px" height="560px" 
+ style="font-size:15px;overflow:auto;border:3px solid blue;border-width:20px 30px 3px 3px;">
+   <param name="timestamp" value="initial" />
+   <param name="nextfilename" value="initial" />
+   <param name="currenttime" value=0>
+</object>
+
+
+</td></tr></table>
+
+</td>
+<td valign="top">
+<table style="border:2px ridge blue"><tr><td></td></tr>
+<tr><td class="camtitle">
+
+
+<a name="ne_location_on_page"></a>
+<a href="" target="_blank"> <h3>Northeast corner</h3></a>
+</td>
+</tr>
+<tr>
+<td class="bb">
+<a href=/../../camera_snapshots/camera_ne_corner/>Event Snapshots.   For best control, drop into a spare viewer.</a>
+<br><br><br>
+    <object id="nejpg" type="text/plain" value="Click here to collect these snapshots" 
+onload="glonload( this.contentDocument.body.children[0].currentSrc, this, '', '', '', '', '')"
+onclick="if (this.type == 'text/plain') {this.type='text/html';this.style.border='3px solid blue';this.style.borderWidth='20px 3px 3px';this.data='/../../camera_snapshots/camera_ne_corner/';} else {this.type='text/plain';this.style.border='3px solid blue';this.style.borderWidth='20px 30px 3px 3px';this.data='';}" width="960px" height="700px" style="font-size:15px;overflow:auto;border:3px solid blue;border-width:20px 30px 3px 3px;">
+</object>
+</td></tr>
+<td class="bb">
+<a href=/var/www/camera_streams/camera_ne_corner/>Streams - <b>top one won't immediately be complete to play.</b>  For best control, drop others into a spare player.</a>
+<br><br><br>
+    <object id="nemp4" type="text/plain" value="Click here to collect these videos" class="mp4obj"
+onload="glonload( this.contentDocument.body.children[0].currentSrc, this, '', '', '', '', '')"
+onclick="if (this.type == 'text/plain') {this.type='text/html';this.style.border='3px solid blue';this.style.borderWidth='20px 3px 3px';this.data=streamListings[this.id];} else {this.type='text/plain';this.style.border='3px solid blue';this.style.borderWidth='20px 30px 3px 3px';this.data='';}" width="960px" height="720px" style="font-size:15px;overflow:auto;border:3px solid blue;border-width:20px 30px 3px 3px;">
+   <param name="timestamp" value="initial" />
+   <param name="nextfilename" value="initial" />
+   <param name="currenttime" value=0>
+</object>
+</td>
+</tr>
+<tr><td>
+<table width="100%">
+<tr><td align='middle'>
+<input disabled id="StartTimeOfInterestEl" style="font-size:25px;border:1px ridge blue;background:white" value="Time Of Interest" height="100px">
+<input disabled id="StartCamOfInterestEl" style="font-size:25px;border:1px ridge blue;background:white" value="View Of Interest" height="100px">
+<br>
+<input type="button" value="List all video views of 1 minute prior to most recently opened .jpg event" id="lsbtn" 
+style="font-size:25px;"
+onclick="
+    var objectelement=document.getElementsByClassName('mp4obj')
+    for(var i=0;i<objectelement.length;i++)
+    {
+        objectelement[i].type='text/html';
+        objectelement[i].style.border='3px solid blue';
+        objectelement[i].style.borderWidth='20px 3px 3px';
+        objectelement[i].data=streamListings[objectelement[i].id] + '*?1minutesbefore' + StartTimeOfInterest;
+    }">
+<br><br>
+<input type="button" value="Start videos" id="startbtn" style="font-size:25px;" onclick="var objectelement=document.getElementsByClassName('mp4obj');
+        for(var i=0;i<objectelement.length;i++)
+        {if(objectelement[i].contentWindow != 'undefined' && objectelement[i].contentWindow != null && objectelement[i].contentWindow[0] != 'undefined' && objectelement[i].contentWindow[0] != null)
+        {if(objectelement[i].contentWindow[0].body != 'undefined' && objectelement[i].contentDocument.body.children[0].localName == 'video')
+        {objectelement[i].contentDocument.body.children[0].play()
+}
+        else if(objectelement[i].contentDocument.body.children[0].localName == 'table' && objectelement[i].contentDocument.links[0] != 'undefined' && objectelement[i].contentWindow[0].links[0] != null)
+        {alert('Unexpected page configuration.  Report to a developer if it happens excessively: ' + objectelement[i].contentDocument.URL + ' and ' + objectelement[i].contentWindow[0].body.links[0].innerText);}}
+        else
+        {objectelement[i].contentDocument.links[0].click();
+}}">
+<br><br>
+<input type="button" value="Queue the playing or paused videos to queue-to time. Retry until success" id="qbtn" 
+style="font-size:25px;"
+onclick="var objectelement=document.getElementsByClassName('mp4obj');
+
+        for(var i=0;i<objectelement.length;i++)
+        {if(objectelement[i].contentWindow != 'undefined' && objectelement[i].contentWindow != null && objectelement[i].contentWindow[0] != 'undefined' && objectelement[i].contentWindow[0] != null)
+         {if(objectelement[i].contentWindow[0].body != 'undefined' && objectelement[i].contentDocument.body.children[0].localName == 'video')
+          {
+               if(objectelement[i].contentDocument.body.children[0].currentTime != objectelement[i].children['currenttime'].value){objectelement[i].contentDocument.body.children[0].currentTime=objectelement[i].children['currenttime'].value}
+          }
+         }
+        }
+"><br>
+<big>Queue-to time is one minute prior to time shown in the text box above.  Allowing pre-loading between retries is best practice</big>
+<br><br>
+<input type="button" value="Pause all videos" id="pausebtn" style="font-size:25px;" onclick="var objectelement=document.getElementsByClassName('mp4obj');
+        for(var i=0;i<objectelement.length;i++)
+        {if(objectelement[i].contentWindow != 'undefined' && objectelement[i].contentWindow != null && objectelement[i].contentWindow[0] != 'undefined' && objectelement[i].contentWindow[0] != null)
+        {if(objectelement[i].contentWindow[0].body != 'undefined' && objectelement[i].contentDocument.body.children[0].localName == 'video')
+        {objectelement[i].contentDocument.body.children[0].pause()}}}">
+<br><br><input type="button" value="Relax the courtesy of videos while any other loads their next one" style="font-size:18px;" id="courtesybtn" style="background:white" onclick="if(this.style.backgroundColor == 'white'){this.style.background='#d9ecd0';this.value='Enforce courtesy of videos while any other loads their next one'}else{this.style.background='white';this.value='Relax courtesy of videos while any other loads their next one'}">
+</td></tr>
+</table>
+
+
+</td></tr>
+</table>
+
+</td></tr>
+</table>
+</div>
+<h3><ul><li>Video snippets are about 6 minutes, so that is as early as the currently recording .mp4 will be ready;<br>
+i.e.,the  most recent .mp4 (at the top of the listed stream files) video will never immediately play<br>
+since it is not finished recording. Snapshot files on the other hand, are always ready for viewing.<br>
+</li><li>To navigate upward to the higher directory use the browser back arrow.<br>
+</li><li>When viewing or playing by simple clicking, the back button can end the player app if the focus is on it.<br>
+</li><li>Motion Detect snapshots often get pared down by system code in order to reduce clutter. The indication<br>
+that happened would be an error message when trying to show the snapshot; refresh the listing.
+</li><li>I also want to be able to have this page play recordings of all cameras simultaneously & synchronized &<br> 
+play next file without intervention. That is to utilize a column to the left of the listing boxes to drop into.  <br>
+One of those columns exists as a first step of that intent.<br>
+</li><li>My research is indicating that push notifications to Android devices might not be possible without Google's<br>
+servers and some registration key they generate being required.  I feel there should be some other way (like<br>
+HTML5 push) that the shop server can directly trigger an Android notification.  Hopefully I'll find it soon.</li>
+</h3>
+Camera login credentials are no longer embedded in the URLs so that the five minute stream time limit can be defeated<br>
+Login credentials for camera streams are username = [youngest brother first name in reverse case]123<br>
+             password is the same as the username but in proper case<br>
+</small></small>
+<script>
+function glonabort( currSrc, elmnt, elname, tagname, arg1, arg2, arg3 ) {
+   alert("Element onabort. currentSrc=" + currSrc + ", id=" + elmnt.attributes["id"].nodeValue + ", name=" + elname + ", tagName=" + tagname + ". arg1=" + arg1 + ", arg2=" + arg2 + ", arg3=" + arg3);
+}
+function glonanimationcancel( currSrc, elmnt, elname, tagname, arg1, arg2, arg3 ) {
+   alert("Element onanimationcancel. currentSrc=" + currSrc + ", id=" + elmnt.attributes["id"].nodeValue + ", name=" + elname + ", tagName=" + tagname + ". arg1=" + arg1 + ", arg2=" + arg2 + ", arg3=" + arg3);
+}
+function glonanimationend( currSrc, elmnt, elname, tagname, arg1, arg2, arg3 ) {
+   alert("Element onanimationend. currentSrc=" + currSrc + ", id=" + elmnt.attributes["id"].nodeValue + ", name=" + elname + ", tagName=" + tagname + ". arg1=" + arg1 + ", arg2=" + arg2 + ", arg3=" + arg3);
+}
+function glonanimationiteration( currSrc, elmnt, elname, tagname, arg1, arg2, arg3 ) {
+   alert("Element onanimationiteration. currentSrc=" + currSrc + ", id=" + elmnt.attributes["id"].nodeValue + ", name=" + elname + ", tagName=" + tagname + ". arg1=" + arg1 + ", arg2=" + arg2 + ", arg3=" + arg3);
+}
+function glonanimationstart( currSrc, elmnt, elname, tagname, arg1, arg2, arg3 ) {
+   alert("Element onanimationstart. currentSrc=" + currSrc + ", id=" + elmnt.attributes["id"].nodeValue + ", name=" + elname + ", tagName=" + tagname + ". arg1=" + arg1 + ", arg2=" + arg2 + ", arg3=" + arg3);
+}
+function glonauxclick( currSrc, elmnt, elname, tagname, arg1, arg2, arg3 ) {
+   alert("Element onauxclick. currentSrc=" + currSrc + ", id=" + elmnt.attributes["id"].nodeValue + ", name=" + elname + ", tagName=" + tagname + ". arg1=" + arg1 + ", arg2=" + arg2 + ", arg3=" + arg3);
+}
+function glonblur( currSrc, elmnt, elname, tagname, arg1, arg2, arg3 ) {
+   alert("Element onblur. currentSrc=" + currSrc + ", id=" + elmnt.attributes["id"].nodeValue + ", name=" + elname + ", tagName=" + tagname + ". arg1=" + arg1 + ", arg2=" + arg2 + ", arg3=" + arg3);
+}
+function gloncanplay( currSrc, elmnt, elname, tagname, arg1, arg2, arg3 ) {
+   alert("Element oncanplay. currentSrc=" + currSrc + ", id=" + elmnt.attributes["id"].nodeValue + ", name=" + elname + ", tagName=" + tagname + ". arg1=" + arg1 + ", arg2=" + arg2 + ", arg3=" + arg3);
+}
+function gloncanplaythrough( currSrc, elmnt, elname, tagname, arg1, arg2, arg3 ) {
+   alert("Element oncanplaythrough. currentSrc=" + currSrc + ", id=" + elmnt.attributes["id"].nodeValue + ", name=" + elname + ", tagName=" + tagname + ". arg1=" + arg1 + ", arg2=" + arg2 + ", arg3=" + arg3);
+}
+function glonchange( currSrc, elmnt, elname, tagname, arg1, arg2, arg3 ) {
+   alert("Element onchange. currentSrc=" + currSrc + ", id=" + elmnt.attributes["id"].nodeValue + ", name=" + elname + ", tagName=" + tagname + ". arg1=" + arg1 + ", arg2=" + arg2 + ", arg3=" + arg3);
+}
+function glonclick( currSrc, elmnt, elname, tagname, arg1, arg2, arg3 ) {
+   alert("Element onclick. currentSrc=" + currSrc + ", id=" + elmnt.attributes["id"].nodeValue + ", name=" + elname + ", tagName=" + tagname + ". arg1=" + arg1 + ", arg2=" + arg2 + ", arg3=" + arg3);
+}
+function glonclose( currSrc, elmnt, elname, tagname, arg1, arg2, arg3 ) {
+   alert("Element onclose. currentSrc=" + currSrc + ", id=" + elmnt.attributes["id"].nodeValue + ", name=" + elname + ", tagName=" + tagname + ". arg1=" + arg1 + ", arg2=" + arg2 + ", arg3=" + arg3);
+}
+function gloncontextmenu( currSrc, elmnt, elname, tagname, arg1, arg2, arg3 ) {
+   alert("Element oncontextmenu. currentSrc=" + currSrc + ", id=" + elmnt.attributes["id"].nodeValue + ", name=" + elname + ", tagName=" + tagname + ". arg1=" + arg1 + ", arg2=" + arg2 + ", arg3=" + arg3);
+}
+function gloncopy( currSrc, elmnt, elname, tagname, arg1, arg2, arg3 ) {
+   alert("Element oncopy. currentSrc=" + currSrc + ", id=" + elmnt.attributes["id"].nodeValue + ", name=" + elname + ", tagName=" + tagname + ". arg1=" + arg1 + ", arg2=" + arg2 + ", arg3=" + arg3);
+}
+function gloncuechange( currSrc, elmnt, elname, tagname, arg1, arg2, arg3 ) {
+   alert("Element oncuechange. currentSrc=" + currSrc + ", id=" + elmnt.attributes["id"].nodeValue + ", name=" + elname + ", tagName=" + tagname + ". arg1=" + arg1 + ", arg2=" + arg2 + ", arg3=" + arg3);
+}
+function gloncut( currSrc, elmnt, elname, tagname, arg1, arg2, arg3 ) {
+   alert("Element oncut. currentSrc=" + currSrc + ", id=" + elmnt.attributes["id"].nodeValue + ", name=" + elname + ", tagName=" + tagname + ". arg1=" + arg1 + ", arg2=" + arg2 + ", arg3=" + arg3);
+}
+function glondblclick( currSrc, elmnt, elname, tagname, arg1, arg2, arg3 ) {
+   alert("Element ondblclick. currentSrc=" + currSrc + ", id=" + elmnt.attributes["id"].nodeValue + ", name=" + elname + ", tagName=" + tagname + ". arg1=" + arg1 + ", arg2=" + arg2 + ", arg3=" + arg3);
+}
+function glondrag( currSrc, elmnt, elname, tagname, arg1, arg2, arg3 ) {
+   alert("Element ondrag. currentSrc=" + currSrc + ", id=" + elmnt.attributes["id"].nodeValue + ", name=" + elname + ", tagName=" + tagname + ". arg1=" + arg1 + ", arg2=" + arg2 + ", arg3=" + arg3);
+}
+function glondragend( currSrc, elmnt, elname, tagname, arg1, arg2, arg3 ) {
+   alert("Element ondragend. currentSrc=" + currSrc + ", id=" + elmnt.attributes["id"].nodeValue + ", name=" + elname + ", tagName=" + tagname + ". arg1=" + arg1 + ", arg2=" + arg2 + ", arg3=" + arg3);
+}
+function glondragenter( currSrc, elmnt, elname, tagname, arg1, arg2, arg3 ) {
+   alert("Element ondragenter. currentSrc=" + currSrc + ", id=" + elmnt.attributes["id"].nodeValue + ", name=" + elname + ", tagName=" + tagname + ". arg1=" + arg1 + ", arg2=" + arg2 + ", arg3=" + arg3);
+}
+function glondragexit( currSrc, elmnt, elname, tagname, arg1, arg2, arg3 ) {
+   alert("Element ondragexit. currentSrc=" + currSrc + ", id=" + elmnt.attributes["id"].nodeValue + ", name=" + elname + ", tagName=" + tagname + ". arg1=" + arg1 + ", arg2=" + arg2 + ", arg3=" + arg3);
+}
+function glondragleave( currSrc, elmnt, elname, tagname, arg1, arg2, arg3 ) {
+   alert("Element ondragleave. currentSrc=" + currSrc + ", id=" + elmnt.attributes["id"].nodeValue + ", name=" + elname + ", tagName=" + tagname + ". arg1=" + arg1 + ", arg2=" + arg2 + ", arg3=" + arg3);
+}
+function glondragover( currSrc, elmnt, elname, tagname, arg1, arg2, arg3 ) {
+   alert("Element ondragover. currentSrc=" + currSrc + ", id=" + elmnt.attributes["id"].nodeValue + ", name=" + elname + ", tagName=" + tagname + ". arg1=" + arg1 + ", arg2=" + arg2 + ", arg3=" + arg3);
+}
+function glondragstart( currSrc, elmnt, elname, tagname, arg1, arg2, arg3 ) {
+   alert("Element ondragstart. currentSrc=" + currSrc + ", id=" + elmnt.attributes["id"].nodeValue + ", name=" + elname + ", tagName=" + tagname + ". arg1=" + arg1 + ", arg2=" + arg2 + ", arg3=" + arg3);
+}
+function glondrop( currSrc, elmnt, elname, tagname, arg1, arg2, arg3 ) {
+   alert("Element ondrop. currentSrc=" + currSrc + ", id=" + elmnt.attributes["id"].nodeValue + ", name=" + elname + ", tagName=" + tagname + ". arg1=" + arg1 + ", arg2=" + arg2 + ", arg3=" + arg3);
+}
+function glondurationchange( currSrc, elmnt, elname, tagname, arg1, arg2, arg3 ) {
+   alert("Element ondurationchange. currentSrc=" + currSrc + ", id=" + elmnt.attributes["id"].nodeValue + ", name=" + elname + ", tagName=" + tagname + ". arg1=" + arg1 + ", arg2=" + arg2 + ", arg3=" + arg3);
+}
+function glonemptied( currSrc, elmnt, elname, tagname, arg1, arg2, arg3 ) {
+   alert("Element onemptied. currentSrc=" + currSrc + ", id=" + elmnt.attributes["id"].nodeValue + ", name=" + elname + ", tagName=" + tagname + ". arg1=" + arg1 + ", arg2=" + arg2 + ", arg3=" + arg3);
+}
+function glonencrypted( currSrc, elmnt, elname, tagname, arg1, arg2, arg3 ) {
+   alert("Element onencrypted. currentSrc=" + currSrc + ", id=" + elmnt.attributes["id"].nodeValue + ", name=" + elname + ", tagName=" + tagname + ". arg1=" + arg1 + ", arg2=" + arg2 + ", arg3=" + arg3);
+}
+function glonended( currSrc, elmnt, elname, tagname, arg1, arg2, arg3 ) 
+{
+   elmnt.children["timestamp"].value=elmnt.contentWindow[0].document.children[0].innerText.substring(0,30)
+   var playbackrate=elmnt.contentDocument.body.children[0].playbackRate
+   if(courtesybtn.style.backgroundColor == 'white')
+   {
+        var objectelement=document.getElementsByClassName('mp4obj')
+        for(var i=0;i<objectelement.length;i++){
+            if(objectelement[i].contentWindow != 'undefined' && objectelement[i].contentWindow != null && objectelement[i].contentWindow[0] != 'undefined' && objectelement[i].contentWindow[0] != null && objectelement[i].contentWindow[0].body != 'undefined' && objectelement[i].contentDocument.body.children[0].localName == 'video')
+            {objectelement[i].contentDocument.body.children[0].pause()}}
+        elmnt.contentDocument.body.children[0].addEventListener("play",function(item)
+        {
+             var objectelement=document.getElementsByClassName('mp4obj')
+             for(var i=0;i<objectelement.length;i++){
+                 if(objectelement[i].contentWindow != 'undefined' && objectelement[i].contentWindow != null && objectelement[i].contentWindow[0] != 'undefined' && objectelement[i].contentWindow[0] != null && objectelement[i].contentWindow[0].body != 'undefined' && objectelement[i].contentDocument.body.children[0].localName == 'video')
+                 {objectelement[i].contentDocument.body.children[0].play()}}
+        })
+    }
+    elmnt.contentDocument.body.children[0].src=elmnt.contentWindow[0].document.children[0].innerText.substring(30)
+    elmnt.contentDocument.body.children[0].playbackRate=playbackrate
+    elmnt.contentDocument.body.children[1].src=elmnt.contentDocument.body.children[0].src + '\?nextbymodifiedtime'
+    elmnt.children["currenttime"].value=0;
+}
+function glonerror( currSrc, elmnt, elname, tagname, arg1, arg2, arg3 ) {
+   alert("Element onerror. currentSrc=" + currSrc + ", id=" + elmnt.attributes["id"].nodeValue + ", name=" + elname + ", tagName=" + tagname + ". arg1=" + arg1 + ", arg2=" + arg2 + ", arg3=" + arg3);
+}
+function glonfocus( currSrc, elmnt, elname, tagname, arg1, arg2, arg3 ) {
+   alert("Element onfocus. currentSrc=" + currSrc + ", id=" + elmnt.attributes["id"].nodeValue + ", name=" + elname + ", tagName=" + tagname + ". arg1=" + arg1 + ", arg2=" + arg2 + ", arg3=" + arg3);
+}
+function glonformdata( currSrc, elmnt, elname, tagname, arg1, arg2, arg3 ) {
+   alert("Element onformdata. currentSrc=" + currSrc + ", id=" + elmnt.attributes["id"].nodeValue + ", name=" + elname + ", tagName=" + tagname + ". arg1=" + arg1 + ", arg2=" + arg2 + ", arg3=" + arg3);
+}
+function glonfullscreenchange( currSrc, elmnt, elname, tagname, arg1, arg2, arg3 ) {
+   alert("Element onfullscreenchange. currentSrc=" + currSrc + ", id=" + elmnt.attributes["id"].nodeValue + ", name=" + elname + ", tagName=" + tagname + ". arg1=" + arg1 + ", arg2=" + arg2 + ", arg3=" + arg3);
+}
+function glonfullscreenerror( currSrc, elmnt, elname, tagname, arg1, arg2, arg3 ) {
+   alert("Element onfullscreenerror. currentSrc=" + currSrc + ", id=" + elmnt.attributes["id"].nodeValue + ", name=" + elname + ", tagName=" + tagname + ". arg1=" + arg1 + ", arg2=" + arg2 + ", arg3=" + arg3);
+}
+function glongotpointercapture( currSrc, elmnt, elname, tagname, arg1, arg2, arg3 ) {
+   alert("Element ongotpointercapture. currentSrc=" + currSrc + ", id=" + elmnt.attributes["id"].nodeValue + ", name=" + elname + ", tagName=" + tagname + ". arg1=" + arg1 + ", arg2=" + arg2 + ", arg3=" + arg3);
+}
+function gloninput( currSrc, elmnt, elname, tagname, arg1, arg2, arg3 ) {
+   alert("Element oninput. currentSrc=" + currSrc + ", id=" + elmnt.attributes["id"].nodeValue + ", name=" + elname + ", tagName=" + tagname + ". arg1=" + arg1 + ", arg2=" + arg2 + ", arg3=" + arg3);
+}
+function gloninvalid( currSrc, elmnt, elname, tagname, arg1, arg2, arg3 ) {
+   alert("Element oninvalid. currentSrc=" + currSrc + ", id=" + elmnt.attributes["id"].nodeValue + ", name=" + elname + ", tagName=" + tagname + ". arg1=" + arg1 + ", arg2=" + arg2 + ", arg3=" + arg3);
+}
+function glonkeydown( currSrc, elmnt, elname, tagname, arg1, arg2, arg3 ) {
+   alert("Element onkeydown. currentSrc=" + currSrc + ", id=" + elmnt.attributes["id"].nodeValue + ", name=" + elname + ", tagName=" + tagname + ". arg1=" + arg1 + ", arg2=" + arg2 + ", arg3=" + arg3);
+}
+function glonkeypress( currSrc, elmnt, elname, tagname, arg1, arg2, arg3 ) {
+   alert("Element onkeypress. currentSrc=" + currSrc + ", id=" + elmnt.attributes["id"].nodeValue + ", name=" + elname + ", tagName=" + tagname + ". arg1=" + arg1 + ", arg2=" + arg2 + ", arg3=" + arg3);
+}
+function glonkeyup( currSrc, elmnt, elname, tagname, arg1, arg2, arg3 ) {
+   alert("Element onkeyup. currentSrc=" + currSrc + ", id=" + elmnt.attributes["id"].nodeValue + ", name=" + elname + ", tagName=" + tagname + ". arg1=" + arg1 + ", arg2=" + arg2 + ", arg3=" + arg3);
+}
+
+function glonload( currSrc, elmnt, elname, tagname, arg1, arg2, arg3 ) 
+{
+  if (elmnt.contentDocument.body.children[0] != 'undefined' && elmnt.contentDocument.body.children[0] != null && elmnt.contentDocument.body.children[0].localName == 'table' && elmnt.contentDocument.body.children[0].tBodies[0].rows[0].cells[1] != 'undefined' && elmnt.contentDocument.body.children[0].tBodies[0].rows[0].cells[1] != null)
+  {
+    if(elmnt.contentDocument.body.children[0].tBodies[0] == 'undefined' || elmnt.contentDocument.body.children[0].tBodies[0] == null){alert('Too many event files to list with ' + currSrc + '.  Delete overrunning ones on server.');return}
+    elmnt.contentDocument.body.children[0].tBodies[0].addEventListener("click",function(item)
+    {
+//alert(item.type)
+//The hard-coded 2 pixel corrections below might need to be adjusted for border widths or other style settings the web server might send differently in the future:
+      var rowindex=Math.trunc((item.pageY+2)/((elmnt.contentDocument.body.children[0].tBodies[0].clientHeight+2)/elmnt.contentDocument.body.children[0].tBodies[0].childElementCount)-.5)
+      var filename=elmnt.contentDocument.body.children[0].tBodies[0].rows[rowindex].cells[1].innerText
+      if(elmnt.contentDocument.body.children[0].tBodies[0].rows[rowindex].cells[1].innerText.endsWith('.mp4'))
+      {
+//         alert('The file chosen in this table construct is type .mp4')
+         var timestamp=elmnt.contentDocument.body.children[0].tBodies[0].rows[rowindex].cells[0].outerHTML.substr(18)
+         timestamp=timestamp.substring(0,timestamp.indexOf(" ]"))
+         elmnt.children["timestamp"].value=timestamp
+         var endTime = new Date(timestamp.substring(0,20))
+         var endTimemSec=endTime.getTime()+timestamp.substr(21)/1000000
+//         alert(endTime)
+//         alert('End time in mSec=' + endTime.getTime()+timestamp.substr(21)/1000000);//gives us mSec....elmnt.contentDocument.body.children[0].mozFragmentEnd * 1000)
+//         alert('Start time in mSec=' + (endTime.getTime()+timestamp.substr(21)/1000000)-(elmnt.contentDocument.body.children[0].mozFragmentEnd * 1000));//gives us mSec
+//         alert('Start time shown=' + getTime(startTimemSec))
+//         alert(timestamp.substring(0,6) + ', ' + timestamp.substr(7,8))
+//         alert(endTime)
+//         alert(elmnt.children["timestamp"].value);//along with this an event handler?
+      }
+      else if(elmnt.contentDocument.body.children[0].tBodies[0].rows[rowindex].cells[1].innerText.endsWith('.jpg'))
+      {
+//         alert('The link is jpg inside this construct');//We need to always know the timestamp of the last .jpg file viewed so we can populate the .mp4 windows for that event timeframe
+           StartTimeOfInterest=elmnt.contentDocument.body.children[0].tBodies[0].rows[rowindex].cells[0].outerHTML.substr(18)
+           StartTimeOfInterest=StartTimeOfInterest.substring(0,4) + month[StartTimeOfInterest.substr(5,3)] + StartTimeOfInterest.substring(9,StartTimeOfInterest.indexOf(' ]'))
+           StartTimeOfInterestDT=new Date(StartTimeOfInterest)
+           StartTimeOfInterestmSec=StartTimeOfInterestDT.getTime()
+           StartTimeOfInterestmSecminus60.setTime(StartTimeOfInterestmSec-60000)
+           StartTimeOfInterestEl.value='    ' + StartTimeOfInterest.substr(0,19)
+           StartCamOfInterestEl.value=streamListings[elmnt.contentDocument.body.children[0].tBodies[0].rows[rowindex].cells[1].innerText.substr(elmnt.contentDocument.body.children[0].tBodies[0].rows[rowindex].cells[1].innerText.indexOf('192.168.0.') + 10,2)]
+           lsbtn.name='!var!www!camera_streams!camera_*'
+      }
+//      else {alert('unknown file type for ' + elmnt.id + ':' + elmnt.contentDocument.body.children[0].innerHTML + ', ' + elmnt.contentDocument.body.children[0].tBodies[0].rows[rowindex].cells[1].innerText)}
+    })
+  }
+  else
+  {
+//is now a loaded or loading jpg or mp4 viewer with the [first] image already appearing in the window. 
+      if(elmnt.contentDocument.body.children[0].localName == 'video')
+      {
+           elmnt.contentDocument.body.children[0].playbackRate=2
+           if (elmnt.contentDocument.body.children[1] == 'undefined' || elmnt.contentDocument.body.children[1] == null)
+           {
+                   var mbed = document.createElement("EMBED");
+                   var attsrc = document.createAttribute("src")
+                   mbed.setAttributeNode(attsrc);
+                   var atttyp = document.createAttribute("type")
+                   mbed.setAttributeNode(atttyp);
+                   var attwid = document.createAttribute("width")
+                   mbed.setAttributeNode(attwid);
+                   var atthei = document.createAttribute("height")
+                   mbed.setAttributeNode(atthei);
+                   elmnt.contentDocument.body.appendChild(mbed);
+           }
+           elmnt.contentDocument.body.children[1].type='text/plain'
+           elmnt.contentDocument.body.children[1].hidden=true;//doesn't really work without going through the contenWindow[0] that won't exist yet
+           elmnt.contentDocument.body.children[1].width="1"
+           elmnt.contentDocument.body.children[1].height="1"
+//         console.log(elmnt.contentWindow.contentDocument.children[0].innerText)
+         elmnt.contentDocument.body.children[0].addEventListener("ended",function(item)
+         {glonended( elmnt.contentDocument.body.children[0].currentSrc, elmnt, '', '', '', '', '')});//always comes in tandem with and after a pause
+//         elmnt.contentDocument.body.children[0].addEventListener("abort",function(item)
+//         {alert(item.type);glonabort( elmnt.contentDocument.body.children[0].currentSrc, elmnt, '', '', '', '', '')})
+//         elmnt.contentDocument.body.children[0].addEventListener("pause",function(item)
+//         {glonpause( elmnt.contentDocument.body.children[0].currentSrc, elmnt, '', '', '', '', '')})
+//         elmnt.contentDocument.body.children[0].addEventListener("play",function(item)
+//         {alert(item.type);glonplay( elmnt.contentDocument.body.children[0].currentSrc, elmnt, '', '', '', '', '')})
+//         elmnt.contentDocument.body.children[0].addEventListener("seeking",function(item)
+//         {alert(item.type);glonseeking( elmnt.contentDocument.body.children[0].currentSrc, elmnt, '', '', '', '', '')});//comes often at beginning of video playing
+//occurs when losing time due to network         elmnt.contentDocument.body.children[0].addEventListener("stalled",function(item)
+//         {alert(item.type);glonstalled( elmnt.contentDocument.body.children[0].currentSrc, elmnt, '', '', '', '', '')})
+//occurs when losing time due to network         elmnt.contentDocument.body.children[0].addEventListener("waiting",function(item)
+//         {alert(item.type);glonwaiting( elmnt.contentDocument.body.children[0].currentSrc, elmnt, '', '', '', '', '')})
+//occurs when losing time due to network          elmnt.contentDocument.body.children[0].addEventListener("suspend",function(item)
+//         {alert(item.type + ' ' + elmnt.contentDocument.body.children[0].buffered.end(elmnt.contentDocument.body.children[0].buffered.length-1) );glonsuspend( elmnt.contentDocument.body.children[0].currentSrc, elmnt, '', '', '', '', '')});//comes when each chunk series finishes downloading excluding final one
+//         elmnt.contentDocument.body.children[0].addEventListener("ratechange",function(item)
+//         {glonratechange( elmnt.contentDocument.body.children[0].currentSrc, elmnt, '', '', '', '', '')})
+//         elmnt.contentDocument.body.children[0].addEventListener("error",function(item)
+//         {alert(item.type);glonerror( elmnt.contentDocument.body.children[0].currentSrc, elmnt, '', '', '', '', '')})
+//         elmnt.contentDocument.body.children[0].addEventListener("loadend",function(item)
+//         {alert(item.type);glonloadend( this.contentDocument.body.children[0].currentSrc, getElementById('sysjpgmp4_motion'), '', '', '', '', '')})
+//         elmnt.contentDocument.body.children[0].addEventListener("playing",function(item)
+//         {glonplaying( this.contentDocument.body.children[0].currentSrc, getElementById('sysjpgmp4_motion'), '', '', '', '', '')})
+//         elmnt.contentDocument.body.children[0].addEventListener("progress",function(item)
+//         {alert(item.type);glonprogress( this.contentDocument.body.children[0].currentSrc, getElementById('sysjpgmp4_motion'), '', '', '', '', '')})
+//         elmnt.contentDocument.body.children[0].addEventListener("transitionstart",function(item)
+//         {glontransitionstart( sysjpgmp4_motion.contentDocument.body.children[0].currentSrc, getElementById('sysjpgmp4_motion'), '', '', '', '', '')})
+         var timestamp=elmnt.children["timestamp"].value
+//         alert('Ending file timestamp=' + timestamp);//This is the last modified time of the file just beginning to play. IT IS ONLY CONTAINING 60 SECONDS PRIOR TO THE EVENT OF INTEREST, SO NOW WE MUST SUBTRACT 60 SEC FROM StartTimeOfInterest
+//         alert(elmnt.contentDocument.body.children[0].currentTime)
+         elmnt.contentDocument.body.children[1].src=elmnt.contentDocument.body.children[0].currentSrc + '\?nextbymodifiedtime'
+         var endTime=new Date(timestamp.substring(0,20))
+         var endTimemSec=endTime.getTime()+(timestamp.substr(21)/1000000)
+         var startTimemSec=endTimemSec-(elmnt.contentDocument.body.children[0].mozFragmentEnd * 1000)
+         var startTimeReadable=new Date()
+         startTimeReadable.setTime(startTimemSec)
+         elmnt.children["currenttime"].value=((StartTimeOfInterestmSecminus60-startTimemSec)/1000)
+          }
+  }
+}
+function glonloadeddata( currSrc, elmnt, elname, tagname, arg1, arg2, arg3 ) {
+   alert("Element onloadeddata. currentSrc=" + currSrc + ", id=" + elmnt.attributes["id"].nodeValue + ", name=" + elname + ", tagName=" + tagname + ". arg1=" + arg1 + ", arg2=" + arg2 + ", arg3=" + arg3);
+}
+function glonloadedmetadata( currSrc, elmnt, elname, tagname, arg1, arg2, arg3 ) {
+   alert("Element onloadedmetadata. currentSrc=" + currSrc + ", id=" + elmnt.attributes["id"].nodeValue + ", name=" + elname + ", tagName=" + tagname + ". arg1=" + arg1 + ", arg2=" + arg2 + ", arg3=" + arg3);
+}
+function glonloadend( currSrc, elmnt, elname, tagname, arg1, arg2, arg3 ) {
+   alert("Element onloadend. currentSrc=" + currSrc + ", id=" + elmnt.attributes["id"].nodeValue + ", name=" + elname + ", tagName=" + tagname + ". arg1=" + arg1 + ", arg2=" + arg2 + ", arg3=" + arg3);
+}
+function glonloadstart( currSrc, elmnt, elname, tagname, arg1, arg2, arg3 ) {
+   alert("Element onloadstart. currentSrc=" + currSrc + ", id=" + elmnt.attributes["id"].nodeValue + ", name=" + elname + ", tagName=" + tagname + ". arg1=" + arg1 + ", arg2=" + arg2 + ", arg3=" + arg3);
+}
+function glonlostpointercapture( currSrc, elmnt, elname, tagname, arg1, arg2, arg3 ) {
+   alert("Element onlostpointercapture. currentSrc=" + currSrc + ", id=" + elmnt.attributes["id"].nodeValue + ", name=" + elname + ", tagName=" + tagname + ". arg1=" + arg1 + ", arg2=" + arg2 + ", arg3=" + arg3);
+}
+function glonmousedown( currSrc, elmnt, elname, tagname, arg1, arg2, arg3 ) {
+   alert("Element onmousedown. currentSrc=" + currSrc + ", id=" + elmnt.attributes["id"].nodeValue + ", name=" + elname + ", tagName=" + tagname + ". arg1=" + arg1 + ", arg2=" + arg2 + ", arg3=" + arg3);
+}
+function glonmouseenter( currSrc, elmnt, elname, tagname, arg1, arg2, arg3 ) {
+   alert("Element onmouseenter. currentSrc=" + currSrc + ", id=" + elmnt.attributes["id"].nodeValue + ", name=" + elname + ", tagName=" + tagname + ". arg1=" + arg1 + ", arg2=" + arg2 + ", arg3=" + arg3);
+}
+function glonmouseleave( currSrc, elmnt, elname, tagname, arg1, arg2, arg3 ) {
+   alert("Element onmouseleave. currentSrc=" + currSrc + ", id=" + elmnt.attributes["id"].nodeValue + ", name=" + elname + ", tagName=" + tagname + ". arg1=" + arg1 + ", arg2=" + arg2 + ", arg3=" + arg3);
+}
+function glonmousemove( currSrc, elmnt, elname, tagname, arg1, arg2, arg3 ) {
+   alert("Element onmousemove. currentSrc=" + currSrc + ", id=" + elmnt.attributes["id"].nodeValue + ", name=" + elname + ", tagName=" + tagname + ". arg1=" + arg1 + ", arg2=" + arg2 + ", arg3=" + arg3);
+}
+function glonmouseout( currSrc, elmnt, elname, tagname, arg1, arg2, arg3 ) {
+   alert("Element onmouseout. currentSrc=" + currSrc + ", id=" + elmnt.attributes["id"].nodeValue + ", name=" + elname + ", tagName=" + tagname + ". arg1=" + arg1 + ", arg2=" + arg2 + ", arg3=" + arg3);
+}
+function glonmouseover( currSrc, elmnt, elname, tagname, arg1, arg2, arg3 ) {
+   alert("Element onmouseover. currentSrc=" + currSrc + ", id=" + elmnt.attributes["id"].nodeValue + ", name=" + elname + ", tagName=" + tagname + ". arg1=" + arg1 + ", arg2=" + arg2 + ", arg3=" + arg3);
+}
+function glonmouseup( currSrc, elmnt, elname, tagname, arg1, arg2, arg3 ) {
+   alert("Element onmouseup. currentSrc=" + currSrc + ", id=" + elmnt.attributes["id"].nodeValue + ", name=" + elname + ", tagName=" + tagname + ". arg1=" + arg1 + ", arg2=" + arg2 + ", arg3=" + arg3);
+}
+function glonpaste( currSrc, elmnt, elname, tagname, arg1, arg2, arg3 ) {
+   alert("Element onpaste. currentSrc=" + currSrc + ", id=" + elmnt.attributes["id"].nodeValue + ", name=" + elname + ", tagName=" + tagname + ". arg1=" + arg1 + ", arg2=" + arg2 + ", arg3=" + arg3);
+}
+function glonpause( currSrc, elmnt, elname, tagname, arg1, arg2, arg3 ) {
+//   alert("Element onpause. currentSrc=" + currSrc + ", id=" + elmnt.attributes["id"].nodeValue + ", name=" + elname + ", tagName=" + tagname + ". arg1=" + arg1 + ", arg2=" + arg2 + ", arg3=" + arg3);
+;
+// must pause all the other players until resume
+}
+function glonplay( currSrc, elmnt, elname, tagname, arg1, arg2, arg3 ) {
+   alert("Element onplay. currentSrc=" + currSrc + ", id=" + elmnt.attributes["id"].nodeValue + ", name=" + elname + ", tagName=" + tagname + ". arg1=" + arg1 + ", arg2=" + arg2 + ", arg3=" + arg3);
+}
+function glonplaying( currSrc, elmnt, elname, tagname, arg1, arg2, arg3 ) {
+   alert("Element onplaying. currentSrc=" + currSrc + ", id=" + elmnt.attributes["id"].nodeValue + ", name=" + elname + ", tagName=" + tagname + ". arg1=" + arg1 + ", arg2=" + arg2 + ", arg3=" + arg3);
+}
+function glonpointercancel( currSrc, elmnt, elname, tagname, arg1, arg2, arg3 ) {
+   alert("Element onpointercancel. currentSrc=" + currSrc + ", id=" + elmnt.attributes["id"].nodeValue + ", name=" + elname + ", tagName=" + tagname + ". arg1=" + arg1 + ", arg2=" + arg2 + ", arg3=" + arg3);
+}
+function glonpointerdown( currSrc, elmnt, elname, tagname, arg1, arg2, arg3 ) {
+   alert("Element onpointerdown. currentSrc=" + currSrc + ", id=" + elmnt.attributes["id"].nodeValue + ", name=" + elname + ", tagName=" + tagname + ". arg1=" + arg1 + ", arg2=" + arg2 + ", arg3=" + arg3);
+}
+function glonpointerenter( currSrc, elmnt, elname, tagname, arg1, arg2, arg3 ) {
+   alert("Element onpointerenter. currentSrc=" + currSrc + ", id=" + elmnt.attributes["id"].nodeValue + ", name=" + elname + ", tagName=" + tagname + ". arg1=" + arg1 + ", arg2=" + arg2 + ", arg3=" + arg3);
+}
+function glonpointerleave( currSrc, elmnt, elname, tagname, arg1, arg2, arg3 ) {
+   alert("Element onpointerleave. currentSrc=" + currSrc + ", id=" + elmnt.attributes["id"].nodeValue + ", name=" + elname + ", tagName=" + tagname + ". arg1=" + arg1 + ", arg2=" + arg2 + ", arg3=" + arg3);
+}
+function glonpointermove( currSrc, elmnt, elname, tagname, arg1, arg2, arg3 ) {
+   alert("Element onpointermove. currentSrc=" + currSrc + ", id=" + elmnt.attributes["id"].nodeValue + ", name=" + elname + ", tagName=" + tagname + ". arg1=" + arg1 + ", arg2=" + arg2 + ", arg3=" + arg3);
+}
+function glonpointerout( currSrc, elmnt, elname, tagname, arg1, arg2, arg3 ) {
+   alert("Element onpointerout. currentSrc=" + currSrc + ", id=" + elmnt.attributes["id"].nodeValue + ", name=" + elname + ", tagName=" + tagname + ". arg1=" + arg1 + ", arg2=" + arg2 + ", arg3=" + arg3);
+}
+function glonpointerover( currSrc, elmnt, elname, tagname, arg1, arg2, arg3 ) {
+   alert("Element onpointerover. currentSrc=" + currSrc + ", id=" + elmnt.attributes["id"].nodeValue + ", name=" + elname + ", tagName=" + tagname + ". arg1=" + arg1 + ", arg2=" + arg2 + ", arg3=" + arg3);
+}
+function glonpointerup( currSrc, elmnt, elname, tagname, arg1, arg2, arg3 ) {
+   alert("Element onpointerup. currentSrc=" + currSrc + ", id=" + elmnt.attributes["id"].nodeValue + ", name=" + elname + ", tagName=" + tagname + ". arg1=" + arg1 + ", arg2=" + arg2 + ", arg3=" + arg3);
+}
+function glonprogress( currSrc, elmnt, elname, tagname, arg1, arg2, arg3 ) {
+   alert("Element onprogress. currentSrc=" + currSrc + ", id=" + elmnt.attributes["id"].nodeValue + ", name=" + elname + ", tagName=" + tagname + ". arg1=" + arg1 + ", arg2=" + arg2 + ", arg3=" + arg3);
+}
+function glonratechange( currSrc, elmnt, elname, tagname, arg1, arg2, arg3 ) {
+//   alert("Element onratechange. currentSrc=" + currSrc + ", id=" + elmnt.attributes["id"].nodeValue + ", name=" + elname + ", tagName=" + tagname + ". arg1=" + arg1 + ", arg2=" + arg2 + ", arg3=" + arg3);
+;
+//must change all videos to maintain synchronization
+}
+function glonreset( currSrc, elmnt, elname, tagname, arg1, arg2, arg3 ) {
+   alert("Element onreset. currentSrc=" + currSrc + ", id=" + elmnt.attributes["id"].nodeValue + ", name=" + elname + ", tagName=" + tagname + ". arg1=" + arg1 + ", arg2=" + arg2 + ", arg3=" + arg3);
+}
+function glonresize( currSrc, elmnt, elname, tagname, arg1, arg2, arg3 ) {
+   alert("Element onresize. currentSrc=" + currSrc + ", id=" + elmnt.attributes["id"].nodeValue + ", name=" + elname + ", tagName=" + tagname + ". arg1=" + arg1 + ", arg2=" + arg2 + ", arg3=" + arg3);
+}
+function glonscroll( currSrc, elmnt, elname, tagname, arg1, arg2, arg3 ) {
+   alert("Element onscroll. currentSrc=" + currSrc + ", id=" + elmnt.attributes["id"].nodeValue + ", name=" + elname + ", tagName=" + tagname + ". arg1=" + arg1 + ", arg2=" + arg2 + ", arg3=" + arg3);
+}
+function glonseeked( currSrc, elmnt, elname, tagname, arg1, arg2, arg3 ) {
+   alert("Element onseeked. currentSrc=" + currSrc + ", id=" + elmnt.attributes["id"].nodeValue + ", name=" + elname + ", tagName=" + tagname + ". arg1=" + arg1 + ", arg2=" + arg2 + ", arg3=" + arg3);
+}
+function glonseeking( currSrc, elmnt, elname, tagname, arg1, arg2, arg3 ) {
+   alert("Element onseeking. currentSrc=" + currSrc + ", id=" + elmnt.attributes["id"].nodeValue + ", name=" + elname + ", tagName=" + tagname + ". arg1=" + arg1 + ", arg2=" + arg2 + ", arg3=" + arg3);
+}
+function glonselect( currSrc, elmnt, elname, tagname, arg1, arg2, arg3 ) {
+   alert("Element onselect. currentSrc=" + currSrc + ", id=" + elmnt.attributes["id"].nodeValue + ", name=" + elname + ", tagName=" + tagname + ". arg1=" + arg1 + ", arg2=" + arg2 + ", arg3=" + arg3);
+}
+function glonselectstart( currSrc, elmnt, elname, tagname, arg1, arg2, arg3 ) {
+   alert("Element onselectstart. currentSrc=" + currSrc + ", id=" + elmnt.attributes["id"].nodeValue + ", name=" + elname + ", tagName=" + tagname + ". arg1=" + arg1 + ", arg2=" + arg2 + ", arg3=" + arg3);
+}
+function glonshow( currSrc, elmnt, elname, tagname, arg1, arg2, arg3 ) {
+   alert("Element onshow. currentSrc=" + currSrc + ", id=" + elmnt.attributes["id"].nodeValue + ", name=" + elname + ", tagName=" + tagname + ". arg1=" + arg1 + ", arg2=" + arg2 + ", arg3=" + arg3);
+}
+function glonstalled( currSrc, elmnt, elname, tagname, arg1, arg2, arg3 ) {
+   alert("Element onstalled. currentSrc=" + currSrc + ", id=" + elmnt.attributes["id"].nodeValue + ", name=" + elname + ", tagName=" + tagname + ". arg1=" + arg1 + ", arg2=" + arg2 + ", arg3=" + arg3);
+;
+//must pause all other players until resumed
+}
+function glonsubmit( currSrc, elmnt, elname, tagname, arg1, arg2, arg3 ) {
+   alert("Element onsubmit. currentSrc=" + currSrc + ", id=" + elmnt.attributes["id"].nodeValue + ", name=" + elname + ", tagName=" + tagname + ". arg1=" + arg1 + ", arg2=" + arg2 + ", arg3=" + arg3);
+}
+function glonsuspend( currSrc, elmnt, elname, tagname, arg1, arg2, arg3 ) {
+   alert("Element onsuspend. currentSrc=" + currSrc + ", id=" + elmnt.attributes["id"].nodeValue + ", name=" + elname + ", tagName=" + tagname + ". arg1=" + arg1 + ", arg2=" + arg2 + ", arg3=" + arg3);
+}
+function glontimeupdate( currSrc, elmnt, elname, tagname, arg1, arg2, arg3 ) {
+   alert("Element ontimeupdate. currentSrc=" + currSrc + ", id=" + elmnt.attributes["id"].nodeValue + ", name=" + elname + ", tagName=" + tagname + ". arg1=" + arg1 + ", arg2=" + arg2 + ", arg3=" + arg3);
+}
+function glontoggle( currSrc, elmnt, elname, tagname, arg1, arg2, arg3 ) {
+   alert("Element ontoggle. currentSrc=" + currSrc + ", id=" + elmnt.attributes["id"].nodeValue + ", name=" + elname + ", tagName=" + tagname + ". arg1=" + arg1 + ", arg2=" + arg2 + ", arg3=" + arg3);
+}
+function glontransitioncancel( currSrc, elmnt, elname, tagname, arg1, arg2, arg3 ) {
+   alert("Element ontransitioncancel. currentSrc=" + currSrc + ", id=" + elmnt.attributes["id"].nodeValue + ", name=" + elname + ", tagName=" + tagname + ". arg1=" + arg1 + ", arg2=" + arg2 + ", arg3=" + arg3);
+}
+function glontransitionend( currSrc, elmnt, elname, tagname, arg1, arg2, arg3 ) {
+   alert("Element ontransitionend. currentSrc=" + currSrc + ", id=" + elmnt.attributes["id"].nodeValue + ", name=" + elname + ", tagName=" + tagname + ". arg1=" + arg1 + ", arg2=" + arg2 + ", arg3=" + arg3);
+}
+function glontransitionrun( currSrc, elmnt, elname, tagname, arg1, arg2, arg3 ) {
+   alert("Element ontransitionrun. currentSrc=" + currSrc + ", id=" + elmnt.attributes["id"].nodeValue + ", name=" + elname + ", tagName=" + tagname + ". arg1=" + arg1 + ", arg2=" + arg2 + ", arg3=" + arg3);
+}
+function glontransitionstart( currSrc, elmnt, elname, tagname, arg1, arg2, arg3 ) {
+   alert("Element ontransitionstart. currentSrc=" + currSrc + ", id=" + elmnt.attributes["id"].nodeValue + ", name=" + elname + ", tagName=" + tagname + ". arg1=" + arg1 + ", arg2=" + arg2 + ", arg3=" + arg3);
+}
+function glonvolumechange( currSrc, elmnt, elname, tagname, arg1, arg2, arg3 ) {
+   alert("Element onvolumechange. currentSrc=" + currSrc + ", id=" + elmnt.attributes["id"].nodeValue + ", name=" + elname + ", tagName=" + tagname + ". arg1=" + arg1 + ", arg2=" + arg2 + ", arg3=" + arg3);
+}
+function glonwaiting( currSrc, elmnt, elname, tagname, arg1, arg2, arg3 ) {
+   alert("Element onwaiting. currentSrc=" + currSrc + ", id=" + elmnt.attributes["id"].nodeValue + ", name=" + elname + ", tagName=" + tagname + ". arg1=" + arg1 + ", arg2=" + arg2 + ", arg3=" + arg3);
+}
+function glonwaitingforkey( currSrc, elmnt, elname, tagname, arg1, arg2, arg3 ) {
+   alert("Element onwaitingforkey. currentSrc=" + currSrc + ", id=" + elmnt.attributes["id"].nodeValue + ", name=" + elname + ", tagName=" + tagname + ". arg1=" + arg1 + ", arg2=" + arg2 + ", arg3=" + arg3);
+}
+function glonwebkitanimationend( currSrc, elmnt, elname, tagname, arg1, arg2, arg3 ) {
+   alert("Element onwebkitanimationend. currentSrc=" + currSrc + ", id=" + elmnt.attributes["id"].nodeValue + ", name=" + elname + ", tagName=" + tagname + ". arg1=" + arg1 + ", arg2=" + arg2 + ", arg3=" + arg3);
+}
+function glonwebkitanimationiteration( currSrc, elmnt, elname, tagname, arg1, arg2, arg3 ) {
+   alert("Element onwebkitanimationiteration. currentSrc=" + currSrc + ", id=" + elmnt.attributes["id"].nodeValue + ", name=" + elname + ", tagName=" + tagname + ". arg1=" + arg1 + ", arg2=" + arg2 + ", arg3=" + arg3);
+}
+function glonwebkitanimationstart( currSrc, elmnt, elname, tagname, arg1, arg2, arg3 ) {
+   alert("Element onwebkitanimationstart. currentSrc=" + currSrc + ", id=" + elmnt.attributes["id"].nodeValue + ", name=" + elname + ", tagName=" + tagname + ". arg1=" + arg1 + ", arg2=" + arg2 + ", arg3=" + arg3);
+}
+function glonwebkittransitionend( currSrc, elmnt, elname, tagname, arg1, arg2, arg3 ) {
+   alert("Element onwebkittransitionend. currentSrc=" + currSrc + ", id=" + elmnt.attributes["id"].nodeValue + ", name=" + elname + ", tagName=" + tagname + ". arg1=" + arg1 + ", arg2=" + arg2 + ", arg3=" + arg3);
+}
+function glonwheel( currSrc, elmnt, elname, tagname, arg1, arg2, arg3 ) {
+   alert("Element onwheel. currentSrc=" + currSrc + ", id=" + elmnt.attributes["id"].nodeValue + ", name=" + elname + ", tagName=" + tagname + ". arg1=" + arg1 + ", arg2=" + arg2 + ", arg3=" + arg3);
+}
+
+//WindowOrWorkerGlobalScope.setTimeout() for setting a flag for the object.
+if (window.File && window.FileReader && window.FileList && window.Blob) {
+  // Great success! All the File APIs are supported.
+} else {
+  alert('HTML5 is NOT fully supported enough in this browser.  Can you upgrade it?');
+}
+
+var vidul = document.getElementById("camembed_ul");
+
+function playVid() {
+<!--  vidul.src=document.links[3].href; -->
+  vidul.play();
+}
+
+function pauseVid() {
+  vid.pause();
+}
+
+function notimeoutfilehere() {
+   alert("No timeout file");
+ return false;
+}
+var sdsubmit = document.getElementById("sdsubmit");
+
+function whatdoesthefilesay(filename, destinationid) {
+return;
+}
+//    var reader = new FileReader();
+//    reader.onloadend = function(event) {
+//        var contents = event.target.result;
+//        sdsubmit.value=contents;
+//        alert(contents);
+//    };
+//    reader.onloadstart = function(event) {
+//        alert("Starting read of " + window.location.hostname + ":8080/home/homeowner/camera_snapshots/default_timeout_for_newly_added_cameras");
+//    }
+//    reader.onerror = function(event) {
+//        console.error("File could not be read! Code " + event.target.error.code);
+//       sdsubmit.value=event.target.error.code;
+//    };
+//return;
+//    reader.readAsText(window.location.hostname + ":8080/home/homeowner/camera_snapshots/default_timeout_for_newly_added_cameras");
+//      alert(window.location.hostname + ":8080/home/homeowner/camera_snapshots/default_timeout_for_newly_added_cameras");
+//}
+
+var sdsliderbarinput = document.getElementById("south_driveway");
+function slidersd(a) {
+   if (a !== undefined) {sdsliderbarinput.value = a;}
+
+   var timeoutfilename = "/home/homeowner/camera_snapshots/default_timeout_for_newly_added_cameras";
+//   var timeoutfile = "/home/homeowner/camera_snapshots/camera_south_driveway/timeout";
+    var destinationid="sdsubmit";
+//    whatdoesthefilesay(timeoutfilename, destinationid);
+    sdsubmit.value = "Set to " + sdsliderbarinput.value + " minutes";
+//   var timeoutfile = $('<iframe><img src="' + timeoutfilename + '" /></iframe>');
+//   var timeoutfile = $('<iframe><object type="text/text" data=="' + timeoutfilename + '" width="10px" height="10px"></object></iframe>');
+//   var timeoutfile = $( '<object type="text/text" data=="' + timeoutfilename + '" onerror="notimeoutfilehere()"></object>');
+//   if ($(timeoutfile.find().attr() > 0 {
+//       sdsubmit.value += " but in timeout";
+//       sdsubmit.disabled = "true";      
+//   }
+//   else {
+//      sdsubmit.disabled = "";
+//   }
+}
+
+var fpsliderbarinput = document.getElementById("front_parking");
+var fpsubmit = document.getElementById("fpsubmit");
+function sliderfp(a) {
+   if (a !== undefined) {fpsliderbarinput.value = a;}
+   fpsubmit.value = "Set to " + fpsliderbarinput.value + " minutes";
+}
+
+var edsliderbarinput = document.getElementById("east_driveway");
+var edsubmit = document.getElementById("edsubmit");
+function slidered(a) {
+   if (a !== undefined) {edsliderbarinput.value = a;}
+   edsubmit.value = "Set to " + edsliderbarinput.value + " minutes";
+}
+
+var swsliderbarinput = document.getElementById("sw_corner");
+var swsubmit = document.getElementById("swsubmit");
+function slidersw(a) {
+   if (a !== undefined) {swsliderbarinput.value = a;}
+   swsubmit.value = "Set to " + swsliderbarinput.value + " minutes";
+}
+
+var nesliderbarinput = document.getElementById("ne_corner");
+var nesubmit = document.getElementById("nesubmit");
+function sliderne(a) {
+   if (a !== undefined) {nesliderbarinput.value = a;}
+   nesubmit.value = "Set to " + nesliderbarinput.value + " minutes";
+}
+
+var essliderbarinput = document.getElementById("entire_system");
+var essubmit = document.getElementById("essubmit");
+function slideres(a) {
+   if (a !== undefined) {essliderbarinput.value = a;}
+   this.essubmit.value = "Set to " + essliderbarinput.value + " minutes";
+}
+</script>
+    <!-- 
+var test = document.createElement("object");
+test.addEventListener("testV", function(e) {
+  console.log("vanilla test handler");
+ });
+var event = new CustomEvent("testV");
+test.dispatchEvent(event);
+
+ -->
+<!-- /html -->
+<!-- <title>Welcome to nginx!</title -->
+<!-- style
+    body {
+        width: 35em;
+        margin: 0 auto;
+        font-family: Tahoma, Verdana, Arial, sans-serif;
+    }
+</style -->
+    <button onclick="play()">Test alert sound</button> 
+    <button onclick="checkforcache()">Check browser cache capability</button> 
+  
+    <script> 
+        function play() { 
+            var audio = new Audio( 
+'https://media.geeksforgeeks.org/wp-content/uploads/20190531135120/beep.mp3'); 
+            audio.play(); 
+        } 
+function checkforcache() { if ('caches' in window){ alert ('This browser supports cache, FUTURE Considering to use it for sounds, pictures, videos, etc.')} 
+else {alert('This browser cannot cache');}
+                          }
+    </script> 
+</body>
+</html>
+
+<!--
+
+
+
+Jordan Irabor
+Jordan is an innovative software developer with over five years of experience developing software with high standards and ensuring clarity and quality. He also follows the latest blogs and writes technical articles, as a guest author, on several platforms.
+Working with the JavaScript Cache API
+
+June 17, 2020 5 min read
+Introduction
+
+    The Cache API provides a mechanism for storing network requests and retrieving their corresponding responses during run-time. It can be used in the absence of an internet connection (or presence of a flaky one) and this makes it integral to the building of progressive web applications (fully optimised web applications that work offline like native applications).
+
+Because it is impossible to predetermine your user-base at development time, it is important to build web services that can be accessed by a broad spectrum of users who may not have the best hardware or may have slow internet connections.
+
+Progressive web applications were created to ensure that web services work on all devices. On mobile devices, they are designed to deliver a user experience that is close to that of native applications. Under the hood, PWAs use service workers to achieve the ideal behavior, and they leverage the Cache API for extra control over network resources.
+
+This Google web fundamentals page describes service workers like this:
+
+    A service worker is a script that your browser runs in the background, separate from a web page, opening the door to features that don’t need a web page or user interaction. Today, they already include features like push notifications and background sync. In the future, service workers might support other things like periodic sync or geofencing. A core feature of a service worker is the ability to intercept and handle network requests, including programmatically managing a cache of responses.
+
+We can see that caching can play an important role in the workflow of service workers. This article shows how the Cache API can be used in a service worker, and as a general mechanism of resource storage.
+
+All the code in this tutorial can be found in this repository, feel free to fork it or send in a PR.
+Detecting the Cache API
+
+In modern browsers, each origin has a cache storage and we can inspect it by opening the browser developer tools:
+
+    On Chrome: Application > Cache > Cache Storage
+    On Firefox: Storage > Cache
+
+    Pro tip: In Chrome, you can visit chrome://inspect/#service-workers and click on the “inspect” option (directly under the origin of any already opened tab) to view logging statements for the actions of the service-worker.js script.
+
+The Cache API is available in all modern browsers:
+
+    Edge >= 17
+    Opera >= 27
+    Safari >= 11.1
+    Firefox >= 39
+    Chrome >= 40
+    iOS Safari = 11.4 >
+    UC Browser 11.8 >=
+    Chrome for Android >= 67
+
+Because older browsers may not support the API, it is good practice to check for its availability before attempting to reference it. The caches property is available on the window object and we can check that it is implemented in the browser with this snippet:
+
+if ('caches' in window){
+    // you can safely insert your snippet here
+}
+
+Usage
+
+The Cache API is a great choice for caching URL-addressable resources, that is, you should use the Cache API when you work with network resources that are necessary to load your application. If your application deals with lots of data, you may cache the data that the user will most likely need on page load. These resources may include file-based content, assets, API responses, and web pages.
+
+For the storage of significant amounts of structured data (including files/blobs), you should ideally use the IndexedDB API.
+
+The Cache API ships with several methods to perform the following (CRUD) operations:
+
+    Create a new cache
+    Add (update) items to a cache
+    Retrieve items from a cache
+    Delete items from a cache
+
+Let’s go over some ways to use these methods in our code.
+Create a new cache
+
+Before we can start storing request-response pairs into our cache storage, we need to create a cache instance. Each origin can have multiple cache objects within its cache storage. We can create a new cache object using the caches.open() method:
+
+const newCache = await caches.open('new-cache');
+
+The snippet above receives the name of the cache as the single parameter and goes on to create the cache with that name. The caches.open() method first checks if a cache with that name already exists. If it doesn’t, it creates it and returns a Promise that resolves with the Cache object.
+
+After the snippet executes, we will now have a new cache object that can be referenced with the name new-cache.
+Adding items to a cache
+
+There are three main ways to add items to the cache:
+
+    add
+    addAll
+    put
+
+All of these methods return a Promise, now let’s go over each of these and see how they differ from one another.
+Cache.add()
+
+The first method, cache.add(), takes a single parameter that can either be a URL string literal or a Request object. A call to thecache.add() method will make a Fetch request to the network and store the response in the associated cache object:
+
+newCache.add('/cats.json')
+
+or to gain more control, we can use a request object:
+
+const options = {
+    method: "GET",
+    headers: new Headers({
+        'Content-Type': 'text/html'
+    }),
+  }  
+newCache.add(new Request('/cats.json', options))
+
+    Note: If the fetch is unsuccessful and an error response is returned, nothing is stored in the cache and the
+    Promise rejects.
+
+Cache.addAll()
+
+This method works similarly to the cache.add() method except that it takes in an array of request URL string literals or Request objects and returns a promise when all the resources have been cached:
+
+const urls = ['pets/cats.json', 'pets/dogs.json'];
+newCache.addAll(urls);
+
+    Note: The promise rejects if one or more items in the array of requests are not cached. Also, while the items in the array are being cached, a new entry overwrites any matching existing entry.
+
+Cache.put()
+
+The Cache.put method works quite differently from the rest as it allows an extra layer of control. The put() method takes two parameters, the first can either be a URL string literal or a Request object, the second is a Response either from the network or generated within your code:
+
+// Retrieve cats.json and cache the response
+newCache.put('./cats.json')
+
+// Create a new entry for cats.json and store the generated response
+newCache.put('/cats.json', new Response('{"james": "kitten", "daniel": "kitten"}'))
+
+// Fetch a response from an external address and create a new entry for cats.json
+newCache.put('https://pets/cats.json');
+
+The put method allows an extra layer of control as it lets you store responses that do not depend on CORS or other responses that are dependent on a server response status code.
+
+    Pro tip: The first two methods — add() and addAll() — are dependent on the state of CORS on the server the data is being requested from. If a CORS check fails, nothing gets cached and the Promise rejects. Using put(), on the other hand, gives you extra confidence as you can set an in-house response.
+
+Retrieving items from a cache
+
+After we’ve added some items to the cache, we need to be able to retrieve them during run-time. We can use the match() method to retrieve our cached responses:
+
+// retrieve a new response
+const request = '/cats.json';
+const response = await newCache.match(request);
+
+In the code above, we passed in a request variable to the match method, if the request variable is a URL string, it is converted to a Request object and used as an argument. The match method will return a Promise that resolves to a Response object if a matching entry is found.
+
+The browser uses different factors in determining if two or more Requests match. A Request may have the same URL as another but use a different HTTP method. Two such requests are considered to be different by the browser.
+
+When using the match method, we can also pass an options object as the second parameter. This object has key value pairs that tell match to ignore specific factors when matching a request:
+
+// create an options object
+const options = {
+        ignoreVary: true, // ignore differences in Headers
+        ignoreMethod: true, // ignore differences in HTTP methods
+        ignoreSearch: true // ignore differences in query strings
+    }
+
+// then we pass it in here
+const response = await newCache.match(request, options);
+
+In a case where more than one cache item matches, the oldest one is returned. If we intend to retrieve all matching responses, we can use the matchAll() method.
+Removing items from a cache
+
+We might not need a cache entry anymore and want it deleted. We can delete a cache entry using the delete() method:
+
+// delete a cache entry
+const request = '/cats.json';
+newCache.delete(request);
+
+In the code above, we saved a URL string in the request variable but we can also pass in a Request object to the delete method. In a case where we have more than one matching entries, we can pass in a similar options Object as we did with the match method.
+Deleting a cache
+
+Finally, we can delete a cache by calling the delete() method on the caches property of the window object. Let’s delete our cache in the snippet below:
+
+// delete an existing cache
+caches.delete('new-cache');
+
+    Note: When a cache is deleted, the delete() method returns a Promise if the cache was actually deleted and a false if something went wrong or the cache doesn’t exist.
+
+Conclusion
+
+In this article, we took a tour of the Cache API and discussed its usefulness to the development of progressive web applications. We also explored its CRUD methods and saw how easily we can retrieve responses and store requests.
+
+    Note: For security reasons, a cache is bound to the current origin and other origins cannot access the caches set up for other origins.
+
+All the code in this tutorial can be found in this repository, feel free to fork it or send in a PR.
+
+-->
