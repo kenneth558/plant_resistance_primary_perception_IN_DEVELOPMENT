@@ -1,5 +1,7 @@
 <p align=center>Do you have an idea for features?  Now is a great time for all interested parties to ask me about including capabilities you think would make this project as valuable as it can be.  Just submit an "Issue" (see the tab above) describing the device feature that would interest you.  rdetiger asks for compatibility with Adafruit μCs. I think that is a great direction for me to look into. My best guess is that the Adafruit Metro 328 will run this code and accept this board without any trouble.  Thank you!</p>
 
+<dl><dt>12 Jan 2021</dt></dl>I just discovered that the solder stencil I've had since April had no alignment holes, making it unreasonably difficult to place over the PCB accurately.  I ordered a new one, and it is on its way to me.
+
 <dl><dt>03 Jan 2021</dt></dl>I'm trying to develop a paste solder application scheme.  I have no known finish date, yet.
 
 <dl><dt>27 Dec 2020</dt></dl>I'm just not satisfied with any of the USB microscopes I find for sale.  So instead, I will put together various lenses I have.  The advantage of that is high resolution and accurate color rendering, so I hope it will all be for the better.
