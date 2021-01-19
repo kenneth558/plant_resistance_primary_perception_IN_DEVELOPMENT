@@ -1,5 +1,7 @@
 <p align=center>Do you have an idea for features?  Now is a great time for all interested parties to ask me about including capabilities you think would make this project as valuable as it can be.  Just submit an "Issue" (see the tab above) describing the device feature that would interest you.  rdetiger asks for compatibility with Adafruit μCs. I think that is a great direction for me to look into. My best guess is that the Adafruit Metro 328 will run this code and accept this board without any trouble.  Thank you!</p>
 
+<dl><dt>19 Jan 2021</dt></dl>After dropping an SMD or two, I spread a white drape under my work bench and scrap linoleum under the work table to better allow the finding of such components I'll most surely drop again.  Cost of time and momentum, but I'm returning...
+
 <dl><dt>17 Jan 2021</dt></dl>I received my new solder stencil.  I'll get back to work on this project today after I get a night's rest and attend church later this morning.
 
 <dl><dt>12 Jan 2021</dt></dl>I just discovered that the solder stencil I've had since April had no alignment holes, making it unreasonably difficult to place over the PCB accurately.  I ordered a new one, and it is on its way to me.
