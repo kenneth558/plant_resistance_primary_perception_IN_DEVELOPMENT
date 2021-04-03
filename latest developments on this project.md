@@ -1,5 +1,7 @@
 <p align=center>Do you have an idea for features?  Now is a great time for all interested parties to ask me about including capabilities you think would make this project as valuable as it can be.  Just submit an "Issue" (see the tab above) describing the device feature that would interest you.  rdetiger asks for compatibility with Adafruit μCs. I think that is a great direction for me to look into. My best guess is that the Adafruit Metro 328 will run this code and accept this board without any trouble.  Thank you!</p>
 
+<dl><dt>03 Apr 2021</dt></dl>Basement water problem turned my work area into chaos.  I can't find a clean PCB to build, so I placed another order yesterday for 3 more boards.  It will be a number of days before they arrive.
+
 <dl><dt>06 Feb 2021</dt></dl>My other project is still distracting me from this one......
 
 <dl><dt>20 Jan 2021</dt></dl>Trying to squeegee the paste solder on to the PCB, I find that the stencil retains the paste inside many of the apertures.  I'll see if I can adjust my technique to overcome this latest challenge.
