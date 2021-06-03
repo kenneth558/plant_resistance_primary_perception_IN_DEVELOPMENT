@@ -1,7 +1,7 @@
 <p align=center>Do you have an idea for features?  Now is a great time for all interested parties to ask me about including capabilities you think would make this project as valuable as it can be.  Just submit an "Issue" (see the tab above) describing the device feature that would interest you.  rdetiger asks for compatibility with Adafruit μCs. I think that is a great direction for me to look into. My best guess is that the Adafruit Metro 328 will run this code and accept this board without any trouble.  Thank you!</p>
 
 <dl><dt>03 Jun 2021</dt></dl>I've had to work on the 
-[Surveillance project](https://github.com/kenneth558/KingdomComeIMeanItAndIMeanNowSurveillance) instead of this one, but I'm nearing smoother sailing with than one to where I'll be able to come back to this project.  In fact,I'm actually at a point where the final work on the Surveillance project can only be done on site, which means that while I am home I can work on this project.  Thank you Lord!!!
+[Surveillance project](http://github.com/kenneth558/KingdomComeIMeanItAndIMeanNowSurveillance) instead of this one, but I'm nearing smoother sailing with than one to where I'll be able to come back to this project.  In fact,I'm actually at a point where the final work on the Surveillance project can only be done on site, which means that while I am home I can work on this project.  Thank you Lord!!!
 
 <dl><dt>03 Apr 2021</dt></dl>Basement water problem turned my work area into chaos.  I can't find a clean PCB to build, so I placed another order yesterday for 3 more boards.  It will be a number of days before they arrive.
 
