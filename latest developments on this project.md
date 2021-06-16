@@ -2,6 +2,9 @@
 
 <dl><dt>15 Jun 2021</dt></dl>I am nearly finished soldering the SMD components to the most populated side of the board.  I expect to start soldering components to the other side by sunrise tomorrow.  I hope to be able to apply power before Saturday 19th at the very, very latest.  NOTE: I expect I'll erase all these development stage updates when the board becomes operational.  The updates will then become informational on discoveries from me and others using the training aid.
 
+
+A challenge I face is to recognize solder paste oxidizes in short order, the small amounts and just need to be discarded rather than salvaged.  That is against my life's learning about resource management.  What is happening is that I set a small amount of paste solder out to dip from, and as it oxidizes it becomes a source of contamination to the joints I try to add it to.
+
 <dl><dt>03 Jun 2021</dt></dl>I've had to work on the 
 [Surveillance project](http://github.com/kenneth558/KingdomComeIMeanItAndIMeanNowSurveillance) instead of this one, but I'm nearing smoother sailing with than one to where I'll be able to come back to this project.  In fact,I'm actually at a point where the final work on the Surveillance project can only be done on site, which means that while I am home I can work on this project.  Thank you Lord!!!
 
