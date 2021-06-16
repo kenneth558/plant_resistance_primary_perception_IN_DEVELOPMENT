@@ -1,5 +1,7 @@
 <p align=center>Do you have an idea for features?  Now is a great time for all interested parties to ask me about including capabilities you think would make this project as valuable as it can be.  Just submit an "Issue" (see the tab above) describing the device feature that would interest you.  rdetiger asks for compatibility with Adafruit μCs. I think that is a great direction for me to look into. My best guess is that the Adafruit Metro 328 will run this code and accept this board without any trouble.  Thank you!</p>
 
+<dl><dt>16 Jun 2021</dt></dl>The oxidized contamination combined with my crazy sleep schedule overwhelmed me and made me miss my sunrise goal...
+
 <dl><dt>15 Jun 2021</dt></dl>I am nearly finished soldering the SMD components to the most populated side of the board.  I expect to start soldering components to the other side by sunrise tomorrow.  I hope to be able to apply power before Saturday 19th at the very, very latest.  NOTE: I expect I'll erase all these development stage updates when the board becomes operational.  The updates will then become informational on discoveries from me and others using the training aid.
 
 
