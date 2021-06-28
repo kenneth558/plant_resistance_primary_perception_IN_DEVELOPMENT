@@ -1,6 +1,6 @@
 <p align=center>Do you have an idea for features?  Now is a great time for all interested parties to ask me about including capabilities you think would make this project as valuable as it can be.  Just submit an "Issue" (see the tab above) describing the device feature that would interest you.  rdetiger asks for compatibility with Adafruit μCs. I think that is a great direction for me to look into. My best guess is that the Adafruit Metro 328 will run this code and accept this board without any trouble.  Thank you!</p>
 
-<dl><dt>18 Jun 2021</dt></dl>Just as I was about to place and solder, I realized that numerous ENIG pads had gotten their gold scratched off by my repeated cleaning the solder off them.  Not having any more unused boards, I have to order more.  Ordered 3 from OSH Park.  They take 10 to 20 days to arrive.
+<dl><dt>28 Jun 2021</dt></dl>Just as I was about to place and solder, I realized that numerous ENIG pads had gotten their gold scratched off by my repeated cleaning the solder off them.  Not having any more unused boards, I have to order more.  Ordered 3 from OSH Park.  They take 10 to 20 days to arrive.
 
 <dl><dt>18 Jun 2021</dt></dl>Apparently my idea of using sparing amount of paste solder on the MSOP-8 packages is not a good idea.  I tried minimizing the amound of paste in order to reduce solder bridging.  I'll need to abandon that idea and order a new stencil having normal apertures for the MSOP-8 packages.
 
