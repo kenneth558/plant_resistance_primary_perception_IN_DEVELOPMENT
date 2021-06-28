@@ -2,7 +2,7 @@
 
 <dl><dt>28 Jun 2021</dt></dl>Just as I was about to place and solder, I realized that numerous ENIG pads had gotten their gold scratched off by my repeated cleaning the solder off them.  Not having any more unused boards, I have to order more.  Ordered 3 from OSH Park.  They take 10 to 20 days to arrive.
 
-<dl><dt>18 Jun 2021</dt></dl>Apparently my idea of using sparing amount of paste solder on the MSOP-8 packages is not a good idea.  I tried minimizing the amound of paste in order to reduce solder bridging.  I'll need to abandon that idea and order a new stencil having normal apertures for the MSOP-8 packages.
+<dl><dt>18 Jun 2021</dt></dl>Apparently my idea of using sparing amount of paste solder on the MSOP-8 packages is not a good idea.  I tried minimizing the amount of paste in order to reduce solder bridging.  I'll need to abandon that idea and order a new stencil having normal apertures for the MSOP-8 packages.
 
 <dl><dt>16 Jun 2021</dt></dl>The oxidized contamination combined with my crazy sleep schedule overwhelmed me and made me miss my sunrise goal...
 
